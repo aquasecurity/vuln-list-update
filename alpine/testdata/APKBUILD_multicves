@@ -1,0 +1,99 @@
+# Contributor: Sergei Lukin <sergej.lukin@gmail.com>
+# Contributor: Łukasz Jendrysik <scadu@yandex.com>
+# Contributor: Jeremy Thomerson <jeremy@thomersonfamily.com>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=wireshark
+pkgver=2.6.8
+pkgrel=1
+pkgdesc="A network protocol analyzer - GTK version"
+url="https://www.wireshark.org"
+arch="all"
+license="GPL-2.0-or-later"
+depends=""
+makedepends="bison flex perl-dev glib glib-dev libpcap-dev libcap-dev
+	gtk+3.0-dev c-ares-dev pcre-dev gnutls-dev libgcrypt-dev
+	libnl3-dev qt5-qtbase-dev qt5-qttools-dev lua5.2-dev bash portaudio-dev"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-gtk $pkgname-common tshark"
+source="https://www.wireshark.org/download/src/$pkgname-$pkgver.tar.xz
+	fix-udpdump.patch
+        "
+builddir="$srcdir"/$pkgname-$pkgver
+
+# secfixes:
+#   2.6.8-r0:
+#     - CVE-2019-10894
+#     - CVE-2019-10895
+#     - CVE-2019-10896
+#     - CVE-2019-10899
+#     - CVE-2019-10901
+#     - CVE-2019-10903
+#   2.6.7-r0:
+#     - CVE-2019-9208
+#     - CVE-2019-9209
+#     - CVE-2019-9214
+#   2.6.6-r0:
+#     - CVE-2019-5717
+#     - CVE-2019-5718
+#     - CVE-2019-5719
+#     - CVE-2019-5721
+
+build() {
+	cd "$builddir"
+	# configure script searches for uic and uic-qt4 but not uic-qt5
+	# we set path so it finds 'uic'
+	export PATH="$PATH:/usr/lib/qt5/bin"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--with-ssl \
+		--with-gnutls \
+		--with-qt=5 \
+		--with-gtk=3 \
+		--with-lua
+	make
+}
+
+check() {
+	cd "$builddir"
+	make check
+}
+
+package() {
+	cd "$builddir"
+	make -j1 DESTDIR="$pkgdir" install
+}
+
+common() {
+	local i
+	pkgdesc="network protoccol analyzer - common files"
+	mkdir -p "$subpkgdir"/usr/lib "$subpkgdir"/usr/share \
+		"$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/share/wireshark "$subpkgdir"/usr/share/
+	mv "$pkgdir"/usr/lib/* "$subpkgdir"/usr/lib/
+	# move all bins except wireshark
+	for i in "$pkgdir"/usr/bin/*; do
+		case "$i" in
+			*/tshark|*/wireshark|*-gtk) continue;;
+		esac
+		mv "$i" "$subpkgdir"/usr/bin/
+	done
+}
+
+tshark() {
+	pkgdesc="network protoccol analyzer - console version"
+	install -d "$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/bin/tshark "$subpkgdir"/usr/bin/tshark
+}
+
+gtk() {
+	pkgdesc="wireshark - GTK GUI"
+	install -d "$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/bin/wireshark-gtk "$subpkgdir"/usr/bin/
+}
+
+sha512sums="2066fb17e835ca4ac8f3242644b4ed5c23066796e776b87250cc2e1035fbe59d500019c5621ef61e838dc103c2ca0c57a834c89afe1e30b0efad6b9309158b43  wireshark-2.6.8.tar.xz
+951677dd125b1e36b351cc87a98e8b8d0391d184c7695594dd4270334d86ada1dff5f14cd960da9c5d5d26fc801c42f0219b2db6269f3c526c841c7940d2f369  fix-udpdump.patch"

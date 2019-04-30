@@ -1,0 +1,59 @@
+dist: xenial
+language: go
+go:
+  - "1.12"
+env:
+  - GO111MODULE=on
+
+jobs:
+  include:
+    - stage: 'NVD'
+      if: type = cron
+      script:
+        - go run main.go -target nvd
+
+    - stage: 'Alpine Issue Tracker'
+      if: type = cron
+      script:
+        - go run main.go -target alpine
+
+    - stage: 'Debian Security Bug Tracker'
+      if: type = cron
+      script:
+        - go run main.go -target debian
+    
+    - stage: 'Debian OVAL'
+      if: type = cron
+      script:
+        - go run main.go -target debian-oval
+    
+    - stage: 'Ubuntu CVE Tracker'
+      if: type = cron
+      script:
+        - go run main.go -target ubuntu
+    
+    # split RedHat job due to timeout
+    - stage: 'Red Hat Security Data API 1996-2008'
+      if: type = cron
+      script:
+        - go run main.go -target redhat -years 1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008
+    - stage: 'Red Hat Security Data API 2009-2011'
+      if: type = cron
+      script:
+        - go run main.go -target redhat -years 2009,2010,2011
+    - stage: 'Red Hat Security Data API 2012-2014'
+      if: type = cron
+      script:
+        - go run main.go -target redhat -years 2012,2013,2014
+    - stage: 'Red Hat Security Data API 2015-2016'
+      if: type = cron
+      script:
+        - go run main.go -target redhat -years 2015,2016
+    - stage: 'Red Hat Security Data API 2017-2018'
+      if: type = cron
+      script:
+        - go run main.go -target redhat -years 2017,2018
+    - stage: 'Red Hat Security Data API 2019-2020'
+      if: type = cron
+      script:
+        - go run main.go -target redhat -years 2019,2020
