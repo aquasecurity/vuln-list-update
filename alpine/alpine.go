@@ -415,7 +415,7 @@ func parseIssue(issue *Issue) ([]Advisory, error) {
 			}
 
 			if !isSecurityFix(changeset.Revision, file, len(issue.Changesets)) {
-				fmt.Println(changeset.Revision)
+				log.Println(changeset.Revision)
 				continue
 			}
 
@@ -530,7 +530,6 @@ func parseSecFixes(content string) (secFixes map[string][]string, err error) {
 
 			s := SecFixes{}
 			if err := yaml.Unmarshal([]byte(secfixesStr), &s); err != nil {
-				fmt.Println(secfixesStr)
 				log.Printf("failed to unmarshal SecFixes: %s\n", err)
 				return nil, nil
 			}

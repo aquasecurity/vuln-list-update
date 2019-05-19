@@ -5,6 +5,13 @@ go:
 env:
   - GO111MODULE=on
 
+notifications:
+  email:
+    recipients:
+      - knqyf263@gmail.com
+    on_success: change
+    on_failure: always
+
 stages:
   - 'NVD'
   - 'Alpine Issue Tracker'
