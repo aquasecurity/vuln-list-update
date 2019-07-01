@@ -15,7 +15,7 @@ https://github.com/knqyf263/vuln-list/
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-        update target (nvd, alpine, redhat, debian, ubuntu)
+        update target (nvd, alpine, redhat, debian, ubuntu, archlinux)
   -years string
         update years (only redhat)
 ```

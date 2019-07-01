@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/knqyf263/vuln-list-update/alpine"
-
+	"github.com/knqyf263/vuln-list-update/archlinux"
 	"github.com/knqyf263/vuln-list-update/debian"
 	"github.com/knqyf263/vuln-list-update/git"
 	"github.com/knqyf263/vuln-list-update/nvd"
@@ -27,7 +27,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, debian, ubuntu)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, debian, ubuntu, archlinux)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -92,6 +92,11 @@ func run() error {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"
+	case "archlinux":
+		if err := archlinux.Update(); err != nil {
+			return xerrors.Errorf("error in Archlinux update: %w", err)
+		}
+		commitMsg = "Archlinux Issue Tracker"
 	default:
 		return xerrors.New("unknown target")
 	}
