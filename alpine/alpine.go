@@ -52,45 +52,45 @@ func Update() (err error) {
 		return xerrors.Errorf("failed to clone alpine repository: %w", err)
 	}
 
-	lastUpdated, err := utils.GetLastUpdatedDate(dist)
-	if err != nil {
-		return xerrors.Errorf("failed to get last updated date: %w", err)
-	}
-
-	log.Println("Fetching Alpine Security Issues...")
-	var issueURLs []string
-	for _, statusID := range []int{3, 5} {
-		for page := 1; ; page++ {
-			log.Printf("status_id: %d, page %d\n", statusID, page)
-			url := constructListURL(statusID, page, lastUpdated)
-			res, err := utils.FetchURL(url, "", retry)
-			if err != nil {
-				return xerrors.Errorf("failed to fetch Alpine issues: %w", err)
-			}
-			tracker := IssueList{}
-			if err = json.Unmarshal(res, &tracker); err != nil {
-				return err
-			}
-			if len(tracker.Issues) == 0 {
-				break
-			}
-
-			for _, issue := range tracker.Issues {
-				if strings.Index(issue.Subject, "(") < 0 {
-					continue
-				}
-				issueURLs = append(issueURLs, constructDetailURL(issue.ID))
-			}
-		}
-	}
-
-	if len(issueURLs) == 0 {
-		log.Println("No updated issue")
-	} else {
-		if err = retrieveIssue(issueURLs); err != nil {
-			return err
-		}
-	}
+	//lastUpdated, err := utils.GetLastUpdatedDate(dist)
+	//if err != nil {
+	//	return xerrors.Errorf("failed to get last updated date: %w", err)
+	//}
+	//
+	//log.Println("Fetching Alpine Security Issues...")
+	//var issueURLs []string
+	//for _, statusID := range []int{3, 5} {
+	//	for page := 1; ; page++ {
+	//		log.Printf("status_id: %d, page %d\n", statusID, page)
+	//		url := constructListURL(statusID, page, lastUpdated)
+	//		res, err := utils.FetchURL(url, "", retry)
+	//		if err != nil {
+	//			return xerrors.Errorf("failed to fetch Alpine issues: %w", err)
+	//		}
+	//		tracker := IssueList{}
+	//		if err = json.Unmarshal(res, &tracker); err != nil {
+	//			return err
+	//		}
+	//		if len(tracker.Issues) == 0 {
+	//			break
+	//		}
+	//
+	//		for _, issue := range tracker.Issues {
+	//			if strings.Index(issue.Subject, "(") < 0 {
+	//				continue
+	//			}
+	//			issueURLs = append(issueURLs, constructDetailURL(issue.ID))
+	//		}
+	//	}
+	//}
+	//
+	//if len(issueURLs) == 0 {
+	//	log.Println("No updated issue")
+	//} else {
+	//	if err = retrieveIssue(issueURLs); err != nil {
+	//		return err
+	//	}
+	//}
 
 	// Extract secfixes in all APKBUILD
 	log.Println("Extracting Alpine secfixes...")
