@@ -6,7 +6,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/knqyf263/vuln-list-update/utils"
+	"github.com/aquasecurity/vuln-list-update/utils"
 	"golang.org/x/xerrors"
 	pb "gopkg.in/cheggaaa/pb.v1"
 )
