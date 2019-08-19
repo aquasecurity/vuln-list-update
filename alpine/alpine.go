@@ -18,8 +18,8 @@ import (
 	"gopkg.in/yaml.v2"
 
 	version "github.com/hashicorp/go-version"
-	"github.com/knqyf263/vuln-list-update/git"
-	"github.com/knqyf263/vuln-list-update/utils"
+	"github.com/aquasecurity/vuln-list-update/git"
+	"github.com/aquasecurity/vuln-list-update/utils"
 	"golang.org/x/xerrors"
 )
 

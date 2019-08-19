@@ -9,21 +9,21 @@ import (
 	"strings"
 	"time"
 
-	"github.com/knqyf263/vuln-list-update/alpine"
+	"github.com/aquasecurity/vuln-list-update/alpine"
 
-	"github.com/knqyf263/vuln-list-update/debian"
-	"github.com/knqyf263/vuln-list-update/git"
-	"github.com/knqyf263/vuln-list-update/nvd"
-	debianoval "github.com/knqyf263/vuln-list-update/oval/debian"
-	"github.com/knqyf263/vuln-list-update/redhat"
-	"github.com/knqyf263/vuln-list-update/ubuntu"
-	"github.com/knqyf263/vuln-list-update/utils"
+	"github.com/aquasecurity/vuln-list-update/debian"
+	"github.com/aquasecurity/vuln-list-update/git"
+	"github.com/aquasecurity/vuln-list-update/nvd"
+	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
+	"github.com/aquasecurity/vuln-list-update/redhat"
+	"github.com/aquasecurity/vuln-list-update/ubuntu"
+	"github.com/aquasecurity/vuln-list-update/utils"
 
 	"golang.org/x/xerrors"
 )
 
 const (
-	repoURL = "https://%s@github.com/knqyf263/vuln-list.git"
+	repoURL = "https://%s@github.com/aquasecurity/vuln-list.git"
 )
 
 var (

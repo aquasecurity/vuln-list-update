@@ -1,13 +1,13 @@
 # vuln-list-update
 
-[![Build Status](https://travis-ci.org/knqyf263/vuln-list-update.svg?branch=master)](https://travis-ci.org/knqyf263/vuln-list-update)
-[![Go Report Card](https://goreportcard.com/badge/github.com/knqyf263/vuln-list-update)](https://goreportcard.com/report/github.com/knqyf263/vuln-list-update)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/knqyf263/vuln-list-update/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/aquasecurity/vuln-list-update.svg?branch=master)](https://travis-ci.org/aquasecurity/vuln-list-update)
+[![Go Report Card](https://goreportcard.com/badge/github.com/aquasecurity/vuln-list-update)](https://goreportcard.com/report/github.com/aquasecurity/vuln-list-update)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/aquasecurity/vuln-list-update/blob/master/LICENSE)
 
 Collect vulnerability information and save it in parsable format automatically
 
 ## Data
-https://github.com/knqyf263/vuln-list/
+https://github.com/aquasecurity/vuln-list/
 
 ## Usage
 
@@ -21,12 +21,12 @@ Usage of vuln-list-update:
 ```
 
 ## Cron status
-https://travis-ci.org/knqyf263/vuln-list-update
+https://travis-ci.org/aquasecurity/vuln-list-update
 
 ## Contribute
 
-1. fork a repository: github.com/knqyf263/vuln-list-update to github.com/you/repo
-2. get original code: `go get github.com/knqyf263/vuln-list-update`
+1. fork a repository: github.com/aquasecurity/vuln-list-update to github.com/you/repo
+2. get original code: `go get github.com/aquasecurity/vuln-list-update`
 3. work on original code
 4. add remote to your repo: git remote add myfork https://github.com/you/repo.git
 5. push your changes: git push myfork
