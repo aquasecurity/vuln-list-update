@@ -66,12 +66,16 @@ func clone(url, repoPath string) error {
 func pull(repoPath string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 
-	revParseCmd := []string{"rev-parse", "HEAD"}
+	revParseCmd := []string{"rev-list", "-n", "1", "--all"}
 	output, err := utils.Exec("git", append(commandArgs, revParseCmd...))
 	if err != nil {
-		return nil, xerrors.Errorf("error in git rev-parse: %w", err)
+		return nil, xerrors.Errorf("error in git rev-list: %w", err)
 	}
 	commitHash := strings.TrimSpace(output)
+	if len(commitHash) == 0 {
+		log.Println("no commit yet")
+		return nil, nil
+	}
 
 	pullCmd := []string{"pull", "origin", "master"}
 	if _, err = utils.Exec("git", append(commandArgs, pullCmd...)); err != nil {

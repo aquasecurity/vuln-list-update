@@ -23,7 +23,9 @@ import (
 )
 
 const (
-	repoURL = "https://%s@github.com/aquasecurity/vuln-list.git"
+	repoURL          = "https://%s@github.com/%s/%s.git"
+	defaultRepoOwner = "aquasecurity"
+	defaultRepoName  = "vuln-list"
 )
 
 var (
@@ -41,9 +43,17 @@ func run() error {
 	flag.Parse()
 	now := time.Now().UTC()
 
+	repoOwner := os.Getenv("VULNLIST_REPOSITORY_OWNER")
+	if len(repoOwner) == 0 {
+		repoOwner = defaultRepoOwner
+	}
+	repoName := os.Getenv("VULNLIST_REPOSITORY_NAME")
+	if len(repoName) == 0 {
+		repoName = defaultRepoName
+	}
 	// Embed GitHub token to URL
 	githubToken := os.Getenv("GITHUB_TOKEN")
-	url := fmt.Sprintf(repoURL, githubToken)
+	url := fmt.Sprintf(repoURL, githubToken, repoOwner, repoName)
 
 	if _, err := git.CloneOrPull(url, utils.VulnListDir()); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
