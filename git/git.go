@@ -66,8 +66,18 @@ func clone(url, repoPath string) error {
 func pull(repoPath string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 
+	remoteCmd := []string{"remote", "get-url", "--push", "origin"}
+	output, err := utils.Exec("git", append(commandArgs, remoteCmd...))
+	if err != nil {
+		return nil, xerrors.Errorf("error in git rev-list: %w", err)
+	}
+	remoteURL := strings.TrimSpace(output)
+	if remoteURL != repoPath {
+		return nil, xerrors.Errorf("remote url is %s", remoteURL)
+	}
+
 	revParseCmd := []string{"rev-list", "-n", "1", "--all"}
-	output, err := utils.Exec("git", append(commandArgs, revParseCmd...))
+	output, err = utils.Exec("git", append(commandArgs, revParseCmd...))
 	if err != nil {
 		return nil, xerrors.Errorf("error in git rev-list: %w", err)
 	}
