@@ -21,7 +21,7 @@ func CloneOrPull(url, repoPath string) (map[string]struct{}, error) {
 	updatedFiles := map[string]struct{}{}
 	if exists {
 		log.Println("git pull")
-		files, err := pull(repoPath)
+		files, err := pull(url, repoPath)
 		if err != nil {
 			return nil, xerrors.Errorf("git pull error: %w", err)
 		}
@@ -63,7 +63,7 @@ func clone(url, repoPath string) error {
 	return nil
 }
 
-func pull(repoPath string) ([]string, error) {
+func pull(url, repoPath string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 
 	remoteCmd := []string{"remote", "get-url", "--push", "origin"}
@@ -72,8 +72,8 @@ func pull(repoPath string) ([]string, error) {
 		return nil, xerrors.Errorf("error in git rev-list: %w", err)
 	}
 	remoteURL := strings.TrimSpace(output)
-	if remoteURL != repoPath {
-		return nil, xerrors.Errorf("remote url is %s", remoteURL)
+	if remoteURL != url {
+		return nil, xerrors.Errorf("remote url is %s, target is %s", remoteURL, url)
 	}
 
 	revParseCmd := []string{"rev-list", "-n", "1", "--all"}
