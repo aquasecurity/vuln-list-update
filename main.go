@@ -43,19 +43,14 @@ func run() error {
 	flag.Parse()
 	now := time.Now().UTC()
 
-	repoOwner, repoName := defaultRepoOwner, defaultRepoName
-	if val, ok := os.LookupEnv("VULNLIST_REPOSITORY_OWNER"); ok {
-		repoOwner = val
-	}
-	if val, ok := os.LookupEnv("VULNLIST_REPOSITORY_NAME"); ok {
-		repoName = val
-	}
+	repoOwner := utils.LookupEnv("VULNLIST_REPOSITORY_OWNER", defaultRepoOwner)
+	repoName := utils.LookupEnv("VULNLIST_REPOSITORY_NAME", defaultRepoName)
 
 	// Embed GitHub token to URL
 	githubToken := os.Getenv("GITHUB_TOKEN")
 	url := fmt.Sprintf(repoURL, githubToken, repoOwner, repoName)
 
-	log.Printf("target repository is %s/%s", repoOwner, repoName)
+	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
 	if _, err := git.CloneOrPull(url, utils.VulnListDir()); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
 	}
