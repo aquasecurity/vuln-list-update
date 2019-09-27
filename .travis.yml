@@ -1,9 +1,7 @@
 dist: xenial
 language: go
 go:
-  - "1.12"
-env:
-  - GO111MODULE=on
+  - "1.13"
 
 notifications:
   email:
