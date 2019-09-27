@@ -21,14 +21,6 @@ const (
 	retry       = 20 // Red Hat Security Data API is unstable
 )
 
-type RedhatEntry struct {
-	CveID string `json:"CVE"`
-}
-
-type RedhatCVEJSON struct {
-	Name string `json:"name"`
-}
-
 func Update(years []int) error {
 	for _, year := range years {
 		if err := update(year); err != nil {
@@ -96,8 +88,8 @@ func listAllRedhatCves(after, before string, wait int) (entries []RedhatEntry, e
 
 // retrieveRedhatCveDetails returns full CVE details from RedHat API
 // https://access.redhat.com/documentation/en-us/red_hat_security_data_api/0.1/html-single/red_hat_security_data_api/#retrieve_a_cve
-func retrieveRedhatCveDetails(urls []string) (map[string]interface{}, error) {
-	cves := map[string]interface{}{}
+func retrieveRedhatCveDetails(urls []string) (map[string]*RedhatCVEJSON, error) {
+	cves := map[string]*RedhatCVEJSON{}
 
 	cveJSONs, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
 	if err != nil {
@@ -105,17 +97,12 @@ func retrieveRedhatCveDetails(urls []string) (map[string]interface{}, error) {
 	}
 
 	for _, cveJSON := range cveJSONs {
-		var cve RedhatCVEJSON
-		if err = json.Unmarshal(cveJSON, &cve); err != nil {
+		cve := &RedhatCVEJSON{}
+		if err = json.Unmarshal(cveJSON, cve); err != nil {
 			log.Printf("json decode error: %s", err)
 			continue
 		}
-		var cveInterface interface{}
-		if err = json.Unmarshal(cveJSON, &cveInterface); err != nil {
-			log.Printf("json decode error: %s", err)
-			continue
-		}
-		cves[cve.Name] = cveInterface
+		cves[cve.Name] = cve
 	}
 
 	return cves, nil
