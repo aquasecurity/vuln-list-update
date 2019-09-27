@@ -10,6 +10,7 @@ require (
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/hashicorp/go-version v1.2.0
 	github.com/kr/pretty v0.1.0 // indirect
+	github.com/kylelemons/godebug v1.1.0
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-jsonpointer v0.0.0-20180225143300-37667080efed
 	github.com/mattn/go-runewidth v0.0.4 // indirect
