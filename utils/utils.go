@@ -49,6 +49,7 @@ func SaveCVEPerYear(dirName string, cveID string, data interface{}) error {
 	}
 	return nil
 }
+
 func Write(filePath string, data interface{}) error {
 	f, err := os.Create(filePath)
 	if err != nil {
@@ -218,4 +219,11 @@ func Exec(command string, args []string) (string, error) {
 		return "", xerrors.Errorf("failed to exec: %w", err)
 	}
 	return stdoutBuf.String(), nil
+}
+
+func LookupEnv(key, defaultValue string) string {
+	if val, ok := os.LookupEnv(key); ok {
+		return val
+	}
+	return defaultValue
 }
