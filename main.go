@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aquasecurity/vuln-list-update/amazon"
+
 	"github.com/aquasecurity/vuln-list-update/alpine"
 
 	"github.com/aquasecurity/vuln-list-update/debian"
@@ -106,6 +108,11 @@ func run() error {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"
+	case "amazon":
+		if err := amazon.Update(); err != nil {
+			return xerrors.Errorf("error in Amazon update: %w", err)
+		}
+		commitMsg = "Amazon Linux Security Center"
 	default:
 		return xerrors.New("unknown target")
 	}
