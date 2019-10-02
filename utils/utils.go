@@ -121,7 +121,7 @@ func randInt() int {
 func fetchURL(url, apikey string) ([]byte, error) {
 	req := gorequest.New().Get(url)
 	if apikey != "" {
-		req.Header["api-key"] = apikey
+		req.Header.Add("api-key", apikey)
 	}
 	resp, body, err := req.Type("text").EndBytes()
 	if err != nil {
