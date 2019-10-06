@@ -111,6 +111,7 @@ func run() error {
 	case "amazon":
 		ac := amazon.Config{
 			LinuxMirrorListURI: amazon.LinuxMirrorListURI,
+			VulnListDir:        utils.VulnListDir(),
 		}
 		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("error in Amazon update: %w", err)

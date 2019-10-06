@@ -54,7 +54,9 @@ type UpdateInfo struct {
 // ALAS has detailed data of ALAS
 type ALAS struct {
 	ID          string      `xml:"id" json:"id,omitempty"`
-	Updated     Updated     `xml:"updated" json:"updated,omitempty"`
+	Title       string      `xml:"title" json:"title,omitempty"`
+	Issued      Date        `xml:"issued" json:"issued,omitempty"`
+	Updated     Date        `xml:"updated" json:"updated,omitempty"`
 	Severity    string      `xml:"severity" json:"severity,omitempty"`
 	Description string      `xml:"description" json:"description,omitempty"`
 	Packages    []Package   `xml:"pkglist>collection>package" json:"packages,omitempty"`
@@ -63,7 +65,7 @@ type ALAS struct {
 }
 
 // Updated has updated at
-type Updated struct {
+type Date struct {
 	Date string `xml:"date,attr" json:"date,omitempty"`
 }
 
@@ -87,21 +89,21 @@ type Package struct {
 
 type Config struct {
 	LinuxMirrorListURI map[string]string
+	VulnListDir        string
 }
 
 func (ac Config) Update() error {
-
 	// version = 1 or 2
 	for version, amznURL := range ac.LinuxMirrorListURI {
 		log.Printf("Fetching security advisories of Amazon Linux %s...\n", version)
-		if err := update(version, amznURL); err != nil {
+		if err := ac.update(version, amznURL); err != nil {
 			return xerrors.Errorf("failed to update security advisories of Amazon Linux %s: %w", version, err)
 		}
 	}
 	return nil
 }
 
-func update(version, url string) error {
+func (ac Config) update(version, url string) error {
 	vulns, err := fetchUpdateInfoAmazonLinux(url)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch security advisories from Amazon Linux Security Center: %w", err)
@@ -109,7 +111,7 @@ func update(version, url string) error {
 
 	bar := pb.StartNew(len(vulns.ALASList))
 	for _, alas := range vulns.ALASList {
-		dir := filepath.Join(utils.VulnListDir(), amazonDir, version)
+		dir := filepath.Join(ac.VulnListDir, amazonDir, version)
 		if err = os.MkdirAll(dir, os.ModePerm); err != nil {
 			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
