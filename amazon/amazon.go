@@ -24,7 +24,7 @@ const (
 )
 
 var (
-	amazonLinuxMirrorListURI = map[string]string{
+	LinuxMirrorListURI = map[string]string{
 		"1": "http://repo.us-west-2.amazonaws.com/2018.03/updates/x86_64/mirror.list",
 		"2": "https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list",
 	}
@@ -85,11 +85,16 @@ type Package struct {
 	Filename string `xml:"filename" json:"filename,omitempty"`
 }
 
-func Update() error {
+type Config struct {
+	LinuxMirrorListURI map[string]string
+}
+
+func (ac Config) Update() error {
+
 	// version = 1 or 2
-	for version, url := range amazonLinuxMirrorListURI {
+	for version, amznURL := range ac.LinuxMirrorListURI {
 		log.Printf("Fetching security advisories of Amazon Linux %s...\n", version)
-		if err := update(version, url); err != nil {
+		if err := update(version, amznURL); err != nil {
 			return xerrors.Errorf("failed to update security advisories of Amazon Linux %s: %w", version, err)
 		}
 	}

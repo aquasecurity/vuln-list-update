@@ -109,7 +109,10 @@ func run() error {
 		}
 		commitMsg = "Alpine Issue Tracker"
 	case "amazon":
-		if err := amazon.Update(); err != nil {
+		ac := amazon.Config{
+			LinuxMirrorListURI: amazon.LinuxMirrorListURI,
+		}
+		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("error in Amazon update: %w", err)
 		}
 		commitMsg = "Amazon Linux Security Center"
