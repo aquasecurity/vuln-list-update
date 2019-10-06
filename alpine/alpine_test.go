@@ -7,7 +7,49 @@ import (
 	"testing"
 )
 
-func TestParseApkBuild(t *testing.T) {
+func TestParsePkgVerRel(t *testing.T) {
+	vectors := []struct {
+		file     string // Test input file
+		pkgVer   string
+		pkgRel   string
+		secFixes map[string][]string
+	}{
+		{
+			file:   "testdata/APKBUILD_plain",
+			pkgVer: "3.0.19",
+			pkgRel: "0",
+		},
+		{
+			file:   "testdata/APKBUILD_multicves",
+			pkgVer: "2.6.8",
+			pkgRel: "1",
+		},
+	}
+
+	for _, v := range vectors {
+		t.Run(path.Base(v.file), func(t *testing.T) {
+			content, err := ioutil.ReadFile(v.file)
+			if err != nil {
+				t.Fatalf("ReadAll() error: %v", err)
+			}
+
+			pkgVer, pkgRel, err := parsePkgVerRel(string(content))
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+
+			if pkgVer != v.pkgVer {
+				t.Errorf("pkgVer: got %s, want %s", pkgVer, v.pkgVer)
+			}
+
+			if pkgRel != v.pkgRel {
+				t.Errorf("pkgRel: got %s, want %s", pkgRel, v.pkgRel)
+			}
+		})
+	}
+}
+
+func TestParseSecFixes(t *testing.T) {
 	vectors := []struct {
 		file     string // Test input file
 		pkgVer   string
@@ -41,18 +83,11 @@ func TestParseApkBuild(t *testing.T) {
 				t.Fatalf("ReadAll() error: %v", err)
 			}
 
-			pkgVer, pkgRel, secFixes, err := parseApkBuild(string(content))
+			secFixes, err := parseSecFixes(string(content))
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
 
-			if pkgVer != v.pkgVer {
-				t.Errorf("pkgVer: got %s, want %s", pkgVer, v.pkgVer)
-			}
-
-			if pkgRel != v.pkgRel {
-				t.Errorf("pkgRel: got %s, want %s", pkgRel, v.pkgRel)
-			}
 			if !reflect.DeepEqual(secFixes, v.secFixes) {
 				t.Errorf("secFixes: got %v, want %v", secFixes, v.secFixes)
 			}
