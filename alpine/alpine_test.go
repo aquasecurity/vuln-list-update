@@ -1,10 +1,13 @@
 package alpine
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"path"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParsePkgVerRel(t *testing.T) {
@@ -93,4 +96,96 @@ func TestParseSecFixes(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestShouldOverwrite(t *testing.T) {
+
+	t.Run("happy and sad paths with valid versions", func(t *testing.T) {
+		issuedAdvisory := Advisory{
+			IssueID:         100,
+			VulnerabilityID: "CVE-2100-0001",
+			Release:         "1.0",
+			Package:         "testpackage",
+			Repository:      "main",
+			//Subject:         "test advisory",
+			Description: "for testing only",
+		}
+
+		testCases := []struct {
+			name             string
+			currentVersion   string
+			fixedVersion     string
+			expctedOverwrite bool
+		}{
+			{
+				name:             "issued advisory should overwrite existing one",
+				currentVersion:   "1.0.0",
+				fixedVersion:     "1.2.0",
+				expctedOverwrite: true,
+			},
+			{
+				name:             "issued advisory should NOT overwrite existing one",
+				currentVersion:   "1.0.0",
+				fixedVersion:     "0.9.0",
+				expctedOverwrite: false,
+			},
+		}
+
+		for _, tc := range testCases {
+			f, _ := ioutil.TempFile("", "TestShouldOverwrite_happy_sad")
+			issuedAdvisory.FixedVersion = tc.fixedVersion
+			b, _ := json.Marshal(&issuedAdvisory)
+			_, _ = f.Write(b)
+			defer f.Close()
+
+			assert.Equal(t, tc.expctedOverwrite, shouldOverwrite(f.Name(), tc.currentVersion), tc.name)
+		}
+	})
+
+	// TODO: Why should this overwrite with invalid advisory json?
+	t.Run("invalid advisory json", func(t *testing.T) {
+		f, _ := ioutil.TempFile("", "TestShouldOverwrite_invalid_json")
+		_, _ = f.Write([]byte(`badjsonhere`))
+		defer f.Close()
+
+		assert.Equal(t, false, shouldOverwrite(f.Name(), "doesnt matter"), "invalid advisory json")
+
+	})
+
+	// TODO: Why should this not overwrite with a subject in advisory json?
+	t.Run("non empty subject advisory", func(t *testing.T) {
+		f, _ := ioutil.TempFile("", "TestShouldOverwrite_subject_advisory_json")
+		b, _ := json.Marshal(&Advisory{
+			Subject: "non empty subject",
+		})
+		_, _ = f.Write(b)
+		defer f.Close()
+
+		assert.True(t, shouldOverwrite(f.Name(), "doesnt matter"), "subject advisory json")
+
+	})
+
+	t.Run("invalid new advisory version", func(t *testing.T) {
+		f, _ := ioutil.TempFile("", "TestShouldOverwrite_invalid_version_json_new")
+		b, _ := json.Marshal(&Advisory{
+			FixedVersion: "badversionhere",
+		})
+		_, _ = f.Write(b)
+		defer f.Close()
+
+		assert.False(t, shouldOverwrite(f.Name(), "doesnt matter"), "invalid new advisory version")
+
+	})
+
+	t.Run("invalid current advisory version", func(t *testing.T) {
+		f, _ := ioutil.TempFile("", "TestShouldOverwrite_invalid_version_json_current")
+		b, _ := json.Marshal(&Advisory{
+			FixedVersion: "1.0.0",
+		})
+		_, _ = f.Write(b)
+		defer f.Close()
+
+		assert.False(t, shouldOverwrite(f.Name(), "badversionhere"), "invalid current advisory version")
+
+	})
 }
