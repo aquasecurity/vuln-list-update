@@ -189,3 +189,11 @@ func TestShouldOverwrite(t *testing.T) {
 
 	})
 }
+
+func TestWalkApkBuild(t *testing.T) {
+	advisories, err := walkApkBuild("testdata", "1.0.0")
+	assert.NoError(t, err)
+	assert.Equal(t, []Advisory{
+		{IssueID: 0, VulnerabilityID: "CVE-2019-7572", Release: "1.0.0", Package: "testdata", Repository: ".", FixedVersion: "1.2.15-r11", Subject: "", Description: ""},
+		{IssueID: 0, VulnerabilityID: "CVE-2019-7574", Release: "1.0.0", Package: "testdata", Repository: ".", FixedVersion: "1.2.15-r11", Subject: "", Description: ""}}, advisories)
+}
