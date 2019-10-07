@@ -197,3 +197,15 @@ func TestWalkApkBuild(t *testing.T) {
 		{IssueID: 0, VulnerabilityID: "CVE-2019-7572", Release: "1.0.0", Package: "testdata", Repository: ".", FixedVersion: "1.2.15-r11", Subject: "", Description: ""},
 		{IssueID: 0, VulnerabilityID: "CVE-2019-7574", Release: "1.0.0", Package: "testdata", Repository: ".", FixedVersion: "1.2.15-r11", Subject: "", Description: ""}}, advisories)
 }
+
+func TestBuildAdvisories(t *testing.T) {
+	secFixes := map[string][]string{
+		"2.6.8-r0": {"CVE-2019-10894"},
+		"2.6.5-r0": {"CVE_2019-5910 (+ some extra in parens)"},
+	}
+
+	assert.Equal(t, []Advisory{
+		{IssueID: 0, VulnerabilityID: "CVE-2019-10894", Release: "1.0.0", Package: "testpkg", Repository: "testrepo", FixedVersion: "2.6.8-r0", Subject: "", Description: ""},
+		{IssueID: 0, VulnerabilityID: "CVE-2019-5910", Release: "1.0.0", Package: "testpkg", Repository: "testrepo", FixedVersion: "2.6.5-r0", Subject: "", Description: ""}},
+		buildAdvisories(secFixes, "1.0.0", "testpkg", "testrepo"))
+}

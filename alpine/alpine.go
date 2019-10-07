@@ -147,31 +147,7 @@ func walkApkBuild(repoDir, release string) ([]Advisory, error) {
 			return nil
 		}
 
-		for ver, vulnIDs := range secFixes {
-			for _, vulnID := range vulnIDs {
-				// Trim strings after a parenthesis
-				// e.g. CVE-2017-2616 (+ regression fix)
-				if index := strings.Index(vulnID, "("); index > 0 {
-					vulnID = vulnID[:index]
-				}
-
-				// e.g. CVE-2016-9818 XSA-201
-				for _, id := range strings.Fields(vulnID) {
-					// e.g. CVE_2019-2426
-					if strings.HasPrefix(id, "CVE_") {
-						id = strings.ReplaceAll(id, "_", "-")
-					}
-					advisory := Advisory{
-						VulnerabilityID: id,
-						Release:         release,
-						Package:         pkg,
-						Repository:      repo,
-						FixedVersion:    ver,
-					}
-					advisories = append(advisories, advisory)
-				}
-			}
-		}
+		advisories = buildAdvisories(secFixes, release, pkg, repo)
 		return nil
 	})
 
@@ -179,6 +155,36 @@ func walkApkBuild(repoDir, release string) ([]Advisory, error) {
 		return nil, xerrors.Errorf("failed to walk Alpine aport: %w", err)
 	}
 	return advisories, nil
+}
+
+func buildAdvisories(secFixes map[string][]string, release string, pkg string, repo string) []Advisory {
+	var advisories []Advisory
+	for ver, vulnIDs := range secFixes {
+		for _, vulnID := range vulnIDs {
+			// Trim strings after a parenthesis
+			// e.g. CVE-2017-2616 (+ regression fix)
+			if index := strings.Index(vulnID, "("); index > 0 {
+				vulnID = vulnID[:index]
+			}
+
+			// e.g. CVE-2016-9818 XSA-201
+			for _, id := range strings.Fields(vulnID) {
+				// e.g. CVE_2019-2426
+				if strings.HasPrefix(id, "CVE_") {
+					id = strings.ReplaceAll(id, "_", "-")
+				}
+				advisory := Advisory{
+					VulnerabilityID: id,
+					Release:         release,
+					Package:         pkg,
+					Repository:      repo,
+					FixedVersion:    ver,
+				}
+				advisories = append(advisories, advisory)
+			}
+		}
+	}
+	return advisories
 }
 
 func constructFilePath(release, repository, pkg, cveID string) (string, error) {
