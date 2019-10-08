@@ -59,7 +59,9 @@ func Update(gc git.Operations) (err error) {
 			continue
 		}
 		s := strings.Split(branch, "/")
-		// TODO: Add a check for checking len(s) > 1 to avoid panic
+		if len(s) < 2 {
+			continue
+		}
 		release := strings.TrimSuffix(s[1], "-stable")
 
 		if err = gc.Checkout(repoDir, branch); err != nil {

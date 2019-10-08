@@ -249,6 +249,14 @@ func TestUpdate(t *testing.T) {
 		}))
 	})
 
+	t.Run("invalid branch name", func(t *testing.T) {
+		assert.NoError(t, Update(MockGitConfig{
+			remotebranch: func(s string) (strings []string, e error) {
+				return []string{"badbranch-stable"}, nil
+			},
+		}))
+	})
+
 	t.Run("git clone fails", func(t *testing.T) {
 		assert.Equal(t, xerrors.Errorf("failed to clone alpine repository: %w", errors.New("failed clone operation")).Error(),
 			Update(MockGitConfig{
