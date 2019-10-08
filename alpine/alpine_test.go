@@ -2,13 +2,43 @@ package alpine
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"path"
 	"reflect"
 	"testing"
 
+	"golang.org/x/xerrors"
+
 	"github.com/stretchr/testify/assert"
 )
+
+type MockGitConfig struct {
+	cloneorpull  func(string, string) (map[string]struct{}, error)
+	remotebranch func(string) ([]string, error)
+	checkout     func(string, string) error
+}
+
+func (mgc MockGitConfig) CloneOrPull(a string, b string) (map[string]struct{}, error) {
+	if mgc.cloneorpull != nil {
+		return mgc.cloneorpull(a, b)
+	}
+	return map[string]struct{}{}, nil
+}
+
+func (mgc MockGitConfig) RemoteBranch(a string) ([]string, error) {
+	if mgc.remotebranch != nil {
+		return mgc.remotebranch(a)
+	}
+	return []string{}, nil
+}
+
+func (mgc MockGitConfig) Checkout(a string, b string) error {
+	if mgc.checkout != nil {
+		return mgc.checkout(a, b)
+	}
+	return nil
+}
 
 func TestParsePkgVerRel(t *testing.T) {
 	vectors := []struct {
@@ -208,4 +238,59 @@ func TestBuildAdvisories(t *testing.T) {
 		{IssueID: 0, VulnerabilityID: "CVE-2019-10894", Release: "1.0.0", Package: "testpkg", Repository: "testrepo", FixedVersion: "2.6.8-r0", Subject: "", Description: ""},
 		{IssueID: 0, VulnerabilityID: "CVE-2019-5910", Release: "1.0.0", Package: "testpkg", Repository: "testrepo", FixedVersion: "2.6.5-r0", Subject: "", Description: ""}},
 		buildAdvisories(secFixes, "1.0.0", "testpkg", "testrepo"))
+}
+
+func TestUpdate(t *testing.T) {
+	t.Run("happy path", func(t *testing.T) {
+		assert.NoError(t, Update(MockGitConfig{
+			remotebranch: func(s string) (strings []string, e error) {
+				return []string{"origin/branch1-stable", "origin/branch2", "origin/branch3"}, nil
+			},
+		}))
+	})
+
+	t.Run("git clone fails", func(t *testing.T) {
+		assert.Equal(t, xerrors.Errorf("failed to clone alpine repository: %w", errors.New("failed clone operation")).Error(),
+			Update(MockGitConfig{
+				cloneorpull: func(s string, s2 string) (i map[string]struct{}, e error) {
+					return nil, errors.New("failed clone operation")
+				},
+			}).Error(),
+		)
+	})
+	t.Run("git fails to show remote branches", func(t *testing.T) {
+		assert.Equal(t, xerrors.Errorf("failed to show branches: %w", errors.New("failed to show remote branch")).Error(),
+			Update(MockGitConfig{
+				remotebranch: func(s string) (strings []string, e error) {
+					return []string{}, errors.New("failed to show remote branch")
+				},
+			}).Error(),
+		)
+	})
+	t.Run("git fails to checkout branch", func(t *testing.T) {
+		assert.Equal(t, xerrors.Errorf("error in git checkout: %w", errors.New("failed to checkout branch")).Error(),
+			Update(MockGitConfig{
+				checkout: func(s string, s2 string) error {
+					return errors.New("failed to checkout branch")
+				},
+			}).Error(),
+		)
+	})
+
+	t.Run("git checkout of a particular branch fails", func(t *testing.T) {
+		assert.Equal(t, "error in git checkout: failed to checkout branch", Update(MockGitConfig{
+			remotebranch: func(s string) (strings []string, e error) {
+				return []string{"origin/branch1-stable", "origin/branch2", "origin/branch3"}, nil
+			},
+			checkout: func(s string, branch string) error {
+				switch branch {
+				case "master":
+					return errors.New("failed to checkout branch")
+				case "origin/branch1-stable":
+					return errors.New("failed to checkout branch")
+				}
+				return nil
+			},
+		}).Error())
+	})
 }

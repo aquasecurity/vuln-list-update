@@ -9,9 +9,10 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/aquasecurity/vuln-list-update/git"
+
 	"gopkg.in/yaml.v2"
 
-	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/hashicorp/go-version"
 	"golang.org/x/xerrors"
@@ -31,23 +32,23 @@ var (
 	malformedVerReplacer = strings.NewReplacer("_p", "-p", ".-", "-", ".r", "-r", "_alpha", "-alpha", "_rc", "-rc")
 )
 
-func Update() (err error) {
+func Update(gc git.Operations) (err error) {
 	log.Println("Fetching Alpine data...")
 	repoDir = filepath.Join(utils.CacheDir(), "aports")
-	if _, err = git.CloneOrPull(repoURL, repoDir); err != nil {
+	if _, err = gc.CloneOrPull(repoURL, repoDir); err != nil {
 		return xerrors.Errorf("failed to clone alpine repository: %w", err)
 	}
 
 	// Extract secfixes in all APKBUILD
 	log.Println("Extracting Alpine secfixes...")
-	branches, err := git.RemoteBranch(repoDir)
+	branches, err := gc.RemoteBranch(repoDir)
 	if err != nil {
 		return xerrors.Errorf("failed to show branches: %w", err)
 	}
 
 	defer func() {
 		// restore branch
-		if err = git.Checkout(repoDir, "master"); err != nil {
+		if err = gc.Checkout(repoDir, "master"); err != nil {
 			err = xerrors.Errorf("error in git checkout: %w", err)
 		}
 	}()
@@ -58,9 +59,10 @@ func Update() (err error) {
 			continue
 		}
 		s := strings.Split(branch, "/")
+		// TODO: Add a check for checking len(s) > 1 to avoid panic
 		release := strings.TrimSuffix(s[1], "-stable")
 
-		if err = git.Checkout(repoDir, branch); err != nil {
+		if err = gc.Checkout(repoDir, branch); err != nil {
 			return xerrors.Errorf("failed to git checkout: %w", err)
 		}
 
