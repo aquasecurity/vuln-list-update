@@ -172,13 +172,12 @@ func TestShouldOverwrite(t *testing.T) {
 		}
 	})
 
-	// TODO: Why should this overwrite with invalid advisory json?
 	t.Run("invalid advisory json", func(t *testing.T) {
 		f, _ := ioutil.TempFile("", "TestShouldOverwrite_invalid_json")
 		_, _ = f.Write([]byte(`badjsonhere`))
 		defer f.Close()
 
-		assert.Equal(t, false, shouldOverwrite(f.Name(), "doesnt matter"), "invalid advisory json")
+		assert.Equal(t, true, shouldOverwrite(f.Name(), "doesnt matter"), "invalid advisory json")
 
 	})
 
