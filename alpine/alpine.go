@@ -32,26 +32,28 @@ var (
 	malformedVerReplacer = strings.NewReplacer("_p", "-p", ".-", "-", ".r", "-r", "_alpha", "-alpha", "_rc", "-rc")
 )
 
-func Update(gc git.Operations) (err error) {
+type Config struct {
+	GitClient   git.Operations
+	CacheDir    string
+	VulnListDir string
+}
+
+func (c Config) Update() (err error) {
 	log.Println("Fetching Alpine data...")
-	repoDir = filepath.Join(utils.CacheDir(), "aports")
-	if _, err = gc.CloneOrPull(repoURL, repoDir); err != nil {
+	repoDir = filepath.Join(c.CacheDir, "aports")
+	if _, err = c.GitClient.CloneOrPull(repoURL, repoDir); err != nil {
 		return xerrors.Errorf("failed to clone alpine repository: %w", err)
 	}
 
 	// Extract secfixes in all APKBUILD
 	log.Println("Extracting Alpine secfixes...")
-	branches, err := gc.RemoteBranch(repoDir)
+	branches, err := c.GitClient.RemoteBranch(repoDir)
 	if err != nil {
 		return xerrors.Errorf("failed to show branches: %w", err)
 	}
 
-	defer func() {
-		// restore branch
-		if err = gc.Checkout(repoDir, "master"); err != nil {
-			err = xerrors.Errorf("error in git checkout: %w", err)
-		}
-	}()
+	// restore branch
+	defer c.GitClient.Checkout(repoDir, "master")
 
 	for _, branch := range branches {
 		branch = strings.TrimSpace(branch)
@@ -64,18 +66,18 @@ func Update(gc git.Operations) (err error) {
 		}
 		release := strings.TrimSuffix(s[1], "-stable")
 
-		if err = gc.Checkout(repoDir, branch); err != nil {
-			return xerrors.Errorf("failed to git checkout: %w", err)
+		if err = c.GitClient.Checkout(repoDir, branch); err != nil {
+			return xerrors.Errorf("git failed to checkout branch: %w", err)
 		}
 
-		advisories, err := walkApkBuild(repoDir, release)
+		advisories, err := c.walkApkBuild(repoDir, release)
 		if err != nil {
 			return xerrors.Errorf("failed to walk APKBUILD: %w", err)
 		}
 
 		log.Printf("Saving secfixes: %s\n", release)
 		for _, advisory := range advisories {
-			filePath, err := constructFilePath(advisory.Release, advisory.Repository, advisory.Package, advisory.VulnerabilityID)
+			filePath, err := c.constructFilePath(advisory.Release, advisory.Repository, advisory.Package, advisory.VulnerabilityID)
 			if err != nil {
 				return xerrors.Errorf("failed to construct file path: %w", err)
 			}
@@ -83,7 +85,7 @@ func Update(gc git.Operations) (err error) {
 			ok, err := utils.Exists(filePath)
 			if err != nil {
 				return xerrors.Errorf("error in file existence check: %w", err)
-			} else if ok && !shouldOverwrite(filePath, advisory.FixedVersion) {
+			} else if ok && !c.shouldOverwrite(filePath, advisory.FixedVersion) {
 				continue
 			}
 
@@ -96,7 +98,7 @@ func Update(gc git.Operations) (err error) {
 	return nil
 }
 
-func shouldOverwrite(filePath string, currentVersion string) bool {
+func (c Config) shouldOverwrite(filePath string, currentVersion string) bool {
 	f, err := os.Open(filePath)
 	if err != nil {
 		return false
@@ -107,6 +109,10 @@ func shouldOverwrite(filePath string, currentVersion string) bool {
 	if err = json.NewDecoder(f).Decode(&advisory); err != nil {
 		return true
 	}
+	if advisory.Package == "" || advisory.FixedVersion == "" {
+		return true
+	}
+	// advisory with Subject is more accurate and should not be overwritten
 	if advisory.Subject != "" {
 		return false
 	}
@@ -126,9 +132,12 @@ func shouldOverwrite(filePath string, currentVersion string) bool {
 	return current.LessThan(prev)
 }
 
-func walkApkBuild(repoDir, release string) ([]Advisory, error) {
+func (c Config) walkApkBuild(repoDir, release string) ([]Advisory, error) {
 	var advisories []Advisory
 	err := filepath.Walk(repoDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return xerrors.Errorf("file walk error: %w", err)
+		}
 		if info.IsDir() {
 			return nil
 		}
@@ -144,14 +153,14 @@ func walkApkBuild(repoDir, release string) ([]Advisory, error) {
 			return xerrors.Errorf("file read error: %w", err)
 		}
 
-		secFixes, err := parseSecFixes(string(content))
+		secFixes, err := c.parseSecFixes(string(content))
 		if err != nil {
 			return err
 		} else if secFixes == nil {
 			return nil
 		}
 
-		advisories = buildAdvisories(secFixes, release, pkg, repo)
+		advisories = append(advisories, c.buildAdvisories(secFixes, release, pkg, repo)...)
 		return nil
 	})
 
@@ -161,7 +170,7 @@ func walkApkBuild(repoDir, release string) ([]Advisory, error) {
 	return advisories, nil
 }
 
-func buildAdvisories(secFixes map[string][]string, release string, pkg string, repo string) []Advisory {
+func (c Config) buildAdvisories(secFixes map[string][]string, release string, pkg string, repo string) []Advisory {
 	var advisories []Advisory
 	for ver, vulnIDs := range secFixes {
 		for _, vulnID := range vulnIDs {
@@ -191,8 +200,8 @@ func buildAdvisories(secFixes map[string][]string, release string, pkg string, r
 	return advisories
 }
 
-func constructFilePath(release, repository, pkg, cveID string) (string, error) {
-	dir := filepath.Join(utils.VulnListDir(), alpineDir, release, repository, pkg)
+func (c Config) constructFilePath(release, repository, pkg, cveID string) (string, error) {
+	dir := filepath.Join(c.VulnListDir, alpineDir, release, repository, pkg)
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		return "", xerrors.Errorf("failed to create directory: %w", err)
 	}
@@ -207,7 +216,7 @@ func splitPath(filePath string) (string, string, string) {
 	return filepath.Clean(repo), pkg, base
 }
 
-func parsePkgVerRel(content string) (pkgVer string, pkgRel string, err error) {
+func (c Config) parsePkgVerRel(content string) (pkgVer string, pkgRel string, err error) {
 	lines := strings.Split(content, "\n")
 
 	for i := 0; i < len(lines); i++ {
@@ -231,7 +240,7 @@ func parsePkgVerRel(content string) (pkgVer string, pkgRel string, err error) {
 	return pkgVer, pkgRel, nil
 }
 
-func parseSecFixes(content string) (secFixes map[string][]string, err error) {
+func (c Config) parseSecFixes(content string) (secFixes map[string][]string, err error) {
 	lines := strings.Split(content, "\n")
 	for i := 0; i < len(lines); i++ {
 		line := strings.TrimSpace(lines[i])
