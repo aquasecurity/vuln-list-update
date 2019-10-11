@@ -12,7 +12,16 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func CloneOrPull(url, repoPath string) (map[string]struct{}, error) {
+type Operations interface {
+	CloneOrPull(string, string) (map[string]struct{}, error)
+	RemoteBranch(string) ([]string, error)
+	Checkout(string, string) error
+}
+
+type Config struct {
+}
+
+func (gc Config) CloneOrPull(url, repoPath string) (map[string]struct{}, error) {
 	exists, err := utils.Exists(filepath.Join(repoPath, ".git"))
 	if err != nil {
 		return nil, err
@@ -106,7 +115,7 @@ func pull(url, repoPath string) ([]string, error) {
 	return updatedFiles, nil
 }
 
-func Commit(repoPath, targetPath, message string) error {
+func (gc Config) Commit(repoPath, targetPath, message string) error {
 	commandArgs := generateGitArgs(repoPath)
 	addCmd := []string{"add", filepath.Join(repoPath, targetPath)}
 	if _, err := utils.Exec("git", append(commandArgs, addCmd...)); err != nil {
@@ -121,7 +130,7 @@ func Commit(repoPath, targetPath, message string) error {
 	return nil
 }
 
-func Push(repoPath, branch string) error {
+func (gc Config) Push(repoPath, branch string) error {
 	commandArgs := generateGitArgs(repoPath)
 	pushCmd := []string{"push", "origin", branch}
 	if _, err := utils.Exec("git", append(commandArgs, pushCmd...)); err != nil {
@@ -130,7 +139,7 @@ func Push(repoPath, branch string) error {
 	return nil
 }
 
-func RemoteBranch(repoPath string) ([]string, error) {
+func (gc Config) RemoteBranch(repoPath string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 	branchCmd := []string{"branch", "--remote"}
 	output, err := utils.Exec("git", append(commandArgs, branchCmd...))
@@ -140,7 +149,7 @@ func RemoteBranch(repoPath string) ([]string, error) {
 	return strings.Split(output, "\n"), nil
 }
 
-func Checkout(repoPath string, branch string) error {
+func (gc Config) Checkout(repoPath string, branch string) error {
 	commandArgs := generateGitArgs(repoPath)
 	checkoutCmd := []string{"checkout", branch}
 	_, err := utils.Exec("git", append(commandArgs, checkoutCmd...))
@@ -150,7 +159,7 @@ func Checkout(repoPath string, branch string) error {
 	return nil
 }
 
-func Status(repoPath string) ([]string, error) {
+func (gc Config) Status(repoPath string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 
 	statusCmd := []string{"status", "--porcelain"}

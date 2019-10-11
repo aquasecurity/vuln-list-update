@@ -42,6 +42,8 @@ func main() {
 func run() error {
 	flag.Parse()
 	now := time.Now().UTC()
+	gc := &git.Config{}
+	vulnListDir := utils.VulnListDir()
 
 	repoOwner := utils.LookupEnv("VULNLIST_REPOSITORY_OWNER", defaultRepoOwner)
 	repoName := utils.LookupEnv("VULNLIST_REPOSITORY_NAME", defaultRepoName)
@@ -51,7 +53,8 @@ func run() error {
 	url := fmt.Sprintf(repoURL, githubToken, repoOwner, repoName)
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
-	if _, err := git.CloneOrPull(url, utils.VulnListDir()); err != nil {
+
+	if _, err := gc.CloneOrPull(url, utils.VulnListDir()); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
 	}
 
@@ -94,7 +97,12 @@ func run() error {
 		}
 		commitMsg = "Ubuntu CVE Tracker"
 	case "alpine":
-		if err := alpine.Update(); err != nil {
+		ac := alpine.Config{
+			GitClient:   gc,
+			CacheDir:    utils.CacheDir(),
+			VulnListDir: vulnListDir,
+		}
+		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"
@@ -107,7 +115,7 @@ func run() error {
 	}
 
 	log.Println("git status")
-	files, err := git.Status(utils.VulnListDir())
+	files, err := gc.Status(utils.VulnListDir())
 	if err != nil {
 		return xerrors.Errorf("failed to git status: %w", err)
 	}
@@ -119,12 +127,12 @@ func run() error {
 	}
 
 	log.Println("git commit")
-	if err = git.Commit(utils.VulnListDir(), "./", commitMsg); err != nil {
+	if err = gc.Commit(utils.VulnListDir(), "./", commitMsg); err != nil {
 		return xerrors.Errorf("failed to git commit: %w", err)
 	}
 
 	log.Println("git push")
-	if err = git.Push(utils.VulnListDir(), "master"); err != nil {
+	if err = gc.Push(utils.VulnListDir(), "master"); err != nil {
 		return xerrors.Errorf("failed to git push: %w", err)
 	}
 
