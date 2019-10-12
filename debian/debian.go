@@ -31,7 +31,9 @@ func Update() error {
 	for pkgName, cves := range vulns {
 		for cveID, cve := range cves {
 			dir := filepath.Join(utils.VulnListDir(), debianDir, pkgName)
-			os.MkdirAll(dir, os.ModePerm)
+			if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+				return xerrors.Errorf("failed to create the directory: %w", err)
+			}
 			filePath := filepath.Join(dir, fmt.Sprintf("%s.json", cveID))
 			if err = utils.Write(filePath, cve); err != nil {
 				return xerrors.Errorf("failed to write Debian CVE details: %w", err)
