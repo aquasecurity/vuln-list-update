@@ -152,15 +152,13 @@ func FetchConcurrently(urls []string, concurrency, wait, retry int) (responses [
 	tasks := GenWorkers(concurrency, wait)
 	for range urls {
 		tasks <- func() {
-			select {
-			case url := <-reqChan:
-				res, err := FetchURL(url, "", retry)
-				if err != nil {
-					errChan <- err
-					return
-				}
-				resChan <- res
+			url := <-reqChan
+			res, err := FetchURL(url, "", retry)
+			if err != nil {
+				errChan <- err
+				return
 			}
+			resChan <- res
 		}
 		bar.Increment()
 	}

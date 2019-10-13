@@ -24,17 +24,17 @@ type MockGitConfig struct {
 	mock.Mock
 }
 
-func (mgc MockGitConfig) CloneOrPull(a string, b string) (map[string]struct{}, error) {
+func (mgc *MockGitConfig) CloneOrPull(a string, b string) (map[string]struct{}, error) {
 	args := mgc.Called(a, b)
 	return args.Get(0).(map[string]struct{}), args.Error(1)
 }
 
-func (mgc MockGitConfig) RemoteBranch(a string) ([]string, error) {
+func (mgc *MockGitConfig) RemoteBranch(a string) ([]string, error) {
 	args := mgc.Called(a)
 	return args.Get(0).([]string), args.Error(1)
 }
 
-func (mgc MockGitConfig) Checkout(a string, b string) error {
+func (mgc *MockGitConfig) Checkout(a string, b string) error {
 	args := mgc.Called(a, b)
 	return args.Error(0)
 }

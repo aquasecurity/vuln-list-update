@@ -70,6 +70,9 @@ func Update() error {
 
 func walkDir(root string) error {
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return xerrors.Errorf("file walk error: %w", err)
+		}
 		if info.IsDir() {
 			return nil
 		}

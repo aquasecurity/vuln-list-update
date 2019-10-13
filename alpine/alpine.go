@@ -53,7 +53,11 @@ func (c Config) Update() (err error) {
 	}
 
 	// restore branch
-	defer c.GitClient.Checkout(repoDir, "master")
+	defer func() {
+		if derr := c.GitClient.Checkout(repoDir, "master"); derr != nil {
+			log.Printf("checkout error: %s", derr)
+		}
+	}()
 
 	for _, branch := range branches {
 		branch = strings.TrimSpace(branch)
