@@ -84,7 +84,8 @@ func run() error {
 		}
 		commitMsg = "RedHat " + *years
 	case "debian":
-		if err := debian.Update(); err != nil {
+		dc := debian.NewClient()
+		if err := dc.Update(); err != nil {
 			return xerrors.Errorf("error in Debian update: %w", err)
 		}
 		commitMsg = "Debian Security Bug Tracker"

@@ -101,14 +101,16 @@ func TrimSpaceNewline(str string) string {
 
 // FetchURL returns HTTP response body with retry
 func FetchURL(url, apikey string, retry int) (res []byte, err error) {
-	for i := 1; i <= retry; i++ {
+	for i := 0; i <= retry; i++ {
+		if i > 0 {
+			wait := math.Pow(float64(i), 2) + float64(randInt()%10)
+			log.Printf("retry after %f seconds\n", wait)
+			time.Sleep(time.Duration(time.Duration(wait) * time.Second))
+		}
 		res, err = fetchURL(url, apikey)
 		if err == nil {
 			return res, nil
 		}
-		wait := math.Pow(float64(i), 2) + float64(randInt()%10)
-		log.Printf("retry after %f seconds\n", wait)
-		time.Sleep(time.Duration(time.Duration(wait) * time.Second))
 	}
 	return nil, xerrors.Errorf("failed to fetch URL: %w", err)
 }
@@ -123,12 +125,12 @@ func fetchURL(url, apikey string) ([]byte, error) {
 	if apikey != "" {
 		req.Header.Add("api-key", apikey)
 	}
-	resp, body, err := req.Type("text").EndBytes()
-	if err != nil {
-		return nil, xerrors.Errorf("HTTP error. url: %s, err: %w", url, err)
+	resp, body, errs := req.Type("text").EndBytes()
+	if len(errs) > 0 {
+		return nil, xerrors.Errorf("HTTP error. url: %s, err: %w", url, errs[0])
 	}
 	if resp.StatusCode != 200 {
-		return nil, xerrors.Errorf("HTTP error. status code: %d, url: %s, err: %w", resp.StatusCode, url, err)
+		return nil, xerrors.Errorf("HTTP error. status code: %d, url: %s", resp.StatusCode, url)
 	}
 	return body, nil
 }
