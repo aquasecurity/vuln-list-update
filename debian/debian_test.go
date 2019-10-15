@@ -81,7 +81,7 @@ func TestClient_Update(t *testing.T) {
 				_ = os.Mkdir(d, 0777)
 				for _, fileName := range tc.existedFiles {
 					err = ioutil.WriteFile(filepath.Join(d, fileName), []byte("test"), 0666)
-					assert.Nil(t, err)
+					assert.Nil(t, err, "failed to write the file")
 				}
 			}
 
@@ -98,7 +98,6 @@ func TestClient_Update(t *testing.T) {
 			if tc.expectedError == "" {
 				assert.Nil(t, err)
 			} else {
-				fmt.Println(err)
 				assert.Contains(t, err.Error(), tc.expectedError)
 				return
 			}
