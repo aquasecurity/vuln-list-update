@@ -72,7 +72,7 @@ func TestClient_Update(t *testing.T) {
 
 			fmt.Println(path.Join(testServer.URL, tc.path))
 			dir, err := ioutil.TempDir("", "debian")
-			assert.Nil(t, err, "failed to create temp dir")
+			assert.NoError(t, err, "failed to create temp dir")
 			defer os.RemoveAll(dir)
 
 			// These files must be removed
@@ -86,7 +86,7 @@ func TestClient_Update(t *testing.T) {
 			}
 
 			u, err := url.Parse(testServer.URL)
-			assert.Nil(t, err, "URL parse error")
+			assert.NoError(t, err, "URL parse error")
 			u.Path = path.Join(u.Path, tc.path)
 
 			client := debian.Client{
@@ -95,11 +95,11 @@ func TestClient_Update(t *testing.T) {
 				Retry:       0,
 			}
 			err = client.Update()
-			if tc.expectedError == "" {
-				assert.Nil(t, err)
-			} else {
-				assert.Contains(t, err.Error(), tc.expectedError)
-				return
+			switch {
+			case tc.expectedError != "":
+				assert.Contains(t, err.Error(), tc.expectedError, tc.name)
+			default:
+				assert.NoError(t, err, tc.name)
 			}
 
 			// Compare got and golden
@@ -118,16 +118,16 @@ func TestClient_Update(t *testing.T) {
 				golden := filepath.Join("testdata", "goldens", p+".golden")
 
 				want, err := ioutil.ReadFile(golden)
-				assert.Nil(t, err, "failed to open the golden file")
+				assert.NoError(t, err, "failed to open the golden file")
 
 				got, err := ioutil.ReadFile(path)
-				assert.Nil(t, err, "failed to open the result file")
+				assert.NoError(t, err, "failed to open the result file")
 
 				assert.Equal(t, string(want), string(got))
 
 				return nil
 			})
-			assert.Nil(t, err, "filepath walk error")
+			assert.NoError(t, err, "filepath walk error")
 		})
 	}
 }
