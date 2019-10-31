@@ -1,4 +1,4 @@
-Thank you for taking interest in contributing to Trivy !
+Thank you for taking interest in contributing to vuln-list-update !
 
 ## Issues
 - Feel free to open issues for any reason as long as you make it clear if this issue is about a bug/feature/hunter/question/comment.
