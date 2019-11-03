@@ -128,7 +128,8 @@ func TestConfig_Update(t *testing.T) {
 				goldenPath, ok := tc.goldenFiles[path]
 				assert.True(t, ok, tc.name)
 				if *update {
-					ioutil.WriteFile(goldenPath, actual, 0666)
+					err = ioutil.WriteFile(goldenPath, actual, 0666)
+					assert.NoError(t, err, tc.name)
 				}
 				expected, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, tc.name)
