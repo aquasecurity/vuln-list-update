@@ -1,0 +1,201 @@
+<oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:unix-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" xmlns:red-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd">
+<generator>
+<oval:product_name>Oracle Errata System</oval:product_name>
+<oval:product_version>Oracle Linux</oval:product_version>
+<oval:schema_version>5.3</oval:schema_version>
+<oval:timestamp>2007-06-26T00:00:00</oval:timestamp>
+</generator>
+<definitions>
+<definition id="oval:com.oracle.elsa:def:20070057" version="501" class="patch">
+<metadata>
+<title>
+ELSA-2007-0057:  Moderate: bind security update  (MODERATE)
+</title>
+<affected family="unix">
+<platform>Oracle Linux 5</platform>
+
+</affected>
+<reference source="elsa" ref_id="ELSA-2007-0057" ref_url="http://linux.oracle.com/errata/ELSA-2007-0057.html"/>
+<reference source="CVE" ref_id="CVE-2007-0493" ref_url="http://linux.oracle.com/cve/CVE-2007-0493.html"/>
+<reference source="CVE" ref_id="CVE-2007-0494" ref_url="http://linux.oracle.com/cve/CVE-2007-0494.html"/>
+
+<description>
+ [30:9.3.3-8]
+ - added fix for #224445 - CVE-2007-0493 BIND might crash after
+   attempting to read free()-ed memory
+ - added fix for #225229 - CVE-2007-0494 BIND dnssec denial of service
+ - Resolves: rhbz#224445
+ - Resolves: rhbz#225229 
+</description>
+<!--
+ ~~~~~~~~~~~~~~~~~~~~   advisory details   ~~~~~~~~~~~~~~~~~~~ 
+-->
+<advisory>
+<severity>MODERATE</severity>
+<rights>Copyright 2007 Oracle, Inc.</rights>
+<issued date="2007-06-26"/>
+<cve href="http://linux.oracle.com/cve/CVE-2007-0493.html">CVE-2007-0493</cve>
+<cve href="http://linux.oracle.com/cve/CVE-2007-0494.html">CVE-2007-0494</cve>
+
+</advisory>
+</metadata>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057001" comment="Oracle Linux 5 is installed"/>
+<criteria operator="OR">
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057002" comment="bind-devel is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057003" comment="bind-devel is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057004" comment="bind-sdb is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057005" comment="bind-sdb is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057006" comment="bind-libs is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057007" comment="bind-libs is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057008" comment="bind-libbind-devel is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057009" comment="bind-libbind-devel is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057010" comment="bind-utils is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057011" comment="bind-utils is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057012" comment="bind-chroot is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057013" comment="bind-chroot is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057014" comment="bind is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057015" comment="bind is signed with the Oracle Linux 5 key"/>
+</criteria>
+<criteria operator="AND">
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057016" comment="caching-nameserver is earlier than 30:9.3.3-8.el5"/>
+<criterion test_ref="oval:com.oracle.elsa:tst:20070057017" comment="caching-nameserver is signed with the Oracle Linux 5 key"/>
+</criteria>
+</criteria>
+</criteria>
+
+</definition>
+</definitions>
+<!--
+ ~~~~~~~~~~~~~~~~~~~~~   rpminfo tests   ~~~~~~~~~~~~~~~~~~~~~ 
+-->
+<tests>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057001"  version="501" comment="Oracle Linux 5 is installed" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057001" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057002" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057002"  version="501" comment="bind-devel is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057004" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057003"  version="501" comment="bind-devel is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057004" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057004"  version="501" comment="bind-sdb is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057005" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057005"  version="501" comment="bind-sdb is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057005" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057006"  version="501" comment="bind-libs is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057002" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057007"  version="501" comment="bind-libs is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057002" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057008"  version="501" comment="bind-libbind-devel is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057006" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057009"  version="501" comment="bind-libbind-devel is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057006" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057010"  version="501" comment="bind-utils is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057003" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057011"  version="501" comment="bind-utils is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057003" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057012"  version="501" comment="bind-chroot is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057007" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057013"  version="501" comment="bind-chroot is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057007" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057014"  version="501" comment="bind is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057008" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057015"  version="501" comment="bind is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057008" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057016"  version="501" comment="caching-nameserver is earlier than 30:9.3.3-8.el5" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057009" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057003" />
+</rpminfo_test>
+<rpminfo_test id="oval:com.oracle.elsa:tst:20070057017"  version="501" comment="caching-nameserver is signed with the Oracle Linux 5 key" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
+<object object_ref="oval:com.oracle.elsa:obj:20070057009" />
+<state state_ref="oval:com.oracle.elsa:ste:20070057001" />
+</rpminfo_test>
+
+</tests>
+<!--
+ ~~~~~~~~~~~~~~~~~~~~   rpminfo objects   ~~~~~~~~~~~~~~~~~~~~ 
+-->
+<objects>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057005" version="501">
+<name>bind-sdb</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057007" version="501">
+<name>bind-chroot</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057004" version="501">
+<name>bind-devel</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057002" version="501">
+<name>bind-libs</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057008" version="501">
+<name>bind</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057001" version="501">
+<name>oraclelinux-release</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057009" version="501">
+<name>caching-nameserver</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057003" version="501">
+<name>bind-utils</name>
+</rpminfo_object>
+<rpminfo_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:obj:20070057006" version="501">
+<name>bind-libbind-devel</name>
+</rpminfo_object>
+
+</objects>
+<states>
+<!--
+ ~~~~~~~~~~~~~~~~~~~~   rpminfo states   ~~~~~~~~~~~~~~~~~~~~~ 
+-->
+<rpminfo_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:ste:20070057001" version="501"><signature_keyid operation="equals">66ced3de1e5e0159</signature_keyid>
+</rpminfo_state>
+<rpminfo_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:ste:20070057002" version="501"><version operation="pattern match">^5</version>
+</rpminfo_state>
+<rpminfo_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:com.oracle.elsa:ste:20070057003" version="501"><evr datatype="evr_string" operation="less than">30:9.3.3-8.el5</evr>
+</rpminfo_state>
+
+</states>
+</oval_definitions>
