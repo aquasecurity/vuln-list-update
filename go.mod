@@ -17,6 +17,7 @@ require (
 	github.com/pkg/errors v0.8.0 // indirect
 	github.com/simplereach/timeutils v1.2.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect
+	github.com/spf13/afero v1.2.2
 	github.com/stretchr/testify v1.4.0
 	golang.org/x/sys v0.0.0-20190412213103-97732733099d // indirect
 	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
