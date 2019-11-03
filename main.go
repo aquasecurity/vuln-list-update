@@ -17,6 +17,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
+	redhatoval "github.com/aquasecurity/vuln-list-update/oval/redhat"
 	"github.com/aquasecurity/vuln-list-update/redhat"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -83,6 +84,12 @@ func run() error {
 			return err
 		}
 		commitMsg = "RedHat " + *years
+	case "redhat-oval":
+		rc := redhatoval.NewConfig()
+		if err := rc.Update(); err != nil {
+			return xerrors.Errorf("error in Red Hat OVAL update: %w", err)
+		}
+		commitMsg = "Red Hat OVAL"
 	case "debian":
 		dc := debian.NewClient()
 		if err := dc.Update(); err != nil {
