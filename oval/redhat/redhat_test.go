@@ -158,10 +158,10 @@ func TestConfig_saveRHSAPerYear(t *testing.T) {
 			inputData: `{}`,
 		},
 		{
-			name:          "sad path: invalid rhsaid format",
+			name:          "sad path: invalid RHSA-ID format",
 			rhsaID:        "foobarbaz",
 			inputData:     `{}`,
-			expectedError: errors.New("invalid RHSA-ID format: foobarbaz"),
+			expectedError: errors.New("invalid RHSA-ID format"),
 		},
 	}
 
