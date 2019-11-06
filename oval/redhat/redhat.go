@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/bzip2"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -26,6 +27,10 @@ const (
 
 var (
 	releases = []string{"6", "7", "8"}
+)
+
+var (
+	ErrInvalidRHSAFormat = errors.New("invalid RHSA-ID format")
 )
 
 type Config struct {
@@ -75,7 +80,12 @@ func (c Config) update(release string) error {
 		titles := strings.Fields(def.Title)
 		title := strings.Trim(titles[0], ":")
 		if err = c.saveRHSAPerYear(dir, title, def); err != nil {
-			return xerrors.Errorf("unable to save RHEL advisory: %w", err)
+			switch err {
+			case ErrInvalidRHSAFormat:
+				continue
+			default:
+				return xerrors.Errorf("unable to save RHEL advisory: %w", err)
+			}
 		}
 		bar.Increment()
 	}
@@ -88,12 +98,12 @@ func (c Config) saveRHSAPerYear(dirName string, rhsaID string, data interface{})
 	s := strings.Split(rhsaID, ":")
 	if len(s) != 2 {
 		log.Printf("invalid RHSA-ID format: %s\n", rhsaID)
-		return nil
+		return ErrInvalidRHSAFormat
 	}
 	s = strings.Split(s[0], "-")
 	if len(s) != 2 {
 		log.Printf("invalid RHSA-ID format: %s\n", rhsaID)
-		return nil
+		return ErrInvalidRHSAFormat
 	}
 
 	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
