@@ -1,6 +1,7 @@
 package redhat
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -142,5 +143,44 @@ func TestConfig_Update(t *testing.T) {
 			assert.NoError(t, err, tc.name)
 		})
 	}
+}
 
+func TestConfig_saveRHSAPerYear(t *testing.T) {
+	testCases := []struct {
+		name          string
+		rhsaID        string
+		inputData     string
+		expectedError error
+	}{
+		{
+			name:      "happy path",
+			rhsaID:    "RHSA-2018:0094",
+			inputData: `{}`,
+		},
+		{
+			name:          "sad path: invalid rhsaid format",
+			rhsaID:        "foobarbaz",
+			inputData:     `{}`,
+			expectedError: errors.New("invalid RHSA-ID format: foobarbaz"),
+		},
+	}
+
+	for _, tc := range testCases {
+		c := Config{
+			AppFs: afero.NewMemMapFs(),
+		}
+
+		d, _ := ioutil.TempDir("", "TestConfig_saveRHSAPerYear-*")
+		defer func() {
+			_ = os.RemoveAll(d)
+		}()
+
+		err := c.saveRHSAPerYear(d, tc.rhsaID, tc.inputData)
+		switch {
+		case tc.expectedError != nil:
+			assert.Equal(t, tc.expectedError.Error(), err.Error(), tc.name)
+		default:
+			assert.NoError(t, err, tc.name)
+		}
+	}
 }
