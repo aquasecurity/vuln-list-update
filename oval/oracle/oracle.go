@@ -16,6 +16,10 @@ import (
 	pb "gopkg.in/cheggaaa/pb.v1"
 )
 
+var (
+	ErrInvalidELSAID = xerrors.New("invalid ELSA ID")
+)
+
 const (
 	ovalDir   = "oval"
 	oracleDir = "oracle"
@@ -57,10 +61,18 @@ func (c Config) Update() error {
 	dir := filepath.Join(ovalDir, oracleDir)
 	bar := pb.StartNew(len(ov.Definitions))
 	for _, def := range ov.Definitions {
+		def.Title = strings.TrimSpace(def.Title)
+		def.Description = strings.TrimSpace(def.Description)
+
 		//def.Title example: "\nELSA-2019-4827:  docker-engine docker-cli security update (IMPORTANT)"
-		elsaID := strings.TrimLeft(strings.Split(def.Title, ":")[0], "\n")
+		elsaID := strings.TrimSpace(strings.Split(def.Title, ":")[0])
 		if err = c.saveELSAPerYear(dir, elsaID, def); err != nil {
-			return err
+			if err == ErrInvalidELSAID {
+				log.Printf("Invalid ELSA ID: %s\n", elsaID)
+				continue
+			}
+
+			return xerrors.Errorf("failed to save ELSAPerYear: %w", err)
 		}
 		bar.Increment()
 	}
@@ -71,9 +83,13 @@ func (c Config) Update() error {
 
 func (c Config) saveELSAPerYear(dirName string, elsaID string, data interface{}) error {
 	s := strings.Split(elsaID, "-")
+	if len(s) != 3 {
+		return ErrInvalidELSAID
+	}
+
 	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
 	if err := os.MkdirAll(yearDir, os.ModePerm); err != nil {
-		return err
+		return xerrors.Errorf("failed to create directory: %w", err)
 	}
 
 	filePath := filepath.Join(yearDir, fmt.Sprintf("%s.json", elsaID))

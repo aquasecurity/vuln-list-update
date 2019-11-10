@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2019-4821:  sudo security update (IMPORTANT)\n",
-  "Description": "\n[1.8.23-4.0.1]\n- Treat an ID of -1 as invalid since that means 'no change' [Orabug: 30421281] {CVE-2019-14287}\n- Add sudo_strtoid() tests for -1 and range errors. [Orabug: 30421281]\n",
+  "Title": "ELSA-2019-4821:  sudo security update (IMPORTANT)",
+  "Description": "[1.8.23-4.0.1]\n- Treat an ID of -1 as invalid since that means 'no change' [Orabug: 30421281] {CVE-2019-14287}\n- Add sudo_strtoid() tests for -1 and range errors. [Orabug: 30421281]",
   "Platform": [
     "Oracle Linux 7"
   ],
@@ -57,7 +57,7 @@
     ]
   },
   "Severity": "IMPORTANT",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2019-14287.html",

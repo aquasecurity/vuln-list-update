@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2017-3516: Unbreakable Enterprise kernel security update (IMPORTANT)\n",
-  "Description": "\n[2.6.39-400.294.2]\n- vfs: read file_handle only once in handle_to_path (Sasha Levin)  [Orabug: 25388709]  {CVE-2015-1420}\n- crypto: algif_hash - Only export and import on sockets with data (Herbert Xu)  [Orabug: 25417807]\n- USB: usbfs: fix potential infoleak in devio (Kangjie Lu)  [Orabug: 25462763]  {CVE-2016-4482}\n- net: fix infoleak in llc (Kangjie Lu)  [Orabug: 25462811]  {CVE-2016-4485}\n- af_unix: Guard against other == sk in unix_dgram_sendmsg (Rainer Weikusat)  [Orabug: 25464000]  {CVE-2013-7446}\n- unix: avoid use-after-free in ep_remove_wait_queue (Rainer Weikusat)  [Orabug: 25464000]  {CVE-2013-7446}\n",
+  "Title": "ELSA-2017-3516: Unbreakable Enterprise kernel security update (IMPORTANT)",
+  "Description": "[2.6.39-400.294.2]\n- vfs: read file_handle only once in handle_to_path (Sasha Levin)  [Orabug: 25388709]  {CVE-2015-1420}\n- crypto: algif_hash - Only export and import on sockets with data (Herbert Xu)  [Orabug: 25417807]\n- USB: usbfs: fix potential infoleak in devio (Kangjie Lu)  [Orabug: 25462763]  {CVE-2016-4482}\n- net: fix infoleak in llc (Kangjie Lu)  [Orabug: 25462811]  {CVE-2016-4485}\n- af_unix: Guard against other == sk in unix_dgram_sendmsg (Rainer Weikusat)  [Orabug: 25464000]  {CVE-2013-7446}\n- unix: avoid use-after-free in ep_remove_wait_queue (Rainer Weikusat)  [Orabug: 25464000]  {CVE-2013-7446}",
   "Platform": [
     "Oracle Linux 5",
     "Oracle Linux 6"
@@ -220,7 +220,7 @@
     "Criterions": null
   },
   "Severity": "IMPORTANT",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2016-4485.html",

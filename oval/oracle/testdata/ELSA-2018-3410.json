@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2018-3410:  xorg-x11-server security update (IMPORTANT)\n",
-  "Description": "\n[1.20.1-5.1]\n- CVE-2018-14665: Disable -logfile and -modulepath when running with elevated\n  privileges\n\n[1.20.1-5]\n- Call LeaveVT from xf86CrtcCloseScreen\n\n[1.20.1-4]\n- Hide the modesetting driver's atomic ioctl support behind Option 'Atomic'\n",
+  "Title": "ELSA-2018-3410:  xorg-x11-server security update (IMPORTANT)",
+  "Description": "[1.20.1-5.1]\n- CVE-2018-14665: Disable -logfile and -modulepath when running with elevated\n  privileges\n\n[1.20.1-5]\n- Call LeaveVT from xf86CrtcCloseScreen\n\n[1.20.1-4]\n- Hide the modesetting driver's atomic ioctl support behind Option 'Atomic'",
   "Platform": [
     "Oracle Linux 7"
   ],
@@ -141,7 +141,7 @@
     ]
   },
   "Severity": "IMPORTANT",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2018-14665.html",

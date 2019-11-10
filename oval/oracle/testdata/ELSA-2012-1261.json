@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2012-1261:  dbus security update (MODERATE)\n",
-  "Description": "\n[1:1.2.24-7.0.1.el6_3 ]\n- fix netlink poll: error 4 (Zhenzhong Duan)\n\n[1:1.2.24-7]\n- Resolves: #854821\n\n[1:1.2.24-6]\n- Apply patches for CVE-2011-2200\n- Resolves: #725314\n",
+  "Title": "ELSA-2012-1261:  dbus security update (MODERATE)",
+  "Description": "[1:1.2.24-7.0.1.el6_3 ]\n- fix netlink poll: error 4 (Zhenzhong Duan)\n\n[1:1.2.24-7]\n- Resolves: #854821\n\n[1:1.2.24-6]\n- Apply patches for CVE-2011-2200\n- Resolves: #725314",
   "Platform": [
     "Oracle Linux 6"
   ],
@@ -93,7 +93,7 @@
     ]
   },
   "Severity": "MODERATE",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2012-3524.html",

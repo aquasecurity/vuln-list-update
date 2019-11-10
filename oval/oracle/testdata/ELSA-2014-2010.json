@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2014-2010:  kernel security update (IMPORTANT)\n",
-  "Description": "\n[3.10.0-123.13.2]\n- Oracle Linux certificates (Alexey Petrenko)\n\n[3.10.0-123.13.2]\n- [x86] traps: stop using IST for #SS (Petr  Matousek) [1172812 1172813] {CVE-2014-9322}\n",
+  "Title": "ELSA-2014-2010:  kernel security update (IMPORTANT)",
+  "Description": "[3.10.0-123.13.2]\n- Oracle Linux certificates (Alexey Petrenko)\n\n[3.10.0-123.13.2]\n- [x86] traps: stop using IST for #SS (Petr  Matousek) [1172812 1172813] {CVE-2014-9322}",
   "Platform": [
     "Oracle Linux 7"
   ],
@@ -177,7 +177,7 @@
     ]
   },
   "Severity": "IMPORTANT",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2014-9322.html",

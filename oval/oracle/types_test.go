@@ -3,11 +3,12 @@ package oracle_test
 import (
 	"encoding/xml"
 	"io/ioutil"
-	"reflect"
 	"testing"
 
 	"github.com/aquasecurity/vuln-list-update/oval/oracle"
 	"github.com/kylelemons/godebug/pretty"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {
@@ -154,7 +155,7 @@ func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {
 							},
 						},
 						Severity: "MODERATE",
-						CVEs: []oracle.Cve{
+						Cves: []oracle.Cve{
 							oracle.Cve{
 								Impact: "",
 								Href:   "http://linux.oracle.com/cve/CVE-2007-0493.html",
@@ -175,15 +176,15 @@ func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {
 		t.Run(testname, func(t *testing.T) {
 			xmlByte, err := ioutil.ReadFile(tt.in)
 			if err != nil {
-				t.Fatalf("unknown error: %s", err)
+				require.NoError(t, err)
 			}
 
 			got := &oracle.Oval{}
 			err = xml.Unmarshal(xmlByte, got)
 			if err != nil {
-				t.Fatalf("unknown error: %s", err)
+				require.NoError(t, err)
 			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if !assert.Equal(t, got, tt.want) {
 				t.Errorf("[%s]\n diff: %s", testname, pretty.Compare(got, tt.want))
 			}
 		})

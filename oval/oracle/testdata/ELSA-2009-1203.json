@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2009-1203:  subversion security update (IMPORTANT)\n",
-  "Description": "\n\n[1.4.2-4.0.1.el5_3.1]\n- Add oracle-enterprise.patch\n\n[1.4.2-4.el5_3.1]\n- add security fix for CVE-2009-2411 (#515817)\n",
+  "Title": "ELSA-2009-1203:  subversion security update (IMPORTANT)",
+  "Description": "[1.4.2-4.0.1.el5_3.1]\n- Add oracle-enterprise.patch\n\n[1.4.2-4.el5_3.1]\n- add security fix for CVE-2009-2411 (#515817)",
   "Platform": [
     "Oracle Linux 5"
   ],
@@ -105,7 +105,7 @@
     ]
   },
   "Severity": "IMPORTANT",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2009-2411.html",

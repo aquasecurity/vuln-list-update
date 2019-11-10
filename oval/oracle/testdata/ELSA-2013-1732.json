@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2013-1732:  busybox security and bug fix update (LOW)\n",
-  "Description": "\n[1:1.15.1-20]\n- Resolves: #855832\n  'Installation from NFS: That directory could not be mounted from the server'\n  by switching NFS mount default from UDP to TCP.\n  There was another place (in uclibc this time) which used UDP.\n\n[1:1.15.1-19]\n- Resolves: #1015010\n  'busybox: insecure directory permissions in /dev'\n\n[1:1.15.1-18]\n- Resolves: #855832\n  'Installation from NFS: That directory could not be mounted from the server'\n  by switching NFS mount default from UDP to TCP.\n\n[1:1.15.1-17]\n- Resolves: #820097\n- 's390x: wc: : No such file or directory'\n",
+  "Title": "ELSA-2013-1732:  busybox security and bug fix update (LOW)",
+  "Description": "[1:1.15.1-20]\n- Resolves: #855832\n  'Installation from NFS: That directory could not be mounted from the server'\n  by switching NFS mount default from UDP to TCP.\n  There was another place (in uclibc this time) which used UDP.\n\n[1:1.15.1-19]\n- Resolves: #1015010\n  'busybox: insecure directory permissions in /dev'\n\n[1:1.15.1-18]\n- Resolves: #855832\n  'Installation from NFS: That directory could not be mounted from the server'\n  by switching NFS mount default from UDP to TCP.\n\n[1:1.15.1-17]\n- Resolves: #820097\n- 's390x: wc: : No such file or directory'",
   "Platform": [
     "Oracle Linux 6"
   ],
@@ -57,7 +57,7 @@
     ]
   },
   "Severity": "LOW",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2013-1813.html",

@@ -11,7 +11,7 @@ type Definition struct {
 	References  []Reference `xml:"metadata>reference"`
 	Criteria    Criteria    `xml:"criteria"`
 	Severity    string      `xml:"metadata>advisory>severity"`
-	CVEs        []Cve       `xml:"metadata>advisory>cve"`
+	Cves        []Cve       `xml:"metadata>advisory>cve"`
 }
 
 type Reference struct {

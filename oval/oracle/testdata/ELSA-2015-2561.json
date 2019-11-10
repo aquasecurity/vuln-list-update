@@ -1,6 +1,6 @@
 {
-  "Title": "\nELSA-2015-2561:  git security update (MODERATE)\n",
-  "Description": "\n[1.8.3.1-6]\n- fix arbitrary code execution via crafted URLs\n  Resolves: #1274737\n",
+  "Title": "ELSA-2015-2561:  git security update (MODERATE)",
+  "Description": "[1.8.3.1-6]\n- fix arbitrary code execution via crafted URLs\n  Resolves: #1274737",
   "Platform": [
     "Oracle Linux 7"
   ],
@@ -225,7 +225,7 @@
     ]
   },
   "Severity": "MODERATE",
-  "CVEs": [
+  "Cves": [
     {
       "Impact": "",
       "Href": "http://linux.oracle.com/cve/CVE-2015-7545.html",
