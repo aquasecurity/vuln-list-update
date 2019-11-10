@@ -47,9 +47,8 @@ func (c Config) Update() error {
 		return xerrors.Errorf("failed to fetch Oracle Linux OVAL: %w", err)
 	}
 
-	ovalReader := bzip2.NewReader(bytes.NewReader(res))
-
 	var ov Oval
+	ovalReader := bzip2.NewReader(bytes.NewReader(res))
 	err = xml.NewDecoder(ovalReader).Decode(&ov)
 	if err != nil {
 		return xerrors.Errorf("failed to decode Oracle Linux OVAL XML: %w", err)
