@@ -107,7 +107,7 @@ func (c Config) saveRHSAPerYear(dirName string, rhsaID string, data interface{})
 	}
 
 	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
-	if err := os.MkdirAll(yearDir, os.ModePerm); err != nil {
+	if err := c.AppFs.MkdirAll(yearDir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create a year dir: %w", err)
 	}
 
