@@ -83,12 +83,12 @@ func (c Config) Update() error {
 
 func (c Config) saveELSAPerYear(dirName string, elsaID string, data interface{}) error {
 	s := strings.Split(elsaID, "-")
-	if len(s) != 3 {
+	if len(s) < 3 {
 		return ErrInvalidELSAID
 	}
 
 	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
-	if err := os.MkdirAll(yearDir, os.ModePerm); err != nil {
+	if err := c.AppFs.MkdirAll(yearDir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create directory: %w", err)
 	}
 
