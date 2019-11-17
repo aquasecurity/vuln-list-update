@@ -17,6 +17,7 @@ stages:
   - 'Debian OVAL'
   - 'Ubuntu CVE Tracker'
   - 'Amazon Linux AMI Security Advisory'
+  - 'Oracle Linux OVAL'
   - 'Red Hat OVAL'
   - 'Red Hat Security Data API 2019-2020'
   - 'Red Hat Security Data API 2018'
@@ -46,12 +47,12 @@ jobs:
       if: type = cron
       script:
         - go run main.go -target debian
-    
+
     - stage: 'Debian OVAL'
       if: type = cron
       script:
         - go run main.go -target debian-oval
-    
+
     - stage: 'Ubuntu CVE Tracker'
       if: type = cron
       script:
@@ -62,11 +63,16 @@ jobs:
       script:
         - go run main.go -target amazon
 
+    - stage: 'Oracle Linux OVAL'
+      if: type = cron
+      script:
+        - go run main.go -target oracle-oval
+
     - stage: 'Red Hat OVAL'
       if: type = cron
       script:
         - go run main.go -target redhat-oval
-    
+
     # split RedHat job due to timeout
     - stage: 'Red Hat Security Data API 1996-2002'
       if: type = cron
