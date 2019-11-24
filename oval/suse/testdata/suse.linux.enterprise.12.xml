@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<oval_definitions
+		xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+		xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+		xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+	  <generator>
+	      <oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>
+	      <oval:schema_version>5.5</oval:schema_version>
+	      <oval:timestamp>2019-11-30T04:31:08</oval:timestamp>
+	  </generator>
+<definitions>
+<definition id="oval:org.opensuse.security:def:20170358" version="1" class="vulnerability">
+ <metadata>
+ <title>CVE-2017-0358</title>
+    <affected family="unix">
+            <platform>SUSE Linux Enterprise Desktop 12 SP3</platform>
+            <platform>SUSE Linux Enterprise Desktop 12 SP4</platform>
+            <platform>SUSE Linux Enterprise Software Development Kit 12 SP3</platform>
+            <platform>SUSE Linux Enterprise Software Development Kit 12 SP4</platform>
+            <platform>SUSE Linux Enterprise Workstation Extension 12 SP3</platform>
+            <platform>SUSE Linux Enterprise Workstation Extension 12 SP4</platform>
+    </affected>
+    <reference ref_id="CVE-2017-0358" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0358" source="CVE"/>
+    <description>
+    Jann Horn of Google Project Zero discovered that NTFS-3G, a read-write NTFS driver for FUSE, does not scrub the environment before executing modprobe with elevated privileges. A local user can take advantage of this flaw for local root privilege escalation.
+    </description>
+<advisory from="security@suse.de">
+<severity>Moderate</severity>
+<cve href="https://www.suse.com/security/cve/CVE-2017-0358.html">CVE-2017-0358</cve>
+<bugzilla href="https://bugzilla.suse.com/1022500">SUSE bug 1022500</bugzilla>
+<bugzilla href="https://bugzilla.suse.com/1022999">SUSE bug 1022999</bugzilla>
+<bugzilla href="https://bugzilla.suse.com/1086936">SUSE bug 1086936</bugzilla>
+</advisory>
+ </metadata>
+	<criteria operator="OR">
+		<criteria operator="AND">
+			<criteria operator="OR">
+				<criterion test_ref="oval:org.opensuse.security:tst:2009159517" comment="SUSE Linux Enterprise Desktop 12 SP3 is installed"/>
+				<criterion test_ref="oval:org.opensuse.security:tst:2009239879" comment="SUSE Linux Enterprise Desktop 12 SP4 is installed"/>
+				<criterion test_ref="oval:org.opensuse.security:tst:2009159844" comment="SUSE Linux Enterprise Workstation Extension 12 SP3 is installed"/>
+				<criterion test_ref="oval:org.opensuse.security:tst:2009240553" comment="SUSE Linux Enterprise Workstation Extension 12 SP4 is installed"/>
+			</criteria>
+		<criteria operator="OR">
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238487" comment="libntfs-3g84-2013.1.13-5.3 is installed"/>
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238488" comment="ntfs-3g-2013.1.13-5.3 is installed"/>
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238489" comment="ntfs-3g_ntfsprogs-2013.1.13-5.3 is installed"/>
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238490" comment="ntfsprogs-2013.1.13-5.3 is installed"/>
+		</criteria>
+		</criteria>
+		<criteria operator="AND">
+			<criteria operator="OR">
+				<criterion test_ref="oval:org.opensuse.security:tst:2009159484" comment="SUSE Linux Enterprise Software Development Kit 12 SP3 is installed"/>
+				<criterion test_ref="oval:org.opensuse.security:tst:2009240408" comment="SUSE Linux Enterprise Software Development Kit 12 SP4 is installed"/>
+			</criteria>
+		<criteria operator="OR">
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238522" comment="libntfs-3g-devel-2013.1.13-5.3 is installed"/>
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238487" comment="libntfs-3g84-2013.1.13-5.3 is installed"/>
+			<criterion test_ref="oval:org.opensuse.security:tst:2009238489" comment="ntfs-3g_ntfsprogs-2013.1.13-5.3 is installed"/>
+		</criteria>
+		</criteria>
+	</criteria>
+</definition>
+</definitions>
+</oval_definitions>

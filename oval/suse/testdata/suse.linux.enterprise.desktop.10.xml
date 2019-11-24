@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oval_definitions
+  xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+  xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+  xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+<generator>
+  <oval:product_name>Marcus OVAL Generator</oval:product_name>
+  <oval:schema_version>5.5</oval:schema_version>
+  <oval:timestamp>2015-03-10T05:01:19</oval:timestamp>
+</generator>
+<definitions>
+  <definition id="oval:org.opensuse.security:def:20022443" version="1" class="vulnerability">
+    <metadata>
+      <title>CVE-2002-2443</title>
+      <affected family="unix">
+	<platform>SUSE Linux Enterprise Desktop 10 SP4 for AMD64 and Intel EM64T</platform>
+	<platform>SUSE Linux Enterprise Desktop 10 SP4 for x86</platform>
+      </affected>
+      <reference ref_id="CVE-2002-2443" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2002-2443" source="CVE"/>
+      <description>
+	  schpw.c in the kpasswd service in kadmind in MIT Kerberos 5 (aka krb5) before 1.11.3 does not properly validate UDP packets before sending responses, which allows remote attackers to cause a denial of service (CPU and bandwidth consumption) via a forged packet that triggers a communication loop, as demonstrated by krb_pingpong.nasl, a related issue to CVE-1999-0103.
+      </description>
+    </metadata>
+    <!-- c39bdbe610296d79e3993188cd5996f5 -->
+    <criteria operator="AND">
+      <criterion test_ref="oval:org.opensuse.security:tst:2009036678" comment="sled10-sp4 is installed"/>
+      <criteria operator="OR">
+	<criterion test_ref="oval:org.opensuse.security:tst:2009077611" comment="krb5-32bit less than 1.4.3-19.49.53.1"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009077612" comment="krb5-client less than 1.4.3-19.49.53.1"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009077613" comment="krb5-devel-32bit less than 1.4.3-19.49.53.1"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009077614" comment="krb5-devel less than 1.4.3-19.49.53.1"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009077615" comment="krb5 less than 1.4.3-19.49.53.1"/>
+      </criteria>
+    </criteria>
+  </definition>
+  <definition id="oval:org.opensuse.security:def:20040687" version="1" class="vulnerability">
+    <metadata>
+      <title>CVE-2004-0687</title>
+      <affected family="unix">
+	<platform>SUSE Linux Enterprise Desktop 10 SP1 for AMD64 and Intel EM64T</platform>
+	<platform>SUSE Linux Enterprise Desktop 10 SP1 for x86</platform>
+      </affected>
+      <reference ref_id="CVE-2004-0687" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2004-0687" source="CVE"/>
+      <description>
+	  Multiple stack-based buffer overflows in (1) xpmParseColors in parse.c, (2) ParseAndPutPixels in create.c, and (3) ParsePixels in parse.c for libXpm before 6.8.1 allow remote attackers to execute arbitrary code via a malformed XPM image file.
+      </description>
+    </metadata>
+    <!-- 7eda55a9d7bcfbc970fb40b2a369d418 -->
+    <criteria operator="AND">
+      <criterion test_ref="oval:org.opensuse.security:tst:2009036678" comment="sled10-sp1-online is installed"/>
+      <criteria operator="OR">
+	<criterion test_ref="oval:org.opensuse.security:tst:2009037717" comment="xorg-x11-devel-32bit less than 6.9.0-50.45"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009037718" comment="xorg-x11-devel less than 6.9.0-50.45"/>
+      </criteria>
+    </criteria>
+  </definition>
+</definitions>
+</oval_definitions>

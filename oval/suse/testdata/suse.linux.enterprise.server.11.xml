@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oval_definitions
+  xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+  xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+  xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+<generator>
+  <oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>
+  <oval:schema_version>5.5</oval:schema_version>
+  <oval:timestamp>2019-11-30T04:41:27</oval:timestamp>
+</generator>
+<definitions>
+  <definition id="oval:org.opensuse.security:def:20135889" version="1" class="vulnerability">
+    <metadata>
+      <title>CVE-2013-5889</title>
+      <affected family="unix">
+	<platform>SUSE Linux Enterprise Server 11 SP1-LTSS</platform>
+	<platform>SUSE Linux Enterprise Server 11 SP1-TERADATA</platform>
+	<platform>SUSE Linux Enterprise Server 11 SP2-LTSS</platform>
+	<platform>SUSE Linux Enterprise Server 11 SP3</platform>
+	<platform>SUSE Linux Enterprise Server 11 SP3-TERADATA</platform>
+	<platform>SUSE Linux Enterprise Server for SAP Applications 11 SP1-LTSS</platform>
+	<platform>SUSE Linux Enterprise Server for SAP Applications 11 SP1-TERADATA</platform>
+	<platform>SUSE Linux Enterprise Server for SAP Applications 11 SP2-LTSS</platform>
+	<platform>SUSE Linux Enterprise Server for SAP Applications 11 SP3</platform>
+	<platform>SUSE Linux Enterprise Server for SAP Applications 11 SP3-TERADATA</platform>
+	<platform>SUSE Linux Enterprise Server for VMWare 11 SP3</platform>
+      </affected>
+      <reference ref_id="CVE-2013-5889" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5889" source="CVE"/>
+      <description>
+	  Unspecified vulnerability in Oracle Java SE 6u65 and 7u45 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment, a different vulnerability than CVE-2013-5902, CVE-2014-0410, CVE-2014-0415, CVE-2014-0418, and CVE-2014-0424.
+      </description>
+      <advisory from="security@suse.de">
+	<severity>Important</severity>
+	<cve href="https://www.suse.com/security/cve/CVE-2013-5889.html">CVE-2013-5889</cve>
+	<bugzilla href="https://bugzilla.suse.com/862064">SUSE bug 862064</bugzilla>
+      </advisory>
+    </metadata>
+    <criteria operator="OR">
+      <criteria operator="AND">
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009077550" comment="SUSE Linux Enterprise Server 11 SP3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009258810" comment="SUSE Linux Enterprise Server for SAP Applications 11 SP3 is installed"/>
+	</criteria>
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214748" comment="java-1_6_0-ibm-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009208543" comment="java-1_6_0-ibm-alsa-1.6.0_sr16.2-0.3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214749" comment="java-1_6_0-ibm-fonts-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214750" comment="java-1_6_0-ibm-jdbc-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009208545" comment="java-1_6_0-ibm-plugin-1.6.0_sr16.2-0.3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214753" comment="java-1_7_0-ibm-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009208553" comment="java-1_7_0-ibm-alsa-1.7.0_sr8.0-0.5 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214756" comment="java-1_7_0-ibm-jdbc-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009208555" comment="java-1_7_0-ibm-plugin-1.7.0_sr8.0-0.5 is installed"/>
+	</criteria>
+      </criteria>
+      <criteria operator="AND">
+	<criterion test_ref="oval:org.opensuse.security:tst:2009077550" comment="SUSE Linux Enterprise Server for VMWare 11 SP3 is installed"/>
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214748" comment="java-1_6_0-ibm-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009208543" comment="java-1_6_0-ibm-alsa-1.6.0_sr16.2-0.3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214749" comment="java-1_6_0-ibm-fonts-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214750" comment="java-1_6_0-ibm-jdbc-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214751" comment="java-1_6_0-ibm-plugin-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214753" comment="java-1_7_0-ibm-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214754" comment="java-1_7_0-ibm-alsa-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214756" comment="java-1_7_0-ibm-jdbc-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214757" comment="java-1_7_0-ibm-plugin-1.7.0_sr6.1-0.8 is installed"/>
+	</criteria>
+      </criteria>
+      <criteria operator="AND">
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009060800" comment="SUSE Linux Enterprise Server 11 SP1-LTSS is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009258808" comment="SUSE Linux Enterprise Server for SAP Applications 11 SP1-LTSS is installed"/>
+	</criteria>
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214748" comment="java-1_6_0-ibm-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009212780" comment="java-1_6_0-ibm-alsa-1.6.0_sr16.0-0.3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214749" comment="java-1_6_0-ibm-fonts-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214750" comment="java-1_6_0-ibm-jdbc-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214842" comment="java-1_6_0-ibm-plugin-1.6.0_sr16.0-0.3 is installed"/>
+	</criteria>
+      </criteria>
+      <criteria operator="AND">
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009073673" comment="SUSE Linux Enterprise Server 11 SP2-LTSS is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009258809" comment="SUSE Linux Enterprise Server for SAP Applications 11 SP2-LTSS is installed"/>
+	</criteria>
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214748" comment="java-1_6_0-ibm-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009212780" comment="java-1_6_0-ibm-alsa-1.6.0_sr16.0-0.3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214752" comment="java-1_6_0-ibm-devel-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214749" comment="java-1_6_0-ibm-fonts-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214750" comment="java-1_6_0-ibm-jdbc-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214842" comment="java-1_6_0-ibm-plugin-1.6.0_sr16.0-0.3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214753" comment="java-1_7_0-ibm-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214844" comment="java-1_7_0-ibm-alsa-1.7.0_sr7.0-0.5 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214755" comment="java-1_7_0-ibm-devel-1.7.0_sr9.0-0.7 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214756" comment="java-1_7_0-ibm-jdbc-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214846" comment="java-1_7_0-ibm-plugin-1.7.0_sr7.0-0.5 is installed"/>
+	</criteria>
+      </criteria>
+      <criteria operator="AND">
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009077550" comment="SUSE Linux Enterprise Server 11 SP3-TERADATA is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009258810" comment="SUSE Linux Enterprise Server for SAP Applications 11 SP3-TERADATA is installed"/>
+	</criteria>
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214748" comment="java-1_6_0-ibm-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214749" comment="java-1_6_0-ibm-fonts-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214750" comment="java-1_6_0-ibm-jdbc-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214751" comment="java-1_6_0-ibm-plugin-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214753" comment="java-1_7_0-ibm-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214754" comment="java-1_7_0-ibm-alsa-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214756" comment="java-1_7_0-ibm-jdbc-1.7.0_sr6.1-0.8 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214757" comment="java-1_7_0-ibm-plugin-1.7.0_sr6.1-0.8 is installed"/>
+	</criteria>
+      </criteria>
+      <criteria operator="AND">
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009060800" comment="SUSE Linux Enterprise Server 11 SP1-TERADATA is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009258808" comment="SUSE Linux Enterprise Server for SAP Applications 11 SP1-TERADATA is installed"/>
+	</criteria>
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214748" comment="java-1_6_0-ibm-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214749" comment="java-1_6_0-ibm-fonts-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214750" comment="java-1_6_0-ibm-jdbc-1.6.0_sr15.1-0.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009214751" comment="java-1_6_0-ibm-plugin-1.6.0_sr15.1-0.6 is installed"/>
+	</criteria>
+      </criteria>
+    </criteria>
+  </definition>
+</definitions>
+</oval_definitions>

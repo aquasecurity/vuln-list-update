@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oval_definitions
+  xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+  xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+  xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+<generator>
+  <oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>
+  <oval:schema_version>5.5</oval:schema_version>
+  <oval:timestamp>2019-11-26T04:48:43</oval:timestamp>
+</generator>
+<definitions>
+  <definition id="oval:org.opensuse.security:def:20180734" version="1" class="vulnerability">
+    <metadata>
+      <title>CVE-2018-0734</title>
+      <affected family="unix">
+	<platform>openSUSE Leap 15.1</platform>
+      </affected>
+      <reference ref_id="CVE-2018-0734" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-0734" source="CVE"/>
+      <description>
+	  The OpenSSL DSA signature algorithm has been shown to be vulnerable to a timing side channel attack. An attacker could use variations in the signing algorithm to recover the private key. Fixed in OpenSSL 1.1.1a (Affected 1.1.1). Fixed in OpenSSL 1.1.0j (Affected 1.1.0-1.1.0i). Fixed in OpenSSL 1.0.2q (Affected 1.0.2-1.0.2p).
+      </description>
+      <advisory from="security@suse.de">
+	<severity>Moderate</severity>
+	<cve href="https://www.suse.com/security/cve/CVE-2018-0734.html">CVE-2018-0734</cve>
+	<bugzilla href="https://bugzilla.suse.com/1113534">SUSE bug 1113534</bugzilla>
+	<bugzilla href="https://bugzilla.suse.com/1113652">SUSE bug 1113652</bugzilla>
+	<bugzilla href="https://bugzilla.suse.com/1113742">SUSE bug 1113742</bugzilla>
+	<bugzilla href="https://bugzilla.suse.com/1122198">SUSE bug 1122198</bugzilla>
+	<bugzilla href="https://bugzilla.suse.com/1122212">SUSE bug 1122212</bugzilla>
+	<bugzilla href="https://bugzilla.suse.com/1126909">SUSE bug 1126909</bugzilla>
+      </advisory>
+    </metadata>
+    <criteria operator="AND">
+      <criterion test_ref="oval:org.opensuse.security:tst:2009265831" comment="openSUSE Leap 15.1 is installed"/>
+      <criteria operator="OR">
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260906" comment="python3-virtualbox-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009231803" comment="python3-virtualbox is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260907" comment="virtualbox-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009152062" comment="virtualbox is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260908" comment="virtualbox-devel-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009153267" comment="virtualbox-devel is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260909" comment="virtualbox-guest-desktop-icons-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009153268" comment="virtualbox-guest-desktop-icons is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260910" comment="virtualbox-guest-kmp-default-6.0.10_k4.12.14_lp151.28.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009152063" comment="virtualbox-guest-kmp-default is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260911" comment="virtualbox-guest-source-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009166864" comment="virtualbox-guest-source is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260912" comment="virtualbox-guest-tools-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009152064" comment="virtualbox-guest-tools is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260913" comment="virtualbox-guest-x11-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009152065" comment="virtualbox-guest-x11 is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260914" comment="virtualbox-host-kmp-default-6.0.10_k4.12.14_lp151.28.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009152066" comment="virtualbox-host-kmp-default is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260915" comment="virtualbox-host-source-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009153269" comment="virtualbox-host-source is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260916" comment="virtualbox-qt-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009152067" comment="virtualbox-qt is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260917" comment="virtualbox-vnc-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009166871" comment="virtualbox-vnc is signed with openSUSE key"/>
+	</criteria>
+	<criteria operator="AND">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009260918" comment="virtualbox-websrv-6.0.10-lp151.2.6 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009153270" comment="virtualbox-websrv is signed with openSUSE key"/>
+	</criteria>
+      </criteria>
+    </criteria>
+  </definition>
+</definitions>
+</oval_definitions>

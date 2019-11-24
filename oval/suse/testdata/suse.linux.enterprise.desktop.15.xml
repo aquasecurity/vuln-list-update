@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<oval_definitions
+		xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+		xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+		xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+	  <generator>
+	      <oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>
+	      <oval:schema_version>5.5</oval:schema_version>
+	      <oval:timestamp>2019-11-30T04:46:25</oval:timestamp>
+	  </generator>
+<definitions>
+</definitions>
+</oval_definitions>

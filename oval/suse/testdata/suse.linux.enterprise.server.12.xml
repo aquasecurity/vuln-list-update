@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oval_definitions
+  xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+  xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+  xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+<generator>
+  <oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>
+  <oval:schema_version>5.5</oval:schema_version>
+  <oval:timestamp>2019-11-30T04:42:33</oval:timestamp>
+</generator>
+<definitions>
+  <definition id="oval:org.opensuse.security:def:20140016" version="1" class="vulnerability">
+    <metadata>
+      <title>CVE-2014-0016</title>
+      <affected family="unix">
+	<platform>SUSE Linux Enterprise Server 12</platform>
+	<platform>SUSE Linux Enterprise Server 12 SP1</platform>
+	<platform>SUSE Linux Enterprise Server 12 SP2</platform>
+	<platform>SUSE Linux Enterprise Server 12 SP3</platform>
+	<platform>SUSE Linux Enterprise Server 12 SP4</platform>
+	<platform>SUSE Linux Enterprise Server for Raspberry Pi 12 SP2</platform>
+      </affected>
+      <reference ref_id="CVE-2014-0016" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0016" source="CVE"/>
+      <description>
+	  stunnel before 5.00, when using fork threading, does not properly update the state of the OpenSSL pseudo-random number generator (PRNG), which causes subsequent children with the same process ID to use the same entropy pool and allows remote attackers to obtain private keys for EC (ECDSA) or DSA certificates.
+      </description>
+      <advisory from="security@suse.de">
+	<severity>Moderate</severity>
+	<cve href="https://www.suse.com/security/cve/CVE-2014-0016.html">CVE-2014-0016</cve>
+	<bugzilla href="https://bugzilla.suse.com/866278">SUSE bug 866278</bugzilla>
+	<bugzilla href="https://bugzilla.suse.com/866286">SUSE bug 866286</bugzilla>
+      </advisory>
+    </metadata>
+    <criteria operator="OR">
+      <criteria operator="AND">
+	<criterion test_ref="oval:org.opensuse.security:tst:2009116126" comment="SUSE Linux Enterprise Server 12 is installed"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009181349" comment="stunnel-5.00-1 is installed"/>
+      </criteria>
+      <criteria operator="AND">
+	<criteria operator="OR">
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009118803" comment="SUSE Linux Enterprise Server 12 SP1 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009128018" comment="SUSE Linux Enterprise Server 12 SP2 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009158922" comment="SUSE Linux Enterprise Server 12 SP3 is installed"/>
+	  <criterion test_ref="oval:org.opensuse.security:tst:2009128018" comment="SUSE Linux Enterprise Server for Raspberry Pi 12 SP2 is installed"/>
+	</criteria>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009181486" comment="stunnel-5.00-3 is installed"/>
+      </criteria>
+      <criteria operator="AND">
+	<criterion test_ref="oval:org.opensuse.security:tst:2009240280" comment="SUSE Linux Enterprise Server 12 SP4 is installed"/>
+	<criterion test_ref="oval:org.opensuse.security:tst:2009240389" comment="stunnel-5.00-4.3 is installed"/>
+      </criteria>
+    </criteria>
+  </definition>
+</definitions>
+</oval_definitions>
