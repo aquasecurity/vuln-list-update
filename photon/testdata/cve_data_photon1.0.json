@@ -1,0 +1,37 @@
+[
+  {
+    "cve_id": "CVE-2016-9843",
+    "pkg": "zlib",
+    "cve_score": 7.5,
+    "aff_ver": "all versions before 1.2.8-5.ph1 are vulnerable",
+    "res_ver": "1.2.8-5.ph1"
+  },
+  {
+    "cve_id": "CVE-2017-5637",
+    "pkg": "zookeeper",
+    "cve_score": 7.5,
+    "aff_ver": "all versions before 3.4.10-2.ph1 are vulnerable",
+    "res_ver": "3.4.10-2.ph1"
+  },
+  {
+    "cve_id": "CVE-2017-12617",
+    "pkg": "apache-tomcat",
+    "cve_score": 8.1,
+    "aff_ver": "all versions before 8.5.23-1.ph1 are vulnerable",
+    "res_ver": "8.5.23-1.ph1"
+  },
+  {
+    "cve_id": "CVE-2018-10372",
+    "pkg": "binutils",
+    "cve_score": 5.5,
+    "aff_ver": "all versions before 2.30-5.ph1 are vulnerable",
+    "res_ver": "2.30-5.ph1"
+  },
+  {
+    "cve_id": "CVE-2019-12972",
+    "pkg": "binutils",
+    "cve_score": 5.5,
+    "aff_ver": "all versions before 2.31-9.ph1 are vulnerable",
+    "res_ver": "2.31-9.ph1"
+  }
+]

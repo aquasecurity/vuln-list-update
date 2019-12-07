@@ -20,6 +20,7 @@ import (
 	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oval/oracle"
 	redhatoval "github.com/aquasecurity/vuln-list-update/oval/redhat"
+	"github.com/aquasecurity/vuln-list-update/photon"
 	"github.com/aquasecurity/vuln-list-update/redhat"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -34,7 +35,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -139,6 +140,12 @@ func run() error {
 			return xerrors.Errorf("error in SUSE CVRF update: %w", err)
 		}
 		commitMsg = "SUSE CVRF"
+	case "photon":
+		op := photon.NewConfig()
+		if err := op.Update(); err != nil {
+			return xerrors.Errorf("error in Photon update: %w", err)
+		}
+		commitMsg = "Photon Security Advisories"
 	default:
 		return xerrors.New("unknown target")
 	}
