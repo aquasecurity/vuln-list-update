@@ -1,0 +1,61 @@
+package suse
+
+type Cvrf struct {
+	Title           string           `xml:"DocumentTitle"`
+	Tracking        DocumentTracking `xml:"DocumentTracking"`
+	Notes           []DocumentNote   `xml:"DocumentNotes>Note"`
+	Relationships   []Relationship   `xml:"ProductTree>Relationship"`
+	References      []Reference      `xml:"DocumentReferences>Reference"`
+	Vulnerabilities []Vulnerability  `xml:"Vulnerability"`
+}
+
+type DocumentNote struct {
+	Text  string `xml:",chardata"`
+	Title string `xml:"Title,attr"`
+	Type  string `xml:"Type,attr"`
+}
+
+type DocumentTracking struct {
+	ID                 string     `xml:"Identification>ID"`
+	Status             string     `xml:"Status"`
+	Version            string     `xml:"Version"`
+	InitialReleaseDate string     `xml:"InitialReleaseDate"`
+	CurrentReleaseDate string     `xml:"CurrentReleaseDate"`
+	RevisionHistory    []Revision `xml:"RevisionHistory>Revision"`
+}
+
+type Relationship struct {
+	ProductReference          string `xml:"ProductReference,attr"`
+	RelatesToProductReference string `xml:"RelatesToProductReference,attr"`
+	RelationType              string `xml:"RelationType,attr"`
+}
+
+type Revision struct {
+	Number      string `xml:"Number"`
+	Date        string `xml:"Date"`
+	Description string `xml:"Description"`
+}
+
+type Vulnerability struct {
+	CVE           string      `xml:"CVE"`
+	Description   string      `xml:"Notes>Note"`
+	Severity      string      `xml:"Threats>Threat>Description"`
+	References    []Reference `xml:"References>Reference"`
+	ProductStatus Status      `xml:"ProductStatuses>Status"`
+	CVSSScoreSets ScoreSet    `xml:"CVSSScoreSets>ScoreSet"`
+}
+
+type Reference struct {
+	URL         string `xml:"URL"`
+	Description string `xml:"Description"`
+}
+
+type Status struct {
+	Type      string   `xml:"Type,attr"`
+	ProductID []string `xml:"ProductID"`
+}
+
+type ScoreSet struct {
+	BaseScore string `xml:"BaseScore"`
+	Vector    string `xml:"Vector"`
+}

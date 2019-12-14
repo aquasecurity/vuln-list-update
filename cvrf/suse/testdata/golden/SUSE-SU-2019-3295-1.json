@@ -1,0 +1,1246 @@
+{
+  "Title": "Security update for the Linux Kernel",
+  "Tracking": {
+    "ID": "SUSE-SU-2019:3295-1",
+    "Status": "Final",
+    "Version": "1",
+    "InitialReleaseDate": "2019-12-13T17:30:03Z",
+    "CurrentReleaseDate": "2019-12-13T17:30:03Z",
+    "RevisionHistory": [
+      {
+        "Number": "1",
+        "Date": "2019-12-13T17:30:03Z",
+        "Description": "current"
+      }
+    ]
+  },
+  "Relationships": [
+    {
+      "ProductReference": "cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "dlm-kmp-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "gfs2-kmp-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt-extra-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt-livepatch-devel-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt_debug-base-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt_debug-extra-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kselftests-kmp-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kselftests-kmp-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "reiserfs-kmp-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "cluster-md-kmp-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "dlm-kmp-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "gfs2-kmp-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-devel-rt-4.12.14-14.14.2",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt-base-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt-devel-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt_debug-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-rt_debug-devel-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-source-rt-4.12.14-14.14.2",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "kernel-syms-rt-4.12.14-14.14.2",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    },
+    {
+      "ProductReference": "ocfs2-kmp-rt-4.12.14-14.14.3",
+      "RelatesToProductReference": "SUSE Linux Enterprise Module for Realtime packages 15 SP1",
+      "RelationType": "Default Component Of"
+    }
+  ],
+  "References": [
+    {
+      "URL": "https://www.suse.com/support/update/announcement/2019/suse-su-20193295-1/",
+      "Description": "Link for SUSE-SU-2019:3295-1"
+    },
+    {
+      "URL": "http://lists.suse.com/pipermail/sle-security-updates/2019-December/006257.html",
+      "Description": "E-Mail link for SUSE-SU-2019:3295-1"
+    },
+    {
+      "URL": "https://www.suse.com/support/security/rating/",
+      "Description": "SUSE Security Ratings"
+    }
+  ],
+  "Vulnerabilities": [
+    {
+      "CVE": "CVE-2017-18595",
+      "Description": "An issue was discovered in the Linux kernel before 4.14.11. A double free may be caused by the function allocate_trace_buffer in the file kernel/trace/trace.c.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2017-18595.html",
+          "Description": "CVE-2017-18595"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1149555",
+          "Description": "SUSE Bug 1149555"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2018-12207",
+      "Description": "Improper invalidation for page table updates by a virtual guest operating system for multiple Intel(R) Processors may allow an authenticated user to potentially enable denial of service of the host system via local access.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2018-12207.html",
+          "Description": "CVE-2018-12207"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1117665",
+          "Description": "SUSE Bug 1117665"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1139073",
+          "Description": "SUSE Bug 1139073"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152505",
+          "Description": "SUSE Bug 1152505"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1155812",
+          "Description": "SUSE Bug 1155812"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1155817",
+          "Description": "SUSE Bug 1155817"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1155945",
+          "Description": "SUSE Bug 1155945"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-0154",
+      "Description": "Insufficient access control in subsystem for Intel (R) processor graphics in 6th, 7th, 8th and 9th Generation Intel(R) Core(TM) Processor Families; Intel(R) Pentium(R) Processor J, N, Silver and Gold Series; Intel(R) Celeron(R) Processor J, N, G3900 and G4900 Series; Intel(R) Atom(R) Processor A and E3900 Series; Intel(R) Xeon(R) Processor E3-1500 v5 and v6 and E-2100 Processor Families may allow an authenticated user to potentially enable denial of service via local access.",
+      "Severity": "important",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-0154.html",
+          "Description": "CVE-2019-0154"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1135966",
+          "Description": "SUSE Bug 1135966"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-0155",
+      "Description": "Insufficient access control in a subsystem for Intel (R) processor graphics in 6th, 7th, 8th and 9th Generation Intel(R) Core(TM) Processor Families; Intel(R) Pentium(R) Processor J, N, Silver and Gold Series; Intel(R) Celeron(R) Processor J, N, G3900 and G4900 Series; Intel(R) Atom(R) Processor A and E3900 Series; Intel(R) Xeon(R) Processor E3-1500 v5 and v6, E-2100 and E-2200 Processor Families; Intel(R) Graphics Driver for Windows before 26.20.100.6813 (DCH) or 26.20.100.6812 and before 21.20.x.5077 (aka15.45.5077), i915 Linux Driver for Intel(R) Processor Graphics before versions 5.4-rc7, 5.3.11, 4.19.84, 4.14.154, 4.9.201, 4.4.201 may allow an authenticated user to potentially enable escalation of privilege via local access.",
+      "Severity": "important",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-0155.html",
+          "Description": "CVE-2019-0155"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1135966",
+          "Description": "SUSE Bug 1135966"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1135967",
+          "Description": "SUSE Bug 1135967"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-10220",
+      "Description": "Linux kernel CIFS implementation, version 4.9.0 is vulnerable to a relative paths injection in directory entry lists.",
+      "Severity": "important",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-10220.html",
+          "Description": "CVE-2019-10220"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1144903",
+          "Description": "SUSE Bug 1144903"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1153108",
+          "Description": "SUSE Bug 1153108"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-11135",
+      "Description": "TSX Asynchronous Abort condition on some CPUs utilizing speculative execution may allow an authenticated user to potentially enable information disclosure via a side channel with local access.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-11135.html",
+          "Description": "CVE-2019-11135"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1139073",
+          "Description": "SUSE Bug 1139073"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152497",
+          "Description": "SUSE Bug 1152497"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152505",
+          "Description": "SUSE Bug 1152505"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152506",
+          "Description": "SUSE Bug 1152506"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-14821",
+      "Description": "An out-of-bounds access issue was found in the Linux kernel, all versions through 5.3, in the way Linux kernel's KVM hypervisor implements the Coalesced MMIO write operation. It operates on an MMIO ring buffer 'struct kvm_coalesced_mmio' object, wherein write indices 'ring-\u003efirst' and 'ring-\u003elast' value could be supplied by a host user-space process. An unprivileged host user or process with access to '/dev/kvm' device could use this flaw to crash the host kernel, resulting in a denial of service or potentially escalating privileges on the system.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-14821.html",
+          "Description": "CVE-2019-14821"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1151350",
+          "Description": "SUSE Bug 1151350"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-15291",
+      "Description": "An issue was discovered in the Linux kernel through 5.2.9. There is a NULL pointer dereference caused by a malicious USB device in the flexcop_usb_probe function in the drivers/media/usb/b2c2/flexcop-usb.c driver.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-15291.html",
+          "Description": "CVE-2019-15291"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1146519",
+          "Description": "SUSE Bug 1146519"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1146540",
+          "Description": "SUSE Bug 1146540"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1158381",
+          "Description": "SUSE Bug 1158381"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1158834",
+          "Description": "SUSE Bug 1158834"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-15916",
+      "Description": "An issue was discovered in the Linux kernel before 5.0.1. There is a memory leak in register_queue_kobjects() in net/core/net-sysfs.c, which will cause denial of service.",
+      "Severity": "low",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-15916.html",
+          "Description": "CVE-2019-15916"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1149448",
+          "Description": "SUSE Bug 1149448"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-16231",
+      "Description": "drivers/net/fjes/fjes_main.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-16231.html",
+          "Description": "CVE-2019-16231"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1150466",
+          "Description": "SUSE Bug 1150466"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-16232",
+      "Description": "drivers/net/wireless/marvell/libertas/if_sdio.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-16232.html",
+          "Description": "CVE-2019-16232"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1150465",
+          "Description": "SUSE Bug 1150465"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-16233",
+      "Description": "drivers/scsi/qla2xxx/qla_os.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-16233.html",
+          "Description": "CVE-2019-16233"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1150457",
+          "Description": "SUSE Bug 1150457"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-16234",
+      "Description": "drivers/net/wireless/intel/iwlwifi/pcie/trans.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-16234.html",
+          "Description": "CVE-2019-16234"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1150452",
+          "Description": "SUSE Bug 1150452"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-16995",
+      "Description": "In the Linux kernel before 5.0.3, a memory leak exits in hsr_dev_finalize() in net/hsr/hsr_device.c if hsr_add_port fails to add a port, which may cause denial of service, aka CID-6caabe7f197d.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-16995.html",
+          "Description": "CVE-2019-16995"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152685",
+          "Description": "SUSE Bug 1152685"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-17055",
+      "Description": "base_sock_create in drivers/isdn/mISDN/socket.c in the AF_ISDN network module in the Linux kernel through 5.3.2 does not enforce CAP_NET_RAW, which means that unprivileged users can create a raw socket, aka CID-b91ee4aa2a21.",
+      "Severity": "low",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-17055.html",
+          "Description": "CVE-2019-17055"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152782",
+          "Description": "SUSE Bug 1152782"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-17056",
+      "Description": "llcp_sock_create in net/nfc/llcp_sock.c in the AF_NFC network module in the Linux kernel through 5.3.2 does not enforce CAP_NET_RAW, which means that unprivileged users can create a raw socket, aka CID-3a359798b176.",
+      "Severity": "low",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-17056.html",
+          "Description": "CVE-2019-17056"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1152788",
+          "Description": "SUSE Bug 1152788"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-17133",
+      "Description": "In the Linux kernel through 5.3.2, cfg80211_mgd_wext_giwessid in net/wireless/wext-sme.c does not reject a long SSID IE, leading to a Buffer Overflow.",
+      "Severity": "important",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-17133.html",
+          "Description": "CVE-2019-17133"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1153158",
+          "Description": "SUSE Bug 1153158"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-17666",
+      "Description": "rtl_p2p_noa_ie in drivers/net/wireless/realtek/rtlwifi/ps.c in the Linux kernel through 5.3.6 lacks a certain upper-bound check, leading to a buffer overflow.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-17666.html",
+          "Description": "CVE-2019-17666"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1154372",
+          "Description": "SUSE Bug 1154372"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-18805",
+      "Description": "An issue was discovered in net/ipv4/sysctl_net_ipv4.c in the Linux kernel before 5.0.11. There is a net/ipv4/tcp_input.c signed integer overflow in tcp_ack_update_rtt() when userspace writes a very large integer to /proc/sys/net/ipv4/tcp_min_rtt_wlen, leading to a denial of service or possibly unspecified other impact, aka CID-19fad20d15a6.",
+      "Severity": "low",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-18805.html",
+          "Description": "CVE-2019-18805"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1156187",
+          "Description": "SUSE Bug 1156187"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    },
+    {
+      "CVE": "CVE-2019-9506",
+      "Description": "The Bluetooth BR/EDR specification up to and including version 5.1 permits sufficiently low encryption key length and does not prevent an attacker from influencing the key length negotiation. This allows practical brute-force attacks (aka \"KNOB\") that can decrypt traffic and inject arbitrary ciphertext without the victim noticing.",
+      "Severity": "moderate",
+      "References": [
+        {
+          "URL": "https://www.suse.com/security/cve/CVE-2019-9506.html",
+          "Description": "CVE-2019-9506"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1137865",
+          "Description": "SUSE Bug 1137865"
+        },
+        {
+          "URL": "https://bugzilla.suse.com/1146042",
+          "Description": "SUSE Bug 1146042"
+        }
+      ],
+      "ProductStatus": {
+        "Type": "Fixed",
+        "ProductID": [
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+        ]
+      },
+      "CVSSScoreSets": {
+        "BaseScore": "",
+        "Vector": ""
+      }
+    }
+  ]
+}

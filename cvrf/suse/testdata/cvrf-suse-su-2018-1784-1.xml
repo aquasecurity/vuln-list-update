@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+  <DocumentTitle xml:lang="en">Security update for kernel modules packages</DocumentTitle>
+  <DocumentType>SUSE Patch</DocumentType>
+  <DocumentPublisher Type="Vendor">
+    <ContactDetails>security@suse.de</ContactDetails>
+    <IssuingAuthority>SUSE Security Team</IssuingAuthority>
+  </DocumentPublisher>
+  <DocumentTracking>
+    <Identification>
+      <ID>SUSE-SU-2018:1784-1</ID>
+    </Identification>
+    <Status>Final</Status>
+    <Version>1</Version>
+    <RevisionHistory>
+      <Revision>
+        <Number>1</Number>
+        <Date>2018-06-22T11:42:43Z</Date>
+        <Description>current</Description>
+      </Revision>
+    </RevisionHistory>
+    <InitialReleaseDate>2018-06-22T11:42:43Z</InitialReleaseDate>
+    <CurrentReleaseDate>2018-06-22T11:42:43Z</CurrentReleaseDate>
+    <Generator>
+      <Engine>cve-database/bin/generate-cvrf.pl</Engine>
+      <Date>2017-02-24T01:00:00Z</Date>
+    </Generator>
+  </DocumentTracking>
+  <DocumentNotes>
+    <Note Title="Topic" Type="Summary" Ordinal="1" xml:lang="en">Security update for kernel modules packages</Note>
+    <Note Title="Details" Type="General" Ordinal="2" xml:lang="en">
+
+The following kernel modules were rebuild with &amp;quot;retpoline&amp;quot; enablement
+to allow full mitigation of the Spectre Variant 2 (CVE-2017-5715, bsc#1068032)
+
+OFED was adjusted to add an entry to control the loading/unloading of cxgb4 to
+/etc/sysconf/infiniband (bsc#926856).
+
+  </Note>
+    <Note Title="Terms of Use" Type="Legal Disclaimer" Ordinal="3" xml:lang="en">The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).</Note>
+  </DocumentNotes>
+  <DocumentDistribution xml:lang="en">Copyright SUSE LLC under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0)</DocumentDistribution>
+  <DocumentReferences>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/update/announcement/2018/suse-su-20181784-1/</URL>
+      <Description>Link for SUSE-SU-2018:1784-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>http://lists.suse.com/pipermail/sle-security-updates/2018-June/004215.html</URL>
+      <Description>E-Mail link for SUSE-SU-2018:1784-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/security/rating/</URL>
+      <Description>SUSE Security Ratings</Description>
+    </Reference>
+  </DocumentReferences>
+  <ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Software Development Kit 11 SP4">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Software Development Kit 11 SP4">
+        <FullProductName ProductID="SUSE Linux Enterprise Software Development Kit 11 SP4">SUSE Linux Enterprise Software Development Kit 11 SP4</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Real Time Extension 11 SP4">
+        <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4">SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Server 11 SP4">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Server 11 SP4">
+        <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4">SUSE Linux Enterprise Server 11 SP4</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+        <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4">SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-1.5.4.1-22.3.1">
+      <FullProductName ProductID="ofed-1.5.4.1-22.3.1">ofed-1.5.4.1-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-devel-1.5.4.1-22.3.1">
+      <FullProductName ProductID="ofed-devel-1.5.4.1-22.3.1">ofed-devel-1.5.4.1-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-1.4.20-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-1.4.20-0.43.2.1">iscsitarget-1.4.20-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1">iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1">iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1">
+      <FullProductName ProductID="ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1">ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1">
+      <FullProductName ProductID="ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1">ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1">
+      <FullProductName ProductID="iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-doc-1.5.4.1-22.3.1">
+      <FullProductName ProductID="ofed-doc-1.5.4.1-22.3.1">ofed-doc-1.5.4.1-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1">
+      <FullProductName ProductID="ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1">
+      <FullProductName ProductID="ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1">
+      <FullProductName ProductID="ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1">
+      <FullProductName ProductID="ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1">
+      <FullProductName ProductID="ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1</FullProductName>
+    </Branch>
+    <Relationship ProductReference="ofed-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Software Development Kit 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Software Development Kit 11 SP4:ofed-1.5.4.1-22.3.1">ofed-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Software Development Kit 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-devel-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Software Development Kit 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Software Development Kit 11 SP4:ofed-devel-1.5.4.1-22.3.1">ofed-devel-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Software Development Kit 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-1.4.20-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4:iscsitarget-1.4.20-0.43.2.1">iscsitarget-1.4.20-0.43.2.1 as a component of SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4:iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1">iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1 as a component of SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4:iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1">iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1 as a component of SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4:ofed-1.5.4.1-22.3.1">ofed-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4:ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1">ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1 as a component of SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 11 SP4:ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1">ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1 as a component of SUSE Linux Enterprise Real Time Extension 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-1.4.20-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-1.4.20-0.43.2.1">iscsitarget-1.4.20-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-1.4.20-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-1.4.20-0.43.2.1">iscsitarget-1.4.20-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1">iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-1.5.4.1-22.3.1">ofed-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-1.5.4.1-22.3.1">ofed-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-doc-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-doc-1.5.4.1-22.3.1">ofed-doc-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-doc-1.5.4.1-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-doc-1.5.4.1-22.3.1">ofed-doc-1.5.4.1-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4:ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server 11 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1">ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4</FullProductName>
+    </Relationship>
+  </ProductTree>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="1">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Systems with microprocessors utilizing speculative execution and indirect branch prediction may allow unauthorized disclosure of information to an attacker with local user access via a side-channel analysis.</Note>
+    </Notes>
+    <CVE>CVE-2017-5715</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 11 SP4:iscsitarget-1.4.20-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 11 SP4:iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 11 SP4:iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 11 SP4:ofed-1.5.4.1-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 11 SP4:ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 11 SP4:ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-1.4.20-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-1.5.4.1-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-doc-1.5.4.1-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4:ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-1.4.20-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-1.5.4.1-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-doc-1.5.4.1-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4:ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Software Development Kit 11 SP4:ofed-1.5.4.1-22.3.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Software Development Kit 11 SP4:ofed-devel-1.5.4.1-22.3.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <CVSSScoreSets>
+      <ScoreSet>
+        <BaseScore>4.7</BaseScore>
+        <Vector>AV:L/AC:M/Au:N/C:C/I:N/A:N</Vector>
+      </ScoreSet>
+    </CVSSScoreSets>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2018/suse-su-20181784-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2017-5715.html</URL>
+        <Description>CVE-2017-5715</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1068032</URL>
+        <Description>SUSE Bug 1068032</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1074562</URL>
+        <Description>SUSE Bug 1074562</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1074578</URL>
+        <Description>SUSE Bug 1074578</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1074701</URL>
+        <Description>SUSE Bug 1074701</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1074741</URL>
+        <Description>SUSE Bug 1074741</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1074919</URL>
+        <Description>SUSE Bug 1074919</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1075006</URL>
+        <Description>SUSE Bug 1075006</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1075007</URL>
+        <Description>SUSE Bug 1075007</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1075262</URL>
+        <Description>SUSE Bug 1075262</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1075419</URL>
+        <Description>SUSE Bug 1075419</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1076115</URL>
+        <Description>SUSE Bug 1076115</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1076372</URL>
+        <Description>SUSE Bug 1076372</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1078353</URL>
+        <Description>SUSE Bug 1078353</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1080039</URL>
+        <Description>SUSE Bug 1080039</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1087939</URL>
+        <Description>SUSE Bug 1087939</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1091815</URL>
+        <Description>SUSE Bug 1091815</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1095735</URL>
+        <Description>SUSE Bug 1095735</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1102055</URL>
+        <Description>SUSE Bug 1102055</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1102517</URL>
+        <Description>SUSE Bug 1102517</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1105108</URL>
+        <Description>SUSE Bug 1105108</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1126516</URL>
+        <Description>SUSE Bug 1126516</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+</cvrfdoc>

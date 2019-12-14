@@ -13,13 +13,13 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/alpine"
 
+	susecvrf "github.com/aquasecurity/vuln-list-update/cvrf/suse"
 	"github.com/aquasecurity/vuln-list-update/debian"
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oval/oracle"
 	redhatoval "github.com/aquasecurity/vuln-list-update/oval/redhat"
-	suseoval "github.com/aquasecurity/vuln-list-update/oval/suse"
 	"github.com/aquasecurity/vuln-list-update/redhat"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -34,7 +34,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-oval)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -133,12 +133,12 @@ func run() error {
 			return xerrors.Errorf("error in Oracle Linux OVAL update: %w", err)
 		}
 		commitMsg = "Oracle Linux OVAL"
-	case "suse-oval":
-		sc := suseoval.NewConfig()
+	case "suse-cvrf":
+		sc := susecvrf.NewConfig()
 		if err := sc.Update(); err != nil {
-			return xerrors.Errorf("error in SUSE OVAL update: %w", err)
+			return xerrors.Errorf("error in SUSE CVRF update: %w", err)
 		}
-		commitMsg = "SUSE OVAL"
+		commitMsg = "SUSE CVRF"
 	default:
 		return xerrors.New("unknown target")
 	}
