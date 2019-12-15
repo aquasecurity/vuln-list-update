@@ -233,7 +233,12 @@
     {
       "CVE": "CVE-2017-5715",
       "Description": "Systems with microprocessors utilizing speculative execution and indirect branch prediction may allow unauthorized disclosure of information to an attacker with local user access via a side-channel analysis.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2017-5715.html",

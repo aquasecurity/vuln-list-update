@@ -74,7 +74,12 @@
     {
       "CVE": "CVE-2014-3589",
       "Description": "PIL/IcnsImagePlugin.py in Python Imaging Library (PIL) and Pillow before 2.3.2 and 2.5.x before 2.5.2 allows remote attackers to cause a denial of service via a crafted block size.",
-      "Severity": "moderate",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "moderate"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2014-3589.html",
@@ -103,7 +108,12 @@
     {
       "CVE": "CVE-2014-3598",
       "Description": "The Jpeg2KImagePlugin plugin in Pillow before 2.5.3 allows remote attackers to cause a denial of service via a crafted image.",
-      "Severity": "moderate",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "moderate"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2014-3598.html",
@@ -132,7 +142,12 @@
     {
       "CVE": "CVE-2014-9601",
       "Description": "Pillow before 2.7.0 allows remote attackers to cause a denial of service via a compressed text chunk in a PNG image that has a large size when it is decompressed.",
-      "Severity": "moderate",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "moderate"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2014-9601.html",

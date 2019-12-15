@@ -169,7 +169,12 @@
     {
       "CVE": "CVE-2016-8707",
       "Description": "An exploitable out of bounds write exists in the handling of compressed TIFF images in ImageMagicks's convert utility. A crafted TIFF document can lead to an out of bounds write which in particular circumstances could be leveraged into remote code execution. The vulnerability can be triggered through any user controlled TIFF that is handled by this functionality.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2016-8707.html",
@@ -217,7 +222,12 @@
     {
       "CVE": "CVE-2016-8862",
       "Description": "The AcquireMagickMemory function in MagickCore/memory.c in ImageMagick before 7.0.3.3 allows remote attackers to have unspecified impact via a crafted image, which triggers a memory allocation failure.",
-      "Severity": "moderate",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "moderate"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2016-8862.html",
@@ -273,7 +283,12 @@
     {
       "CVE": "CVE-2016-8866",
       "Description": "The AcquireMagickMemory function in MagickCore/memory.c in ImageMagick 7.0.3.3 before 7.0.3.8 allows remote attackers to have unspecified impact via a crafted image, which triggers a memory allocation failure.  NOTE: this vulnerability exists because of an incomplete fix for CVE-2016-8862.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2016-8866.html",
@@ -329,7 +344,12 @@
     {
       "CVE": "CVE-2016-9556",
       "Description": "The IsPixelGray function in MagickCore/pixel-accessor.h in ImageMagick 7.0.3-8 allows remote attackers to cause a denial of service (out-of-bounds heap read) via a crafted image file.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2016-9556.html",
@@ -381,7 +401,12 @@
     {
       "CVE": "CVE-2016-9773",
       "Description": "Heap-based buffer overflow in the IsPixelGray function in MagickCore/pixel-accessor.h in ImageMagick 7.0.3.8 allows remote attackers to cause a denial of service (out-of-bounds heap read) via a crafted image file.  NOTE: this vulnerability exists because of an incomplete fix for CVE-2016-9556.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2016-9773.html",

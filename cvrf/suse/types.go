@@ -43,10 +43,15 @@ type Revision struct {
 type Vulnerability struct {
 	CVE           string      `xml:"CVE"`
 	Description   string      `xml:"Notes>Note"`
-	Severity      string      `xml:"Threats>Threat>Description"`
+	Threats       []Threat    `xml:"Threats>Threat"`
 	References    []Reference `xml:"References>Reference"`
 	ProductStatus Status      `xml:"ProductStatuses>Status"`
 	CVSSScoreSets ScoreSet    `xml:"CVSSScoreSets>ScoreSet"`
+}
+
+type Threat struct {
+	Type     string `xml:"Type,attr"`
+	Severity string `xml:"Description"`
 }
 
 type Reference struct {

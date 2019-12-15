@@ -248,7 +248,12 @@
     {
       "CVE": "CVE-2019-9636",
       "Description": "Python 2.7.x through 2.7.16 and 3.x through 3.7.2 is affected by: Improper Handling of Unicode Encoding (with an incorrect netloc) during NFKC normalization. The impact is: Information disclosure (credentials, cookies, etc. that are cached against a given hostname). The components are: urllib.parse.urlsplit, urllib.parse.urlparse. The attack vector is: A specially crafted URL could be incorrectly parsed to locate cookies or authentication data and send that information to a different host than when parsed correctly.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2019-9636.html",
@@ -319,7 +324,12 @@
     {
       "CVE": "CVE-2019-9948",
       "Description": "urllib in Python 2.x through 2.7.16 supports the local_file: scheme, which makes it easier for remote attackers to bypass protection mechanisms that blacklist file: URIs, as demonstrated by triggering a urllib.urlopen('local_file:///etc/passwd') call.",
-      "Severity": "low",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "low"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2019-9948.html",

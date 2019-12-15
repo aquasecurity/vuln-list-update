@@ -104,7 +104,12 @@
     {
       "CVE": "CVE-2015-2590",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2015-4732.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2590.html",
@@ -147,7 +152,12 @@
     {
       "CVE": "CVE-2015-2597",
       "Description": "Unspecified vulnerability in Oracle Java SE 7u80 and 8u45 allows local users to affect confidentiality, integrity, and availability via unknown vectors related to Install.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2597.html",
@@ -182,7 +192,12 @@
     {
       "CVE": "CVE-2015-2601",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, JRockit R28.3.6, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via vectors related to JCE.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2601.html",
@@ -221,7 +236,12 @@
     {
       "CVE": "CVE-2015-2613",
       "Description": "Unspecified vulnerability in Oracle Java SE 7u80 and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via vectors related to JCE.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2613.html",
@@ -264,7 +284,12 @@
     {
       "CVE": "CVE-2015-2619",
       "Description": "Unspecified vulnerability in Oracle Java SE 7u80 and 8u45, JavaFX 2.2.80, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via unknown vectors related to 2D.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2619.html",
@@ -303,7 +328,12 @@
     {
       "CVE": "CVE-2015-2621",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33, allows remote attackers to affect confidentiality via vectors related to JMX.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2621.html",
@@ -342,7 +372,12 @@
     {
       "CVE": "CVE-2015-2625",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JRockit R28.3.6; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via vectors related to JSSE.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2625.html",
@@ -381,7 +416,12 @@
     {
       "CVE": "CVE-2015-2627",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows remote attackers to affect confidentiality via unknown vectors related to installation.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2627.html",
@@ -416,7 +456,12 @@
     {
       "CVE": "CVE-2015-2628",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to CORBA.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2628.html",
@@ -451,7 +496,12 @@
     {
       "CVE": "CVE-2015-2632",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows remote attackers to affect confidentiality via unknown vectors related to 2D.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2632.html",
@@ -490,7 +540,12 @@
     {
       "CVE": "CVE-2015-2637",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JavaFX 2.2.80; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via unknown vectors related to 2D.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2637.html",
@@ -529,7 +584,12 @@
     {
       "CVE": "CVE-2015-2638",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JavaFX 2.2.80; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to 2D.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2638.html",
@@ -568,7 +628,12 @@
     {
       "CVE": "CVE-2015-2659",
       "Description": "Unspecified vulnerability in Oracle Java SE 8u45 and Java SE Embedded 8u33 allows remote attackers to affect availability via unknown vectors related to Security.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2659.html",
@@ -603,7 +668,12 @@
     {
       "CVE": "CVE-2015-2664",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows local users to affect confidentiality, integrity, and availability via unknown vectors related to Deployment.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2664.html",
@@ -642,7 +712,12 @@
     {
       "CVE": "CVE-2015-2808",
       "Description": "The RC4 algorithm, as used in the TLS protocol and SSL protocol, does not properly combine state data with key data during the initialization phase, which makes it easier for remote attackers to conduct plaintext-recovery attacks against the initial bytes of a stream by sniffing network traffic that occasionally relies on keys affected by the Invariance Weakness, and then using a brute-force approach involving LSB values, aka the \"Bar Mitzvah\" issue.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-2808.html",
@@ -689,7 +764,12 @@
     {
       "CVE": "CVE-2015-4000",
       "Description": "The TLS protocol 1.2 and earlier, when a DHE_EXPORT ciphersuite is enabled on a server but not on a client, does not properly convey a DHE_EXPORT choice, which allows man-in-the-middle attackers to conduct cipher-downgrade attacks by rewriting a ClientHello with DHE replaced by DHE_EXPORT and then rewriting a ServerHello with DHE_EXPORT replaced by DHE, aka the \"Logjam\" issue.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4000.html",
@@ -828,7 +908,12 @@
     {
       "CVE": "CVE-2015-4729",
       "Description": "Unspecified vulnerability in Oracle Java SE 7u80 and 8u45 allows remote attackers to affect confidentiality and integrity via unknown vectors related to Deployment.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4729.html",
@@ -867,7 +952,12 @@
     {
       "CVE": "CVE-2015-4731",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; Java SE Embedded 7u75; and Java SE Embedded 8u33 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to JMX.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4731.html",
@@ -906,7 +996,12 @@
     {
       "CVE": "CVE-2015-4732",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2015-2590.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4732.html",
@@ -945,7 +1040,12 @@
     {
       "CVE": "CVE-2015-4733",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to RMI.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4733.html",
@@ -984,7 +1084,12 @@
     {
       "CVE": "CVE-2015-4736",
       "Description": "Unspecified vulnerability in Oracle Java SE 7u80 and 8u45 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4736.html",
@@ -1019,7 +1124,12 @@
     {
       "CVE": "CVE-2015-4748",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JRockit R28.3.6; and Java SE Embedded 7u75 and Embedded 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Security.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4748.html",
@@ -1058,7 +1168,12 @@
     {
       "CVE": "CVE-2015-4749",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JRockit R28.3.6; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect availability via vectors related to JNDI.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4749.html",
@@ -1097,7 +1212,12 @@
     {
       "CVE": "CVE-2015-4760",
       "Description": "Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to 2D.",
-      "Severity": "important",
+      "Threats": [
+        {
+          "Type": "Impact",
+          "Severity": "important"
+        }
+      ],
       "References": [
         {
           "URL": "https://www.suse.com/security/cve/CVE-2015-4760.html",
