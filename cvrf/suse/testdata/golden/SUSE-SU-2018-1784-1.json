@@ -14,188 +14,207 @@
       }
     ]
   },
-  "Relationships": [
+  "Notes": [
     {
-      "ProductReference": "ofed-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Software Development Kit 11 SP4",
-      "RelationType": "Default Component Of"
+      "Text": "Security update for kernel modules packages",
+      "Title": "Topic",
+      "Type": "Summary"
     },
     {
-      "ProductReference": "ofed-devel-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Software Development Kit 11 SP4",
-      "RelationType": "Default Component Of"
+      "Text": "\n\nThe following kernel modules were rebuild with \u0026quot;retpoline\u0026quot; enablement\nto allow full mitigation of the Spectre Variant 2 (CVE-2017-5715, bsc#1068032)\n\nOFED was adjusted to add an entry to control the loading/unloading of cxgb4 to\n/etc/sysconf/infiniband (bsc#926856).\n\n  ",
+      "Title": "Details",
+      "Type": "General"
     },
     {
-      "ProductReference": "iscsitarget-1.4.20-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-1.4.20-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-1.4.20-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-doc-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-doc-1.5.4.1-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
-      "RelationType": "Default Component Of"
+      "Text": "The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).",
+      "Title": "Terms of Use",
+      "Type": "Legal Disclaimer"
     }
   ],
+  "ProductTree": {
+    "Relationships": [
+      {
+        "ProductReference": "ofed-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Software Development Kit 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-devel-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Software Development Kit 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-1.4.20-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-rt-1.4.20_3.0.101_rt130_69.24-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-rt_trace-1.4.20_3.0.101_rt130_69.24-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-rt-1.5.4.1_3.0.101_rt130_69.24-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-rt_trace-1.5.4.1_3.0.101_rt130_69.24-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Real Time Extension 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-1.4.20-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-1.4.20-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-bigmem-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-default-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-pae-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-ppc64-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-trace-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "iscsitarget-kmp-xen-1.4.20_3.0.101_108.52-0.43.2.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-doc-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-doc-1.5.4.1-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-bigmem-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-default-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-pae-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-ppc64-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "ofed-kmp-trace-1.5.4.1_3.0.101_108.52-22.3.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4",
+        "RelationType": "Default Component Of"
+      }
+    ]
+  },
   "References": [
     {
       "URL": "https://www.suse.com/support/update/announcement/2018/suse-su-20181784-1/",

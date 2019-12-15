@@ -4,15 +4,9 @@ type Cvrf struct {
 	Title           string           `xml:"DocumentTitle"`
 	Tracking        DocumentTracking `xml:"DocumentTracking"`
 	Notes           []DocumentNote   `xml:"DocumentNotes>Note"`
-	Relationships   []Relationship   `xml:"ProductTree>Relationship"`
+	ProductTree     ProductTree      `xml:"ProductTree"`
 	References      []Reference      `xml:"DocumentReferences>Reference"`
 	Vulnerabilities []Vulnerability  `xml:"Vulnerability"`
-}
-
-type DocumentNote struct {
-	Text  string `xml:",chardata"`
-	Title string `xml:"Title,attr"`
-	Type  string `xml:"Type,attr"`
 }
 
 type DocumentTracking struct {
@@ -22,6 +16,16 @@ type DocumentTracking struct {
 	InitialReleaseDate string     `xml:"InitialReleaseDate"`
 	CurrentReleaseDate string     `xml:"CurrentReleaseDate"`
 	RevisionHistory    []Revision `xml:"RevisionHistory>Revision"`
+}
+
+type DocumentNote struct {
+	Text  string `xml:",chardata"`
+	Title string `xml:"Title,attr"`
+	Type  string `xml:"Type,attr"`
+}
+
+type ProductTree struct {
+	Relationships []Relationship `xml:"Relationship"`
 }
 
 type Relationship struct {

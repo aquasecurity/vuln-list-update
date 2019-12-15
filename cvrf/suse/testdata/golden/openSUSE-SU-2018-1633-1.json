@@ -14,103 +14,122 @@
       }
     ]
   },
-  "Relationships": [
+  "Notes": [
     {
-      "ProductReference": "glibc-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
+      "Text": "Security update for glibc",
+      "Title": "Topic",
+      "Type": "Summary"
     },
     {
-      "ProductReference": "glibc-32bit-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
+      "Text": "This update for glibc fixes the following issues:\n\nThis security issue was fixed:\n\n- Fixed an buffer overwrite issue in memcpy for Knights Landing CPUs\n  (boo#1092877, CVE-2018-11237)\n",
+      "Title": "Details",
+      "Type": "General"
     },
     {
-      "ProductReference": "glibc-devel-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-devel-32bit-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-devel-static-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-devel-static-32bit-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-extra-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-html-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-i18ndata-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-info-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-locale-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-locale-32bit-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-profile-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-profile-32bit-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-testsuite-src-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-utils-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-utils-32bit-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "glibc-utils-src-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "nscd-2.26-lp150.11.3.2",
-      "RelatesToProductReference": "openSUSE Leap 15.0",
-      "RelationType": "Default Component Of"
+      "Text": "The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).",
+      "Title": "Terms of Use",
+      "Type": "Legal Disclaimer"
     }
   ],
+  "ProductTree": {
+    "Relationships": [
+      {
+        "ProductReference": "glibc-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-32bit-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-devel-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-devel-32bit-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-devel-static-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-devel-static-32bit-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-extra-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-html-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-i18ndata-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-info-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-locale-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-locale-32bit-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-profile-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-profile-32bit-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-testsuite-src-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-utils-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-utils-32bit-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "glibc-utils-src-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "nscd-2.26-lp150.11.3.2",
+        "RelatesToProductReference": "openSUSE Leap 15.0",
+        "RelationType": "Default Component Of"
+      }
+    ]
+  },
   "References": [
     {
       "URL": "http://lists.opensuse.org/opensuse-security-announce/2018-06/msg00022.html",

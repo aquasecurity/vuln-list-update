@@ -14,203 +14,222 @@
       }
     ]
   },
-  "Relationships": [
+  "Notes": [
     {
-      "ProductReference": "libpython2_6-1_0-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
+      "Text": "Security update for python",
+      "Title": "Topic",
+      "Type": "Summary"
     },
     {
-      "ProductReference": "python-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
+      "Text": "This update for python fixes the following issues:\n\nSecurity issues fixed:\n\n- CVE-2019-9948: Fixed a 'file:' blacklist bypass in URIs by using the 'local-file:' scheme instead (bsc#1130847).\n- CVE-2019-9636: Fixed an information disclosure because of incorrect handling of Unicode encoding during NFKC normalization (bsc#1129346).\n",
+      "Title": "Details",
+      "Type": "General"
     },
     {
-      "ProductReference": "python-base-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-curses-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-demo-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-doc-2.6-8.40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-doc-pdf-2.6-8.40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-gdbm-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-idle-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-tk-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-xml-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libpython2_6-1_0-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libpython2_6-1_0-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libpython2_6-1_0-32bit-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libpython2_6-1_0-32bit-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-32bit-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-32bit-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-base-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-base-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-base-32bit-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-base-32bit-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-curses-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-curses-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-demo-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-demo-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-doc-2.6-8.40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-doc-2.6-8.40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-doc-pdf-2.6-8.40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-doc-pdf-2.6-8.40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-gdbm-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-gdbm-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-idle-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-idle-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-tk-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-tk-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-xml-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "python-xml-2.6.9-40.24.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
-      "RelationType": "Default Component Of"
+      "Text": "The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).",
+      "Title": "Terms of Use",
+      "Type": "Legal Disclaimer"
     }
   ],
+  "ProductTree": {
+    "Relationships": [
+      {
+        "ProductReference": "libpython2_6-1_0-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-base-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-curses-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-demo-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-doc-2.6-8.40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-doc-pdf-2.6-8.40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-gdbm-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-idle-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-tk-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-xml-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Point of Sale 11 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libpython2_6-1_0-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libpython2_6-1_0-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libpython2_6-1_0-32bit-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libpython2_6-1_0-32bit-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-32bit-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-32bit-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-base-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-base-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-base-32bit-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-base-32bit-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-curses-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-curses-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-demo-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-demo-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-doc-2.6-8.40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-doc-2.6-8.40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-doc-pdf-2.6-8.40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-doc-pdf-2.6-8.40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-gdbm-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-gdbm-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-idle-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-idle-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-tk-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-tk-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-xml-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-xml-2.6.9-40.24.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS",
+        "RelationType": "Default Component Of"
+      }
+    ]
+  },
   "References": [
     {
       "URL": "https://www.suse.com/support/update/announcement/2019/suse-su-201914018-1/",

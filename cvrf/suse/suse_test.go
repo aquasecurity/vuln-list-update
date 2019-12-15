@@ -148,7 +148,7 @@ func TestConfig_Update(t *testing.T) {
 				expected, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, tc.name)
 
-				assert.Equal(t, expected, actual, tc.name)
+				assert.Equal(t, string(expected), string(actual), tc.name)
 
 				return nil
 			})

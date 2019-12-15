@@ -14,83 +14,102 @@
       }
     ]
   },
-  "Relationships": [
+  "Notes": [
     {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP3",
-      "RelationType": "Default Component Of"
+      "Text": "Security update for compat-openssl098",
+      "Title": "Topic",
+      "Type": "Summary"
     },
     {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP3",
-      "RelationType": "Default Component Of"
+      "Text": "This update for compat-openssl098 fixes the following issues:\n\n- CVE-2019-1559: Fix 0-byte record padding oracle via SSL_shutdown (bsc#1127080)\n- Reject invalid EC point coordinates (bsc#1131291)\n- Fixed \u0026quot;The 9 Lives of Bleichenbacher's CAT: Cache ATtacks on TLS Implementations\u0026quot; (bsc#1117951)\n",
+      "Title": "Details",
+      "Type": "General"
     },
     {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Module for Legacy Software 12",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Module for Legacy Software 12",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-32bit-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Module for Legacy Software 12",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP1",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP1",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP3",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP4",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
-      "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP4",
-      "RelationType": "Default Component Of"
+      "Text": "The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).",
+      "Title": "Terms of Use",
+      "Type": "Legal Disclaimer"
     }
   ],
+  "ProductTree": {
+    "Relationships": [
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Desktop 12 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Module for Legacy Software 12",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Module for Legacy Software 12",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-32bit-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Module for Legacy Software 12",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP1",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP1",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP3",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "compat-openssl098-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP4",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "libopenssl0_9_8-0.9.8j-106.12.1",
+        "RelatesToProductReference": "SUSE Linux Enterprise Server for SAP Applications 12 SP4",
+        "RelationType": "Default Component Of"
+      }
+    ]
+  },
   "References": [
     {
       "URL": "https://www.suse.com/support/update/announcement/2019/suse-su-20191608-1/",

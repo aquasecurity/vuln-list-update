@@ -14,63 +14,82 @@
       }
     ]
   },
-  "Relationships": [
+  "Notes": [
     {
-      "ProductReference": "java-1_8_0-openjdk-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
+      "Text": "Security update for java-1_8_0-openjdk",
+      "Title": "Topic",
+      "Type": "Summary"
     },
     {
-      "ProductReference": "java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
+      "Text": "OpenJDK was updated to 2.6.1 - OpenJDK 8u51 to fix security issues and bugs.\n\nThe following vulnerabilities were fixed:\n\n* CVE-2015-2590: Easily exploitable vulnerability in the Libraries component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-2597: Easily exploitable vulnerability in the Install component requiring logon to Operating System. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-2601: Easily exploitable vulnerability in the JCE component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2613: Easily exploitable vulnerability in the JCE component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java SE, Java SE Embedded accessible data.\n* CVE-2015-2619: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2621: Easily exploitable vulnerability in the JMX component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2625: Very difficult to exploit vulnerability in the JSSE component allowed successful unauthenticated network attacks via SSL/TLS. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2627: Very difficult to exploit vulnerability in the Install component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2628: Easily exploitable vulnerability in the CORBA component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-2632: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2637: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.\n* CVE-2015-2638: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-2659: Easily exploitable vulnerability in the Security component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized ability to cause a partial denial of service (partial DOS).\n* CVE-2015-2664: Difficult to exploit vulnerability in the Deployment component requiring logon to Operating System. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-2808: Very difficult to exploit vulnerability in the JSSE component allowed successful unauthenticated network attacks via SSL/TLS. Successful attack of this vulnerability could have resulted in unauthorized update, insert or delete access to some Java accessible data as well as read access to a subset of Java accessible data.\n* CVE-2015-4000: Very difficult to exploit vulnerability in the JSSE component allowed successful unauthenticated network attacks via SSL/TLS. Successful attack of this vulnerability could have resulted in unauthorized update, insert or delete access to some Java accessible data as well as read access to a subset of Java Embedded accessible data. \n* CVE-2015-4729: Very difficult to exploit vulnerability in the Deployment component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized update, insert or delete access to some Java SE accessible data as well as read access to a subset of Java SE accessible data.\n* CVE-2015-4731: Easily exploitable vulnerability in the JMX component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-4732: Easily exploitable vulnerability in the Libraries component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-4733: Easily exploitable vulnerability in the RMI component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-4736: Difficult to exploit vulnerability in the Deployment component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-4748: Very difficult to exploit vulnerability in the Security component allowed successful unauthenticated network attacks via OCSP. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n* CVE-2015-4749: Difficult to exploit vulnerability in the JNDI component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized ability to cause a partial denial of service (partial DOS).\n* CVE-2015-4760: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.\n",
+      "Title": "Details",
+      "Type": "General"
     },
     {
-      "ProductReference": "java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
-    },
-    {
-      "ProductReference": "java-1_8_0-openjdk-src-1.8.0.51-12.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of"
+      "Text": "The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).",
+      "Title": "Terms of Use",
+      "Type": "Legal Disclaimer"
     }
   ],
+  "ProductTree": {
+    "Relationships": [
+      {
+        "ProductReference": "java-1_8_0-openjdk-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "java-1_8_0-openjdk-src-1.8.0.51-12.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      }
+    ]
+  },
   "References": [
     {
       "URL": "http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html",

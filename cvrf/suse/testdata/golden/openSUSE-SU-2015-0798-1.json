@@ -14,33 +14,52 @@
       }
     ]
   },
-  "Relationships": [
+  "Notes": [
     {
-      "ProductReference": "python-Pillow-2.8.1-3.3.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of" 
+      "Text": "Security update for python-Pillow",
+      "Title": "Topic",
+      "Type": "Summary"
     },
     {
-      "ProductReference": "python-Pillow-debuginfo-2.8.1-3.3.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of" 
+      "Text": "python-pillow was updated to 2.7.0 to fix security issues and bugs.\n\nThe following vulnerabilities were fixed:\n\n* CVE-2014-9601: Remote attackers could cause a denial of service via a compressed text chunk in a PNG image that has a large size when it is decompressed.\n* CVE-2014-3598: Remote attackers could cause a denial of service using specially crafted image files via Jpeg2KImagePlugin\n* CVE-2014-3589: Remote attackers could cause a denial of service using specially crafted image files via IcnsImagePlugin\n",
+      "Title": "Details",
+      "Type": "General"
     },
     {
-      "ProductReference": "python-Pillow-debugsource-2.8.1-3.3.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of" 
-    },
-    {
-      "ProductReference": "python-Pillow-tk-2.8.1-3.3.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of" 
-    },
-    {
-      "ProductReference": "python-Pillow-tk-debuginfo-2.8.1-3.3.1",
-      "RelatesToProductReference": "openSUSE 13.2",
-      "RelationType": "Default Component Of" 
+      "Text": "The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).",
+      "Title": "Terms of Use",
+      "Type": "Legal Disclaimer"
     }
   ],
+  "ProductTree": {
+    "Relationships": [
+      {
+        "ProductReference": "python-Pillow-2.8.1-3.3.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-Pillow-debuginfo-2.8.1-3.3.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-Pillow-debugsource-2.8.1-3.3.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-Pillow-tk-2.8.1-3.3.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      },
+      {
+        "ProductReference": "python-Pillow-tk-debuginfo-2.8.1-3.3.1",
+        "RelatesToProductReference": "openSUSE 13.2",
+        "RelationType": "Default Component Of"
+      }
+    ]
+  },
   "References": [
     {
       "URL": "http://lists.opensuse.org/opensuse-updates/2015-04/msg00056.html",
