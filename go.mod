@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/araddon/dateparse v0.0.0-20190426192744-0d74ffceef83
+	github.com/cheggaaa/pb v2.0.7+incompatible
 	github.com/elazarl/goproxy v0.0.0-20190421051319-9d40249d3c2f // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f // indirect
 	github.com/fatih/color v1.7.0 // indirect
@@ -21,8 +22,14 @@ require (
 	github.com/stretchr/testify v1.4.0
 	golang.org/x/sys v0.0.0-20190412213103-97732733099d // indirect
 	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
+	gopkg.in/VividCortex/ewma.v1 v1.1.1 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/cheggaaa/pb.v1 v1.0.28
+	gopkg.in/cheggaaa/pb.v2 v2.0.7 // indirect
+	gopkg.in/fatih/color.v1 v1.7.0 // indirect
+	gopkg.in/mattn/go-colorable.v0 v0.1.0 // indirect
+	gopkg.in/mattn/go-isatty.v0 v0.0.4 // indirect
+	gopkg.in/mattn/go-runewidth.v0 v0.0.4 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce // indirect
 	gopkg.in/yaml.v2 v2.2.2
 	moul.io/http2curl v1.0.0 // indirect
