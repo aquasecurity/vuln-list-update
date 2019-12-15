@@ -185,35 +185,37 @@
           "Description": "SUSE Bug 1014159"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "6.0",
         "Vector": "AV:N/AC:M/Au:S/C:P/I:P/A:P"
@@ -246,35 +248,37 @@
           "Description": "SUSE Bug 1031267"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "7.1",
         "Vector": "AV:N/AC:M/Au:N/C:N/I:N/A:C"
@@ -307,35 +311,37 @@
           "Description": "SUSE Bug 1031267"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "7.1",
         "Vector": "AV:N/AC:M/Au:N/C:N/I:N/A:C"
@@ -364,35 +370,37 @@
           "Description": "SUSE Bug 1013376"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "4.3",
         "Vector": "AV:N/AC:M/Au:N/C:N/I:N/A:P"
@@ -425,35 +433,37 @@
           "Description": "SUSE Bug 1017421"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
-          "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
-          "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
-          "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:ImageMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-debugsource-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-doc-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-6.8.9.8-45.1",
+            "openSUSE 13.2:ImageMagick-extra-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-6_Q16-5-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagick++-devel-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickCore-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-32bit-6.8.9.8-45.1",
+            "openSUSE 13.2:libMagickWand-6_Q16-2-debuginfo-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-6.8.9.8-45.1",
+            "openSUSE 13.2:perl-PerlMagick-debuginfo-6.8.9.8-45.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "4.3",
         "Vector": "AV:N/AC:M/Au:N/C:N/I:N/A:P"

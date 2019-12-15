@@ -128,22 +128,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -168,22 +170,24 @@
           "Description": "SUSE Bug 938248"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -212,22 +216,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -260,22 +266,24 @@
           "Description": "SUSE Bug 951727"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -304,22 +312,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -348,22 +358,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -392,22 +404,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -432,22 +446,24 @@
           "Description": "SUSE Bug 938248"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -472,22 +488,24 @@
           "Description": "SUSE Bug 938248"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -516,22 +534,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -560,22 +580,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -604,22 +626,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -644,22 +668,24 @@
           "Description": "SUSE Bug 938248"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -688,22 +714,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -740,22 +768,24 @@
           "Description": "SUSE Bug 952088"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "2.5",
         "Vector": "AV:N/AC:H/Au:N/C:P/I:N/A:N"
@@ -884,22 +914,24 @@
           "Description": "SUSE Bug 980406"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "4.0",
         "Vector": "AV:N/AC:H/Au:N/C:P/I:P/A:N"
@@ -928,22 +960,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -972,22 +1006,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1016,22 +1052,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1060,22 +1098,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1100,22 +1140,24 @@
           "Description": "SUSE Bug 938248"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1144,22 +1186,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1188,22 +1232,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1232,22 +1278,24 @@
           "Description": "SUSE Bug 938895"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
-          "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1",
+            "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""

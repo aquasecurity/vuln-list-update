@@ -204,38 +204,40 @@
           "Description": "SUSE Bug 1149555"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -280,38 +282,40 @@
           "Description": "SUSE Bug 1155945"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -336,38 +340,40 @@
           "Description": "SUSE Bug 1135966"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -396,38 +402,40 @@
           "Description": "SUSE Bug 1135967"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -456,38 +464,40 @@
           "Description": "SUSE Bug 1153108"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -524,38 +534,40 @@
           "Description": "SUSE Bug 1152506"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -580,38 +592,40 @@
           "Description": "SUSE Bug 1151350"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -648,38 +662,40 @@
           "Description": "SUSE Bug 1158834"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -704,38 +720,40 @@
           "Description": "SUSE Bug 1149448"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -760,38 +778,40 @@
           "Description": "SUSE Bug 1150466"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -816,38 +836,40 @@
           "Description": "SUSE Bug 1150465"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -872,38 +894,40 @@
           "Description": "SUSE Bug 1150457"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -928,38 +952,40 @@
           "Description": "SUSE Bug 1150452"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -984,38 +1010,40 @@
           "Description": "SUSE Bug 1152685"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1040,38 +1068,40 @@
           "Description": "SUSE Bug 1152782"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1096,38 +1126,40 @@
           "Description": "SUSE Bug 1152788"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1152,38 +1184,40 @@
           "Description": "SUSE Bug 1153158"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1208,38 +1242,40 @@
           "Description": "SUSE Bug 1154372"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1264,38 +1300,40 @@
           "Description": "SUSE Bug 1156187"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -1324,38 +1362,40 @@
           "Description": "SUSE Bug 1146042"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
-          "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:cluster-md-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:dlm-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:gfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-extra-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kernel-rt_debug-livepatch-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:kselftests-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:ocfs2-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Open Buildservice Development Tools 15 SP1:reiserfs-kmp-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:cluster-md-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:dlm-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:gfs2-kmp-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-devel-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-base-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-rt_debug-devel-4.12.14-14.14.3",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-source-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:kernel-syms-rt-4.12.14-14.14.2",
+            "SUSE Linux Enterprise Module for Realtime packages 15 SP1:ocfs2-kmp-rt-4.12.14-14.14.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""

@@ -90,16 +90,18 @@
           "Description": "SUSE Bug 921566"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:python-Pillow-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-debuginfo-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-debugsource-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-tk-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-tk-debuginfo-2.8.1-3.3.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:python-Pillow-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-debuginfo-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-debugsource-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-tk-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-tk-debuginfo-2.8.1-3.3.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -124,16 +126,18 @@
           "Description": "SUSE Bug 921566"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:python-Pillow-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-debuginfo-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-debugsource-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-tk-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-tk-debuginfo-2.8.1-3.3.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:python-Pillow-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-debuginfo-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-debugsource-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-tk-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-tk-debuginfo-2.8.1-3.3.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -158,16 +162,18 @@
           "Description": "SUSE Bug 921566"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.2:python-Pillow-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-debuginfo-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-debugsource-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-tk-2.8.1-3.3.1",
-          "openSUSE 13.2:python-Pillow-tk-debuginfo-2.8.1-3.3.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.2:python-Pillow-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-debuginfo-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-debugsource-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-tk-2.8.1-3.3.1",
+            "openSUSE 13.2:python-Pillow-tk-debuginfo-2.8.1-3.3.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""

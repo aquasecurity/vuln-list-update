@@ -152,26 +152,28 @@
           "Description": "SUSE Bug 1141798"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Desktop 12 SP3:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Desktop 12 SP3:libopenssl0_9_8-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Desktop 12 SP4:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Desktop 12 SP4:libopenssl0_9_8-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Module for Legacy Software 12:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Module for Legacy Software 12:libopenssl0_9_8-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Module for Legacy Software 12:libopenssl0_9_8-32bit-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP1:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP1:libopenssl0_9_8-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP2:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP2:libopenssl0_9_8-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP3:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP3:libopenssl0_9_8-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP4:compat-openssl098-0.9.8j-106.12.1",
-          "SUSE Linux Enterprise Server for SAP Applications 12 SP4:libopenssl0_9_8-0.9.8j-106.12.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Desktop 12 SP3:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Desktop 12 SP3:libopenssl0_9_8-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Desktop 12 SP4:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Desktop 12 SP4:libopenssl0_9_8-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Module for Legacy Software 12:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Module for Legacy Software 12:libopenssl0_9_8-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Module for Legacy Software 12:libopenssl0_9_8-32bit-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP1:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP1:libopenssl0_9_8-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP2:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP2:libopenssl0_9_8-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP3:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP3:libopenssl0_9_8-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP4:compat-openssl098-0.9.8j-106.12.1",
+            "SUSE Linux Enterprise Server for SAP Applications 12 SP4:libopenssl0_9_8-0.9.8j-106.12.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""

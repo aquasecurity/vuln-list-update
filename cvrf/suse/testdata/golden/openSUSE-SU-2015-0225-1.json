@@ -210,40 +210,42 @@
           "Description": "SUSE Bug 914693"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE 13.1:libvirt-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-client-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-client-32bit-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-config-network-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-config-nwfilter-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-interface-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-libxl-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-lxc-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-network-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-nodedev-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-nwfilter-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-qemu-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-secret-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-storage-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-uml-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-vbox-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-driver-xen-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-lxc-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-qemu-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-uml-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-vbox-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-daemon-xen-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-devel-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-devel-32bit-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-doc-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-lock-sanlock-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-login-shell-1.1.2-2.48.1",
-          "openSUSE 13.1:libvirt-python-1.1.2-2.48.1"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE 13.1:libvirt-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-client-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-client-32bit-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-config-network-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-config-nwfilter-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-interface-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-libxl-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-lxc-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-network-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-nodedev-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-nwfilter-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-qemu-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-secret-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-storage-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-uml-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-vbox-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-driver-xen-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-lxc-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-qemu-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-uml-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-vbox-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-daemon-xen-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-devel-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-devel-32bit-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-doc-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-lock-sanlock-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-login-shell-1.1.2-2.48.1",
+            "openSUSE 13.1:libvirt-python-1.1.2-2.48.1"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "4",
         "Vector": "AV:L/AC:L/Au:M/C:P/I:P/A:P"

@@ -168,30 +168,32 @@
           "Description": "SUSE Bug 1118435"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "openSUSE Leap 15.0:glibc-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-32bit-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-devel-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-devel-32bit-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-devel-static-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-devel-static-32bit-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-extra-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-html-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-i18ndata-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-info-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-locale-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-locale-32bit-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-profile-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-profile-32bit-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-testsuite-src-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-utils-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-utils-32bit-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:glibc-utils-src-2.26-lp150.11.3.2",
-          "openSUSE Leap 15.0:nscd-2.26-lp150.11.3.2"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "openSUSE Leap 15.0:glibc-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-32bit-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-devel-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-devel-32bit-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-devel-static-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-devel-static-32bit-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-extra-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-html-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-i18ndata-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-info-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-locale-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-locale-32bit-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-profile-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-profile-32bit-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-testsuite-src-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-utils-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-utils-32bit-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:glibc-utils-src-2.26-lp150.11.3.2",
+            "openSUSE Leap 15.0:nscd-2.26-lp150.11.3.2"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""

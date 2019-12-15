@@ -149,23 +149,25 @@
           "Description": "SUSE Bug 1155945"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -190,23 +192,25 @@
           "Description": "SUSE Bug 1135966"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -235,23 +239,25 @@
           "Description": "SUSE Bug 1135967"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -280,23 +286,25 @@
           "Description": "SUSE Bug 1153108"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -333,23 +341,25 @@
           "Description": "SUSE Bug 1152506"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -374,23 +384,25 @@
           "Description": "SUSE Bug 1149448"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -415,23 +427,25 @@
           "Description": "SUSE Bug 1150466"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -456,23 +470,25 @@
           "Description": "SUSE Bug 1150465"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -497,23 +513,25 @@
           "Description": "SUSE Bug 1150457"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -538,23 +556,25 @@
           "Description": "SUSE Bug 1150452"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -579,23 +599,25 @@
           "Description": "SUSE Bug 1152685"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -620,23 +642,25 @@
           "Description": "SUSE Bug 1152782"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -661,23 +685,25 @@
           "Description": "SUSE Bug 1152788"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -702,23 +728,25 @@
           "Description": "SUSE Bug 1153158"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -743,23 +771,25 @@
           "Description": "SUSE Bug 1154372"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
@@ -784,23 +814,25 @@
           "Description": "SUSE Bug 1156187"
         }
       ],
-      "ProductStatus": {
-        "Type": "Fixed",
-        "ProductID": [
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
-          "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
-        ]
-      },
+      "ProductStatuses": [
+        {
+          "Type": "Fixed",
+          "ProductID": [
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3",
+            "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
+          ]
+        }
+      ],
       "CVSSScoreSets": {
         "BaseScore": "",
         "Vector": ""
