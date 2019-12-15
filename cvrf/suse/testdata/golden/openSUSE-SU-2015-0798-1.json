@@ -102,10 +102,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2014-3598",
@@ -138,10 +135,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2014-9601",
@@ -174,10 +168,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     }
   ]
 }

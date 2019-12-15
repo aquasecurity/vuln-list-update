@@ -318,10 +318,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-9948",
@@ -392,10 +389,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     }
   ]
 }

@@ -238,10 +238,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2018-12207",
@@ -316,10 +313,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-0154",
@@ -374,10 +368,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-0155",
@@ -436,10 +427,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-10220",
@@ -498,10 +486,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-11135",
@@ -568,10 +553,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-14821",
@@ -626,10 +608,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-15291",
@@ -696,10 +675,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-15916",
@@ -754,10 +730,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-16231",
@@ -812,10 +785,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-16232",
@@ -870,10 +840,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-16233",
@@ -928,10 +895,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-16234",
@@ -986,10 +950,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-16995",
@@ -1044,10 +1005,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-17055",
@@ -1102,10 +1060,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-17056",
@@ -1160,10 +1115,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-17133",
@@ -1218,10 +1170,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-17666",
@@ -1276,10 +1225,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-18805",
@@ -1334,10 +1280,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     },
     {
       "CVE": "CVE-2019-9506",
@@ -1396,10 +1339,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     }
   ]
 }

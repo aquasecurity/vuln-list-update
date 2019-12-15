@@ -174,10 +174,7 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "",
-        "Vector": ""
-      }
+      "CVSSScoreSets": {}
     }
   ]
 }
