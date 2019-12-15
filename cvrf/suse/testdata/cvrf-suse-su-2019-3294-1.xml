@@ -1,0 +1,1396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+  <DocumentTitle xml:lang="en">Security update for the Linux Kernel</DocumentTitle>
+  <DocumentType>SUSE Patch</DocumentType>
+  <DocumentPublisher Type="Vendor">
+    <ContactDetails>security@suse.de</ContactDetails>
+    <IssuingAuthority>SUSE Security Team</IssuingAuthority>
+  </DocumentPublisher>
+  <DocumentTracking>
+    <Identification>
+      <ID>SUSE-SU-2019:3294-1</ID>
+    </Identification>
+    <Status>Final</Status>
+    <Version>1</Version>
+    <RevisionHistory>
+      <Revision>
+        <Number>1</Number>
+        <Date>2019-12-13T17:29:22Z</Date>
+        <Description>current</Description>
+      </Revision>
+    </RevisionHistory>
+    <InitialReleaseDate>2019-12-13T17:29:22Z</InitialReleaseDate>
+    <CurrentReleaseDate>2019-12-13T17:29:22Z</CurrentReleaseDate>
+    <Generator>
+      <Engine>cve-database/bin/generate-cvrf.pl</Engine>
+      <Date>2017-02-24T01:00:00Z</Date>
+    </Generator>
+  </DocumentTracking>
+  <DocumentNotes>
+    <Note Title="Topic" Type="Summary" Ordinal="1" xml:lang="en">Security update for the Linux Kernel</Note>
+    <Note Title="Details" Type="General" Ordinal="2" xml:lang="en">The SUSE Linux Enterprise 12 SP4 RT kernel was updated to receive various security and bugfixes.
+
+The following security bugs were fixed:
+
+- CVE-2019-15916: Fixed a memory leak in register_queue_kobjects() which might
+  have led  denial of service (bsc#1149448).
+- CVE-2019-0154: Fixed an improper access control in subsystem for Intel (R)
+  processor graphics whichs may have allowed an authenticated user to potentially
+  enable denial of service via local access (bsc#1135966).
+- CVE-2019-0155: Fixed an improper access control in subsystem for Intel (R)
+  processor graphics whichs may have allowed an authenticated user to potentially
+  enable escalation of privilege via local access (bsc#1135967).
+- CVE-2019-16231: Fixed a NULL pointer dereference due to lack of checking the
+  alloc_workqueue return value (bsc#1150466).
+- CVE-2019-18805: Fixed an integer overflow in tcp_ack_update_rtt() leading to
+  a denial of service or possibly unspecified other impact (bsc#1156187).
+- CVE-2019-17055: Enforced CAP_NET_RAW in the AF_ISDN network module to restrict
+  unprivileged users to create a raw socket (bsc#1152782).
+- CVE-2019-16995: Fixed a memory leak in hsr_dev_finalize() which may have caused
+  denial of service (bsc#1152685).
+- CVE-2019-11135: Aborting an asynchronous TSX operation on Intel CPUs with
+  Transactional Memory support could be used to facilitate sidechannel
+  information leaks out of microarchitectural buffers, similar to the
+  previously described &amp;quot;Microarchitectural Data Sampling&amp;quot; attack.(bsc#1139073).
+  The Linux kernel was supplemented with the option to disable TSX operation
+  altogether (requiring CPU Microcode updates on older systems) and better
+  flushing of microarchitectural buffers (VERW).
+  The set of options available is described in our TID at https://www.suse.com/support/kb/doc/?id=7024251
+- CVE-2019-16233: drivers/scsi/qla2xxx/qla_os.c did not check the
+  alloc_workqueue return value, leading to a NULL pointer dereference.
+  (bsc#1150457).
+- CVE-2018-12207: Untrusted virtual machines on Intel CPUs could exploit a race
+  condition in the Instruction Fetch Unit of the Intel CPU to cause a Machine
+  Exception during Page Size Change, causing the CPU core to be non-functional.
+- CVE-2019-10220: Added sanity checks on the pathnames passed to the user
+  space. (bsc#1144903)
+- CVE-2019-17666: rtlwifi: Fix potential overflow in P2P code (bsc#1154372).
+- CVE-2019-16232: Fix a potential NULL pointer dereference in the Marwell
+  libertas driver (bsc#1150465).
+- CVE-2019-16234: iwlwifi pcie driver did not check the alloc_workqueue return
+  value, leading to a NULL pointer dereference. (bsc#1150452).
+- CVE-2019-17133: cfg80211 wireless extension did not reject a long SSID IE,
+  leading to a Buffer Overflow (bsc#1153158).
+- CVE-2019-17056: The AF_NFC network module did not enforce CAP_NET_RAW, which
+  meant that unprivileged users could create a raw socket (bsc#1152788).
+
+The following non-security bugs were fixed:
+
+- 9p: avoid attaching writeback_fid on mmap with type PRIVATE (bsc#1051510).
+- ACPI / CPPC: do not require the _PSD method (bsc#1051510).
+- ACPI: CPPC: Set pcc_data[pcc_ss_id] to NULL in acpi_cppc_processor_exit() (bsc#1051510).
+- ACPI / processor: do not print errors for processorIDs == 0xff (bsc#1051510).
+- act_mirred: Fix mirred_init_module error handling (bsc#1051510).
+- Add kernel module compression support (bsc#1135854) For enabling the kernel module compress, add the item COMPRESS_MODULES=&amp;quot;xz&amp;quot; in config.sh, then mkspec will pass it to the spec file.
+- alarmtimer: Use EOPNOTSUPP instead of ENOTSUPP (bsc#1151680).
+- ALSA: bebob: Fix prototype of helper function to return negative value (bsc#1051510).
+- ALSA: bebob: fix to detect configured source of sampling clock for Focusrite Saffire Pro i/o series (git-fixes).
+- ALSA: hda: Add Cometlake-S PCI ID (git-fixes).
+- ALSA: hda: Add Elkhart Lake PCI ID (bsc#1051510).
+- ALSA: hda - Add laptop imic fixup for ASUS M9V laptop (bsc#1051510).
+- ALSA: hda: Add support of Zhaoxin controller (bsc#1051510).
+- ALSA: hda: Add Tigerlake/Jasperlake PCI ID (bsc#1051510).
+- ALSA: hda - Apply AMD controller workaround for Raven platform (bsc#1051510).
+- ALSA: hda/ca0132 - Fix possible workqueue stall (bsc#1155836).
+- ALSA: hda - Define a fallback_pin_fixup_tbl for alc269 family (bsc#1051510).
+- ALSA: hda - Drop unsol event handler for Intel HDMI codecs (bsc#1051510).
+- ALSA: hda - Expand pin_match function to match upcoming new tbls (bsc#1051510).
+- ALSA: hda: Flush interrupts on disabling (bsc#1051510).
+- ALSA: hda/hdmi: remove redundant assignment to variable pcm_idx (bsc#1051510).
+- ALSA: hda - Inform too slow responses (bsc#1051510).
+- ALSA: hda/intel: add CometLake PCI IDs (bsc#1156729).
+- ALSA: hda/realtek - Add support for ALC623 (bsc#1051510).
+- ALSA: hda/realtek - Add support for ALC711 (bsc#1051510).
+- ALSA: hda/realtek - Blacklist PC beep for Lenovo ThinkCentre M73/93 (bsc#1051510).
+- ALSA: hda/realtek - Check beep whitelist before assigning in all codecs (bsc#1051510).
+- ALSA: hda/realtek - Fix 2 front mics of codec 0x623 (bsc#1051510).
+- ALSA: hda/realtek - Fix alienware headset mic (bsc#1051510).
+- ALSA: hda/realtek: Reduce the Headphone static noise on XPS 9350/9360 (bsc#1051510).
+- ALSA: hda: Set fifo_size for both playback and capture streams (bsc#1051510).
+- ALSA: hda - Show the fatal CORB/RIRB error more clearly (bsc#1051510).
+- ALSA: hda/sigmatel - remove unused variable 'stac9200_core_init' (bsc#1051510).
+- ALSA: i2c: ak4xxx-adda: Fix a possible null pointer dereference in build_adc_controls() (bsc#1051510).
+- ALSA: line6: sizeof (byte) is always 1, use that fact (bsc#1051510).
+- ALSA: pcm: Fix stream lock usage in snd_pcm_period_elapsed() (git-fixes).
+- ALSA: timer: Fix incorrectly assigned timer instance (git-fixes).
+- ALSA: timer: Fix mutex deadlock at releasing card (bsc#1051510).
+- ALSA: usb-audio: Add Pioneer DDJ-SX3 PCM quirck (bsc#1051510).
+- ALSA: usb-audio: Disable quirks for BOSS Katana amplifiers (bsc#1051510).
+- ALSA: usb-audio: Fix missing error check at mixer resolution test (git-fixes).
+- ALSA: usb-audio: not submit urb for stopped endpoint (git-fixes).
+- ALSA: usb-audio: Skip bSynchAddress endpoint check if it is invalid (bsc#1051510).
+- appletalk: enforce CAP_NET_RAW for raw sockets (bsc#1051510).
+- arcnet: provide a buffer big enough to actually receive packets (networking-stable-19_09_30).
+- arm64: Update config files. (bsc#1156466) Enable HW_RANDOM_OMAP driver and mark driver omap-rng as supported.
+- ASoC: Define a set of DAPM pre/post-up events (bsc#1051510).
+- ASoC: dmaengine: Make the pcm-&amp;gt;name equal to pcm-&amp;gt;id if the name is not set (bsc#1051510).
+- ASoC: Intel: Fix use of potentially uninitialized variable (bsc#1051510).
+- ASoC: Intel: NHLT: Fix debug print format (bsc#1051510).
+- ASoc: rockchip: i2s: Fix RPM imbalance (bsc#1051510).
+- ASoC: rsnd: Reinitialize bit clock inversion flag for every format setting (bsc#1051510).
+- ASoC: sgtl5000: Fix charge pump source assignment (bsc#1051510).
+- auxdisplay: panel: need to delete scan_timer when misc_register fails in panel_attach (bsc#1051510).
+- ax25: enforce CAP_NET_RAW for raw sockets (bsc#1051510).
+- Blacklist &amp;quot;signal: Correct namespace fixups of si_pid and si_uid&amp;quot; (bsc#1142667)
+- blk-wbt: abstract out end IO completion handler (bsc#1135873).
+- blk-wbt: fix has-sleeper queueing check (bsc#1135873).
+- blk-wbt: improve waking of tasks (bsc#1135873).
+- blk-wbt: move disable check into get_limit() (bsc#1135873).
+- blk-wbt: use wq_has_sleeper() for wq active check (bsc#1135873).
+- block: add io timeout to sysfs (bsc#1148410).
+- block: do not show io_timeout if driver has no timeout handler (bsc#1148410).
+- Bluetooth: btrtl: Additional Realtek 8822CE Bluetooth devices (bsc#1051510).
+- bnx2x: Fix VF's VLAN reconfiguration in reload (bsc#1086323 ).
+- bpf: fix use after free in prog symbol exposure (bsc#1083647).
+- bridge/mdb: remove wrong use of NLM_F_MULTI (networking-stable-19_09_15).
+- Btrfs: bail out gracefully rather than BUG_ON (bsc#1153646).
+- Btrfs: block-group: Fix a memory leak due to missing btrfs_put_block_group() (bsc#1155178).
+- Btrfs: check for the full sync flag while holding the inode lock during fsync (bsc#1153713).
+- Btrfs: Ensure btrfs_init_dev_replace_tgtdev sees up to date values (bsc#1154651).
+- Btrfs: Ensure replaced device does not have pending chunk allocation (bsc#1154607).
+- Btrfs: fix log context list corruption after rename exchange operation (bsc#1156494).
+- Btrfs: qgroup: Always free PREALLOC META reserve in btrfs_delalloc_release_extents() (bsc#1155179).
+- Btrfs: remove wrong use of volume_mutex from btrfs_dev_replace_start (bsc#1154651).
+- Btrfs: tracepoints: Fix bad entry members of qgroup events (bsc#1155186).
+- Btrfs: tracepoints: Fix wrong parameter order for qgroup events (bsc#1155184).
+- can: dev: call netif_carrier_off() in register_candev() (bsc#1051510).
+- can: mcp251x: mcp251x_hw_reset(): allow more time after a reset (bsc#1051510).
+- can: xilinx_can: xcan_probe(): skip error message on deferred probe (bsc#1051510).
+- cdc_ether: fix rndis support for Mediatek based smartphones (networking-stable-19_09_15).
+- cdc_ncm: fix divide-by-zero caused by invalid wMaxPacketSize (bsc#1051510).
+- ceph: fix directories inode i_blkbits initialization (bsc#1153717).
+- ceph: reconnect connection if session hang in opening state (bsc#1153718).
+- ceph: update the mtime when truncating up (bsc#1153719).
+- cfg80211: add and use strongly typed element iteration macros (bsc#1051510).
+- cfg80211: Purge frame registrations on iftype change (bsc#1051510).
+- clk: at91: select parent if main oscillator or bypass is enabled (bsc#1051510).
+- clk: qoriq: Fix -Wunused-const-variable (bsc#1051510).
+- clk: sirf: Do not reference clk_init_data after registration (bsc#1051510).
+- clk: zx296718: Do not reference clk_init_data after registration (bsc#1051510).
+- crypto: af_alg - consolidation of duplicate code (bsc#1154737).
+- crypto: af_alg - fix race accessing cipher request (bsc#1154737).
+- crypto: af_alg - Fix race around ctx-&amp;gt;rcvused by making it atomic_t (bsc#1154737).
+- crypto: af_alg - Initialize sg_num_bytes in error code path (bsc#1051510).
+- crypto: af_alg - remove locking in async callback (bsc#1154737).
+- crypto: af_alg - update correct dst SGL entry (bsc#1051510).
+- crypto: af_alg - wait for data at beginning of recvmsg (bsc#1154737).
+- crypto: algif_aead - copy AAD from src to dst (bsc#1154737).
+- crypto: algif_aead - fix reference counting of null skcipher (bsc#1154737).
+- crypto: algif_aead - overhaul memory management (bsc#1154737).
+- crypto: algif_aead - skip SGL entries with NULL page (bsc#1154737).
+- crypto: algif - return error code when no data was processed (bsc#1154737).
+- crypto: algif_skcipher - overhaul memory management (bsc#1154737).
+- crypto: talitos - fix missing break in switch statement (bsc#1142635).
+- cxgb4: fix endianness for vlan value in cxgb4_tc_flower (bsc#1064802 bsc#1066129).
+- cxgb4:Fix out-of-bounds MSI-X info array access (networking-stable-19_10_05).
+- cxgb4: offload VLAN flows regardless of VLAN ethtype (bsc#1064802 bsc#1066129).
+- cxgb4: reduce kernel stack usage in cudbg_collect_mem_region() (bsc#1073513).
+- cxgb4: Signedness bug in init_one() (bsc#1097585 bsc#1097586 bsc#1097587 bsc#1097588 bsc#1097583 bsc#1097584).
+- cxgb4: smt: Add lock for atomic_dec_and_test (bsc#1064802 bsc#1066129).
+- dasd_fba: Display '00000000' for zero page when dumping sense (bsc#1123080).
+- dmaengine: bcm2835: Print error in case setting DMA mask fails (bsc#1051510).
+- dmaengine: imx-sdma: fix size check for sdma script_number (bsc#1051510).
+- drm/amdgpu: Check for valid number of registers to read (bsc#1051510).
+- drm/amdgpu/si: fix ASIC tests (git-fixes).
+- drm/amd/powerplay/smu7: enforce minimal VBITimeout (v2) (bsc#1051510).
+- drm/ast: Fixed reboot test may cause system hanged (bsc#1051510).
+- drm/bridge: tc358767: Increase AUX transfer length limit (bsc#1051510).
+- drm/edid: Add 6 bpc quirk for SDC panel in Lenovo G50 (bsc#1051510).
+- drm: Flush output polling on shutdown (bsc#1051510).
+- drm/i915: Add gen9 BCS cmdparsing (bsc#1135967)
+- drm/i915: Add support for mandatory cmdparsing (bsc#1135967)
+- drm/i915: Allow parsing of unsized batches (bsc#1135967)
+- drm/i915/cmdparser: Add support for backward jumps (bsc#1135967)
+- drm/i915/cmdparser: Ignore Length operands during command matching (bsc#1135967)
+- drm/i915/cmdparser: Use explicit goto for error paths (bsc#1135967)
+- drm/i915: Disable Secure Batches for gen6+
+- drm/i915/gen8+: Add RC6 CTX corruption WA (bsc#1135967)
+- drm/i915/gtt: Add read only pages to gen8_pte_encode (bsc#1135967)
+- drm/i915/gtt: Disable read-only support under GVT (bsc#1135967)
+- drm/i915/gtt: Read-only pages for insert_entries on bdw (bsc#1135967)
+- drm/i915: Lower RM timeout to avoid DSI hard hangs (bsc#1135967)
+- drm/i915: Prevent writing into a read-only object via a GGTT mmap (bsc#1135967)
+- drm/i915: Remove Master tables from cmdparser
+- drm/i915: Rename gen7 cmdparser tables (bsc#1135967)
+- drm/i915: Support ro ppgtt mapped cmdparser shadow buffers (bsc#1135967)
+- drm/msm/dsi: Implement reset correctly (bsc#1051510).
+- drm/panel: simple: fix AUO g185han01 horizontal blanking (bsc#1051510).
+- drm/radeon: Fix EEH during kexec (bsc#1051510).
+- drm/tilcdc: Register cpufreq notifier after we have initialized crtc (bsc#1051510).
+- drm/vmwgfx: Fix double free in vmw_recv_msg() (bsc#1051510).
+- Drop multiversion(kernel) from the KMP template (bsc#1127155).
+- e1000e: add workaround for possible stalled packet (bsc#1051510).
+- efi: cper: print AER info of PCIe fatal error (bsc#1051510).
+- efi/memattr: Do not bail on zero VA if it equals the region's PA (bsc#1051510).
+- efivar/ssdt: Do not iterate over EFI vars if no SSDT override was specified (bsc#1051510).
+- firmware: dmi: Fix unlikely out-of-bounds read in save_mem_devices (git-fixes).
+- Fix AMD IOMMU kABI (bsc#1154610).
+- Fix KVM kABI after x86 mmu backports (bsc#1117665).
+- Fix NULL pointer dereference in fc_lookup_rport (bsc#1098291).
+- gpu: drm: radeon: Fix a possible null-pointer dereference in radeon_connector_set_property() (bsc#1051510).
+- HID: apple: Fix stuck function keys when using FN (bsc#1051510).
+- HID: fix error message in hid_open_report() (bsc#1051510).
+- HID: hidraw: Fix invalid read in hidraw_ioctl (bsc#1051510).
+- HID: logitech: Fix general protection fault caused by Logitech driver (bsc#1051510).
+- HID: logitech-hidpp: do all FF cleanup in hidpp_ff_destroy() (bsc#1051510).
+- HID: prodikeys: Fix general protection fault during probe (bsc#1051510).
+- HID: sony: Fix memory corruption issue on cleanup (bsc#1051510).
+- hso: fix NULL-deref on tty open (bsc#1051510).
+- hwmon: (acpi_power_meter) Change log level for 'unsafe software power cap' (bsc#1051510).
+- hwrng: core - do not wait on add_early_randomness() (git-fixes).
+- hyperv: set nvme msi interrupts to unmanaged (jsc#SLE-8953, jsc#SLE-9221, jsc#SLE-4941, bsc#1119461, bsc#1119465, bsc#1138190, bsc#1154905).
+- i2c: riic: Clear NACK in tend isr (bsc#1051510).
+- IB/core: Add mitigation for Spectre V1 (bsc#1155671)
+- IB/core, ipoib: Do not overreact to SM LID change event (bsc#1154108)
+- IB/hfi1: Remove overly conservative VM_EXEC flag check (bsc#1144449).
+- IB/mlx5: Consolidate use_umr checks into single function (bsc#1093205).
+- IB/mlx5: Fix MR re-registration flow to use UMR properly (bsc#1093205).
+- IB/mlx5: Report correctly tag matching rendezvous capability (bsc#1046305).
+- ieee802154: atusb: fix use-after-free at disconnect (bsc#1051510).
+- ieee802154: ca8210: prevent memory leak (bsc#1051510).
+- ieee802154: enforce CAP_NET_RAW for raw sockets (bsc#1051510).
+- iio: adc: ad799x: fix probe error handling (bsc#1051510).
+- iio: light: opt3001: fix mutex unlock race (bsc#1051510).
+- ima: always return negative code for error (bsc#1051510).
+- Input: da9063 - fix capability and drop KEY_SLEEP (bsc#1051510).
+- Input: synaptics-rmi4 - avoid processing unknown IRQs (bsc#1051510).
+- integrity: prevent deadlock during digsig verification (bsc#1090631).
+- iommu/amd: Apply the same IVRS IOAPIC workaround to Acer Aspire A315-41 (bsc#1137799).
+- iommu/amd: Check PM_LEVEL_SIZE() condition in locked section (bsc#1154608).
+- iommu/amd: Override wrong IVRS IOAPIC on Raven Ridge systems (bsc#1137799).
+- iommu/amd: Remove domain-&amp;gt;updated (bsc#1154610).
+- iommu/amd: Wait for completion of IOTLB flush in attach_device (bsc#1154611).
+- ipmi_si: Only schedule continuously in the thread in maintenance mode (bsc#1051510).
+- ipv6: drop incoming packets having a v4mapped source address (networking-stable-19_10_05).
+- ipv6: Fix the link time qualifier of 'ping_v6_proc_exit_net()' (networking-stable-19_09_15).
+- ipv6: Handle missing host route in __ipv6_ifa_notify (networking-stable-19_10_05).
+- iwlwifi: do not panic in error path on non-msix systems (bsc#1155692).
+- iwlwifi: exclude GEO SAR support for 3168 (git-fixes).
+- ixgbe: Prevent u8 wrapping of ITR value to something less than 10us (bsc#1101674).
+- ixgbe: sync the first fragment unconditionally (bsc#1133140).
+- kABI: net: sched: act_sample: fix psample group handling on overwrite (networking-stable-19_09_05).
+- kABI/severities: Whitelist functions internal to radix mm. To call these functions you have to first detect if you are running in radix mm mode which can't be expected of OOT code.
+- kABI workaround for crypto/af_alg changes (bsc#1154737).
+- kABI workaround for drm_vma_offset_node readonly field addition (bsc#1135967)
+- kABI workaround for snd_hda_pick_pin_fixup() changes (bsc#1051510).
+- kernel-binary: Drop .kernel-binary.spec.buildenv (boo#1154578). 
+- kernel-binary.spec.in: Fix build of non-modular kernels (boo#1154578).
+- kernel-binary.spec.in: Obsolete kgraft packages only when not building them.
+- kernel-subpackage-build: create zero size ghost for uncompressed vmlinux (bsc#1154354). It is not strictly necessary to uncompress it so maybe the ghost file can be 0 size in this case.
+- kernel/sysctl.c: do not override max_threads provided by userspace (bnc#1150875).
+- ksm: cleanup stable_node chain collapse case (bnc#1144338).
+- ksm: fix use after free with merge_across_nodes = 0 (bnc#1144338).
+- ksm: introduce ksm_max_page_sharing per page deduplication limit (bnc#1144338).
+- ksm: optimize refile of stable_node_dup at the head of the chain (bnc#1144338).
+- ksm: swap the two output parameters of chain/chain_prune (bnc#1144338).
+- KVM: Convert kvm_lock to a mutex (bsc#1117665).
+- KVM: MMU: drop vcpu param in gpte_access (bsc#1117665).
+- KVM: PPC: Book3S HV: use smp_mb() when setting/clearing host_ipi flag (bsc#1061840).
+- KVM: vmx, svm: always run with EFER.NXE=1 when shadow paging is active (bsc#1117665).
+- KVM: x86: add tracepoints around __direct_map and FNAME(fetch) (bsc#1117665).
+- KVM: x86: adjust kvm_mmu_page member to save 8 bytes (bsc#1117665).
+- KVM: x86: change kvm_mmu_page_get_gfn BUG_ON to WARN_ON (bsc#1117665).
+- KVM: x86: Do not release the page inside mmu_set_spte() (bsc#1117665).
+- KVM: x86: make FNAME(fetch) and __direct_map more similar (bsc#1117665).
+- KVM: x86, powerpc: do not allow clearing largepages debugfs entry (bsc#1117665).
+- KVM: x86: remove now unneeded hugepage gfn adjustment (bsc#1117665).
+- libertas: Add missing sentinel at end of if_usb.c fw_table (bsc#1051510).
+- lib/mpi: Fix karactx leak in mpi_powm (bsc#1051510).
+- lib/scatterlist: Fix chaining support in sgl_alloc_order() (git-fixes).
+- lib/scatterlist: Introduce sgl_alloc() and sgl_free() (git-fixes).
+- mac80211: accept deauth frames in IBSS mode (bsc#1051510).
+- mac80211: fix txq null pointer dereference (bsc#1051510).
+- mac80211: Reject malformed SSID elements (bsc#1051510).
+- macsec: drop skb sk before calling gro_cells_receive (bsc#1051510).
+- md/raid0: avoid RAID0 data corruption due to layout confusion (bsc#1140090).
+- md/raid0: fix warning message for parameter default_layout (bsc#1140090).
+- media: atmel: atmel-isc: fix asd memory allocation (bsc#1135642).
+- media: cpia2_usb: fix memory leaks (bsc#1051510).
+- media: dvb-core: fix a memory leak bug (bsc#1051510).
+- media: exynos4-is: fix leaked of_node references (bsc#1051510).
+- media: gspca: zero usb_buf on error (bsc#1051510).
+- media: hdpvr: Add device num check and handling (bsc#1051510).
+- media: hdpvr: add terminating 0 at end of string (bsc#1051510).
+- media: i2c: ov5645: Fix power sequence (bsc#1051510).
+- media: iguanair: add sanity checks (bsc#1051510).
+- media: omap3isp: Do not set streaming state on random subdevs (bsc#1051510).
+- media: omap3isp: Set device on omap3isp subdevs (bsc#1051510).
+- media: ov9650: add a sanity check (bsc#1051510).
+- media: radio/si470x: kill urb on error (bsc#1051510).
+- media: saa7134: fix terminology around saa7134_i2c_eeprom_md7134_gate() (bsc#1051510).
+- media: saa7146: add cleanup in hexium_attach() (bsc#1051510).
+- media: sn9c20x: Add MSI MS-1039 laptop to flip_dmi_table (bsc#1051510).
+- media: stkwebcam: fix runtime PM after driver unbind (bsc#1051510).
+- media: ttusb-dec: Fix info-leak in ttusb_dec_send_command() (bsc#1051510).
+- memstick: jmb38x_ms: Fix an error handling path in 'jmb38x_ms_probe()' (bsc#1051510).
+- mfd: intel-lpss: Remove D3cold delay (bsc#1051510).
+- mISDN: enforce CAP_NET_RAW for raw sockets (bsc#1051510).
+- mld: fix memory leak in mld_del_delrec() (networking-stable-19_09_05).
+- mmc: sdhci-esdhc-imx: correct the fix of ERR004536 (git-fixes).
+- mmc: sdhci: Fix incorrect switch to HS mode (bsc#1051510).
+- mmc: sdhci: improve ADMA error reporting (bsc#1051510).
+- mmc: sdhci-of-esdhc: set DMA snooping based on DMA coherence (bsc#1051510).
+- mtd: nand: mtk: fix incorrect register setting order about ecc irq.
+- netfilter: nf_nat: do not bug when mapping already exists (bsc#1146612).
+- net: Fix null de-reference of device refcount (networking-stable-19_09_15).
+- net: fix skb use after free in netpoll (networking-stable-19_09_05).
+- net: gso: Fix skb_segment splat when splitting gso_size mangled skb having linear-headed frag_list (networking-stable-19_09_15).
+- net/ibmvnic: Fix EOI when running in XIVE mode (bsc#1089644, ltc#166495, ltc#165544, git-fixes).
+- net/mlx4_en: fix a memory leak bug (bsc#1046299).
+- net/mlx5: Add device ID of upcoming BlueField-2 (bsc#1046303 ).
+- net/mlx5: Fix error handling in mlx5_load() (bsc#1046305 ).
+- net: openvswitch: free vport unless register_netdevice() succeeds (git-fixes).
+- net/phy: fix DP83865 10 Mbps HDX loopback disable function (networking-stable-19_09_30).
+- net: qlogic: Fix memory leak in ql_alloc_large_buffers (networking-stable-19_10_05).
+- net: qrtr: Stop rx_worker before freeing node (networking-stable-19_09_30).
+- net/rds: Fix error handling in rds_ib_add_one() (networking-stable-19_10_05).
+- net/rds: fix warn in rds_message_alloc_sgs (bsc#1154848).
+- net/rds: remove user triggered WARN_ON in rds_sendmsg (bsc#1154848).
+- net: Replace NF_CT_ASSERT() with WARN_ON() (bsc#1146612).
+- net/sched: act_sample: do not push mac header on ip6gre ingress (networking-stable-19_09_30).
+- net: sched: act_sample: fix psample group handling on overwrite (networking-stable-19_09_05).
+- net_sched: add policy validation for action attributes (networking-stable-19_09_30).
+- net_sched: fix backward compatibility for TCA_ACT_KIND (git-fixes).
+- net/smc: fix SMCD link group creation with VLAN id (bsc#1154959).
+- net: stmmac: dwmac-rk: Do not fail if phy regulator is absent (networking-stable-19_09_05).
+- net: Unpublish sk from sk_reuseport_cb before call_rcu (networking-stable-19_10_05).
+- NFC: fix attrs checks in netlink interface (bsc#1051510).
+- NFC: fix memory leak in llcp_sock_bind() (bsc#1051510).
+- NFC: pn533: fix use-after-free and memleaks (bsc#1051510).
+- NFS: fix incorrectly backported patch (boo#1154189 bsc#1154747).
+- NFSv4.1 - backchannel request should hold ref on xprt (bsc#1152624).
+- nl80211: fix null pointer dereference (bsc#1051510).
+- objtool: Clobber user CFLAGS variable (bsc#1153236).
+- openvswitch: change type of UPCALL_PID attribute to NLA_UNSPEC (networking-stable-19_09_30).
+- packaging: add support for riscv64
+- Parametrize kgraft vs livepatch.
+- PCI: Correct pci=resource_alignment parameter example (bsc#1051510).
+- PCI: dra7xx: Fix legacy INTD IRQ handling (bsc#1087092).
+- PCI: hv: Use bytes 4 and 5 from instance ID as the PCI domain numbers (bsc#1153263).
+- PCI: PM: Fix pci_power_up() (bsc#1051510).
+- pinctrl: tegra: Fix write barrier placement in pmx_writel (bsc#1051510).
+- platform/x86: classmate-laptop: remove unused variable (bsc#1051510).
+- platform/x86: pmc_atom: Add Siemens SIMATIC IPC277E to critclk_systems DMI table (bsc#1051510).
+- powerpc/64: Make meltdown reporting Book3S 64 specific (bsc#1091041).
+- powerpc/64s/pseries: radix flush translations before MMU is enabled at boot (bsc#1055186).
+- powerpc/64s/radix: keep kernel ERAT over local process/guest invalidates (bsc#1055186).
+- powerpc/64s/radix: tidy up TLB flushing code (bsc#1055186).
+- powerpc/64s: Rename PPC_INVALIDATE_ERAT to PPC_ISA_3_0_INVALIDATE_ERAT (bsc#1055186).
+- powerpc/mm/book3s64: Move book3s64 code to pgtable-book3s64 (bsc#1055186).
+- powerpc/mm: mark more tlb functions as __always_inline (bsc#1055186).
+- powerpc/mm: Properly invalidate when setting process table base (bsc#1055186).
+- powerpc/mm/radix: mark as __tlbie_pid() and friends as__always_inline (bsc#1055186).
+- powerpc/mm/radix: mark __radix__flush_tlb_range_psize() as __always_inline (bsc#1055186).
+- powerpc/pseries: address checkpatch warnings in dlpar_offline_cpu (bsc#1156700 ltc#182459).
+- powerpc/pseries: Export maximum memory value (bsc#1122363).
+- powerpc/pseries: Export raw per-CPU VPA data via debugfs ().
+- powerpc/pseries/mobility: use cond_resched when updating device tree (bsc#1153112 ltc#181778).
+- powerpc/pseries: Remove confusing warning message (bsc#1109158).
+- powerpc/pseries: safely roll back failed DLPAR cpu add (bsc#1156700 ltc#182459).
+- powerpc/rtas: allow rescheduling while changing cpu states (bsc#1153112 ltc#181778).
+- powerpc/security/book3s64: Report L1TF status in sysfs (bsc#1091041).
+- powerpc/security: Fix wrong message when RFI Flush is disable (bsc#1131107).
+- powerpc/xive: Prevent page fault issues in the machine crash handler (bsc#1156882 ltc#182435).
+- power: supply: max14656: fix potential use-after-free (bsc#1051510).
+- power: supply: sysfs: ratelimit property read error message (bsc#1051510).
+- Pull packaging cleanup from mkubecek.
+- qed: iWARP - Fix default window size to be based on chip (bsc#1050536 bsc#1050545).
+- qed: iWARP - Fix tc for MPA ll2 connection (bsc#1050536 bsc#1050545).
+- qed: iWARP - fix uninitialized callback (bsc#1050536 bsc#1050545).
+- qed: iWARP - Use READ_ONCE and smp_store_release to access ep-&amp;gt;state (bsc#1050536 bsc#1050545).
+- qmi_wwan: add support for Cinterion CLS8 devices (networking-stable-19_10_05).
+- r8152: Set macpassthru in reset_resume callback (bsc#1051510).
+- RDMA/bnxt_re: Fix spelling mistake &amp;quot;missin_resp&amp;quot; -&amp;gt; &amp;quot;missing_resp&amp;quot; (bsc#1050244).
+- RDMA: Fix goto target to release the allocated memory (bsc#1050244).
+- rds: Fix warning (bsc#1154848).
+- reiserfs: fix extended attributes on the root directory (bsc#1151225).
+- rpm/config.sh: Enable kgraft.
+- rpm/config.sh: Enable livepatch.
+- rpm/constraints.in: lower disk space required for ARM With a requirement of 35GB, only 2 slow workers are usable for ARM. Current aarch64 build requires 27G and armv6/7 requires 14G. Set requirements respectively to 30GB and 20GB.
+- rpm/dtb.spec.in.in: do not make dtb directory inaccessible There is no reason to lock down the dtb directory for ordinary users.
+- rpm/kernel-binary.spec.in: build kernel-*-kgraft only for default SLE kernel RT and Azure variants are excluded for the moment. (bsc#1141600)
+- rpm/kernel-binary.spec.in: Fix kernel-livepatch description typo.
+- rpm/kernel-binary.spec.in: handle modules.builtin.modinfo It was added in 5.2.
+- rpm/kernel-binary.spec.in: support partial rt debug config.
+- rpm/kernel-subpackage-spec: Mention debuginfo in the subpackage description (bsc#1149119).
+- rpm/macros.kernel-source: KMPs should depend on kmod-compat to build. kmod-compat links are used in find-provides.ksyms, find-requires.ksyms, and find-supplements.ksyms in rpm-config-SUSE.
+- rpm/mkspec: Correct tarball URL for rc kernels.
+- rpm/mkspec: Make building DTBs optional.
+- rpm/modflist: Simplify compression support.
+- rpm: raise required disk space for binary packages Current disk space constraints (10 GB on s390x, 25 GB on other architectures) no longer suffice for 5.3 kernel builds. The statistics show ~30 GB of disk consumption on x86_64 and ~11 GB on s390x so raise the constraints to 35 GB in general and 14 GB on s390x.
+- rpm: support compressed modules Some of our scripts and scriptlets in rpm/ do not expect module files not ending with &amp;quot;.ko&amp;quot; which currently leads to failure in preuninstall scriptlet of cluster-md-kmp-default (and probably also other subpackages). Let those which could be run on compressed module files recognize &amp;quot;.ko.xz&amp;quot; in addition to &amp;quot;.ko&amp;quot;.
+- rtlwifi: rtl8192cu: Fix value set in descriptor (bsc#1142635).
+- s390/cmf: set_schib_wait add timeout (bsc#1153509, bsc#1153476).
+- s390/cpumsf: Check for CPU Measurement sampling (bsc#1153681 LTC#181855).
+- s390/crypto: fix gcm-aes-s390 selftest failures (bsc#1137861 LTC#178091).
+- sc16is7xx: Fix for &amp;quot;Unexpected interrupt: 8&amp;quot; (bsc#1051510).
+- sch_cbq: validate TCA_CBQ_WRROPT to avoid crash (networking-stable-19_10_05).
+- sch_dsmark: fix potential NULL deref in dsmark_init() (networking-stable-19_10_05).
+- sched/fair: Avoid divide by zero when rebalancing domains (bsc#1096254).
+- sch_hhf: ensure quantum and hhf_non_hh_weight are non-zero (networking-stable-19_09_15).
+- sch_netem: fix a divide by zero in tabledist() (networking-stable-19_09_30).
+- scripts/arch-symbols: add missing link.
+- scsi: lpfc: Fix devices that do not return after devloss followed by rediscovery (bsc#1137040).
+- scsi: lpfc: Fix null ptr oops updating lpfc_devloss_tmo via sysfs attribute (bsc#1140845).
+- scsi: lpfc: Fix propagation of devloss_tmo setting to nvme transport (bsc#1140883).
+- scsi: lpfc: Honor module parameter lpfc_use_adisc (bsc#1153628).
+- scsi: lpfc: Limit xri count for kdump environment (bsc#1154124).
+- scsi: lpfc: Remove bg debugfs buffers (bsc#1144375).
+- scsi: qedf: fc_rport_priv reference counting fixes (bsc#1098291).
+- scsi: qedf: Modify abort and tmf handler to handle edge condition and flush (bsc#1098291).
+- scsi: qla2xxx: Add error handling for PLOGI ELS passthrough (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Capture FW dump on MPI heartbeat stop event (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Check for MB timeout while capturing ISP27/28xx FW dump (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Do command completion on abort timeout (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: do not use zero for FC4_PRIORITY_NVME (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Dual FCP-NVMe target port support (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Fix a dma_pool_free() call (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Fix device connect issues in P2P configuration (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Fix double scsi_done for abort path (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Fix driver unload hang (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Fix memory leak when sending I/O fails (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Fix N2N link reset (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Fix N2N link up fail (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Fix partial flash write of MBI (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Fix SRB leak on switch command timeout (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Fix stale mem access on driver unload (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Fix unbound sleep in fcport delete path (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: fixup incorrect usage of host_byte (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Fix wait condition in loop (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Improve logging for scan thread (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Initialized mailbox to prevent driver load failure (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: initialize fc4_type_priority (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Optimize NPIV tear down process (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Remove an include directive (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: remove redundant assignment to pointer host (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Retry PLOGI on FC-NVMe PRLI failure (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: qla2xxx: Set remove flag for all VP (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Silence fwdump template message (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: stop timer in shutdown path (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Update driver version to 10.01.00.20-k (bsc#1143706 bsc#1082635 bsc#1123034).
+- scsi: qla2xxx: Update driver version to 10.01.00.21-k (bsc#1143706 bsc#1082635 bsc#1154526 bsc#1048942).
+- scsi: sd: Ignore a failure to sync cache due to lack of authorization (git-fixes).
+- scsi: storvsc: Add ability to change scsi queue depth (bsc#1155021).
+- scsi: storvsc: setup 1:1 mapping between hardware queue and CPU queue (bsc#1140729).
+- scsi: zfcp: fix reaction on bit error threshold notification (bsc#1154956 LTC#182054).
+- sctp: Fix the link time qualifier of 'sctp_ctrlsock_exit()' (networking-stable-19_09_15).
+- sctp: use transport pf_retrans in sctp_do_8_2_transport_strike (networking-stable-19_09_15).
+- serial: fix kernel-doc warning in comments (bsc#1051510).
+- serial: mctrl_gpio: Check for NULL pointer (bsc#1051510).
+- serial: uartlite: fix exit path null pointer (bsc#1051510).
+- skge: fix checksum byte order (networking-stable-19_09_30).
+- sock_diag: fix autoloading of the raw_diag module (bsc#1152791).
+- sock_diag: request _diag module only when the family or proto has been registered (bsc#1152791).
+- staging: rtl8188eu: fix null dereference when kzalloc fails (bsc#1051510).
+- staging: vt6655: Fix memory leak in vt6655_probe (bsc#1051510).
+- staging: wlan-ng: fix exit return when sme-&amp;gt;key_idx &amp;gt;= NUM_WEPKEYS (bsc#1051510).
+- supporte.conf: add efivarfs to kernel-default-base (bsc#1154858).
+- tcp: Do not dequeue SYN/FIN-segments from write-queue (git-gixes).
+- tcp: fix tcp_ecn_withdraw_cwr() to clear TCP_ECN_QUEUE_CWR (networking-stable-19_09_15).
+- tcp: inherit timestamp on mtu probe (networking-stable-19_09_05).
+- tcp: remove empty skb from write queue in error cases (networking-stable-19_09_05).
+- thermal: Fix use-after-free when unregistering thermal zone device (bsc#1051510).
+- thermal_hwmon: Sanitize thermal_zone type (bsc#1051510).
+- tipc: add NULL pointer check before calling kfree_rcu (networking-stable-19_09_15).
+- tipc: fix unlimited bundling of small messages (networking-stable-19_10_05).
+- tracing: Get trace_array reference for available_tracers files (bsc#1156429).
+- tracing: Initialize iter-&amp;gt;seq after zeroing in tracing_read_pipe() (bsc#1151508).
+- tun: fix use-after-free when register netdev failed (networking-stable-19_09_15).
+- tuntap: correctly set SOCKWQ_ASYNC_NOSPACE (bsc#1145099).
+- tuntap: correctly set SOCKWQ_ASYNC_NOSPACE (bsc#1145099).
+- UAS: Revert commit 3ae62a42090f (&amp;quot;UAS: fix alignment of scatter/gather segments&amp;quot;).
+- USB: adutux: fix NULL-derefs on disconnect (bsc#1142635).
+- USB: adutux: fix use-after-free on disconnect (bsc#1142635).
+- USB: adutux: fix use-after-free on release (bsc#1051510).
+- USB: chaoskey: fix use-after-free on release (bsc#1051510).
+- USB: dummy-hcd: fix power budget for SuperSpeed mode (bsc#1051510).
+- USB: gadget: Reject endpoints with 0 maxpacket value (bsc#1051510).
+- USB: gadget: udc: atmel: Fix interrupt storm in FIFO mode (bsc#1051510).
+- USB: handle warm-reset port requests on hub resume (bsc#1051510).
+- USB: iowarrior: fix use-after-free after driver unbind (bsc#1051510).
+- USB: iowarrior: fix use-after-free on disconnect (bsc#1051510).
+- USB: iowarrior: fix use-after-free on release (bsc#1051510).
+- USBIP: add config dependency for SGL_ALLOC (git-fixes).
+- USBIP: Fix free of unallocated memory in vhci tx (git-fixes).
+- USBIP: Fix vhci_urb_enqueue() URB null transfer buffer error path (git-fixes).
+- USBIP: Implement SG support to vhci-hcd and stub driver (git-fixes).
+- USB: ldusb: fix control-message timeout (bsc#1051510).
+- USB: ldusb: fix memleak on disconnect (bsc#1051510).
+- USB: ldusb: fix NULL-derefs on driver unbind (bsc#1051510).
+- USB: ldusb: fix read info leaks (bsc#1051510).
+- USB: ldusb: fix ring-buffer locking (bsc#1051510).
+- USB: legousbtower: fix a signedness bug in tower_probe() (bsc#1051510).
+- USB: legousbtower: fix deadlock on disconnect (bsc#1142635).
+- USB: legousbtower: fix memleak on disconnect (bsc#1051510).
+- USB: legousbtower: fix open after failed reset request (bsc#1142635).
+- USB: legousbtower: fix potential NULL-deref on disconnect (bsc#1142635).
+- USB: legousbtower: fix slab info leak at probe (bsc#1142635).
+- USB: legousbtower: fix use-after-free on release (bsc#1051510).
+- USB: microtek: fix info-leak at probe (bsc#1142635).
+- usbnet: ignore endpoints with invalid wMaxPacketSize (bsc#1051510).
+- usbnet: sanity checking of packet sizes and device mtu (bsc#1051510).
+- USB: serial: fix runtime PM after driver unbind (bsc#1051510).
+- USB: serial: ftdi_sio: add device IDs for Sienna and Echelon PL-20 (bsc#1051510).
+- USB: serial: keyspan: fix NULL-derefs on open() and write() (bsc#1051510).
+- USB: serial: option: add support for Cinterion CLS8 devices (bsc#1051510).
+- USB: serial: option: add Telit FN980 compositions (bsc#1051510).
+- USB: serial: ti_usb_3410_5052: fix port-close races (bsc#1051510).
+- USB: serial: whiteheat: fix line-speed endianness (bsc#1051510).
+- USB: serial: whiteheat: fix potential slab corruption (bsc#1051510).
+- usb-storage: Revert commit 747668dbc061 (&amp;quot;usb-storage: Set virt_boundary_mask to avoid SG overflows&amp;quot;) (bsc#1051510).
+- USB: udc: lpc32xx: fix bad bit shift operation (bsc#1051510).
+- USB: usblcd: fix I/O after disconnect (bsc#1142635).
+- USB: usblp: fix runtime PM after driver unbind (bsc#1051510).
+- USB: usblp: fix use-after-free on disconnect (bsc#1051510).
+- USB: usb-skeleton: fix NULL-deref on disconnect (bsc#1051510).
+- USB: usb-skeleton: fix runtime PM after driver unbind (bsc#1051510).
+- USB: usb-skeleton: fix use-after-free after driver unbind (bsc#1051510).
+- USB: xhci: wait for CNR controller not ready bit in xhci resume (bsc#1051510).
+- USB: yurex: Do not retry on unexpected errors (bsc#1051510).
+- USB: yurex: fix NULL-derefs on disconnect (bsc#1051510).
+- vfio_pci: Restore original state on release (bsc#1051510).
+- vhost_net: conditionally enable tx polling (bsc#1145099).
+- vhost_net: conditionally enable tx polling (bsc#1145099).
+- video: of: display_timing: Add of_node_put() in of_get_display_timing() (bsc#1051510).
+- vsock: Fix a lockdep warning in __vsock_release() (networking-stable-19_10_05).
+- watchdog: imx2_wdt: fix min() calculation in imx2_wdt_set_timeout (bsc#1051510).
+- x86/asm: Fix MWAITX C-state hint value (bsc#1114279).
+- x86/boot/64: Make level2_kernel_pgt pages invalid outside kernel area (bnc#1153969).
+- x86/boot/64: Round memory hole size up to next PMD page (bnc#1153969).
+- x86/mm: Use WRITE_ONCE() when setting PTEs (bsc#1114279).
+- xen/netback: fix error path of xenvif_connect_data() (bsc#1065600).
+- xen-netfront: do not use ~0U as error return value for xennet_fill_frags() (bsc#1065600).
+- xen/pv: Fix Xen PV guest int3 handling (bsc#1153811).
+- xen/xenbus: fix self-deadlock after killing user process (bsc#1065600).
+- xfrm: fix sa selector validation (bsc#1156609).
+- xfrm: Fix xfrm sel prefix length validation (git-fixes).
+- xhci: Check all endpoints for LPM timeout (bsc#1051510).
+- xhci: Fix false warning message about wrong bounce buffer write length (bsc#1051510).
+- xhci: Increase STS_SAVE timeout in xhci_suspend() (bsc#1051510).
+- xhci: Prevent device initiated U1/U2 link pm if exit latency is too long (bsc#1051510).
+</Note>
+    <Note Title="Terms of Use" Type="Legal Disclaimer" Ordinal="3" xml:lang="en">The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).</Note>
+  </DocumentNotes>
+  <DocumentDistribution xml:lang="en">Copyright SUSE LLC under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0)</DocumentDistribution>
+  <DocumentReferences>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      <Description>Link for SUSE-SU-2019:3294-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>http://lists.suse.com/pipermail/sle-security-updates/2019-December/006256.html</URL>
+      <Description>E-Mail link for SUSE-SU-2019:3294-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/security/rating/</URL>
+      <Description>SUSE Security Ratings</Description>
+    </Reference>
+  </DocumentReferences>
+  <ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Real Time Extension 12 SP4">
+        <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4">SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Version" Name="cluster-md-kmp-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="cluster-md-kmp-rt-4.12.14-8.9.3">cluster-md-kmp-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="dlm-kmp-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="dlm-kmp-rt-4.12.14-8.9.3">dlm-kmp-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="gfs2-kmp-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="gfs2-kmp-rt-4.12.14-8.9.3">gfs2-kmp-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-devel-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-devel-rt-4.12.14-8.9.3">kernel-devel-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-rt-4.12.14-8.9.3">kernel-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-rt-base-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-rt-base-4.12.14-8.9.3">kernel-rt-base-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-rt-devel-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-rt-devel-4.12.14-8.9.3">kernel-rt-devel-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-rt_debug-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-rt_debug-4.12.14-8.9.3">kernel-rt_debug-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-rt_debug-devel-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-rt_debug-devel-4.12.14-8.9.3">kernel-rt_debug-devel-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-source-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-source-rt-4.12.14-8.9.3">kernel-source-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="kernel-syms-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="kernel-syms-rt-4.12.14-8.9.3">kernel-syms-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="ocfs2-kmp-rt-4.12.14-8.9.3">
+      <FullProductName ProductID="ocfs2-kmp-rt-4.12.14-8.9.3">ocfs2-kmp-rt-4.12.14-8.9.3</FullProductName>
+    </Branch>
+    <Relationship ProductReference="cluster-md-kmp-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3">cluster-md-kmp-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="dlm-kmp-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3">dlm-kmp-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="gfs2-kmp-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3">gfs2-kmp-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-devel-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3">kernel-devel-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3">kernel-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-rt-base-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3">kernel-rt-base-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-rt-devel-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3">kernel-rt-devel-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-rt_debug-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3">kernel-rt_debug-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-rt_debug-devel-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3">kernel-rt_debug-devel-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-source-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3">kernel-source-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="kernel-syms-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3">kernel-syms-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="ocfs2-kmp-rt-4.12.14-8.9.3" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Real Time Extension 12 SP4">
+      <FullProductName ProductID="SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3">ocfs2-kmp-rt-4.12.14-8.9.3 as a component of SUSE Linux Enterprise Real Time Extension 12 SP4</FullProductName>
+    </Relationship>
+  </ProductTree>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="1">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Improper invalidation for page table updates by a virtual guest operating system for multiple Intel(R) Processors may allow an authenticated user to potentially enable denial of service of the host system via local access.</Note>
+    </Notes>
+    <CVE>CVE-2018-12207</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2018-12207.html</URL>
+        <Description>CVE-2018-12207</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1117665</URL>
+        <Description>SUSE Bug 1117665</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1139073</URL>
+        <Description>SUSE Bug 1139073</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152505</URL>
+        <Description>SUSE Bug 1152505</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1155812</URL>
+        <Description>SUSE Bug 1155812</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1155817</URL>
+        <Description>SUSE Bug 1155817</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1155945</URL>
+        <Description>SUSE Bug 1155945</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="2">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Insufficient access control in subsystem for Intel (R) processor graphics in 6th, 7th, 8th and 9th Generation Intel(R) Core(TM) Processor Families; Intel(R) Pentium(R) Processor J, N, Silver and Gold Series; Intel(R) Celeron(R) Processor J, N, G3900 and G4900 Series; Intel(R) Atom(R) Processor A and E3900 Series; Intel(R) Xeon(R) Processor E3-1500 v5 and v6 and E-2100 Processor Families may allow an authenticated user to potentially enable denial of service via local access.</Note>
+    </Notes>
+    <CVE>CVE-2019-0154</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-0154.html</URL>
+        <Description>CVE-2019-0154</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1135966</URL>
+        <Description>SUSE Bug 1135966</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="3">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Insufficient access control in a subsystem for Intel (R) processor graphics in 6th, 7th, 8th and 9th Generation Intel(R) Core(TM) Processor Families; Intel(R) Pentium(R) Processor J, N, Silver and Gold Series; Intel(R) Celeron(R) Processor J, N, G3900 and G4900 Series; Intel(R) Atom(R) Processor A and E3900 Series; Intel(R) Xeon(R) Processor E3-1500 v5 and v6, E-2100 and E-2200 Processor Families; Intel(R) Graphics Driver for Windows before 26.20.100.6813 (DCH) or 26.20.100.6812 and before 21.20.x.5077 (aka15.45.5077), i915 Linux Driver for Intel(R) Processor Graphics before versions 5.4-rc7, 5.3.11, 4.19.84, 4.14.154, 4.9.201, 4.4.201 may allow an authenticated user to potentially enable escalation of privilege via local access.</Note>
+    </Notes>
+    <CVE>CVE-2019-0155</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-0155.html</URL>
+        <Description>CVE-2019-0155</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1135966</URL>
+        <Description>SUSE Bug 1135966</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1135967</URL>
+        <Description>SUSE Bug 1135967</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="4">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Linux kernel CIFS implementation, version 4.9.0 is vulnerable to a relative paths injection in directory entry lists.</Note>
+    </Notes>
+    <CVE>CVE-2019-10220</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-10220.html</URL>
+        <Description>CVE-2019-10220</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1144903</URL>
+        <Description>SUSE Bug 1144903</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1153108</URL>
+        <Description>SUSE Bug 1153108</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="5">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">TSX Asynchronous Abort condition on some CPUs utilizing speculative execution may allow an authenticated user to potentially enable information disclosure via a side channel with local access.</Note>
+    </Notes>
+    <CVE>CVE-2019-11135</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-11135.html</URL>
+        <Description>CVE-2019-11135</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1139073</URL>
+        <Description>SUSE Bug 1139073</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152497</URL>
+        <Description>SUSE Bug 1152497</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152505</URL>
+        <Description>SUSE Bug 1152505</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152506</URL>
+        <Description>SUSE Bug 1152506</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="6">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">An issue was discovered in the Linux kernel before 5.0.1. There is a memory leak in register_queue_kobjects() in net/core/net-sysfs.c, which will cause denial of service.</Note>
+    </Notes>
+    <CVE>CVE-2019-15916</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>low</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-15916.html</URL>
+        <Description>CVE-2019-15916</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1149448</URL>
+        <Description>SUSE Bug 1149448</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="7">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">drivers/net/fjes/fjes_main.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.</Note>
+    </Notes>
+    <CVE>CVE-2019-16231</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-16231.html</URL>
+        <Description>CVE-2019-16231</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1150466</URL>
+        <Description>SUSE Bug 1150466</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="8">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">drivers/net/wireless/marvell/libertas/if_sdio.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.</Note>
+    </Notes>
+    <CVE>CVE-2019-16232</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-16232.html</URL>
+        <Description>CVE-2019-16232</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1150465</URL>
+        <Description>SUSE Bug 1150465</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="9">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">drivers/scsi/qla2xxx/qla_os.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.</Note>
+    </Notes>
+    <CVE>CVE-2019-16233</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-16233.html</URL>
+        <Description>CVE-2019-16233</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1150457</URL>
+        <Description>SUSE Bug 1150457</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="10">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">drivers/net/wireless/intel/iwlwifi/pcie/trans.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value, leading to a NULL pointer dereference.</Note>
+    </Notes>
+    <CVE>CVE-2019-16234</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-16234.html</URL>
+        <Description>CVE-2019-16234</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1150452</URL>
+        <Description>SUSE Bug 1150452</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="11">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">In the Linux kernel before 5.0.3, a memory leak exits in hsr_dev_finalize() in net/hsr/hsr_device.c if hsr_add_port fails to add a port, which may cause denial of service, aka CID-6caabe7f197d.</Note>
+    </Notes>
+    <CVE>CVE-2019-16995</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-16995.html</URL>
+        <Description>CVE-2019-16995</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152685</URL>
+        <Description>SUSE Bug 1152685</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="12">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">base_sock_create in drivers/isdn/mISDN/socket.c in the AF_ISDN network module in the Linux kernel through 5.3.2 does not enforce CAP_NET_RAW, which means that unprivileged users can create a raw socket, aka CID-b91ee4aa2a21.</Note>
+    </Notes>
+    <CVE>CVE-2019-17055</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>low</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-17055.html</URL>
+        <Description>CVE-2019-17055</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152782</URL>
+        <Description>SUSE Bug 1152782</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="13">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">llcp_sock_create in net/nfc/llcp_sock.c in the AF_NFC network module in the Linux kernel through 5.3.2 does not enforce CAP_NET_RAW, which means that unprivileged users can create a raw socket, aka CID-3a359798b176.</Note>
+    </Notes>
+    <CVE>CVE-2019-17056</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>low</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-17056.html</URL>
+        <Description>CVE-2019-17056</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1152788</URL>
+        <Description>SUSE Bug 1152788</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="14">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">In the Linux kernel through 5.3.2, cfg80211_mgd_wext_giwessid in net/wireless/wext-sme.c does not reject a long SSID IE, leading to a Buffer Overflow.</Note>
+    </Notes>
+    <CVE>CVE-2019-17133</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-17133.html</URL>
+        <Description>CVE-2019-17133</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1153158</URL>
+        <Description>SUSE Bug 1153158</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="15">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">rtl_p2p_noa_ie in drivers/net/wireless/realtek/rtlwifi/ps.c in the Linux kernel through 5.3.6 lacks a certain upper-bound check, leading to a buffer overflow.</Note>
+    </Notes>
+    <CVE>CVE-2019-17666</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-17666.html</URL>
+        <Description>CVE-2019-17666</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1154372</URL>
+        <Description>SUSE Bug 1154372</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="16">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">An issue was discovered in net/ipv4/sysctl_net_ipv4.c in the Linux kernel before 5.0.11. There is a net/ipv4/tcp_input.c signed integer overflow in tcp_ack_update_rtt() when userspace writes a very large integer to /proc/sys/net/ipv4/tcp_min_rtt_wlen, leading to a denial of service or possibly unspecified other impact, aka CID-19fad20d15a6.</Note>
+    </Notes>
+    <CVE>CVE-2019-18805</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:cluster-md-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:dlm-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:gfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-devel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-base-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-rt_debug-devel-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-source-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:kernel-syms-rt-4.12.14-8.9.3</ProductID>
+        <ProductID>SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>low</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-20193294-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-18805.html</URL>
+        <Description>CVE-2019-18805</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1156187</URL>
+        <Description>SUSE Bug 1156187</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+</cvrfdoc>

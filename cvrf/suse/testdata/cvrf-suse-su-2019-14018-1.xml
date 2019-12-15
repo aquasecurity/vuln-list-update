@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+  <DocumentTitle xml:lang="en">Security update for python</DocumentTitle>
+  <DocumentType>SUSE Patch</DocumentType>
+  <DocumentPublisher Type="Vendor">
+    <ContactDetails>security@suse.de</ContactDetails>
+    <IssuingAuthority>SUSE Security Team</IssuingAuthority>
+  </DocumentPublisher>
+  <DocumentTracking>
+    <Identification>
+      <ID>SUSE-SU-2019:14018-1</ID>
+    </Identification>
+    <Status>Final</Status>
+    <Version>1</Version>
+    <RevisionHistory>
+      <Revision>
+        <Number>1</Number>
+        <Date>2019-04-15T14:36:19Z</Date>
+        <Description>current</Description>
+      </Revision>
+    </RevisionHistory>
+    <InitialReleaseDate>2019-04-15T14:36:19Z</InitialReleaseDate>
+    <CurrentReleaseDate>2019-04-15T14:36:19Z</CurrentReleaseDate>
+    <Generator>
+      <Engine>cve-database/bin/generate-cvrf.pl</Engine>
+      <Date>2017-02-24T01:00:00Z</Date>
+    </Generator>
+  </DocumentTracking>
+  <DocumentNotes>
+    <Note Title="Topic" Type="Summary" Ordinal="1" xml:lang="en">Security update for python</Note>
+    <Note Title="Details" Type="General" Ordinal="2" xml:lang="en">This update for python fixes the following issues:
+
+Security issues fixed:
+
+- CVE-2019-9948: Fixed a 'file:' blacklist bypass in URIs by using the 'local-file:' scheme instead (bsc#1130847).
+- CVE-2019-9636: Fixed an information disclosure because of incorrect handling of Unicode encoding during NFKC normalization (bsc#1129346).
+</Note>
+    <Note Title="Terms of Use" Type="Legal Disclaimer" Ordinal="3" xml:lang="en">The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).</Note>
+  </DocumentNotes>
+  <DocumentDistribution xml:lang="en">Copyright SUSE LLC under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0)</DocumentDistribution>
+  <DocumentReferences>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/update/announcement/2019/suse-su-201914018-1/</URL>
+      <Description>Link for SUSE-SU-2019:14018-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>http://lists.suse.com/pipermail/sle-security-updates/2019-April/005340.html</URL>
+      <Description>E-Mail link for SUSE-SU-2019:14018-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/security/rating/</URL>
+      <Description>SUSE Security Ratings</Description>
+    </Reference>
+  </DocumentReferences>
+  <ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Point of Sale 11 SP3">
+        <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3">SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Server 11 SP4-LTSS">
+        <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS">SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Family" Name="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <Branch Type="Product Name" Name="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+        <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Version" Name="libpython2_6-1_0-2.6.9-40.24.1">
+      <FullProductName ProductID="libpython2_6-1_0-2.6.9-40.24.1">libpython2_6-1_0-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-2.6.9-40.24.1">
+      <FullProductName ProductID="python-2.6.9-40.24.1">python-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-base-2.6.9-40.24.1">
+      <FullProductName ProductID="python-base-2.6.9-40.24.1">python-base-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-curses-2.6.9-40.24.1">
+      <FullProductName ProductID="python-curses-2.6.9-40.24.1">python-curses-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-demo-2.6.9-40.24.1">
+      <FullProductName ProductID="python-demo-2.6.9-40.24.1">python-demo-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-doc-2.6-8.40.24.1">
+      <FullProductName ProductID="python-doc-2.6-8.40.24.1">python-doc-2.6-8.40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-doc-pdf-2.6-8.40.24.1">
+      <FullProductName ProductID="python-doc-pdf-2.6-8.40.24.1">python-doc-pdf-2.6-8.40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-gdbm-2.6.9-40.24.1">
+      <FullProductName ProductID="python-gdbm-2.6.9-40.24.1">python-gdbm-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-idle-2.6.9-40.24.1">
+      <FullProductName ProductID="python-idle-2.6.9-40.24.1">python-idle-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-tk-2.6.9-40.24.1">
+      <FullProductName ProductID="python-tk-2.6.9-40.24.1">python-tk-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-xml-2.6.9-40.24.1">
+      <FullProductName ProductID="python-xml-2.6.9-40.24.1">python-xml-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libpython2_6-1_0-32bit-2.6.9-40.24.1">
+      <FullProductName ProductID="libpython2_6-1_0-32bit-2.6.9-40.24.1">libpython2_6-1_0-32bit-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-32bit-2.6.9-40.24.1">
+      <FullProductName ProductID="python-32bit-2.6.9-40.24.1">python-32bit-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="python-base-32bit-2.6.9-40.24.1">
+      <FullProductName ProductID="python-base-32bit-2.6.9-40.24.1">python-base-32bit-2.6.9-40.24.1</FullProductName>
+    </Branch>
+    <Relationship ProductReference="libpython2_6-1_0-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:libpython2_6-1_0-2.6.9-40.24.1">libpython2_6-1_0-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-2.6.9-40.24.1">python-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-base-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-base-2.6.9-40.24.1">python-base-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-curses-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-curses-2.6.9-40.24.1">python-curses-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-demo-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-demo-2.6.9-40.24.1">python-demo-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-doc-2.6-8.40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-doc-2.6-8.40.24.1">python-doc-2.6-8.40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-doc-pdf-2.6-8.40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-doc-pdf-2.6-8.40.24.1">python-doc-pdf-2.6-8.40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-gdbm-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-gdbm-2.6.9-40.24.1">python-gdbm-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-idle-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-idle-2.6.9-40.24.1">python-idle-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-tk-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-tk-2.6.9-40.24.1">python-tk-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-xml-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Point of Sale 11 SP3">
+      <FullProductName ProductID="SUSE Linux Enterprise Point of Sale 11 SP3:python-xml-2.6.9-40.24.1">python-xml-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Point of Sale 11 SP3</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libpython2_6-1_0-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:libpython2_6-1_0-2.6.9-40.24.1">libpython2_6-1_0-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libpython2_6-1_0-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:libpython2_6-1_0-2.6.9-40.24.1">libpython2_6-1_0-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libpython2_6-1_0-32bit-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:libpython2_6-1_0-32bit-2.6.9-40.24.1">libpython2_6-1_0-32bit-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libpython2_6-1_0-32bit-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:libpython2_6-1_0-32bit-2.6.9-40.24.1">libpython2_6-1_0-32bit-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-2.6.9-40.24.1">python-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-2.6.9-40.24.1">python-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-32bit-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-32bit-2.6.9-40.24.1">python-32bit-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-32bit-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-32bit-2.6.9-40.24.1">python-32bit-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-base-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-base-2.6.9-40.24.1">python-base-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-base-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-base-2.6.9-40.24.1">python-base-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-base-32bit-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-base-32bit-2.6.9-40.24.1">python-base-32bit-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-base-32bit-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-base-32bit-2.6.9-40.24.1">python-base-32bit-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-curses-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-curses-2.6.9-40.24.1">python-curses-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-curses-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-curses-2.6.9-40.24.1">python-curses-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-demo-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-demo-2.6.9-40.24.1">python-demo-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-demo-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-demo-2.6.9-40.24.1">python-demo-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-doc-2.6-8.40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-doc-2.6-8.40.24.1">python-doc-2.6-8.40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-doc-2.6-8.40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-doc-2.6-8.40.24.1">python-doc-2.6-8.40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-doc-pdf-2.6-8.40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-doc-pdf-2.6-8.40.24.1">python-doc-pdf-2.6-8.40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-doc-pdf-2.6-8.40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-doc-pdf-2.6-8.40.24.1">python-doc-pdf-2.6-8.40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-gdbm-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-gdbm-2.6.9-40.24.1">python-gdbm-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-gdbm-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-gdbm-2.6.9-40.24.1">python-gdbm-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-idle-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-idle-2.6.9-40.24.1">python-idle-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-idle-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-idle-2.6.9-40.24.1">python-idle-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-tk-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-tk-2.6.9-40.24.1">python-tk-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-tk-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-tk-2.6.9-40.24.1">python-tk-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-xml-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server 11 SP4-LTSS:python-xml-2.6.9-40.24.1">python-xml-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server 11 SP4-LTSS</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="python-xml-2.6.9-40.24.1" RelationType="Default Component Of" RelatesToProductReference="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS">
+      <FullProductName ProductID="SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-xml-2.6.9-40.24.1">python-xml-2.6.9-40.24.1 as a component of SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS</FullProductName>
+    </Relationship>
+  </ProductTree>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="1">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Python 2.7.x through 2.7.16 and 3.x through 3.7.2 is affected by: Improper Handling of Unicode Encoding (with an incorrect netloc) during NFKC normalization. The impact is: Information disclosure (credentials, cookies, etc. that are cached against a given hostname). The components are: urllib.parse.urlsplit, urllib.parse.urlparse. The attack vector is: A specially crafted URL could be incorrectly parsed to locate cookies or authentication data and send that information to a different host than when parsed correctly.</Note>
+    </Notes>
+    <CVE>CVE-2019-9636</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:libpython2_6-1_0-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-base-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-curses-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-demo-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-doc-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-doc-pdf-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-gdbm-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-idle-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-tk-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-xml-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:libpython2_6-1_0-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:libpython2_6-1_0-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-base-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-base-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-curses-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-demo-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-doc-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-doc-pdf-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-gdbm-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-idle-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-tk-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-xml-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:libpython2_6-1_0-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:libpython2_6-1_0-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-base-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-base-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-curses-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-demo-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-doc-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-doc-pdf-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-gdbm-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-idle-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-tk-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-xml-2.6.9-40.24.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-201914018-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-9636.html</URL>
+        <Description>CVE-2019-9636</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1129346</URL>
+        <Description>SUSE Bug 1129346</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1135433</URL>
+        <Description>SUSE Bug 1135433</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1138459</URL>
+        <Description>SUSE Bug 1138459</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="2">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">urllib in Python 2.x through 2.7.16 supports the local_file: scheme, which makes it easier for remote attackers to bypass protection mechanisms that blacklist file: URIs, as demonstrated by triggering a urllib.urlopen('local_file:///etc/passwd') call.</Note>
+    </Notes>
+    <CVE>CVE-2019-9948</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:libpython2_6-1_0-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-base-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-curses-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-demo-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-doc-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-doc-pdf-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-gdbm-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-idle-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-tk-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Point of Sale 11 SP3:python-xml-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:libpython2_6-1_0-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:libpython2_6-1_0-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-base-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-base-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-curses-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-demo-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-doc-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-doc-pdf-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-gdbm-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-idle-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-tk-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server 11 SP4-LTSS:python-xml-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:libpython2_6-1_0-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:libpython2_6-1_0-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-base-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-base-32bit-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-curses-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-demo-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-doc-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-doc-pdf-2.6-8.40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-gdbm-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-idle-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-tk-2.6.9-40.24.1</ProductID>
+        <ProductID>SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-xml-2.6.9-40.24.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>low</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>https://www.suse.com/support/update/announcement/2019/suse-su-201914018-1/</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2019-9948.html</URL>
+        <Description>CVE-2019-9948</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1130847</URL>
+        <Description>SUSE Bug 1130847</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/1135433</URL>
+        <Description>SUSE Bug 1135433</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+</cvrfdoc>
