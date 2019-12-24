@@ -87,6 +87,7 @@ func (c Config) Update() error {
 func (c Config) saveCVEPerYear(dirName, pkgName, cveID string, data interface{}) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
+		log.Printf("invalid CVE-ID: %s", cveID)
 		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
 	}
 

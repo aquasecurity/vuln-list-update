@@ -99,6 +99,18 @@ func TestConfig_Update(t *testing.T) {
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed to unmarshal Photon advisory: invalid character ']' after object key:value pair",
 		},
+		{
+			name:  "invalid CVE-ID",
+			appFs: afero.NewMemMapFs(),
+			bzip2FileNames: map[string]string{
+				"/photon_cve_metadata/photon_versions.json":    "testdata/photon_versions.json",
+				"/photon_cve_metadata/cve_data_photon1.0.json": "testdata/cve_data_photon1.0.json",
+				"/photon_cve_metadata/cve_data_photon2.0.json": "testdata/cve_data_photon2.0.json",
+				"/photon_cve_metadata/cve_data_photon3.0.json": "testdata/cve_data_photon3.0_invalid_cveid.json",
+			},
+			goldenFiles:      map[string]string{},
+			expectedErrorMsg: "invalid CVE-ID format",
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
