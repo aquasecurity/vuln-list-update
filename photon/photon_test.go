@@ -8,9 +8,11 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aquasecurity/vuln-list-update/photon"
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/vuln-list-update/photon"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -113,6 +115,7 @@ func TestConfig_Update(t *testing.T) {
 			err := c.Update()
 			switch {
 			case tc.expectedErrorMsg != "":
+				require.NotNil(t, err, tc.name)
 				assert.Contains(t, err.Error(), tc.expectedErrorMsg, tc.name)
 				return
 			default:
@@ -151,5 +154,4 @@ func TestConfig_Update(t *testing.T) {
 			assert.NoError(t, err, tc.name)
 		})
 	}
-
 }
