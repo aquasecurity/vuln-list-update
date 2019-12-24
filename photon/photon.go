@@ -87,12 +87,12 @@ func (c Config) Update() error {
 func (c Config) saveCVEPerYear(dirName string, cveID string, data interface{}) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
-		return xerrors.Errorf("invalid CVE-ID format: %s\n", cveID)
+		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
 	}
 
 	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
 	if err := c.AppFs.MkdirAll(yearDir, os.ModePerm); err != nil {
-		return err
+		return xerrors.Errorf("failed to create dir: %w", err)
 	}
 
 	filePath := filepath.Join(yearDir, fmt.Sprintf("%s.json", cveID))
