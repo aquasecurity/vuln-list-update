@@ -2,6 +2,7 @@ package photon_test
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -35,20 +36,20 @@ func TestConfig_Update(t *testing.T) {
 				"/photon_cve_metadata/cve_data_photon3.0.json": "testdata/cve_data_photon3.0.json",
 			},
 			goldenFiles: map[string]string{
-				"/tmp/photon/1.0/2016/CVE-2016-9843.json":  "testdata/golden/CVE-2016-9843.json",
-				"/tmp/photon/1.0/2017/CVE-2017-5637.json":  "testdata/golden/CVE-2017-5637.json",
-				"/tmp/photon/1.0/2017/CVE-2017-12617.json": "testdata/golden/CVE-2017-12617.json",
-				"/tmp/photon/1.0/2018/CVE-2018-10372.json": "testdata/golden/CVE-2018-10372.json",
-				"/tmp/photon/1.0/2019/CVE-2019-12972.json": "testdata/golden/CVE-2019-12972.json",
-				"/tmp/photon/2.0/2015/CVE-2015-8863.json":  "testdata/golden/CVE-2015-8863.json",
-				"/tmp/photon/2.0/2016/CVE-2016-9401.json":  "testdata/golden/CVE-2016-9401.json",
-				"/tmp/photon/2.0/2017/CVE-2017-7473.json":  "testdata/golden/CVE-2017-7473.json",
-				"/tmp/photon/2.0/2018/CVE-2018-16876.json": "testdata/golden/CVE-2018-16876.json",
-				"/tmp/photon/2.0/2019/CVE-2019-10156.json": "testdata/golden/CVE-2019-10156.json",
-				"/tmp/photon/3.0/2019/CVE-2019-3828.json":  "testdata/golden/CVE-2019-3828.json",
-				"/tmp/photon/3.0/2019/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
-				"/tmp/photon/3.0/2019/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
-				"/tmp/photon/3.0/2017/CVE-2017-16826.json": "testdata/golden/CVE-2017-16826.json",
+				"/tmp/photon/1.0/zlib/CVE-2016-9843.json":           "testdata/golden/CVE-2016-9843.json",
+				"/tmp/photon/1.0/zookeeper/CVE-2017-5637.json":      "testdata/golden/CVE-2017-5637.json",
+				"/tmp/photon/1.0/apache-tomcat/CVE-2017-12617.json": "testdata/golden/CVE-2017-12617.json",
+				"/tmp/photon/1.0/binutils/CVE-2018-10372.json":      "testdata/golden/CVE-2018-10372.json",
+				"/tmp/photon/1.0/binutils/CVE-2019-12972.json":      "testdata/golden/CVE-2019-12972.json",
+				"/tmp/photon/2.0/jq/CVE-2015-8863.json":             "testdata/golden/CVE-2015-8863.json",
+				"/tmp/photon/2.0/bash/CVE-2016-9401.json":           "testdata/golden/CVE-2016-9401.json",
+				"/tmp/photon/2.0/ansible/CVE-2017-7473.json":        "testdata/golden/CVE-2017-7473.json",
+				"/tmp/photon/2.0/ansible/CVE-2018-16876.json":       "testdata/golden/CVE-2018-16876.json",
+				"/tmp/photon/2.0/ansible/CVE-2019-10156.json":       "testdata/golden/CVE-2019-10156.json",
+				"/tmp/photon/3.0/ansible/CVE-2019-3828.json":        "testdata/golden/CVE-2019-3828.json",
+				"/tmp/photon/3.0/apache-tomcat/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
+				"/tmp/photon/3.0/apache-tomcat/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
+				"/tmp/photon/3.0/binutils/CVE-2017-16826.json":      "testdata/golden/CVE-2017-16826.json",
 			},
 		},
 		{
@@ -136,6 +137,9 @@ func TestConfig_Update(t *testing.T) {
 				assert.NoError(t, err, tc.name)
 
 				goldenPath, ok := tc.goldenFiles[path]
+				if !ok {
+					fmt.Println(path)
+				}
 				assert.True(t, ok, tc.name)
 
 				if *update {

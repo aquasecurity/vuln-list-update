@@ -73,7 +73,7 @@ func (c Config) Update() error {
 		bar := pb.StartNew(len(cves))
 		for _, def := range cves {
 			def.OSVersion = version
-			if err = c.saveCVEPerYear(dir, def.CveID, def); err != nil {
+			if err = c.saveCVEPerYear(dir, def.Pkg, def.CveID, def); err != nil {
 				return xerrors.Errorf("failed to save CVEPerYear: %w", err)
 			}
 			bar.Increment()
@@ -84,18 +84,18 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) saveCVEPerYear(dirName string, cveID string, data interface{}) error {
+func (c Config) saveCVEPerYear(dirName, pkgName, cveID string, data interface{}) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
 	}
 
-	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
-	if err := c.AppFs.MkdirAll(yearDir, os.ModePerm); err != nil {
+	pkgDir := filepath.Join(c.VulnListDir, dirName, pkgName)
+	if err := c.AppFs.MkdirAll(pkgDir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create dir: %w", err)
 	}
 
-	filePath := filepath.Join(yearDir, fmt.Sprintf("%s.json", cveID))
+	filePath := filepath.Join(pkgDir, fmt.Sprintf("%s.json", cveID))
 
 	fs := utils.NewFs(c.AppFs)
 	if err := fs.WriteJSON(filePath, data); err != nil {
