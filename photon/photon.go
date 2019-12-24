@@ -43,10 +43,10 @@ func (c Config) getPhotonVersion() ([]string, error) {
 	var versions Versions
 	res, err := utils.FetchURL(c.URL+versionsFile, "", c.Retry)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to fetch Photon advisory: %w", err)
+		return nil, xerrors.Errorf("failed to fetch Photon versions: %w", err)
 	}
 	if err := json.Unmarshal(res, &versions); err != nil {
-		return nil, xerrors.Errorf("failed to decode Photon advisory: %w", err)
+		return nil, xerrors.Errorf("failed to decode Photon versions: %w", err)
 	}
 
 	return versions.Branches, nil
@@ -57,7 +57,7 @@ func (c Config) Update() error {
 
 	versions, err := c.getPhotonVersion()
 	if err != nil {
-		return xerrors.Errorf("failed to fetch Photon versions: %w", err)
+		return xerrors.Errorf("failed to get Photon versions: %w", err)
 	}
 	for _, version := range versions {
 		res, err := utils.FetchURL(c.URL+fmt.Sprintf(advisoryFormat, version), "", c.Retry)

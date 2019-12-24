@@ -53,6 +53,14 @@ func TestConfig_Update(t *testing.T) {
 			},
 		},
 		{
+			name:  "invalid photon_versions.json",
+			appFs: afero.NewReadOnlyFs(afero.NewOsFs()),
+			bzip2FileNames: map[string]string{
+				"/photon_cve_metadata/photon_versions.json": "testdata/invalid_photon_versions.json",
+			},
+			expectedErrorMsg: "failed to decode Photon versions",
+		},
+		{
 			name:  "invalid filesystem write read only path",
 			appFs: afero.NewReadOnlyFs(afero.NewOsFs()),
 			bzip2FileNames: map[string]string{
@@ -69,7 +77,7 @@ func TestConfig_Update(t *testing.T) {
 			appFs:            afero.NewMemMapFs(),
 			bzip2FileNames:   map[string]string{},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to fetch Photon versions: failed to fetch Photon advisory: failed to fetch URL: HTTP error. status code: 404, url:",
+			expectedErrorMsg: "failed to fetch Photon versions",
 		},
 		{
 			name:  "EOF file",
