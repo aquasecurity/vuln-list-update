@@ -94,7 +94,7 @@ func TestConfig_Update(t *testing.T) {
 			appFs: afero.NewMemMapFs(),
 			bzip2FileNames: map[string]string{
 				"/photon_cve_metadata/photon_versions.json":    "testdata/photon_versions.json",
-				"/photon_cve_metadata/cve_data_photon1.0.json": "testdata/cve_data_photon_invalid.json",
+				"/photon_cve_metadata/cve_data_photon1.0.json": "testdata/cve_data_photon_invalid_format.json",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed to unmarshal Photon advisory: invalid character ']' after object key:value pair",
