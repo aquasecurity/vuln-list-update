@@ -73,8 +73,8 @@ func (c Config) Update() error {
 		bar := pb.StartNew(len(cves))
 		for _, def := range cves {
 			def.OSVersion = version
-			if err = c.saveCVEPerYear(dir, def.Pkg, def.CveID, def); err != nil {
-				return xerrors.Errorf("failed to save CVEPerYear: %w", err)
+			if err = c.saveCVEPerPkg(dir, def.Pkg, def.CveID, def); err != nil {
+				return xerrors.Errorf("failed to save CVE-ID per package name: %w", err)
 			}
 			bar.Increment()
 		}
@@ -84,7 +84,7 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) saveCVEPerYear(dirName, pkgName, cveID string, data interface{}) error {
+func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, data interface{}) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		log.Printf("invalid CVE-ID: %s", cveID)
