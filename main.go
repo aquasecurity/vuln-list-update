@@ -141,8 +141,8 @@ func run() error {
 		}
 		commitMsg = "SUSE CVRF"
 	case "photon":
-		op := photon.NewConfig()
-		if err := op.Update(); err != nil {
+		pc := photon.NewConfig()
+		if err := pc.Update(); err != nil {
 			return xerrors.Errorf("error in Photon update: %w", err)
 		}
 		commitMsg = "Photon Security Advisories"
