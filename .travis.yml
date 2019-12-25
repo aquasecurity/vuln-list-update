@@ -19,8 +19,8 @@ stages:
   - 'Amazon Linux AMI Security Advisory'
   - 'Oracle Linux OVAL'
   - 'Red Hat OVAL'
-  - 'SUSE CVRF'
   - 'Photon CVE Advisory'
+  - 'SUSE CVRF'
   - 'Red Hat Security Data API 2019-2020'
   - 'Red Hat Security Data API 2018'
   - 'Red Hat Security Data API 2017'
@@ -75,15 +75,15 @@ jobs:
       script:
         - go run main.go -target redhat-oval
 
-    - stage: 'SUSE CVRF'
-      if: type = cron
-      script:
-        - go run main.go -target suse-cvrf
-
     - stage: 'Photon CVE Advisory'
       if: type = cron
       script:
         - go run main.go -target photon
+
+    - stage: 'SUSE CVRF'
+      if: type = cron
+      script:
+        - go run main.go -target suse-cvrf
 
     # split RedHat job due to timeout
     - stage: 'Red Hat Security Data API 1996-2002'
