@@ -1,0 +1,37 @@
+[
+  {
+    "cve_id": "CVE-2015-8863",
+    "pkg": "jq",
+    "cve_score": 9.8,
+    "aff_ver": "all versions before 1.5-3.ph2 are vulnerable",
+    "res_ver": "1.5-3.ph2"
+  },
+  {
+    "cve_id": "CVE-2016-9401",
+    "pkg": "bash",
+    "cve_score": 5.5,
+    "aff_ver": "all versions before 4.4.12-1.ph2 are vulnerable",
+    "res_ver": "4.4.12-1.ph2"
+  },
+  {
+    "cve_id": "CVE-2017-7473",
+    "pkg": "ansible",
+    "cve_score": 5,
+    "aff_ver": "all versions before 2.4.0.0-1.ph2 are vulnerable",
+    "res_ver": "2.4.0.0-1.ph2"
+  },
+  {
+    "cve_id": "CVE-2018-16876",
+    "pkg": "ansible",
+    "cve_score": 7.5,
+    "aff_ver": "all versions before 2.7.9-1.ph2 are vulnerable",
+    "res_ver": "2.7.9-1.ph2"
+  },
+  {
+    "cve_id": "CVE-2019-10156",
+    "pkg": "ansible",
+    "cve_score": 5.4,
+    "aff_ver": "all versions before 2.7.9-2.ph2 are vulnerable",
+    "res_ver": "2.7.9-2.ph2"
+  }
+]
