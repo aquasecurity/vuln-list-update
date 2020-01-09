@@ -62,7 +62,7 @@ func (gc Config) CloneOrPull(url, repoPath string) (map[string]struct{}, error) 
 }
 
 func clone(url, repoPath string) error {
-	commandAndArgs := []string{"clone", url, repoPath}
+	commandAndArgs := []string{"clone", "--depth", "1", url, repoPath}
 	cmd := exec.Command("git", commandAndArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
