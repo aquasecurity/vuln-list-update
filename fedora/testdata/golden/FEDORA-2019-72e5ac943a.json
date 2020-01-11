@@ -1,0 +1,120 @@
+{
+  "updateid": "FEDORA-2019-72e5ac943a",
+  "stable_karma": 3,
+  "stable_days": 7,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "Security fix for CVE-2019-19722: null pointer dereference in push notification driver",
+  "status": "testing",
+  "severity": "medium",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-12-30 10:00:51",
+  "date_pushed": "2020-01-04 21:17:03",
+  "date_testing": "2020-01-04 21:17:03",
+  "alias": "FEDORA-2019-72e5ac943a",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-72e5ac943a",
+  "title": "dovecot-2.3.9.2-1.fc30",
+  "version_hash": "b55bd5fb74df8f79770adcdedee29a0704e33205",
+  "release": {
+    "name": "F30",
+    "long_name": "Fedora 30",
+    "version": "30",
+    "id_prefix": "FEDORA",
+    "branch": "f30",
+    "dist_tag": "f30",
+    "stable_tag": "f30-updates",
+    "testing_tag": "f30-updates-testing",
+    "candidate_tag": "f30-updates-candidate",
+    "pending_signing_tag": "f30-signing-pending",
+    "pending_testing_tag": "f30-updates-testing-pending",
+    "pending_stable_tag": "f30-updates-pending",
+    "override_tag": "f30-override",
+    "state": "current",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1181223,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by mhlavink. ",
+      "timestamp": "2019-12-30 10:00:51",
+      "update_id": 176232,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181224,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-12-30 10:00:54",
+      "update_id": 176232,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181227,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-12-30 10:00:58",
+      "update_id": 176232,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1185073,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2020-01-04 21:18:47",
+      "update_id": 176232,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "dovecot-2.3.9.2-1.fc30",
+      "release_id": 28,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 1
+    }
+  ],
+  "bugs": [
+    {
+      "bug_id": 1782785,
+      "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver",
+      "security": true
+    },
+    {
+      "bug_id": 1783256,
+      "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver [fedora-all]",
+      "security": true
+    }
+  ],
+  "karma": 0,
+  "content_type": "rpm"
+}

@@ -1,0 +1,193 @@
+{
+  "updateid": "FEDORA-2019-adf618865f",
+  "stable_karma": 3,
+  "stable_days": 14,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "Rebase to Koji 1.18.1 for CVE-2019-17109",
+  "status": "stable",
+  "severity": "urgent",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-10-09 15:08:15",
+  "date_pushed": "2019-10-25 16:59:13",
+  "date_testing": "2019-10-09 17:39:17",
+  "alias": "FEDORA-2019-adf618865f",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-adf618865f",
+  "title": "koji-1.18.1-1.fc30",
+  "version_hash": "83e1fd79464cd9f5f982855bac396ee9228f8ea9",
+  "release": {
+    "name": "F30",
+    "long_name": "Fedora 30",
+    "version": "30",
+    "id_prefix": "FEDORA",
+    "branch": "f30",
+    "dist_tag": "f30",
+    "stable_tag": "f30-updates",
+    "testing_tag": "f30-updates-testing",
+    "candidate_tag": "f30-updates-candidate",
+    "pending_signing_tag": "f30-signing-pending",
+    "pending_testing_tag": "f30-updates-testing-pending",
+    "pending_stable_tag": "f30-updates-pending",
+    "override_tag": "f30-override",
+    "state": "current",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1088436,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by puiterwijk. ",
+      "timestamp": "2019-10-09 15:08:15",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088437,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-10-09 15:08:16",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088443,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-10-09 15:08:18",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088777,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2019-10-09 17:40:25",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088995,
+      "karma": 1,
+      "karma_critpath": 1,
+      "text": "",
+      "timestamp": "2019-10-09 21:23:59",
+      "update_id": 161788,
+      "user_id": 4687,
+      "user": {
+        "id": 4687,
+        "name": "szydell",
+        "email": "marcin@szydelscy.pl"
+      }
+    },
+    {
+      "id": 1104575,
+      "karma": 1,
+      "karma_critpath": 1,
+      "text": "I can still download RPMs from koji with it. :)",
+      "timestamp": "2019-10-22 13:09:33",
+      "update_id": 161788,
+      "user_id": 536,
+      "user": {
+        "id": 536,
+        "name": "mhayden",
+        "email": "mhayden@redhat.com"
+      }
+    },
+    {
+      "id": 1104584,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update can be pushed to stable now if the maintainer wishes",
+      "timestamp": "2019-10-22 13:12:05",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1105733,
+      "karma": 1,
+      "karma_critpath": 1,
+      "text": "I only use this for `koji download-build` and that works.",
+      "timestamp": "2019-10-23 08:11:46",
+      "update_id": 161788,
+      "user_id": 411,
+      "user": {
+        "id": 411,
+        "name": "kparal",
+        "email": "kparal@redhat.com"
+      }
+    },
+    {
+      "id": 1105734,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for stable by bodhi. ",
+      "timestamp": "2019-10-23 08:11:46",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1108749,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to stable.",
+      "timestamp": "2019-10-25 17:02:04",
+      "update_id": 161788,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "koji-1.18.1-1.fc30",
+      "release_id": 28,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [],
+  "karma": 3,
+  "content_type": "rpm"
+}

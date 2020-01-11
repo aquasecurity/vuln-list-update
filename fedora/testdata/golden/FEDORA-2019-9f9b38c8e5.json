@@ -1,0 +1,244 @@
+{
+  "updateid": "FEDORA-2019-9f9b38c8e5",
+  "stable_karma": 1,
+  "stable_days": 14,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "The 5.2.20 stable kernel update contains a number of important fixes across the tree.",
+  "status": "obsolete",
+  "severity": "low",
+  "suggest": "reboot",
+  "close_bugs": true,
+  "date_submitted": "2019-10-09 17:18:40",
+  "date_pushed": "2019-10-10 16:03:49",
+  "date_testing": "2019-10-10 16:03:49",
+  "alias": "FEDORA-2019-9f9b38c8e5",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-9f9b38c8e5",
+  "title": "kernel-5.2.20-100.fc29 kernel-headers-5.2.20-100.fc29 kernel-tools-5.2.20-100.fc29",
+  "version_hash": "b493ab058691fce10171a6c31ce653bcfae0858b",
+  "release": {
+    "name": "F29",
+    "long_name": "Fedora 29",
+    "version": "29",
+    "id_prefix": "FEDORA",
+    "branch": "f29",
+    "dist_tag": "f29",
+    "stable_tag": "f29-updates",
+    "testing_tag": "f29-updates-testing",
+    "candidate_tag": "f29-updates-candidate",
+    "pending_signing_tag": "f29-signing-pending",
+    "pending_testing_tag": "f29-updates-testing-pending",
+    "pending_stable_tag": "f29-updates-pending",
+    "override_tag": "f29-override",
+    "state": "archived",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1088669,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by jforbes. ",
+      "timestamp": "2019-10-09 17:18:41",
+      "update_id": 161815,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088670,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-10-09 17:18:42",
+      "update_id": 161815,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088671,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-10-09 17:18:58",
+      "update_id": 161815,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1090014,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2019-10-10 16:04:07",
+      "update_id": 161815,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1090864,
+      "karma": 1,
+      "karma_critpath": 1,
+      "text": "wfm on Ryzen 7 with AMD video",
+      "timestamp": "2019-10-11 11:35:08",
+      "update_id": 161815,
+      "user_id": 4631,
+      "user": {
+        "id": 4631,
+        "name": "alho",
+        "email": "allan2016@warpspeed.dyndns.dk"
+      }
+    },
+    {
+      "id": 1095280,
+      "karma": 1,
+      "karma_critpath": 1,
+      "text": "Seems OK with basic testing",
+      "timestamp": "2019-10-15 10:11:12",
+      "update_id": 161815,
+      "user_id": 96,
+      "user": {
+        "id": 96,
+        "name": "pbrobinson",
+        "email": "pbrobinson@gmail.com"
+      }
+    },
+    {
+      "id": 1095281,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update can be pushed to stable now if the maintainer wishes",
+      "timestamp": "2019-10-15 10:12:05",
+      "update_id": 161815,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1095282,
+      "karma": 1,
+      "karma_critpath": 1,
+      "text": "Seems OK with basic testing",
+      "timestamp": "2019-10-15 10:14:55",
+      "update_id": 161815,
+      "user_id": 96,
+      "user": {
+        "id": 96,
+        "name": "pbrobinson",
+        "email": "pbrobinson@gmail.com"
+      }
+    },
+    {
+      "id": 1095331,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been obsoleted by [kernel-headers-5.3.6-100.fc29](https://bodhi.fedoraproject.org/updates/FEDORA-2019-41e28660ae).",
+      "timestamp": "2019-10-15 11:57:20",
+      "update_id": 161815,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "kernel-5.2.20-100.fc29",
+      "release_id": 23,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    },
+    {
+      "nvr": "kernel-headers-5.2.20-100.fc29",
+      "release_id": 23,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    },
+    {
+      "nvr": "kernel-tools-5.2.20-100.fc29",
+      "release_id": 23,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [
+    {
+      "bug_id": 1758257,
+      "title": "CVE-2019-17056 kernel: privilege escalation in llcp_sock_create in net/nfc/llcp_sock.c in the AF_NFC network module [fedora-all]",
+      "security": true
+    },
+    {
+      "bug_id": 1758256,
+      "title": "CVE-2019-17056 kernel: privilege escalation in llcp_sock_create in net/nfc/llcp_sock.c in the AF_NFC network module",
+      "security": true
+    },
+    {
+      "bug_id": 1758249,
+      "title": "CVE-2019-17055 kernel: privilege escalation in base_sock_create in drivers/isdn/mISDN/socket.c in the AF_ISDN network module [fedora-all]",
+      "security": true
+    },
+    {
+      "bug_id": 1758248,
+      "title": "CVE-2019-17055 kernel: privilege escalation in base_sock_create in drivers/isdn/mISDN/socket.c in the AF_ISDN network module",
+      "security": true
+    },
+    {
+      "bug_id": 1758246,
+      "title": "CVE-2019-17054 kernel: privilege escalation in atalk_create in net/appletalk/ddp.c in the AF_APPLETALK network module [fedora-all]",
+      "security": true
+    },
+    {
+      "bug_id": 1758245,
+      "title": "CVE-2019-17054 kernel: privilege escalation in atalk_create in net/appletalk/ddp.c in the AF_APPLETALK network module",
+      "security": true
+    },
+    {
+      "bug_id": 1758243,
+      "title": "CVE-2019-17053 kernel: priviledge escalation in ieee802154_create in net/ieee802154/socket.c in the AF_IEEE802154 network module [fedora-all]",
+      "security": true
+    },
+    {
+      "bug_id": 1758242,
+      "title": "CVE-2019-17053 kernel: privilege escalation in ieee802154_create in net/ieee802154/socket.c in the AF_IEEE802154 network module",
+      "security": true
+    },
+    {
+      "bug_id": 1758240,
+      "title": "CVE-2019-17052 kernel: priviledge escalation in ax25_create in net/ax25/af_ax25.c in the AF_AX25 network module [fedora-all]",
+      "security": true
+    },
+    {
+      "bug_id": 1758239,
+      "title": "CVE-2019-17052 kernel: privilege escalation in ax25_create in net/ax25/af_ax25.c in the AF_AX25 network module",
+      "security": true
+    }
+  ],
+  "karma": 2,
+  "content_type": "rpm"
+}

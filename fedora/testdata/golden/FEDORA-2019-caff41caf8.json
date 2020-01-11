@@ -1,0 +1,151 @@
+{
+  "updateid": "FEDORA-2019-caff41caf8",
+  "stable_karma": 3,
+  "stable_days": 14,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "Rebase to Koji 1.18.1 for CVE-2019-17109",
+  "status": "stable",
+  "severity": "urgent",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-10-09 15:08:16",
+  "date_pushed": "2019-10-26 17:17:38",
+  "date_testing": "2019-10-09 23:05:15",
+  "alias": "FEDORA-2019-caff41caf8",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-caff41caf8",
+  "title": "koji-1.18.1-1.fc31",
+  "version_hash": "f760d94bd1107546defce8ec8c07b6a0b99c0bcc",
+  "release": {
+    "name": "F31",
+    "long_name": "Fedora 31",
+    "version": "31",
+    "id_prefix": "FEDORA",
+    "branch": "f31",
+    "dist_tag": "f31",
+    "stable_tag": "f31-updates",
+    "testing_tag": "f31-updates-testing",
+    "candidate_tag": "f31-updates-candidate",
+    "pending_signing_tag": "f31-signing-pending",
+    "pending_testing_tag": "f31-updates-testing-pending",
+    "pending_stable_tag": "f31-updates-pending",
+    "override_tag": "f31-override",
+    "state": "current",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1088440,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by puiterwijk. ",
+      "timestamp": "2019-10-09 15:08:16",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088441,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-10-09 15:08:16",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088444,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-10-09 15:08:20",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1089074,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2019-10-09 23:06:01",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1106909,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update can be pushed to stable now if the maintainer wishes",
+      "timestamp": "2019-10-23 23:06:07",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1106910,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for stable by bodhi. ",
+      "timestamp": "2019-10-23 23:06:07",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1110185,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to stable.",
+      "timestamp": "2019-10-26 17:28:09",
+      "update_id": 161790,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "koji-1.18.1-1.fc31",
+      "release_id": 33,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [],
+  "karma": 0,
+  "content_type": "rpm"
+}

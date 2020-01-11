@@ -1,0 +1,190 @@
+{
+  "updateid": "FEDORA-2019-5898f4f935",
+  "stable_karma": 3,
+  "stable_days": 7,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "Security fix for CVE-2019-19722: null pointer dereference in push notification driver",
+  "status": "stable",
+  "severity": "medium",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-12-30 10:00:54",
+  "date_pushed": "2020-01-08 11:54:40",
+  "date_testing": "2020-01-04 22:19:48",
+  "alias": "FEDORA-2019-5898f4f935",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-5898f4f935",
+  "title": "dovecot-2.3.9.2-1.fc31",
+  "version_hash": "8dab292c979968efe50cbd1fee1ea2304cd11f6e",
+  "release": {
+    "name": "F31",
+    "long_name": "Fedora 31",
+    "version": "31",
+    "id_prefix": "FEDORA",
+    "branch": "f31",
+    "dist_tag": "f31",
+    "stable_tag": "f31-updates",
+    "testing_tag": "f31-updates-testing",
+    "candidate_tag": "f31-updates-candidate",
+    "pending_signing_tag": "f31-signing-pending",
+    "pending_testing_tag": "f31-updates-testing-pending",
+    "pending_stable_tag": "f31-updates-pending",
+    "override_tag": "f31-override",
+    "state": "current",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1181225,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by mhlavink. ",
+      "timestamp": "2019-12-30 10:00:54",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181226,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-12-30 10:00:56",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181228,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-12-30 10:01:00",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1185343,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2020-01-04 22:25:25",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1185734,
+      "karma": 1,
+      "karma_critpath": 0,
+      "text": "Looks good to me",
+      "timestamp": "2020-01-05 04:51:29",
+      "update_id": 176233,
+      "user_id": 2526,
+      "user": {
+        "id": 2526,
+        "name": "mhjacks",
+        "email": "mhjacks@swbell.net"
+      }
+    },
+    {
+      "id": 1185821,
+      "karma": 1,
+      "karma_critpath": 0,
+      "text": "",
+      "timestamp": "2020-01-05 08:22:26",
+      "update_id": 176233,
+      "user_id": 198,
+      "user": {
+        "id": 198,
+        "name": "bojan",
+        "email": "bojan@rexursive.com"
+      }
+    },
+    {
+      "id": 1185823,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update can be pushed to stable now if the maintainer wishes",
+      "timestamp": "2020-01-05 08:24:06",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1187772,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for stable by mhlavink. ",
+      "timestamp": "2020-01-07 09:36:18",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1190076,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to stable.",
+      "timestamp": "2020-01-08 11:55:31",
+      "update_id": 176233,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "dovecot-2.3.9.2-1.fc31",
+      "release_id": 33,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 1
+    }
+  ],
+  "bugs": [
+    {
+      "bug_id": 1782785,
+      "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver",
+      "security": true
+    },
+    {
+      "bug_id": 1783256,
+      "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver [fedora-all]",
+      "security": true
+    }
+  ],
+  "karma": 2,
+  "content_type": "rpm"
+}

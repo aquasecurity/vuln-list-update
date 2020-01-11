@@ -1,0 +1,115 @@
+{
+  "updateid": "FEDORA-EPEL-2019-360263f378",
+  "stable_karma": 3,
+  "stable_days": 14,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "Apply upstream patch for CVE-2017-8825",
+  "status": "testing",
+  "severity": "medium",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-12-30 23:55:36",
+  "date_pushed": "2020-01-05 03:28:18",
+  "date_testing": "2020-01-05 03:28:18",
+  "alias": "FEDORA-EPEL-2019-360263f378",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2019-360263f378",
+  "title": "libetpan-1.0-3.el6_10",
+  "version_hash": "6c760d7cad3c89c925b75eb11979b7f35eca45b5",
+  "release": {
+    "name": "EL-6",
+    "long_name": "Fedora EPEL 6",
+    "version": "6",
+    "id_prefix": "FEDORA-EPEL",
+    "branch": "el6",
+    "dist_tag": "dist-6E-epel",
+    "stable_tag": "dist-6E-epel",
+    "testing_tag": "dist-6E-epel-testing",
+    "candidate_tag": "dist-6E-epel-testing-candidate",
+    "pending_signing_tag": "",
+    "pending_testing_tag": "",
+    "pending_stable_tag": "",
+    "override_tag": "dist-6E-epel-override",
+    "state": "current",
+    "package_manager": "unspecified",
+    "testing_repository": ""
+  },
+  "comments": [
+    {
+      "id": 1181601,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by mtasaka. ",
+      "timestamp": "2019-12-30 23:55:36",
+      "update_id": 176288,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181602,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-12-30 23:55:37",
+      "update_id": 176288,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181603,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-12-30 23:55:40",
+      "update_id": 176288,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1185722,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2020-01-05 03:28:25",
+      "update_id": 176288,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "libetpan-1.0-3.el6_10",
+      "release_id": 10,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [
+    {
+      "bug_id": 1449082,
+      "title": "CVE-2017-8825 libetpan: NULL pointer dereference inthe MIME handling component [epel-6]",
+      "security": true
+    }
+  ],
+  "karma": 0,
+  "content_type": "rpm"
+}

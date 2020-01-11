@@ -1,0 +1,165 @@
+{
+  "updateid": "FEDORA-2019-f6ea699dbb",
+  "stable_karma": 3,
+  "stable_days": 7,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "New upstream version 1.0.3.\nContains fix for remote code execution vulnerability.\nAdd new libnbd-security(3) man page.",
+  "status": "stable",
+  "severity": "high",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-10-09 09:03:44",
+  "date_pushed": "2019-10-18 16:52:43",
+  "date_testing": "2019-10-09 17:39:17",
+  "alias": "FEDORA-2019-f6ea699dbb",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-f6ea699dbb",
+  "title": "libnbd-1.0.3-1.fc30",
+  "version_hash": "96335762ad57482d237666016dffb72b51cdb61f",
+  "release": {
+    "name": "F30",
+    "long_name": "Fedora 30",
+    "version": "30",
+    "id_prefix": "FEDORA",
+    "branch": "f30",
+    "dist_tag": "f30",
+    "stable_tag": "f30-updates",
+    "testing_tag": "f30-updates-testing",
+    "candidate_tag": "f30-updates-candidate",
+    "pending_signing_tag": "f30-signing-pending",
+    "pending_testing_tag": "f30-updates-testing-pending",
+    "pending_stable_tag": "f30-updates-pending",
+    "override_tag": "f30-override",
+    "state": "current",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1088062,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by rjones. ",
+      "timestamp": "2019-10-09 09:03:45",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088063,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-10-09 09:03:45",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088064,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-10-09 09:03:47",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088769,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2019-10-09 17:40:23",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1092784,
+      "karma": 1,
+      "karma_critpath": 0,
+      "text": "Works for me.",
+      "timestamp": "2019-10-12 22:34:46",
+      "update_id": 161716,
+      "user_id": 273,
+      "user": {
+        "id": 273,
+        "name": "wolnei",
+        "email": "e@wolnei.com.br"
+      }
+    },
+    {
+      "id": 1097273,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update can be pushed to stable now if the maintainer wishes",
+      "timestamp": "2019-10-16 17:42:32",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1097274,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for stable by bodhi. ",
+      "timestamp": "2019-10-16 17:42:33",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1100589,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to stable.",
+      "timestamp": "2019-10-18 16:53:51",
+      "update_id": 161716,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "libnbd-1.0.3-1.fc30",
+      "release_id": 28,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [],
+  "karma": 1,
+  "content_type": "rpm"
+}

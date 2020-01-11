@@ -1,0 +1,15 @@
+{
+  "updates": [
+    {
+      "autokarma": true,
+      "autotime": true,
+      "stable_karma": 2,
+      "stable_days": 7,
+      "unstable_karma": -5,
+      "requirements": "",
+      "require_bugs": true,
+      "require_testcases": true,
+      "display_name": "",
+      "notes": "New bugfix and security upstream release, see http://www.graphicsmagick.org/NEWS.html#december-24-2019",
+      "type": "security",
+      "status": "testing",

@@ -1,0 +1,1309 @@
+{
+  "updates": [
+    {
+      "autokarma": true,
+      "autotime": true,
+      "stable_karma": 2,
+      "stable_days": 7,
+      "unstable_karma": -5,
+      "requirements": "",
+      "require_bugs": true,
+      "require_testcases": true,
+      "display_name": "",
+      "notes": "New bugfix and security upstream release, see http://www.graphicsmagick.org/NEWS.html#december-24-2019",
+      "type": "security",
+      "status": "testing",
+      "request": null,
+      "severity": "medium",
+      "suggest": "unspecified",
+      "locked": false,
+      "pushed": true,
+      "critpath": false,
+      "close_bugs": true,
+      "date_submitted": "2019-12-31 14:59:29",
+      "date_modified": null,
+      "date_approved": null,
+      "date_pushed": "2020-01-04 21:17:03",
+      "date_testing": "2020-01-04 21:17:03",
+      "date_stable": null,
+      "alias": "FEDORA-2019-f12cb1ddab",
+      "test_gating_status": "ignored",
+      "from_tag": null,
+      "meets_testing_requirements": false,
+      "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-f12cb1ddab",
+      "title": "GraphicsMagick-1.3.34-1.fc30",
+      "version_hash": "7cdce4600501e0a210dba5d34335b22af0ba9b38",
+      "release": {
+        "name": "F30",
+        "long_name": "Fedora 30",
+        "version": "30",
+        "id_prefix": "FEDORA",
+        "branch": "f30",
+        "dist_tag": "f30",
+        "stable_tag": "f30-updates",
+        "testing_tag": "f30-updates-testing",
+        "candidate_tag": "f30-updates-candidate",
+        "pending_signing_tag": "f30-signing-pending",
+        "pending_testing_tag": "f30-updates-testing-pending",
+        "pending_stable_tag": "f30-updates-pending",
+        "override_tag": "f30-override",
+        "mail_template": "fedora_errata_template",
+        "state": "current",
+        "composed_by_bodhi": true,
+        "create_automatic_updates": null,
+        "package_manager": "dnf",
+        "testing_repository": "updates-testing",
+        "composes": []
+      },
+      "comments": [
+        {
+          "id": 1181946,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been submitted for testing by rdieter. ",
+          "timestamp": "2019-12-31 14:59:29",
+          "update_id": 176322,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181947,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'waiting'.",
+          "timestamp": "2019-12-31 14:59:30",
+          "update_id": 176322,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181948,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'ignored'.",
+          "timestamp": "2019-12-31 14:59:37",
+          "update_id": 176322,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1185080,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been pushed to testing.",
+          "timestamp": "2020-01-04 21:18:48",
+          "update_id": 176322,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        }
+      ],
+      "builds": [
+        {
+          "nvr": "GraphicsMagick-1.3.34-1.fc30",
+          "release_id": 28,
+          "signed": true,
+          "type": "rpm",
+          "epoch": 0
+        }
+      ],
+      "compose": null,
+      "bugs": [
+        {
+          "bug_id": 1561225,
+          "title": "CVE-2018-9018 GraphicsMagick: divide-by-zero in the ReadMNGImage function in coders/png.c",
+          "security": true,
+          "parent": true,
+          "feedback": []
+        },
+        {
+          "bug_id": 1561226,
+          "title": "CVE-2018-9018 GraphicsMagick: divide-by-zero in the ReadMNGImage function in coders/png.c [fedora-all]",
+          "security": true,
+          "parent": false,
+          "feedback": []
+        },
+        {
+          "bug_id": 1767812,
+          "title": "CVE-2019-15139 ImageMagick: out-of-bounds read in ReadXWDImage in coders/xwd.c",
+          "security": true,
+          "parent": true,
+          "feedback": []
+        },
+        {
+          "bug_id": 1770517,
+          "title": "CVE-2019-15139 GraphicsMagick: ImageMagick: out-of-bounds read in ReadXWDImage in coders/xwd.c [fedora-all]",
+          "security": true,
+          "parent": false,
+          "feedback": []
+        }
+      ],
+      "user": {
+        "id": 155,
+        "name": "rdieter",
+        "email": "rdieter@gmail.com",
+        "avatar": "https://seccdn.libravatar.org/avatar/f93140003949ff349627b7799edd42b927b057236ddd677b71257e0b974e6cb1?s=24&d=retro",
+        "openid": "rdieter.id.fedoraproject.org",
+        "groups": [
+          {
+            "name": "proventesters"
+          },
+          {
+            "name": "provenpackager"
+          },
+          {
+            "name": "packager"
+          },
+          {
+            "name": "kde-sig"
+          },
+          {
+            "name": "lxqt-sig"
+          }
+        ]
+      },
+      "updateid": "FEDORA-2019-f12cb1ddab",
+      "karma": 0,
+      "content_type": "rpm",
+      "test_cases": []
+    },
+    {
+      "autokarma": true,
+      "autotime": true,
+      "stable_karma": 2,
+      "stable_days": 7,
+      "unstable_karma": -5,
+      "requirements": "",
+      "require_bugs": true,
+      "require_testcases": true,
+      "display_name": "",
+      "notes": "New bugfix and security upstream release, see http://www.graphicsmagick.org/NEWS.html#december-24-2019",
+      "type": "security",
+      "status": "testing",
+      "request": null,
+      "severity": "medium",
+      "suggest": "unspecified",
+      "locked": false,
+      "pushed": true,
+      "critpath": false,
+      "close_bugs": true,
+      "date_submitted": "2019-12-31 14:57:59",
+      "date_modified": null,
+      "date_approved": null,
+      "date_pushed": "2020-01-04 22:19:50",
+      "date_testing": "2020-01-04 22:19:50",
+      "date_stable": null,
+      "alias": "FEDORA-2019-210b0a6e4f",
+      "test_gating_status": "ignored",
+      "from_tag": null,
+      "meets_testing_requirements": false,
+      "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-210b0a6e4f",
+      "title": "GraphicsMagick-1.3.34-1.fc31",
+      "version_hash": "9d498fbb1d95cf209f8dd972494819e2e26a3d99",
+      "release": {
+        "name": "F31",
+        "long_name": "Fedora 31",
+        "version": "31",
+        "id_prefix": "FEDORA",
+        "branch": "f31",
+        "dist_tag": "f31",
+        "stable_tag": "f31-updates",
+        "testing_tag": "f31-updates-testing",
+        "candidate_tag": "f31-updates-candidate",
+        "pending_signing_tag": "f31-signing-pending",
+        "pending_testing_tag": "f31-updates-testing-pending",
+        "pending_stable_tag": "f31-updates-pending",
+        "override_tag": "f31-override",
+        "mail_template": "fedora_errata_template",
+        "state": "current",
+        "composed_by_bodhi": true,
+        "create_automatic_updates": false,
+        "package_manager": "dnf",
+        "testing_repository": "updates-testing",
+        "composes": []
+      },
+      "comments": [
+        {
+          "id": 1181943,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been submitted for testing by rdieter. ",
+          "timestamp": "2019-12-31 14:57:59",
+          "update_id": 176321,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181944,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'waiting'.",
+          "timestamp": "2019-12-31 14:58:01",
+          "update_id": 176321,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181945,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'ignored'.",
+          "timestamp": "2019-12-31 14:58:07",
+          "update_id": 176321,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1185363,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been pushed to testing.",
+          "timestamp": "2020-01-04 22:25:31",
+          "update_id": 176321,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        }
+      ],
+      "builds": [
+        {
+          "nvr": "GraphicsMagick-1.3.34-1.fc31",
+          "release_id": 33,
+          "signed": true,
+          "type": "rpm",
+          "epoch": 0
+        }
+      ],
+      "compose": null,
+      "bugs": [
+        {
+          "bug_id": 1770517,
+          "title": "CVE-2019-15139 GraphicsMagick: ImageMagick: out-of-bounds read in ReadXWDImage in coders/xwd.c [fedora-all]",
+          "security": true,
+          "parent": false,
+          "feedback": []
+        },
+        {
+          "bug_id": 1767812,
+          "title": "CVE-2019-15139 ImageMagick: out-of-bounds read in ReadXWDImage in coders/xwd.c",
+          "security": true,
+          "parent": true,
+          "feedback": []
+        },
+        {
+          "bug_id": 1561225,
+          "title": "CVE-2018-9018 GraphicsMagick: divide-by-zero in the ReadMNGImage function in coders/png.c",
+          "security": true,
+          "parent": true,
+          "feedback": []
+        },
+        {
+          "bug_id": 1561226,
+          "title": "CVE-2018-9018 GraphicsMagick: divide-by-zero in the ReadMNGImage function in coders/png.c [fedora-all]",
+          "security": true,
+          "parent": false,
+          "feedback": []
+        }
+      ],
+      "user": {
+        "id": 155,
+        "name": "rdieter",
+        "email": "rdieter@gmail.com",
+        "avatar": "https://seccdn.libravatar.org/avatar/f93140003949ff349627b7799edd42b927b057236ddd677b71257e0b974e6cb1?s=24&d=retro",
+        "openid": "rdieter.id.fedoraproject.org",
+        "groups": [
+          {
+            "name": "proventesters"
+          },
+          {
+            "name": "provenpackager"
+          },
+          {
+            "name": "packager"
+          },
+          {
+            "name": "kde-sig"
+          },
+          {
+            "name": "lxqt-sig"
+          }
+        ]
+      },
+      "updateid": "FEDORA-2019-210b0a6e4f",
+      "karma": 0,
+      "content_type": "rpm",
+      "test_cases": []
+    },
+    {
+      "autokarma": true,
+      "autotime": true,
+      "stable_karma": 3,
+      "stable_days": 14,
+      "unstable_karma": -3,
+      "requirements": "",
+      "require_bugs": true,
+      "require_testcases": true,
+      "display_name": "",
+      "notes": "Apply upstream patch for CVE-2017-8825",
+      "type": "security",
+      "status": "testing",
+      "request": null,
+      "severity": "medium",
+      "suggest": "unspecified",
+      "locked": false,
+      "pushed": true,
+      "critpath": false,
+      "close_bugs": true,
+      "date_submitted": "2019-12-30 23:55:36",
+      "date_modified": null,
+      "date_approved": null,
+      "date_pushed": "2020-01-05 03:28:18",
+      "date_testing": "2020-01-05 03:28:18",
+      "date_stable": null,
+      "alias": "FEDORA-EPEL-2019-360263f378",
+      "test_gating_status": "ignored",
+      "from_tag": null,
+      "meets_testing_requirements": false,
+      "url": "https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2019-360263f378",
+      "title": "libetpan-1.0-3.el6_10",
+      "version_hash": "6c760d7cad3c89c925b75eb11979b7f35eca45b5",
+      "release": {
+        "name": "EL-6",
+        "long_name": "Fedora EPEL 6",
+        "version": "6",
+        "id_prefix": "FEDORA-EPEL",
+        "branch": "el6",
+        "dist_tag": "dist-6E-epel",
+        "stable_tag": "dist-6E-epel",
+        "testing_tag": "dist-6E-epel-testing",
+        "candidate_tag": "dist-6E-epel-testing-candidate",
+        "pending_signing_tag": "",
+        "pending_testing_tag": "",
+        "pending_stable_tag": "",
+        "override_tag": "dist-6E-epel-override",
+        "mail_template": "fedora_epel_legacy_errata_template",
+        "state": "current",
+        "composed_by_bodhi": true,
+        "create_automatic_updates": null,
+        "package_manager": "unspecified",
+        "testing_repository": null,
+        "composes": []
+      },
+      "comments": [
+        {
+          "id": 1181601,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been submitted for testing by mtasaka. ",
+          "timestamp": "2019-12-30 23:55:36",
+          "update_id": 176288,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181602,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'waiting'.",
+          "timestamp": "2019-12-30 23:55:37",
+          "update_id": 176288,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181603,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'ignored'.",
+          "timestamp": "2019-12-30 23:55:40",
+          "update_id": 176288,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1185722,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been pushed to testing.",
+          "timestamp": "2020-01-05 03:28:25",
+          "update_id": 176288,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        }
+      ],
+      "builds": [
+        {
+          "nvr": "libetpan-1.0-3.el6_10",
+          "release_id": 10,
+          "signed": true,
+          "type": "rpm",
+          "epoch": 0
+        }
+      ],
+      "compose": null,
+      "bugs": [
+        {
+          "bug_id": 1449082,
+          "title": "CVE-2017-8825 libetpan: NULL pointer dereference inthe MIME handling component [epel-6]",
+          "security": true,
+          "parent": false,
+          "feedback": []
+        }
+      ],
+      "user": {
+        "id": 152,
+        "name": "mtasaka",
+        "email": "mtasaka@tbz.t-com.ne.jp",
+        "avatar": "https://seccdn.libravatar.org/avatar/1bde75495a81d910b3a931eff5b35c45f7a0ce64f32cd3774cff20dbb6a556ce?s=24&d=retro",
+        "openid": "mtasaka.id.fedoraproject.org",
+        "groups": [
+          {
+            "name": "packager"
+          },
+          {
+            "name": "provenpackager"
+          }
+        ]
+      },
+      "updateid": "FEDORA-EPEL-2019-360263f378",
+      "karma": 0,
+      "content_type": "rpm",
+      "test_cases": []
+    },
+    {
+      "autokarma": true,
+      "autotime": true,
+      "stable_karma": 3,
+      "stable_days": 7,
+      "unstable_karma": -3,
+      "requirements": "",
+      "require_bugs": true,
+      "require_testcases": true,
+      "display_name": "",
+      "notes": "Security fix for CVE-2019-19722: null pointer dereference in push notification driver",
+      "type": "security",
+      "status": "stable",
+      "request": null,
+      "severity": "medium",
+      "suggest": "unspecified",
+      "locked": false,
+      "pushed": true,
+      "critpath": false,
+      "close_bugs": true,
+      "date_submitted": "2019-12-30 10:00:54",
+      "date_modified": null,
+      "date_approved": null,
+      "date_pushed": "2020-01-08 11:54:40",
+      "date_testing": "2020-01-04 22:19:48",
+      "date_stable": "2020-01-08 11:54:40",
+      "alias": "FEDORA-2019-5898f4f935",
+      "test_gating_status": "ignored",
+      "from_tag": null,
+      "meets_testing_requirements": true,
+      "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-5898f4f935",
+      "title": "dovecot-2.3.9.2-1.fc31",
+      "version_hash": "8dab292c979968efe50cbd1fee1ea2304cd11f6e",
+      "release": {
+        "name": "F31",
+        "long_name": "Fedora 31",
+        "version": "31",
+        "id_prefix": "FEDORA",
+        "branch": "f31",
+        "dist_tag": "f31",
+        "stable_tag": "f31-updates",
+        "testing_tag": "f31-updates-testing",
+        "candidate_tag": "f31-updates-candidate",
+        "pending_signing_tag": "f31-signing-pending",
+        "pending_testing_tag": "f31-updates-testing-pending",
+        "pending_stable_tag": "f31-updates-pending",
+        "override_tag": "f31-override",
+        "mail_template": "fedora_errata_template",
+        "state": "current",
+        "composed_by_bodhi": true,
+        "create_automatic_updates": false,
+        "package_manager": "dnf",
+        "testing_repository": "updates-testing",
+        "composes": []
+      },
+      "comments": [
+        {
+          "id": 1181225,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been submitted for testing by mhlavink. ",
+          "timestamp": "2019-12-30 10:00:54",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181226,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'waiting'.",
+          "timestamp": "2019-12-30 10:00:56",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181228,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'ignored'.",
+          "timestamp": "2019-12-30 10:01:00",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1185343,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been pushed to testing.",
+          "timestamp": "2020-01-04 22:25:25",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1185734,
+          "karma": 1,
+          "karma_critpath": 0,
+          "text": "Looks good to me",
+          "timestamp": "2020-01-05 04:51:29",
+          "update_id": 176233,
+          "user_id": 2526,
+          "bug_feedback": [
+            {
+              "karma": 0,
+              "comment_id": 1185734,
+              "bug_id": 1782785,
+              "bug": {
+                "bug_id": 1782785,
+                "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver",
+                "security": true,
+                "parent": true
+              }
+            },
+            {
+              "karma": 0,
+              "comment_id": 1185734,
+              "bug_id": 1783256,
+              "bug": {
+                "bug_id": 1783256,
+                "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver [fedora-all]",
+                "security": true,
+                "parent": false
+              }
+            }
+          ],
+          "testcase_feedback": [],
+          "user": {
+            "id": 2526,
+            "name": "mhjacks",
+            "email": "mhjacks@swbell.net",
+            "avatar": "https://seccdn.libravatar.org/avatar/5b06b02a427ed84d4dd9fdd82bb27ce11005630cb6635b0f6f6fa7ac9c72c1c0?s=24&d=retro",
+            "openid": "mhjacks.id.fedoraproject.org",
+            "groups": [
+              {
+                "name": "packager"
+              }
+            ]
+          }
+        },
+        {
+          "id": 1185821,
+          "karma": 1,
+          "karma_critpath": 0,
+          "text": "",
+          "timestamp": "2020-01-05 08:22:26",
+          "update_id": 176233,
+          "user_id": 198,
+          "bug_feedback": [
+            {
+              "karma": 0,
+              "comment_id": 1185821,
+              "bug_id": 1782785,
+              "bug": {
+                "bug_id": 1782785,
+                "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver",
+                "security": true,
+                "parent": true
+              }
+            },
+            {
+              "karma": 0,
+              "comment_id": 1185821,
+              "bug_id": 1783256,
+              "bug": {
+                "bug_id": 1783256,
+                "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver [fedora-all]",
+                "security": true,
+                "parent": false
+              }
+            }
+          ],
+          "testcase_feedback": [],
+          "user": {
+            "id": 198,
+            "name": "bojan",
+            "email": "bojan@rexursive.com",
+            "avatar": "https://seccdn.libravatar.org/avatar/1a8afd83231ef5ba905344806ba95b39f2abd77b399b0ee217ec3e6fa30a4825?s=24&d=retro",
+            "openid": "bojan.id.fedoraproject.org",
+            "groups": [
+              {
+                "name": "packager"
+              }
+            ]
+          }
+        },
+        {
+          "id": 1185823,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update can be pushed to stable now if the maintainer wishes",
+          "timestamp": "2020-01-05 08:24:06",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1187772,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been submitted for stable by mhlavink. ",
+          "timestamp": "2020-01-07 09:36:18",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1190076,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been pushed to stable.",
+          "timestamp": "2020-01-08 11:55:31",
+          "update_id": 176233,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        }
+      ],
+      "builds": [
+        {
+          "nvr": "dovecot-2.3.9.2-1.fc31",
+          "release_id": 33,
+          "signed": true,
+          "type": "rpm",
+          "epoch": 1
+        }
+      ],
+      "compose": null,
+      "bugs": [
+        {
+          "bug_id": 1782785,
+          "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver",
+          "security": true,
+          "parent": true,
+          "feedback": [
+            {
+              "karma": 0,
+              "comment_id": 1185734,
+              "bug_id": 1782785,
+              "comment": {
+                "id": 1185734,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "Looks good to me",
+                "timestamp": "2020-01-05 04:51:29",
+                "update_id": 176233,
+                "user_id": 2526,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 2526,
+                  "name": "mhjacks",
+                  "email": "mhjacks@swbell.net",
+                  "avatar": "https://seccdn.libravatar.org/avatar/5b06b02a427ed84d4dd9fdd82bb27ce11005630cb6635b0f6f6fa7ac9c72c1c0?s=24&d=retro",
+                  "openid": "mhjacks.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "karma": 0,
+              "comment_id": 1185821,
+              "bug_id": 1782785,
+              "comment": {
+                "id": 1185821,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "",
+                "timestamp": "2020-01-05 08:22:26",
+                "update_id": 176233,
+                "user_id": 198,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 198,
+                  "name": "bojan",
+                  "email": "bojan@rexursive.com",
+                  "avatar": "https://seccdn.libravatar.org/avatar/1a8afd83231ef5ba905344806ba95b39f2abd77b399b0ee217ec3e6fa30a4825?s=24&d=retro",
+                  "openid": "bojan.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bug_id": 1783256,
+          "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver [fedora-all]",
+          "security": true,
+          "parent": false,
+          "feedback": [
+            {
+              "karma": 0,
+              "comment_id": 1185734,
+              "bug_id": 1783256,
+              "comment": {
+                "id": 1185734,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "Looks good to me",
+                "timestamp": "2020-01-05 04:51:29",
+                "update_id": 176233,
+                "user_id": 2526,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 2526,
+                  "name": "mhjacks",
+                  "email": "mhjacks@swbell.net",
+                  "avatar": "https://seccdn.libravatar.org/avatar/5b06b02a427ed84d4dd9fdd82bb27ce11005630cb6635b0f6f6fa7ac9c72c1c0?s=24&d=retro",
+                  "openid": "mhjacks.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "karma": 0,
+              "comment_id": 1185821,
+              "bug_id": 1783256,
+              "comment": {
+                "id": 1185821,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "",
+                "timestamp": "2020-01-05 08:22:26",
+                "update_id": 176233,
+                "user_id": 198,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 198,
+                  "name": "bojan",
+                  "email": "bojan@rexursive.com",
+                  "avatar": "https://seccdn.libravatar.org/avatar/1a8afd83231ef5ba905344806ba95b39f2abd77b399b0ee217ec3e6fa30a4825?s=24&d=retro",
+                  "openid": "bojan.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "user": {
+        "id": 268,
+        "name": "mhlavink",
+        "email": "mhlavink@redhat.com",
+        "avatar": "https://seccdn.libravatar.org/avatar/b7a647e25c433c7911c709a3be8847515ca6af74f2cf50c77024bba52e01367c?s=24&d=retro",
+        "openid": "mhlavink.id.fedoraproject.org",
+        "groups": [
+          {
+            "name": "packager"
+          }
+        ]
+      },
+      "updateid": "FEDORA-2019-5898f4f935",
+      "karma": 2,
+      "content_type": "rpm",
+      "test_cases": []
+    },
+    {
+      "autokarma": true,
+      "autotime": true,
+      "stable_karma": 3,
+      "stable_days": 7,
+      "unstable_karma": -3,
+      "requirements": "",
+      "require_bugs": true,
+      "require_testcases": true,
+      "display_name": "",
+      "notes": "Security fix for CVE-2019-19722: null pointer dereference in push notification driver",
+      "type": "security",
+      "status": "testing",
+      "request": null,
+      "severity": "medium",
+      "suggest": "unspecified",
+      "locked": false,
+      "pushed": true,
+      "critpath": false,
+      "close_bugs": true,
+      "date_submitted": "2019-12-30 10:00:51",
+      "date_modified": null,
+      "date_approved": null,
+      "date_pushed": "2020-01-04 21:17:03",
+      "date_testing": "2020-01-04 21:17:03",
+      "date_stable": null,
+      "alias": "FEDORA-2019-72e5ac943a",
+      "test_gating_status": "ignored",
+      "from_tag": null,
+      "meets_testing_requirements": false,
+      "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-72e5ac943a",
+      "title": "dovecot-2.3.9.2-1.fc30",
+      "version_hash": "b55bd5fb74df8f79770adcdedee29a0704e33205",
+      "release": {
+        "name": "F30",
+        "long_name": "Fedora 30",
+        "version": "30",
+        "id_prefix": "FEDORA",
+        "branch": "f30",
+        "dist_tag": "f30",
+        "stable_tag": "f30-updates",
+        "testing_tag": "f30-updates-testing",
+        "candidate_tag": "f30-updates-candidate",
+        "pending_signing_tag": "f30-signing-pending",
+        "pending_testing_tag": "f30-updates-testing-pending",
+        "pending_stable_tag": "f30-updates-pending",
+        "override_tag": "f30-override",
+        "mail_template": "fedora_errata_template",
+        "state": "current",
+        "composed_by_bodhi": true,
+        "create_automatic_updates": null,
+        "package_manager": "dnf",
+        "testing_repository": "updates-testing",
+        "composes": []
+      },
+      "comments": [
+        {
+          "id": 1181223,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been submitted for testing by mhlavink. ",
+          "timestamp": "2019-12-30 10:00:51",
+          "update_id": 176232,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181224,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'waiting'.",
+          "timestamp": "2019-12-30 10:00:54",
+          "update_id": 176232,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1181227,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update's test gating status has been changed to 'ignored'.",
+          "timestamp": "2019-12-30 10:00:58",
+          "update_id": 176232,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        },
+        {
+          "id": 1185073,
+          "karma": 0,
+          "karma_critpath": 0,
+          "text": "This update has been pushed to testing.",
+          "timestamp": "2020-01-04 21:18:47",
+          "update_id": 176232,
+          "user_id": 91,
+          "bug_feedback": [],
+          "testcase_feedback": [],
+          "user": {
+            "id": 91,
+            "name": "bodhi",
+            "email": null,
+            "avatar": "https://apps.fedoraproject.org/img/icons/bodhi-24.png",
+            "openid": "bodhi.id.fedoraproject.org",
+            "groups": []
+          }
+        }
+      ],
+      "builds": [
+        {
+          "nvr": "dovecot-2.3.9.2-1.fc30",
+          "release_id": 28,
+          "signed": true,
+          "type": "rpm",
+          "epoch": 1
+        }
+      ],
+      "compose": null,
+      "bugs": [
+        {
+          "bug_id": 1782785,
+          "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver",
+          "security": true,
+          "parent": true,
+          "feedback": [
+            {
+              "karma": 0,
+              "comment_id": 1185734,
+              "bug_id": 1782785,
+              "comment": {
+                "id": 1185734,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "Looks good to me",
+                "timestamp": "2020-01-05 04:51:29",
+                "update_id": 176233,
+                "user_id": 2526,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 2526,
+                  "name": "mhjacks",
+                  "email": "mhjacks@swbell.net",
+                  "avatar": "https://seccdn.libravatar.org/avatar/5b06b02a427ed84d4dd9fdd82bb27ce11005630cb6635b0f6f6fa7ac9c72c1c0?s=24&d=retro",
+                  "openid": "mhjacks.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "karma": 0,
+              "comment_id": 1185821,
+              "bug_id": 1782785,
+              "comment": {
+                "id": 1185821,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "",
+                "timestamp": "2020-01-05 08:22:26",
+                "update_id": 176233,
+                "user_id": 198,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 198,
+                  "name": "bojan",
+                  "email": "bojan@rexursive.com",
+                  "avatar": "https://seccdn.libravatar.org/avatar/1a8afd83231ef5ba905344806ba95b39f2abd77b399b0ee217ec3e6fa30a4825?s=24&d=retro",
+                  "openid": "bojan.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bug_id": 1783256,
+          "title": "CVE-2019-19722 dovecot: null pointer dereference in push notification driver [fedora-all]",
+          "security": true,
+          "parent": false,
+          "feedback": [
+            {
+              "karma": 0,
+              "comment_id": 1185734,
+              "bug_id": 1783256,
+              "comment": {
+                "id": 1185734,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "Looks good to me",
+                "timestamp": "2020-01-05 04:51:29",
+                "update_id": 176233,
+                "user_id": 2526,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 2526,
+                  "name": "mhjacks",
+                  "email": "mhjacks@swbell.net",
+                  "avatar": "https://seccdn.libravatar.org/avatar/5b06b02a427ed84d4dd9fdd82bb27ce11005630cb6635b0f6f6fa7ac9c72c1c0?s=24&d=retro",
+                  "openid": "mhjacks.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "karma": 0,
+              "comment_id": 1185821,
+              "bug_id": 1783256,
+              "comment": {
+                "id": 1185821,
+                "karma": 1,
+                "karma_critpath": 0,
+                "text": "",
+                "timestamp": "2020-01-05 08:22:26",
+                "update_id": 176233,
+                "user_id": 198,
+                "testcase_feedback": [],
+                "user": {
+                  "id": 198,
+                  "name": "bojan",
+                  "email": "bojan@rexursive.com",
+                  "avatar": "https://seccdn.libravatar.org/avatar/1a8afd83231ef5ba905344806ba95b39f2abd77b399b0ee217ec3e6fa30a4825?s=24&d=retro",
+                  "openid": "bojan.id.fedoraproject.org",
+                  "groups": [
+                    {
+                      "name": "packager"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "user": {
+        "id": 268,
+        "name": "mhlavink",
+        "email": "mhlavink@redhat.com",
+        "avatar": "https://seccdn.libravatar.org/avatar/b7a647e25c433c7911c709a3be8847515ca6af74f2cf50c77024bba52e01367c?s=24&d=retro",
+        "openid": "mhlavink.id.fedoraproject.org",
+        "groups": [
+          {
+            "name": "packager"
+          }
+        ]
+      },
+      "updateid": "FEDORA-2019-72e5ac943a",
+      "karma": 0,
+      "content_type": "rpm",
+      "test_cases": []
+    }
+  ],
+  "page": 10,
+  "pages": 2,
+  "rows_per_page": 5,
+  "total": 11329,
+  "chrome": true,
+  "display_user": true,
+  "display_request": true,
+  "package": null
+}

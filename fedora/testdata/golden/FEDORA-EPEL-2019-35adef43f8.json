@@ -1,0 +1,165 @@
+{
+  "updateid": "FEDORA-EPEL-2019-35adef43f8",
+  "stable_karma": 3,
+  "stable_days": 14,
+  "unstable_karma": -3,
+  "requirements": "",
+  "display_name": "",
+  "notes": "Rebase to Koji 1.18.1 for CVE-2019-17109",
+  "status": "stable",
+  "severity": "urgent",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-10-09 15:08:16",
+  "date_pushed": "2019-10-26 15:21:42",
+  "date_testing": "2019-10-09 17:42:09",
+  "alias": "FEDORA-EPEL-2019-35adef43f8",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2019-35adef43f8",
+  "title": "koji-1.18.1-1.el7",
+  "version_hash": "9a4822a2a14198c680388e80dd11ccb2eef14dde",
+  "release": {
+    "name": "EPEL-7",
+    "long_name": "Fedora EPEL 7",
+    "version": "7",
+    "id_prefix": "FEDORA-EPEL",
+    "branch": "epel7",
+    "dist_tag": "epel7",
+    "stable_tag": "epel7",
+    "testing_tag": "epel7-testing",
+    "candidate_tag": "epel7-testing-candidate",
+    "pending_signing_tag": "epel7-signing-pending",
+    "pending_testing_tag": "epel7-testing-pending",
+    "pending_stable_tag": "epel7-pending",
+    "override_tag": "epel7-override",
+    "state": "current",
+    "package_manager": "unspecified",
+    "testing_repository": ""
+  },
+  "comments": [
+    {
+      "id": 1088438,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by puiterwijk. ",
+      "timestamp": "2019-10-09 15:08:16",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088439,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-10-09 15:08:16",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088442,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-10-09 15:08:18",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1088793,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2019-10-09 17:42:22",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1090945,
+      "karma": 1,
+      "karma_critpath": 0,
+      "text": "",
+      "timestamp": "2019-10-11 13:09:44",
+      "update_id": 161789,
+      "user_id": 474,
+      "user": {
+        "id": 474,
+        "name": "jcpunk",
+        "email": "jcpunk@gmail.com"
+      }
+    },
+    {
+      "id": 1106633,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update can be pushed to stable now if the maintainer wishes",
+      "timestamp": "2019-10-23 17:45:15",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1106634,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for stable by bodhi. ",
+      "timestamp": "2019-10-23 17:45:15",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1109845,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to stable.",
+      "timestamp": "2019-10-26 15:22:27",
+      "update_id": 161789,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "koji-1.18.1-1.el7",
+      "release_id": 8,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [],
+  "karma": 1,
+  "content_type": "rpm"
+}

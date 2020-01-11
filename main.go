@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/aquasecurity/vuln-list-update/amazon"
+	"github.com/aquasecurity/vuln-list-update/fedora"
 
 	"github.com/aquasecurity/vuln-list-update/alpine"
 
@@ -146,6 +147,12 @@ func run() error {
 			return xerrors.Errorf("error in Photon update: %w", err)
 		}
 		commitMsg = "Photon Security Advisories"
+	case "fedora":
+		fd := fedora.NewConfig()
+		if err := fd.Update(); err != nil {
+			return xerrors.Errorf("error in Fedora update: %w", err)
+		}
+		commitMsg = "Fedora Security Advisories"
 	default:
 		return xerrors.New("unknown target")
 	}

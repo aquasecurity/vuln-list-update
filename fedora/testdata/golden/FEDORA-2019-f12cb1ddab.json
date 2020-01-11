@@ -1,0 +1,130 @@
+{
+  "updateid": "FEDORA-2019-f12cb1ddab",
+  "stable_karma": 2,
+  "stable_days": 7,
+  "unstable_karma": -5,
+  "requirements": "",
+  "display_name": "",
+  "notes": "New bugfix and security upstream release, see http://www.graphicsmagick.org/NEWS.html#december-24-2019",
+  "status": "testing",
+  "severity": "medium",
+  "suggest": "unspecified",
+  "close_bugs": true,
+  "date_submitted": "2019-12-31 14:59:29",
+  "date_pushed": "2020-01-04 21:17:03",
+  "date_testing": "2020-01-04 21:17:03",
+  "alias": "FEDORA-2019-f12cb1ddab",
+  "test_gating_status": "ignored",
+  "url": "https://bodhi.fedoraproject.org/updates/FEDORA-2019-f12cb1ddab",
+  "title": "GraphicsMagick-1.3.34-1.fc30",
+  "version_hash": "7cdce4600501e0a210dba5d34335b22af0ba9b38",
+  "release": {
+    "name": "F30",
+    "long_name": "Fedora 30",
+    "version": "30",
+    "id_prefix": "FEDORA",
+    "branch": "f30",
+    "dist_tag": "f30",
+    "stable_tag": "f30-updates",
+    "testing_tag": "f30-updates-testing",
+    "candidate_tag": "f30-updates-candidate",
+    "pending_signing_tag": "f30-signing-pending",
+    "pending_testing_tag": "f30-updates-testing-pending",
+    "pending_stable_tag": "f30-updates-pending",
+    "override_tag": "f30-override",
+    "state": "current",
+    "package_manager": "dnf",
+    "testing_repository": "updates-testing"
+  },
+  "comments": [
+    {
+      "id": 1181946,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been submitted for testing by rdieter. ",
+      "timestamp": "2019-12-31 14:59:29",
+      "update_id": 176322,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181947,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'waiting'.",
+      "timestamp": "2019-12-31 14:59:30",
+      "update_id": 176322,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1181948,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update's test gating status has been changed to 'ignored'.",
+      "timestamp": "2019-12-31 14:59:37",
+      "update_id": 176322,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    },
+    {
+      "id": 1185080,
+      "karma": 0,
+      "karma_critpath": 0,
+      "text": "This update has been pushed to testing.",
+      "timestamp": "2020-01-04 21:18:48",
+      "update_id": 176322,
+      "user_id": 91,
+      "user": {
+        "id": 91,
+        "name": "bodhi",
+        "email": ""
+      }
+    }
+  ],
+  "builds": [
+    {
+      "nvr": "GraphicsMagick-1.3.34-1.fc30",
+      "release_id": 28,
+      "signed": true,
+      "type": "rpm",
+      "epoch": 0
+    }
+  ],
+  "bugs": [
+    {
+      "bug_id": 1561225,
+      "title": "CVE-2018-9018 GraphicsMagick: divide-by-zero in the ReadMNGImage function in coders/png.c",
+      "security": true
+    },
+    {
+      "bug_id": 1561226,
+      "title": "CVE-2018-9018 GraphicsMagick: divide-by-zero in the ReadMNGImage function in coders/png.c [fedora-all]",
+      "security": true
+    },
+    {
+      "bug_id": 1767812,
+      "title": "CVE-2019-15139 ImageMagick: out-of-bounds read in ReadXWDImage in coders/xwd.c",
+      "security": true
+    },
+    {
+      "bug_id": 1770517,
+      "title": "CVE-2019-15139 GraphicsMagick: ImageMagick: out-of-bounds read in ReadXWDImage in coders/xwd.c [fedora-all]",
+      "security": true
+    }
+  ],
+  "karma": 0,
+  "content_type": "rpm"
+}
