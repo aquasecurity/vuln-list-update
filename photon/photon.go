@@ -60,6 +60,9 @@ func (c Config) Update() error {
 		return xerrors.Errorf("failed to get Photon versions: %w", err)
 	}
 	for _, version := range versions {
+		if version == "dev" {
+			continue
+		}
 		res, err := utils.FetchURL(c.URL+fmt.Sprintf(advisoryFormat, version), "", c.Retry)
 		if err != nil {
 			return xerrors.Errorf("failed to fetch Photon advisory: %w", err)
