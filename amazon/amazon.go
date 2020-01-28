@@ -104,6 +104,14 @@ func (ac Config) Update() error {
 }
 
 func (ac Config) update(version, url string) error {
+	dir := filepath.Join(ac.VulnListDir, amazonDir, version)
+	if err := os.RemoveAll(dir); err != nil {
+		return xerrors.Errorf("unable to remove amazon directory: %w", err)
+	}
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		return xerrors.Errorf("failed to mkdir: %w", err)
+	}
+
 	vulns, err := fetchUpdateInfoAmazonLinux(url)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch security advisories from Amazon Linux Security Center: %w", err)
@@ -111,10 +119,6 @@ func (ac Config) update(version, url string) error {
 
 	bar := pb.StartNew(len(vulns.ALASList))
 	for _, alas := range vulns.ALASList {
-		dir := filepath.Join(ac.VulnListDir, amazonDir, version)
-		if err = os.MkdirAll(dir, os.ModePerm); err != nil {
-			return xerrors.Errorf("failed to mkdir: %w", err)
-		}
 		filePath := filepath.Join(dir, fmt.Sprintf("%s.json", alas.ID))
 		if err = utils.Write(filePath, alas); err != nil {
 			return xerrors.Errorf("failed to write Amazon CVE details: %w", err)
@@ -178,7 +182,6 @@ func fetchUpdateInfoURL(mirror string) (updateInfoPath string, err error) {
 	for _, repo := range repoMd.RepoList {
 		if repo.Type == "updateinfo" {
 			updateInfoPath = repo.Location.Href
-			fmt.Println(updateInfoPath)
 			break
 		}
 	}
