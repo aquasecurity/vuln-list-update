@@ -11,6 +11,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/amazon"
@@ -78,6 +80,14 @@ func Test_Update(t *testing.T) {
 			dir, _ := ioutil.TempDir("", "amazon")
 			defer os.RemoveAll(dir)
 
+			amazonDir := filepath.Join(dir, "amazon", tc.version)
+			err := os.MkdirAll(amazonDir, 0777)
+			require.NoError(t, err)
+
+			// this file must be removed
+			err = ioutil.WriteFile(filepath.Join(amazonDir, "dummy.json"), []byte(`dummy`), 0666)
+			require.NoError(t, err, "failed to create a dummy file")
+
 			ac := amazon.Config{
 				LinuxMirrorListURI: map[string]string{
 					tc.version: tsMirrorListURL.URL,
@@ -92,7 +102,7 @@ func Test_Update(t *testing.T) {
 				assert.NoError(t, ac.Update(), tc.name)
 			}
 
-			err := filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
+			err = filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
 				if info.IsDir() {
 					return nil
 				}
@@ -100,10 +110,10 @@ func Test_Update(t *testing.T) {
 				golden := filepath.Join("testdata", filename+".golden")
 
 				want, err := ioutil.ReadFile(golden)
-				assert.Nil(t, err, "failed to open the golden file")
+				assert.NoError(t, err, "failed to open the golden file")
 
 				got, err := ioutil.ReadFile(path)
-				assert.Nil(t, err, "failed to open the result file")
+				assert.NoError(t, err, "failed to open the result file")
 
 				assert.Equal(t, string(want), string(got))
 
