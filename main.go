@@ -64,10 +64,9 @@ func run() error {
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
 
-	print(url)
-	// if _, err := gc.CloneOrPull(url, utils.VulnListDir()); err != nil {
-	// 	return xerrors.Errorf("clone or pull error: %w", err)
-	// }
+	if _, err := gc.CloneOrPull(url, utils.VulnListDir()); err != nil {
+		return xerrors.Errorf("clone or pull error: %w", err)
+	}
 
 	var commitMsg string
 	switch *target {
