@@ -1,0 +1,436 @@
+package ghsa
+
+import (
+	"context"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"testing"
+
+	githubql "github.com/shurcooL/githubql"
+	"github.com/spf13/afero"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+)
+
+var update = flag.Bool("update", false, "update golden files")
+
+type MockClient struct {
+	Response map[githubql.String]GetVulnerabilitiesQuery
+}
+
+func (mc MockClient) Query(ctx context.Context, q interface{}, variables map[string]interface{}) error {
+	cursor := variables["cursor"].(*githubql.String)
+	if cursor == (*githubql.String)(nil) {
+		q.(*GetVulnerabilitiesQuery).SecurityVulnerabilities = mc.Response[githubql.String("")].SecurityVulnerabilities
+		return nil
+	}
+
+	q.(*GetVulnerabilitiesQuery).SecurityVulnerabilities = mc.Response[*cursor].SecurityVulnerabilities
+	return nil
+}
+
+func TestConfig_Update(t *testing.T) {
+	testCases := []struct {
+		name             string
+		appFs            afero.Fs
+		inputEcosystem   SecurityAdvisoryEcosystem
+		goldenFiles      map[string]string
+		inputResponse    map[githubql.String]GetVulnerabilitiesQuery
+		expectedErrorMsg string
+	}{
+		{
+			name:           "positive test",
+			appFs:          afero.NewMemMapFs(),
+			inputEcosystem: Composer,
+			goldenFiles: map[string]string{
+				"/tmp/ghsa/composer/GHSA-2r3v-q9x3-7g46.json": "testdata/composer/GHSA-2r3v-q9x3-7g46.json",
+			},
+			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
+				githubql.String(""): GetVulnerabilitiesQuery{
+					SecurityVulnerabilities{
+						Nodes: []GithubSecurityAdvisory{
+							{
+								Severity:  "LOW",
+								UpdatedAt: "2020-01-24T21:15:59Z",
+								Package: Package{
+									Ecosystem: "COMPOSER",
+									Name:      "simplesamlphp/simplesamlphp",
+								},
+								Advisory: Advisory{
+									DatabaseId: 1883,
+									Id:         "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTJyM3YtcTl4My03ZzQ2",
+									GhsaId:     "GHSA-2r3v-q9x3-7g46",
+									References: []Reference{
+										{
+											Url: "https://github.com/simplesamlphp/simplesamlphp/security/advisories/GHSA-2r3v-q9x3-7g46",
+										},
+									},
+									Identifiers: []Identifier{
+										{
+											Type:  "GHSA",
+											Value: "GHSA-2r3v-q9x3-7g46",
+										},
+									},
+									Description: "### Background\nSeveral scripts part of SimpleSAMLphp display a web page with links obtained from the request parameters. This allows us to enhance usability, as the users are presented with links they can follow after completing a certain action, like logging out.\n\n### Description\nThe following scripts were not checking the URLs obtained via the HTTP request before displaying them as the target of links that the user may click on:\n\n- `www/logout.php`\n- `modules/core/www/no_cookie.php`\n\nThe issue allowed attackers to display links targeting a malicious website inside a trusted site running SimpleSAMLphp, due to the lack of security checks involving the `link_href` and `retryURL` HTTP parameters, respectively. The issue was resolved by including a verification of the URLs received in the request against a white list of websites specified in the `trusted.url.domains` configuration option.\n\n### Affected versions\nAll SimpleSAMLphp versions prior to 1.14.4.\n\n### Impact\nA remote attacker could craft a link pointing to a trusted website running SimpleSAMLphp, including a parameter pointing to a malicious website, and try to fool the victim into visiting that website by clicking on a link in the page presented by SimpleSAMLphp.\n\n### Resolution\nUpgrade to the latest version.\n\n### Credit\nThis security issue was discovered and reported by John Page (hyp3rlinx).",
+									Origin:      "UNSPECIFIED",
+									PublishedAt: "2020-01-24T21:27:16Z",
+									Severity:    "LOW",
+									Summary:     "Low severity vulnerability that affects simplesamlphp/simplesamlphp",
+									UpdatedAt:   "2020-01-24T21:27:17Z",
+									WithdrawnAt: "",
+								},
+								FirstPatchedVersion: FirstPatchedVersion{
+									Identifier: "1.14.4",
+								},
+								VulnerableVersionRange: "\u003c 1.14.4",
+							},
+						},
+						PageInfo: PageInfo{
+							EndCursor:   githubql.String(""),
+							HasNextPage: false,
+						},
+					},
+				},
+			},
+			expectedErrorMsg: "",
+		},
+		{
+			name:           "positive test multi advisory",
+			appFs:          afero.NewMemMapFs(),
+			inputEcosystem: Pip,
+			goldenFiles: map[string]string{
+				"/tmp/ghsa/pip/GHSA-22mf-97vh-x8rw.json": "testdata/pip/GHSA-22mf-97vh-x8rw.json",
+				"/tmp/ghsa/pip/GHSA-27p5-7cw6-m45h.json": "testdata/pip/GHSA-27p5-7cw6-m45h.json",
+			},
+			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
+				githubql.String(""): GetVulnerabilitiesQuery{
+					SecurityVulnerabilities{
+						Nodes: []GithubSecurityAdvisory{
+							{
+								Severity:  "HIGH",
+								UpdatedAt: "2019-06-13T15:48:37Z",
+								Package: Package{
+									Ecosystem: "PIP",
+									Name:      "parso",
+								},
+								Advisory: Advisory{
+									DatabaseId: 1513,
+									Id:         "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTIybWYtOTd2aC14OHJ3",
+									GhsaId:     "GHSA-22mf-97vh-x8rw",
+									References: []Reference{
+										{
+											Url: "https://nvd.nist.gov/vuln/detail/CVE-2019-12760",
+										},
+									},
+									Identifiers: []Identifier{
+										{
+											Type:  "GHSA",
+											Value: "GHSA-22mf-97vh-x8rw",
+										},
+										{
+											Type:  "CVE",
+											Value: "CVE-2019-12760",
+										},
+									},
+									Description: "** DISPUTED ** A deserialization vulnerability exists in the way parso through 0.4.0 handles grammar parsing from the cache. Cache loading relies on pickle and, provided that an evil pickle can be written to a cache grammar file and that its parsing can be triggered, this flaw leads to Arbitrary Code Execution.  NOTE: This is disputed because \"the cache directory is not under control of the attacker in any common configuration.\"",
+									Origin:      "UNSPECIFIED",
+									PublishedAt: "2019-06-13T16:12:57Z",
+									Severity:    "HIGH",
+									Summary:     "High severity vulnerability that affects parso",
+									UpdatedAt:   "2019-07-05T21:04:05Z",
+									WithdrawnAt: "2019-07-03T17:53:20Z",
+								},
+								FirstPatchedVersion: FirstPatchedVersion{
+									Identifier: "",
+								},
+								VulnerableVersionRange: "\u003c= 0.4.0",
+							},
+							{
+								Severity:  "MODERATE",
+								UpdatedAt: "2019-10-24T20:46:06Z",
+								Package: Package{
+									Ecosystem: "PIP",
+									Name:      "unoconv",
+								},
+								Advisory: Advisory{
+									DatabaseId: 1753,
+									Id:         "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTI3cDUtN2N3Ni1tNDVo",
+									GhsaId:     "GHSA-27p5-7cw6-m45h",
+									References: []Reference{
+										{
+											Url: "https://nvd.nist.gov/vuln/detail/CVE-2019-17400",
+										},
+									},
+									Identifiers: []Identifier{
+										{
+											Type:  "GHSA",
+											Value: "GHSA-27p5-7cw6-m45h",
+										},
+										{
+											Type:  "CVE",
+											Value: "CVE-2019-17400",
+										},
+									},
+									Description: "The unoconv package before 0.9 mishandles untrusted pathnames, leading to SSRF and local file inclusion.",
+									Origin:      "UNSPECIFIED",
+									PublishedAt: "2019-10-24T20:46:54Z",
+									Severity:    "MODERATE",
+									Summary:     "Moderate severity vulnerability that affects unoconv",
+									UpdatedAt:   "2019-11-01T17:03:50Z",
+									WithdrawnAt: "",
+								},
+								FirstPatchedVersion: FirstPatchedVersion{
+									Identifier: "0.9.0",
+								},
+								VulnerableVersionRange: "\u003c 0.9.0",
+							},
+						},
+						PageInfo: PageInfo{
+							EndCursor:   githubql.String(""),
+							HasNextPage: false,
+						},
+					},
+				},
+			},
+			expectedErrorMsg: "",
+		},
+		{
+			name:           "positive test multi nodes",
+			appFs:          afero.NewMemMapFs(),
+			inputEcosystem: Maven,
+			goldenFiles: map[string]string{
+				"/tmp/ghsa/maven/GHSA-2289-pqfq-6wx7.json": "testdata/maven/GHSA-2289-pqfq-6wx7.json",
+				"/tmp/ghsa/maven/GHSA-269m-695x-j34p.json": "testdata/maven/GHSA-269m-695x-j34p.json",
+				"/tmp/ghsa/maven/GHSA-2g9q-chq2-w8qw.json": "testdata/maven/GHSA-2g9q-chq2-w8qw.json",
+			},
+			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
+				githubql.String(""): GetVulnerabilitiesQuery{
+					SecurityVulnerabilities{
+						Nodes: []GithubSecurityAdvisory{
+							{
+								Severity:  "HIGH",
+								UpdatedAt: "2020-01-28T22:25:34Z",
+								Package: Package{
+									Ecosystem: "MAVEN",
+									Name:      "org.apache.solr:solr-core",
+								},
+								Advisory: Advisory{
+									DatabaseId: 1892,
+									Id:         "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTIyODktcHFmcS02d3g3",
+									GhsaId:     "GHSA-2289-pqfq-6wx7",
+									References: []Reference{
+										{
+											Url: "https://nvd.nist.gov/vuln/detail/CVE-2019-12409",
+										},
+									},
+									Identifiers: []Identifier{
+										{
+											Type:  "GHSA",
+											Value: "GHSA-2289-pqfq-6wx7",
+										},
+										{
+											Type:  "CVE",
+											Value: "CVE-2019-12409",
+										},
+									},
+									Description: "The 8.1.1 and 8.2.0 releases of Apache Solr contain an insecure setting for the ENABLE_REMOTE_JMX_OPTS configuration option in the default solr.in.sh configuration file shipping with Solr. If you use the default solr.in.sh file from the affected releases, then JMX monitoring will be enabled and exposed on RMI_PORT (default=18983), without any authentication. If this port is opened for inbound traffic in your firewall, then anyone with network access to your Solr nodes will be able to access JMX, which may in turn allow them to upload malicious code for execution on the Solr server.",
+									Origin:      "UNSPECIFIED",
+									PublishedAt: "2020-01-28T22:26:54Z",
+									Severity:    "HIGH",
+									Summary:     "High severity vulnerability that affects org.apache.solr:solr-core",
+									UpdatedAt:   "2020-01-28T22:26:54Z",
+									WithdrawnAt: "",
+								},
+								FirstPatchedVersion: FirstPatchedVersion{
+									Identifier: "8.3.0",
+								},
+								VulnerableVersionRange: "\u003e= 8.1.1, \u003c= 8.2.0",
+							},
+						},
+						PageInfo: PageInfo{
+							EndCursor:   githubql.String("nextCursor"),
+							HasNextPage: true,
+						},
+					},
+				},
+				githubql.String("nextCursor"): GetVulnerabilitiesQuery{
+					SecurityVulnerabilities{
+						Nodes: []GithubSecurityAdvisory{
+							{
+								Severity:  "MODERATE",
+								UpdatedAt: "2018-10-19T16:40:55Z",
+								Package: Package{
+									Ecosystem: "MAVEN",
+									Name:      "org.apache.qpid:qpid-broker",
+								},
+								Advisory: Advisory{
+									DatabaseId: 888,
+									Id:         "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTI2OW0tNjk1eC1qMzRw",
+									GhsaId:     "GHSA-269m-695x-j34p",
+									References: []Reference{
+										{
+											Url: "https://nvd.nist.gov/vuln/detail/CVE-2017-15702",
+										},
+									},
+									Identifiers: []Identifier{
+										{
+											Type:  "GHSA",
+											Value: "GHSA-269m-695x-j34p",
+										},
+										{
+											Type:  "CVE",
+											Value: "CVE-2017-15702",
+										},
+									},
+									Description: "In Apache Qpid Broker-J 0.18 through 0.32, if the broker is configured with different authentication providers on different ports one of which is an HTTP port, then the broker can be tricked by a remote unauthenticated attacker connecting to the HTTP port into using an authentication provider that was configured on a different port. The attacker still needs valid credentials with the authentication provider on the spoofed port. This becomes an issue when the spoofed port has weaker authentication protection (e.g., anonymous access, default accounts) and is normally protected by firewall rules or similar which can be circumvented by this vulnerability. AMQP ports are not affected. Versions 6.0.0 and newer are not affected.",
+									Origin:      "UNSPECIFIED",
+									PublishedAt: "2018-10-19T16:41:04Z",
+									Severity:    "MODERATE",
+									Summary:     "Moderate severity vulnerability that affects org.apache.qpid:qpid-broker",
+									UpdatedAt:   "2019-07-03T21:02:04Z",
+									WithdrawnAt: "",
+								},
+								FirstPatchedVersion: FirstPatchedVersion{
+									Identifier: "6.0.0",
+								},
+								VulnerableVersionRange: "\u003e= 0.18, \u003c= 0.32",
+							},
+							{
+
+								Severity:  "MODERATE",
+								UpdatedAt: "2019-03-14T15:37:54Z",
+								Package: Package{
+									Ecosystem: "MAVEN",
+									Name:      "org.apache.hive:hive",
+								},
+								Advisory: Advisory{
+									DatabaseId: 1293,
+									Id:         "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTJnOXEtY2hxMi13OHF3",
+									GhsaId:     "GHSA-2g9q-chq2-w8qw",
+									References: []Reference{
+										{
+											Url: "https://nvd.nist.gov/vuln/detail/CVE-2017-12625",
+										},
+									},
+									Identifiers: []Identifier{
+										{
+											Type:  "GHSA",
+											Value: "GHSA-2g9q-chq2-w8qw",
+										},
+										{
+											Type:  "CVE",
+											Value: "CVE-2017-12625",
+										},
+									},
+									Description: "Apache Hive 2.1.x before 2.1.2, 2.2.x before 2.2.1, and 2.3.x before 2.3.1 expose an interface through which masking policies can be defined on tables or views, e.g., using Apache Ranger. When a view is created over a given table, the policy enforcement does not happen correctly on the table for masked columns.",
+									Origin:      "UNSPECIFIED",
+									PublishedAt: "2019-03-14T15:40:16Z",
+									Severity:    "MODERATE",
+									Summary:     "Moderate severity vulnerability that affects org.apache.hive:hive, org.apache.hive:hive-exec, and org.apache.hive:hive-service",
+									UpdatedAt:   "2019-07-03T21:02:07Z",
+									WithdrawnAt: "",
+								},
+								FirstPatchedVersion: FirstPatchedVersion{
+									Identifier: "2.1.2",
+								},
+								VulnerableVersionRange: "\u003e= 2.1.0, \u003c 2.1.2",
+							},
+						},
+						PageInfo: PageInfo{
+							EndCursor:   githubql.String(""),
+							HasNextPage: false,
+						},
+					},
+				},
+			},
+			expectedErrorMsg: "",
+		},
+		{
+			name:           "read only filesystem test",
+			appFs:          afero.NewReadOnlyFs(afero.NewOsFs()),
+			inputEcosystem: Composer,
+			goldenFiles:    map[string]string{},
+			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
+				githubql.String(""): GetVulnerabilitiesQuery{
+					SecurityVulnerabilities{
+						Nodes: []GithubSecurityAdvisory{
+							{
+								Package: Package{
+									Ecosystem: "COMPOSER",
+									Name:      "composer",
+								},
+								Advisory: Advisory{
+									DatabaseId: 1,
+								},
+							},
+						},
+						PageInfo: PageInfo{
+							EndCursor:   githubql.String(""),
+							HasNextPage: false,
+						},
+					},
+				},
+			},
+			expectedErrorMsg: "failed to save github security advisory: failed to create directory: operation not permitted",
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			client := MockClient{
+				Response: tc.inputResponse,
+			}
+			c := Config{
+				VulnListDir: "/tmp",
+				AppFs:       tc.appFs,
+				Retry:       0,
+				Client:      client,
+			}
+			err := c.update(tc.inputEcosystem)
+			switch {
+			case tc.expectedErrorMsg != "":
+				require.NotNil(t, err, tc.name)
+				assert.Contains(t, err.Error(), tc.expectedErrorMsg, tc.name)
+				return
+			default:
+				assert.NoError(t, err, tc.name)
+			}
+
+			fileCount := 0
+			err = afero.Walk(c.AppFs, "/", func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+				if info.IsDir() {
+					return nil
+				}
+				fileCount += 1
+
+				actual, err := afero.ReadFile(c.AppFs, path)
+				assert.NoError(t, err, tc.name)
+
+				goldenPath, ok := tc.goldenFiles[path]
+				if !ok {
+					fmt.Println(path)
+				}
+				assert.True(t, ok, tc.name)
+
+				if *update {
+					err = ioutil.WriteFile(goldenPath, actual, 0666)
+					assert.NoError(t, err, tc.name)
+				}
+
+				expected, err := ioutil.ReadFile(goldenPath)
+				assert.NoError(t, err, tc.name)
+
+				assert.Equal(t, expected, actual, tc.name)
+
+				return nil
+			})
+			assert.Equal(t, len(tc.goldenFiles), fileCount, tc.name)
+			assert.NoError(t, err, tc.name)
+		})
+	}
+
+}

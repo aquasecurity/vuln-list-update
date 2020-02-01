@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -15,6 +16,7 @@ import (
 
 	susecvrf "github.com/aquasecurity/vuln-list-update/cvrf/suse"
 	"github.com/aquasecurity/vuln-list-update/debian"
+	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
@@ -25,6 +27,8 @@ import (
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
 
+	githubql "github.com/shurcooL/githubql"
+	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 )
 
@@ -35,7 +39,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -60,9 +64,10 @@ func run() error {
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
 
-	if _, err := gc.CloneOrPull(url, utils.VulnListDir()); err != nil {
-		return xerrors.Errorf("clone or pull error: %w", err)
-	}
+	print(url)
+	// if _, err := gc.CloneOrPull(url, utils.VulnListDir()); err != nil {
+	// 	return xerrors.Errorf("clone or pull error: %w", err)
+	// }
 
 	var commitMsg string
 	switch *target {
@@ -146,6 +151,17 @@ func run() error {
 			return xerrors.Errorf("error in Photon update: %w", err)
 		}
 		commitMsg = "Photon Security Advisories"
+	case "ghsa":
+		src := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: githubToken},
+		)
+		httpClient := oauth2.NewClient(context.Background(), src)
+
+		gc := ghsa.NewConfig(githubql.NewClient(httpClient))
+		if err := gc.Update(); err != nil {
+			return xerrors.Errorf("error in GitHub Security Advisory update: %w", err)
+		}
+		commitMsg = "GitHub Security Advisory"
 	default:
 		return xerrors.New("unknown target")
 	}
