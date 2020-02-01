@@ -80,6 +80,11 @@ jobs:
       script:
         - go run main.go -target photon
 
+    - stage: 'GitHub Security Advisory'
+      if: type = cron
+      script:
+        - go run main.go -target ghsa
+
     - stage: 'SUSE CVRF'
       if: type = cron
       script:
