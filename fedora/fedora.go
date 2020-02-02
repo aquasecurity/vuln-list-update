@@ -40,6 +40,15 @@ func NewConfig() Config {
 
 func (c Config) Update() error {
 	log.Printf("Fetching Fedora")
+
+	dir := filepath.Join(c.VulnListDir, fedoraDir)
+	if err := os.RemoveAll(dir); err != nil {
+		return xerrors.Errorf("unable to remove fedora directory: %w", err)
+	}
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		return xerrors.Errorf("failed to mkdir: %w", err)
+	}
+
 	advisories, err := c.listFedoraAdvisories()
 	if err != nil {
 		return xerrors.Errorf("failed to get Fedora advisories: %w", err)
