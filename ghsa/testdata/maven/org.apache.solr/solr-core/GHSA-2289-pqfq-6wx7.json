@@ -32,8 +32,12 @@
     "UpdatedAt": "2020-01-28T22:26:54Z",
     "WithdrawnAt": ""
   },
-  "FirstPatchedVersion": {
-    "Identifier": "8.3.0"
-  },
-  "VulnerableVersionRange": "\u003e= 8.1.1, \u003c= 8.2.0"
+  "VersionAdvisories": [
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "8.3.0"
+      },
+      "VulnerableVersionRange": "\u003e= 8.1.1, \u003c= 8.2.0"
+    }
+  ]
 }

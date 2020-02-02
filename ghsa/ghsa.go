@@ -76,10 +76,40 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 	if err != nil {
 		return xerrors.Errorf("failed to fetch github security advisory: %w", err)
 	}
-	bar := pb.StartNew(len(ghsas))
+
+	ghsaJsonMap := make(map[string]GithubSecurityAdvisoryJson)
 	for _, ghsa := range ghsas {
-		dir := filepath.Join(c.VulnListDir, ghsaDir, strings.ToLower(string(ecosystem)))
-		err := c.saveGSA(dir, ghsa.Advisory.GhsaId, ghsa)
+		ghsa.Package.Name = strings.TrimSpace(ghsa.Package.Name)
+
+		ghsaJson, ok := ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name]
+		if ok {
+			va := VersionAdvisory{
+				FirstPatchedVersion:    ghsa.FirstPatchedVersion,
+				VulnerableVersionRange: ghsa.VulnerableVersionRange,
+			}
+			ghsaJson.VersionAdvisories = append(ghsaJson.VersionAdvisories, va)
+			ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name] = ghsaJson
+
+		} else {
+			ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name] = GithubSecurityAdvisoryJson{
+				Severity:  ghsa.Severity,
+				UpdatedAt: ghsa.UpdatedAt,
+				Package:   ghsa.Package,
+				Advisory:  ghsa.Advisory,
+				VersionAdvisories: []VersionAdvisory{
+					{
+						FirstPatchedVersion:    ghsa.FirstPatchedVersion,
+						VulnerableVersionRange: ghsa.VulnerableVersionRange,
+					},
+				},
+			}
+		}
+	}
+
+	bar := pb.StartNew(len(ghsaJsonMap))
+	for _, ghsaJson := range ghsaJsonMap {
+		dir := filepath.Join(c.VulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), strings.Replace(ghsaJson.Package.Name, ":", "/", -1))
+		err := c.saveGSA(dir, ghsaJson.Advisory.GhsaId, ghsaJson)
 		if err != nil {
 			return xerrors.Errorf("failed to save github security advisory: %w", err)
 		}
@@ -119,6 +149,7 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 		if !getVulnerabilitiesQuery.PageInfo.HasNextPage {
 			break
 		}
+
 		variables["cursor"] = githubql.NewString(getVulnerabilitiesQuery.PageInfo.EndCursor)
 	}
 

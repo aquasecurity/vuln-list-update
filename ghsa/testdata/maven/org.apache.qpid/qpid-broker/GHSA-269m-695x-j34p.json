@@ -32,8 +32,12 @@
     "UpdatedAt": "2019-07-03T21:02:04Z",
     "WithdrawnAt": ""
   },
-  "FirstPatchedVersion": {
-    "Identifier": "6.0.0"
-  },
-  "VulnerableVersionRange": "\u003e= 0.18, \u003c= 0.32"
+  "VersionAdvisories": [
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "6.0.0"
+      },
+      "VulnerableVersionRange": "\u003e= 0.18, \u003c= 0.32"
+    }
+  ]
 }

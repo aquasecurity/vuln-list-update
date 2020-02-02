@@ -32,8 +32,24 @@
     "UpdatedAt": "2019-07-03T21:02:07Z",
     "WithdrawnAt": ""
   },
-  "FirstPatchedVersion": {
-    "Identifier": "2.1.2"
-  },
-  "VulnerableVersionRange": "\u003e= 2.1.0, \u003c 2.1.2"
+  "VersionAdvisories": [
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "2.3.1"
+      },
+      "VulnerableVersionRange": "= 2.3.0"
+    },
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "2.2.1"
+      },
+      "VulnerableVersionRange": "= 2.2.0"
+    },
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "2.1.2"
+      },
+      "VulnerableVersionRange": "\u003e= 2.1.0, \u003c 2.1.2"
+    }
+  ]
 }

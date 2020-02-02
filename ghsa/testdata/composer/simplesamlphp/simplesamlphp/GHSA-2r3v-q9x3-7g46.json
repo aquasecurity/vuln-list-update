@@ -28,8 +28,12 @@
     "UpdatedAt": "2020-01-24T21:27:17Z",
     "WithdrawnAt": ""
   },
-  "FirstPatchedVersion": {
-    "Identifier": "1.14.4"
-  },
-  "VulnerableVersionRange": "\u003c 1.14.4"
+  "VersionAdvisories": [
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "1.14.4"
+      },
+      "VulnerableVersionRange": "\u003c 1.14.4"
+    }
+  ]
 }
