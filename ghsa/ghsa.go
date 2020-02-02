@@ -72,6 +72,14 @@ func (c Config) Update() error {
 func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 	log.Printf("Fetching GithubSecurityAdvisory: %s", ecosystem)
 
+	dir := filepath.Join(c.VulnListDir, ghsaDir, strings.ToLower(string(ecosystem)))
+	if err := os.RemoveAll(dir); err != nil {
+		return xerrors.Errorf("unable to remove github security advisory directory: %w", err)
+	}
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		return xerrors.Errorf("failed to mkdir: %w", err)
+	}
+
 	ghsas, err := c.FetchGithubSecurityAdvisories(ecosystem)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch github security advisory: %w", err)
