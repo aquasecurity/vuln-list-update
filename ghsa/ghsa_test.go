@@ -362,12 +362,13 @@ func TestConfig_Update(t *testing.T) {
 				Response: tc.inputResponse,
 			}
 			c := Config{
+				Ecosystems:  []SecurityAdvisoryEcosystem{tc.inputEcosystem},
 				VulnListDir: "/tmp",
 				AppFs:       tc.appFs,
 				Retry:       0,
 				Client:      client,
 			}
-			err := c.update(tc.inputEcosystem)
+			err := c.Update()
 			switch {
 			case tc.expectedErrorMsg != "":
 				require.NotNil(t, err, tc.name)
