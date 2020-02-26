@@ -31,8 +31,9 @@ var (
 )
 
 const (
-	ghsaDir = "ghsa"
-	retry   = 5
+	ghsaDir         = "ghsa"
+	retry           = 5
+	maxResponseSize = 100
 )
 
 var ecosystems = []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems}
@@ -117,7 +118,7 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 	bar := pb.StartNew(len(ghsaJsonMap))
 	for _, ghsaJson := range ghsaJsonMap {
 		dir := filepath.Join(c.VulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), strings.Replace(ghsaJson.Package.Name, ":", "/", -1))
-		err := c.saveGSA(dir, ghsaJson.Advisory.GhsaId, ghsaJson)
+		err := c.saveGSHA(dir, ghsaJson.Advisory.GhsaId, ghsaJson)
 		if err != nil {
 			return xerrors.Errorf("failed to save github security advisory: %w", err)
 		}
@@ -132,7 +133,7 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 	var ghsas []GithubSecurityAdvisory
 	variables := map[string]interface{}{
 		"ecosystem": ecosystem,
-		"total":     graphql.Int(100),
+		"total":     graphql.Int(maxResponseSize),
 		"cursor":    (*githubql.String)(nil),
 	}
 	for {
@@ -164,7 +165,7 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 	return ghsas, nil
 }
 
-func (c Config) saveGSA(dirName string, ghsaID, data interface{}) error {
+func (c Config) saveGSHA(dirName string, ghsaID string, data interface{}) error {
 	filePath := filepath.Join(dirName, fmt.Sprintf("%s.json", ghsaID))
 	if err := c.AppFs.MkdirAll(dirName, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create directory: %w", err)
