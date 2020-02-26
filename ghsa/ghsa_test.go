@@ -2,6 +2,7 @@ package ghsa
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -17,10 +18,16 @@ import (
 var update = flag.Bool("update", false, "update golden files")
 
 type MockClient struct {
-	Response map[githubql.String]GetVulnerabilitiesQuery
+	Response   map[githubql.String]GetVulnerabilitiesQuery
+	Error      error
+	ErrorCount int
 }
 
 func (mc MockClient) Query(ctx context.Context, q interface{}, variables map[string]interface{}) error {
+	if mc.Error != nil {
+		return mc.Error
+	}
+
 	cursor := variables["cursor"].(*githubql.String)
 	if cursor == (*githubql.String)(nil) {
 		q.(*GetVulnerabilitiesQuery).SecurityVulnerabilities = mc.Response[githubql.String("")].SecurityVulnerabilities
@@ -362,13 +369,12 @@ func TestConfig_Update(t *testing.T) {
 				Response: tc.inputResponse,
 			}
 			c := Config{
-				Ecosystems:  []SecurityAdvisoryEcosystem{tc.inputEcosystem},
 				VulnListDir: "/tmp",
 				AppFs:       tc.appFs,
 				Retry:       0,
 				Client:      client,
 			}
-			err := c.Update()
+			err := c.update(tc.inputEcosystem)
 			switch {
 			case tc.expectedErrorMsg != "":
 				require.NotNil(t, err, tc.name)
@@ -414,4 +420,32 @@ func TestConfig_Update(t *testing.T) {
 		})
 	}
 
+}
+
+func TestConfig_FetchGithubSecurityAdvisories(t *testing.T) {
+	testCases := []struct {
+		name  string
+		retry int
+	}{
+		{
+			name:  "retry test",
+			retry: 1,
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			client := MockClient{
+				Error: errors.New("request error"),
+			}
+			c := Config{
+				VulnListDir: "/tmp",
+				AppFs:       afero.NewMemMapFs(),
+				Retry:       tc.retry,
+				Client:      client,
+			}
+			_, err := c.FetchGithubSecurityAdvisories(Pip)
+			assert.Equal(t, tc.retry, c.Retry, tc.name)
+			assert.Error(t, err, tc.name)
+		})
+	}
 }

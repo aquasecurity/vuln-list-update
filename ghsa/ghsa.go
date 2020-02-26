@@ -22,12 +22,13 @@ import (
 type SecurityAdvisoryEcosystem string
 
 var (
-	Composer SecurityAdvisoryEcosystem = "COMPOSER"
-	Maven    SecurityAdvisoryEcosystem = "MAVEN"
-	Npm      SecurityAdvisoryEcosystem = "NPM"
-	Nuget    SecurityAdvisoryEcosystem = "NUGET"
-	Pip      SecurityAdvisoryEcosystem = "PIP"
-	Rubygems SecurityAdvisoryEcosystem = "RUBYGEMS"
+	Composer   SecurityAdvisoryEcosystem = "COMPOSER"
+	Maven      SecurityAdvisoryEcosystem = "MAVEN"
+	Npm        SecurityAdvisoryEcosystem = "NPM"
+	Nuget      SecurityAdvisoryEcosystem = "NUGET"
+	Pip        SecurityAdvisoryEcosystem = "PIP"
+	Rubygems   SecurityAdvisoryEcosystem = "RUBYGEMS"
+	Ecosystems                           = []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems}
 )
 
 const (
@@ -37,7 +38,6 @@ const (
 )
 
 type Config struct {
-	Ecosystems  []SecurityAdvisoryEcosystem
 	VulnListDir string
 	AppFs       afero.Fs
 	Retry       int
@@ -50,7 +50,6 @@ type GithubClient interface {
 
 func NewConfig(client GithubClient) Config {
 	return Config{
-		Ecosystems:  []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems},
 		VulnListDir: utils.VulnListDir(),
 		AppFs:       afero.NewOsFs(),
 		Retry:       retry,
@@ -61,7 +60,7 @@ func NewConfig(client GithubClient) Config {
 func (c Config) Update() error {
 	log.Print("Fetching GithubSecurityAdvisory")
 
-	for _, ecosystem := range c.Ecosystems {
+	for _, ecosystem := range Ecosystems {
 		err := c.update(ecosystem)
 		if err != nil {
 			return xerrors.Errorf("failed to update github security advisory: %w", err)
