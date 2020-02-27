@@ -63,7 +63,7 @@ func (c Config) Update() error {
 	for _, ecosystem := range Ecosystems {
 		err := c.update(ecosystem)
 		if err != nil {
-			return xerrors.Errorf("failed to update github security advisory: %w", err)
+			return xerrors.Errorf("failed to update github security advisory ,%s: %w", ecosystem, err)
 		}
 	}
 	return nil
@@ -150,7 +150,7 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 			}
 		}
 		if err != nil {
-			return nil, xerrors.Errorf("failed to graphql api: %w", err)
+			return nil, xerrors.Errorf("graphql api error: %w", err)
 		}
 
 		ghsas = append(ghsas, getVulnerabilitiesQuery.Nodes...)
