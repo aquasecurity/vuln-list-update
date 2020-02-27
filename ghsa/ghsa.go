@@ -58,7 +58,7 @@ func NewConfig(client GithubClient) Config {
 }
 
 func (c Config) Update() error {
-	log.Print("Fetching GithubSecurityAdvisory")
+	log.Print("Fetching GitHub Security Advisory")
 
 	for _, ecosystem := range Ecosystems {
 		err := c.update(ecosystem)
@@ -70,7 +70,7 @@ func (c Config) Update() error {
 }
 
 func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
-	log.Printf("Fetching GithubSecurityAdvisory: %s", ecosystem)
+	log.Printf("Fetching GitHub Security Advisory: %s", ecosystem)
 
 	dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)))
 	if err := os.RemoveAll(dir); err != nil {
