@@ -16,8 +16,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/pkg/errors v0.8.0 // indirect
-	github.com/shurcooL/githubql v0.0.0-20191127044304-8f68eb5628d0
-	github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0 // indirect
+	github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0
 	github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f
 	github.com/simplereach/timeutils v1.2.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect

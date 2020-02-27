@@ -10,10 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aquasecurity/vuln-list-update/amazon"
+	githubql "github.com/shurcooL/githubv4"
+	"golang.org/x/oauth2"
+	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/alpine"
-
+	"github.com/aquasecurity/vuln-list-update/amazon"
 	susecvrf "github.com/aquasecurity/vuln-list-update/cvrf/suse"
 	"github.com/aquasecurity/vuln-list-update/debian"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
@@ -26,10 +28,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/redhat"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
-
-	githubql "github.com/shurcooL/githubql"
-	"golang.org/x/oauth2"
-	"golang.org/x/xerrors"
 )
 
 const (

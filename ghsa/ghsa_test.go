@@ -9,7 +9,7 @@ import (
 	"os"
 	"testing"
 
-	githubql "github.com/shurcooL/githubql"
+	githubql "github.com/shurcooL/githubv4"
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

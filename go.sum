@@ -41,8 +41,6 @@ github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-charset v0.0.0-20180617210344-2471d30d28b4/go.mod h1:qgYeAmZ5ZIpBWTGllZSQnw97Dj+woV0toclVaRGI8pc=
-github.com/shurcooL/githubql v0.0.0-20191127044304-8f68eb5628d0 h1:lPdYkfFdBjfpOQhcQO29XBvgA6p/01aN50b6ewTZoNY=
-github.com/shurcooL/githubql v0.0.0-20191127044304-8f68eb5628d0/go.mod h1:iaroGwWDfkuasmvRaqq1Dlq6EQhPsZrg8srZhBQHA8A=
 github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0 h1:T9uus1QvcPgeLShS30YOnnzk3r9Vvygp45muhlrufgY=
 github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0/go.mod h1:hAF0iLZy4td2EX+/8Tw+4nodhlMrwN3HupfaXj3zkGo=
 github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f h1:tygelZueB1EtXkPI6mQ4o9DQ0+FKW41hTbunoXZCTqk=

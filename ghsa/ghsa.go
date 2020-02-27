@@ -12,7 +12,7 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb"
-	githubql "github.com/shurcooL/githubql"
+	githubql "github.com/shurcooL/githubv4"
 	"github.com/shurcooL/graphql"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"

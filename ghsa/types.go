@@ -1,6 +1,6 @@
 package ghsa
 
-import githubql "github.com/shurcooL/githubql"
+import githubql "github.com/shurcooL/githubv4"
 
 type GetVulnerabilitiesQuery struct {
 	SecurityVulnerabilities `graphql:"securityVulnerabilities(ecosystem: $ecosystem, first: $total, after: $cursor)"`
