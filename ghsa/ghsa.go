@@ -80,7 +80,7 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	ghsas, err := c.FetchGithubSecurityAdvisories(ecosystem)
+	ghsas, err := c.fetchGithubSecurityAdvisories(ecosystem)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch github security advisory: %w", err)
 	}
@@ -127,7 +127,7 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 	return nil
 }
 
-func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosystem) ([]GithubSecurityAdvisory, error) {
+func (c Config) fetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosystem) ([]GithubSecurityAdvisory, error) {
 	var getVulnerabilitiesQuery GetVulnerabilitiesQuery
 	var ghsas []GithubSecurityAdvisory
 	variables := map[string]interface{}{

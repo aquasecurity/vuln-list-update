@@ -442,7 +442,7 @@ func TestConfig_FetchGithubSecurityAdvisories(t *testing.T) {
 				retry:       tc.retry,
 				client:      client,
 			}
-			_, err := c.FetchGithubSecurityAdvisories(Pip)
+			_, err := c.fetchGithubSecurityAdvisories(Pip)
 			assert.Error(t, err, tc.name)
 		})
 	}
