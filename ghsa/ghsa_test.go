@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"time"
 
 	githubql "github.com/shurcooL/githubv4"
 	"github.com/spf13/afero"
@@ -410,7 +411,7 @@ func TestConfig_Update(t *testing.T) {
 				expected, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, tc.name)
 
-				assert.Equal(t, expected, actual, tc.name)
+				assert.Equal(t, string(expected), string(actual), tc.name)
 
 				return nil
 			})
@@ -433,6 +434,7 @@ func TestConfig_FetchGithubSecurityAdvisories(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			wait = func(i int) time.Duration { return 0 }
 			client := MockClient{
 				Error: errors.New("request error"),
 			}

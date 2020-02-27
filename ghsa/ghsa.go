@@ -29,6 +29,11 @@ var (
 	Pip        SecurityAdvisoryEcosystem = "PIP"
 	Rubygems   SecurityAdvisoryEcosystem = "RUBYGEMS"
 	Ecosystems                           = []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems}
+
+	wait = func(i int) time.Duration {
+		sleep := math.Pow(float64(i), 2) + float64(utils.RandInt()%10)
+		return time.Duration(sleep) * time.Second
+	}
 )
 
 const (
@@ -139,9 +144,9 @@ func (c Config) fetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 		var err error
 		for i := 0; i <= c.retry; i++ {
 			if i > 0 {
-				wait := math.Pow(float64(i), 2) + float64(utils.RandInt()%10)
-				log.Printf("retry after %f seconds\n", wait)
-				time.Sleep(time.Duration(wait) * time.Second)
+				sleep := wait(i)
+				log.Printf("retry after %s", sleep)
+				time.Sleep(sleep)
 			}
 
 			err = c.client.Query(context.Background(), &getVulnerabilitiesQuery, variables)
