@@ -141,7 +141,7 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 			if i > 0 {
 				wait := math.Pow(float64(i), 2) + float64(utils.RandInt()%10)
 				log.Printf("retry after %f seconds\n", wait)
-				time.Sleep(time.Duration(time.Duration(wait) * time.Second))
+				time.Sleep(time.Duration(wait) * time.Second)
 			}
 
 			err = c.client.Query(context.Background(), &getVulnerabilitiesQuery, variables)

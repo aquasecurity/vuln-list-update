@@ -55,8 +55,8 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/ghsa/composer/simplesamlphp/simplesamlphp/GHSA-2r3v-q9x3-7g46.json": "testdata/composer/simplesamlphp/simplesamlphp/GHSA-2r3v-q9x3-7g46.json",
 			},
 			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
-				githubql.String(""): GetVulnerabilitiesQuery{
-					SecurityVulnerabilities{
+				githubql.String(""): {
+					SecurityVulnerabilities: SecurityVulnerabilities{
 						Nodes: []GithubSecurityAdvisory{
 							{
 								Severity:  "LOW",
@@ -101,7 +101,6 @@ func TestConfig_Update(t *testing.T) {
 					},
 				},
 			},
-			expectedErrorMsg: "",
 		},
 		{
 			name:           "positive test multi nodes",
@@ -113,8 +112,8 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/ghsa/maven/org.apache.hive/hive/GHSA-2g9q-chq2-w8qw.json":        "testdata/maven/org.apache.hive/hive/GHSA-2g9q-chq2-w8qw.json",
 			},
 			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
-				githubql.String(""): GetVulnerabilitiesQuery{
-					SecurityVulnerabilities{
+				githubql.String(""): {
+					SecurityVulnerabilities: SecurityVulnerabilities{
 						Nodes: []GithubSecurityAdvisory{
 							{
 								Severity:  "HIGH",
@@ -201,8 +200,8 @@ func TestConfig_Update(t *testing.T) {
 						},
 					},
 				},
-				githubql.String("nextCursor"): GetVulnerabilitiesQuery{
-					SecurityVulnerabilities{
+				githubql.String("nextCursor"): {
+					SecurityVulnerabilities: SecurityVulnerabilities{
 						Nodes: []GithubSecurityAdvisory{
 							{
 
@@ -340,8 +339,8 @@ func TestConfig_Update(t *testing.T) {
 			inputEcosystem: Composer,
 			goldenFiles:    map[string]string{},
 			inputResponse: map[githubql.String]GetVulnerabilitiesQuery{
-				githubql.String(""): GetVulnerabilitiesQuery{
-					SecurityVulnerabilities{
+				githubql.String(""): {
+					SecurityVulnerabilities: SecurityVulnerabilities{
 						Nodes: []GithubSecurityAdvisory{
 							{
 								Package: Package{
