@@ -91,11 +91,11 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 
 		ghsaJson, ok := ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name]
 		if ok {
-			va := VersionAdvisory{
+			va := Version{
 				FirstPatchedVersion:    ghsa.FirstPatchedVersion,
 				VulnerableVersionRange: ghsa.VulnerableVersionRange,
 			}
-			ghsaJson.VersionAdvisories = append(ghsaJson.VersionAdvisories, va)
+			ghsaJson.Versions = append(ghsaJson.Versions, va)
 			ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name] = ghsaJson
 
 		} else {
@@ -104,7 +104,7 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 				UpdatedAt: ghsa.UpdatedAt,
 				Package:   ghsa.Package,
 				Advisory:  ghsa.Advisory,
-				VersionAdvisories: []VersionAdvisory{
+				Versions: []Version{
 					{
 						FirstPatchedVersion:    ghsa.FirstPatchedVersion,
 						VulnerableVersionRange: ghsa.VulnerableVersionRange,

@@ -32,7 +32,7 @@
     "UpdatedAt": "2019-07-03T21:02:04Z",
     "WithdrawnAt": ""
   },
-  "VersionAdvisories": [
+  "Versions": [
     {
       "FirstPatchedVersion": {
         "Identifier": "6.0.0"

@@ -32,7 +32,7 @@
     "UpdatedAt": "2020-01-28T22:26:54Z",
     "WithdrawnAt": ""
   },
-  "VersionAdvisories": [
+  "Versions": [
     {
       "FirstPatchedVersion": {
         "Identifier": "8.3.0"

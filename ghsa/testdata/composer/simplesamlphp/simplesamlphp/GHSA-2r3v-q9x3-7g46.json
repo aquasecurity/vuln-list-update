@@ -28,7 +28,7 @@
     "UpdatedAt": "2020-01-24T21:27:17Z",
     "WithdrawnAt": ""
   },
-  "VersionAdvisories": [
+  "Versions": [
     {
       "FirstPatchedVersion": {
         "Identifier": "1.14.4"
