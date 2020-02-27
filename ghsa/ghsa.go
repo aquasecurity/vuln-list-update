@@ -38,10 +38,10 @@ const (
 )
 
 type Config struct {
-	VulnListDir string
-	AppFs       afero.Fs
-	Retry       int
-	Client      GithubClient
+	vulnListDir string
+	appFs       afero.Fs
+	retry       int
+	client      GithubClient
 }
 
 type GithubClient interface {
@@ -50,10 +50,10 @@ type GithubClient interface {
 
 func NewConfig(client GithubClient) Config {
 	return Config{
-		VulnListDir: utils.VulnListDir(),
-		AppFs:       afero.NewOsFs(),
-		Retry:       retry,
-		Client:      client,
+		vulnListDir: utils.VulnListDir(),
+		appFs:       afero.NewOsFs(),
+		retry:       retry,
+		client:      client,
 	}
 }
 
@@ -72,7 +72,7 @@ func (c Config) Update() error {
 func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 	log.Printf("Fetching GithubSecurityAdvisory: %s", ecosystem)
 
-	dir := filepath.Join(c.VulnListDir, ghsaDir, strings.ToLower(string(ecosystem)))
+	dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)))
 	if err := os.RemoveAll(dir); err != nil {
 		return xerrors.Errorf("unable to remove github security advisory directory: %w", err)
 	}
@@ -116,7 +116,7 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 
 	bar := pb.StartNew(len(ghsaJsonMap))
 	for _, ghsaJson := range ghsaJsonMap {
-		dir := filepath.Join(c.VulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), strings.Replace(ghsaJson.Package.Name, ":", "/", -1))
+		dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), strings.Replace(ghsaJson.Package.Name, ":", "/", -1))
 		err := c.saveGSHA(dir, ghsaJson.Advisory.GhsaId, ghsaJson)
 		if err != nil {
 			return xerrors.Errorf("failed to save github security advisory: %w", err)
@@ -137,14 +137,14 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 	}
 	for {
 		var err error
-		for i := 0; i <= c.Retry; i++ {
+		for i := 0; i <= c.retry; i++ {
 			if i > 0 {
 				wait := math.Pow(float64(i), 2) + float64(utils.RandInt()%10)
 				log.Printf("retry after %f seconds\n", wait)
 				time.Sleep(time.Duration(time.Duration(wait) * time.Second))
 			}
 
-			err = c.Client.Query(context.Background(), &getVulnerabilitiesQuery, variables)
+			err = c.client.Query(context.Background(), &getVulnerabilitiesQuery, variables)
 			if err == nil {
 				break
 			}
@@ -166,11 +166,11 @@ func (c Config) FetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 
 func (c Config) saveGSHA(dirName string, ghsaID string, data interface{}) error {
 	filePath := filepath.Join(dirName, fmt.Sprintf("%s.json", ghsaID))
-	if err := c.AppFs.MkdirAll(dirName, os.ModePerm); err != nil {
+	if err := c.appFs.MkdirAll(dirName, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create directory: %w", err)
 	}
 
-	fs := utils.NewFs(c.AppFs)
+	fs := utils.NewFs(c.appFs)
 	if err := fs.WriteJSON(filePath, data); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}

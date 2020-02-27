@@ -369,10 +369,10 @@ func TestConfig_Update(t *testing.T) {
 				Response: tc.inputResponse,
 			}
 			c := Config{
-				VulnListDir: "/tmp",
-				AppFs:       tc.appFs,
-				Retry:       0,
-				Client:      client,
+				vulnListDir: "/tmp",
+				appFs:       tc.appFs,
+				retry:       0,
+				client:      client,
 			}
 			err := c.update(tc.inputEcosystem)
 			switch {
@@ -385,7 +385,7 @@ func TestConfig_Update(t *testing.T) {
 			}
 
 			fileCount := 0
-			err = afero.Walk(c.AppFs, "/", func(path string, info os.FileInfo, err error) error {
+			err = afero.Walk(c.appFs, "/", func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					return err
 				}
@@ -394,7 +394,7 @@ func TestConfig_Update(t *testing.T) {
 				}
 				fileCount += 1
 
-				actual, err := afero.ReadFile(c.AppFs, path)
+				actual, err := afero.ReadFile(c.appFs, path)
 				assert.NoError(t, err, tc.name)
 
 				goldenPath, ok := tc.goldenFiles[path]
@@ -438,13 +438,12 @@ func TestConfig_FetchGithubSecurityAdvisories(t *testing.T) {
 				Error: errors.New("request error"),
 			}
 			c := Config{
-				VulnListDir: "/tmp",
-				AppFs:       afero.NewMemMapFs(),
-				Retry:       tc.retry,
-				Client:      client,
+				vulnListDir: "/tmp",
+				appFs:       afero.NewMemMapFs(),
+				retry:       tc.retry,
+				client:      client,
 			}
 			_, err := c.FetchGithubSecurityAdvisories(Pip)
-			assert.Equal(t, tc.retry, c.Retry, tc.name)
 			assert.Error(t, err, tc.name)
 		})
 	}
