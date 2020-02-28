@@ -1,0 +1,43 @@
+{
+  "Severity": "HIGH",
+  "UpdatedAt": "2020-01-28T22:25:34Z",
+  "Package": {
+    "Ecosystem": "MAVEN",
+    "Name": "org.apache.solr:solr-core"
+  },
+  "Advisory": {
+    "DatabaseId": 1892,
+    "Id": "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTIyODktcHFmcS02d3g3",
+    "GhsaId": "GHSA-2289-pqfq-6wx7",
+    "References": [
+      {
+        "Url": "https://nvd.nist.gov/vuln/detail/CVE-2019-12409"
+      }
+    ],
+    "Identifiers": [
+      {
+        "Type": "GHSA",
+        "Value": "GHSA-2289-pqfq-6wx7"
+      },
+      {
+        "Type": "CVE",
+        "Value": "CVE-2019-12409"
+      }
+    ],
+    "Description": "The 8.1.1 and 8.2.0 releases of Apache Solr contain an insecure setting for the ENABLE_REMOTE_JMX_OPTS configuration option in the default solr.in.sh configuration file shipping with Solr. If you use the default solr.in.sh file from the affected releases, then JMX monitoring will be enabled and exposed on RMI_PORT (default=18983), without any authentication. If this port is opened for inbound traffic in your firewall, then anyone with network access to your Solr nodes will be able to access JMX, which may in turn allow them to upload malicious code for execution on the Solr server.",
+    "Origin": "UNSPECIFIED",
+    "PublishedAt": "2020-01-28T22:26:54Z",
+    "Severity": "HIGH",
+    "Summary": "High severity vulnerability that affects org.apache.solr:solr-core",
+    "UpdatedAt": "2020-01-28T22:26:54Z",
+    "WithdrawnAt": ""
+  },
+  "Versions": [
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "8.3.0"
+      },
+      "VulnerableVersionRange": "\u003e= 8.1.1, \u003c= 8.2.0"
+    }
+  ]
+}

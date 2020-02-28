@@ -103,7 +103,7 @@ func TrimSpaceNewline(str string) string {
 func FetchURL(url, apikey string, retry int) (res []byte, err error) {
 	for i := 0; i <= retry; i++ {
 		if i > 0 {
-			wait := math.Pow(float64(i), 2) + float64(randInt()%10)
+			wait := math.Pow(float64(i), 2) + float64(RandInt()%10)
 			log.Printf("retry after %f seconds\n", wait)
 			time.Sleep(time.Duration(time.Duration(wait) * time.Second))
 		}
@@ -115,7 +115,7 @@ func FetchURL(url, apikey string, retry int) (res []byte, err error) {
 	return nil, xerrors.Errorf("failed to fetch URL: %w", err)
 }
 
-func randInt() int {
+func RandInt() int {
 	seed, _ := rand.Int(rand.Reader, big.NewInt(math.MaxInt64))
 	return int(seed.Int64())
 }

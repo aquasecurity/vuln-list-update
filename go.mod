@@ -16,10 +16,13 @@ require (
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/pkg/errors v0.8.0 // indirect
+	github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0
+	github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f
 	github.com/simplereach/timeutils v1.2.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect
 	github.com/spf13/afero v1.2.2
 	github.com/stretchr/testify v1.4.0
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sys v0.0.0-20190412213103-97732733099d // indirect
 	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
 	gopkg.in/VividCortex/ewma.v1 v1.1.1 // indirect

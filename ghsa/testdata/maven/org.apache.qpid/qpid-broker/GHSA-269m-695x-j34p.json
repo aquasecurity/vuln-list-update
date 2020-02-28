@@ -1,0 +1,43 @@
+{
+  "Severity": "MODERATE",
+  "UpdatedAt": "2018-10-19T16:40:55Z",
+  "Package": {
+    "Ecosystem": "MAVEN",
+    "Name": "org.apache.qpid:qpid-broker"
+  },
+  "Advisory": {
+    "DatabaseId": 888,
+    "Id": "MDE2OlNlY3VyaXR5QWR2aXNvcnlHSFNBLTI2OW0tNjk1eC1qMzRw",
+    "GhsaId": "GHSA-269m-695x-j34p",
+    "References": [
+      {
+        "Url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15702"
+      }
+    ],
+    "Identifiers": [
+      {
+        "Type": "GHSA",
+        "Value": "GHSA-269m-695x-j34p"
+      },
+      {
+        "Type": "CVE",
+        "Value": "CVE-2017-15702"
+      }
+    ],
+    "Description": "In Apache Qpid Broker-J 0.18 through 0.32, if the broker is configured with different authentication providers on different ports one of which is an HTTP port, then the broker can be tricked by a remote unauthenticated attacker connecting to the HTTP port into using an authentication provider that was configured on a different port. The attacker still needs valid credentials with the authentication provider on the spoofed port. This becomes an issue when the spoofed port has weaker authentication protection (e.g., anonymous access, default accounts) and is normally protected by firewall rules or similar which can be circumvented by this vulnerability. AMQP ports are not affected. Versions 6.0.0 and newer are not affected.",
+    "Origin": "UNSPECIFIED",
+    "PublishedAt": "2018-10-19T16:41:04Z",
+    "Severity": "MODERATE",
+    "Summary": "Moderate severity vulnerability that affects org.apache.qpid:qpid-broker",
+    "UpdatedAt": "2019-07-03T21:02:04Z",
+    "WithdrawnAt": ""
+  },
+  "Versions": [
+    {
+      "FirstPatchedVersion": {
+        "Identifier": "6.0.0"
+      },
+      "VulnerableVersionRange": "\u003e= 0.18, \u003c= 0.32"
+    }
+  ]
+}
