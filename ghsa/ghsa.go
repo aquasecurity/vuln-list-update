@@ -165,7 +165,6 @@ func (c Config) fetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 
 		variables["cursor"] = githubql.NewString(getVulnerabilitiesQuery.PageInfo.EndCursor)
 	}
-
 	return ghsas, nil
 }
 
