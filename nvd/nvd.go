@@ -21,7 +21,7 @@ type NVD struct {
 }
 
 const (
-	baseURL     = "https://nvd.nist.gov/feeds/json/cve/1.0"
+	baseURL     = "https://nvd.nist.gov/feeds/json/cve/1.1"
 	nvdDir      = "nvd"
 	concurrency = 5
 	wait        = 0
@@ -68,7 +68,7 @@ func Update(thisYear int) error {
 
 	urls := make([]string, feedCount)
 	for i, feed := range feeds {
-		url := fmt.Sprintf("%s/nvdcve-1.0-%s.json.gz", baseURL, feed)
+		url := fmt.Sprintf("%s/nvdcve-1.1-%s.json.gz", baseURL, feed)
 		urls[i] = url
 	}
 
@@ -119,7 +119,7 @@ func save(nvd *NVD) error {
 func fetchLastModifiedDate(feed string) (time.Time, error) {
 	log.Printf("Fetching NVD metadata(%s)...\n", feed)
 
-	url := fmt.Sprintf("%s/nvdcve-1.0-%s.meta", baseURL, feed)
+	url := fmt.Sprintf("%s/nvdcve-1.1-%s.meta", baseURL, feed)
 	res, err := utils.FetchURL(url, "", 5)
 	if err != nil {
 		return time.Time{}, xerrors.Errorf("fetch error: %w", err)
