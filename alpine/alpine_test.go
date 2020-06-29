@@ -106,6 +106,15 @@ func TestParseSecFixes(t *testing.T) {
 				"2.6.6-r0": {"CVE-2019-5717", "CVE-2019-5718", "CVE-2019-5719", "CVE-2019-5721"},
 			},
 		},
+		{
+			file:   "testdata/aports/main/libssh2/APKBUILD",
+			pkgVer: "1.9.0",
+			pkgRel: "1",
+			secFixes: map[string][]string{
+				"1.9.0-r1": {"CVE-2019-17498"},
+				"1.9.0-r0": {"CVE-2019-13115"},
+			},
+		},
 	}
 
 	for _, v := range vectors {
@@ -236,6 +245,9 @@ func TestWalkApkBuild(t *testing.T) {
 
 		{FixedVersion: "3.0.19-r0", VulnerabilityID: "CVE-2019-11234", Release: "1.0.0", Package: "freeradius", Repository: "main"},
 		{FixedVersion: "3.0.19-r0", VulnerabilityID: "CVE-2019-11235", Release: "1.0.0", Package: "freeradius", Repository: "main"},
+
+		{FixedVersion: "1.9.0-r0", VulnerabilityID: "CVE-2019-13115", Release: "1.0.0", Package: "libssh2", Repository: "main"},
+		{FixedVersion: "1.9.0-r1", VulnerabilityID: "CVE-2019-17498", Release: "1.0.0", Package: "libssh2", Repository: "main"},
 
 		{FixedVersion: "1.7.3-r0", VulnerabilityID: "CVE-2019-9917", Release: "1.0.0", Package: "znc", Repository: "community"},
 		{FixedVersion: "1.7.1-r0", VulnerabilityID: "CVE-2018-14055", Release: "1.0.0", Package: "znc", Repository: "community"},
