@@ -190,6 +190,12 @@ func (c Config) buildAdvisories(secFixes map[string][]string, release string, pk
 				if strings.HasPrefix(id, "CVE_") {
 					id = strings.ReplaceAll(id, "_", "-")
 				}
+
+				// reject invalid vulnerability IDs
+				// e.g. CVE N/A
+				if !strings.Contains(id, "-") {
+					continue
+				}
 				advisory := Advisory{
 					VulnerabilityID: id,
 					Release:         release,
@@ -255,10 +261,10 @@ func (c Config) parseSecFixes(content string) (secFixes map[string][]string, err
 		//#   2.4.10-r0:
 		//#     - CVE-2018-12086
 		//#     - CVE-2018-18225
-		if strings.HasPrefix(line, "# secfixes:") {
+		if strings.HasPrefix(line, "# secfixes:") ||
+			strings.HasPrefix(strings.ToLower(line), "# security fixes:") {
 			// e.g. # secfixes:ss
-			line = line[:strings.Index(line, ":")+1]
-			secfixesStr := strings.TrimPrefix(line, "# ")
+			secfixesStr := "secfixes:"
 			for i+1 < len(lines) && strings.HasPrefix(lines[i+1], "# ") {
 				// Fix invalid yaml
 				tmp := strings.TrimLeft(lines[i+1], "#")
