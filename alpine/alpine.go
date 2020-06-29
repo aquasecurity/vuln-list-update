@@ -9,13 +9,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aquasecurity/vuln-list-update/git"
-
+	version "github.com/knqyf263/go-apk-version"
+	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v2"
 
+	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/utils"
-	"github.com/hashicorp/go-version"
-	"golang.org/x/xerrors"
 )
 
 const (
@@ -26,10 +25,8 @@ const (
 var (
 	repoDir string
 
-	// e.g.
-	//   - 9.12.1_p2-r0 => 9.12.1-p2-r0
-	//   - 4.8.0.-r1 => 4.8.0-r1
-	malformedVerReplacer = strings.NewReplacer("_p", "-p", ".-", "-", ".r", "-r", "_alpha", "-alpha", "_rc", "-rc")
+	// e.g. 4.8.0.-r1 => 4.8.0-r1
+	malformedVerReplacer = strings.NewReplacer(".-", "-", ".r", "-r")
 )
 
 type Config struct {

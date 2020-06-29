@@ -158,6 +158,20 @@ func TestShouldOverwrite(t *testing.T) {
 			expctedOverwrite: true,
 		},
 		{
+			name:           "issued advisory should overwrite existing one with valid version having a suffix",
+			currentVersion: "1.1_beta1",
+			issuedAdvisory: alpine.Advisory{
+				IssueID:         0,
+				VulnerabilityID: "CVE-2100-0001",
+				Release:         "1.0",
+				Package:         "testpackage",
+				Repository:      "main",
+				FixedVersion:    "1.1",
+				Description:     "for testing only",
+			},
+			expctedOverwrite: true,
+		},
+		{
 			name:           "issued advisory should NOT overwrite existing one with valid version",
 			currentVersion: "1.0.0",
 			issuedAdvisory: alpine.Advisory{
