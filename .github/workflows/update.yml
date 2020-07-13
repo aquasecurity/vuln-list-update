@@ -1,4 +1,4 @@
-name: Update vuln-list
+name: Update vuln-list repo
 on: [push, pull_request]
 
 jobs:
@@ -6,7 +6,6 @@ jobs:
     name: Update repo vuln-list
     runs-on: ubuntu-latest
     env:
-      VULNLIST_REPOSITORY_OWNER: $(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
     - name: Set up Go 1.14
@@ -15,75 +14,82 @@ jobs:
         go-version: 1.14
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
+
+    - name: Set Owner
+      run: echo ::set-env name=VULNLIST_REPOSITORY_OWNER::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}' | sed -e "s/:refs//")
+      shell: bash
 
     - name: Setup github user email and name
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
 
+    - name: Compile vuln-list-update
+      run: go build -o vuln-list-update .
+
     - name: NVD
-      run: go run main.go -target nvd
+      run: ./vuln-list-update -target nvd
 
     - name: Alpine Issue Tracker
-      run: go run main.go -target alpine
+      run: ./vuln-list-update -target alpine
 
     - name: Debian Security Bug Tracker
-      run: go run main.go -target debian
+      run: ./vuln-list-update -target debian
 
     - name: Debian OVAL
-      run: go run main.go -target debian-oval
+      run: ./vuln-list-update -target debian-oval
 
     - name: Ubuntu CVE Tracker
-      run: go run main.go -target ubuntu
+      run: ./vuln-list-update -target ubuntu
 
     - name: Amazon Linux AMI Security Advisory
-      run: go run main.go -target amazon
+      run: ./vuln-list-update -target amazon
 
     - name: Oracle Linux OVAL
-      run: go run main.go -target oracle-oval
+      run: ./vuln-list-update -target oracle-oval
 
     - name: Red Hat OVA
-      run: go run main.go -target redhat-oval
+      run: ./vuln-list-update -target redhat-oval
 
     - name: Photon CVE Advisory
-      run: go run main.go -target photon
+      run: ./vuln-list-update -target photon
 
     - name: GitHub Security Advisory
-      run: go run main.go -target ghsa
+      run: ./vuln-list-update -target ghsa
 
     - name: SUSE CVRF
-      run: go run main.go -target suse-cvrf
+      run: ./vuln-list-update -target suse-cvrf
 
     - name: Red Hat Security Data API 1996-2002
-      run: go run main.go -target redhat -years 1996,1997,1998,1999,2000,2001,2002
+      run: ./vuln-list-update -target redhat -years 1996,1997,1998,1999,2000,2001,2002
 
     - name: Red Hat Security Data API 2003-2008
-      run: go run main.go -target redhat -years 2003,2004,2005,2006,2007,2008
+      run: ./vuln-list-update -target redhat -years 2003,2004,2005,2006,2007,2008
 
     - name: Red Hat Security Data API 2009-2011
-      run: go run main.go -target redhat -years 2009,2010,2011
+      run: ./vuln-list-update -target redhat -years 2009,2010,2011
 
     - name: Red Hat Security Data API 2012
-      run: go run main.go -target redhat -years 2012
+      run: ./vuln-list-update -target redhat -years 2012
 
     - name: Red Hat Security Data API 2013
-      run: go run main.go -target redhat -years 2013
+      run: ./vuln-list-update -target redhat -years 2013
 
     - name: Red Hat Security Data API 2014
-      run: go run main.go -target redhat -years 2014
+      run: ./vuln-list-update -target redhat -years 2014
 
     - name: Red Hat Security Data API 2015
-      run: go run main.go -target redhat -years 2015
+      run: ./vuln-list-update -target redhat -years 2015
 
     - name: Red Hat Security Data API 2016
-      run: go run main.go -target redhat -years 2016
+      run: ./vuln-list-update -target redhat -years 2016
 
     - name: Red Hat Security Data API 2017
-      run: go run main.go -target redhat -years 2017
+      run: ./vuln-list-update -target redhat -years 2017
 
     - name: Red Hat Security Data API 2018
-      run: go run main.go -target redhat -years 2018
+      run: ./vuln-list-update -target redhat -years 2018
 
     - name: Red Hat Security Data API 2019-2020
-      run: go run main.go -target redhat -years 2019,2020
+      run: ./vuln-list-update -target redhat -years 2019,2020
