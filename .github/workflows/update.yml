@@ -1,5 +1,7 @@
 name: Update vuln-list repo
-on: [push, pull_request]
+on:
+  schedule:
+  - cron: "0 0,12 * * *"
 
 jobs:
   update:
