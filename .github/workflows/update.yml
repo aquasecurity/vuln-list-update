@@ -60,6 +60,9 @@ jobs:
     - name: GitHub Security Advisory
       run: ./vuln-list-update -target ghsa
 
+    - name: CWE
+      run: ./vuln-list-update -target cwe
+
     - name: SUSE CVRF
       run: ./vuln-list-update -target suse-cvrf
 

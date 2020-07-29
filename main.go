@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aquasecurity/vuln-list-update/cwe"
+
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
@@ -159,6 +161,11 @@ func run() error {
 			return xerrors.Errorf("error in GitHub Security Advisory update: %w", err)
 		}
 		commitMsg = "GitHub Security Advisory"
+	case "cwe":
+		c := cwe.NewCWEConfig()
+		if err := c.Update(); err != nil {
+			return xerrors.Errorf("error in CWE update: %w", err)
+		}
 	default:
 		return xerrors.New("unknown target")
 	}
