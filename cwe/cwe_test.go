@@ -9,26 +9,31 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func TestUpdate(t *testing.T) {
 	testCases := []struct {
-		name           string
-		inputZipFile   string
-		expectedOuptut string
-		expectedError  string
-		cweServerUrl   string
+		name                   string
+		inputZipFile           string
+		expectedOuptutXMLFile  string
+		expectedOutputJSONFile string
+		expectedError          string
+		cweServerUrl           string
 	}{
 		{
-			name:         "happy path",
-			inputZipFile: "goldens/good.zip",
-			expectedOuptut: `<message>
-<body>foo bar baz</body>
-</message>
-`,
+			name:                   "happy path",
+			inputZipFile:           "goldens/good-small-cwe.xml.zip",
+			expectedOuptutXMLFile:  "goldens/good-small-cwe.xml",
+			expectedOutputJSONFile: "goldens/good-small-cwe.json",
 		},
-
+		{
+			name:          "sad path, corrupt xml file in zip",
+			inputZipFile:  "goldens/corrupt.xml.zip",
+			expectedError: "XML syntax error",
+		},
 		{
 			name:          "sad path, invalid zip file",
 			inputZipFile:  "goldens/bad.xml.zip",
@@ -73,9 +78,17 @@ func TestUpdate(t *testing.T) {
 			case tc.expectedError != "":
 				assert.Contains(t, err.Error(), tc.expectedError, tc.name)
 			default:
-				b, err := ioutil.ReadFile(filepath.Join(dir, "cwe.xml"))
-				assert.NoError(t, err, tc.name)
-				assert.Equal(t, tc.expectedOuptut, string(b), tc.name)
+				gotXML, err := ioutil.ReadFile(filepath.Join(dir, "cwe.xml"))
+				require.NoError(t, err, tc.name)
+
+				wantXML, _ := ioutil.ReadFile(tc.expectedOuptutXMLFile)
+				assert.Equal(t, wantXML, gotXML, tc.name)
+
+				gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "cwe.json"))
+				require.NoError(t, err, tc.name)
+
+				wantJSON, _ := ioutil.ReadFile(tc.expectedOutputJSONFile)
+				assert.JSONEq(t, string(wantJSON), string(gotJSON), tc.name)
 			}
 		})
 	}

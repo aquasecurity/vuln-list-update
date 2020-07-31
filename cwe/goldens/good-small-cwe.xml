@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Weakness_Catalog
+        xmlns="http://cwe.mitre.org/cwe-6"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="VIEW LIST: CWE-1026: Weaknesses in OWASP Top Ten (2017)" Version="4.1" Date="2020-06-25" xsi:schemaLocation="http://cwe.mitre.org/cwe-6 http://cwe.mitre.org/data/xsd/cwe_schema_v6.3.xsd">
+    <Weaknesses>
+        <Weakness ID="209" Name="Generation of Error Message Containing Sensitive Information" Abstraction="Base" Structure="Simple" Status="Draft">
+            <Description>The software generates an error message that includes sensitive information about its environment, users, or associated data.</Description>
+            <Extended_Description>
+                <xhtml:p>The sensitive information may be valuable information on its own (such as a password), or it may be useful for launching other, more serious attacks. The error message may be created in different ways:</xhtml:p>
+                <xhtml:div style="margin-left:10px;">
+                    <xhtml:ul>
+                        <xhtml:li>self-generated: the source code explicitly constructs the error message and delivers it</xhtml:li>
+                        <xhtml:li>externally-generated: the external environment, such as a language interpreter, handles the error and constructs its own message, whose contents are not under direct control by the programmer</xhtml:li>
+                    </xhtml:ul>
+                </xhtml:div>
+                <xhtml:p>An attacker may use the contents of error messages to help launch another, more focused attack. For example, an attempt to exploit a path traversal weakness (CWE-22) might yield the full pathname of the installed application. In turn, this could be used to select the proper number of ".." sequences to navigate to the targeted file. An attack using SQL injection (CWE-89) might not initially succeed, but an error message could reveal the malformed query, which would expose query logic and possibly even passwords or other sensitive information used within the query.</xhtml:p>
+            </Extended_Description>
+            <Related_Weaknesses>
+                <Related_Weakness Nature="ChildOf" CWE_ID="200" View_ID="1000" Ordinal="Primary"/>
+                <Related_Weakness Nature="ChildOf" CWE_ID="200" View_ID="1003" Ordinal="Primary"/>
+                <Related_Weakness Nature="ChildOf" CWE_ID="755" View_ID="1000"/>
+            </Related_Weaknesses>
+            <Weakness_Ordinalities>
+                <Weakness_Ordinality>
+                    <Ordinality>Primary</Ordinality>
+                </Weakness_Ordinality>
+                <Weakness_Ordinality>
+                    <Ordinality>Resultant</Ordinality>
+                </Weakness_Ordinality>
+            </Weakness_Ordinalities>
+            <Applicable_Platforms>
+                <Language Name="PHP" Prevalence="Often"/>
+                <Language Name="Java" Prevalence="Often"/>
+                <Language Class="Language-Independent" Prevalence="Undetermined"/>
+            </Applicable_Platforms>
+            <Modes_Of_Introduction>
+                <Introduction>
+                    <Phase>Architecture and Design</Phase>
+                </Introduction>
+                <Introduction>
+                    <Phase>Implementation</Phase>
+                    <Note>REALIZATION: This weakness is caused during implementation of an architectural security tactic.</Note>
+                </Introduction>
+                <Introduction>
+                    <Phase>System Configuration</Phase>
+                </Introduction>
+                <Introduction>
+                    <Phase>Operation</Phase>
+                </Introduction>
+            </Modes_Of_Introduction>
+            <Likelihood_Of_Exploit>High</Likelihood_Of_Exploit>
+            <Common_Consequences>
+                <Consequence>
+                    <Scope>Confidentiality</Scope>
+                    <Impact>Read Application Data</Impact>
+                    <Note>Often this will either reveal sensitive information which may be used for a later attack or private information stored in the server.</Note>
+                </Consequence>
+            </Common_Consequences>
+            <Detection_Methods>
+                <Detection_Method>
+                    <Method>Manual Analysis</Method>
+                    <Description>This weakness generally requires domain-specific interpretation using manual analysis. However, the number of potential error conditions may be too large to cover completely within limited time constraints.</Description>
+                    <Effectiveness>High</Effectiveness>
+                </Detection_Method>
+                <Detection_Method>
+                    <Method>Automated Analysis</Method>
+                    <Description>Automated methods may be able to detect certain idioms automatically, such as exposed stack traces or pathnames, but violation of business rules or privacy requirements is not typically feasible.</Description>
+                    <Effectiveness>Moderate</Effectiveness>
+                </Detection_Method>
+                <Detection_Method Detection_Method_ID="DM-2">
+                    <Method>Automated Dynamic Analysis</Method>
+                    <Description>
+                        <xhtml:p>This weakness can be detected using dynamic tools and techniques that interact with the software using large test suites with many diverse inputs, such as fuzz testing (fuzzing), robustness testing, and fault injection. The software's operation may slow down, but it should not become unstable, crash, or generate incorrect results.</xhtml:p>
+                        <xhtml:p>Error conditions may be triggered with a stress-test by calling the software simultaneously from a large number of threads or processes, and look for evidence of any unexpected behavior.</xhtml:p>
+                    </Description>
+                    <Effectiveness>Moderate</Effectiveness>
+                </Detection_Method>
+                <Detection_Method Detection_Method_ID="DM-12">
+                    <Method>Manual Dynamic Analysis</Method>
+                    <Description>Identify error conditions that are not likely to occur during normal usage and trigger them. For example, run the program under low memory conditions, run with insufficient privileges or permissions, interrupt a transaction before it is completed, or disable connectivity to basic network services such as DNS. Monitor the software for any unexpected behavior. If you trigger an unhandled exception or similar error that was discovered and handled by the application's environment, it may still indicate unexpected conditions that were not handled by the application itself.</Description>
+                </Detection_Method>
+            </Detection_Methods>
+            <Potential_Mitigations>
+                <Mitigation Mitigation_ID="MIT-39">
+                    <Phase>Implementation</Phase>
+                    <Description>
+                        <xhtml:p>Ensure that error messages only contain minimal details that are useful to the intended audience, and nobody else. The messages need to strike the balance between being too cryptic and not being cryptic enough. They should not necessarily reveal the methods that were used to determine the error. Such detailed information can be used to refine the original attack to increase the chances of success.</xhtml:p>
+                        <xhtml:p>If errors must be tracked in some detail, capture them in log messages - but consider what could occur if the log messages can be viewed by attackers. Avoid recording highly sensitive information such as passwords in any form. Avoid inconsistent messaging that might accidentally tip off an attacker about internal state, such as whether a username is valid or not.</xhtml:p>
+                    </Description>
+                </Mitigation>
+                <Mitigation>
+                    <Phase>Implementation</Phase>
+                    <Description>Handle exceptions internally and do not display errors containing potentially sensitive information to a user.</Description>
+                </Mitigation>
+                <Mitigation Mitigation_ID="MIT-33">
+                    <Phase>Implementation</Phase>
+                    <Strategy>Attack Surface Reduction</Strategy>
+                    <Description>Use naming conventions and strong types to make it easier to spot when sensitive data is being used. When creating structures, objects, or other complex entities, separate the sensitive and non-sensitive data as much as possible.</Description>
+                    <Effectiveness>Defense in Depth</Effectiveness>
+                    <Effectiveness_Notes>This makes it easier to spot places in the code where data is being used that is unencrypted.</Effectiveness_Notes>
+                </Mitigation>
+                <Mitigation Mitigation_ID="MIT-40">
+                    <Phase>Implementation</Phase>
+                    <Phase>Build and Compilation</Phase>
+                    <Strategy>Compilation or Build Hardening</Strategy>
+                    <Description>Debugging information should not make its way into a production release.</Description>
+                </Mitigation>
+                <Mitigation Mitigation_ID="MIT-40">
+                    <Phase>Implementation</Phase>
+                    <Phase>Build and Compilation</Phase>
+                    <Strategy>Environment Hardening</Strategy>
+                    <Description>Debugging information should not make its way into a production release.</Description>
+                </Mitigation>
+                <Mitigation>
+                    <Phase>System Configuration</Phase>
+                    <Description>Where available, configure the environment to use less verbose error messages. For example, in PHP, disable the display_errors setting during configuration, or at runtime using the error_reporting() function.</Description>
+                </Mitigation>
+                <Mitigation>
+                    <Phase>System Configuration</Phase>
+                    <Description>Create default error pages or messages that do not leak any information.</Description>
+                </Mitigation>
+            </Potential_Mitigations>
+            <Demonstrative_Examples>
+                <Demonstrative_Example>
+                    <Intro_Text>In the following example, sensitive information might be printed depending on the exception that occurs.</Intro_Text>
+                    <Example_Code Nature="bad" Language="Java">
+                        <xhtml:div>try {
+                            <xhtml:div style="margin-left:10px;">/.../</xhtml:div>}
+                            <xhtml:br/>catch (Exception e) {
+                            <xhtml:div style="margin-left:10px;">System.out.println(e);</xhtml:div>}
+                        </xhtml:div>
+                    </Example_Code>
+                    <Body_Text>If an exception related to SQL is handled by the catch, then the output might contain sensitive information such as SQL query structure or private information. If this output is redirected to a web user, this may represent a security problem.</Body_Text>
+                </Demonstrative_Example>
+                <Demonstrative_Example Demonstrative_Example_ID="DX-118">
+                    <Intro_Text>This code tries to open a database connection, and prints any exceptions that occur.</Intro_Text>
+                    <Example_Code Nature="bad" Language="Java">
+                        <xhtml:div>try {
+                            <xhtml:div style="margin-left:10px;">openDbConnection();</xhtml:div>}
+                            <xhtml:br/>
+                            <xhtml:i>//print exception message that includes exception message and configuration file location</xhtml:i>
+                            <xhtml:br/>catch (Exception $e) {
+                            <xhtml:div style="margin-left:10px;">echo 'Caught exception: ', $e-&gt;getMessage(), '\n';
+                                <xhtml:br/>echo 'Check credentials in config file at: ', $Mysql_config_location, '\n';
+                            </xhtml:div>}
+                        </xhtml:div>
+                    </Example_Code>
+                    <Body_Text>If an exception occurs, the printed message exposes the location of the configuration file the script is using. An attacker can use this information to target the configuration file (perhaps exploiting a Path Traversal weakness). If the file can be read, the attacker could gain credentials for accessing the database. The attacker may also be able to replace the file with a malicious one, causing the application to use an arbitrary database.</Body_Text>
+                </Demonstrative_Example>
+                <Demonstrative_Example>
+                    <Intro_Text>The following code generates an error message that leaks the full pathname of the configuration file.</Intro_Text>
+                    <Example_Code Nature="bad" Language="Perl">
+                        <xhtml:div>$ConfigDir = "/home/myprog/config";
+                            <xhtml:br/>$uname = GetUserInput("username");
+                            <xhtml:br/>
+                            <xhtml:br/>
+                            <xhtml:i># avoid CWE-22, CWE-78, others.</xhtml:i>
+                            <xhtml:br/>ExitError("Bad hacker!") if ($uname !~ /^\w+$/);
+                            <xhtml:br/>$file = "$ConfigDir/$uname.txt";
+                            <xhtml:br/>if (! (-e $file)) {
+                            <xhtml:div style="margin-left:10px;">ExitError("Error: $file does not exist");</xhtml:div>}
+                            <xhtml:br/>...
+                        </xhtml:div>
+                    </Example_Code>
+                    <Body_Text>If this code is running on a server, such as a web application, then the person making the request should not know what the full pathname of the configuration directory is. By submitting a username that does not produce a $file that exists, an attacker could get this pathname. It could then be used to exploit path traversal or symbolic link following problems that may exist elsewhere in the application.</Body_Text>
+                </Demonstrative_Example>
+                <Demonstrative_Example Demonstrative_Example_ID="DX-119">
+                    <Intro_Text>In the example below, the method getUserBankAccount retrieves a bank account object from a database using the supplied username and account number to query the database. If an SQLException is raised when querying the database, an error message is created and output to a log file.</Intro_Text>
+                    <Example_Code Nature="bad" Language="Java">
+                        <xhtml:div>public BankAccount getUserBankAccount(String username, String accountNumber) {
+                            <xhtml:div style="margin-left:10px;">
+                                <xhtml:div>BankAccount userAccount = null;
+                                    <xhtml:br/>String query = null;
+                                    <xhtml:br/>try {
+                                    <xhtml:div style="margin-left:10px;">if (isAuthorizedUser(username)) {
+                                        <xhtml:div style="margin-left:10px;">query = "SELECT * FROM accounts WHERE owner = "
+                                            <xhtml:br/>+ username + " AND accountID = " + accountNumber;
+                                            <xhtml:br/>DatabaseManager dbManager = new DatabaseManager();
+                                            <xhtml:br/>Connection conn = dbManager.getConnection();
+                                            <xhtml:br/>Statement stmt = conn.createStatement();
+                                            <xhtml:br/>ResultSet queryResult = stmt.executeQuery(query);
+                                            <xhtml:br/>userAccount = (BankAccount)queryResult.getObject(accountNumber);
+                                        </xhtml:div>}
+                                    </xhtml:div>} catch (SQLException ex) {
+                                    <xhtml:div style="margin-left:10px;">String logMessage = "Unable to retrieve account information from database,\nquery: " + query;
+                                        <xhtml:br/>Logger.getLogger(BankManager.class.getName()).log(Level.SEVERE, logMessage, ex);
+                                    </xhtml:div>}
+                                    <xhtml:br/>return userAccount;
+                                </xhtml:div>
+                            </xhtml:div>}
+                        </xhtml:div>
+                    </Example_Code>
+                    <Body_Text>The error message that is created includes information about the database query that may contain sensitive information about the database or query logic. In this case, the error message will expose the table name and column names used in the database. This data could be used to simplify other attacks, such as SQL injection (CWE-89) to directly access the database.</Body_Text>
+                </Demonstrative_Example>
+            </Demonstrative_Examples>
+            <Observed_Examples>
+                <Observed_Example>
+                    <Reference>CVE-2008-2049</Reference>
+                    <Description>POP3 server reveals a password in an error message after multiple APOP commands are sent. Might be resultant from another weakness.</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-2049</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2007-5172</Reference>
+                    <Description>Program reveals password in error message if attacker can trigger certain database errors.</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-5172</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2008-4638</Reference>
+                    <Description>Composite: application running with high privileges (CWE-250) allows user to specify a restricted file to process, which generates a parsing error that leaks the contents of the file (CWE-209).</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-4638</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2008-1579</Reference>
+                    <Description>Existence of user names can be determined by requesting a nonexistent blog and reading the error message.</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-1579</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2007-1409</Reference>
+                    <Description>Direct request to library file in web application triggers pathname leak in error message.</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-1409</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2008-3060</Reference>
+                    <Description>Malformed input to login page causes leak of full path when IMAP call fails.</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-3060</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2005-0603</Reference>
+                    <Description>Malformed regexp syntax leads to information exposure in error message.</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-0603</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2017-9615</Reference>
+                    <Description>verbose logging stores admin credentials in a world-readablelog file</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-9615</Link>
+                </Observed_Example>
+                <Observed_Example>
+                    <Reference>CVE-2018-1999036</Reference>
+                    <Description>SSH password for private key stored in build log</Description>
+                    <Link>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1999036</Link>
+                </Observed_Example>
+            </Observed_Examples>
+            <Taxonomy_Mappings>
+                <Taxonomy_Mapping Taxonomy_Name="CLASP">
+                    <Entry_Name>Accidental leaking of sensitive information through error messages</Entry_Name>
+                </Taxonomy_Mapping>
+                <Taxonomy_Mapping Taxonomy_Name="OWASP Top Ten 2007">
+                    <Entry_ID>A6</Entry_ID>
+                    <Entry_Name>Information Leakage and Improper Error Handling</Entry_Name>
+                    <Mapping_Fit>CWE More Specific</Mapping_Fit>
+                </Taxonomy_Mapping>
+                <Taxonomy_Mapping Taxonomy_Name="OWASP Top Ten 2004">
+                    <Entry_ID>A7</Entry_ID>
+                    <Entry_Name>Improper Error Handling</Entry_Name>
+                    <Mapping_Fit>CWE More Specific</Mapping_Fit>
+                </Taxonomy_Mapping>
+                <Taxonomy_Mapping Taxonomy_Name="OWASP Top Ten 2004">
+                    <Entry_ID>A10</Entry_ID>
+                    <Entry_Name>Insecure Configuration Management</Entry_Name>
+                    <Mapping_Fit>CWE More Specific</Mapping_Fit>
+                </Taxonomy_Mapping>
+                <Taxonomy_Mapping Taxonomy_Name="The CERT Oracle Secure Coding Standard for Java (2011)">
+                    <Entry_ID>ERR01-J</Entry_ID>
+                    <Entry_Name>Do not allow exceptions to expose sensitive information</Entry_Name>
+                </Taxonomy_Mapping>
+                <Taxonomy_Mapping Taxonomy_Name="Software Fault Patterns">
+                    <Entry_ID>SFP23</Entry_ID>
+                    <Entry_Name>Exposed Data</Entry_Name>
+                </Taxonomy_Mapping>
+            </Taxonomy_Mappings>
+            <Related_Attack_Patterns>
+                <Related_Attack_Pattern CAPEC_ID="214"/>
+                <Related_Attack_Pattern CAPEC_ID="215"/>
+                <Related_Attack_Pattern CAPEC_ID="463"/>
+                <Related_Attack_Pattern CAPEC_ID="54"/>
+                <Related_Attack_Pattern CAPEC_ID="7"/>
+            </Related_Attack_Patterns>
+            <References>
+                <Reference External_Reference_ID="REF-174"/>
+                <Reference External_Reference_ID="REF-175" Section="Section 9.2, Page 326"/>
+                <Reference External_Reference_ID="REF-176" Section="Chapter 16, &#34;General Good Practices.&#34; Page 415"/>
+                <Reference External_Reference_ID="REF-44" Section="&#34;Sin 11: Failure to Handle Errors Correctly.&#34; Page 183"/>
+                <Reference External_Reference_ID="REF-44" Section="&#34;Sin 12: Information Leakage.&#34; Page 191"/>
+                <Reference External_Reference_ID="REF-179"/>
+                <Reference External_Reference_ID="REF-62" Section="Chapter 3, &#34;Overly Verbose Error Messages&#34;, Page 75"/>
+                <Reference External_Reference_ID="REF-18"/>
+            </References>
+            <Content_History>
+                <Submission>
+                    <Submission_Name>CLASP</Submission_Name>
+                    <Submission_Date>2006-07-19</Submission_Date>
+                </Submission>
+                <Modification>
+                    <Modification_Name>Eric Dalci</Modification_Name>
+                    <Modification_Organization>Cigital</Modification_Organization>
+                    <Modification_Date>2008-07-01</Modification_Date>
+                    <Modification_Comment>updated Time_of_Introduction</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Organization>Veracode</Modification_Organization>
+                    <Modification_Date>2008-08-15</Modification_Date>
+                    <Modification_Comment>Suggested OWASP Top Ten 2004 mapping</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2008-09-08</Modification_Date>
+                    <Modification_Comment>updated Applicable_Platforms, Common_Consequences, Relationships, Other_Notes, Taxonomy_Mappings</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2008-10-14</Modification_Date>
+                    <Modification_Comment>updated Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2009-01-12</Modification_Date>
+                    <Modification_Comment>updated Demonstrative_Examples, Description, Name, Observed_Examples, Other_Notes, Potential_Mitigations, Relationships, Time_of_Introduction</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2009-03-10</Modification_Date>
+                    <Modification_Comment>updated Demonstrative_Examples, Potential_Mitigations, Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2009-12-28</Modification_Date>
+                    <Modification_Comment>updated Demonstrative_Examples, Name, Potential_Mitigations, References, Time_of_Introduction</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2010-02-16</Modification_Date>
+                    <Modification_Comment>updated Detection_Factors, References, Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2010-04-05</Modification_Date>
+                    <Modification_Comment>updated Related_Attack_Patterns</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2010-06-21</Modification_Date>
+                    <Modification_Comment>updated Common_Consequences, Detection_Factors, Potential_Mitigations, References</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Organization>Veracode</Modification_Organization>
+                    <Modification_Date>2010-09-09</Modification_Date>
+                    <Modification_Comment>Suggested OWASP Top Ten mapping</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2010-09-27</Modification_Date>
+                    <Modification_Comment>updated Potential_Mitigations, Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2011-03-29</Modification_Date>
+                    <Modification_Comment>updated Demonstrative_Examples, Observed_Examples, Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2011-06-01</Modification_Date>
+                    <Modification_Comment>updated Relationships, Taxonomy_Mappings</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2011-06-27</Modification_Date>
+                    <Modification_Comment>updated Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2011-09-13</Modification_Date>
+                    <Modification_Comment>updated Relationships, Taxonomy_Mappings</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2012-05-11</Modification_Date>
+                    <Modification_Comment>updated References, Related_Attack_Patterns, Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2013-07-17</Modification_Date>
+                    <Modification_Comment>updated References</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2014-06-23</Modification_Date>
+                    <Modification_Comment>updated Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2014-07-30</Modification_Date>
+                    <Modification_Comment>updated Relationships, Taxonomy_Mappings</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2017-11-08</Modification_Date>
+                    <Modification_Comment>updated Applicable_Platforms, Modes_of_Introduction, References, Relationships, Taxonomy_Mappings</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2018-03-27</Modification_Date>
+                    <Modification_Comment>updated References, Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2019-01-03</Modification_Date>
+                    <Modification_Comment>updated Taxonomy_Mappings</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2019-06-20</Modification_Date>
+                    <Modification_Comment>updated Relationships</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2019-09-19</Modification_Date>
+                    <Modification_Comment>updated Demonstrative_Examples, Observed_Examples</Modification_Comment>
+                </Modification>
+                <Modification>
+                    <Modification_Name>CWE Content Team</Modification_Name>
+                    <Modification_Organization>MITRE</Modification_Organization>
+                    <Modification_Date>2020-02-24</Modification_Date>
+                    <Modification_Comment>updated Applicable_Platforms, Description, Name, Observed_Examples, References, Relationships, Weakness_Ordinalities</Modification_Comment>
+                </Modification>
+                <Previous_Entry_Name Date="2009-01-12">Error Message Information Leaks</Previous_Entry_Name>
+                <Previous_Entry_Name Date="2009-12-28">Error Message Information Leak</Previous_Entry_Name>
+                <Previous_Entry_Name Date="2020-02-24">Information Exposure Through an Error Message</Previous_Entry_Name>
+            </Content_History>
+        </Weakness>
+    </Weaknesses>
+</Weakness_Catalog>

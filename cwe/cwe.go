@@ -3,6 +3,8 @@ package cwe
 import (
 	"archive/zip"
 	"bytes"
+	"encoding/json"
+	"encoding/xml"
 	"io/ioutil"
 	"log"
 	"os"
@@ -37,28 +39,54 @@ func (c CWEConfig) Update() error {
 		return xerrors.Errorf("failed to fetch cwe data: %w", err)
 	}
 
-	zipReader, err := zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	b, err := c.unzip(data)
 	if err != nil {
-		return xerrors.Errorf("unable to initialize zip: %w", err)
+		return err
 	}
 
-	if len(zipReader.File) > 1 {
-		return xerrors.Errorf("invalid CWE zip: too many files in archive")
+	if err := c.saveFile(b, "cwe.xml"); err != nil {
+		return err
 	}
 
-	b, err := readZipFile(zipReader.File[0])
-	if err != nil {
-		return xerrors.Errorf("unable to read zip archive: %w", err)
+	var bb []byte
+	if bb, err = xmlToJSON(b); err != nil {
+		return err
 	}
 
+	if err := c.saveFile(bb, "cwe.json"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c CWEConfig) saveFile(b []byte, fileType string) error {
 	if err := os.MkdirAll(c.cweDir, os.ModePerm); err != nil {
 		return xerrors.Errorf("unable to create cwe directory: %w", err)
 	}
 
-	if err := ioutil.WriteFile(filepath.Join(c.cweDir, "cwe.xml"), b, 0600); err != nil {
-		return xerrors.Errorf("failed to cwe write file: %w", err)
+	if err := ioutil.WriteFile(filepath.Join(c.cweDir, fileType), b, 0600); err != nil {
+		return xerrors.Errorf("failed to write %s file: %w", fileType, err)
 	}
 	return nil
+
+}
+
+func (c CWEConfig) unzip(data []byte) ([]byte, error) {
+	zipReader, err := zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != nil {
+		return nil, xerrors.Errorf("unable to initialize zip: %w", err)
+	}
+
+	if len(zipReader.File) > 1 {
+		return nil, xerrors.Errorf("invalid CWE zip: too many files in archive")
+	}
+
+	b, err := readZipFile(zipReader.File[0])
+	if err != nil {
+		return nil, xerrors.Errorf("unable to read zip archive: %w", err)
+	}
+	return b, nil
 }
 
 func readZipFile(zf *zip.File) ([]byte, error) {
@@ -68,4 +96,18 @@ func readZipFile(zf *zip.File) ([]byte, error) {
 	}
 	defer f.Close()
 	return ioutil.ReadAll(f)
+}
+
+func xmlToJSON(b []byte) ([]byte, error) {
+	var wc WeaknessCatalog
+	if err := xml.Unmarshal(b, &wc); err != nil {
+		return nil, err
+	}
+
+	bb, err := json.MarshalIndent(wc, "", " ")
+	if err != nil {
+		return nil, err
+	}
+
+	return bb, nil
 }
