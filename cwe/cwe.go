@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -44,13 +45,20 @@ func (c CWEConfig) Update() error {
 		return err
 	}
 
-	var bb []byte
-	if bb, err = xmlToJSON(b); err != nil {
+	var wc WeaknessCatalog
+	if wc, err = xmlToJSON(b); err != nil {
 		return err
 	}
 
-	if err := c.saveFile(bb, "cwe.json"); err != nil {
-		return err
+	for _, w := range wc.Weaknesses.Weakness {
+		b, err := json.MarshalIndent(w, "", " ")
+		if err != nil {
+			log.Printf("unable to marshal: %d, err: %s\n", w.ID, err)
+			continue
+		}
+		if err := c.saveFile(b, fmt.Sprintf("CWE-%d.json", w.ID)); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -94,16 +102,10 @@ func readZipFile(zf *zip.File) ([]byte, error) {
 	return ioutil.ReadAll(f)
 }
 
-func xmlToJSON(b []byte) ([]byte, error) {
+func xmlToJSON(b []byte) (WeaknessCatalog, error) {
 	var wc WeaknessCatalog
 	if err := xml.Unmarshal(b, &wc); err != nil {
-		return nil, err
+		return WeaknessCatalog{}, err
 	}
-
-	bb, err := json.MarshalIndent(wc, "", " ")
-	if err != nil {
-		return nil, err
-	}
-
-	return bb, nil
+	return wc, nil
 }

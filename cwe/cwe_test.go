@@ -76,9 +76,10 @@ func TestUpdate(t *testing.T) {
 			err := c.Update()
 			switch {
 			case tc.expectedError != "":
-				assert.Contains(t, err.Error(), tc.expectedError, tc.name)
+				require.Error(t, err, tc.name)
 			default:
-				gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "cwe.json"))
+				// CWE-209.json is one file within good-small-cwe.xml.zip
+				gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "CWE-209.json"))
 				require.NoError(t, err, tc.name)
 
 				wantJSON, _ := ioutil.ReadFile(tc.expectedOutputJSONFile)
