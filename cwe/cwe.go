@@ -44,10 +44,6 @@ func (c CWEConfig) Update() error {
 		return err
 	}
 
-	if err := c.saveFile(b, "cwe.xml"); err != nil {
-		return err
-	}
-
 	var bb []byte
 	if bb, err = xmlToJSON(b); err != nil {
 		return err

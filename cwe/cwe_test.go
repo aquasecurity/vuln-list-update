@@ -78,12 +78,6 @@ func TestUpdate(t *testing.T) {
 			case tc.expectedError != "":
 				assert.Contains(t, err.Error(), tc.expectedError, tc.name)
 			default:
-				gotXML, err := ioutil.ReadFile(filepath.Join(dir, "cwe.xml"))
-				require.NoError(t, err, tc.name)
-
-				wantXML, _ := ioutil.ReadFile(tc.expectedOuptutXMLFile)
-				assert.Equal(t, wantXML, gotXML, tc.name)
-
 				gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "cwe.json"))
 				require.NoError(t, err, tc.name)
 
