@@ -21,8 +21,12 @@ type CWEConfig struct {
 	cweDir     string
 }
 
+const (
+	cweURL = "https://cwe.mitre.org/data/xml/cwec_latest.xml.zip"
+)
+
 func NewCWEConfig() CWEConfig {
-	return NewCWEWithConfig("https://cwe.mitre.org/data/xml/cwec_latest.xml.zip", filepath.Join(utils.VulnListDir(), "cwe"), 5)
+	return NewCWEWithConfig(cweURL, filepath.Join(utils.VulnListDir(), "cwe"), 5)
 }
 
 func NewCWEWithConfig(url, path string, retryTimes int) CWEConfig {
@@ -50,6 +54,10 @@ func (c CWEConfig) Update() error {
 		return err
 	}
 
+	if err := os.MkdirAll(c.cweDir, os.ModePerm); err != nil {
+		return xerrors.Errorf("unable to create cwe directory: %w", err)
+	}
+
 	for _, w := range wc.Weaknesses.Weakness {
 		b, err := json.MarshalIndent(w, "", " ")
 		if err != nil {
@@ -65,10 +73,6 @@ func (c CWEConfig) Update() error {
 }
 
 func (c CWEConfig) saveFile(b []byte, fileType string) error {
-	if err := os.MkdirAll(c.cweDir, os.ModePerm); err != nil {
-		return xerrors.Errorf("unable to create cwe directory: %w", err)
-	}
-
 	if err := ioutil.WriteFile(filepath.Join(c.cweDir, fileType), b, 0600); err != nil {
 		return xerrors.Errorf("failed to write %s file: %w", fileType, err)
 	}
