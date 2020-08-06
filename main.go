@@ -166,6 +166,7 @@ func run() error {
 		if err := c.Update(); err != nil {
 			return xerrors.Errorf("error in CWE update: %w", err)
 		}
+		commitMsg = "CWE Advisories"
 	default:
 		return xerrors.New("unknown target")
 	}
