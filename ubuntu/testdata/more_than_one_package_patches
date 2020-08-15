@@ -1,0 +1,48 @@
+Candidate: CVE-2017-9228
+PublicDate: 2007-01-16 23:28:00 UTC
+References:
+ https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-9228
+ https://usn.ubuntu.com/usn/usn-3382-1
+ https://usn.ubuntu.com/usn/usn-3382-2
+Description:
+ An issue was discovered in Oniguruma 6.2.0, as used in Oniguruma-mod in
+ Ruby through 2.4.1 and mbstring in PHP through 7.1.5. A heap out-of-bounds
+ write occurs in bitset_set_range() during regular expression compilation
+ due to an uninitialized variable from an incorrect state transition. An
+ incorrect state transition in parse_char_class() could create an execution
+ path that leaves a critical local variable uninitialized until it's used as
+ an index, resulting in an out-of-bounds write memory corruption.
+Ubuntu-Description:
+ It was discovered that Oniguruma incorrectly handled certain regular
+ expressions. An attacker could possibly use this issue to obtain
+ sensitive information, cause a denial of service or execute arbitrary
+ code.
+Notes:
+Bugs:
+ http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863316
+ https://github.com/kkos/oniguruma/issues/60
+Priority: medium
+Discovered-by:
+Assigned-to:
+CVSS:
+ nvd: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+
+Patches_libonig:
+ upstream: https://github.com/kkos/oniguruma/commit/3b63d12038c8d8fc278e81c942fa9bec7c704c8b
+upstream_libonig: needs-triage
+precise/esm_libonig: DNE
+artful_libonig: ignored (reached end-of-life)
+bionic_libonig: released (6.3.0-1)
+
+Patches_php5:
+ upstream: https://github.com/php/php-src/commit/703be4f77e662837b64499b0d046a5c8d06a98b9
+upstream_php5: needs-triage
+precise/esm_php5: released (5.3.10-1ubuntu3.28)
+devel_php5: DNE
+
+Patches_php7.0:
+ upstream: https://github.com/php/php-src/commit/1c845d295037702d63097e2216b3c5db53f79273
+upstream_php7.0: needs-triage
+precise/esm_php7.0: DNE
+zesty_php7.0: released (7.0.22-0ubuntu0.17.04.1)
+artful_php7.0: DNE

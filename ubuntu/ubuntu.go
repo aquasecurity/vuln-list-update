@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 
@@ -21,6 +22,20 @@ import (
 const (
 	repoURL   = "https://git.launchpad.net/ubuntu-cve-tracker"
 	ubuntuDir = "ubuntu"
+)
+
+var (
+	// regex to check if line contains information of a Ubuntu patch
+	validStatus = []string{
+		": released",
+		": needed",
+		": ignored",
+		": DNE",
+		": not-affected",
+		": needs-triage",
+		": deferred",
+		"upstream_"}
+	patchLineRegex = regexp.MustCompile(strings.Join(validStatus, "|"))
 )
 
 type Vulnerability struct {
@@ -237,38 +252,46 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 		}
 
 		// Parse Patches
+		if patchLineRegex.MatchString(line) {
+			fields := strings.Fields(line)
+			packageAndRelease := strings.Split(fields[0], "_")
+			packageName := Package(strings.Trim(packageAndRelease[len(packageAndRelease)-1], ":"))
+			release := Release(strings.Join(packageAndRelease[:len(packageAndRelease)-1], "_"))
+			status := Status{}
+			if len(fields) > 1 {
+				status.Status = fields[1]
+			} else {
+				status.Status = "needs-triage"
+			}
+			if len(fields) > 2 {
+				note := strings.Join(fields[2:], " ")
+				status.Note = strings.Trim(note, "()")
+			}
+			if existingStatuses, ok := vuln.Patches[packageName]; ok {
+				existingStatuses[release] = status
+				vuln.Patches[packageName] = existingStatuses
+			} else {
+				statuses := Statuses{}
+				statuses[release] = status
+				vuln.Patches[packageName] = statuses
+			}
+		}
+
+		// Parse UpstreamLinks
 		if strings.HasPrefix(line, "Patches_") {
 			suffix := strings.TrimPrefix(line, "Patches")
-			statuses := Statuses{}
 			var upstreamLinks []string
-			for lines[i+1] != "" {
-				i++
-				line = strings.TrimSpace(lines[i])
-
+			j := i
+			for j < len(lines) && lines[j+1] != "" {
+				j++
+				line = strings.TrimSpace(lines[j])
 				if strings.HasPrefix(line, "upstream:") {
 					line = strings.TrimPrefix(line, "upstream:")
 					upstreamLinks = append(upstreamLinks, strings.TrimSpace(line))
-					continue
+					break
 				}
-
-				fields := strings.Fields(line)
-
-				if len(fields) < 2 {
-					continue
-				}
-
-				status := Status{
-					Status: fields[1],
-				}
-				if len(fields) > 2 {
-					note := strings.Join(fields[2:], " ")
-					status.Note = strings.Trim(note, "()")
-				}
-				release := Release(strings.TrimSuffix(fields[0], suffix))
-				statuses[release] = status
 			}
 			pkg := Package(strings.Trim(suffix, "_: "))
-			vuln.Patches[pkg] = statuses
 			if len(upstreamLinks) > 0 {
 				vuln.UpstreamLinks[pkg] = upstreamLinks
 			}

@@ -1,0 +1,34 @@
+Candidate: CVE-2017-7702
+PublicDate: 2007-01-16 23:28:00 UTC
+References:
+ https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7702
+ https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=13477
+ https://code.wireshark.org/review/gitweb?p=wireshark.git;a=commit;h=2f322f66cbcca2fefdaa630494f9d6c97eb659b7
+ https://www.wireshark.org/security/wnpa-sec-2017-13.html
+Description:
+ In Wireshark 2.2.0 to 2.2.5 and 2.0.0 to 2.0.11, the WBXML dissector could
+ go into an infinite loop, triggered by packet injection or a malformed
+ capture file. This was addressed in epan/dissectors/packet-wbxml.c by
+ adding length validation.
+Ubuntu-Description:
+Notes:
+Bugs:
+Priority: medium
+Discovered-by: Otto Airamo and Antti Levomäki
+Assigned-to:
+CVSS:
+ nvd: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+
+Patches_wireshark:
+upstream_wireshark: released (2.2.6, 2.0.12)
+precise_wireshark: ignored (reached end-of-life)
+precise/esm_wireshark: DNE (precise was needed)
+trusty/esm_wireshark: released (2.6.3-1~ubuntu14.04.1)
+
+vivid/stable-phone-overlay_wireshark: DNE
+xenial_wireshark: released (2.6.3-1~ubuntu16.04.1)
+
+yakkety_wireshark: released (2.2.6+g32dac6a-2ubuntu0.16.10)
+bionic_wireshark: released (2.6.3-1~ubuntu18.04.1)
+
+devel_wireshark: not-affected (2.6.3-1)
