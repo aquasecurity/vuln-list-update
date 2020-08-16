@@ -1,45 +1,35 @@
 package ubuntu
 
 import (
-	"github.com/araddon/dateparse"
-	"github.com/stretchr/testify/require"
-	"io"
 	"os"
-	"reflect"
 	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/stretchr/testify/require"
 )
 
 func Test_parse(t *testing.T) {
-	publicationDate, err := dateparse.ParseAny("2007-01-16 23:28:00 UTC")
-	require.Nil(t, err)
 	type args struct {
-		fileReader io.Reader
+		filePath string
 	}
-	emptyStatusUpstreamFile, err := os.Open("./testdata/empty_status_upstream")
-	require.Nil(t, err)
-	defer emptyStatusUpstreamFile.Close()
-	lineBreakBetweenPatched, err := os.Open("./testdata/line_break_between_patches")
-	require.Nil(t, err)
-	defer lineBreakBetweenPatched.Close()
-	moreThanOnePackagePatches, err := os.Open("./testdata/more_than_one_package_patches")
-	require.Nil(t, err)
-	defer moreThanOnePackagePatches.Close()
 	testCases := []struct {
-		name     string
-		args     args
-		wantVuln *Vulnerability
-		wantErr  error
+		name    string
+		args    args
+		want    *Vulnerability
+		wantErr error
 	}{
 		{
 			name: "when empty upstream patch is passed",
 			args: args{
-				fileReader: emptyStatusUpstreamFile,
+				filePath: "./testdata/empty_status_upstream",
 			},
-			wantVuln: &Vulnerability{
+			want: &Vulnerability{
 				Candidate:   "CVE-2007-0255",
 				References:  []string{"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-0255"},
 				Description: "XINE 0.99.4 allows user-assisted remote attackers to cause a denial of service (application crash) and possibly execute arbitrary code via a certain M3U file that contains a long #EXTINF line and contains format string specifiers in an invalid udp:// URI, possibly a variant of CVE-2007-0017.",
-				PublicDate:  publicationDate,
+				PublicDate:  time.Date(2007, 1, 16, 23, 28, 0, 0, time.UTC),
 				Patches: map[Package]Statuses{
 					Package("xine-ui"): {
 						"dapper": Status{
@@ -74,9 +64,9 @@ func Test_parse(t *testing.T) {
 		{
 			name: "when line break is present between patch",
 			args: args{
-				fileReader: lineBreakBetweenPatched,
+				filePath: "./testdata/line_break_between_patches",
 			},
-			wantVuln: &Vulnerability{
+			want: &Vulnerability{
 				Candidate: "CVE-2017-7702",
 				References: []string{
 					"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7702",
@@ -87,7 +77,7 @@ func Test_parse(t *testing.T) {
 				Description:  "In Wireshark 2.2.0 to 2.2.5 and 2.0.0 to 2.0.11, the WBXML dissector could go into an infinite loop, triggered by packet injection or a malformed capture file. This was addressed in epan/dissectors/packet-wbxml.c by adding length validation.",
 				Priority:     "medium",
 				DiscoveredBy: "Otto Airamo and Antti Levomäki",
-				PublicDate:   publicationDate,
+				PublicDate:   time.Date(2007, 1, 16, 23, 28, 0, 0, time.UTC),
 				Patches: map[Package]Statuses{
 					Package("wireshark"): {
 						"upstream": Status{
@@ -133,9 +123,9 @@ func Test_parse(t *testing.T) {
 		{
 			name: "more than one package patches",
 			args: args{
-				fileReader: moreThanOnePackagePatches,
+				filePath: "./testdata/more_than_one_package_patches",
 			},
-			wantVuln: &Vulnerability{
+			want: &Vulnerability{
 				Candidate: "CVE-2017-9228",
 				References: []string{
 					"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-9228",
@@ -148,7 +138,7 @@ func Test_parse(t *testing.T) {
 				Bugs: []string{
 					"http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863316",
 					"https://github.com/kkos/oniguruma/issues/60"},
-				PublicDate: publicationDate,
+				PublicDate: time.Date(2007, 1, 16, 23, 28, 0, 0, time.UTC),
 				Patches: map[Package]Statuses{
 					Package("libonig"): {
 						"upstream": Status{
@@ -201,16 +191,83 @@ func Test_parse(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "no space before status",
+			args: args{
+				filePath: "./testdata/no_space_before_status",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2019-15903",
+				References: []string{
+					"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15903",
+					"https://github.com/libexpat/libexpat/commit/c20b758c332d9a13afbbb276d30db1d183a85d43",
+					"https://github.com/libexpat/libexpat/issues/317",
+					"https://github.com/libexpat/libexpat/pull/318",
+					"https://usn.ubuntu.com/usn/usn-4132-1",
+					"https://usn.ubuntu.com/usn/usn-4132-2",
+					"https://www.mozilla.org/en-US/security/advisories/mfsa2019-34/#CVE-2019-15903",
+					"https://usn.ubuntu.com/usn/usn-4165-1",
+					"https://usn.ubuntu.com/usn/usn-4202-1",
+					"https://usn.ubuntu.com/usn/usn-4335-1",
+				},
+				Description:       "In libexpat before 2.2.8, crafted XML input could fool the parser into changing from DTD parsing to document parsing too early; a consecutive call to XML_GetCurrentLineNumber (or XML_GetCurrentColumnNumber) then resulted in a heap-based buffer over-read.",
+				UbuntuDescription: "A heap overflow was discovered in the expat library in XXX-PACKAGE-NAME-HERE-XXX. If a user were tricked into opening a specially crafted XML file, an attacker could potentially exploit this to cause a denial of service or execute arbitrary code.",
+				Priority:          "medium",
+				Bugs: []string{
+					"http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939394",
+				},
+				PublicDateAtUSN: time.Date(2019, 9, 4, 0, 0, 0, 0, time.UTC),
+				PublicDate:      time.Date(2019, 9, 4, 6, 15, 0, 0, time.UTC),
+				Patches: map[Package]Statuses{
+					Package("vnc4"): {
+						"upstream": Status{
+							Status: "needs-triage",
+						},
+						"precise/esm": Status{
+							Status: "DNE",
+						},
+						"trusty": Status{
+							Status: "ignored",
+							Note:   "out of standard support",
+						},
+						"trusty/esm": Status{
+							Status: "needed",
+						},
+						"xenial": Status{
+							Status: "needed",
+						},
+						"bionic": Status{
+							Status: "needed",
+						},
+						"disco": Status{
+							Status: "not-affected",
+							Note:   "code not present",
+						},
+						"eoan": Status{
+							Status: "not-affected",
+							Note:   "code not present",
+						},
+						"focal": Status{
+							Status: "DNE",
+						},
+						"devel": Status{
+							Status: "DNE",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			gotVuln, gotErr := parse(tc.args.fileReader)
-			if !reflect.DeepEqual(gotVuln, tc.wantVuln) {
-				t.Errorf("ubuntu_parse: gotVulnerability = %v, want %v", gotVuln, tc.wantVuln)
-			}
-			if !reflect.DeepEqual(gotErr, tc.wantErr) {
-				t.Errorf("ubuntu_parse: gotErr = %v, want %v", gotErr, tc.wantErr)
-			}
+			f, err := os.Open(tc.args.filePath)
+			require.NoError(t, err)
+			defer f.Close()
+
+			got, gotErr := parse(f)
+			assert.Equal(t, tc.wantErr, gotErr)
+			assert.Equal(t, tc.want, got)
 		})
 	}
 }
