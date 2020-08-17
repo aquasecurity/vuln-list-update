@@ -23,6 +23,19 @@ const (
 	ubuntuDir = "ubuntu"
 )
 
+var (
+	statuses = []string{
+		"released",
+		"needed",
+		"ignored",
+		"DNE",
+		"not-affected",
+		"needs-triage",
+		"deferred",
+		"pending",
+	}
+)
+
 type Vulnerability struct {
 	PublicDateAtUSN   time.Time
 	CRD               time.Time
@@ -58,7 +71,7 @@ func Update() error {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
-	log.Println("Walking Debian...")
+	log.Println("Walking Ubuntu...")
 	for _, target := range []string{"active", "retired"} {
 		if err := walkDir(filepath.Join(dir, target)); err != nil {
 			return err
@@ -237,38 +250,55 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 		}
 
 		// Parse Patches
+		// e.g. trusty/esm_vnc4: needs-triage
+		s := strings.SplitN(line, ":", 2)
+		if len(s) < 2 {
+			continue
+		}
+
+		status := strings.TrimSpace(s[1])
+
+		// Some advisories have status with "Patches_" prefix and it should be skipped
+		// e.g. Patches_qtwebkit-opensource-src: needs-triage
+		if isPatch(status) && !strings.HasPrefix(s[0], "Patches_") {
+			pkgRel := strings.SplitN(s[0], "_", 2)
+			release := Release(pkgRel[0])
+			pkgName := Package(strings.Trim(pkgRel[1], ":"))
+
+			fields := strings.Fields(status)
+			status := Status{
+				Status: fields[0],
+			}
+			if len(fields) > 1 {
+				note := strings.Join(fields[1:], " ")
+				status.Note = strings.Trim(note, "()")
+			}
+
+			if existingStatuses, ok := vuln.Patches[pkgName]; ok {
+				existingStatuses[release] = status
+				vuln.Patches[pkgName] = existingStatuses
+			} else {
+				statuses := Statuses{}
+				statuses[release] = status
+				vuln.Patches[pkgName] = statuses
+			}
+		}
+
+		// Parse UpstreamLinks
 		if strings.HasPrefix(line, "Patches_") {
 			suffix := strings.TrimPrefix(line, "Patches")
-			statuses := Statuses{}
 			var upstreamLinks []string
-			for lines[i+1] != "" {
-				i++
-				line = strings.TrimSpace(lines[i])
-
-				if strings.HasPrefix(line, "upstream:") {
-					line = strings.TrimPrefix(line, "upstream:")
-					upstreamLinks = append(upstreamLinks, strings.TrimSpace(line))
-					continue
+			j := i
+			for j < len(lines) && lines[j+1] != "" {
+				j++
+				line = strings.TrimSpace(lines[j])
+				if !strings.HasPrefix(line, "upstream:") {
+					break
 				}
-
-				fields := strings.Fields(line)
-
-				if len(fields) < 2 {
-					continue
-				}
-
-				status := Status{
-					Status: fields[1],
-				}
-				if len(fields) > 2 {
-					note := strings.Join(fields[2:], " ")
-					status.Note = strings.Trim(note, "()")
-				}
-				release := Release(strings.TrimSuffix(fields[0], suffix))
-				statuses[release] = status
+				line = strings.TrimPrefix(line, "upstream:")
+				upstreamLinks = append(upstreamLinks, strings.TrimSpace(line))
 			}
 			pkg := Package(strings.Trim(suffix, "_: "))
-			vuln.Patches[pkg] = statuses
 			if len(upstreamLinks) > 0 {
 				vuln.UpstreamLinks[pkg] = upstreamLinks
 			}
@@ -276,4 +306,13 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 		}
 	}
 	return vuln, nil
+}
+
+func isPatch(s string) bool {
+	for _, status := range statuses {
+		if strings.HasPrefix(s, status) {
+			return true
+		}
+	}
+	return false
 }

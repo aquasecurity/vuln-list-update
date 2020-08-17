@@ -1,0 +1,46 @@
+PublicDate: 2007-01-16 23:28:00 UTC
+Candidate: CVE-2007-0255
+References:
+ https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-0255
+Description:
+ XINE 0.99.4 allows user-assisted remote attackers to cause a denial of
+ service (application crash) and possibly execute arbitrary code via a
+ certain M3U file that contains a long #EXTINF line and contains format
+ string specifiers in an invalid udp:// URI, possibly a variant of
+ CVE-2007-0017.
+Ubuntu-Description:
+Notes:
+Bugs:
+#sid_PKG:
+#dapper_PKG:
+#edgy_PKG:
+#feisty_PKG:
+#lucid_PKG:
+#maverick_PKG:
+#natty_PKG:
+#oneiric_PKG:
+#precise_PKG:
+#quantal_PKG:
+#raring_PKG:
+#saucy_PKG:
+#trusty_PKG:
+#utopic_PKG:
+#vivid_PKG:
+#wily_PKG:
+#xenial_PKG:
+#yakkety_PKG:
+#zesty_PKG:
+#artful_PKG:
+#bionic_PKG:
+#cosmic_PKG:
+#disco_PKG:
+#eoan_PKG:
+#focal_PKG:
+#devel_PKG:
+dapper_xine-ui: ignored (reached end-of-life)
+edgy_xine-ui: needed (reached end-of-life)
+vivid/stable-phone-overlay_xine-ui: DNE
+vivid/ubuntu-core_xine-ui: DNE
+wily_xine-ui: ignored (reached end-of-life)
+xenial_xine-ui: needed
+upstream_xine-ui:
