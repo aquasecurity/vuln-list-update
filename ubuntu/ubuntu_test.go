@@ -53,9 +53,6 @@ func Test_parse(t *testing.T) {
 						"xenial": Status{
 							Status: "needed",
 						},
-						"upstream": Status{
-							Status: "needs-triage",
-						},
 					},
 				},
 				UpstreamLinks: map[Package][]string{},
@@ -252,6 +249,59 @@ func Test_parse(t *testing.T) {
 						},
 						"devel": Status{
 							Status: "DNE",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
+		{
+			name: "Patches with status",
+			args: args{
+				filePath: "./testdata/patches_with_status",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2020-9925",
+				References: []string{
+					"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9925",
+					"https://webkitgtk.org/security/WSA-2020-0007.html",
+					"https://usn.ubuntu.com/usn/usn-4444-1",
+				},
+				Description:     "A logic issue was addressed with improved state management. Processing maliciously crafted web content may lead to universal cross site scripting.",
+				Priority:        "medium",
+				PublicDateAtUSN: time.Date(2020, 7, 29, 0, 0, 0, 0, time.UTC),
+				PublicDate:      time.Date(2020, 7, 29, 0, 0, 0, 0, time.UTC),
+				Notes: []string{
+					"jdstrand> webkit receives limited support. For details, see",
+					"https://wiki.ubuntu.com/SecurityTeam/FAQ#webkit",
+					"jdstrand> webkit in Ubuntu uses the JavaScriptCore (JSC) engine, not V8",
+				},
+				Patches: map[Package]Statuses{
+					Package("qtwebkit-opensource-src"): {
+						"upstream": Status{
+							Status: "needs-triage",
+						},
+						"precise/esm": Status{
+							Status: "DNE",
+						},
+						"trusty": Status{
+							Status: "ignored",
+							Note:   "out of standard support",
+						},
+						"trusty/esm": Status{
+							Status: "DNE",
+						},
+						"xenial": Status{
+							Status: "needs-triage",
+						},
+						"bionic": Status{
+							Status: "needs-triage",
+						},
+						"focal": Status{
+							Status: "needs-triage",
+						},
+						"devel": Status{
+							Status: "needs-triage",
 						},
 					},
 				},

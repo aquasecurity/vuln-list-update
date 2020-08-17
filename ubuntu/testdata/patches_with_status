@@ -1,0 +1,32 @@
+PublicDateAtUSN: 2020-07-29 00:00:00 UTC
+Candidate: CVE-2020-9925
+PublicDate: 2020-07-29 00:00:00 UTC
+References:
+ https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9925
+ https://webkitgtk.org/security/WSA-2020-0007.html
+ https://usn.ubuntu.com/usn/usn-4444-1
+Description:
+ A logic issue was addressed with improved state management. Processing
+ maliciously crafted web content may lead to universal cross site
+ scripting.
+Ubuntu-Description:
+Notes:
+ jdstrand> webkit receives limited support. For details, see
+ https://wiki.ubuntu.com/SecurityTeam/FAQ#webkit
+ jdstrand> webkit in Ubuntu uses the JavaScriptCore (JSC) engine, not V8
+Mitigation:
+Bugs:
+Priority: medium
+Discovered-by:
+Assigned-to:
+CVSS:
+
+Patches_qtwebkit-opensource-src: needs-triage
+upstream_qtwebkit-opensource-src: needs-triage
+precise/esm_qtwebkit-opensource-src: DNE
+trusty_qtwebkit-opensource-src: ignored (out of standard support)
+trusty/esm_qtwebkit-opensource-src: DNE
+xenial_qtwebkit-opensource-src: needs-triage
+bionic_qtwebkit-opensource-src: needs-triage
+focal_qtwebkit-opensource-src: needs-triage
+devel_qtwebkit-opensource-src: needs-triage
