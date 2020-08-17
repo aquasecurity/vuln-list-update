@@ -362,6 +362,71 @@ func Test_parse(t *testing.T) {
 				UpstreamLinks: map[Package][]string{},
 			},
 		},
+		{
+			name: "multiple upstreams",
+			args: args{
+				filePath: "./testdata/multiple_upstreams",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2020-0556",
+				References: []string{
+					"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-0556",
+					"https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00352.html",
+					"https://www.openwall.com/lists/oss-security/2020/03/12/4",
+					"https://usn.ubuntu.com/usn/usn-4311-1",
+				},
+				Description:     "dummy",
+				Priority:        "medium",
+				PublicDateAtUSN: time.Date(2020, 3, 12, 21, 15, 0, 0, time.UTC),
+				PublicDate:      time.Date(2020, 3, 12, 21, 15, 0, 0, time.UTC),
+				Bugs: []string{
+					"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=953770",
+				},
+				AssignedTo: "mdeslaur",
+				Patches: map[Package]Statuses{
+					Package("bluez"): {
+						"upstream": Status{
+							Status: "released",
+							Note:   "5.54",
+						},
+						"precise/esm": Status{
+							Status: "DNE",
+						},
+						"trusty": Status{
+							Status: "ignored",
+							Note:   "out of standard support",
+						},
+						"trusty/esm": Status{
+							Status: "DNE",
+						},
+						"xenial": Status{
+							Status: "released",
+							Note:   "5.37-0ubuntu5.3",
+						},
+						"bionic": Status{
+							Status: "released",
+							Note:   "5.48-0ubuntu3.4",
+						},
+						"eoan": Status{
+							Status: "released",
+							Note:   "5.50-0ubuntu5.1",
+						},
+						"devel": Status{
+							Status: "released",
+							Note:   "5.53-0ubuntu2",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{
+					Package("bluez"): {
+						"https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=8cdbd3b09f29da29374e2f83369df24228da0ad1",
+						"https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=3cccdbab2324086588df4ccf5f892fb3ce1f1787",
+						"https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=35d8d895cd0b724e58129374beb0bb4a2edf9519",
+						"https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=f2778f5877d20696d68a452b26e4accb91bfb19e",
+					},
+				},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
