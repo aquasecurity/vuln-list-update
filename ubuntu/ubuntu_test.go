@@ -308,6 +308,60 @@ func Test_parse(t *testing.T) {
 				UpstreamLinks: map[Package][]string{},
 			},
 		},
+		{
+			name: "include pending",
+			args: args{
+				filePath: "./testdata/include_pending",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2020-0009",
+				References: []string{
+					"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-0009",
+				},
+				Description: "test",
+				Priority:    "low",
+				PublicDate:  time.Date(2020, 1, 8, 16, 15, 0, 0, time.UTC),
+				Notes: []string{
+					"cascardo> possible fix is 6d67b0290b4b84c477e6a2fc6e005e174d3c7786",
+				},
+				Patches: map[Package]Statuses{
+					Package("linux-oem"): {
+						"upstream": Status{
+							Status: "released",
+							Note:   "5.6~rc3",
+						},
+						"precise/esm": Status{
+							Status: "DNE",
+						},
+						"trusty": Status{
+							Status: "DNE",
+						},
+						"trusty/esm": Status{
+							Status: "DNE",
+						},
+						"xenial": Status{
+							Status: "ignored",
+							Note:   "was needs-triage now end-of-life",
+						},
+						"bionic": Status{
+							Status: "released",
+							Note:   "4.15.0-1080.90",
+						},
+						"eoan": Status{
+							Status: "pending",
+							Note:   "4.15.0-1087.97",
+						},
+						"focal": Status{
+							Status: "DNE",
+						},
+						"devel": Status{
+							Status: "DNE",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {

@@ -1,0 +1,28 @@
+Candidate: CVE-2020-0009
+PublicDate: 2020-01-08 16:15:00 UTC
+References:
+ https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-0009
+Description:
+ test
+Ubuntu-Description:
+Notes:
+ cascardo> possible fix is 6d67b0290b4b84c477e6a2fc6e005e174d3c7786
+Mitigation:
+Bugs:
+Priority: low
+Discovered-by:
+Assigned-to:
+CVSS:
+ nvd: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N
+
+Patches_linux-oem:
+upstream_linux-oem: released (5.6~rc3)
+precise/esm_linux-oem: DNE
+trusty_linux-oem: DNE
+trusty/esm_linux-oem: DNE
+xenial_linux-oem: ignored (was needs-triage now end-of-life)
+bionic_linux-oem: released (4.15.0-1080.90)
+eoan_linux-oem: pending (4.15.0-1087.97)
+focal_linux-oem: DNE
+devel_linux-oem: DNE
+
