@@ -9,7 +9,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/spf13/afero"
@@ -32,7 +31,6 @@ const (
 )
 
 var (
-	regexCVEFormat               = regexp.MustCompile(`CVE-\d{4,}-\d{4,}`)
 	releases                     = []string{"6"}
 	releasesIncludingUnpatchVuln = []string{"7", "8"}
 )
@@ -148,12 +146,6 @@ func (c Config) saveRHSAPerYear(dirName string, rhsaID string, data interface{})
 
 func (c Config) saveCVEPerYear(dirName string, cveID string, data interface{}) error {
 	// e.g. CVE-2013-7488
-	cveIDs := regexCVEFormat.FindStringSubmatch(cveID)
-	if len(cveIDs) < 1 {
-		log.Printf("invalid CVE-ID format: %s\n", cveID)
-		return ErrInvalidCVEFormat
-	}
-	cveID = cveIDs[0]
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		log.Printf("invalid CVE-ID format: %s\n", cveID)
