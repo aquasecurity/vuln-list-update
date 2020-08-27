@@ -100,10 +100,11 @@ func TestConfig_Update(t *testing.T) {
 			fmt.Println(u)
 			appFs := afero.NewMemMapFs()
 			c := Config{
-				VulnListDir: "/tmp",
-				URLFormat:   u,
-				AppFs:       appFs,
-				Retry:       0,
+				VulnListDir:                 "/tmp",
+				URLFormat:                   u,
+				URLFormatIncludingUnpatched: u,
+				AppFs:                       appFs,
+				Retry:                       0,
 			}
 			err := c.Update()
 			switch {
