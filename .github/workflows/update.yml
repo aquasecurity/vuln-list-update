@@ -1,8 +1,8 @@
 name: Update vuln-list repo
 on:
   schedule:
-    - cron: "0 0,12 * * *"
-      
+  - cron: "0 0,12 * * *"
+
 jobs:
   update:
     name: Update repo vuln-list
