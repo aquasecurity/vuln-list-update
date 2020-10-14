@@ -146,7 +146,7 @@ func fetchUpdateInfoAmazonLinux(mirrorListURL string) (uinfo *UpdateInfo, err er
 	for _, mirror := range mirrors {
 		u, err := url.Parse(mirror)
 		if err != nil {
-			return nil, xerrors.Errorf("failed to parse mirror URL: %w")
+			return nil, xerrors.Errorf("failed to parse mirror URL: %w", err)
 		}
 		originalPath := u.Path
 		u.Path = path.Join(u.Path, "/repodata/repomd.xml")

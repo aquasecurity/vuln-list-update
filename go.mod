@@ -1,6 +1,6 @@
 module github.com/aquasecurity/vuln-list-update
 
-go 1.13
+go 1.15
 
 require (
 	github.com/araddon/dateparse v0.0.0-20190426192744-0d74ffceef83
