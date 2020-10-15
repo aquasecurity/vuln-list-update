@@ -1,6 +1,5 @@
 # vuln-list-update
 
-[![Build Status](https://travis-ci.org/aquasecurity/vuln-list-update.svg?branch=master)](https://travis-ci.org/aquasecurity/vuln-list-update)
 [![Go Report Card](https://goreportcard.com/badge/github.com/aquasecurity/vuln-list-update)](https://goreportcard.com/report/github.com/aquasecurity/vuln-list-update)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/aquasecurity/vuln-list-update/blob/master/LICENSE)
 
