@@ -40,6 +40,9 @@ func TestConfig_Update(t *testing.T) {
 				"/pub/projects/security/cvrf/cvrf-opensuse-su-2015-1289-1.xml": "testdata/cvrf-opensuse-su-2015-1289-1.xml",
 				"/pub/projects/security/cvrf/cvrf-opensuse-su-2016-3233-1.xml": "testdata/cvrf-opensuse-su-2016-3233-1.xml",
 				"/pub/projects/security/cvrf/cvrf-opensuse-su-2018-1633-1.xml": "testdata/cvrf-opensuse-su-2018-1633-1.xml",
+
+				// include invalid UTF-8 characters
+				"/pub/projects/security/cvrf/cvrf-opensuse-su-2016-0874-1.xml": "testdata/cvrf-opensuse-su-2016-0874-1.xml",
 			},
 			goldenFiles: map[string]string{
 				"/tmp/cvrf/suse/suse/2018/SUSE-SU-2018-1784-1.json":         "testdata/golden/SUSE-SU-2018-1784-1.json",
@@ -52,6 +55,7 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/cvrf/suse/opensuse/2015/openSUSE-SU-2015-1289-1.json": "testdata/golden/openSUSE-SU-2015-1289-1.json",
 				"/tmp/cvrf/suse/opensuse/2016/openSUSE-SU-2016-3233-1.json": "testdata/golden/openSUSE-SU-2016-3233-1.json",
 				"/tmp/cvrf/suse/opensuse/2018/openSUSE-SU-2018-1633-1.json": "testdata/golden/openSUSE-SU-2018-1633-1.json",
+				"/tmp/cvrf/suse/opensuse/2016/openSUSE-SU-2016-0874-1.json": "testdata/golden/openSUSE-SU-2016-0874-1.json",
 			},
 		},
 		{
@@ -137,7 +141,7 @@ func TestConfig_Update(t *testing.T) {
 				fileCount += 1
 
 				actual, err := afero.ReadFile(c.AppFs, path)
-				assert.NoError(t, err, tc.name)
+				require.NoError(t, err, tc.name)
 
 				goldenPath, ok := tc.goldenFiles[path]
 				assert.True(t, ok, tc.name)
