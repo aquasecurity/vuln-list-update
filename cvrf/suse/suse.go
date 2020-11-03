@@ -86,8 +86,7 @@ func (c Config) update(os string, urls []string) error {
 
 		if !utf8.Valid(cvrfXml) {
 			log.Println("invalid UTF-8")
-			s := strings.ToValidUTF8(string(cvrfXml), "")
-			cvrfXml = []byte(s)
+			cvrfXml = []byte(strings.ToValidUTF8(string(cvrfXml), ""))
 		}
 
 		err = xml.Unmarshal(cvrfXml, &cv)
