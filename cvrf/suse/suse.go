@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb"
@@ -79,9 +80,15 @@ func (c Config) update(os string, urls []string) error {
 	for _, cvrfXml := range cvrfXmls {
 		var cv Cvrf
 		if len(cvrfXml) == 0 {
-			log.Printf("empty CVRF xml: %s", cv.Tracking.ID)
+			log.Println("empty CVRF xml")
 			continue
 		}
+
+		if !utf8.Valid(cvrfXml) {
+			log.Println("invalid UTF-8")
+			cvrfXml = []byte(strings.ToValidUTF8(string(cvrfXml), ""))
+		}
+
 		err = xml.Unmarshal(cvrfXml, &cv)
 		if err != nil {
 			return xerrors.Errorf("failed to decode SUSE XML: %w", err)
