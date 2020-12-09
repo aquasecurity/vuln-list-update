@@ -31,70 +31,153 @@ jobs:
       run: go build -o vuln-list-update .
 
     - name: NVD
+      id: nvd
       run: ./vuln-list-update -target nvd
+      continue-on-error: true
 
     - name: Alpine Issue Tracker
+      id: alpine
       run: ./vuln-list-update -target alpine
+      continue-on-error: true
 
     - name: Debian Security Bug Tracker
+      id: debian
       run: ./vuln-list-update -target debian
+      continue-on-error: true
 
     - name: Debian OVAL
+      id: debian-oval
       run: ./vuln-list-update -target debian-oval
+      continue-on-error: true
 
     - name: Ubuntu CVE Tracker
+      id: ubuntu
       run: ./vuln-list-update -target ubuntu
+      continue-on-error: true
 
     - name: Amazon Linux AMI Security Advisory
+      id: amazon
       run: ./vuln-list-update -target amazon
+      continue-on-error: true
 
     - name: Oracle Linux OVAL
+      id: oracle-oval
       run: ./vuln-list-update -target oracle-oval
+      continue-on-error: true
 
     - name: Red Hat OVA
+      id: redhat-oval
       run: ./vuln-list-update -target redhat-oval
+      continue-on-error: true
 
     - name: Photon CVE Advisory
+      id: photon
       run: ./vuln-list-update -target photon
+      continue-on-error: true
 
     - name: GitHub Security Advisory
+      id: ghsa
       run: ./vuln-list-update -target ghsa
+      continue-on-error: true
 
     - name: CWE
+      id: cwe
       run: ./vuln-list-update -target cwe
+      continue-on-error: true
 
     - name: SUSE CVRF
+      id: suse-cvrf
       run: ./vuln-list-update -target suse-cvrf
+      continue-on-error: true
 
     - name: Red Hat Security Data API 1996-2002
+      id: redhat-1996-2002
       run: ./vuln-list-update -target redhat -years 1996,1997,1998,1999,2000,2001,2002
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2003-2008
+      id: redhat-2003-2008
       run: ./vuln-list-update -target redhat -years 2003,2004,2005,2006,2007,2008
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2009-2011
+      id: redhat-2009-2011
       run: ./vuln-list-update -target redhat -years 2009,2010,2011
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2012
+      id: redhat-2012
       run: ./vuln-list-update -target redhat -years 2012
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2013
+      id: redhat-2013
       run: ./vuln-list-update -target redhat -years 2013
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2014
+      id: redhat-2014
       run: ./vuln-list-update -target redhat -years 2014
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2015
+      id: redhat-2015
       run: ./vuln-list-update -target redhat -years 2015
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2016
       run: ./vuln-list-update -target redhat -years 2016
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2017
+      id: redhat-2017
       run: ./vuln-list-update -target redhat -years 2017
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2018
+      id: redhat-2018
       run: ./vuln-list-update -target redhat -years 2018
+      continue-on-error: true
 
     - name: Red Hat Security Data API 2019-2020
+      id: redhat-2019-2020
       run: ./vuln-list-update -target redhat -years 2019,2020
+      continue-on-error: true
+
+    - name: Check for failures and Send a message to Microsoft Teams
+      uses: luisghz/simple-ms-teams-webhook-notifier@v1-latest
+      if: >
+        steps.nvd.outputs.status != 'success' ||
+        steps.alpine.outputs.status != 'success' ||
+        steps.debian.outputs.status != 'success' ||
+        steps.debian-oval.outputs.status != 'success' ||
+        steps.ubuntu.outputs.status != 'success' ||
+        steps.amazon.outputs.status != 'success' ||
+        steps.oracle-oval.outputs.status != 'success' ||
+        steps.redhat-oval.outputs.status != 'success' ||
+        steps.photon.outputs.status != 'success' ||
+        steps.ghsa.outputs.status != 'success' ||
+        steps.cwe.outputs.status != 'success' ||
+        steps.suse-cvrf.outputs.status != 'success' ||
+        steps.redhat-1996-2002.outputs.status != 'success' ||
+        steps.redhat-2003-2008.outputs.status != 'success' ||
+        steps.redhat-2012.outputs.status != 'success' ||
+        steps.redhat-2013.outputs.status != 'success' ||
+        steps.redhat-2014.outputs.status != 'success' ||
+        steps.redhat-2015.outputs.status != 'success' ||
+        steps.redhat-2016.outputs.status != 'success' ||
+        steps.redhat-2017.outputs.status != 'success' ||
+        steps.redhat-2018.outputs.status != 'success' ||
+        steps.redhat-2019-2020.outputs.status != 'success'
+      with:
+        webhook_url: ${{ secrets.AQUA_TEAMS_WEBHOOK }}
+        summary: 'vuln-list-update failed'
+        title: 'vuln-list-update'
+        text: 'One or more vendor advisory updates have failed. Check link for details.'
+        theme-color: 'Error'
+        potential-action: |
+          - "@type": "OpenUri"
+            name: "View Failures"
+            targets:
+                  - os: "default"
+                    uri: "https://github.com/aquasecurity/vuln-list-update/actions?query=is%3Afailure+event%3Aschedule"
