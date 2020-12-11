@@ -181,3 +181,29 @@ jobs:
             targets:
                   - os: "default"
                     uri: "https://github.com/aquasecurity/vuln-list-update/actions?query=is%3Afailure+event%3Aschedule"
+
+    - name: Check for failures and Fail the build
+      if: >
+        steps.nvd.outputs.status != 'success' ||
+        steps.alpine.outputs.status != 'success' ||
+        steps.debian.outputs.status != 'success' ||
+        steps.debian-oval.outputs.status != 'success' ||
+        steps.ubuntu.outputs.status != 'success' ||
+        steps.amazon.outputs.status != 'success' ||
+        steps.oracle-oval.outputs.status != 'success' ||
+        steps.redhat-oval.outputs.status != 'success' ||
+        steps.photon.outputs.status != 'success' ||
+        steps.ghsa.outputs.status != 'success' ||
+        steps.cwe.outputs.status != 'success' ||
+        steps.suse-cvrf.outputs.status != 'success' ||
+        steps.redhat-1996-2002.outputs.status != 'success' ||
+        steps.redhat-2003-2008.outputs.status != 'success' ||
+        steps.redhat-2012.outputs.status != 'success' ||
+        steps.redhat-2013.outputs.status != 'success' ||
+        steps.redhat-2014.outputs.status != 'success' ||
+        steps.redhat-2015.outputs.status != 'success' ||
+        steps.redhat-2016.outputs.status != 'success' ||
+        steps.redhat-2017.outputs.status != 'success' ||
+        steps.redhat-2018.outputs.status != 'success' ||
+        steps.redhat-2019-2020.outputs.status != 'success'
+      run: exit 1
