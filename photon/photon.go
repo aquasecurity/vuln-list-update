@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	advisoryURL    = "https://vmware.bintray.com/photon_cve_metadata/"
+	advisoryURL    = "https://packages.vmware.com/photon/photon_cve_metadata/"
 	versionsFile   = "photon_versions.json"
 	advisoryFormat = "cve_data_photon%s.json"
 
