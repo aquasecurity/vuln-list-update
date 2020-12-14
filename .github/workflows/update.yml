@@ -54,8 +54,8 @@ jobs:
     - name: Red Hat OVA
       run: ./vuln-list-update -target redhat-oval
 
-    - name: Photon CVE Advisory
-      run: ./vuln-list-update -target photon
+#    - name: Photon CVE Advisory
+#      run: ./vuln-list-update -target photon
 
     - name: GitHub Security Advisory
       run: ./vuln-list-update -target ghsa
