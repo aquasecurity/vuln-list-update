@@ -64,7 +64,7 @@ func run() error {
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
 
-	if _, err := gc.CloneOrPull(url, utils.VulnListDir()); err != nil {
+	if _, err := gc.CloneOrPull(url, utils.VulnListDir(), "main"); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
 	}
 
@@ -193,7 +193,7 @@ func run() error {
 	}
 
 	log.Println("git push")
-	if err = gc.Push(utils.VulnListDir(), "master"); err != nil {
+	if err = gc.Push(utils.VulnListDir(), "main"); err != nil {
 		return xerrors.Errorf("failed to git push: %w", err)
 	}
 

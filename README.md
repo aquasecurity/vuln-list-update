@@ -1,7 +1,7 @@
 # vuln-list-update
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/aquasecurity/vuln-list-update)](https://goreportcard.com/report/github.com/aquasecurity/vuln-list-update)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/aquasecurity/vuln-list-update/blob/master/LICENSE)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/aquasecurity/vuln-list-update/blob/main/LICENSE)
 
 Collect vulnerability information and save it in parsable format automatically
 

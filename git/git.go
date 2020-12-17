@@ -13,7 +13,7 @@ import (
 )
 
 type Operations interface {
-	CloneOrPull(string, string) (map[string]struct{}, error)
+	CloneOrPull(string, string, string) (map[string]struct{}, error)
 	RemoteBranch(string) ([]string, error)
 	Checkout(string, string) error
 }
@@ -21,7 +21,7 @@ type Operations interface {
 type Config struct {
 }
 
-func (gc Config) CloneOrPull(url, repoPath string) (map[string]struct{}, error) {
+func (gc Config) CloneOrPull(url, repoPath, branch string) (map[string]struct{}, error) {
 	exists, err := utils.Exists(filepath.Join(repoPath, ".git"))
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (gc Config) CloneOrPull(url, repoPath string) (map[string]struct{}, error) 
 	updatedFiles := map[string]struct{}{}
 	if exists {
 		log.Println("git pull")
-		files, err := pull(url, repoPath)
+		files, err := pull(url, repoPath, branch)
 		if err != nil {
 			return nil, xerrors.Errorf("git pull error: %w", err)
 		}
@@ -75,7 +75,7 @@ func clone(url, repoPath string) error {
 	return nil
 }
 
-func pull(url, repoPath string) ([]string, error) {
+func pull(url, repoPath, branch string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 
 	remoteCmd := []string{"remote", "get-url", "--push", "origin"}
@@ -99,7 +99,7 @@ func pull(url, repoPath string) ([]string, error) {
 		return nil, nil
 	}
 
-	pullCmd := []string{"pull", "origin", "master"}
+	pullCmd := []string{"pull", "origin", branch}
 	if _, err = utils.Exec("git", append(commandArgs, pullCmd...)); err != nil {
 		return nil, xerrors.Errorf("error in git pull: %w", err)
 	}

@@ -67,7 +67,7 @@ type Status struct {
 func Update() error {
 	gc := git.Config{}
 	dir := filepath.Join(utils.CacheDir(), "ubuntu-cve-tracker")
-	if _, err := gc.CloneOrPull(repoURL, dir); err != nil {
+	if _, err := gc.CloneOrPull(repoURL, dir, "master"); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 

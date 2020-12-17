@@ -10,7 +10,7 @@ git commit -m "$3"
 ret=$?
 
 if [ $ret = 0 ]; then
-  git push https://${GITHUB_TOKEN}@github.com/aquasecurity/vuln-list.git master
+  git push https://${GITHUB_TOKEN}@github.com/aquasecurity/vuln-list.git main
 else
   echo "skip push"
 fi

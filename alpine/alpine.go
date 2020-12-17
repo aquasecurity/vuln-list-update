@@ -18,8 +18,9 @@ import (
 )
 
 const (
-	alpineDir = "alpine"
-	repoURL   = "https://git.alpinelinux.org/aports/"
+	alpineDir     = "alpine"
+	defaultBranch = "master"
+	repoURL       = "https://git.alpinelinux.org/aports/"
 )
 
 var (
@@ -38,7 +39,7 @@ type Config struct {
 func (c Config) Update() (err error) {
 	log.Println("Fetching Alpine data...")
 	repoDir = filepath.Join(c.CacheDir, "aports")
-	if _, err = c.GitClient.CloneOrPull(repoURL, repoDir); err != nil {
+	if _, err = c.GitClient.CloneOrPull(repoURL, repoDir, defaultBranch); err != nil {
 		return xerrors.Errorf("failed to clone alpine repository: %w", err)
 	}
 
@@ -51,7 +52,7 @@ func (c Config) Update() (err error) {
 
 	// restore branch
 	defer func() {
-		if derr := c.GitClient.Checkout(repoDir, "master"); derr != nil {
+		if derr := c.GitClient.Checkout(repoDir, defaultBranch); derr != nil {
 			log.Printf("checkout error: %s", derr)
 		}
 	}()
