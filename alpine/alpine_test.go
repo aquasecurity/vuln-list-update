@@ -24,8 +24,8 @@ type MockGitConfig struct {
 	mock.Mock
 }
 
-func (mgc *MockGitConfig) CloneOrPull(a string, b string) (map[string]struct{}, error) {
-	args := mgc.Called(a, b)
+func (mgc *MockGitConfig) CloneOrPull(a string, b string, c string) (map[string]struct{}, error) {
+	args := mgc.Called(a, b, c)
 	return args.Get(0).(map[string]struct{}), args.Error(1)
 }
 
@@ -366,7 +366,7 @@ func TestConfig_Update(t *testing.T) {
 			// setup expectations with a placeholder in the argument list
 			mockGitConfig.On("RemoteBranch", repoDir).Return(
 				tc.remoteBranch.returnArg, tc.remoteBranch.err)
-			mockGitConfig.On("CloneOrPull", mock.Anything, repoDir).Return(
+			mockGitConfig.On("CloneOrPull", mock.Anything, repoDir, "master").Return(
 				tc.cloneOrPull.returnArg, tc.cloneOrPull.err)
 			for arg, returnErr := range tc.checkout {
 				mockGitConfig.On("Checkout", repoDir, arg).Return(returnErr)
