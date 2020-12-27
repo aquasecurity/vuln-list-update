@@ -64,12 +64,10 @@
         "Href": "https://bugzilla.redhat.com/1776944",
         "ID": "1776944"
       },
-      "AffectedCpeList": {
-        "Cpe": [
-          "cpe:/a:redhat:ansible_engine:2.9",
-          "cpe:/a:redhat:ansible_engine:2.9::el8"
-        ]
-      }
+      "AffectedCpeList": [
+        "cpe:/a:redhat:ansible_engine:2.9",
+        "cpe:/a:redhat:ansible_engine:2.9::el8"
+      ]
     }
   },
   "Criteria": {
@@ -92,7 +90,6 @@
         "Criterias": [
           {
             "Operator": "OR",
-            "Criterions": null,
             "Criterias": [
               {
                 "Operator": "AND",
@@ -105,8 +102,7 @@
                     "Comment": "ansible is signed with Red Hat redhatrelease2 key",
                     "TestRef": "oval:com.redhat.cve:tst:202010744002"
                   }
-                ],
-                "Criterias": null
+                ]
               },
               {
                 "Operator": "AND",
@@ -119,8 +115,7 @@
                     "Comment": "ansible-test is signed with Red Hat redhatrelease2 key",
                     "TestRef": "oval:com.redhat.cve:tst:202010744004"
                   }
-                ],
-                "Criterias": null
+                ]
               }
             ]
           }

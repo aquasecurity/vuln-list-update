@@ -36,27 +36,27 @@ type Definition struct {
 
 type Metadata struct {
 	Title        string      `xml:"title"`
-	AffectedList []Affected  `xml:"affected"`
-	References   []Reference `xml:"reference"`
+	AffectedList []Affected  `xml:"affected" json:",omitempty"`
+	References   []Reference `xml:"reference" json:",omitempty"`
 	Description  string      `xml:"description"`
 	Advisory     Advisory    `xml:"advisory"`
 }
 
 type Advisory struct {
-	From            string          `xml:"from,attr"`
-	Severity        string          `xml:"severity"`
-	Rights          string          `xml:"rights"`
-	Issued          Issued          `xml:"issued"`
-	Updated         Updated         `xml:"updated"`
-	Cves            []Cve           `xml:"cve"`
-	Bugzilla        Bugzilla        `xml:"bugzilla"`
-	AffectedCpeList AffectedCpeList `xml:"affected_cpe_list"`
+	From            string   `xml:"from,attr"`
+	Severity        string   `xml:"severity"`
+	Rights          string   `xml:"rights"`
+	Issued          Issued   `xml:"issued" json:",omitempty"`
+	Updated         Updated  `xml:"updated" json:",omitempty"`
+	Cves            []Cve    `xml:"cve" json:",omitempty"`
+	Bugzilla        Bugzilla `xml:"bugzilla"`
+	AffectedCpeList []string `xml:"affected_cpe_list>cpe" json:",omitempty"`
 }
 
 type Criteria struct {
 	Operator   string      `xml:"operator,attr"`
-	Criterions []Criterion `xml:"criterion"`
-	Criterias  []Criteria  `xml:"criteria"`
+	Criterions []Criterion `xml:"criterion" json:",omitempty"`
+	Criterias  []Criteria  `xml:"criteria" json:",omitempty"`
 }
 
 type Criterion struct {
@@ -96,10 +96,6 @@ type Cve struct {
 type Bugzilla struct {
 	Href string `xml:"href,attr"`
 	ID   string `xml:"id,attr"`
-}
-
-type AffectedCpeList struct {
-	Cpe []string `xml:"cpe"`
 }
 
 type Tests struct {
