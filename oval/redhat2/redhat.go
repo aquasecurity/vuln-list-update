@@ -63,7 +63,7 @@ func (c Config) Update() error {
 	for _, ovalFilePath := range filePaths {
 		log.Printf("Fetching %s", ovalFilePath)
 		if err := c.update(ovalFilePath); err != nil {
-			return err
+			return xerrors.Errorf("failed to update Red Hat OVAL v2 json: %w", err)
 		}
 	}
 
