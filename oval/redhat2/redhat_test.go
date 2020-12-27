@@ -36,7 +36,6 @@ func TestConfig_Update(t *testing.T) {
 				"/RHEL8/ansible-2-including-unpatched.oval.xml.bz2":     "testdata/ansible-2-including-unpatched.oval.xml.bz2",
 			},
 			goldenFiles: map[string]string{
-				// "/tmp/oval/redhat/6/2011/RHBA-2011:1656.json": "testdata/golden/RHBA-2011:1656.json",
 				"/tmp/oval/redhat2/6/rhel-6-extras-including-unpatched/definitions/2014/CVE-2014-3209.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2014-3209.json",
 				"/tmp/oval/redhat2/6/rhel-6-extras-including-unpatched/definitions/2016/CVE-2016-5361.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2016-5361.json",
 				"/tmp/oval/redhat2/6/rhel-6-extras-including-unpatched/definitions/2018/CVE-2018-5389.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2018-5389.json",
