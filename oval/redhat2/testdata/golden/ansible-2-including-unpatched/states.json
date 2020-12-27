@@ -1,0 +1,112 @@
+{
+  "RpminfoState": [
+    {
+      "ID": "oval:com.redhat.cve:ste:202010744001",
+      "Version": "631",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "SignatureKeyID": {
+        "Text": "199e2f91fd431d51",
+        "Operation": "equals"
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhba:ste:20200784001",
+      "Version": "632",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "0:2.9.6-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {
+        "Text": "",
+        "Operation": ""
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20193927001",
+      "Version": "634",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "0:2.9.1-1.el8",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {
+        "Text": "",
+        "Operation": ""
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20200215001",
+      "Version": "632",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "0:2.9.4-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {
+        "Text": "",
+        "Operation": ""
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20201541001",
+      "Version": "632",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "0:2.9.7-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {
+        "Text": "",
+        "Operation": ""
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20203601001",
+      "Version": "632",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "0:2.9.13-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {
+        "Text": "",
+        "Operation": ""
+      }
+    }
+  ]
+}

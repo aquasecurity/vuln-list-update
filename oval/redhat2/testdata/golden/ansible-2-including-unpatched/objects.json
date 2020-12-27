@@ -1,0 +1,14 @@
+{
+  "RpminfoObjects": [
+    {
+      "ID": "oval:com.redhat.cve:obj:202010744001",
+      "Version": "631",
+      "Name": "ansible"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:202010744002",
+      "Version": "631",
+      "Name": "ansible-test"
+    }
+  ]
+}

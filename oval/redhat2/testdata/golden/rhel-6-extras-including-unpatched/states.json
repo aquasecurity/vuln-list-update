@@ -1,0 +1,40 @@
+{
+  "RpminfoState": [
+    {
+      "ID": "oval:com.redhat.cve:ste:20143209001",
+      "Version": "631",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "SignatureKeyID": {
+        "Text": "199e2f91fd431d51",
+        "Operation": "equals"
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhba:ste:20141396001",
+      "Version": "641",
+      "Arch": {
+        "Text": "",
+        "Datatype": "",
+        "Operation": ""
+      },
+      "Evr": {
+        "Text": "1:0.7.32-1.el6",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {
+        "Text": "",
+        "Operation": ""
+      }
+    }
+  ]
+}
