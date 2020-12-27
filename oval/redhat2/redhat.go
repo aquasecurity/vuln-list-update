@@ -33,14 +33,7 @@ const (
 	definitionsDir = "definitions"
 )
 
-type debug struct {
-	FileName string
-	Criteria Criteria
-}
-
 var (
-	releases = []string{"6", "7", "8"}
-
 	ErrInvalidRHSAFormat = errors.New("invalid RHSA-ID format")
 	ErrInvalidCVEFormat  = errors.New("invalid CVE-ID format")
 )
