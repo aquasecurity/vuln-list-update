@@ -6,7 +6,7 @@ import (
 
 type OvalDefinitions struct {
 	XMLName     xml.Name    `xml:"oval_definitions"`
-	Generator   Generator   `xml:"generator`
+	Generator   Generator   `xml:"generator"`
 	Definitions Definitions `xml:"definitions"`
 
 	Tests   Tests   `xml:"tests"`
