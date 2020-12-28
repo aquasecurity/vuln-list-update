@@ -6,6 +6,7 @@ import (
 	"compress/bzip2"
 	"encoding/xml"
 	"errors"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -54,7 +55,21 @@ func NewConfig() Config {
 	}
 }
 
+var remove = flag.Bool("remove-redhat-ovalv2", false, "remove Red Hat OVAL v2 directory")
+
 func (c Config) Update() error {
+	if *remove {
+		dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir)
+		if !filepath.HasPrefix(dirPath, utils.CacheDir()) {
+			return xerrors.New("failed to remove Red Hat OVAL v2 directory, the directory must be under the cache directory")
+		}
+
+		log.Printf("Remove Red Hat OVAL v2 directory %s", dirPath)
+		if err := os.RemoveAll(dirPath); err != nil {
+			return xerrors.Errorf("failed to remove Red Hat OVAL v2 directory: %w", err)
+		}
+	}
+
 	log.Println("Fetching Red Hat OVAL data...")
 	filePaths, err := c.fetchOvalFilePaths()
 	if err != nil {
@@ -85,13 +100,13 @@ func (c Config) update(ovalFile string) error {
 	url := fmt.Sprintf(c.URLFormat, ovalFile)
 	res, err := utils.FetchURL(url, "", c.Retry)
 	if err != nil {
-		return xerrors.Errorf("failed to fetch Red Hat OVALv2: %w", err)
+		return xerrors.Errorf("failed to fetch Red Hat OVAL v2: %w", err)
 	}
 
 	bzr := bzip2.NewReader(bytes.NewBuffer(res))
 	var ovalroot OvalDefinitions
 	if err := xml.NewDecoder(bzr).Decode(&ovalroot); err != nil {
-		return xerrors.Errorf("failed to unmarshal Red Hat OVALv2 XML: %w", err)
+		return xerrors.Errorf("failed to unmarshal Red Hat OVAL v2 XML: %w", err)
 	}
 
 	// e.g. storage-gluster-3-including-unpatched
