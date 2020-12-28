@@ -13,24 +13,13 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20200134002",
       "Version": "637",
-      "Arch": {
-        "Text": "",
-        "Datatype": "",
-        "Operation": ""
-      },
-      "Evr": {
-        "Text": "",
-        "Datatype": "",
-        "Operation": ""
-      },
+      "Arch": {},
+      "Evr": {},
       "SignatureKeyID": {
         "Text": "199e2f91fd431d51",
         "Operation": "equals"
@@ -49,10 +38,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20202249001",
@@ -67,10 +53,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20202249003",
@@ -85,10 +68,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20202475001",
@@ -103,10 +83,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20202475003",
@@ -121,10 +98,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20202939001",
@@ -139,10 +113,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20202939003",
@@ -157,10 +128,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20203421001",
@@ -175,10 +143,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20203421003",
@@ -193,10 +158,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20203697001",
@@ -211,10 +173,7 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
-      }
+      "SignatureKeyID": {}
     },
     {
       "ID": "oval:com.redhat.rhsa:ste:20203697003",
@@ -229,10 +188,30 @@
         "Datatype": "evr_string",
         "Operation": "less than"
       },
-      "SignatureKeyID": {
-        "Text": "",
-        "Operation": ""
+      "SignatureKeyID": {}
+    }
+  ],
+  "RpmverifyfileStates": [
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20200134004",
+      "AttrVersion": "637",
+      "Name": {
+        "Text": "^redhat-release",
+        "Operation": "pattern match"
+      },
+      "Version": {
+        "Text": "^7[^\\d]",
+        "Operation": "pattern match"
       }
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20200134005",
+      "AttrVersion": "637",
+      "Name": {
+        "Text": "^redhat-release",
+        "Operation": "pattern match"
+      },
+      "Version": {}
     }
   ]
 }

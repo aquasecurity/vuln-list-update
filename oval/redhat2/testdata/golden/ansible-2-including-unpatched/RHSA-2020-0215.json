@@ -43,19 +43,15 @@
       "Cves": [
         {
           "CveID": "CVE-2019-14904",
-          "Cvss2": "",
           "Cvss3": "7.3/CVSS:3.0/AV:L/AC:L/PR:H/UI:N/S:C/C:H/I:L/A:L",
           "Cwe": "CWE-20 CWE-78",
-          "Impact": "",
           "Href": "https://access.redhat.com/security/cve/CVE-2019-14904",
           "Public": "20191127"
         },
         {
           "CveID": "CVE-2019-14905",
-          "Cvss2": "",
           "Cvss3": "5.6/CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:L/A:L",
           "Cwe": "CWE-20 CWE-73",
-          "Impact": "",
           "Href": "https://access.redhat.com/security/cve/CVE-2019-14905",
           "Public": "20191127"
         }
