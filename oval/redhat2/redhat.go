@@ -45,6 +45,12 @@ type Config struct {
 	Retry       int
 }
 
+type oval struct {
+	release  string
+	platform string
+	url      string
+}
+
 func NewConfig() Config {
 	return Config{
 		VulnListDir: utils.VulnListDir(),
@@ -66,30 +72,52 @@ func (c Config) Update() error {
 	if err != nil {
 		return xerrors.Errorf("failed to get oval file paths: %w", err)
 	}
+
+	var ovals []oval
 	for _, ovalFilePath := range filePaths {
-		log.Printf("Fetching %s", ovalFilePath)
-		if err := c.update(ovalFilePath); err != nil {
-			return xerrors.Errorf("failed to update Red Hat OVAL v2 json: %w", err)
+		// e.g. RHEL8/storage-gluster-3-including-unpatched.oval.xml.bz2
+		if !strings.HasPrefix(ovalFilePath, "RHEL") {
+			log.Printf("Skip %s", ovalFilePath)
+			return nil
+		}
+		ovals = append(ovals, c.parseOVALFileName(ovalFilePath))
+	}
+
+	// Only OVALv1 supports RHEL 5. Keep it for backward compatibility.
+	ovals = append(ovals, oval{
+		platform: "rhel5",
+		release:  "5",
+		url:      "https://www.redhat.com/security/data/oval/com.redhat.rhsa-RHEL5.xml.bz2",
+	})
+
+	for _, oval := range ovals {
+		log.Printf("Fetching %s", oval.url)
+		if err := c.update(oval); err != nil {
+			return xerrors.Errorf("failed to update Red Hat OVAL v2: %w", err)
 		}
 	}
 
 	return nil
 }
 
-func (c Config) update(ovalFile string) error {
-	// e.g. RHEL8/storage-gluster-3-including-unpatched.oval.xml.bz2
-	if !strings.HasPrefix(ovalFile, "RHEL") {
-		log.Printf("Skip %s", ovalFile)
-		return nil
-	}
-
+func (c Config) parseOVALFileName(ovalFile string) oval {
 	// e.g. RHEL8/storage-gluster-3-including-unpatched.oval.xml.bz2
 	// => RHEL8/, storage-gluster-3-including-unpatched.oval.xml.bz2
 	dir, file := path.Split(ovalFile)
 	release := strings.TrimPrefix(path.Clean(dir), "RHEL")
 
-	url := fmt.Sprintf(c.URLFormat, ovalFile)
-	res, err := utils.FetchURL(url, "", c.Retry)
+	// e.g. storage-gluster-3-including-unpatched
+	platform := strings.TrimSuffix(file, ".oval.xml.bz2")
+
+	return oval{
+		release:  release,
+		platform: platform,
+		url:      fmt.Sprintf(c.URLFormat, ovalFile),
+	}
+}
+
+func (c Config) update(oval oval) error {
+	res, err := utils.FetchURL(oval.url, "", c.Retry)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch Red Hat OVAL v2: %w", err)
 	}
@@ -100,9 +128,7 @@ func (c Config) update(ovalFile string) error {
 		return xerrors.Errorf("failed to unmarshal Red Hat OVAL v2 XML: %w", err)
 	}
 
-	// e.g. storage-gluster-3-including-unpatched
-	platform := strings.TrimSuffix(file, ".oval.xml.bz2")
-	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir, release, platform)
+	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir, oval.release, oval.platform)
 
 	// write tests/tests.json file
 	if err := c.writeJson(filepath.Join(dirPath, testsDir), "tests.json", ovalroot.Tests); err != nil {
