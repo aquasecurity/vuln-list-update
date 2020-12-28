@@ -70,7 +70,7 @@ func TestConfig_Update(t *testing.T) {
 				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to fetch Red Hat OVALv2: failed to fetch URL: HTTP error. status code: 404, url:",
+			expectedErrorMsg: "failed to fetch Red Hat OVAL v2: failed to fetch URL: HTTP error. status code: 404, url:",
 		},
 		{
 			name: "invalid file format",
@@ -79,7 +79,7 @@ func TestConfig_Update(t *testing.T) {
 				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/test.txt",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to unmarshal Red Hat OVALv2 XML: bzip2 data invalid: bad magic value",
+			expectedErrorMsg: "failed to unmarshal Red Hat OVAL v2 XML: bzip2 data invalid: bad magic value",
 		},
 		{
 			name: "broken XML",
@@ -88,7 +88,7 @@ func TestConfig_Update(t *testing.T) {
 				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched-broken-XML.oval.xml.bz2",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to unmarshal Red Hat OVALv2 XML: XML syntax error on line 411: element",
+			expectedErrorMsg: "failed to unmarshal Red Hat OVAL v2 XML: XML syntax error on line 411: element",
 		},
 	}
 	for _, tc := range testCases {
