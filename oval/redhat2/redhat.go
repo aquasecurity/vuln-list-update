@@ -6,7 +6,6 @@ import (
 	"compress/bzip2"
 	"encoding/xml"
 	"errors"
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -55,19 +54,11 @@ func NewConfig() Config {
 	}
 }
 
-var remove = flag.Bool("remove-redhat-ovalv2", false, "remove Red Hat OVAL v2 directory")
-
 func (c Config) Update() error {
-	if *remove {
-		dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir)
-		if !filepath.HasPrefix(dirPath, utils.CacheDir()) {
-			return xerrors.New("failed to remove Red Hat OVAL v2 directory, the directory must be under the cache directory")
-		}
-
-		log.Printf("Remove Red Hat OVAL v2 directory %s", dirPath)
-		if err := os.RemoveAll(dirPath); err != nil {
-			return xerrors.Errorf("failed to remove Red Hat OVAL v2 directory: %w", err)
-		}
+	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir)
+	log.Printf("Remove Red Hat OVAL v2 directory %s", dirPath)
+	if err := os.RemoveAll(dirPath); err != nil {
+		return xerrors.Errorf("failed to remove Red Hat OVAL v2 directory: %w", err)
 	}
 
 	log.Println("Fetching Red Hat OVAL data...")
