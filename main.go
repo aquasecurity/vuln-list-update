@@ -194,6 +194,10 @@ func run() error {
 		return nil
 	}
 
+	if os.Getenv("VULN_LIST_DEBUG") != "" {
+		return nil
+	}
+
 	log.Println("git commit")
 	if err = gc.Commit(utils.VulnListDir(), "./", commitMsg); err != nil {
 		return xerrors.Errorf("failed to git commit: %w", err)
