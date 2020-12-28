@@ -171,7 +171,7 @@ func run() error {
 	case "redhat2-oval":
 		rh2 := redhatoval2.NewConfig()
 		if err := rh2.Update(); err != nil {
-			return xerrors.Errorf("error in RedHat Oval v2 update: %w", err)
+			return xerrors.Errorf("error in RedHat OVAL v2 update: %w", err)
 		}
 		commitMsg = "RedHat Oval v2"
 	default:
