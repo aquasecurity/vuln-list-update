@@ -1,9 +1,0 @@
-{
-  "RpminfoObjects": [
-    {
-      "ID": "oval:com.redhat.rhba:obj:20070331001",
-      "Version": "633",
-      "Name": "luci"
-    }
-  ]
-}

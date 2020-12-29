@@ -28,12 +28,12 @@ func TestConfig_Update(t *testing.T) {
 	}{
 		{
 			name: "happy path ",
+
 			bzip2FileNames: map[string]string{
-				"v2/PULP_MANIFEST": "testdata/PULP_MANIFEST",
-				"v2/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched.oval.xml.bz2",
-				"v2/RHEL7/dotnet-3.1-including-unpatched.oval.xml.bz2":    "testdata/dotnet-3.1-including-unpatched.oval.xml.bz2",
-				"v2/RHEL8/ansible-2-including-unpatched.oval.xml.bz2":     "testdata/ansible-2-including-unpatched.oval.xml.bz2",
-				"com.redhat.rhsa-RHEL5.xml.bz2":                           "testdata/com.redhat.rhsa-RHEL5.xml.bz2",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched.oval.xml.bz2",
+				"/RHEL7/dotnet-3.1-including-unpatched.oval.xml.bz2":    "testdata/dotnet-3.1-including-unpatched.oval.xml.bz2",
+				"/RHEL8/ansible-2-including-unpatched.oval.xml.bz2":     "testdata/ansible-2-including-unpatched.oval.xml.bz2",
 			},
 			goldenFiles: map[string]string{
 				"/tmp/oval/redhat2/6/rhel-6-extras-including-unpatched/definitions/2014/CVE-2014-3209.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2014-3209.json",
@@ -62,17 +62,12 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/oval/redhat2/8/ansible-2-including-unpatched/objects/objects.json":                 "testdata/golden/ansible-2-including-unpatched/objects.json",
 				"/tmp/oval/redhat2/8/ansible-2-including-unpatched/states/states.json":                   "testdata/golden/ansible-2-including-unpatched/states.json",
 				"/tmp/oval/redhat2/8/ansible-2-including-unpatched/tests/tests.json":                     "testdata/golden/ansible-2-including-unpatched/tests.json",
-
-				"/tmp/oval/redhat2/5/rhel5/definitions/2007/RHBA-2007:0331.json": "testdata/golden/rhel5/RHBA-2007-0331.json",
-				"/tmp/oval/redhat2/5/rhel5/objects/objects.json":                 "testdata/golden/rhel5/objects.json",
-				"/tmp/oval/redhat2/5/rhel5/states/states.json":                   "testdata/golden/rhel5/states.json",
-				"/tmp/oval/redhat2/5/rhel5/tests/tests.json":                     "testdata/golden/rhel5/tests.json",
 			},
 		},
 		{
 			name: "404",
 			bzip2FileNames: map[string]string{
-				"v2/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed to fetch Red Hat OVAL v2: failed to fetch URL: HTTP error. status code: 404, url:",
@@ -80,8 +75,8 @@ func TestConfig_Update(t *testing.T) {
 		{
 			name: "invalid file format",
 			bzip2FileNames: map[string]string{
-				"v2/PULP_MANIFEST": "testdata/PULP_MANIFEST",
-				"v2/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/test.txt",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/test.txt",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed to unmarshal Red Hat OVAL v2 XML: bzip2 data invalid: bad magic value",
@@ -89,15 +84,15 @@ func TestConfig_Update(t *testing.T) {
 		{
 			name: "broken XML",
 			bzip2FileNames: map[string]string{
-				"v2/PULP_MANIFEST": "testdata/PULP_MANIFEST",
-				"v2/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched-broken-XML.oval.xml.bz2",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched-broken-XML.oval.xml.bz2",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed to unmarshal Red Hat OVAL v2 XML: XML syntax error on line 411: element",
 		},
 	}
 	for _, tc := range testCases {
-		dataPath := "/security/data/oval/"
+		dataPath := "/security/data/oval/v2"
 		t.Run(tc.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				p := strings.TrimPrefix(r.URL.Path, dataPath)
@@ -116,10 +111,10 @@ func TestConfig_Update(t *testing.T) {
 
 			appFs := afero.NewMemMapFs()
 			c := Config{
-				vulnListDir: "/tmp",
-				baseURL:     ts.URL + dataPath,
-				appFs:       appFs,
-				retry:       0,
+				VulnListDir: "/tmp",
+				URLFormat:   ts.URL + dataPath + "/%s",
+				AppFs:       appFs,
+				Retry:       0,
 			}
 			err := c.Update()
 			switch {
@@ -143,7 +138,7 @@ func TestConfig_Update(t *testing.T) {
 				assert.NoError(t, err, tc.name)
 
 				goldenPath, ok := tc.goldenFiles[path]
-				assert.True(t, ok, path)
+				assert.True(t, ok, tc.name)
 				if *update {
 					err = ioutil.WriteFile(goldenPath, actual, 0666)
 					require.NoError(t, err, tc.name)
@@ -183,7 +178,7 @@ func TestConfig_saveRHSAPerYear(t *testing.T) {
 
 	for _, tc := range testCases {
 		c := Config{
-			appFs: afero.NewMemMapFs(),
+			AppFs: afero.NewMemMapFs(),
 		}
 
 		d, _ := ioutil.TempDir("", "TestConfig_saveRHSAPerYear-*")
