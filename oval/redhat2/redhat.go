@@ -24,7 +24,7 @@ const (
 	ovalDir      = "oval"
 	redhatDir    = "redhat2"
 	retry        = 5
-	urlFormat    = "https://www.redhat.com/security/data/oval/v2/%s"
+	baseURL      = "https://www.redhat.com/security/data/oval/"
 	pulpManifest = "PULP_MANIFEST"
 
 	testsDir       = "tests"
@@ -39,10 +39,10 @@ var (
 )
 
 type Config struct {
-	VulnListDir string
-	URLFormat   string
-	AppFs       afero.Fs
-	Retry       int
+	vulnListDir string
+	baseURL     string
+	appFs       afero.Fs
+	retry       int
 }
 
 type oval struct {
@@ -53,15 +53,15 @@ type oval struct {
 
 func NewConfig() Config {
 	return Config{
-		VulnListDir: utils.VulnListDir(),
-		URLFormat:   urlFormat,
-		AppFs:       afero.NewOsFs(),
-		Retry:       retry,
+		vulnListDir: utils.VulnListDir(),
+		baseURL:     baseURL,
+		appFs:       afero.NewOsFs(),
+		retry:       retry,
 	}
 }
 
 func (c Config) Update() error {
-	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir)
+	dirPath := filepath.Join(c.vulnListDir, ovalDir, redhatDir)
 	log.Printf("Remove Red Hat OVAL v2 directory %s", dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
 		return xerrors.Errorf("failed to remove Red Hat OVAL v2 directory: %w", err)
@@ -87,7 +87,7 @@ func (c Config) Update() error {
 	ovals = append(ovals, oval{
 		platform: "rhel5",
 		release:  "5",
-		url:      "https://www.redhat.com/security/data/oval/com.redhat.rhsa-RHEL5.xml.bz2",
+		url:      c.baseURL + "com.redhat.rhsa-RHEL5.xml.bz2",
 	})
 
 	for _, oval := range ovals {
@@ -112,12 +112,12 @@ func (c Config) parseOVALFileName(ovalFile string) oval {
 	return oval{
 		release:  release,
 		platform: platform,
-		url:      fmt.Sprintf(c.URLFormat, ovalFile),
+		url:      c.baseURL + path.Join("v2", ovalFile),
 	}
 }
 
 func (c Config) update(oval oval) error {
-	res, err := utils.FetchURL(oval.url, "", c.Retry)
+	res, err := utils.FetchURL(oval.url, "", c.retry)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch Red Hat OVAL v2: %w", err)
 	}
@@ -128,7 +128,7 @@ func (c Config) update(oval oval) error {
 		return xerrors.Errorf("failed to unmarshal Red Hat OVAL v2 XML: %w", err)
 	}
 
-	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir, oval.release, oval.platform)
+	dirPath := filepath.Join(c.vulnListDir, ovalDir, redhatDir, oval.release, oval.platform)
 
 	// write tests/tests.json file
 	if err := c.writeJson(filepath.Join(dirPath, testsDir), "tests.json", ovalroot.Tests); err != nil {
@@ -172,7 +172,7 @@ func (c Config) update(oval oval) error {
 }
 
 func (c Config) fetchOvalFilePaths() ([]string, error) {
-	res, err := utils.FetchURL(fmt.Sprintf(c.URLFormat, pulpManifest), "", c.Retry)
+	res, err := utils.FetchURL(c.baseURL+path.Join("v2", pulpManifest), "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch PULP_MANIFEST: %w", err)
 	}
@@ -230,11 +230,11 @@ func (c Config) saveAdvisoryPerYear(dirName string, id string, def Definition) e
 }
 
 func (c Config) writeJson(dirName, fileName string, data interface{}) error {
-	if err := c.AppFs.MkdirAll(dirName, os.ModePerm); err != nil {
+	if err := c.appFs.MkdirAll(dirName, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create a year dir: %w", err)
 	}
 
-	fs := utils.NewFs(c.AppFs)
+	fs := utils.NewFs(c.appFs)
 
 	filePath := filepath.Join(dirName, fileName)
 	if err := fs.WriteJSON(filePath, data); err != nil {

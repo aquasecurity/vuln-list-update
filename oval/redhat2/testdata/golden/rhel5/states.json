@@ -1,0 +1,29 @@
+{
+  "RpminfoState": [
+    {
+      "ID": "oval:com.redhat.rhba:ste:20070331001",
+      "Version": "633",
+      "Arch": {
+        "Text": "i386|ia64|ppc|x86_64",
+        "Datatype": "string",
+        "Operation": "pattern match"
+      },
+      "Evr": {
+        "Text": "0:0.9.2-6.el5",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {}
+    },
+    {
+      "ID": "oval:com.redhat.rhba:ste:20070331002",
+      "Version": "633",
+      "Arch": {},
+      "Evr": {},
+      "SignatureKeyID": {
+        "Text": "5326810137017186",
+        "Operation": "equals"
+      }
+    }
+  ]
+}
