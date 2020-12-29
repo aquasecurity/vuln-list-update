@@ -56,10 +56,16 @@
           "Public": "20191127"
         }
       ],
-      "Bugzilla": {
-        "Href": "https://bugzilla.redhat.com/1776944",
-        "ID": "1776944"
-      },
+      "Bugzilla": [
+        {
+          "Href": "https://bugzilla.redhat.com/1776943",
+          "ID": "1776943"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/1776944",
+          "ID": "1776944"
+        }
+      ],
       "AffectedCpeList": [
         "cpe:/a:redhat:ansible_engine:2.9",
         "cpe:/a:redhat:ansible_engine:2.9::el8"

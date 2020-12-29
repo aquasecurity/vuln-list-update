@@ -52,10 +52,56 @@
           "Public": "20070213"
         }
       ],
-      "Bugzilla": {
-        "Href": "https://bugzilla.redhat.com/236055",
-        "ID": "236055"
-      },
+      "Bugzilla": [
+        {
+          "Href": "https://bugzilla.redhat.com/228637",
+          "ID": "228637"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/233326",
+          "ID": "233326"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236020",
+          "ID": "236020"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236021",
+          "ID": "236021"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236025",
+          "ID": "236025"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236026",
+          "ID": "236026"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236027",
+          "ID": "236027"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236048",
+          "ID": "236048"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236050",
+          "ID": "236050"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236052",
+          "ID": "236052"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236054",
+          "ID": "236054"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/236055",
+          "ID": "236055"
+        }
+      ],
       "AffectedCpeList": [
         "cpe:/a:redhat:rhel_cluster:5",
         "cpe:/a:redhat:rhel_cluster:5"

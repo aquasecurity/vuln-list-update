@@ -44,10 +44,20 @@
           "Public": "20141014"
         }
       ],
-      "Bugzilla": {
-        "Href": "https://bugzilla.redhat.com/1128162",
-        "ID": "1128162"
-      },
+      "Bugzilla": [
+        {
+          "Href": "https://bugzilla.redhat.com/1084985",
+          "ID": "1084985"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/1115532",
+          "ID": "1115532"
+        },
+        {
+          "Href": "https://bugzilla.redhat.com/1128162",
+          "ID": "1128162"
+        }
+      ],
       "AffectedCpeList": [
         "cpe:/a:redhat:rhel_extras_other:6",
         "cpe:/a:redhat:rhel_extras_other:6"
