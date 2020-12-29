@@ -43,14 +43,14 @@ type Metadata struct {
 }
 
 type Advisory struct {
-	From            string   `xml:"from,attr" json:",omitempty"`
-	Severity        string   `xml:"severity" json:",omitempty"`
-	Rights          string   `xml:"rights" json:",omitempty"`
-	Issued          Issued   `xml:"issued" json:",omitempty"`
-	Updated         Updated  `xml:"updated" json:",omitempty"`
-	Cves            []Cve    `xml:"cve" json:",omitempty"`
-	Bugzilla        Bugzilla `xml:"bugzilla" json:",omitempty"`
-	AffectedCpeList []string `xml:"affected_cpe_list>cpe" json:",omitempty"`
+	From            string     `xml:"from,attr" json:",omitempty"`
+	Severity        string     `xml:"severity" json:",omitempty"`
+	Rights          string     `xml:"rights" json:",omitempty"`
+	Issued          Issued     `xml:"issued" json:",omitempty"`
+	Updated         Updated    `xml:"updated" json:",omitempty"`
+	Cves            []Cve      `xml:"cve" json:",omitempty"`
+	Bugzilla        []Bugzilla `xml:"bugzilla" json:",omitempty"`
+	AffectedCpeList []string   `xml:"affected_cpe_list>cpe" json:",omitempty"`
 }
 
 type Criteria struct {
