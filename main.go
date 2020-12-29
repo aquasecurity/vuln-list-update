@@ -178,6 +178,10 @@ func run() error {
 		return xerrors.New("unknown target")
 	}
 
+	if os.Getenv("VULN_LIST_DEBUG") != "" {
+		return nil
+	}
+
 	if err := utils.SetLastUpdatedDate(*target, now); err != nil {
 		return err
 	}
