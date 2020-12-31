@@ -22,9 +22,9 @@ import (
 
 const (
 	ovalDir      = "oval"
-	redhatDir    = "redhat2"
-	retry        = 5
+	redhatDir    = "redhat"
 	urlFormat    = "https://www.redhat.com/security/data/oval/v2/%s"
+	retry        = 5
 	pulpManifest = "PULP_MANIFEST"
 
 	testsDir       = "tests"
@@ -61,7 +61,7 @@ func (c Config) Update() error {
 		return xerrors.Errorf("failed to remove Red Hat OVAL v2 directory: %w", err)
 	}
 
-	log.Println("Fetching Red Hat OVAL data...")
+	log.Println("Fetching Red Hat OVAL v2 data...")
 	filePaths, err := c.fetchOvalFilePaths()
 	if err != nil {
 		return xerrors.Errorf("failed to get oval file paths: %w", err)
