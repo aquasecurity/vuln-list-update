@@ -1,0 +1,125 @@
+{
+  "RpminfoObjects": [
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134001",
+      "Version": "637",
+      "Name": "rh-dotnet31-aspnetcore-runtime-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134002",
+      "Version": "637",
+      "Name": "rh-dotnet31-aspnetcore-targeting-pack-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134003",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134004",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-apphost-pack-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134005",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-host"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134006",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-hostfxr-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134007",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-runtime-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134008",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-sdk-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134009",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-targeting-pack-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134010",
+      "Version": "637",
+      "Name": "rh-dotnet31-dotnet-templates-3.1"
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134011",
+      "Version": "637",
+      "Name": "rh-dotnet31-netstandard-targeting-pack-2.1"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20200605001",
+      "Version": "631",
+      "Name": "rh-dotnet31"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20200605002",
+      "Version": "631",
+      "Name": "rh-dotnet31-runtime"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20201066012",
+      "Version": "631",
+      "Name": "rh-dotnet31-dotnet-debuginfo"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20208169001",
+      "Version": "631",
+      "Name": "rh-dotnet31-curl"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20208169002",
+      "Version": "631",
+      "Name": "rh-dotnet31-libcurl"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20208169003",
+      "Version": "631",
+      "Name": "rh-dotnet31-libcurl-devel"
+    }
+  ],
+  "RpmverifyfileObjects": [
+    {
+      "ID": "oval:com.redhat.rhsa:obj:20200134012",
+      "AttrVersion": "637",
+      "Behaviors": {
+        "Noconfigfiles": "true",
+        "Noghostfiles": "true",
+        "Nogroup": "true",
+        "Nolinkto": "true",
+        "Nomd5": "true",
+        "Nomode": "true",
+        "Nomtime": "true",
+        "Nordev": "true",
+        "Nosize": "true",
+        "Nouser": "true"
+      },
+      "Filepath": {
+        "Text": "/etc/redhat-release"
+      },
+      "Name": {
+        "Operation": "pattern match"
+      },
+      "Version": {
+        "Operation": "pattern match"
+      },
+      "Epoch": {
+        "Operation": "pattern match"
+      },
+      "Arch": {
+        "Operation": "pattern match"
+      },
+      "Release": {
+        "Operation": "pattern match"
+      }
+    }
+  ]
+}

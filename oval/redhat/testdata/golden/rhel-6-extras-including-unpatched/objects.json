@@ -1,0 +1,95 @@
+{
+  "RpminfoObjects": [
+    {
+      "ID": "oval:com.redhat.cve:obj:20143209001",
+      "Version": "631",
+      "Name": "ldns-devel"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:20143209002",
+      "Version": "631",
+      "Name": "ldns-doc"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:20143209003",
+      "Version": "631",
+      "Name": "ldns"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:20143209004",
+      "Version": "631",
+      "Name": "ldns-python"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:20165361001",
+      "Version": "631",
+      "Name": "libreswan"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:202028935001",
+      "Version": "631",
+      "Name": "unbound-libs"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:202028935002",
+      "Version": "631",
+      "Name": "unbound-devel"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:202028935003",
+      "Version": "631",
+      "Name": "unbound-python"
+    },
+    {
+      "ID": "oval:com.redhat.cve:obj:202028935004",
+      "Version": "631",
+      "Name": "unbound"
+    },
+    {
+      "ID": "oval:com.redhat.rhba:obj:20141396001",
+      "Version": "641",
+      "Name": "redhat-upgrade-tool"
+    },
+    {
+      "ID": "oval:com.redhat.unaffected:obj:20190804001",
+      "Version": "631",
+      "Name": "WALinuxAgent"
+    }
+  ],
+  "RpmverifyfileObjects": [
+    {
+      "ID": "oval:com.redhat.cve:obj:20143209005",
+      "AttrVersion": "631",
+      "Behaviors": {
+        "Noconfigfiles": "true",
+        "Noghostfiles": "true",
+        "Nogroup": "true",
+        "Nolinkto": "true",
+        "Nomd5": "true",
+        "Nomode": "true",
+        "Nomtime": "true",
+        "Nordev": "true",
+        "Nosize": "true",
+        "Nouser": "true"
+      },
+      "Filepath": {
+        "Text": "/etc/redhat-release"
+      },
+      "Name": {
+        "Operation": "pattern match"
+      },
+      "Version": {
+        "Operation": "pattern match"
+      },
+      "Epoch": {
+        "Operation": "pattern match"
+      },
+      "Arch": {
+        "Operation": "pattern match"
+      },
+      "Release": {
+        "Operation": "pattern match"
+      }
+    }
+  ]
+}

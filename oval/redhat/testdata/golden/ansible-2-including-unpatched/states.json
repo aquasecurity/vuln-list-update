@@ -1,0 +1,92 @@
+{
+  "RpminfoState": [
+    {
+      "ID": "oval:com.redhat.cve:ste:202010744001",
+      "Version": "631",
+      "Arch": {},
+      "Evr": {},
+      "SignatureKeyID": {
+        "Text": "199e2f91fd431d51",
+        "Operation": "equals"
+      }
+    },
+    {
+      "ID": "oval:com.redhat.rhba:ste:20200784001",
+      "Version": "632",
+      "Arch": {},
+      "Evr": {
+        "Text": "0:2.9.6-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {}
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20193927001",
+      "Version": "634",
+      "Arch": {},
+      "Evr": {
+        "Text": "0:2.9.1-1.el8",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {}
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20200215001",
+      "Version": "632",
+      "Arch": {},
+      "Evr": {
+        "Text": "0:2.9.4-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {}
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20201541001",
+      "Version": "632",
+      "Arch": {},
+      "Evr": {
+        "Text": "0:2.9.7-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {}
+    },
+    {
+      "ID": "oval:com.redhat.rhsa:ste:20203601001",
+      "Version": "632",
+      "Arch": {},
+      "Evr": {
+        "Text": "0:2.9.13-1.el8ae",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      },
+      "SignatureKeyID": {}
+    }
+  ],
+  "RpmverifyfileStates": [
+    {
+      "ID": "oval:com.redhat.cve:ste:202010744002",
+      "AttrVersion": "631",
+      "Name": {
+        "Text": "^redhat-release",
+        "Operation": "pattern match"
+      },
+      "Version": {
+        "Text": "^8[^\\d]",
+        "Operation": "pattern match"
+      }
+    },
+    {
+      "ID": "oval:com.redhat.cve:ste:202010744003",
+      "AttrVersion": "631",
+      "Name": {
+        "Text": "^redhat-release",
+        "Operation": "pattern match"
+      },
+      "Version": {}
+    }
+  ]
+}

@@ -51,7 +51,7 @@ jobs:
     - name: Oracle Linux OVAL
       run: ./vuln-list-update -target oracle-oval
 
-    - name: Red Hat OVA
+    - name: Red Hat OVALv2
       run: ./vuln-list-update -target redhat-oval
 
     - name: Photon CVE Advisory

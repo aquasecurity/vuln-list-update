@@ -39,7 +39,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, cwe)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -94,9 +94,9 @@ func run() error {
 	case "redhat-oval":
 		rc := redhatoval.NewConfig()
 		if err := rc.Update(); err != nil {
-			return xerrors.Errorf("error in Red Hat OVAL update: %w", err)
+			return xerrors.Errorf("error in Red Hat OVAL v2 update: %w", err)
 		}
-		commitMsg = "Red Hat OVAL"
+		commitMsg = "Red Hat OVAL v2"
 	case "debian":
 		dc := debian.NewClient()
 		if err := dc.Update(); err != nil {
@@ -171,6 +171,10 @@ func run() error {
 		return xerrors.New("unknown target")
 	}
 
+	if os.Getenv("VULN_LIST_DEBUG") != "" {
+		return nil
+	}
+
 	if err := utils.SetLastUpdatedDate(*target, now); err != nil {
 		return err
 	}
@@ -178,7 +182,7 @@ func run() error {
 	log.Println("git status")
 	files, err := gc.Status(utils.VulnListDir())
 	if err != nil {
-		return xerrors.Errorf("failed to git status: %w", err)
+		return xerrors.Errorf("git status error: %w", err)
 	}
 
 	// only last_updated.json
@@ -189,12 +193,12 @@ func run() error {
 
 	log.Println("git commit")
 	if err = gc.Commit(utils.VulnListDir(), "./", commitMsg); err != nil {
-		return xerrors.Errorf("failed to git commit: %w", err)
+		return xerrors.Errorf("git commit error: %w", err)
 	}
 
 	log.Println("git push")
 	if err = gc.Push(utils.VulnListDir(), "main"); err != nil {
-		return xerrors.Errorf("failed to git push: %w", err)
+		return xerrors.Errorf("git push error: %w", err)
 	}
 
 	return nil

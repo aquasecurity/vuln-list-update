@@ -1,0 +1,216 @@
+{
+  "RpminfoTests": [
+    {
+      "Check": "at least one",
+      "Comment": "ansible is installed",
+      "ID": "oval:com.redhat.cve:tst:202010744001",
+      "Version": "631",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {}
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is signed with Red Hat redhatrelease2 key",
+      "ID": "oval:com.redhat.cve:tst:202010744002",
+      "Version": "631",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.cve:ste:202010744001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is installed",
+      "ID": "oval:com.redhat.cve:tst:202010744003",
+      "Version": "631",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {}
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is signed with Red Hat redhatrelease2 key",
+      "ID": "oval:com.redhat.cve:tst:202010744004",
+      "Version": "631",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.cve:ste:202010744001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is earlier than 0:2.9.6-1.el8ae",
+      "ID": "oval:com.redhat.rhba:tst:20200784001",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhba:ste:20200784001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is earlier than 0:2.9.6-1.el8ae",
+      "ID": "oval:com.redhat.rhba:tst:20200784003",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhba:ste:20200784001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is earlier than 0:2.9.1-1.el8",
+      "ID": "oval:com.redhat.rhsa:tst:20193927001",
+      "Version": "634",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20193927001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is earlier than 0:2.9.1-1.el8",
+      "ID": "oval:com.redhat.rhsa:tst:20193927003",
+      "Version": "634",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20193927001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is earlier than 0:2.9.4-1.el8ae",
+      "ID": "oval:com.redhat.rhsa:tst:20200215001",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20200215001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is earlier than 0:2.9.4-1.el8ae",
+      "ID": "oval:com.redhat.rhsa:tst:20200215003",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20200215001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is earlier than 0:2.9.7-1.el8ae",
+      "ID": "oval:com.redhat.rhsa:tst:20201541001",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20201541001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is earlier than 0:2.9.7-1.el8ae",
+      "ID": "oval:com.redhat.rhsa:tst:20201541003",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20201541001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is earlier than 0:2.9.13-1.el8ae",
+      "ID": "oval:com.redhat.rhsa:tst:20203601001",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20203601001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is earlier than 0:2.9.13-1.el8ae",
+      "ID": "oval:com.redhat.rhsa:tst:20203601003",
+      "Version": "632",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.rhsa:ste:20203601001"
+      }
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible is not installed",
+      "ID": "oval:com.redhat.unaffected:tst:20144657002",
+      "Version": "631",
+      "CheckExistence": "none_exist",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744001"
+      },
+      "State": {}
+    },
+    {
+      "Check": "at least one",
+      "Comment": "ansible-test is not installed",
+      "ID": "oval:com.redhat.unaffected:tst:20144657004",
+      "Version": "631",
+      "CheckExistence": "none_exist",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744002"
+      },
+      "State": {}
+    }
+  ],
+  "RpmverifyfileTests": [
+    {
+      "Check": "at least one",
+      "Comment": "Red Hat Enterprise Linux 8 is installed",
+      "ID": "oval:com.redhat.cve:tst:202010744005",
+      "Version": "631",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744003"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.cve:ste:202010744002"
+      }
+    },
+    {
+      "Check": "none satisfy",
+      "Comment": "Red Hat Enterprise Linux must be installed",
+      "ID": "oval:com.redhat.cve:tst:202010744006",
+      "Version": "631",
+      "Object": {
+        "ObjectRef": "oval:com.redhat.cve:obj:202010744003"
+      },
+      "State": {
+        "StateRef": "oval:com.redhat.cve:ste:202010744003"
+      }
+    }
+  ]
+}
