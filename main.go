@@ -26,7 +26,6 @@ import (
 	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oval/oracle"
 	redhatoval "github.com/aquasecurity/vuln-list-update/oval/redhat"
-	redhatoval2 "github.com/aquasecurity/vuln-list-update/oval/redhat2"
 	"github.com/aquasecurity/vuln-list-update/photon"
 	"github.com/aquasecurity/vuln-list-update/redhat"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
@@ -40,7 +39,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, redhat2-oval, cwe)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, cwe)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -95,9 +94,9 @@ func run() error {
 	case "redhat-oval":
 		rc := redhatoval.NewConfig()
 		if err := rc.Update(); err != nil {
-			return xerrors.Errorf("error in Red Hat OVAL update: %w", err)
+			return xerrors.Errorf("error in Red Hat OVAL v2 update: %w", err)
 		}
-		commitMsg = "Red Hat OVAL"
+		commitMsg = "Red Hat OVAL v2"
 	case "debian":
 		dc := debian.NewClient()
 		if err := dc.Update(); err != nil {
@@ -168,12 +167,6 @@ func run() error {
 			return xerrors.Errorf("error in CWE update: %w", err)
 		}
 		commitMsg = "CWE Advisories"
-	case "redhat2-oval":
-		rh2 := redhatoval2.NewConfig()
-		if err := rh2.Update(); err != nil {
-			return xerrors.Errorf("error in RedHat OVAL v2 update: %w", err)
-		}
-		commitMsg = "RedHat Oval v2"
 	default:
 		return xerrors.New("unknown target")
 	}

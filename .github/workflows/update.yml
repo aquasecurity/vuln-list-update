@@ -51,7 +51,7 @@ jobs:
     - name: Oracle Linux OVAL
       run: ./vuln-list-update -target oracle-oval
 
-    - name: Red Hat OVAL
+    - name: Red Hat OVALv2
       run: ./vuln-list-update -target redhat-oval
 
     - name: Photon CVE Advisory
@@ -65,9 +65,6 @@ jobs:
 
     - name: SUSE CVRF
       run: ./vuln-list-update -target suse-cvrf
-
-    - name: Red Hat OVALv2
-      run: ./vuln-list-update -target redhat2-oval
 
     - name: Red Hat Security Data API 1996-2002
       run: ./vuln-list-update -target redhat -years 1996,1997,1998,1999,2000,2001,2002

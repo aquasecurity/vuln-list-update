@@ -3,7 +3,8 @@ package redhat
 import (
 	"errors"
 	"flag"
-	"fmt"
+	"strings"
+
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -11,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/spf13/afero"
 )
@@ -25,83 +27,92 @@ func TestConfig_Update(t *testing.T) {
 		expectedErrorMsg string
 	}{
 		{
-			name: "happy path",
+			name: "happy path ",
+
 			bzip2FileNames: map[string]string{
-				"/RHEL6/rhel-6.oval.xml.bz2": "testdata/rhel-6.oval.xml.bz2",
-				"/RHEL7/rhel-7.oval.xml.bz2": "testdata/rhel-7.oval.xml.bz2",
-				"/RHEL8/rhel-8.oval.xml.bz2": "testdata/rhel-8.oval.xml.bz2",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched.oval.xml.bz2",
+				"/RHEL7/dotnet-3.1-including-unpatched.oval.xml.bz2":    "testdata/dotnet-3.1-including-unpatched.oval.xml.bz2",
+				"/RHEL8/ansible-2-including-unpatched.oval.xml.bz2":     "testdata/ansible-2-including-unpatched.oval.xml.bz2",
 			},
 			goldenFiles: map[string]string{
-				"/tmp/oval/redhat/6/2011/RHBA-2011:1656.json": "testdata/golden/RHBA-2011:1656.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/definitions/2014/CVE-2014-3209.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2014-3209.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/definitions/2016/CVE-2016-5361.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2016-5361.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/definitions/2018/CVE-2018-5389.json":            "testdata/golden/rhel-6-extras-including-unpatched/CVE-2018-5389.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/definitions/2020/CVE-2020-28935.json":           "testdata/golden/rhel-6-extras-including-unpatched/CVE-2020-28935.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/definitions/2014/RHBA-2014:1396.json":           "testdata/golden/rhel-6-extras-including-unpatched/RHBA-2014-1396.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/definitions/2016/CVE-2016-5391.unaffected.json": "testdata/golden/rhel-6-extras-including-unpatched/CVE-2016-5391.unaffected.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/objects/objects.json":                           "testdata/golden/rhel-6-extras-including-unpatched/objects.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/states/states.json":                             "testdata/golden/rhel-6-extras-including-unpatched/states.json",
+				"/tmp/oval/redhat/6/rhel-6-extras-including-unpatched/tests/tests.json":                               "testdata/golden/rhel-6-extras-including-unpatched/tests.json",
 
-				"/tmp/oval/redhat/7/2015/RHBA-2015:0364.json": "testdata/golden/RHBA-2015:0364.json",
-				"/tmp/oval/redhat/7/2015/RHBA-2015:0386.json": "testdata/golden/RHBA-2015:0386.json",
-				"/tmp/oval/redhat/7/2015/RHBA-2015:0441.json": "testdata/golden/RHBA-2015:0441.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/definitions/2020/RHSA-2020:0134.json":           "testdata/golden/dotnet-3.1-including-unpatched/RHSA-2020-0134.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/definitions/2020/RHSA-2020:2249.json":           "testdata/golden/dotnet-3.1-including-unpatched/RHSA-2020-2249.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/definitions/2020/CVE-2020-0605.unaffected.json": "testdata/golden/dotnet-3.1-including-unpatched/CVE-2020-0605.unaffected.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/definitions/2020/CVE-2020-0606.unaffected.json": "testdata/golden/dotnet-3.1-including-unpatched/CVE-2020-0606.unaffected.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/objects/objects.json":                           "testdata/golden/dotnet-3.1-including-unpatched/objects.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/states/states.json":                             "testdata/golden/dotnet-3.1-including-unpatched/states.json",
+				"/tmp/oval/redhat/7/dotnet-3.1-including-unpatched/tests/tests.json":                               "testdata/golden/dotnet-3.1-including-unpatched/tests.json",
 
-				"/tmp/oval/redhat/8/2019/RHSA-2019:0966.json": "testdata/golden/RHSA-2019:0966.json",
-				"/tmp/oval/redhat/8/2019/RHSA-2019:0968.json": "testdata/golden/RHSA-2019:0968.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/definitions/2020/CVE-2020-10744.json": "testdata/golden/ansible-2-including-unpatched/CVE-2020-10744.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/definitions/2020/CVE-2020-1734.json":  "testdata/golden/ansible-2-including-unpatched/CVE-2020-1734.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/definitions/2020/CVE-2020-1738.json":  "testdata/golden/ansible-2-including-unpatched/CVE-2020-1738.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/definitions/2019/RHSA-2019:3927.json": "testdata/golden/ansible-2-including-unpatched/RHSA-2019-3927.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/definitions/2020/RHSA-2020:0215.json": "testdata/golden/ansible-2-including-unpatched/RHSA-2020-0215.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/objects/objects.json":                 "testdata/golden/ansible-2-including-unpatched/objects.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/states/states.json":                   "testdata/golden/ansible-2-including-unpatched/states.json",
+				"/tmp/oval/redhat/8/ansible-2-including-unpatched/tests/tests.json":                     "testdata/golden/ansible-2-including-unpatched/tests.json",
 			},
 		},
 		{
-			name:             "404",
-			bzip2FileNames:   map[string]string{},
+			name: "404",
+			bzip2FileNames: map[string]string{
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to fetch Red Hat OVAL: failed to fetch URL: HTTP error. status code: 404, url:",
+			expectedErrorMsg: "failed to fetch Red Hat OVAL v2: failed to fetch URL: HTTP error. status code: 404, url:",
 		},
 		{
 			name: "invalid file format",
 			bzip2FileNames: map[string]string{
-				"/RHEL6/rhel-6.oval.xml.bz2": "testdata/test.txt",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/test.txt",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to unmarshal Red Hat OVAL XML: bzip2 data invalid: bad magic value",
+			expectedErrorMsg: "failed to unmarshal Red Hat OVAL v2 XML: bzip2 data invalid: bad magic value",
 		},
 		{
 			name: "broken XML",
 			bzip2FileNames: map[string]string{
-				"/RHEL6/rhel-6.oval.xml.bz2": "testdata/rhel-6-broken.oval.xml.bz2",
+				"/PULP_MANIFEST": "testdata/PULP_MANIFEST",
+				"/RHEL6/rhel-6-extras-including-unpatched.oval.xml.bz2": "testdata/rhel-6-extras-including-unpatched-broken-XML.oval.xml.bz2",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to unmarshal Red Hat OVAL XML: XML syntax error on line 42: unexpected EOF",
-		},
-		{
-			name: "invalid RHSA-ID is ignored",
-			bzip2FileNames: map[string]string{
-				"/RHEL6/rhel-6.oval.xml.bz2": "testdata/rhel-6-invalid-id.oval.xml.bz2",
-				"/RHEL7/rhel-7.oval.xml.bz2": "testdata/rhel-7.oval.xml.bz2",
-				"/RHEL8/rhel-8.oval.xml.bz2": "testdata/rhel-8.oval.xml.bz2",
-			},
-			goldenFiles: map[string]string{
-				"/tmp/oval/redhat/7/2015/RHBA-2015:0364.json": "testdata/golden/RHBA-2015:0364.json",
-				"/tmp/oval/redhat/7/2015/RHBA-2015:0386.json": "testdata/golden/RHBA-2015:0386.json",
-				"/tmp/oval/redhat/7/2015/RHBA-2015:0441.json": "testdata/golden/RHBA-2015:0441.json",
-
-				"/tmp/oval/redhat/8/2019/RHSA-2019:0966.json": "testdata/golden/RHSA-2019:0966.json",
-				"/tmp/oval/redhat/8/2019/RHSA-2019:0968.json": "testdata/golden/RHSA-2019:0968.json",
-			},
+			expectedErrorMsg: "failed to unmarshal Red Hat OVAL v2 XML: XML syntax error on line 411: element",
 		},
 	}
 	for _, tc := range testCases {
+		dataPath := "/security/data/oval/v2"
 		t.Run(tc.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				filePath, ok := tc.bzip2FileNames[r.URL.Path]
+				p := strings.TrimPrefix(r.URL.Path, dataPath)
+				filePath, ok := tc.bzip2FileNames[p]
 				if !ok {
 					http.NotFound(w, r)
 					return
 				}
 				b, err := ioutil.ReadFile(filePath)
-				assert.NoError(t, err, tc.name)
+				require.NoError(t, err, tc.name)
+
 				_, err = w.Write(b)
 				assert.NoError(t, err, tc.name)
 			}))
 			defer ts.Close()
 
-			u := ts.URL + "/RHEL%s/rhel-%s.oval.xml.bz2"
-			fmt.Println(u)
 			appFs := afero.NewMemMapFs()
 			c := Config{
 				VulnListDir: "/tmp",
-				URLFormat:   u,
+				URLFormat:   ts.URL + dataPath + "/%s",
 				AppFs:       appFs,
 				Retry:       0,
 			}
@@ -121,7 +132,7 @@ func TestConfig_Update(t *testing.T) {
 				if info.IsDir() {
 					return nil
 				}
-				fileCount += 1
+				fileCount++
 
 				actual, err := afero.ReadFile(appFs, path)
 				assert.NoError(t, err, tc.name)
@@ -130,12 +141,12 @@ func TestConfig_Update(t *testing.T) {
 				assert.True(t, ok, tc.name)
 				if *update {
 					err = ioutil.WriteFile(goldenPath, actual, 0666)
-					assert.NoError(t, err, tc.name)
+					require.NoError(t, err, tc.name)
 				}
 				expected, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, tc.name)
 
-				assert.Equal(t, expected, actual, tc.name)
+				assert.Equal(t, string(expected), string(actual), path)
 
 				return nil
 			})
@@ -149,18 +160,18 @@ func TestConfig_saveRHSAPerYear(t *testing.T) {
 	testCases := []struct {
 		name          string
 		rhsaID        string
-		inputData     string
+		inputData     Definition
 		expectedError error
 	}{
 		{
 			name:      "happy path",
 			rhsaID:    "RHSA-2018:0094",
-			inputData: `{}`,
+			inputData: Definition{},
 		},
 		{
 			name:          "sad path: invalid RHSA-ID format",
 			rhsaID:        "foobarbaz",
-			inputData:     `{}`,
+			inputData:     Definition{},
 			expectedError: errors.New("invalid RHSA-ID format"),
 		},
 	}
@@ -175,7 +186,7 @@ func TestConfig_saveRHSAPerYear(t *testing.T) {
 			_ = os.RemoveAll(d)
 		}()
 
-		err := c.saveRHSAPerYear(d, tc.rhsaID, tc.inputData)
+		err := c.saveAdvisoryPerYear(d, tc.rhsaID, tc.inputData)
 		switch {
 		case tc.expectedError != nil:
 			assert.Equal(t, tc.expectedError.Error(), err.Error(), tc.name)
