@@ -192,7 +192,7 @@ func (c Config) saveAdvisoryPerYear(dirName string, id string, def Definition) e
 	}
 
 	fileFmt := "%s.json"
-	if strings.HasPrefix(def.Metadata.Title, "Unaffected components for:") {
+	if strings.HasPrefix(def.ID, "oval:com.redhat.unaffected:def") {
 		fileFmt = "%s.unaffected.json"
 	}
 
