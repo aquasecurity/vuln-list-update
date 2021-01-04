@@ -20,9 +20,8 @@ var update = flag.Bool("update", false, "update golden files")
 
 func TestUpdater_Update(t *testing.T) {
 	type fields struct {
-		vulnListDir string
-		appFs       afero.Fs
-		retry       int
+		appFs afero.Fs
+		retry int
 	}
 	tests := []struct {
 		name        string
