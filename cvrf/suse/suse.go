@@ -6,7 +6,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
-	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -124,14 +123,8 @@ func (c Config) saveCvrfPerYear(dirName string, cvrfID string, data interface{})
 	}
 
 	yearDir := filepath.Join(c.VulnListDir, dirName, year)
-	if err := c.AppFs.MkdirAll(yearDir, os.ModePerm); err != nil {
-		return xerrors.Errorf("failed to create directory: %w", err)
-	}
-
-	filePath := filepath.Join(yearDir, fmt.Sprintf("%s.json", strings.Replace(cvrfID, ":", "-", 1)))
-
-	fs := utils.NewFs(c.AppFs)
-	if err := fs.WriteJSON(filePath, data); err != nil {
+	fileName := fmt.Sprintf("%s.json", strings.Replace(cvrfID, ":", "-", 1))
+	if err := utils.WriteJSON(c.AppFs, yearDir, fileName, data); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil

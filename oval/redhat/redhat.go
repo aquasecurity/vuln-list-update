@@ -105,17 +105,17 @@ func (c Config) update(ovalFile string) error {
 	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir, release, platform)
 
 	// write tests/tests.json file
-	if err := c.writeJSON(filepath.Join(dirPath, testsDir), "tests.json", ovalroot.Tests); err != nil {
+	if err := utils.WriteJSON(c.AppFs, filepath.Join(dirPath, testsDir), "tests.json", ovalroot.Tests); err != nil {
 		return xerrors.Errorf("failed to write tests: %w", err)
 	}
 
 	// write objects/objects.json file
-	if err := c.writeJSON(filepath.Join(dirPath, objectsDir), "objects.json", ovalroot.Objects); err != nil {
+	if err := utils.WriteJSON(c.AppFs, filepath.Join(dirPath, objectsDir), "objects.json", ovalroot.Objects); err != nil {
 		return xerrors.Errorf("failed to write objects: %w", err)
 	}
 
 	// write states/states.json file
-	if err := c.writeJSON(filepath.Join(dirPath, statesDir), "states.json", ovalroot.States); err != nil {
+	if err := utils.WriteJSON(c.AppFs, filepath.Join(dirPath, statesDir), "states.json", ovalroot.States); err != nil {
 		return xerrors.Errorf("failed to write states: %w", err)
 	}
 
@@ -197,22 +197,8 @@ func (c Config) saveAdvisoryPerYear(dirName string, id string, def Definition) e
 	}
 
 	yearDir := filepath.Join(dirName, year)
-	if err := c.writeJSON(yearDir, fmt.Sprintf(fileFmt, id), def); err != nil {
+	if err := utils.WriteJSON(c.AppFs, yearDir, fmt.Sprintf(fileFmt, id), def); err != nil {
 		return xerrors.Errorf("unable to write a JSON file: %w", err)
-	}
-	return nil
-}
-
-func (c Config) writeJSON(dirName, fileName string, data interface{}) error {
-	if err := c.AppFs.MkdirAll(dirName, os.ModePerm); err != nil {
-		return xerrors.Errorf("failed to create a year dir: %w", err)
-	}
-
-	fs := utils.NewFs(c.AppFs)
-
-	filePath := filepath.Join(dirName, fileName)
-	if err := fs.WriteJSON(filePath, data); err != nil {
-		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil
 }

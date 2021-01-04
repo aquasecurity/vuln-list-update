@@ -65,7 +65,7 @@ func TestConfig_Update(t *testing.T) {
 				"/oval/com.oracle.elsa-all.xml.bz2": "testdata/all-positive-data.xml.bz2",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to save ELSAPerYear: failed to create directory: operation not permitted",
+			expectedErrorMsg: "unable to create a directory: operation not permitted",
 		},
 		{
 			name:  "invalid title format",

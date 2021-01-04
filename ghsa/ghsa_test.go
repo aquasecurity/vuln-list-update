@@ -360,7 +360,7 @@ func TestConfig_Update(t *testing.T) {
 					},
 				},
 			},
-			expectedErrorMsg: "failed to save github security advisory: failed to create directory: operation not permitted",
+			expectedErrorMsg: "unable to create a directory: operation not permitted",
 		},
 	}
 	for _, tc := range testCases {
