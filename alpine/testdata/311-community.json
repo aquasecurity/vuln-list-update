@@ -1,0 +1,12 @@
+{
+  "archs": [
+    "x86_64",
+    "x86",
+    "armhf"
+  ],
+  "packages": {},
+  "urlprefix": "http://dl-cdn.alpinelinux.org/alpine",
+  "distroversion": "v3.3",
+  "apkurl": "{{urlprefix}}/{{distroversion}}/{{reponame}}/{{arch}}/{{pkg.name}}-{{pkg.ver}}.apk",
+  "reponame": "community"
+}
