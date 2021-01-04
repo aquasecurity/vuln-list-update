@@ -6,7 +6,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -88,14 +87,7 @@ func (c Config) saveELSAPerYear(dirName string, elsaID string, data interface{})
 	}
 
 	yearDir := filepath.Join(c.VulnListDir, dirName, s[1])
-	if err := c.AppFs.MkdirAll(yearDir, os.ModePerm); err != nil {
-		return xerrors.Errorf("failed to create directory: %w", err)
-	}
-
-	filePath := filepath.Join(yearDir, fmt.Sprintf("%s.json", elsaID))
-
-	fs := utils.NewFs(c.AppFs)
-	if err := fs.WriteJSON(filePath, data); err != nil {
+	if err := utils.WriteJSON(c.AppFs, yearDir, fmt.Sprintf("%s.json", elsaID), data); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil

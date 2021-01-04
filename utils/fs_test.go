@@ -1,4 +1,4 @@
-package utils
+package utils_test
 
 import (
 	"errors"
@@ -7,9 +7,12 @@ import (
 
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
-func TestFs_WriteJSON(t *testing.T) {
+func TestWriteJSON(t *testing.T) {
 	testCases := []struct {
 		name          string
 		fs            afero.Fs
@@ -29,7 +32,7 @@ func TestFs_WriteJSON(t *testing.T) {
 		{
 			name:          "sad path: fs.AppFs.Create returns an error",
 			fs:            afero.NewReadOnlyFs(afero.NewMemMapFs()),
-			expectedError: errors.New("unable to open a file: operation not permitted"),
+			expectedError: errors.New("unable to create a directory: operation not permitted"),
 		},
 		{
 			name:          "sad path: bad json input data",
@@ -40,17 +43,17 @@ func TestFs_WriteJSON(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		fs := NewFs(tc.fs)
-		err := fs.WriteJSON("foo", tc.inputData)
+		err := utils.WriteJSON(tc.fs, "dir", "file", tc.inputData)
 		switch {
 		case tc.expectedError != nil:
+			require.NotNil(t, err)
 			assert.Equal(t, tc.expectedError.Error(), err.Error(), tc.name)
 			return
 		default:
 			assert.NoError(t, err, tc.name)
 		}
 
-		actual, err := afero.ReadFile(tc.fs, "foo")
+		actual, err := afero.ReadFile(tc.fs, "dir/file")
 		assert.NoError(t, err, tc.name)
 		assert.Equal(t, tc.expectedData, string(actual), tc.name)
 	}

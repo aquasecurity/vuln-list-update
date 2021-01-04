@@ -2,22 +2,20 @@ package utils
 
 import (
 	"encoding/json"
-
-	"golang.org/x/xerrors"
+	"os"
+	"path/filepath"
 
 	"github.com/spf13/afero"
+	"golang.org/x/xerrors"
 )
 
-type Fs struct {
-	AppFs afero.Fs
-}
+func WriteJSON(fs afero.Fs, dir, fileName string, data interface{}) error {
+	if err := fs.MkdirAll(dir, os.ModePerm); err != nil {
+		return xerrors.Errorf("unable to create a directory: %w", err)
+	}
 
-func NewFs(appFs afero.Fs) Fs {
-	return Fs{AppFs: appFs}
-}
-
-func (fs Fs) WriteJSON(filePath string, data interface{}) error {
-	f, err := fs.AppFs.Create(filePath)
+	filePath := filepath.Join(dir, fileName)
+	f, err := fs.Create(filePath)
 	if err != nil {
 		return xerrors.Errorf("unable to open a file: %w", err)
 	}

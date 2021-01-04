@@ -70,7 +70,7 @@ func TestConfig_Update(t *testing.T) {
 				"/photon_cve_metadata/cve_data_photon3.0.json": "testdata/cve_data_photon3.0.json",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed to create dir: operation not permitted",
+			expectedErrorMsg: "unable to create a directory: operation not permitted",
 		},
 		{
 			name:             "404",

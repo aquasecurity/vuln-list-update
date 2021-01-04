@@ -169,13 +169,8 @@ func (c Config) fetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosyste
 }
 
 func (c Config) saveGSHA(dirName string, ghsaID string, data interface{}) error {
-	filePath := filepath.Join(dirName, fmt.Sprintf("%s.json", ghsaID))
-	if err := c.appFs.MkdirAll(dirName, os.ModePerm); err != nil {
-		return xerrors.Errorf("failed to create directory: %w", err)
-	}
-
-	fs := utils.NewFs(c.appFs)
-	if err := fs.WriteJSON(filePath, data); err != nil {
+	fileName := fmt.Sprintf("%s.json", ghsaID)
+	if err := utils.WriteJSON(c.appFs, dirName, fileName, data); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil
