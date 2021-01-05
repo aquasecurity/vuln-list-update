@@ -1,17 +1,11 @@
 {
-  "packages": [
-    {
-      "pkg": {
-        "name": "apache2",
-        "secfixes": {
-          "2.4.34-r0": [
-            "CVE-2018-1333",
-            "CVE-2018-8011"
-          ]
-        }
-      }
-    }
-  ],
+  "name": "apache2",
+  "secfixes": {
+    "2.4.34-r0": [
+      "CVE-2018-1333",
+      "CVE-2018-8011"
+    ]
+  },
   "apkurl": "{{urlprefix}}/{{distroversion}}/{{reponame}}/{{arch}}/{{pkg.name}}-{{pkg.ver}}.apk",
   "archs": [
     "x86_64",

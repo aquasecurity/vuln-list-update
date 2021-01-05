@@ -46,10 +46,8 @@ func TestUpdater_Update(t *testing.T) {
 				"/v3.12/community.json": "testdata/312-community.json",
 			},
 			goldenFiles: map[string]string{
-				"/tmp/alpine/3.11/main.json":      "testdata/golden/311-main.json",
-				"/tmp/alpine/3.11/community.json": "testdata/golden/311-community.json",
-				"/tmp/alpine/3.12/main.json":      "testdata/golden/312-main.json",
-				"/tmp/alpine/3.12/community.json": "testdata/golden/312-community.json",
+				"/tmp/alpine/3.11/main/apache2.json": "testdata/golden/311-apache2.json",
+				"/tmp/alpine/3.12/main/ansible.json": "testdata/golden/312-ansible.json",
 			},
 		},
 		{
@@ -122,7 +120,7 @@ func TestUpdater_Update(t *testing.T) {
 				expected, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, goldenPath)
 
-				assert.Equal(t, string(expected), string(actual), path)
+				assert.JSONEq(t, string(expected), string(actual), path)
 
 				return nil
 			})

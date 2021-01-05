@@ -1,16 +1,10 @@
 {
-  "packages": [
-    {
-      "pkg": {
-        "name": "ansible",
-        "secfixes": {
-          "2.7.9-r0": [
-            "CVE-2018-16876"
-          ]
-        }
-      }
-    }
-  ],
+  "name": "ansible",
+  "secfixes": {
+    "2.7.9-r0": [
+      "CVE-2018-16876"
+    ]
+  },
   "apkurl": "{{urlprefix}}/{{distroversion}}/{{reponame}}/{{arch}}/{{pkg.name}}-{{pkg.ver}}.apk",
   "archs": [
     "x86_64",

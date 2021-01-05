@@ -3,6 +3,7 @@ package alpine
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/url"
 	"path"
@@ -144,15 +145,63 @@ func (u Updater) save(release, fileName string) error {
 		return err
 	}
 
-	// Packages might not be an array and it causes an unmarshal error.
-	if _, ok := secdb.Packages.([]interface{}); !ok {
-		secdb.Packages = nil
+	// "packages" might not be an array and it causes an unmarshal error.
+	// See https://gitlab.alpinelinux.org/alpine/infra/docker/secdb/-/issues/2
+	var v interface{}
+	if err = json.Unmarshal(secdb.Packages, &v); err != nil {
+		return err
+	}
+	if _, ok := v.([]interface{}); !ok {
+		log.Printf("    skip release: %s, file: %s", release, fileName)
+		return nil
+	}
+
+	// It should succeed now.
+	var pkgs []packages
+	if err = json.Unmarshal(secdb.Packages, &pkgs); err != nil {
+		return err
+	}
+
+	for _, pkg := range pkgs {
+		if err = u.savePkg(secdb, pkg.Pkg, release); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (u Updater) savePkg(secdb secdb, pkg pkg, release string) error {
+	secfixes := map[string][]string{}
+	for fixedVersion, v := range pkg.Secfixes {
+		// CVE-IDs might not be an array and it causes an unmarshal error.
+		vv, ok := v.([]interface{})
+		if !ok {
+			log.Printf("    skip pkg: %s, version: %s", pkg.Name, fixedVersion)
+			continue
+		}
+		var cveIDs []string
+		for _, v := range vv {
+			cveIDs = append(cveIDs, v.(string))
+		}
+		secfixes[fixedVersion] = cveIDs
+	}
+	advisory := advisory{
+		Name:          pkg.Name,
+		Secfixes:      secfixes,
+		Apkurl:        secdb.Apkurl,
+		Archs:         secdb.Archs,
+		Urlprefix:     secdb.Urlprefix,
+		Reponame:      secdb.Reponame,
+		Distroversion: secdb.Distroversion,
 	}
 
 	release = strings.TrimPrefix(release, "v")
-	dir := filepath.Join(u.vulnListDir, alpineDir, release)
-	if err := utils.WriteJSON(u.appFs, dir, fileName, secdb); err != nil {
-		return xerrors.Errorf("failed to write %s under %s: %w", fileName, dir, err)
+	dir := filepath.Join(u.vulnListDir, alpineDir, release, secdb.Reponame)
+	file := fmt.Sprintf("%s.json", pkg.Name)
+	if err := utils.WriteJSON(u.appFs, dir, file, advisory); err != nil {
+		return xerrors.Errorf("failed to write %s under %s: %w", file, dir, err)
 	}
+
 	return nil
 }
