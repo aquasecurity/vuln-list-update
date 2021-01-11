@@ -1,98 +1,108 @@
 package alpine
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
+	"net/url"
+	"path"
 	"path/filepath"
 	"strings"
 
-	version "github.com/knqyf263/go-apk-version"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
-	"gopkg.in/yaml.v2"
 
-	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (
-	alpineDir     = "alpine"
-	defaultBranch = "master"
-	repoURL       = "https://git.alpinelinux.org/aports/"
+	alpineDir = "alpine"
+	repoURL   = "https://secdb.alpinelinux.org/"
+	retry     = 3
 )
 
-var (
-	repoDir string
-
-	// e.g. 4.8.0.-r1 => 4.8.0-r1
-	malformedVerReplacer = strings.NewReplacer(".-", "-", ".r", "-r")
-)
-
-type Config struct {
-	GitClient   git.Operations
-	CacheDir    string
-	VulnListDir string
+type Updater struct {
+	vulnListDir string
+	appFs       afero.Fs
+	baseURL     *url.URL
+	retry       int
 }
 
-func (c Config) Update() (err error) {
+type option func(c *Updater)
+
+func WithVulnListDir(v string) option {
+	return func(c *Updater) { c.vulnListDir = v }
+}
+
+func WithAppFs(v afero.Fs) option {
+	return func(c *Updater) { c.appFs = v }
+}
+
+func WithBaseURL(v *url.URL) option {
+	return func(c *Updater) { c.baseURL = v }
+}
+
+func WithRetry(v int) option {
+	return func(c *Updater) { c.retry = v }
+}
+
+func NewUpdater(options ...option) *Updater {
+	u, _ := url.Parse(repoURL)
+	updater := &Updater{
+		vulnListDir: utils.VulnListDir(),
+		appFs:       afero.NewOsFs(),
+		baseURL:     u,
+		retry:       retry,
+	}
+	for _, option := range options {
+		option(updater)
+	}
+
+	return updater
+}
+
+func (u Updater) Update() (err error) {
+	dir := filepath.Join(u.vulnListDir, alpineDir)
+	log.Printf("Remove Alpine directory %s", dir)
+	if err := u.appFs.RemoveAll(dir); err != nil {
+		return xerrors.Errorf("failed to remove Alpine directory: %w", err)
+	}
+	if err := u.appFs.MkdirAll(dir, 0755); err != nil {
+		return err
+	}
+
 	log.Println("Fetching Alpine data...")
-	repoDir = filepath.Join(c.CacheDir, "aports")
-	if _, err = c.GitClient.CloneOrPull(repoURL, repoDir, defaultBranch); err != nil {
-		return xerrors.Errorf("failed to clone alpine repository: %w", err)
-	}
-
-	// Extract secfixes in all APKBUILD
-	log.Println("Extracting Alpine secfixes...")
-	branches, err := c.GitClient.RemoteBranch(repoDir)
+	b, err := utils.FetchURL(u.baseURL.String(), "", u.retry)
 	if err != nil {
-		return xerrors.Errorf("failed to show branches: %w", err)
+		return err
 	}
 
-	// restore branch
-	defer func() {
-		if derr := c.GitClient.Checkout(repoDir, defaultBranch); derr != nil {
-			log.Printf("checkout error: %s", derr)
-		}
-	}()
+	d, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
+	if err != nil {
+		return err
+	}
 
-	for _, branch := range branches {
-		branch = strings.TrimSpace(branch)
-		if !strings.HasSuffix(branch, "-stable") {
-			continue
+	var releases []string
+	d.Find("a").Each(func(i int, selection *goquery.Selection) {
+		if !strings.HasPrefix(selection.Text(), "v") {
+			return
 		}
-		s := strings.Split(branch, "/")
-		if len(s) < 2 {
-			continue
-		}
-		release := strings.TrimSuffix(s[1], "-stable")
+		releases = append(releases, selection.Text())
+	})
 
-		if err = c.GitClient.Checkout(repoDir, branch); err != nil {
-			return xerrors.Errorf("git failed to checkout branch: %w", err)
-		}
-
-		advisories, err := c.walkApkBuild(repoDir, release)
+	for _, release := range releases {
+		releaseURL := *u.baseURL
+		releaseURL.Path = path.Join(releaseURL.Path, release)
+		files, err := u.traverse(releaseURL)
 		if err != nil {
-			return xerrors.Errorf("failed to walk APKBUILD: %w", err)
+			return err
 		}
 
-		log.Printf("Saving secfixes: %s\n", release)
-		for _, advisory := range advisories {
-			filePath, err := c.constructFilePath(advisory.Release, advisory.Repository, advisory.Package, advisory.VulnerabilityID)
-			if err != nil {
-				return xerrors.Errorf("failed to construct file path: %w", err)
-			}
-
-			ok, err := utils.Exists(filePath)
-			if err != nil {
-				return xerrors.Errorf("error in file existence check: %w", err)
-			} else if ok && !c.shouldOverwrite(filePath, advisory.FixedVersion) {
-				continue
-			}
-
-			if err = utils.Write(filePath, advisory); err != nil {
-				return xerrors.Errorf("failed to write Alpine secfixes: %w", err)
+		for _, file := range files {
+			if err = u.save(release, file); err != nil {
+				return err
 			}
 		}
 	}
@@ -100,196 +110,98 @@ func (c Config) Update() (err error) {
 	return nil
 }
 
-func (c Config) shouldOverwrite(filePath string, currentVersion string) bool {
-	f, err := os.Open(filePath)
+func (u Updater) traverse(url url.URL) ([]string, error) {
+	b, err := utils.FetchURL(url.String(), "", u.retry)
 	if err != nil {
-		return false
-	}
-	defer f.Close()
-
-	var advisory Advisory
-	if err = json.NewDecoder(f).Decode(&advisory); err != nil {
-		return true
-	}
-	if advisory.Package == "" || advisory.FixedVersion == "" {
-		return true
-	}
-	// advisory with Subject is more accurate and should not be overwritten
-	if advisory.Subject != "" {
-		return false
+		return nil, err
 	}
 
-	prev, err := version.NewVersion(malformedVerReplacer.Replace(advisory.FixedVersion))
+	d, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
 	if err != nil {
-		log.Println(advisory.FixedVersion, err)
-		return false
+		return nil, err
 	}
 
-	current, err := version.NewVersion(malformedVerReplacer.Replace(currentVersion))
-	if err != nil {
-		log.Println(currentVersion, err)
-		return false
-	}
-
-	return current.LessThan(prev)
-}
-
-func (c Config) walkApkBuild(repoDir, release string) ([]Advisory, error) {
-	var advisories []Advisory
-	err := filepath.Walk(repoDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return xerrors.Errorf("file walk error: %w", err)
+	var files []string
+	d.Find("a").Each(func(i int, selection *goquery.Selection) {
+		if !strings.HasSuffix(selection.Text(), ".json") {
+			return
 		}
-		if info.IsDir() {
-			return nil
-		}
-
-		// e.g. main/openssl/APKBUILD
-		repo, pkg, filename := splitPath(path)
-		if filename != "APKBUILD" || repo == "" || pkg == "" {
-			return nil
-		}
-
-		content, err := ioutil.ReadFile(path)
-		if err != nil {
-			return xerrors.Errorf("file read error: %w", err)
-		}
-
-		secFixes, err := c.parseSecFixes(string(content))
-		if err != nil {
-			return err
-		} else if secFixes == nil {
-			return nil
-		}
-
-		advisories = append(advisories, c.buildAdvisories(secFixes, release, pkg, repo)...)
-		return nil
+		files = append(files, selection.Text())
 	})
+	return files, nil
+}
 
+func (u Updater) save(release, fileName string) error {
+	log.Printf("  release: %s, file: %s", release, fileName)
+	advisoryURL := *u.baseURL
+	advisoryURL.Path = path.Join(advisoryURL.Path, release, fileName)
+	b, err := utils.FetchURL(advisoryURL.String(), "", u.retry)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to walk Alpine aport: %w", err)
+		return err
 	}
-	return advisories, nil
-}
 
-func (c Config) buildAdvisories(secFixes map[string][]string, release string, pkg string, repo string) []Advisory {
-	var advisories []Advisory
-	for ver, vulnIDs := range secFixes {
-		for _, vulnID := range vulnIDs {
-			// Trim strings after a parenthesis
-			// e.g. CVE-2017-2616 (+ regression fix)
-			if index := strings.Index(vulnID, "("); index > 0 {
-				vulnID = vulnID[:index]
-			}
+	var secdb secdb
+	if err = json.Unmarshal(b, &secdb); err != nil {
+		return err
+	}
 
-			// e.g. CVE-2016-9818 XSA-201
-			for _, id := range strings.Fields(vulnID) {
-				// e.g. CVE_2019-2426
-				if strings.HasPrefix(id, "CVE_") {
-					id = strings.ReplaceAll(id, "_", "-")
-				}
+	// "packages" might not be an array and it causes an unmarshal error.
+	// See https://gitlab.alpinelinux.org/alpine/infra/docker/secdb/-/issues/2
+	var v interface{}
+	if err = json.Unmarshal(secdb.Packages, &v); err != nil {
+		return err
+	}
+	if _, ok := v.([]interface{}); !ok {
+		log.Printf("    skip release: %s, file: %s", release, fileName)
+		return nil
+	}
 
-				// reject invalid vulnerability IDs
-				// e.g. CVE N/A
-				if !strings.Contains(id, "-") {
-					continue
-				}
-				advisory := Advisory{
-					VulnerabilityID: id,
-					Release:         release,
-					Package:         pkg,
-					Repository:      repo,
-					FixedVersion:    ver,
-				}
-				advisories = append(advisories, advisory)
-			}
+	// It should succeed now.
+	var pkgs []packages
+	if err = json.Unmarshal(secdb.Packages, &pkgs); err != nil {
+		return err
+	}
+
+	for _, pkg := range pkgs {
+		if err = u.savePkg(secdb, pkg.Pkg, release); err != nil {
+			return err
 		}
 	}
-	return advisories
+
+	return nil
 }
 
-func (c Config) constructFilePath(release, repository, pkg, cveID string) (string, error) {
-	dir := filepath.Join(c.VulnListDir, alpineDir, release, repository, pkg)
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
-		return "", xerrors.Errorf("failed to create directory: %w", err)
+func (u Updater) savePkg(secdb secdb, pkg pkg, release string) error {
+	secfixes := map[string][]string{}
+	for fixedVersion, v := range pkg.Secfixes {
+		// CVE-IDs might not be an array and it causes an unmarshal error.
+		vv, ok := v.([]interface{})
+		if !ok {
+			log.Printf("    skip pkg: %s, version: %s", pkg.Name, fixedVersion)
+			continue
+		}
+		var cveIDs []string
+		for _, v := range vv {
+			cveIDs = append(cveIDs, v.(string))
+		}
+		secfixes[fixedVersion] = cveIDs
+	}
+	advisory := advisory{
+		Name:          pkg.Name,
+		Secfixes:      secfixes,
+		Apkurl:        secdb.Apkurl,
+		Archs:         secdb.Archs,
+		Urlprefix:     secdb.Urlprefix,
+		Reponame:      secdb.Reponame,
+		Distroversion: secdb.Distroversion,
 	}
 
-	return filepath.Join(dir, fmt.Sprintf("%s.json", cveID)), nil
-}
-
-func splitPath(filePath string) (string, string, string) {
-	dir, base := filepath.Split(filePath)
-	dir, pkg := filepath.Split(filepath.Clean(dir))
-	repo := filepath.Base(filepath.Clean(dir))
-	return filepath.Clean(repo), pkg, base
-}
-
-func (c Config) parsePkgVerRel(content string) (pkgVer string, pkgRel string, err error) {
-	lines := strings.Split(content, "\n")
-
-	for i := 0; i < len(lines); i++ {
-		line := strings.TrimSpace(lines[i])
-		if strings.HasPrefix(line, "pkgver") {
-			s := strings.Split(line, "=")
-			if len(s) < 2 {
-				return "", "", xerrors.Errorf("invalid pkgver: %s", line)
-			}
-			pkgVer = s[1]
-		}
-
-		if strings.HasPrefix(line, "pkgrel") {
-			s := strings.Split(line, "=")
-			if len(s) < 2 {
-				return "", "", xerrors.Errorf("invalid pkgrel: %s", line)
-			}
-			pkgRel = s[1]
-		}
+	release = strings.TrimPrefix(release, "v")
+	dir := filepath.Join(u.vulnListDir, alpineDir, release, secdb.Reponame)
+	file := fmt.Sprintf("%s.json", pkg.Name)
+	if err := utils.WriteJSON(u.appFs, dir, file, advisory); err != nil {
+		return xerrors.Errorf("failed to write %s under %s: %w", file, dir, err)
 	}
-	return pkgVer, pkgRel, nil
-}
 
-func (c Config) parseSecFixes(content string) (secFixes map[string][]string, err error) {
-	lines := strings.Split(content, "\n")
-	for i := 0; i < len(lines); i++ {
-		line := strings.TrimSpace(lines[i])
-
-		//# secfixes:
-		//#   2.4.11-r0:
-		//#     - CVE-2018-19622
-		//#   2.4.10-r0:
-		//#     - CVE-2018-12086
-		//#     - CVE-2018-18225
-		if strings.HasPrefix(line, "# secfixes:") ||
-			strings.HasPrefix(strings.ToLower(line), "# security fixes:") {
-			// e.g. # secfixes:ss
-			secfixesStr := "secfixes:"
-			for i+1 < len(lines) && strings.HasPrefix(lines[i+1], "# ") {
-				// Fix invalid yaml
-				tmp := strings.TrimLeft(lines[i+1], "#")
-				tmp = strings.TrimSpace(tmp)
-				if !strings.HasPrefix(tmp, "-") && !strings.HasSuffix(tmp, ":") {
-					lines[i+1] = lines[i+1] + ":"
-				}
-
-				// Fix invalid space
-				if strings.HasSuffix(tmp, ":") {
-					lines[i+1] = "  " + tmp
-				} else if strings.HasPrefix(tmp, "-") {
-					split := strings.Fields(tmp)
-					lines[i+1] = "    " + strings.Join(split, " ")
-				}
-
-				secfixesStr += "\n" + strings.TrimPrefix(lines[i+1], "# ")
-				i++
-			}
-
-			s := SecFixes{}
-			if err := yaml.Unmarshal([]byte(secfixesStr), &s); err != nil {
-				log.Printf("failed to unmarshal SecFixes: %s\n", err)
-				return nil, nil
-			}
-			secFixes = s.SecFixes
-		}
-	}
-	return secFixes, nil
+	return nil
 }

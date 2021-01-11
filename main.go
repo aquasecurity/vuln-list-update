@@ -53,7 +53,6 @@ func run() error {
 	flag.Parse()
 	now := time.Now().UTC()
 	gc := &git.Config{}
-	vulnListDir := utils.VulnListDir()
 
 	repoOwner := utils.LookupEnv("VULNLIST_REPOSITORY_OWNER", defaultRepoOwner)
 	repoName := utils.LookupEnv("VULNLIST_REPOSITORY_NAME", defaultRepoName)
@@ -114,12 +113,8 @@ func run() error {
 		}
 		commitMsg = "Ubuntu CVE Tracker"
 	case "alpine":
-		ac := alpine.Config{
-			GitClient:   gc,
-			CacheDir:    utils.CacheDir(),
-			VulnListDir: vulnListDir,
-		}
-		if err := ac.Update(); err != nil {
+		au := alpine.NewUpdater()
+		if err := au.Update(); err != nil {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"

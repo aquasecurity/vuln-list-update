@@ -1,43 +1,33 @@
 package alpine
 
-type IssueList struct {
-	Issues []Issue
+import "encoding/json"
+
+// secdb represents a type included in files from the Alpine repository
+type secdb struct {
+	Packages      json.RawMessage `json:"packages,omitempty"` // "packages" is an object or array
+	Apkurl        string          `json:"apkurl,omitempty"`
+	Archs         []string        `json:"archs,omitempty"`
+	Urlprefix     string          `json:"urlprefix,omitempty"`
+	Reponame      string          `json:"reponame,omitempty"`
+	Distroversion string          `json:"distroversion,omitempty"`
 }
 
-type IssueDetail struct {
-	Issue Issue
+type packages struct {
+	Pkg pkg `json:"pkg"`
 }
 
-type Issue struct {
-	ID           int
-	Subject      string
-	Description  string
-	CustomFields []CustomField
-	Changesets   []Changeset
+type pkg struct {
+	Name     string                 `json:"name"`
+	Secfixes map[string]interface{} `json:"secfixes"`
 }
 
-type CustomField struct {
-	ID    int
-	Name  string
-	Value string
-}
-
-type Changeset struct {
-	Revision string
-	Comments string
-}
-
-type Advisory struct {
-	IssueID         int
-	VulnerabilityID string // e.g. CVE-2016-6258, XSA-182
-	Release         string // e.g. 3.7
-	Package         string // e.g. openssl
-	Repository      string // main or community
-	FixedVersion    string // e.g. 1.2.3-r4
-	Subject         string
-	Description     string
-}
-
-type SecFixes struct {
-	SecFixes map[string][]string
+// advisory represents a type stored as a JSON file
+type advisory struct {
+	Name          string              `json:"name"`
+	Secfixes      map[string][]string `json:"secfixes"`
+	Apkurl        string              `json:"apkurl,omitempty"`
+	Archs         []string            `json:"archs,omitempty"`
+	Urlprefix     string              `json:"urlprefix,omitempty"`
+	Reponame      string              `json:"reponame,omitempty"`
+	Distroversion string              `json:"distroversion,omitempty"`
 }
