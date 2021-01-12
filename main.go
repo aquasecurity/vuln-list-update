@@ -68,9 +68,13 @@ func run() error {
 		return xerrors.Errorf("clone or pull error: %w", err)
 	}
 
-	if !debug {
-		defer gc.Clean(utils.VulnListDir())
-	}
+	defer func() {
+		if debug {
+			return
+		}
+		log.Println("git reset & clean")
+		gc.Clean(utils.VulnListDir())
+	}()
 
 	var commitMsg string
 	switch *target {

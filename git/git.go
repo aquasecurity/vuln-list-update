@@ -1,7 +1,6 @@
 package git
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -157,6 +156,20 @@ func (gc Config) Push(repoPath, branch string) error {
 	pushCmd := []string{"push", "origin", branch}
 	if _, err := utils.Exec("git", append(commandArgs, pushCmd...)); err != nil {
 		return xerrors.Errorf("error in git push: %w", err)
+	}
+	return nil
+}
+
+func (gc Config) Clean(repoPath string) error {
+	commandArgs := generateGitArgs(repoPath)
+	resetCmd := []string{"reset", "--hard", "HEAD"}
+	if _, err := utils.Exec("git", append(commandArgs, resetCmd...)); err != nil {
+		return xerrors.Errorf("git reset error: %w", err)
+	}
+
+	cleanCmd := []string{"clean", "-df"}
+	if _, err := utils.Exec("git", append(commandArgs, cleanCmd...)); err != nil {
+		return xerrors.Errorf("git clean error: %w", err)
 	}
 	return nil
 }
