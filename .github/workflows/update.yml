@@ -31,71 +31,96 @@ jobs:
     - name: Compile vuln-list-update
       run: go build -o vuln-list-update .
 
-    - name: NVD
+    - if: always()
+      name: NVD
       run: ./vuln-list-update -target nvd
 
-    - name: Alpine Issue Tracker
+    - if: always()
+      name: Alpine Issue Tracker
       run: ./vuln-list-update -target alpine
 
-    - name: Debian Security Bug Tracker
+    - if: always()
+      name: Debian Security Bug Tracker
       run: ./vuln-list-update -target debian
 
-    - name: Debian OVAL
+    - if: always()
+      name: Debian OVAL
       run: ./vuln-list-update -target debian-oval
 
-    - name: Ubuntu CVE Tracker
+    - if: always()
+      name: Ubuntu CVE Tracker
       run: ./vuln-list-update -target ubuntu
 
-    - name: Amazon Linux AMI Security Advisory
+    - if: always()
+      name: Amazon Linux AMI Security Advisory
       run: ./vuln-list-update -target amazon
 
-    - name: Oracle Linux OVAL
+    - if: always()
+      name: Oracle Linux OVAL
       run: ./vuln-list-update -target oracle-oval
 
-    - name: Red Hat OVALv2
+    - if: always()
+      name: Red Hat OVALv2
       run: ./vuln-list-update -target redhat-oval
 
-    - name: Photon CVE Advisory
+    - if: always()
+      name: Photon CVE Advisory
       run: ./vuln-list-update -target photon
 
-    - name: GitHub Security Advisory
+    - if: always()
+      name: GitHub Security Advisory
       run: ./vuln-list-update -target ghsa
 
-    - name: CWE
+    - if: always()
+      name: CWE
       run: ./vuln-list-update -target cwe
 
-    - name: SUSE CVRF
+    - if: always()
+      name: SUSE CVRF
       run: ./vuln-list-update -target suse-cvrf
 
-    - name: Red Hat Security Data API 1996-2002
+    # Red Hat Security Data API is unstable.
+    # It should be split into small pieces to reduce the impact of failure.
+    - if: always()
+      name: Red Hat Security Data API 1996-2002
       run: ./vuln-list-update -target redhat -years 1996,1997,1998,1999,2000,2001,2002
 
-    - name: Red Hat Security Data API 2003-2008
+    - if: always()
+      name: Red Hat Security Data API 2003-2008
       run: ./vuln-list-update -target redhat -years 2003,2004,2005,2006,2007,2008
 
-    - name: Red Hat Security Data API 2009-2011
+    - if: always()
+      name: Red Hat Security Data API 2009-2011
       run: ./vuln-list-update -target redhat -years 2009,2010,2011
 
-    - name: Red Hat Security Data API 2012
+    - if: always()
+      name: Red Hat Security Data API 2012
       run: ./vuln-list-update -target redhat -years 2012
 
-    - name: Red Hat Security Data API 2013
+    - if: always()
+      name: Red Hat Security Data API 2013
       run: ./vuln-list-update -target redhat -years 2013
 
-    - name: Red Hat Security Data API 2014
+    - if: always()
+      name: Red Hat Security Data API 2014
       run: ./vuln-list-update -target redhat -years 2014
 
-    - name: Red Hat Security Data API 2015
+    - if: always()
+      name: Red Hat Security Data API 2015
       run: ./vuln-list-update -target redhat -years 2015
 
-    - name: Red Hat Security Data API 2016
+    - if: always()
+      name: Red Hat Security Data API 2016
       run: ./vuln-list-update -target redhat -years 2016
 
-    - name: Red Hat Security Data API 2017
+    - if: always()
+      name: Red Hat Security Data API 2017
       run: ./vuln-list-update -target redhat -years 2017
 
-    - name: Red Hat Security Data API 2018
+    - if: always()
+      name: Red Hat Security Data API 2018
       run: ./vuln-list-update -target redhat -years 2018
 
-    - name: Red Hat Security Data API 2019-2020
+    - if: always()
+      name: Red Hat Security Data API 2019-2020
       run: ./vuln-list-update -target redhat -years 2019,2020
