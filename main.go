@@ -73,7 +73,7 @@ func run() error {
 			return
 		}
 		log.Println("git reset & clean")
-		gc.Clean(utils.VulnListDir())
+		_ = gc.Clean(utils.VulnListDir())
 	}()
 
 	var commitMsg string
