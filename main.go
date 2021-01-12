@@ -53,6 +53,7 @@ func run() error {
 	flag.Parse()
 	now := time.Now().UTC()
 	gc := &git.Config{}
+	debug := os.Getenv("VULN_LIST_DEBUG") != ""
 
 	repoOwner := utils.LookupEnv("VULNLIST_REPOSITORY_OWNER", defaultRepoOwner)
 	repoName := utils.LookupEnv("VULNLIST_REPOSITORY_NAME", defaultRepoName)
@@ -63,8 +64,12 @@ func run() error {
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
 
-	if _, err := gc.CloneOrPull(url, utils.VulnListDir(), "main"); err != nil {
+	if _, err := gc.CloneOrPull(url, utils.VulnListDir(), "main", debug); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
+	}
+
+	if !debug {
+		defer gc.Clean(utils.VulnListDir())
 	}
 
 	var commitMsg string
@@ -166,7 +171,7 @@ func run() error {
 		return xerrors.New("unknown target")
 	}
 
-	if os.Getenv("VULN_LIST_DEBUG") != "" {
+	if debug {
 		return nil
 	}
 

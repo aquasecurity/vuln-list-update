@@ -21,7 +21,7 @@ type Operations interface {
 type Config struct {
 }
 
-func (gc Config) CloneOrPull(url, repoPath, branch string) (map[string]struct{}, error) {
+func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[string]struct{}, error) {
 	exists, err := utils.Exists(filepath.Join(repoPath, ".git"))
 	if err != nil {
 		return nil, err
@@ -29,6 +29,11 @@ func (gc Config) CloneOrPull(url, repoPath, branch string) (map[string]struct{},
 
 	updatedFiles := map[string]struct{}{}
 	if exists {
+		if debug {
+			log.Println("Skip git pull")
+			return nil, nil
+		}
+
 		log.Println("git pull")
 		files, err := pull(url, repoPath, branch)
 		if err != nil {
