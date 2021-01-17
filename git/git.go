@@ -1,7 +1,6 @@
 package git
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -21,7 +20,7 @@ type Operations interface {
 type Config struct {
 }
 
-func (gc Config) CloneOrPull(url, repoPath, branch string) (map[string]struct{}, error) {
+func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[string]struct{}, error) {
 	exists, err := utils.Exists(filepath.Join(repoPath, ".git"))
 	if err != nil {
 		return nil, err
@@ -29,6 +28,11 @@ func (gc Config) CloneOrPull(url, repoPath, branch string) (map[string]struct{},
 
 	updatedFiles := map[string]struct{}{}
 	if exists {
+		if debug {
+			log.Println("Skip git pull")
+			return nil, nil
+		}
+
 		log.Println("git pull")
 		files, err := pull(url, repoPath, branch)
 		if err != nil {
@@ -156,6 +160,20 @@ func (gc Config) Push(repoPath, branch string) error {
 	return nil
 }
 
+func (gc Config) Clean(repoPath string) error {
+	commandArgs := generateGitArgs(repoPath)
+	resetCmd := []string{"reset", "--hard", "HEAD"}
+	if _, err := utils.Exec("git", append(commandArgs, resetCmd...)); err != nil {
+		return xerrors.Errorf("git reset error: %w", err)
+	}
+
+	cleanCmd := []string{"clean", "-df"}
+	if _, err := utils.Exec("git", append(commandArgs, cleanCmd...)); err != nil {
+		return xerrors.Errorf("git clean error: %w", err)
+	}
+	return nil
+}
+
 func (gc Config) RemoteBranch(repoPath string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 	branchCmd := []string{"branch", "--remote"}
@@ -185,41 +203,6 @@ func (gc Config) Status(repoPath string) ([]string, error) {
 		return nil, xerrors.Errorf("error in git status: %w", err)
 	}
 	return strings.Split(strings.TrimSpace(output), "\n"), nil
-}
-
-func DiffFile(repoPath string, hash, file string) ([]string, error) {
-	commandArgs := generateGitArgs(repoPath)
-
-	prevHash := fmt.Sprintf("%s^", hash)
-	diffCmd := []string{"diff", "--unified=0", prevHash, hash, "--", file}
-	output, err := utils.Exec("git", append(commandArgs, diffCmd...))
-	if err != nil {
-		return nil, xerrors.Errorf("error in git diff: %w", err)
-	}
-	return strings.Split(strings.TrimSpace(output), "\n"), nil
-}
-
-func DiffPrev(repoPath string, hash string) ([]string, error) {
-	commandArgs := generateGitArgs(repoPath)
-
-	prevHash := fmt.Sprintf("%s^", hash)
-	diffCmd := []string{"diff", "--name-only", prevHash, hash, "--"}
-	output, err := utils.Exec("git", append(commandArgs, diffCmd...))
-	if err != nil {
-		return nil, xerrors.Errorf("git diff previous commit: %w", err)
-	}
-	return strings.Split(output, "\n"), nil
-}
-
-func ShowFile(repoPath string, hash string, filename string) (string, error) {
-	commandArgs := generateGitArgs(repoPath)
-
-	showCmd := []string{"show", fmt.Sprintf("%s:%s", hash, filename)}
-	output, err := utils.Exec("git", append(commandArgs, showCmd...))
-	if err != nil {
-		return "", xerrors.Errorf("git show: %w", err)
-	}
-	return output, nil
 }
 
 func generateGitArgs(repoPath string) []string {
