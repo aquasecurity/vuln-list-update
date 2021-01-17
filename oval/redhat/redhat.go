@@ -158,9 +158,6 @@ func (c Config) fetchOvalFilePaths() ([]string, error) {
 		if len(ss) < 3 {
 			return nil, xerrors.Errorf("failed to parse PULP_MANIFEST: %w", err)
 		}
-		if !strings.Contains(ss[0], "including-unpatched") {
-			continue
-		}
 
 		ovalFilePaths = append(ovalFilePaths, ss[0])
 	}
