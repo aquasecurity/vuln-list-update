@@ -39,8 +39,9 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, cwe)")
-	years  = flag.String("years", "", "update years (only redhat)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, "+
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, gemnasium, cwe)")
+	years = flag.String("years", "", "update years (only redhat)")
 )
 
 func main() {
