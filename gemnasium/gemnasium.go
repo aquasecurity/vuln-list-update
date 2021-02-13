@@ -51,6 +51,9 @@ func (u Updater) Update() error {
 	log.Println("Walking gemnasium-db...")
 	for _, target := range supportedTypes {
 		targetDir := filepath.Join(dir, target)
+		if ok, _ := utils.Exists(targetDir); !ok {
+			continue
+		}
 		if err := u.walkDir(targetDir); err != nil {
 			return xerrors.Errorf("failed to walk %s: %w", targetDir, err)
 		}
