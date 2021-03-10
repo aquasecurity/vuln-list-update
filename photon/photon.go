@@ -90,7 +90,7 @@ func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, data interface{}) 
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		log.Printf("invalid CVE-ID: %s", cveID)
-		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
+		return nil
 	}
 
 	pkgDir := filepath.Join(c.VulnListDir, dirName, pkgName)
