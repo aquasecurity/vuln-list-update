@@ -19,7 +19,8 @@ import (
 )
 
 const (
-	ubuntuDir = "ubuntu"
+	cveTrackerDir = "ubuntu-cve-tracker"
+	ubuntuDir     = "ubuntu"
 )
 
 var (
@@ -29,7 +30,6 @@ var (
 	}
 	targets = []string{
 		"active",
-		"ignored",
 		"retired",
 	}
 	statuses = []string{
@@ -75,20 +75,26 @@ type Status struct {
 func Update() error {
 	var err error
 	gc := git.Config{}
-	dir := filepath.Join(utils.CacheDir(), "ubuntu-cve-tracker")
+	dir := filepath.Join(utils.CacheDir(), cveTrackerDir)
 	for _, url := range repoURLs {
 		_, err = gc.CloneOrPull(url, dir, "master", false)
-		if err == nil {
-			break
-		} else {
+		if err != nil {
 			log.Printf("failed to clone or pull: %s: %v", url, err)
+			continue
 		}
+		break
 	}
 	if err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
-	log.Println("Walking Ubuntu...")
+	dst := filepath.Join(utils.VulnListDir(), ubuntuDir)
+	log.Printf("removing ubuntu directory %s", dst)
+	if err := os.RemoveAll(dst); err != nil {
+		return xerrors.Errorf("failed to remove ubuntu directory: %w", err)
+	}
+
+	log.Println("walking ubuntu-cve-tracker ...")
 	for _, target := range targets {
 		err = walkDir(filepath.Join(dir, target))
 		if err != nil {
