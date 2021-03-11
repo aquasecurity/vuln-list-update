@@ -96,8 +96,7 @@ func Update() error {
 
 	log.Println("walking ubuntu-cve-tracker ...")
 	for _, target := range targets {
-		err = walkDir(filepath.Join(dir, target))
-		if err != nil {
+		if err := walkDir(filepath.Join(dir, target)); err != nil {
 			return err
 		}
 	}
