@@ -24,6 +24,11 @@ const (
 )
 
 var (
+	targets = []string{
+		"active",
+		"ignored",
+		"retired",
+	}
 	statuses = []string{
 		"released",
 		"needed",
@@ -72,7 +77,7 @@ func Update() error {
 	}
 
 	log.Println("Walking Ubuntu...")
-	for _, target := range []string{"active", "retired"} {
+	for _, target := range targets {
 		if err := walkDir(filepath.Join(dir, target)); err != nil {
 			return err
 		}
