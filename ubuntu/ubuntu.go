@@ -19,11 +19,19 @@ import (
 )
 
 const (
-	repoURL   = "https://git.launchpad.net/ubuntu-cve-tracker"
-	ubuntuDir = "ubuntu"
+	cveTrackerDir = "ubuntu-cve-tracker"
+	ubuntuDir     = "ubuntu"
 )
 
 var (
+	repoURLs = []string{
+		"https://git.launchpad.net/ubuntu-cve-tracker",
+		"git://git.launchpad.net/ubuntu-cve-tracker",
+	}
+	targets = []string{
+		"active",
+		"retired",
+	}
 	statuses = []string{
 		"released",
 		"needed",
@@ -65,14 +73,29 @@ type Status struct {
 }
 
 func Update() error {
+	var err error
 	gc := git.Config{}
-	dir := filepath.Join(utils.CacheDir(), "ubuntu-cve-tracker")
-	if _, err := gc.CloneOrPull(repoURL, dir, "master", false); err != nil {
+	dir := filepath.Join(utils.CacheDir(), cveTrackerDir)
+	for _, url := range repoURLs {
+		_, err = gc.CloneOrPull(url, dir, "master", false)
+		if err != nil {
+			log.Printf("failed to clone or pull: %s: %v", url, err)
+			continue
+		}
+		break
+	}
+	if err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
-	log.Println("Walking Ubuntu...")
-	for _, target := range []string{"active", "retired"} {
+	dst := filepath.Join(utils.VulnListDir(), ubuntuDir)
+	log.Printf("removing ubuntu directory %s", dst)
+	if err := os.RemoveAll(dst); err != nil {
+		return xerrors.Errorf("failed to remove ubuntu directory: %w", err)
+	}
+
+	log.Println("walking ubuntu-cve-tracker ...")
+	for _, target := range targets {
 		if err := walkDir(filepath.Join(dir, target)); err != nil {
 			return err
 		}
