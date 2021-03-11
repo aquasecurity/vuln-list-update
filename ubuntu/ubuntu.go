@@ -80,6 +80,10 @@ func Update() error {
 		_, err = gc.CloneOrPull(url, dir, "master", false)
 		if err != nil {
 			log.Printf("failed to clone or pull: %s: %v", url, err)
+			log.Printf("removing %s directory", cveTrackerDir)
+			if err := os.RemoveAll(dir); err != nil {
+				return xerrors.Errorf("failed to remove %s directory: %w", cveTrackerDir, err)
+			}
 			continue
 		}
 		break
