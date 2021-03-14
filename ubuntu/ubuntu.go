@@ -78,15 +78,14 @@ func Update() error {
 	dir := filepath.Join(utils.CacheDir(), cveTrackerDir)
 	for _, url := range repoURLs {
 		_, err = gc.CloneOrPull(url, dir, "master", false)
-		if err != nil {
-			log.Printf("failed to clone or pull: %s: %v", url, err)
-			log.Printf("removing %s directory", cveTrackerDir)
-			if err := os.RemoveAll(dir); err != nil {
-				return xerrors.Errorf("failed to remove %s directory: %w", cveTrackerDir, err)
-			}
-			continue
+		if err == nil {
+			break
 		}
-		break
+		log.Printf("failed to clone or pull: %s: %v", url, err)
+		log.Printf("removing %s directory", cveTrackerDir)
+		if err := os.RemoveAll(dir); err != nil {
+			return xerrors.Errorf("failed to remove %s directory: %w", cveTrackerDir, err)
+		}
 	}
 	if err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
