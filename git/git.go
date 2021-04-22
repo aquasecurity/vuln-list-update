@@ -46,7 +46,7 @@ func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[stri
 		if err = os.MkdirAll(repoPath, 0700); err != nil {
 			return nil, err
 		}
-		if err := clone(url, repoPath); err != nil {
+		if err := clone(url, repoPath, branch); err != nil {
 			return nil, err
 		}
 
@@ -68,8 +68,11 @@ func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[stri
 	return updatedFiles, nil
 }
 
-func clone(url, repoPath string) error {
+func clone(url, repoPath, branch string) error {
 	commandAndArgs := []string{"clone", "--depth", "1", url, repoPath}
+	if branch != "" {
+		commandAndArgs = append(commandAndArgs, "-b", branch)
+	}
 	cmd := exec.Command("git", commandAndArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -103,7 +106,10 @@ func pull(url, repoPath, branch string) ([]string, error) {
 		return nil, nil
 	}
 
-	pullCmd := []string{"pull", "origin", branch}
+	pullCmd := []string{"pull", "origin"}
+	if branch != "" {
+		pullCmd = append(pullCmd, branch)
+	}
 	if _, err = utils.Exec("git", append(commandArgs, pullCmd...)); err != nil {
 		return nil, xerrors.Errorf("error in git pull: %w", err)
 	}
