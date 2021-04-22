@@ -98,6 +98,11 @@ func (u Updater) walkDir(root string) error {
 	for _, adv := range advisories {
 		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
 
+		// Update Identifier to upper case
+		// e.g. cvE-2014-3530 => CVE-2014-3530
+		// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
+		adv.Identifier = strings.ToUpper(adv.Identifier)
+
 		slug := u.searchPrefix(adv, advisories)
 		if slug != "" {
 			// Update the package_slug to flatten nested packages
