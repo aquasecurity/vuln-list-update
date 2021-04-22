@@ -1,4 +1,4 @@
-package gemnasium
+package glad
 
 import (
 	"fmt"
@@ -16,12 +16,12 @@ import (
 )
 
 const (
-	repoURL      = "https://gitlab.com/gitlab-org/security-products/gemnasium-db.git"
-	gemnasiumDir = "gemnasium"
+	repoURL                = "https://gitlab.com/gitlab-org/advisories-community.git"
+	advisoriesCommunityDir = "advisories-community"
 )
 
 var (
-	// https://gitlab.com/gitlab-org/security-products/gemnasium-db#package-slug-and-package-name
+	// https://gitlab.com/gitlab-org/advisories-community
 	supportedTypes = []string{"gem", "go", "maven", "npm", "nuget", "packagist", "pypi", "nuget", "conan"}
 )
 
@@ -40,15 +40,15 @@ func NewUpdater() Updater {
 }
 
 func (u Updater) Update() error {
-	log.Print("Fetching GitLab Advisory Database (gemnasium-db)")
+	log.Print("Fetching GitLab Advisory Database (advisories-community)")
 
 	gc := git.Config{}
-	dir := filepath.Join(u.cacheDir, "gemnasium-db")
+	dir := filepath.Join(u.cacheDir, "advisories-community")
 	if _, err := gc.CloneOrPull(repoURL, dir, "master", false); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
-	log.Println("Walking gemnasium-db...")
+	log.Println("Walking advisories-community...")
 	for _, target := range supportedTypes {
 		targetDir := filepath.Join(dir, target)
 		if ok, _ := utils.Exists(targetDir); !ok {
@@ -129,7 +129,7 @@ func (u Updater) searchPrefix(adv advisory, advisories []advisory) string {
 func (u Updater) save(adv advisory) error {
 	s := strings.Split(adv.PackageSlug, "/")
 	dir := filepath.Join(s...)
-	dir = filepath.Join(u.vulnListDir, gemnasiumDir, dir)
+	dir = filepath.Join(u.vulnListDir, advisoriesCommunityDir, dir)
 
 	fileName := fmt.Sprintf("%s.json", adv.Identifier)
 

@@ -1,4 +1,4 @@
-package gemnasium
+package glad
 
 import (
 	"flag"

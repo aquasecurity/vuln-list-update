@@ -1,4 +1,4 @@
-package gemnasium
+package glad
 
 type advisory struct {
 	Identifier       string   `yaml:"identifier"`

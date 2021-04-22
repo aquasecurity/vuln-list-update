@@ -19,9 +19,9 @@ import (
 	susecvrf "github.com/aquasecurity/vuln-list-update/cvrf/suse"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian"
-	"github.com/aquasecurity/vuln-list-update/gemnasium"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
+	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oval/oracle"
@@ -40,7 +40,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, gemnasium, cwe)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, glad, cwe)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -166,8 +166,8 @@ func run() error {
 			return xerrors.Errorf("error in GitHub Security Advisory update: %w", err)
 		}
 		commitMsg = "GitHub Security Advisory"
-	case "gemnasium":
-		gu := gemnasium.NewUpdater()
+	case "glad":
+		gu := glad.NewUpdater()
 		if err := gu.Update(); err != nil {
 			return xerrors.Errorf("error in GitLab Advisory Database update: %w", err)
 		}
