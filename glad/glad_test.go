@@ -26,7 +26,7 @@ func TestUpdater_WalkDir(t *testing.T) {
 		{
 			name:          "happy path",
 			rootDir:       "testdata/happy",
-			wantFileCount: 3,
+			wantFileCount: 4,
 		},
 		{
 			name:    "sad path",

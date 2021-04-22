@@ -16,8 +16,8 @@ import (
 )
 
 const (
-	repoURL                = "https://gitlab.com/gitlab-org/advisories-community.git"
-	advisoriesCommunityDir = "advisories-community"
+	repoURL = "https://gitlab.com/gitlab-org/advisories-community.git"
+	gladDir = "glad"
 )
 
 var (
@@ -43,12 +43,12 @@ func (u Updater) Update() error {
 	log.Print("Fetching GitLab Advisory Database (advisories-community)")
 
 	gc := git.Config{}
-	dir := filepath.Join(u.cacheDir, "advisories-community")
+	dir := filepath.Join(u.cacheDir, gladDir)
 	if _, err := gc.CloneOrPull(repoURL, dir, "master", false); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
-	log.Println("Walking advisories-community...")
+	log.Println("Walking glad...")
 	for _, target := range supportedTypes {
 		targetDir := filepath.Join(dir, target)
 		if ok, _ := utils.Exists(targetDir); !ok {
@@ -134,7 +134,7 @@ func (u Updater) searchPrefix(adv advisory, advisories []advisory) string {
 func (u Updater) save(adv advisory) error {
 	s := strings.Split(adv.PackageSlug, "/")
 	dir := filepath.Join(s...)
-	dir = filepath.Join(u.vulnListDir, advisoriesCommunityDir, dir)
+	dir = filepath.Join(u.vulnListDir, gladDir, dir)
 
 	fileName := fmt.Sprintf("%s.json", adv.Identifier)
 
