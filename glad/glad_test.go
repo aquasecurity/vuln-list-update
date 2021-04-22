@@ -80,7 +80,7 @@ func TestUpdater_WalkDir(t *testing.T) {
 				want, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, goldenPath)
 
-				assert.Equal(t, string(want), string(got), tc.name)
+				assert.JSONEq(t, string(want), string(got), tc.name)
 
 				return nil
 			})
