@@ -1,4 +1,4 @@
-package suse_test
+package cvrf_test
 
 import (
 	"flag"
@@ -8,11 +8,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aquasecurity/vuln-list-update/cvrf/suse"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/spf13/afero"
+
+	"github.com/aquasecurity/vuln-list-update/suse/cvrf"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -114,7 +115,7 @@ func TestConfig_Update(t *testing.T) {
 			}))
 			defer ts.Close()
 			url := ts.URL + "/pub/projects/security/cvrf/"
-			c := suse.Config{
+			c := cvrf.Config{
 				VulnListDir: "/tmp",
 				URL:         url,
 				AppFs:       tc.appFs,

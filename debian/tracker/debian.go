@@ -1,4 +1,4 @@
-package debian
+package tracker
 
 import (
 	"encoding/json"
