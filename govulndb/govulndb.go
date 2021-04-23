@@ -3,9 +3,12 @@ package govulndb
 import (
 	"encoding/json"
 	"fmt"
-	"log"
-
 	"golang.org/x/xerrors"
+	"log"
+	"net/url"
+	"os"
+	"path"
+	"path/filepath"
 
 	pb "gopkg.in/cheggaaa/pb.v1"
 
@@ -21,36 +24,42 @@ const (
 )
 
 func Update() error {
-	log.Println("Fetching GoVulnDB data...")
+	log.Println("Fetching Go Vulnerability Database...")
 
-	b, err := utils.FetchURL(baseURL+"/index.json", "", retry)
+	parsedBaseURL, err := url.Parse(baseURL)
 	if err != nil {
-		return err
+		return xerrors.Errorf("failed to parse baseURL for go-vulndb: %w", err)
 	}
+	basePath := parsedBaseURL.Path
+	parsedBaseURL.Path = path.Join(parsedBaseURL.Path, "index.json")
+	b, err := utils.FetchURL(parsedBaseURL.String(), "", retry)
+	if err != nil {
+		return xerrors.Errorf("failed to fetch go-vulndb index.json: %w", err)
+	}
+	parsedBaseURL.Path = basePath
 	var vulnerablePackages map[string]string
 	if err := json.Unmarshal(b, &vulnerablePackages); err != nil {
-		return xerrors.Errorf("failed to decode goVulnDB index.json response: %w", err)
+		return xerrors.Errorf("failed to decode go-vulndb index.json response: %w", err)
 	}
-	urls := make([]string, len(vulnerablePackages))
-	i := 0
+	var urls []string
 	for packageName := range vulnerablePackages {
-		url := fmt.Sprintf("%s/%s.json", baseURL, packageName)
-		urls[i] = url
-		i++
+		parsedBaseURL.Path = path.Join(parsedBaseURL.Path, fmt.Sprintf("%.json", packageName))
+		urls = append(urls, parsedBaseURL.String())
+		parsedBaseURL.Path = basePath
 	}
 	responses, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch concurrently: %w", err)
 	}
-	log.Println("Saving GoVulnDB data...")
+	log.Println("Saving Go Vulnerability Database...")
 	bar := pb.StartNew(len(responses))
 	for _, res := range responses {
 		var entries []Entry
 		if err := json.Unmarshal(res, &entries); err != nil {
-			return xerrors.Errorf("failed to decode goVulnDB response: %w", err)
+			return xerrors.Errorf("failed to decode go-vulndb response: %w", err)
 		}
 		if err := save(entries); err != nil {
-			return err
+			return xerrors.Errorf("failed to save go-vulndb entries: %w", err)
 		}
 		bar.Increment()
 	}
@@ -61,8 +70,13 @@ func Update() error {
 func save(entries []Entry) error {
 	for _, entry := range entries {
 		cveID := entry.ID
-		if err := utils.SaveCVEPerYear(fmt.Sprintf("%s/%s", goVulnDBDir, entry.Package.Name), cveID, entry); err != nil {
-			return xerrors.Errorf("failed to save NVD CVE detail: %w", err)
+		cveDir := filepath.Join(utils.VulnListDir(), goVulnDBDir, entry.Package.Name)
+		if err := os.MkdirAll(cveDir, os.ModePerm); err != nil {
+			return err
+		}
+		filePath := filepath.Join(cveDir, fmt.Sprintf("%s.json", cveID))
+		if err := utils.Write(filePath, entry); err != nil {
+			return xerrors.Errorf("failed to save go-vulndb detail: %w", err)
 		}
 	}
 	return nil

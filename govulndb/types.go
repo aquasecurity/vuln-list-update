@@ -32,6 +32,7 @@ type GoSpecific struct {
 	URL     string
 }
 
+// source: https://github.com/golang/vulndb/blob/e0c00fae09e687ec6febda47ae3bc7552fc7b988/osv/json.go#L125
 type Entry struct {
 	ID         string
 	Published  time.Time
