@@ -1,4 +1,4 @@
-package oracle_test
+package oval_test
 
 import (
 	"flag"
@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aquasecurity/vuln-list-update/oval/oracle"
+	"github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/spf13/afero"
@@ -127,7 +127,7 @@ func TestConfig_Update(t *testing.T) {
 			}))
 			defer ts.Close()
 			url := ts.URL + "/oval/com.oracle.elsa-all.xml.bz2"
-			c := oracle.Config{
+			c := oval.Config{
 				VulnListDir: "/tmp",
 				URL:         url,
 				AppFs:       tc.appFs,

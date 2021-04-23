@@ -1,4 +1,4 @@
-package redhat
+package securitydataapi
 
 import (
 	"encoding/json"
