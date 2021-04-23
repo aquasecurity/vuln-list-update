@@ -23,10 +23,23 @@ const (
 	retry       = 5
 )
 
-func Update() error {
+type GoVulnDBSource struct {
+	url         string
+	goVulnDBDir string
+}
+
+func NewGoVulnDB() GoVulnDBSource {
+	return GoVulnDBSource{url: baseURL, goVulnDBDir: filepath.Join(utils.VulnListDir(), goVulnDBDir)}
+}
+
+func NewGoVulnDBWithCustomConfig(baseURL, govulnDBDir string) GoVulnDBSource {
+	return GoVulnDBSource{url: baseURL, goVulnDBDir: govulnDBDir}
+}
+
+func (c GoVulnDBSource) Update() error {
 	log.Println("Fetching Go Vulnerability Database...")
 
-	parsedBaseURL, err := url.Parse(baseURL)
+	parsedBaseURL, err := url.Parse(c.url)
 	if err != nil {
 		return xerrors.Errorf("failed to parse baseURL for go-vulndb: %w", err)
 	}
@@ -58,7 +71,7 @@ func Update() error {
 		if err := json.Unmarshal(res, &entries); err != nil {
 			return xerrors.Errorf("failed to decode go-vulndb response: %w", err)
 		}
-		if err := save(entries); err != nil {
+		if err := c.save(entries); err != nil {
 			return xerrors.Errorf("failed to save go-vulndb entries: %w", err)
 		}
 		bar.Increment()
@@ -67,12 +80,12 @@ func Update() error {
 	return nil
 }
 
-func save(entries []Entry) error {
+func (c GoVulnDBSource) save(entries []Entry) error {
 	for _, entry := range entries {
 		cveID := entry.ID
-		cveDir := filepath.Join(utils.VulnListDir(), goVulnDBDir, entry.Package.Name)
+		cveDir := filepath.Join(c.goVulnDBDir, entry.Package.Name)
 		if err := os.MkdirAll(cveDir, os.ModePerm); err != nil {
-			return err
+			return xerrors.Errorf("failed to create go-vulndb cve directory: %w", err)
 		}
 		filePath := filepath.Join(cveDir, cveID+".json")
 		if err := utils.Write(filePath, entry); err != nil {

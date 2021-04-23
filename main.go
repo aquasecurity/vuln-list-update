@@ -173,7 +173,8 @@ func run() error {
 		}
 		commitMsg = "CWE Advisories"
 	case "go-vulndb":
-		if err := govulndb.Update(); err != nil {
+		src := govulndb.NewGoVulnDB()
+		if err := src.Update(); err != nil {
 			return xerrors.Errorf("error in go-vulndb update: %w", err)
 		}
 		commitMsg = "Go Vulnerability Database"
