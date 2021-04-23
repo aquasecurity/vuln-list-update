@@ -2,13 +2,13 @@ package govulndb
 
 import (
 	"encoding/json"
-	"fmt"
-	"golang.org/x/xerrors"
 	"log"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
+
+	"golang.org/x/xerrors"
 
 	pb "gopkg.in/cheggaaa/pb.v1"
 
@@ -43,7 +43,7 @@ func Update() error {
 	}
 	var urls []string
 	for packageName := range vulnerablePackages {
-		parsedBaseURL.Path = path.Join(parsedBaseURL.Path, fmt.Sprintf("%.json", packageName))
+		parsedBaseURL.Path = path.Join(parsedBaseURL.Path, packageName+".json")
 		urls = append(urls, parsedBaseURL.String())
 		parsedBaseURL.Path = basePath
 	}
@@ -74,7 +74,7 @@ func save(entries []Entry) error {
 		if err := os.MkdirAll(cveDir, os.ModePerm); err != nil {
 			return err
 		}
-		filePath := filepath.Join(cveDir, fmt.Sprintf("%s.json", cveID))
+		filePath := filepath.Join(cveDir, cveID+".json")
 		if err := utils.Write(filePath, entry); err != nil {
 			return xerrors.Errorf("failed to save go-vulndb detail: %w", err)
 		}
