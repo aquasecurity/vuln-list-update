@@ -124,7 +124,3 @@ jobs:
     - if: always()
       name: Red Hat Security Data API 2019-2021
       run: ./vuln-list-update -target redhat -years 2019,2020,2021
-
-    - if: always()
-      name: GoVulnDB
-      run: ./vuln-list-update -target go-vulndb
