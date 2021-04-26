@@ -107,7 +107,8 @@ func (c VulnDBSource) Update() error {
 func (c VulnDBSource) save(moduleName string, entries []Entry) error {
 	for _, entry := range entries {
 		// Fill a module name
-		entry.Module = moduleName
+		// Wait for https://github.com/golang/vulndb/issues/1
+		//entry.Module = moduleName
 
 		pkgDir := filepath.Join(c.dir, moduleName)
 		if err := os.MkdirAll(pkgDir, os.ModePerm); err != nil {
