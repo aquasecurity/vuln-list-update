@@ -15,11 +15,9 @@ import (
 )
 
 const (
-	vulndbURL   = "https://storage.googleapis.com/go-vulndb"
-	vulndbDir   = "go"
-	concurrency = 5
-	wait        = 0
-	retry       = 5
+	vulndbURL = "https://storage.googleapis.com/go-vulndb"
+	vulndbDir = "go"
+	retry     = 5
 )
 
 type options struct {
@@ -88,7 +86,7 @@ func (c VulnDBSource) Update() error {
 
 		res, err := utils.FetchURL(pkgURL.String(), "", retry)
 		if err != nil {
-			return xerrors.Errorf("unable to query %s advisory: err", moduleName, err)
+			return xerrors.Errorf("unable to query %s advisory: %w", moduleName, err)
 		}
 
 		var entries []Entry
