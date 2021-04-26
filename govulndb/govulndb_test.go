@@ -1,16 +1,17 @@
-package govulndb
+package govulndb_test
 
 import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	vulndb "github.com/aquasecurity/vuln-list-update/govulndb"
 )
 
 func TestUpdate(t *testing.T) {
@@ -31,7 +32,6 @@ func TestUpdate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				switch {
 				case strings.HasSuffix(r.URL.Path, "index.json"):
@@ -48,23 +48,23 @@ func TestUpdate(t *testing.T) {
 				ts.Close()
 			}()
 
-			dir, _ := ioutil.TempDir("", "Test-GoVulnDB-Update-*")
-			defer func() {
-				_ = os.RemoveAll(dir)
-			}()
+			dir := t.TempDir()
 
-			c := NewGoVulnDBWithCustomConfig(ts.URL, filepath.Join(dir, "go"))
+			c := vulndb.NewVulnDB(vulndb.WithURL(ts.URL), vulndb.WithDir(filepath.Join(dir, "go")))
 			err := c.Update()
-			switch {
-			case tc.expectedError != "":
-				require.Error(t, err, tc.name)
-			default:
-				gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "go", "github.com/dhowden/tag/GO-2021-0097.json"))
-				require.NoError(t, err, tc.name)
-
-				wantJSON, _ := ioutil.ReadFile(tc.expectedOutputJSONFile)
-				assert.JSONEq(t, string(wantJSON), string(gotJSON), tc.name)
+			if tc.expectedError != "" {
+				require.NotNil(t, err)
+				assert.Contains(t, err.Error(), err)
+				return
 			}
+
+			gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "go", "github.com/dhowden/tag/GO-2021-0097.json"))
+			require.NoError(t, err, tc.name)
+
+			wantJSON, err := ioutil.ReadFile(tc.expectedOutputJSONFile)
+			require.NoError(t, err, tc.name)
+
+			assert.JSONEq(t, string(wantJSON), string(gotJSON), tc.name)
 		})
 	}
 }
