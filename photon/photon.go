@@ -87,6 +87,11 @@ func (c Config) Update() error {
 }
 
 func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, data interface{}) error {
+	if cveID == "" {
+		log.Printf("CVE-ID is empty")
+		return nil
+	}
+
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		log.Printf("invalid CVE-ID: %s", cveID)

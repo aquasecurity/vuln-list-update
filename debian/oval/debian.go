@@ -1,4 +1,4 @@
-package debian
+package oval
 
 import (
 	"encoding/xml"

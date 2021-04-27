@@ -1,4 +1,4 @@
-package suse
+package cvrf
 
 import (
 	"bufio"

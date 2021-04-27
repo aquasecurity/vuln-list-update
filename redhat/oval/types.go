@@ -1,4 +1,4 @@
-package redhat
+package oval
 
 import (
 	"encoding/xml"

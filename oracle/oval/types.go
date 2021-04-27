@@ -1,4 +1,4 @@
-package oracle
+package oval
 
 type Oval struct {
 	Definitions []Definition `xml:"definitions>definition"`

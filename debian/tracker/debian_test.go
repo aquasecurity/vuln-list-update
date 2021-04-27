@@ -1,4 +1,4 @@
-package debian_test
+package tracker_test
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/vuln-list-update/debian"
+	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -89,7 +89,7 @@ func TestClient_Update(t *testing.T) {
 		assert.NoError(t, err, "URL parse error")
 		u.Path = path.Join(u.Path, tc.path)
 
-		client := debian.Client{
+		client := tracker.Client{
 			URL:         u.String(),
 			VulnListDir: dir,
 			Retry:       0,

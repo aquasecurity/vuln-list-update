@@ -104,12 +104,31 @@ func TestConfig_Update(t *testing.T) {
 			appFs: afero.NewMemMapFs(),
 			bzip2FileNames: map[string]string{
 				"/photon_cve_metadata/photon_versions.json":    "testdata/photon_versions.json",
-				"/photon_cve_metadata/cve_data_photon1.0.json": "testdata/cve_data_photon1.0.json",
-				"/photon_cve_metadata/cve_data_photon2.0.json": "testdata/cve_data_photon2.0.json",
-				"/photon_cve_metadata/cve_data_photon3.0.json": "testdata/cve_data_photon3.0_invalid_cveid.json",
+				"/photon_cve_metadata/cve_data_photon1.0.json": "testdata/cve_data_photon3.0_invalid_cveid.json",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "invalid CVE-ID format",
+		},
+		{
+			name:  "empty CVE-ID",
+			appFs: afero.NewMemMapFs(),
+			bzip2FileNames: map[string]string{
+				"/photon_cve_metadata/photon_versions.json":    "testdata/photon_versions.json",
+				"/photon_cve_metadata/cve_data_photon1.0.json": "testdata/cve_data_photon1.0.json",
+				"/photon_cve_metadata/cve_data_photon2.0.json": "testdata/cve_data_photon_empty_cveid.json",
+				"/photon_cve_metadata/cve_data_photon3.0.json": "testdata/cve_data_photon3.0.json",
+			},
+			goldenFiles: map[string]string{
+				"/tmp/photon/1.0/zlib/CVE-2016-9843.json":           "testdata/golden/CVE-2016-9843.json",
+				"/tmp/photon/1.0/zookeeper/CVE-2017-5637.json":      "testdata/golden/CVE-2017-5637.json",
+				"/tmp/photon/1.0/apache-tomcat/CVE-2017-12617.json": "testdata/golden/CVE-2017-12617.json",
+				"/tmp/photon/1.0/binutils/CVE-2018-10372.json":      "testdata/golden/CVE-2018-10372.json",
+				"/tmp/photon/1.0/binutils/CVE-2019-12972.json":      "testdata/golden/CVE-2019-12972.json",
+				"/tmp/photon/3.0/ansible/CVE-2019-3828.json":        "testdata/golden/CVE-2019-3828.json",
+				"/tmp/photon/3.0/apache-tomcat/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
+				"/tmp/photon/3.0/apache-tomcat/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
+				"/tmp/photon/3.0/binutils/CVE-2017-16826.json":      "testdata/golden/CVE-2017-16826.json",
+			},
 		},
 	}
 	for _, tc := range testCases {

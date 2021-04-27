@@ -16,18 +16,18 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	"github.com/aquasecurity/vuln-list-update/amazon"
-	susecvrf "github.com/aquasecurity/vuln-list-update/cvrf/suse"
 	"github.com/aquasecurity/vuln-list-update/cwe"
-	"github.com/aquasecurity/vuln-list-update/debian"
+	debianoval "github.com/aquasecurity/vuln-list-update/debian/oval"
+	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/nvd"
-	debianoval "github.com/aquasecurity/vuln-list-update/oval/debian"
-	oracleoval "github.com/aquasecurity/vuln-list-update/oval/oracle"
-	redhatoval "github.com/aquasecurity/vuln-list-update/oval/redhat"
+	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/photon"
-	"github.com/aquasecurity/vuln-list-update/redhat"
+	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
+	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
+	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
@@ -96,7 +96,7 @@ func run() error {
 		if len(yearList) == 0 {
 			return xerrors.New("years must be specified")
 		}
-		if err := redhat.Update(yearList); err != nil {
+		if err := securitydataapi.Update(yearList); err != nil {
 			return err
 		}
 		commitMsg = "RedHat " + *years
@@ -107,7 +107,7 @@ func run() error {
 		}
 		commitMsg = "Red Hat OVAL v2"
 	case "debian":
-		dc := debian.NewClient()
+		dc := tracker.NewClient()
 		if err := dc.Update(); err != nil {
 			return xerrors.Errorf("error in Debian update: %w", err)
 		}

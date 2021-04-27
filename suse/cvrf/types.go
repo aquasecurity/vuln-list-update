@@ -1,4 +1,4 @@
-package suse
+package cvrf
 
 type Cvrf struct {
 	Title           string           `xml:"DocumentTitle"`

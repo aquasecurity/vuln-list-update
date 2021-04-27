@@ -2,6 +2,7 @@
 
 [![Go Report Card][report-card-img]][report-card]
 [![License][license-img]][license]
+[![Update vuln-list repo](https://github.com/aquasecurity/vuln-list-update/actions/workflows/update.yml/badge.svg)](https://github.com/aquasecurity/vuln-list-update/actions/workflows/update.yml)
 
 [report-card-img]: https://goreportcard.com/badge/github.com/aquasecurity/vuln-list-update
 [report-card]: https://goreportcard.com/report/github.com/aquasecurity/vuln-list-update
@@ -23,9 +24,6 @@ Usage of vuln-list-update:
   -years string
         update years (only redhat)
 ```
-
-## Cron status
-https://travis-ci.org/aquasecurity/vuln-list-update
 
 ## Author
 Teppei Fukuda (knqyf263)
