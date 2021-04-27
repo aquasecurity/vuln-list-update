@@ -17,7 +17,7 @@ func WriteJSON(fs afero.Fs, dir, fileName string, data interface{}) error {
 	filePath := filepath.Join(dir, fileName)
 	f, err := fs.Create(filePath)
 	if err != nil {
-		return xerrors.Errorf("unable to open a file: %w", err)
+		return xerrors.Errorf("unable to open %s: %w", filePath, err)
 	}
 	defer f.Close()
 
