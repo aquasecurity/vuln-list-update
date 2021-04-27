@@ -25,6 +25,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/photon"
+	pythonsafetydb "github.com/aquasecurity/vuln-list-update/python/safetydb"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
@@ -39,7 +40,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, cwe)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, cwe, python-safety-db)")
 	years  = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -171,6 +172,12 @@ func run() error {
 			return xerrors.Errorf("error in CWE update: %w", err)
 		}
 		commitMsg = "CWE Advisories"
+	case "python-safety-db":
+		src := pythonsafetydb.NewVulnDB()
+		if err := src.Update(); err != nil {
+			return xerrors.Errorf("error in python-safetydb update: %w", err)
+		}
+		commitMsg = "Python SafetyDB"
 	default:
 		return xerrors.New("unknown target")
 	}

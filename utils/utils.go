@@ -227,3 +227,30 @@ func LookupEnv(key, defaultValue string) string {
 	}
 	return defaultValue
 }
+
+func WriteWithoutHTMLEscape(filePath string, data interface{}) error {
+	f, err := os.Create(filePath)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	b, err := JSONMarshal(data)
+	if err != nil {
+		return err
+	}
+
+	_, err = f.Write(b)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func JSONMarshal(t interface{}) ([]byte, error) {
+	buffer := &bytes.Buffer{}
+	encoder := json.NewEncoder(buffer)
+	encoder.SetEscapeHTML(false)
+	encoder.SetIndent("", "  ")
+	err := encoder.Encode(t)
+	return buffer.Bytes(), err
+}
