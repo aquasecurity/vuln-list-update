@@ -17,7 +17,7 @@ import (
 
 const (
 	repoURL = "https://gitlab.com/gitlab-org/advisories-community.git"
-	gladDir = "glad"
+	gladDir = "glad" // GitLab Advisory Database
 )
 
 var (
@@ -92,7 +92,7 @@ func (u Updater) walkDir(root string) error {
 		return nil
 	})
 	if err != nil {
-		return xerrors.Errorf("error in walk: %w", err)
+		return xerrors.Errorf("walk error: %w", err)
 	}
 
 	for _, adv := range advisories {
@@ -137,7 +137,6 @@ func (u Updater) save(adv advisory) error {
 	dir = filepath.Join(u.vulnListDir, gladDir, dir)
 
 	fileName := fmt.Sprintf("%s.json", adv.Identifier)
-
 	if err := utils.WriteJSON(u.appFs, dir, fileName, adv); err != nil {
 		return xerrors.Errorf("unable to write JSON (%s): %w", fileName, err)
 	}
