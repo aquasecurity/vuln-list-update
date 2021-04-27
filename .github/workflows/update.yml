@@ -83,7 +83,7 @@ jobs:
       name: Python SafetyDB
       run: ./vuln-list-update -target python-safety-db
 
-      # Red Hat Security Data API is unstable.
+    # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
     - if: always()
       name: Red Hat Security Data API 1996-2002
