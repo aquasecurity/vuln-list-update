@@ -10,18 +10,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aquasecurity/vuln-list-update/cwe"
-
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	"github.com/aquasecurity/vuln-list-update/amazon"
+	"github.com/aquasecurity/vuln-list-update/cwe"
 	debianoval "github.com/aquasecurity/vuln-list-update/debian/oval"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
+	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/photon"
@@ -39,8 +39,9 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, cwe)")
-	years  = flag.String("years", "", "update years (only redhat)")
+	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, "+
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, ghsa, glad, cwe)")
+	years = flag.String("years", "", "update years (only redhat)")
 )
 
 func main() {
@@ -165,6 +166,12 @@ func run() error {
 			return xerrors.Errorf("error in GitHub Security Advisory update: %w", err)
 		}
 		commitMsg = "GitHub Security Advisory"
+	case "glad":
+		gu := glad.NewUpdater()
+		if err := gu.Update(); err != nil {
+			return xerrors.Errorf("error in GitLab Advisory Database update: %w", err)
+		}
+		commitMsg = "GitLab Advisory Database"
 	case "cwe":
 		c := cwe.NewCWEConfig()
 		if err := c.Update(); err != nil {
