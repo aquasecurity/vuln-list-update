@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	arch_linux "github.com/aquasecurity/vuln-list-update/arch-linux"
 	"log"
 	"os"
 	"strconv"
@@ -178,6 +179,12 @@ func run() error {
 			return xerrors.Errorf("error in CWE update: %w", err)
 		}
 		commitMsg = "CWE Advisories"
+	case "arch-linux":
+		al := arch_linux.NewArchLinuxConfig()
+		if err := al.Update(); err != nil {
+			return xerrors.Errorf("error in CWE update: %w", err)
+		}
+		commitMsg = "Arch Linux Security Tracker"
 	default:
 		return xerrors.New("unknown target")
 	}
