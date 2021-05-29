@@ -80,6 +80,10 @@ jobs:
       run: ./vuln-list-update -target suse-cvrf
 
     - if: always()
+      name: Python SafetyDB
+      run: ./vuln-list-update -target python-safety-db
+
+    - if: always()
       name: GitLab Advisory Database
       run: ./vuln-list-update -target glad
 
