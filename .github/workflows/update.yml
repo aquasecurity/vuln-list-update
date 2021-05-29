@@ -80,6 +80,10 @@ jobs:
       run: ./vuln-list-update -target suse-cvrf
 
     - if: always()
+      name: Go Vulnerability Database
+      run: ./vuln-list-update -target go-vulndb
+
+    - if: always()
       name: GitLab Advisory Database
       run: ./vuln-list-update -target glad
 
