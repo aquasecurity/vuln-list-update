@@ -6,10 +6,9 @@ require (
 	github.com/PuerkitoBio/goquery v1.6.0
 	github.com/araddon/dateparse v0.0.0-20190426192744-0d74ffceef83
 	github.com/cheggaaa/pb v2.0.7+incompatible
-	github.com/cheggaaa/pb/v3 v3.0.8 // indirect
+	github.com/cheggaaa/pb/v3 v3.0.8
 	github.com/elazarl/goproxy v0.0.0-20190421051319-9d40249d3c2f // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f // indirect
-	github.com/fatih/color v1.10.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/kylelemons/godebug v1.1.0
 	github.com/mattn/go-jsonpointer v0.0.0-20180225143300-37667080efed
