@@ -1,4 +1,4 @@
-package arch_linux
+package arch
 
 import (
 	"encoding/json"
@@ -8,71 +8,108 @@ import (
 	"path/filepath"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
-	pb "github.com/cheggaaa/pb/v3"
+
+	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
 )
 
 const (
 	archLinuxDir       = "arch-linux"
 	securityTrackerURL = "https://security.archlinux.org/json"
+	retry              = 3
 )
 
-type ArchLinuxConfig struct {
-	URL         string
-	VulnListDir string
-	Retry       int
+type securityGroups []struct {
+	Name       string   `json:"name"`
+	Packages   []string `json:"packages"`
+	Status     string   `json:"status"`
+	Severity   string   `json:"severity"`
+	Type       string   `json:"type"`
+	Affected   string   `json:"affected"`
+	Fixed      string   `json:"fixed"`
+	Issues     []string `json:"issues"`
+	Advisories []string `json:"advisories"`
 }
 
-func NewArchLinuxConfig() ArchLinuxConfig {
-	return NewArchLinuxWithConfig(securityTrackerURL, filepath.Join(utils.VulnListDir(), archLinuxDir), 5)
+type options struct {
+	url   string
+	dir   string
+	retry int
 }
 
-func NewArchLinuxWithConfig(url, path string, retryTimes int) ArchLinuxConfig {
-	return ArchLinuxConfig{
-		URL:         url,
-		VulnListDir: path,
-		Retry:       retryTimes,
+type option func(*options)
+
+func WithURL(url string) option {
+	return func(opts *options) { opts.url = url }
+}
+
+func WithDir(dir string) option {
+	return func(opts *options) { opts.dir = dir }
+}
+
+func WithRetry(retry int) option {
+	return func(opts *options) { opts.retry = retry }
+}
+
+type ArchLinux struct {
+	*options
+}
+
+func NewArchLinux(opts ...option) ArchLinux {
+	o := &options{
+		url:   securityTrackerURL,
+		dir:   filepath.Join(utils.VulnListDir(), archLinuxDir),
+		retry: retry,
+	}
+
+	for _, opt := range opts {
+		opt(o)
+	}
+
+	return ArchLinux{
+		options: o,
 	}
 }
 
-func (alc ArchLinuxConfig) Update() error {
+func (al ArchLinux) Update() error {
 	log.Println("Fetching Arch Linux data...")
-	vulns, err := alc.retrieveArchLinuxCveDetails()
+	asgs, err := al.retrieveSecurityGroups()
 	if err != nil {
-		return xerrors.Errorf("failed to retrieve Arch Linux CVE details: %w", err)
+		return xerrors.Errorf("failed to retrieve Arch Linux Security Groups: %w", err)
 	}
 
-	log.Println("Removing old data...")
-	if err = os.RemoveAll(alc.VulnListDir); err != nil {
+	log.Printf("Removing old dir (%s)...", al.dir)
+	if err = os.RemoveAll(al.dir); err != nil {
 		return xerrors.Errorf("failed to remove Arch Linux dir: %w", err)
 	}
 
 	// Save all JSON files
 	log.Println("Saving new data...")
-	bar := pb.StartNew(len(vulns))
-	dir := filepath.Join(alc.VulnListDir)
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+	bar := pb.StartNew(len(asgs))
+	if err = os.MkdirAll(al.dir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create the directory: %w", err)
 	}
-	for _, cves := range vulns {
-		filePath := filepath.Join(dir, fmt.Sprintf("%s.json", cves.Name))
-		if err = utils.Write(filePath, cves); err != nil {
+	for _, asg := range asgs {
+		filePath := filepath.Join(al.dir, fmt.Sprintf("%s.json", asg.Name))
+		if err = utils.Write(filePath, asg); err != nil {
 			return xerrors.Errorf("failed to write Debian CVE details: %w", err)
 		}
 		bar.Increment()
 	}
 	bar.Finish()
+
 	return nil
 }
 
-func (alc ArchLinuxConfig) retrieveArchLinuxCveDetails() (vulns ArchLinuxCVE, err error) {
-	cveJSON, err := utils.FetchURL(alc.URL, "", alc.Retry)
+func (al ArchLinux) retrieveSecurityGroups() (securityGroups, error) {
+	secJSON, err := utils.FetchURL(al.url, "", al.retry)
 	if err != nil {
-		return vulns, xerrors.Errorf("failed to fetch cve data from Arch Linux. err: %w", err)
+		return nil, xerrors.Errorf("failed to fetch cve data from Arch Linux. err: %w", err)
 	}
 
-	if err = json.Unmarshal(cveJSON, &vulns); err != nil {
-		return vulns, xerrors.Errorf("error in unmarshal json: %w", err)
+	var asgs securityGroups
+	if err = json.Unmarshal(secJSON, &asgs); err != nil {
+		return nil, xerrors.Errorf("json unmarshal error: %w", err)
 	}
-	return vulns, nil
+	return asgs, nil
 }
