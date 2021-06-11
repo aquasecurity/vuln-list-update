@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aquasecurity/vuln-list-update/debian/salsa"
+
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
@@ -41,7 +43,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe)")
+		"debian, debian-oval, debian-salsa, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -110,6 +112,12 @@ func run() error {
 	case "debian":
 		dc := tracker.NewClient()
 		if err := dc.Update(); err != nil {
+			return xerrors.Errorf("error in Debian update: %w", err)
+		}
+		commitMsg = "Debian Security Bug Tracker"
+	case "debian-salsa":
+		salsaCli := salsa.NewClient()
+		if err := salsaCli.Update(); err != nil {
 			return xerrors.Errorf("error in Debian update: %w", err)
 		}
 		commitMsg = "Debian Security Bug Tracker"
