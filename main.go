@@ -16,7 +16,7 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	"github.com/aquasecurity/vuln-list-update/amazon"
-	arch_linux "github.com/aquasecurity/vuln-list-update/arch-linux"
+	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	debianoval "github.com/aquasecurity/vuln-list-update/debian/oval"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"

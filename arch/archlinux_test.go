@@ -1,6 +1,7 @@
 package arch_test
 
 import (
+	"github.com/aquasecurity/vuln-list-update/arch"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -8,7 +9,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/aquasecurity/vuln-list-update/arch-linux"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
