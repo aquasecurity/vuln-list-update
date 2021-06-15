@@ -83,6 +83,10 @@ jobs:
       name: GitLab Advisory Database
       run: ./vuln-list-update -target glad
 
+    - if: always()
+        name: Arch Linux Security Advisory
+        run: ./vuln-list-update -target arch-linux
+
     # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
     - if: always()
