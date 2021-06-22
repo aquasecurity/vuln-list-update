@@ -2,6 +2,7 @@ package salsa
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -153,8 +154,8 @@ func (ctx DebianSalsa) Update() error {
 	because it's true for them as well*/
 	for _, cveRelMap := range ctx.PackageData {
 		for _, relData := range cveRelMap {
-			if sidData, isSid := relData.Releases["unstable"]; isSid {
-				for relName, _ := range ctx.oss {
+			if sidData, isSid := relData.Releases["sid"]; isSid {
+				for relName := range ctx.oss {
 					if _, seen := relData.Releases[relName]; !seen {
 						relData.Releases[relName] = sidData
 					}
@@ -189,7 +190,11 @@ func (ctx *DebianSalsa) getReleases() (err error) {
 	codeToVer := make(map[string]string)
 	//oss := make(map[string]int64)
 	log.Println("Fetching covered releases page", coveredReleasesURL)
-	doc, err := goquery.NewDocument(coveredReleasesURL)
+	b, err := utils.FetchURL(coveredReleasesURL, "", 3)
+	if err != nil {
+		return err
+	}
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
 	if err != nil {
 		return err
 	}
@@ -209,9 +214,13 @@ func (ctx *DebianSalsa) getReleases() (err error) {
 		codeToVer[rel] = ""
 	}
 	// okay, let's get the version numbers for every release
-	codeToVer["unstable"] = "unstable" // this is always true
+	codeToVer["sid"] = "unstable" // this is always true
 	log.Println("Fetching releases page", releasesURL)
-	doc, err = goquery.NewDocument(releasesURL)
+	buf, err := utils.FetchURL(releasesURL, "", 3)
+	if err != nil {
+		return err
+	}
+	doc, err = goquery.NewDocumentFromReader(bytes.NewReader(buf))
 	if err != nil {
 		return err
 	}
@@ -371,7 +380,7 @@ func (ctx *DebianSalsa) processCVE(cve cve) error {
 			}
 		}
 		if p.release == "" {
-			p.release = "unstable"
+			p.release = "sid"
 		}
 		if p.version == "<not-affected>" || p.version == "<removed>" {
 			continue
