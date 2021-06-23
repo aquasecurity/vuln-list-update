@@ -44,7 +44,7 @@ func (u Updater) Update() error {
 
 	gc := git.Config{}
 	dir := filepath.Join(u.cacheDir, gladDir)
-	if _, err := gc.CloneOrPull(repoURL, dir, "main", false); err != nil {
+	if _, err := gc.CloneOrPull(repoURL, dir, "main", false, true); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 

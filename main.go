@@ -68,7 +68,7 @@ func run() error {
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
 
-	if _, err := gc.CloneOrPull(url, utils.VulnListDir(), "main", debug); err != nil {
+	if _, err := gc.CloneOrPull(url, utils.VulnListDir(), "main", debug, true); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
 	}
 

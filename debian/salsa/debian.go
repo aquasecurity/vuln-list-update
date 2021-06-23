@@ -2,17 +2,17 @@ package salsa
 
 import (
 	"bufio"
-	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/aquasecurity/vuln-list-update/git"
 
 	"golang.org/x/xerrors"
 
@@ -23,13 +23,9 @@ import (
 )
 
 const (
-	cloneCmd           = "clone --depth 1 https://salsa.debian.org/security-tracker-team/security-tracker.git"
-	debianDir          = "debian-salsa"
-	coveredReleasesURL = "http://security-tracker.debian.org/tracker/data/releases"
-	releasesURL        = "http://www.debian.org/releases/"
+	cloneURL  = "https://salsa.debian.org/security-tracker-team/security-tracker.git"
+	debianDir = "debian-salsa"
 )
-
-var releaseRegexp = regexp.MustCompile(`Debian (?:GNU/Linux )?(\d+)`)
 
 type dsa struct {
 	name        string
@@ -70,11 +66,11 @@ var (
 )
 
 type DebianSalsa struct {
-	cloneCommand string
-	VulnListDir  string
-	oss          map[string]string
-	cveToDSA     map[string][]dsa
-	PackageData  map[string]map[string]CVERelease
+	VulnListDir    string
+	oss            map[string]string
+	cveToDSA       map[string][]dsa
+	PackageData    map[string]map[string]CVERelease
+	cloneDirectory string
 }
 
 type CVERelease struct {
@@ -122,24 +118,27 @@ type SecurityAdvisory struct {
 	PublishDate string `json:"publish_date,omitempty"`
 }
 
+type DebianReleases struct {
+	MajorVersion string `json:"major-version"`
+}
+
 func NewClient() *DebianSalsa {
 	return &DebianSalsa{
-		cloneCommand: cloneCmd,
-		VulnListDir:  utils.VulnListDir(),
-		cveToDSA:     make(map[string][]dsa),
-		PackageData:  make(map[string]map[string]CVERelease),
+		VulnListDir:    utils.VulnListDir(),
+		cveToDSA:       make(map[string][]dsa),
+		PackageData:    make(map[string]map[string]CVERelease),
+		cloneDirectory: salsaDebianCloneDir(),
 	}
 }
 
 func (ctx DebianSalsa) Update() error {
+	gc := git.Config{}
 	log.Println("Fetching Debian Salsa data...")
-	log.Println("Cloning repository", "git "+cloneCmd)
-	args := strings.Split(cloneCmd, " ")
-	_, err := exec.Command("git", args...).Output()
-	if err != nil {
-		return errors.Wrap(err, "failed cloning repository")
+	log.Println("Cloning repository", cloneURL)
+
+	if _, err := gc.CloneOrPull(cloneURL, ctx.cloneDirectory, "master", true, false); err != nil {
+		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
-	defer os.RemoveAll("security-tracker") // nolint: errcheck
 	for _, stage := range []debianStage{
 		{ctx.getReleases, "getting releases"},
 		{ctx.parseDSAs, "parsing DSAs"},
@@ -150,19 +149,7 @@ func (ctx DebianSalsa) Update() error {
 			return errors.Wrapf(err, "failed %s", stage.name)
 		}
 	}
-	/*go over all other releases, and if we haven't seen them, add them the same information from sid,
-	because it's true for them as well*/
-	for _, cveRelMap := range ctx.PackageData {
-		for _, relData := range cveRelMap {
-			if sidData, isSid := relData.Releases["sid"]; isSid {
-				for relName := range ctx.oss {
-					if _, seen := relData.Releases[relName]; !seen {
-						relData.Releases[relName] = sidData
-					}
-				}
-			}
-		}
-	}
+	defer os.RemoveAll(ctx.cloneDirectory) // nolint: errcheck
 
 	log.Println("Saving new data")
 	bar := pb.StartNew(len(ctx.PackageData))
@@ -184,80 +171,33 @@ func (ctx DebianSalsa) Update() error {
 }
 func (ctx *DebianSalsa) getReleases() (err error) {
 	log.Println("Getting releases")
-	// start by getting Debian releases covered by the security tracker
-	// these are listed by codenames, so we will collect code names now, and later
-	// on get the actual version numbers
+	distributionFile := filepath.Join(ctx.cloneDirectory, "static/distributions.json")
+	debianRelData, err := os.Open(distributionFile)
+	if err != nil {
+		return err
+	}
+	byteValue, _ := ioutil.ReadAll(debianRelData)
+	var releases map[string]DebianReleases
+	err = json.Unmarshal(byteValue, &releases)
+	if err != nil {
+		return err
+	}
 	codeToVer := make(map[string]string)
-	//oss := make(map[string]int64)
-	log.Println("Fetching covered releases page", coveredReleasesURL)
-	b, err := utils.FetchURL(coveredReleasesURL, "", 3)
-	if err != nil {
-		return err
-	}
-	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
-	if err != nil {
-		return err
-	}
-	rows := doc.Find("table tbody tr")
-	for i := range rows.Nodes {
-		row := rows.Eq(i)
-		td := row.Find("td")
-		// the first line is the header line and has <th> elements rather than <td> elements
-		if len(td.Nodes) == 0 {
+	for releaseName, value := range releases {
+		if releaseName == "bookworm" || releaseName == "trixie" {
 			continue
 		}
-		rel := td.Eq(0).Text()
-		// ignore backport releases
-		if strings.HasSuffix(rel, "-backports") {
-			continue
-		}
-		codeToVer[rel] = ""
+		codeToVer[releaseName] = value.MajorVersion
 	}
-	// okay, let's get the version numbers for every release
-	codeToVer["sid"] = "unstable" // this is always true
-	log.Println("Fetching releases page", releasesURL)
-	buf, err := utils.FetchURL(releasesURL, "", 3)
-	if err != nil {
-		return err
-	}
-	doc, err = goquery.NewDocumentFromReader(bytes.NewReader(buf))
-	if err != nil {
-		return err
-	}
-	rows = doc.Find("#content ul li")
-	for i := range rows.Nodes {
-		a := rows.Eq(i).Find("a")
-		codeName := a.Find("q").Text()
-		if i == 0 {
-			codeToVer[codeName] = "testing"
-		} else {
-			// ignore codenames we don't know (because the security tracker
-			// doesn't support them)
-			if _, ok := codeToVer[codeName]; !ok {
-				continue
-			}
-			matches := releaseRegexp.FindStringSubmatch(a.Text())
-			if len(matches) < 2 {
-				return errors.Errorf("failed parsing release %s", codeName)
-			}
-			codeToVer[codeName] = matches[1]
-		}
-	}
-
-	// force Debian 7 (wheezy) to be in the releases we're covering. The Debian
-	// security tracker is not covering it anymore, but we will continue covering
-	// it (albeit incompletely, as new vulnerabilities will not be marked as
-	// affected for wheezy, although they should) until we inform customers that
-	// it has reached end of life (TODO: implement a formal EOL process)
-	codeToVer["wheezy"] = "7"
-	codeToVer["jessie"] = "8"
+	codeToVer["sid"] = "unstable"
 	ctx.oss = codeToVer
 	return nil
 }
 func (ctx *DebianSalsa) parseDSAs() error {
 	log.Println("Getting advisories")
 	for _, tp := range []string{"DSA", "DLA"} {
-		dsaFile, err := os.Open("security-tracker/data/" + tp + "/list")
+		listPath := filepath.Join(ctx.cloneDirectory, "data", tp, "list")
+		dsaFile, err := os.Open(listPath)
 		if err != nil {
 			return errors.Wrapf(err, "failed opening %s list", tp)
 		}
@@ -299,7 +239,6 @@ func (ctx *DebianSalsa) parseDSAs() error {
 						if _, exists := ctx.oss[matches[1]]; !exists {
 							continue
 						}
-
 						currentDSA.packages = append(currentDSA.packages, pkg{
 							release: matches[1],
 							name:    matches[2],
@@ -316,7 +255,8 @@ func (ctx *DebianSalsa) parseDSAs() error {
 
 func (ctx *DebianSalsa) parseCVEs() error {
 	log.Println("Processing CVEs")
-	cveFile, err := os.Open("security-tracker/data/CVE/list")
+	cveListPath := filepath.Join(ctx.cloneDirectory, "data/CVE/list")
+	cveFile, err := os.Open(cveListPath)
 	if err != nil {
 		return xerrors.Errorf("failed opening CVE list: %w", err)
 	}
@@ -446,45 +386,31 @@ func (ctx *DebianSalsa) processCVE(cve cve) error {
 						if dsaPkg.release == p.release {
 							seenRelease = true
 						}
+						securityAdv := map[string]SecurityAdvisory{dsa.name: {
+							PublishDate: dsa.date.String(),
+							Description: dsa.description,
+						}}
 						if ctx.PackageData[dsaPkg.name] == nil {
 							releaseDetails := ReleaseDetails{
-								FixVersion: dsaPkg.version,
-								Severity:   p.severity,
-								Statement:  p.statement,
-								SecurityAdvisory: map[string]SecurityAdvisory{dsa.name: {
-									PublishDate: dsa.date.String(),
-									Description: dsa.description,
-								}},
-								ClassificationID: p.classification,
+								SecurityAdvisory: securityAdv,
 							}
 							cveRel := CVERelease{Description: p.statement, Releases: map[string]ReleaseDetails{dsaPkg.release: releaseDetails}}
 							ctx.PackageData[dsaPkg.name] = map[string]CVERelease{cve.name: cveRel}
 						} else {
+							releaseDetails := ReleaseDetails{
+								FixVersion:       dsaPkg.version,
+								Severity:         p.severity,
+								Statement:        p.statement,
+								SecurityAdvisory: securityAdv,
+								ClassificationID: p.classification,
+							}
 							if cveRelease, cveInMap := ctx.PackageData[dsaPkg.name][cve.name]; cveInMap {
 								if _, isRelInMap := cveRelease.Releases[dsaPkg.release]; !isRelInMap {
-									cveRelease.Releases[dsaPkg.release] = ReleaseDetails{
-										FixVersion: dsaPkg.version,
-										Severity:   p.severity,
-										Statement:  p.statement,
-										SecurityAdvisory: map[string]SecurityAdvisory{dsa.name: {
-											PublishDate: dsa.date.String(),
-											Description: dsa.description,
-										}},
-										ClassificationID: p.classification,
-									}
+									cveRelease.Releases[dsaPkg.release] = releaseDetails
 									ctx.PackageData[dsaPkg.name][cve.name] = cveRelease
 								}
 							} else {
-								newRelDetail := ReleaseDetails{
-									FixVersion: dsaPkg.version,
-									Severity:   p.severity,
-									Statement:  p.statement,
-									SecurityAdvisory: map[string]SecurityAdvisory{dsa.name: {
-										PublishDate: dsa.date.String(),
-										Description: dsa.description,
-									}},
-									ClassificationID: p.classification}
-								cveRel := CVERelease{Description: p.statement, Releases: map[string]ReleaseDetails{dsaPkg.release: newRelDetail}}
+								cveRel := CVERelease{Description: p.statement, Releases: map[string]ReleaseDetails{dsaPkg.release: releaseDetails}}
 								ctx.PackageData[dsaPkg.name][cve.name] = cveRel
 							}
 						}
@@ -496,37 +422,23 @@ func (ctx *DebianSalsa) processCVE(cve cve) error {
 			if _, exists := ctx.oss[p.release]; !exists {
 				continue
 			}
+			releaseDetails := ReleaseDetails{
+				FixVersion:             p.version,
+				Severity:               p.severity,
+				Statement:              p.statement,
+				WillNotFix:             p.willNotFix,
+				ClassificationID:       p.classification,
+				SeverityClassification: p.severityClassification,
+			}
 			if ctx.PackageData[p.name] == nil {
-				releaseDetails := ReleaseDetails{
-					FixVersion:             p.version,
-					Severity:               p.severity,
-					Statement:              p.statement,
-					WillNotFix:             p.willNotFix,
-					ClassificationID:       p.classification,
-					SeverityClassification: p.severityClassification,
-				}
-				cveRel := CVERelease{Description: p.statement, Releases: map[string]ReleaseDetails{p.release: releaseDetails}}
+				cveRel := CVERelease{Releases: map[string]ReleaseDetails{p.release: releaseDetails}}
 				ctx.PackageData[p.name] = map[string]CVERelease{cve.name: cveRel}
 			} else {
 				if cveRelease, cveInMap := ctx.PackageData[p.name][cve.name]; cveInMap {
-					cveRelease.Releases[p.release] = ReleaseDetails{
-						FixVersion:             p.version,
-						Severity:               p.severity,
-						Statement:              p.statement,
-						WillNotFix:             p.willNotFix,
-						ClassificationID:       p.classification,
-						SeverityClassification: p.severityClassification,
-					}
+					cveRelease.Releases[p.release] = releaseDetails
 					ctx.PackageData[p.name][cve.name] = cveRelease
 				} else {
-					newRelDetail := ReleaseDetails{
-						FixVersion:             p.version,
-						Severity:               p.severity,
-						Statement:              p.statement,
-						WillNotFix:             p.willNotFix,
-						ClassificationID:       p.classification,
-						SeverityClassification: p.severityClassification}
-					cveRel := CVERelease{Description: p.statement, Releases: map[string]ReleaseDetails{p.release: newRelDetail}}
+					cveRel := CVERelease{Description: p.statement, Releases: map[string]ReleaseDetails{p.release: releaseDetails}}
 					ctx.PackageData[p.name][cve.name] = cveRel
 				}
 			}
@@ -534,4 +446,13 @@ func (ctx *DebianSalsa) processCVE(cve cve) error {
 	}
 
 	return nil
+}
+
+func salsaDebianCloneDir() string {
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		cacheDir = os.TempDir()
+	}
+	dir := filepath.Join(cacheDir, "security-tracker")
+	return dir
 }
