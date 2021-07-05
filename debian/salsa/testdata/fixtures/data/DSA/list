@@ -1,0 +1,12 @@
+[10 Jun 2021] DSA-4930-1 libwebp - security update
+	{CVE-2018-25009 CVE-2018-25010}
+	[buster] - libwebp 0.6.1-2+deb10u1
+[30 Jul 2002] DSA-136 openssl - multiple remote exploits
+	{CVE-2002-0655 CVE-2002-0656}
+	[woody] - openssl094 0.9.4-6.woody.2
+	[woody] - openssl095 0.9.5a-6.woody.1
+	[woody] - openssl 0.9.6c-2.woody.1
+[02 Jul 2002] DSA-135 libapache-mod-ssl -- buffer overflow / DoS
+	{CVE-2002-0653}
+	[woody] - libapache-mod-ssl 2.8.9-2
+

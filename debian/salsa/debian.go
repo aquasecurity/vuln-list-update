@@ -52,7 +52,7 @@ type cve struct {
 
 var (
 	dsaLine     = regexp.MustCompile(`^\[(\d\d \w{3} \d{4})\] (D(?:S|L)A-\d+(?:-\d+)?)\s*(.*)`)
-	dsaCVEsLine = regexp.MustCompile(`(CVE-\d+-\d+)`)
+	dsaCVEsLine = regexp.MustCompile(`CVE-\d+-\d+`)
 	dsaPkgLine  = regexp.MustCompile(`^\s*(?:\[(\w+)\]\s*)?- ([^\s]+) ([^\s]+)$`)
 )
 
@@ -143,6 +143,7 @@ func (ctx DebianSalsa) Update() error {
 		{ctx.getReleases, "getting releases"},
 		{ctx.parseDSAs, "parsing DSAs"},
 		{ctx.parseCVEs, "parsing CVEs"},
+		{ctx.writePackages, "Saving data to file"},
 	} {
 		err := stage.fn()
 		if err != nil {
@@ -150,8 +151,11 @@ func (ctx DebianSalsa) Update() error {
 		}
 	}
 	defer os.RemoveAll(ctx.cloneDirectory) // nolint: errcheck
+	return nil
+}
 
-	log.Println("Saving new data")
+func (ctx *DebianSalsa) writePackages() error {
+	log.Println("Saving packages to file")
 	bar := pb.StartNew(len(ctx.PackageData))
 	for pkgName, cveRelease := range ctx.PackageData {
 		pkgDir := filepath.Join(ctx.VulnListDir, debianDir, pkgName)
@@ -169,6 +173,7 @@ func (ctx DebianSalsa) Update() error {
 	bar.Finish()
 	return nil
 }
+
 func (ctx *DebianSalsa) getReleases() (err error) {
 	log.Println("Getting releases")
 	distributionFile := filepath.Join(ctx.cloneDirectory, "static/distributions.json")
@@ -205,47 +210,54 @@ func (ctx *DebianSalsa) parseDSAs() error {
 		scanner := bufio.NewScanner(dsaFile)
 		for scanner.Scan() {
 			line := scanner.Text()
-			matches := dsaLine.FindStringSubmatch(line)
-			if len(matches) == 4 {
-				// this is a DSA line
-				// have we finished processing a DSA?
-				if currentDSA.name != "" {
-					if ctx.cveToDSA == nil {
-						ctx.cveToDSA = make(map[string][]dsa)
+			if strings.HasPrefix(line, "[") {
+				dsaMatch := dsaLine.FindStringSubmatch(line)
+				if len(dsaMatch) == 4 {
+					if currentDSA.name != "" {
+						if ctx.cveToDSA == nil {
+							ctx.cveToDSA = make(map[string][]dsa)
+						}
+						for _, cve := range currentDSA.cves {
+							ctx.cveToDSA[cve] = append(ctx.cveToDSA[cve], currentDSA)
+						}
 					}
-					for _, cve := range currentDSA.cves {
-						ctx.cveToDSA[cve] = append(ctx.cveToDSA[cve], currentDSA)
+					currentDSA = dsa{name: dsaMatch[2], description: dsaMatch[3]}
+					currentDSA.date, err = time.Parse("02 Jan 2006", dsaMatch[1])
+					if err != nil {
+						log.Println("Error", err)
+						return xerrors.Errorf("failed parsing date:%s %w", dsaMatch[1], err)
 					}
 				}
-				currentDSA = dsa{name: matches[2], description: matches[3]}
-				currentDSA.date, err = time.Parse("02 Jan 2006", matches[1])
-				if err != nil {
-					log.Println("Error", err)
-					return xerrors.Errorf("failed parsing date:%s %w", matches[1], err)
-				}
-			} else if currentDSA.name != "" {
-				// this is a line about the current DSA
-				cveMatches := dsaCVEsLine.FindAllStringSubmatch(line, -1)
+			} else if strings.HasPrefix(line, "\t{") {
+				cveMatches := dsaCVEsLine.FindAllString(line, -1)
 				if len(cveMatches) > 0 {
 					for _, match := range cveMatches {
-						if match[1] != "" {
-							currentDSA.cves = append(currentDSA.cves, match[1])
+						if match != "" {
+							currentDSA.cves = append(currentDSA.cves, match)
 						}
-					}
-				} else {
-					matches := dsaPkgLine.FindStringSubmatch(line)
-					if len(matches) == 4 {
-						// ignore unsupported releases
-						if _, exists := ctx.oss[matches[1]]; !exists {
-							continue
-						}
-						currentDSA.packages = append(currentDSA.packages, pkg{
-							release: matches[1],
-							name:    matches[2],
-							version: matches[3],
-						})
 					}
 				}
+			} else if strings.HasPrefix(line, "\t[") {
+				matches := dsaPkgLine.FindStringSubmatch(line)
+				if len(matches) == 4 {
+					// ignore unsupported releases
+					if _, exists := ctx.oss[matches[1]]; !exists {
+						continue
+					}
+					currentDSA.packages = append(currentDSA.packages, pkg{
+						release: matches[1],
+						name:    matches[2],
+						version: matches[3],
+					})
+				}
+			}
+		}
+		if currentDSA.name != "" {
+			if ctx.cveToDSA == nil {
+				ctx.cveToDSA = make(map[string][]dsa)
+			}
+			for _, cve := range currentDSA.cves {
+				ctx.cveToDSA[cve] = append(ctx.cveToDSA[cve], currentDSA)
 			}
 		}
 		dsaFile.Close() // nolint: errcheck
@@ -444,7 +456,6 @@ func (ctx *DebianSalsa) processCVE(cve cve) error {
 			}
 		}
 	}
-
 	return nil
 }
 

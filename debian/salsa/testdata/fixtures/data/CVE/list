@@ -1,0 +1,24 @@
+CVE-2020-24489 (Incomplete cleanup in some Intel(R) VT-d products may allow an authent ...)
+	{DSA-4934-1}
+	- intel-microcode 3.20210608.1 (bug #989615)
+	NOTE: https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/releases/tag/microcode-20210608
+	NOTE: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00442.html
+CVE-2014-3466 (Buffer overflow in the read_server_hello function in lib/gnutls_handsh ...)
+	{DSA-2944-1 DLA-0001-1}
+	- gnutls26 2.12.23-16
+	- gnutls28 3.2.15-1
+	[squeeze] - gnutls26 2.8.6-1+squeeze4
+	NOTE: http://radare.today/technical-analysis-of-the-gnutls-hello-vulnerability/
+CVE-2018-25009 (A flaw was found in libwebp in versions before 1.0.1. An out-of-bounds ...)
+	{DSA-4930-1 DLA-2677-1}
+	- libwebp 0.6.1-2.1
+	NOTE: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=9100
+	NOTE: https://chromium.googlesource.com/webm/libwebp/+/95fd65070662e01cc9170c4444f5c0859a710097%5E%21/
+CVE-2021-30499 (A flaw was found in libcaca. A buffer overflow of export.c in function ...)
+	- libcaca <unfixed> (bug #987278)
+	[bullseye] - libcaca <no-dsa> (Minor issue)
+	[buster] - libcaca <no-dsa> (Minor issue)
+	[stretch] - libcaca <postponed> (Minor issue; can be fixed in next update)
+	NOTE: https://github.com/cacalabs/libcaca/issues/54
+CVE-2021-30492
+	RESERVED
