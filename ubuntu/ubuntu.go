@@ -77,7 +77,7 @@ func Update() error {
 	gc := git.Config{}
 	dir := filepath.Join(utils.CacheDir(), cveTrackerDir)
 	for _, url := range repoURLs {
-		_, err = gc.CloneOrPull(url, dir, "master", false)
+		_, err = gc.CloneOrPull(url, dir, "master", false, true)
 		if err == nil {
 			break
 		}

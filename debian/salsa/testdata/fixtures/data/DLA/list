@@ -1,0 +1,8 @@
+[09 Jun 2021] DLA-2681-1 eterm - security update
+	{CVE-2021-33477}
+	[stretch] - eterm 0.9.6-5+deb9u1
+[27 Apr 2021] DLA-2644-1 gst-libav1.0 - security update
+	[stretch] - gst-libav1.0 1.10.4-1+deb9u1
+[02 Jun 2014] DLA-0001-1 gnutls26 - security update
+	{CVE-2014-3466}
+	[squeeze] - gnutls26 2.8.6-1+squeeze4

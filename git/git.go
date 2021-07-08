@@ -20,7 +20,7 @@ type Operations interface {
 type Config struct {
 }
 
-func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[string]struct{}, error) {
+func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool, isFetchAll bool) (map[string]struct{}, error) {
 	exists, err := utils.Exists(filepath.Join(repoPath, ".git"))
 	if err != nil {
 		return nil, err
@@ -49,9 +49,10 @@ func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[stri
 		if err := clone(url, repoPath, branch); err != nil {
 			return nil, err
 		}
-
-		if err := fetchAll(repoPath); err != nil {
-			return nil, err
+		if isFetchAll {
+			if err := fetchAll(repoPath); err != nil {
+				return nil, err
+			}
 		}
 		err = filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
 			if info.IsDir() {
