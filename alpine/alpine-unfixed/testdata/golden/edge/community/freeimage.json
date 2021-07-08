@@ -1,0 +1,11 @@
+{
+  "distroversion": "vedge",
+  "reponame": "community",
+  "unfix": {
+    "3.18.0-r2": [
+      "CVE-2019-12212",
+      "CVE-2019-12214"
+    ]
+  },
+  "name": "freeimage"
+}
