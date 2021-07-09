@@ -1,0 +1,10 @@
+{
+  "distroversion": "v3.14",
+  "reponame": "main",
+  "unfix": {
+    "1.16.0-r3": [
+      "CVE-2019-6461"
+    ]
+  },
+  "name": "cairo"
+}

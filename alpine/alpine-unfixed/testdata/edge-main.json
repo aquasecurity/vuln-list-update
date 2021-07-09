@@ -1,0 +1,179 @@
+{
+  "@context": "https://security.alpinelinux.org/static/context.jsonld",
+  "id": "https://security.alpinelinux.org/branch/edge-main",
+  "items": [
+    {
+      "@context": "https://security.alpinelinux.org/static/context.jsonld",
+      "cpeMatch": [
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "cpeUri": "cpe:2.3:a:gnu:wget:*:*:*:*:*:*:*:*",
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#cpeMatch/76132",
+          "maximumVersion": "1.21.1",
+          "maximumVersionOp": "<=",
+          "minimumVersion": null,
+          "minimumVersionOp": ">=",
+          "package": "https://security.alpinelinux.org/srcpkg/wget",
+          "type": "CPEMatch",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        }
+      ],
+      "cvss3": {
+        "score": 6.1,
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "description": "GNU Wget through 1.21.1 does not omit the Authorization header upon a redirect to a different origin, a related issue to CVE-2018-1000007.",
+      "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879",
+      "ref": [
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#ref/45348",
+          "referenceType": "MISC",
+          "rel": "https://mail.gnu.org/archive/html/bug-wget/2021-02/msg00002.html",
+          "type": "Reference"
+        }
+      ],
+      "state": [
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#state/12578",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/wget/1.21.1-r1",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#state/12579",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/wget/1.21.1-r1",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#state/12580",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/wget/1.20.3-r1",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#state/12581",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/wget/1.20.3-r0",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#state/12582",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/wget/1.20.3-r0",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2021-31879#state/17626",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/wget/1.21.1-r1",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2021-31879"
+        }
+      ],
+      "type": "Vulnerability"
+    },
+    {
+      "@context": "https://security.alpinelinux.org/static/context.jsonld",
+      "cpeMatch": [
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "cpeUri": "cpe:2.3:a:cairographics:cairo:1.16.0:*:*:*:*:*:*:*",
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#cpeMatch/112516",
+          "maximumVersion": "1.16.0",
+          "maximumVersionOp": "==",
+          "minimumVersion": null,
+          "minimumVersionOp": "==",
+          "package": "https://security.alpinelinux.org/srcpkg/cairo",
+          "type": "CPEMatch",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2019-6461"
+        }
+      ],
+      "cvss3": {
+        "score": 6.5,
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "description": "An issue was discovered in cairo 1.16.0. There is an assertion problem in the function _cairo_arc_in_direction in the file cairo-arc.c.",
+      "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461",
+      "ref": [
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#ref/86153",
+          "referenceType": "Exploit",
+          "rel": "https://gitlab.freedesktop.org/cairo/cairo/issues/352",
+          "type": "Reference"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#ref/86154",
+          "referenceType": "Not Applicable",
+          "rel": "https://github.com/TeamSeri0us/pocs/tree/master/gerbv",
+          "type": "Reference"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#ref/86155",
+          "referenceType": "Mailing List",
+          "rel": "https://lists.apache.org/thread.html/rf9fa47ab66495c78bb4120b0754dd9531ca2ff0430f6685ac9b07772@%3Cdev.mina.apache.org%3E",
+          "type": "Reference"
+        }
+      ],
+      "state": [
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#state/17463",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/cairo/1.16.0-r3",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2019-6461"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#state/17631",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/cairo/1.16.0-r3",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2019-6461"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#state/17888",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/cairo/1.16.0-r2",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2019-6461"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#state/17911",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/cairo/1.16.0-r3",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2019-6461"
+        },
+        {
+          "@context": "https://security.alpinelinux.org/static/context.jsonld",
+          "fixed": false,
+          "id": "https://security.alpinelinux.org/vuln/CVE-2019-6461#state/17953",
+          "packageVersion": "https://security.alpinelinux.org/srcpkg/cairo/1.16.0-r3",
+          "type": "VulnerabilityState",
+          "vuln": "https://security.alpinelinux.org/vuln/CVE-2019-6461"
+        }
+      ],
+      "type": "Vulnerability"
+    }
+  ],
+  "type": "Collection"
+}

@@ -1,0 +1,10 @@
+{
+  "distroversion": "v3.11",
+  "reponame": "main",
+  "unfix": {
+    "1.20.3-r0": [
+      "CVE-2021-31879"
+    ]
+  },
+  "name": "wget"
+}
