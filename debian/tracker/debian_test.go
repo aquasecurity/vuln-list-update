@@ -1,134 +1,185 @@
 package tracker_test
 
 import (
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
+	"encoding/json"
 	"os"
-	"path"
 	"path/filepath"
-	"strings"
 	"testing"
 
-	"golang.org/x/xerrors"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
-
-	"github.com/stretchr/testify/assert"
 )
 
-func TestClient_Update(t *testing.T) {
-	testCases := []struct {
-		name          string
-		version       string
-		existedFiles  []string
-		jsonFileName  string
-		path          string
-		expectedError string
+func TestClient_Update1(t *testing.T) {
+	tests := []struct {
+		name    string
+		input   string
+		want    map[string]tracker.Bug
+		wantErr string
 	}{
 		{
-			name:          "happy path",
-			jsonFileName:  "testdata/fixtures/debian.json",
-			path:          "debian.json",
-			expectedError: "",
+			name:  "happy path",
+			input: "file::testdata/happy",
+			want: map[string]tracker.Bug{
+				filepath.Join("DLA", "DLA-2711-1.json"): {
+					Header: &tracker.Header{
+						Original:    "[19 Jul 2021] DLA-2711-1 thunderbird - security update",
+						Line:        1,
+						ID:          "DLA-2711-1",
+						Description: "thunderbird - security update",
+					},
+					Annotations: []*tracker.Annotation{
+						{
+							Original: "{CVE-2021-29969 CVE-2021-29970 CVE-2021-29976 CVE-2021-30547}",
+							Line:     2,
+							Type:     "xref",
+							Bugs:     []string{"CVE-2021-29969", "CVE-2021-29970", "CVE-2021-29976", "CVE-2021-30547"},
+						},
+						{
+							Original: "[stretch] - thunderbird 1:78.12.0-1~deb9u1",
+							Line:     3,
+							Type:     "package",
+							Release:  "stretch",
+							Package:  "thunderbird",
+							Kind:     "fixed",
+							Version:  "1:78.12.0-1~deb9u1",
+						},
+					},
+				},
+				filepath.Join("DSA", "DSA-4480-1.json"): {
+					Header: &tracker.Header{
+						Original:    "[11 Jul 2019] DSA-4480-1 redis - security update",
+						Line:        1,
+						ID:          "DSA-4480-1",
+						Description: "redis - security update",
+					},
+					Annotations: []*tracker.Annotation{
+						{
+							Original: "{CVE-2019-10192 CVE-2019-10193}",
+							Line:     2,
+							Type:     "xref",
+							Bugs:     []string{"CVE-2019-10192", "CVE-2019-10193"},
+						},
+						{
+							Original: "[stretch] - redis 3:3.2.6-3+deb9u3",
+							Line:     3,
+							Type:     "package",
+							Release:  "stretch",
+							Package:  "redis",
+							Kind:     "fixed",
+							Version:  "3:3.2.6-3+deb9u3",
+						},
+						{
+							Original: "[buster] - redis 5:5.0.3-4+deb10u1",
+							Line:     4,
+							Type:     "package",
+							Release:  "buster",
+							Package:  "redis",
+							Kind:     "fixed",
+							Version:  "5:5.0.3-4+deb10u1",
+						},
+					},
+				},
+				filepath.Join("CVE", "CVE-2021-36373.json"): {
+					Header: &tracker.Header{
+						Original:    "CVE-2021-36373 (When reading a specially crafted TAR archive an Apache Ant build can b ...)",
+						Line:        5,
+						ID:          "CVE-2021-36373",
+						Description: "(When reading a specially crafted TAR archive an Apache Ant build can b ...)",
+					},
+					Annotations: []*tracker.Annotation{
+						{
+							Original: "- ant <unfixed> (unimportant)",
+							Line:     6,
+							Type:     "package",
+							Kind:     "unfixed",
+							Package:  "ant",
+							Severity: "unimportant",
+						},
+						{
+							Original:    "NOTE: https://www.openwall.com/lists/oss-security/2021/07/13/5",
+							Line:        7,
+							Type:        "NOTE",
+							Description: "https://www.openwall.com/lists/oss-security/2021/07/13/5",
+						},
+						{
+							Original:    "NOTE: Crash in CLI tool, no security impact",
+							Line:        8,
+							Type:        "NOTE",
+							Description: "Crash in CLI tool, no security impact",
+						},
+					},
+				},
+				filepath.Join("CVE", "CVE-2021-36367.json"): {
+					Header: &tracker.Header{
+						Original:    "CVE-2021-36367 (PuTTY through 0.75 proceeds with establishing an SSH session even if i ...)",
+						Line:        10,
+						ID:          "CVE-2021-36367",
+						Description: "(PuTTY through 0.75 proceeds with establishing an SSH session even if i ...)",
+					},
+					Annotations: []*tracker.Annotation{
+						{
+							Original: "- putty 0.75-3 (bug #990901)",
+							Line:     11,
+							Type:     "package",
+							Version:  "0.75-3",
+							Kind:     "fixed",
+							Package:  "putty",
+							BugNo:    990901,
+						},
+						{
+							Original:    "[bullseye] - putty <no-dsa> (Minor issue)",
+							Line:        12,
+							Type:        "package",
+							Release:     "bullseye",
+							Kind:        "no-dsa",
+							Package:     "putty",
+							Description: "Minor issue",
+						},
+						{
+							Original:    "[buster] - putty <no-dsa> (Minor issue)",
+							Line:        13,
+							Type:        "package",
+							Release:     "buster",
+							Kind:        "no-dsa",
+							Package:     "putty",
+							Description: "Minor issue",
+						},
+					},
+				},
+			},
 		},
 		{
-			name:          "remove old files",
-			existedFiles:  []string{"CVE-0000-0000", "CVE-3000-0000"},
-			jsonFileName:  "testdata/fixtures/debian.json",
-			path:          "debian.json",
-			expectedError: "",
-		},
-		{
-			name:          "invalid JSON",
-			jsonFileName:  "testdata/fixtures/invalid.json",
-			path:          "invalid.json",
-			expectedError: "invalid character 'i' looking for beginning of value",
-		},
-		{
-			name:          "404",
-			jsonFileName:  "testdata/fixtures/debian.json",
-			path:          "404.html",
-			expectedError: "HTTP error. status code: 404",
+			name:    "sad path",
+			input:   "file::testdata/sad",
+			wantErr: "no such file or directory",
 		},
 	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tmpDir := t.TempDir()
+			c := tracker.NewClient(tracker.WithURL(tt.input), tracker.WithVulnListDir(tmpDir))
 
-	for _, tc := range testCases {
-		//t.Run(tc.name, func(t *testing.T) {
-		testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			switch {
-			case strings.HasSuffix(r.URL.Path, ".json"):
-				j, _ := ioutil.ReadFile(tc.jsonFileName)
-				_, _ = w.Write(j)
-			case strings.HasSuffix(r.URL.Path, "404.html"):
-				http.NotFound(w, r)
-			default:
-				assert.Fail(t, "bad URL requested: ", r.URL.Path, tc.name)
+			err := c.Update()
+			if tt.wantErr != "" {
+				require.NotNil(t, err)
+				assert.Contains(t, err.Error(), tt.wantErr)
+				return
 			}
-		}))
-		defer testServer.Close()
+			assert.NoError(t, err)
 
-		fmt.Println(path.Join(testServer.URL, tc.path))
-		dir, err := ioutil.TempDir("", "debian")
-		assert.NoError(t, err, "failed to create temp dir")
-		defer os.RemoveAll(dir)
+			for name, want := range tt.want {
+				f, err := os.Open(filepath.Join(tmpDir, "debian", name))
+				require.NoError(t, err)
 
-		// These files must be removed
-		if len(tc.existedFiles) > 0 {
-			d := filepath.Join(dir, "debian")
-			_ = os.Mkdir(d, 0777)
-			for _, fileName := range tc.existedFiles {
-				err = ioutil.WriteFile(filepath.Join(d, fileName), []byte("test"), 0666)
-				assert.Nil(t, err, "failed to write the file")
+				var got tracker.Bug
+				err = json.NewDecoder(f).Decode(&got)
+				require.NoError(t, err)
+
+				assert.Equal(t, want, got)
 			}
-		}
-
-		u, err := url.Parse(testServer.URL)
-		assert.NoError(t, err, "URL parse error")
-		u.Path = path.Join(u.Path, tc.path)
-
-		client := tracker.Client{
-			URL:         u.String(),
-			VulnListDir: dir,
-			Retry:       0,
-		}
-		err = client.Update()
-		switch {
-		case tc.expectedError != "":
-			assert.Contains(t, err.Error(), tc.expectedError, tc.name)
-		default:
-			assert.NoError(t, err, tc.name)
-		}
-
-		// TODO: Expose utils with an interface so this can self contain Write()
-		// Compare got and golden
-		err = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return xerrors.Errorf("walk error: %w", err)
-			}
-			if info.IsDir() {
-				return nil
-			}
-
-			// Before: /var/folders/j7/pvz71jxn637dqd96gm80nhwm0000gn/T/debian676766850/debian/prototypejs/CVE-2007-2383.json
-			// After:  testdata/goldens/debian/prototypejs/CVE-2007-2383.json.golden
-			paths := strings.Split(path, string(os.PathSeparator))
-			p := filepath.Join(paths[len(paths)-3:]...)
-			golden := filepath.Join("testdata", "goldens", p+".golden")
-
-			want, err := ioutil.ReadFile(golden)
-			assert.NoError(t, err, "failed to open the golden file")
-
-			got, err := ioutil.ReadFile(path)
-			assert.NoError(t, err, "failed to open the result file")
-
-			assert.Equal(t, string(want), string(got))
-
-			return nil
 		})
-		assert.NoError(t, err, "filepath walk error")
-		//})
 	}
 }
