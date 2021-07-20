@@ -14,10 +14,10 @@ func DownloadToTempDir(ctx context.Context, url string) (string, error) {
 		return "", xerrors.Errorf("failed to create a temp dir: %w", err)
 	}
 
-	// go-getter doesn't allow destination to exist.It needs to be removed onc
+	// go-getter doesn't allow destination to exist.It needs to be removed once.
 	// https://github.com/hashicorp/go-getter/blob/7b99c311a18a8bb679bc7ff3a830a65029afef9b/module_test.go#L18-L28
 	if err = os.RemoveAll(tmpDir); err != nil {
-
+		return "", xerrors.Errorf("failed to remove %s: %w", tmpDir, err)
 	}
 
 	pwd, err := os.Getwd()
