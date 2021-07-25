@@ -8,7 +8,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func DownloadToTempDir(ctx context.Context, url string) (string, error) {
+func DownloadToTempDir(ctx context.Context, src string) (string, error) {
 	tmpDir, err := os.MkdirTemp("", "vuln-list-update")
 	if err != nil {
 		return "", xerrors.Errorf("failed to create a temp dir: %w", err)
@@ -20,24 +20,49 @@ func DownloadToTempDir(ctx context.Context, url string) (string, error) {
 		return "", xerrors.Errorf("failed to remove %s: %w", tmpDir, err)
 	}
 
+	if err = download(ctx, src, tmpDir, getter.ClientModeDir); err != nil {
+		return "", xerrors.Errorf("download error: %w", err)
+	}
+
+	return tmpDir, nil
+}
+
+func DownloadToTempFile(ctx context.Context, src string) (string, error) {
+	f, err := os.CreateTemp("", "vuln-list-update")
+	if err != nil {
+		return "", xerrors.Errorf("failed to create a temp file: %w", err)
+	}
+	if err = f.Close(); err != nil {
+		return "", xerrors.Errorf("close error: %w", err)
+	}
+
+	if err = download(ctx, src, f.Name(), getter.ClientModeFile); err != nil {
+		return "", xerrors.Errorf("download error: %w", err)
+	}
+
+	return f.Name(), nil
+}
+
+func download(ctx context.Context, src, dst string, mode getter.ClientMode) error {
 	pwd, err := os.Getwd()
 	if err != nil {
-		return "", xerrors.Errorf("unable to get the current dir: %w", err)
+		return xerrors.Errorf("unable to get the current dir: %w", err)
 	}
 
 	// Build the client
 	client := &getter.Client{
 		Ctx:     ctx,
-		Src:     url,
-		Dst:     tmpDir,
+		Src:     src,
+		Dst:     dst,
 		Pwd:     pwd,
 		Getters: getter.Getters,
-		Mode:    getter.ClientModeAny,
+		Mode:    mode,
 	}
 
 	if err = client.Get(); err != nil {
-		return "", xerrors.Errorf("failed to download: %w", err)
+		return xerrors.Errorf("failed to download: %w", err)
 	}
 
-	return tmpDir, nil
+	return nil
+
 }

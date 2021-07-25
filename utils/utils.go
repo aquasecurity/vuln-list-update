@@ -51,20 +51,25 @@ func SaveCVEPerYear(dirName string, cveID string, data interface{}) error {
 }
 
 func Write(filePath string, data interface{}) error {
+	dir := filepath.Dir(filePath)
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		return xerrors.Errorf("failed to create %s: %w", dir, err)
+	}
+
 	f, err := os.Create(filePath)
 	if err != nil {
-		return err
+		return xerrors.Errorf("file create error: %w", err)
 	}
 	defer f.Close()
 
 	b, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
-		return err
+		return xerrors.Errorf("JSON marshal error: %w", err)
 	}
 
 	_, err = f.Write(b)
 	if err != nil {
-		return err
+		return xerrors.Errorf("file write error: %w", err)
 	}
 	return nil
 }

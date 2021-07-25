@@ -1,0 +1,38 @@
+Package: python-zzzeeksphinx
+Source: zzzeeksphinx
+Version: 1.0.20-2
+Installed-Size: 103
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Architecture: all
+Depends: python-mako, python-pyscss, python:any (<< 2.8), python:any (>= 2.7.5-5~)
+Recommends: python-pygments
+Enhances: python-sphinx
+Description: Zzzeek's Sphinx layout and utilities
+Homepage: https://bitbucket.org/zzzeek/zzzeeksphinx
+Description-md5: 4f212bc11d1a3c5c6d0fa4b9761ac8d1
+Section: python
+Priority: optional
+Filename: pool/main/z/zzzeeksphinx/python-zzzeeksphinx_1.0.20-2_all.deb
+Size: 23156
+MD5sum: cb341a0ba8a255820fa620108b84c5e5
+SHA256: d4d43633551bc735fcb6688001a849762854e67b0afc380778a186778f3a1d6d
+
+Package: python3-zzzeeksphinx
+Source: zzzeeksphinx
+Version: 1.0.20-2
+Installed-Size: 103
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Architecture: all
+Depends: python3-mako, python3-pyscss, python3:any (>= 3.3.2-2~)
+Recommends: python3-pygments
+Enhances: python3-sphinx
+Description: Zzzeek's Sphinx layout and utilities
+Homepage: https://bitbucket.org/zzzeek/zzzeeksphinx
+Description-md5: 4f212bc11d1a3c5c6d0fa4b9761ac8d1
+Section: python
+Priority: optional
+Filename: pool/main/z/zzzeeksphinx/python3-zzzeeksphinx_1.0.20-2_all.deb
+Size: 23244
+MD5sum: fcced1bc1a8460d4deebf2d9fd363f74
+SHA256: 194dcdb4131719e42f4611f93de38083b5c9cf30a60435cfd5b951a049babbbf
+

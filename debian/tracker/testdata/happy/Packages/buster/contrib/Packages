@@ -1,0 +1,41 @@
+Package: zfs-zed
+Source: zfs-linux
+Version: 0.7.12-2+deb10u2
+Installed-Size: 244
+Maintainer: Debian ZFS on Linux maintainers <pkg-zfsonlinux-devel@alioth-lists.debian.net>
+Architecture: amd64
+Depends: zfs-modules | zfs-dkms, zfsutils-linux (>= 0.7.12-2+deb10u2), libc6 (>= 2.28), libnvpair1linux (>= 0.7.12), libuuid1 (>= 2.16), libuutil1linux (>= 0.7.12), libzfs2linux (>= 0.7.12), libzpool2linux (>= 0.7.12), zlib1g (>= 1:1.1.4)
+Description: OpenZFS Event Daemon
+Homepage: http://www.zfsonlinux.org/
+Description-md5: d631b1d9b4cd78d49e3305a0739095ab
+Section: contrib/admin
+Priority: optional
+Filename: pool/contrib/z/zfs-linux/zfs-zed_0.7.12-2+deb10u2_amd64.deb
+Size: 64400
+MD5sum: b0c19d207f72a7c9be97879ea39d20f1
+SHA256: c486d086203738fc7ffed7eba6bc4f80531fb96720fcc6f293ef6202e0178850
+
+Package: zfsutils-linux
+Source: zfs-linux
+Version: 0.7.12-2+deb10u2
+Installed-Size: 1099
+Maintainer: Debian ZFS on Linux maintainers <pkg-zfsonlinux-devel@alioth-lists.debian.net>
+Architecture: amd64
+Provides: zfsutils
+Depends: python3, python3:any, libblkid1 (>= 2.16), libc6 (>= 2.17), libnvpair1linux (>= 0.7.12), libuuid1 (>= 2.16), libuutil1linux (>= 0.7.12), libzfs2linux (>= 0.7.12), libzpool2linux (>= 0.7.12), zlib1g (>= 1:1.1.4)
+Recommends: lsb-base, zfs-modules | zfs-dkms, zfs-zed
+Suggests: nfs-kernel-server, samba-common-bin (>= 3.0.23), zfs-initramfs | zfs-dracut
+Conflicts: insserv (<< 1.18), zfs, zfs-fuse
+Breaks: zfs-dkms (>> 0.7.12-2+deb10u2), zfs-dkms (<< 0.7.12-2+deb10u2)
+Description: command-line tools to manage OpenZFS filesystems
+Homepage: http://www.zfsonlinux.org/
+Description-md5: 3b2c00b92882937cb7252c01e41d8975
+Tag: admin::configuring, admin::filesystem, interface::commandline,
+ role::program, scope::utility, use::configuring
+Section: contrib/admin
+Priority: optional
+Filename: pool/contrib/z/zfs-linux/zfsutils-linux_0.7.12-2+deb10u2_amd64.deb
+Size: 292444
+MD5sum: 928b7371c07f32ab692c5536eda85f64
+SHA256: 51da7218e809d0b3876d175eac676f27b7f3c2aef4e13cd4bb8d9ecb81901003
+

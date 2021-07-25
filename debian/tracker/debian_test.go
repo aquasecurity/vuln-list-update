@@ -12,17 +12,26 @@ import (
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 )
 
-func TestClient_Update1(t *testing.T) {
+type pkgDetail struct {
+	Package []string
+	Version []string
+}
+
+func TestClient_Update(t *testing.T) {
 	tests := []struct {
-		name    string
-		input   string
-		want    map[string]tracker.Bug
-		wantErr string
+		name         string
+		repoPath     string
+		packagesPath string
+		wantBugs     map[string]tracker.Bug
+		wantDists    map[string]tracker.Distribution
+		wantPackages map[string][]pkgDetail
+		wantErr      string
 	}{
 		{
-			name:  "happy path",
-			input: "file::testdata/happy",
-			want: map[string]tracker.Bug{
+			name:         "happy path",
+			repoPath:     "file::testdata/happy",
+			packagesPath: "file::testdata/happy/Packages/%s/%s/Packages",
+			wantBugs: map[string]tracker.Bug{
 				filepath.Join("DLA", "DLA-2711-1.json"): {
 					Header: &tracker.Header{
 						Original:    "[19 Jul 2021] DLA-2711-1 thunderbird - security update",
@@ -150,17 +159,68 @@ func TestClient_Update1(t *testing.T) {
 					},
 				},
 			},
+			wantDists: map[string]tracker.Distribution{
+				"stretch": {
+					MajorVersion: "9",
+					Support:      "lts",
+					Contact:      "debian-lts@lists.debian.org",
+				},
+				"buster": {
+					MajorVersion: "10",
+					Support:      "security",
+					Contact:      "team@security.debian.org",
+				},
+			},
+			wantPackages: map[string][]pkgDetail{
+				filepath.Join("Packages", "stretch", "main", "Packages.json"): {
+					{
+						Package: []string{"0ad"},
+						Version: []string{"0.0.21-2"},
+					},
+					{
+						Package: []string{"0ad-data"},
+						Version: []string{"0.0.21-1"},
+					},
+				},
+				filepath.Join("Packages", "stretch", "contrib", "Packages.json"): {
+					{
+						Package: []string{"alien-arena"},
+						Version: []string{"7.66+dfsg-3"},
+					},
+				},
+				filepath.Join("Packages", "buster", "main", "Packages.json"): {
+					{
+						Package: []string{"python-zzzeeksphinx"},
+						Version: []string{"1.0.20-2"},
+					},
+					{
+						Package: []string{"python3-zzzeeksphinx"},
+						Version: []string{"1.0.20-2"},
+					},
+				},
+				filepath.Join("Packages", "buster", "contrib", "Packages.json"): {
+					{
+						Package: []string{"zfs-zed"},
+						Version: []string{"0.7.12-2+deb10u2"},
+					},
+					{
+						Package: []string{"zfsutils-linux"},
+						Version: []string{"0.7.12-2+deb10u2"},
+					},
+				},
+			},
 		},
 		{
-			name:    "sad path",
-			input:   "file::testdata/sad",
-			wantErr: "no such file or directory",
+			name:     "sad path",
+			repoPath: "file::testdata/sad",
+			wantErr:  "no such file or directory",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tmpDir := t.TempDir()
-			c := tracker.NewClient(tracker.WithURL(tt.input), tracker.WithVulnListDir(tmpDir))
+			c := tracker.NewClient(tracker.WithTrackerURL(tt.repoPath), tracker.WithPackagesURL(tt.packagesPath),
+				tracker.WithVulnListDir(tmpDir))
 
 			err := c.Update()
 			if tt.wantErr != "" {
@@ -170,16 +230,38 @@ func TestClient_Update1(t *testing.T) {
 			}
 			assert.NoError(t, err)
 
-			for name, want := range tt.want {
-				f, err := os.Open(filepath.Join(tmpDir, "debian", name))
-				require.NoError(t, err)
-
+			// Compare CVE/list, DLA/list, and DSA/list
+			for name, want := range tt.wantBugs {
 				var got tracker.Bug
-				err = json.NewDecoder(f).Decode(&got)
-				require.NoError(t, err)
+				filePath := filepath.Join(tmpDir, "debian", name)
+				compare(t, filePath, &got, &want)
+			}
 
-				assert.Equal(t, want, got)
+			// Compare distributions.json
+			{
+				var got map[string]tracker.Distribution
+				filePath := filepath.Join(tmpDir, "debian", "distributions.json")
+				compare(t, filePath, &got, &tt.wantDists)
+			}
+
+			// Compare Packages
+			for name, want := range tt.wantPackages {
+				var got []pkgDetail
+				filePath := filepath.Join(tmpDir, "debian", name)
+				compare(t, filePath, &got, &want)
 			}
 		})
 	}
+}
+
+func compare(t *testing.T, gotPath string, got, want interface{}) {
+	t.Helper()
+
+	f, err := os.Open(gotPath)
+	require.NoError(t, err)
+
+	err = json.NewDecoder(f).Decode(got)
+	require.NoError(t, err)
+
+	assert.Equal(t, want, got)
 }
