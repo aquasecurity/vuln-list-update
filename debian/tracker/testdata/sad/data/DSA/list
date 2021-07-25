@@ -1,0 +1,4 @@
+[11 Jul 2019] DSA-4480-1 redis - security update
+        {CVE-2019-10192 CVE-2019-10193}
+        [stretch] - redis 3:3.2.6-3+deb9u3
+        [buster] - redis 5:5.0.3-4+deb10u1
