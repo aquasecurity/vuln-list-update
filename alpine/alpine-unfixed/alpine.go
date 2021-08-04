@@ -9,8 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/parnurzeal/gorequest"
-
 	"github.com/PuerkitoBio/goquery"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
@@ -19,25 +17,41 @@ import (
 )
 
 const (
-	alpineDir = "alpine-unfixed"
-	baseUrl   = "https://security.alpinelinux.org"
-	retry     = 3
+	alpineDir          = "alpine-unfixed"
+	baseUrl            = "https://security.alpinelinux.org"
+	retry              = 3
+	OsPackageSeparator = "||"
+)
+
+var (
+	alpineActiveReleases = []string{
+		"edge-main",
+		"edge-community",
+		"3.14-main",
+		"3.14-community",
+		"3.13-main",
+		"3.12-main",
+		"3.11-main",
+		"3.10-main",
+	}
 )
 
 type Updater struct {
-	vulnListDir string
-	appFs       afero.Fs
-	baseURL     string
-	retry       int
-	CVEUrl      string
+	vulnListDir    string
+	appFs          afero.Fs
+	baseURL        string
+	retry          int
+	CVEUrl         string
+	activeReleases []string
 }
 
 func NewUpdater() *Updater {
 	updater := &Updater{
-		vulnListDir: utils.VulnListDir(),
-		appFs:       afero.NewOsFs(),
-		baseURL:     baseUrl,
-		retry:       retry,
+		vulnListDir:    utils.VulnListDir(),
+		appFs:          afero.NewOsFs(),
+		baseURL:        baseUrl,
+		retry:          retry,
+		activeReleases: alpineActiveReleases,
 	}
 	return updater
 }
@@ -53,21 +67,15 @@ func (u Updater) Update() (err error) {
 	}
 
 	log.Println("Fetching branch data...")
-	activeBranches, err := getActiveReleases(u.baseURL)
-	if err != nil {
-		return xerrors.Errorf("Failed getting active branches: %w", err)
-	}
-	activeBranches = append(activeBranches, "3.10-main")
-	for _, branch := range activeBranches {
+	for _, branch := range u.activeReleases {
 		log.Println("Processing::", branch)
 		branchPath := utils.JoinURL(u.baseURL, "branch", branch)
-		err := parseBranchVulnerabilities(branchPath, branch, baseData, u.baseURL)
-		if err != nil {
+		if err := parseBranchVulnerabilities(branchPath, branch, baseData, u.baseURL); err != nil {
 			return xerrors.Errorf("Failed parsing branch %s: %w", branchPath, err)
 		}
+
 		orphanedVulnPkgs := utils.JoinURL(branchPath, "vuln-orphaned")
-		err = parseBranchVulnerabilities(orphanedVulnPkgs, branch, baseData, u.baseURL)
-		if err != nil {
+		if err = parseBranchVulnerabilities(orphanedVulnPkgs, branch, baseData, u.baseURL); err != nil {
 			return xerrors.Errorf("Failed parsing branch %s: %w", orphanedVulnPkgs, err)
 		}
 	}
@@ -96,7 +104,7 @@ func (u Updater) Update() (err error) {
 
 func (u Updater) save(packageData map[string]VulnVersionMap) error {
 	for branchPkg, vulnData := range packageData {
-		branchPkgDet := strings.Split(branchPkg, "@@")
+		branchPkgDet := strings.Split(branchPkg, OsPackageSeparator)
 		branch := strings.Split(branchPkgDet[0], "-")
 		release := branch[0]
 		repoName := branch[1]
@@ -117,7 +125,8 @@ func (u Updater) save(packageData map[string]VulnVersionMap) error {
 }
 
 func parseBranchVulnerabilities(branchPath, branch string, baseData map[string]string, baseUrl string) error {
-	b, err := fetchURL(branchPath, "application/ld+json")
+
+	b, err := utils.FetchURLWithHeaders(branchPath, map[string]string{"accept": "application/ld+json"})
 	if err != nil {
 		return err
 	}
@@ -128,7 +137,7 @@ func parseBranchVulnerabilities(branchPath, branch string, baseData map[string]s
 	for _, item := range releaseInfo.Items {
 		_, packageName := path.Split(item.CPEMatch[0].Package)
 		_, vulnerability := path.Split(item.CPEMatch[0].Vulnerability)
-		key := fmt.Sprintf("%s@@%s:%s", branch, packageName, vulnerability)
+		key := fmt.Sprintf("%s%s%s:%s", branch, OsPackageSeparator, packageName, vulnerability)
 		if _, exists := baseData[key]; !exists {
 			err := cveHTMLParser(baseUrl, vulnerability, baseData)
 			if err != nil {
@@ -139,40 +148,9 @@ func parseBranchVulnerabilities(branchPath, branch string, baseData map[string]s
 	return nil
 }
 
-func getActiveReleases(url string) ([]string, error) {
-	var activeRelease []string
-	b, err := fetchURL(url, "text/html")
-	if err != nil {
-		return activeRelease, err
-	}
-
-	d, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
-	if err != nil {
-		return activeRelease, err
-	}
-
-	d.Find("h2").Each(func(i int, selection *goquery.Selection) {
-		activeRelease = append(activeRelease, selection.Text())
-	})
-	return activeRelease, nil
-}
-
-func fetchURL(url, acceptHeader string) ([]byte, error) {
-	req := gorequest.New().Get(url)
-	req.Header.Add("Accept", acceptHeader)
-	resp, body, errs := req.Type("text").EndBytes()
-	if len(errs) > 0 {
-		return nil, xerrors.Errorf("HTTP error. url: %s, err: %w", url, errs[0])
-	}
-	if resp.StatusCode != 200 {
-		return nil, xerrors.Errorf("HTTP error. status code: %d, url: %s", resp.StatusCode, url)
-	}
-	return body, nil
-}
-
 func cveHTMLParser(baseUrl, vulnerability string, baseData map[string]string) error {
 	cveUrl := utils.JoinURL(baseUrl, "vuln", vulnerability)
-	b, err := fetchURL(cveUrl, "text/html")
+	b, err := utils.FetchURLWithHeaders(cveUrl, map[string]string{"accept": "text/html"})
 	if err != nil {
 		return err
 	}
@@ -189,7 +167,7 @@ func cveHTMLParser(baseUrl, vulnerability string, baseData map[string]string) er
 				fixed := strings.Trim(rawPkgData[5], " ")
 				if fixed == "possibly vulnerable" {
 					packageName := strings.Trim(rawPkgData[1], " ")
-					key := fmt.Sprintf("%s@@%s:%s", os, packageName, vulnerability)
+					key := fmt.Sprintf("%s%s%s:%s", os, OsPackageSeparator, packageName, vulnerability)
 					if _, exists := baseData[key]; !exists {
 						baseData[key] = strings.Trim(rawPkgData[3], " ")
 					}

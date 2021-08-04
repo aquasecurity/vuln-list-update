@@ -18,9 +18,10 @@ import (
 
 func TestUpdater_Update(t *testing.T) {
 	type fields struct {
-		appFs     afero.Fs
-		retry     int
-		homeFiles map[string]string
+		appFs          afero.Fs
+		retry          int
+		homeFiles      map[string]string
+		activeReleases []string
 	}
 	tests := []struct {
 		name        string
@@ -28,22 +29,24 @@ func TestUpdater_Update(t *testing.T) {
 		wantErr     bool
 		goldenFiles map[string]string
 	}{
-		{name: "", fields: fields{
-			appFs: afero.NewOsFs(),
-			retry: 0,
-			homeFiles: map[string]string{
-				"/":                               "testdata/home.html",
-				"/branch/edge-main":               "testdata/edge-main.json",
-				"/branch/edge-main/vuln-orphaned": "testdata/vuln-orphaned.json",
-				"/branch/3.10-main":               "testdata/3.10-main.json",
-				"/branch/3.10-main/vuln-orphaned": "testdata/3.10-main_vuln-orphaned.json",
-				"/vuln/CVE-2019-6461":             "testdata/CVE-2019-6461.html",
-				"/vuln/CVE-2019-12212":            "testdata/CVE-2019-12212.html",
-				"/vuln/CVE-2019-12214":            "testdata/CVE-2019-12214.html",
-				"/vuln/CVE-2021-31879":            "testdata/CVE-2021-31879.html",
-				"/vuln/CVE-2021-26933":            "testdata/CVE-2021-26933.html",
-			},
-		}, wantErr: false,
+		{
+			name: "happy path", fields: fields{
+				appFs: afero.NewOsFs(),
+				retry: 0,
+				homeFiles: map[string]string{
+					"/":                               "testdata/home.html",
+					"/branch/edge-main":               "testdata/edge-main.json",
+					"/branch/edge-main/vuln-orphaned": "testdata/vuln-orphaned.json",
+					"/branch/3.10-main":               "testdata/3.10-main.json",
+					"/branch/3.10-main/vuln-orphaned": "testdata/3.10-main_vuln-orphaned.json",
+					"/vuln/CVE-2019-6461":             "testdata/CVE-2019-6461.html",
+					"/vuln/CVE-2019-12212":            "testdata/CVE-2019-12212.html",
+					"/vuln/CVE-2019-12214":            "testdata/CVE-2019-12214.html",
+					"/vuln/CVE-2021-31879":            "testdata/CVE-2021-31879.html",
+					"/vuln/CVE-2021-26933":            "testdata/CVE-2021-26933.html",
+				},
+				activeReleases: []string{"edge-main", "3.10-main"},
+			}, wantErr: false,
 			goldenFiles: map[string]string{
 				"testdata/outfiles/alpine-unfixed/3.11/main/wget.json":           "testdata/golden/3.11/main/wget.json",
 				"testdata/outfiles/alpine-unfixed/3.11/main/cairo.json":          "testdata/golden/3.11/main/cairo.json",
@@ -59,7 +62,8 @@ func TestUpdater_Update(t *testing.T) {
 				"testdata/outfiles/alpine-unfixed/3.12/main/cairo.json":          "testdata/golden/3.12/main/cairo.json",
 				"testdata/outfiles/alpine-unfixed/3.13/main/wget.json":           "testdata/golden/3.13/main/wget.json",
 				"testdata/outfiles/alpine-unfixed/3.13/main/cairo.json":          "testdata/golden/3.13/main/cairo.json",
-			}},
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -76,10 +80,11 @@ func TestUpdater_Update(t *testing.T) {
 			vulnListDir := "testdata/outfiles"
 			defer os.RemoveAll(vulnListDir)
 			u := Updater{
-				vulnListDir: vulnListDir,
-				appFs:       tt.fields.appFs,
-				baseURL:     home.URL,
-				retry:       tt.fields.retry,
+				vulnListDir:    vulnListDir,
+				appFs:          tt.fields.appFs,
+				baseURL:        home.URL,
+				retry:          tt.fields.retry,
+				activeReleases: tt.fields.activeReleases,
 			}
 			if err := u.Update(); (err != nil) != tt.wantErr {
 				t.Errorf("Update() error = %v, wantErr %v", err, tt.wantErr)
@@ -120,7 +125,7 @@ func TestUpdater_Update(t *testing.T) {
 					}
 				}
 				assert.True(t, expectedJson.DistroVersion == actualJson.DistroVersion)
-				require.True(t, reflect.DeepEqual(expectedJson, actualJson), "")
+				assert.Equal(t, expectedJson, actualJson, "")
 
 				return nil
 			})
