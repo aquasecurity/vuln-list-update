@@ -26,6 +26,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/photon"
+	"github.com/aquasecurity/vuln-list-update/pypa"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
@@ -156,6 +157,12 @@ func run() error {
 			return xerrors.Errorf("error in Photon update: %w", err)
 		}
 		commitMsg = "Photon Security Advisories"
+	case "pypa":
+		p := pypa.NewPypa()
+		if err := p.Update(); err != nil {
+			return xerrors.Errorf("error in Pypa update: %w", err)
+		}
+		commitMsg = "Pypa Security Advisories"
 	case "ghsa":
 		src := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: githubToken},
