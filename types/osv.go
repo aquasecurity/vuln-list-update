@@ -8,7 +8,7 @@ type OsvPackage struct {
 type OsvRange struct {
 	Type       string `json:"type,omitempty"`
 	Repo       string `json:"repo,omitempty"`
-	Introduced string `json:"intorduced,omitempty"`
+	Introduced string `json:"introduced,omitempty"`
 	Fixed      string `json:"fixed,omitempty"`
 }
 type OsvScope struct {
