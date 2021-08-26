@@ -18,7 +18,6 @@ import (
 const (
 	pypaDir            = "pypa"
 	securityTrackerURL = "https://github.com/pypa/advisory-db/archive/refs/heads/main.zip"
-	retry              = 3
 	yamlExt            = ".yaml"
 )
 
@@ -89,7 +88,7 @@ func (pypa *PyPA) Update() error {
 			return xerrors.Errorf("unable to parse yaml %s: %w", file, err)
 		}
 
-		if err := utils.WriteJSON(afero.NewOsFs(), pypa.opts.dir, fmt.Sprintf("%s.json", osv.Id), osv); err != nil {
+		if err := utils.WriteJSON(afero.NewOsFs(), filepath.Join(pypa.opts.dir, osv.Package.Name), fmt.Sprintf("%s.json", osv.Id), osv); err != nil {
 			return xerrors.Errorf("failed to write file: %w", err)
 		}
 

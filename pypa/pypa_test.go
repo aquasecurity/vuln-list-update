@@ -13,16 +13,21 @@ import (
 )
 
 func Test_Update(t *testing.T) {
+	type fstruct struct {
+		pkg  string
+		name string
+	}
 	tests := []struct {
 		name         string
 		inputArchive string
-		wantFiles    []string
+		wantFiles    []fstruct
 		wantErr      string
 	}{
 		{
 			name:         "happy path",
 			inputArchive: "testdata/pypa.zip",
-			wantFiles:    []string{"PYSEC-2005-1.json", "PYSEC-2006-1.json", "PYSEC-2006-2.json"},
+			wantFiles: []fstruct{{
+				"trac", "PYSEC-2005-1.json"}, {"cherrypy", "PYSEC-2006-1.json"}, {"trac", "PYSEC-2006-2.json"}},
 		},
 		{
 			name:    "sad path, unable to download archive",
@@ -57,19 +62,13 @@ func Test_Update(t *testing.T) {
 
 			require.NoError(t, err)
 
-			entries, err := os.ReadDir("testdata/golden")
-			require.NoError(t, err)
+			for _, f := range tt.wantFiles {
 
-			for _, e := range entries {
-				if e.IsDir() {
-					continue
-				}
-
-				filePath := e.Name()
+				filePath := filepath.Join(f.pkg, f.name)
 				gotJSON, err := os.ReadFile(filepath.Join(dir, filePath))
 				require.NoError(t, err)
 
-				wantJSON, err := os.ReadFile(filepath.Join("testdata", "golden", filepath.Base(filePath)))
+				wantJSON, err := os.ReadFile(filepath.Join("testdata", "golden", filePath))
 				require.NoError(t, err)
 
 				assert.JSONEq(t, string(wantJSON), string(gotJSON))
