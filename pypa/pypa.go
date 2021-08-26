@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/aquasecurity/vuln-list-update/types"
@@ -23,13 +23,12 @@ const (
 )
 
 type options struct {
-	url   string
-	dir   string
-	retry int
+	url string
+	dir string
 }
 type option func(*options)
 
-type Pypa struct {
+type PyPA struct {
 	opts  *options
 	AppFs afero.Fs
 }
@@ -42,36 +41,30 @@ func WithDir(dir string) option {
 	return func(opts *options) { opts.dir = dir }
 }
 
-func WithRetry(retry int) option {
-	return func(opts *options) { opts.retry = retry }
-}
-
-func NewPypa(opts ...option) Pypa {
+func NewPypa(opts ...option) PyPA {
 	o := &options{
-		url:   securityTrackerURL,
-		dir:   filepath.Join(utils.VulnListDir(), pypaDir),
-		retry: retry,
+		url: securityTrackerURL,
+		dir: filepath.Join(utils.VulnListDir(), pypaDir),
 	}
 
 	for _, opt := range opts {
 		opt(o)
 	}
 
-	return Pypa{
-		opts:  o,
-		AppFs: afero.NewOsFs(),
+	return PyPA{
+		opts: o,
 	}
 
 }
 
-func (pypa *Pypa) Update() error {
+func (pypa *PyPA) Update() error {
 	dir, err := utils.DownloadToTempDir(context.Background(), pypa.opts.url)
 
 	if err != nil {
 		return xerrors.Errorf("failed to download %s: %w", pypa.opts.url, err)
 	}
 
-	vulnDir := filepath.Join(dir, "advisory-db-main/vulns")
+	vulnDir := filepath.Join(dir, "advisory-db-main", "vulns")
 
 	yamlFiles, err := getYamlFiles(vulnDir)
 
@@ -82,7 +75,7 @@ func (pypa *Pypa) Update() error {
 	bar := pb.StartNew(len(yamlFiles))
 
 	for _, file := range yamlFiles {
-		data, err := ioutil.ReadFile(file)
+		data, err := os.ReadFile(file)
 
 		if err != nil {
 			return xerrors.Errorf("unable to read %s: %w", file, err)
@@ -96,7 +89,7 @@ func (pypa *Pypa) Update() error {
 			return xerrors.Errorf("unable to parse yaml %s: %w", file, err)
 		}
 
-		if err := utils.WriteJSON(pypa.AppFs, pypa.opts.dir, fmt.Sprintf("%s.json", osv.Id), osv); err != nil {
+		if err := utils.WriteJSON(afero.NewOsFs(), pypa.opts.dir, fmt.Sprintf("%s.json", osv.Id), osv); err != nil {
 			return xerrors.Errorf("failed to write file: %w", err)
 		}
 

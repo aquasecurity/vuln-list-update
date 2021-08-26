@@ -160,9 +160,9 @@ func run() error {
 	case "pypa":
 		p := pypa.NewPypa()
 		if err := p.Update(); err != nil {
-			return xerrors.Errorf("error in Pypa update: %w", err)
+			return xerrors.Errorf("error in PyPA update: %w", err)
 		}
-		commitMsg = "Pypa Security Advisories"
+		commitMsg = "PyPA Security Advisories"
 	case "ghsa":
 		src := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: githubToken},

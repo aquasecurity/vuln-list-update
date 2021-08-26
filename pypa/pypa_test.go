@@ -1,4 +1,4 @@
-package pypa
+package pypa_test
 
 import (
 	"net/http"
@@ -7,21 +7,22 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/aquasecurity/vuln-list-update/pypa"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func Test_Update(t *testing.T) {
 	tests := []struct {
-		name          string
-		inputArchive  string
-		expectedFiles []string
-		wantErr       string
+		name         string
+		inputArchive string
+		wantFiles    []string
+		wantErr      string
 	}{
 		{
-			name:          "happy path",
-			inputArchive:  "testdata/pypa.zip",
-			expectedFiles: []string{"PYSEC-2005-1.json", "PYSEC-2006-1.json", "PYSEC-2006-2.json"},
+			name:         "happy path",
+			inputArchive: "testdata/pypa.zip",
+			wantFiles:    []string{"PYSEC-2005-1.json", "PYSEC-2006-1.json", "PYSEC-2006-2.json"},
 		},
 		{
 			name:    "sad path, unable to download archive",
@@ -46,15 +47,15 @@ func Test_Update(t *testing.T) {
 			}
 
 			dir := t.TempDir()
-			c := NewPypa(WithURL(ts.URL+"/"+tt.inputArchive), WithDir(filepath.Join(dir)), WithRetry(0))
+			c := pypa.NewPypa(pypa.WithURL(ts.URL+"/"+tt.inputArchive), pypa.WithDir(filepath.Join(dir)))
 			err := c.Update()
 			if tt.wantErr != "" {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
 				return
-			} else {
-				require.NoError(t, err)
 			}
+
+			require.NoError(t, err)
 
 			entries, err := os.ReadDir("testdata/golden")
 			require.NoError(t, err)
