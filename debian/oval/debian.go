@@ -23,6 +23,7 @@ var (
 		"8":  "jessie",
 		"9":  "stretch",
 		"10": "buster",
+		"11": "bullseye",
 	}
 )
 
