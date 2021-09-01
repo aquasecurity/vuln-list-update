@@ -20,49 +20,49 @@ const (
 )
 
 var (
-	AlmaReleaseVer = map[string]bool{
+	AlmaReleaseVersion = map[string]bool{
 		"8": true,
 	}
 )
 
-type almaErrata struct {
-	ID           almaErrataOID         `json:"_id"`
-	BsRepoID     almaErrataOID         `json:"bs_repo_id"`
-	UpdateinfoID string                `json:"updateinfo_id"`
-	Description  string                `json:"description"`
-	Fromstr      string                `json:"fromstr"`
-	IssuedDate   alamErrataDate        `json:"issued_date"`
-	Pkglist      almaErrataPkglist     `json:"pkglist"`
-	Module       almaErrataModule      `json:"module"`
-	Pushcount    string                `json:"pushcount"`
-	References   []alamErrataReference `json:"references"`
-	Release      string                `json:"release"`
-	Rights       string                `json:"rights"`
-	Severity     string                `json:"severity"`
-	Solution     string                `json:"solution"`
-	Status       string                `json:"status"`
-	Summary      string                `json:"summary"`
-	Title        string                `json:"title"`
-	Type         string                `json:"type"`
-	UpdatedDate  alamErrataDate        `json:"updated_date"`
-	Version      string                `json:"version"`
+type erratum struct {
+	ID           OID         `json:"_id"`
+	BsRepoID     OID         `json:"bs_repo_id"`
+	UpdateinfoID string      `json:"updateinfo_id"`
+	Description  string      `json:"description"`
+	Fromstr      string      `json:"fromstr"`
+	IssuedDate   Date        `json:"issued_date"`
+	Pkglist      Pkglist     `json:"pkglist"`
+	Module       Module      `json:"module"`
+	Pushcount    string      `json:"pushcount"`
+	References   []Reference `json:"references"`
+	Release      string      `json:"release"`
+	Rights       string      `json:"rights"`
+	Severity     string      `json:"severity"`
+	Solution     string      `json:"solution"`
+	Status       string      `json:"status"`
+	Summary      string      `json:"summary"`
+	Title        string      `json:"title"`
+	Type         string      `json:"type"`
+	UpdatedDate  Date        `json:"updated_date"`
+	Version      string      `json:"version"`
 }
 
-type almaErrataOID struct {
+type OID struct {
 	OID string `json:"$oid,omitempty"`
 }
 
-type alamErrataDate struct {
+type Date struct {
 	Date int64 `json:"$date"`
 }
 
-type almaErrataPkglist struct {
-	Name      string              `json:"name"`
-	Shortname string              `json:"shortname"`
-	Packages  []almaErrataPackage `json:"packages"`
+type Pkglist struct {
+	Name      string    `json:"name"`
+	Shortname string    `json:"shortname"`
+	Packages  []Package `json:"packages"`
 }
 
-type almaErrataPackage struct {
+type Package struct {
 	Name            string      `json:"name"`
 	Version         string      `json:"version"`
 	Release         string      `json:"release"`
@@ -75,7 +75,7 @@ type almaErrataPackage struct {
 	RebootSuggested int         `json:"reboot_suggested"`
 }
 
-type almaErrataModule struct {
+type Module struct {
 	Stream  string `json:"stream,omitempty"`
 	Name    string `json:"name,omitempty"`
 	Version int64  `json:"version,omitempty"`
@@ -83,7 +83,7 @@ type almaErrataModule struct {
 	Context string `json:"context,omitempty"`
 }
 
-type alamErrataReference struct {
+type Reference struct {
 	Href  string `json:"href"`
 	Type  string `json:"type"`
 	ID    string `json:"id"`
@@ -98,7 +98,7 @@ type Config struct {
 
 func NewConfig() Config {
 	urls := map[string]string{}
-	for version := range AlmaReleaseVer {
+	for version := range AlmaReleaseVersion {
 		urls[version] = fmt.Sprintf(urlFormat, version)
 	}
 
@@ -134,23 +134,23 @@ func (c Config) update(version, url string) error {
 		return xerrors.Errorf("failed to fetch security advisories from AlmaLinux: %w", err)
 	}
 
-	var erratas []almaErrata
-	if err := json.Unmarshal(body, &erratas); err != nil {
+	var errata []erratum
+	if err := json.Unmarshal(body, &errata); err != nil {
 		return xerrors.Errorf("failed to unmarshal json: %w", err)
 	}
 
-	var secErratas []almaErrata
-	for _, errata := range erratas {
-		if !strings.HasPrefix(errata.UpdateinfoID, "ALSA-") {
+	var secErrata []erratum
+	for _, erratum := range errata {
+		if !strings.HasPrefix(erratum.UpdateinfoID, "ALSA-") {
 			continue
 		}
-		secErratas = append(secErratas, errata)
+		secErrata = append(secErrata, erratum)
 	}
 
-	bar := pb.StartNew(len(secErratas))
-	for _, errata := range secErratas {
-		filepath := filepath.Join(dirPath, fmt.Sprintf("%s.json", errata.UpdateinfoID))
-		if err := utils.Write(filepath, errata); err != nil {
+	bar := pb.StartNew(len(secErrata))
+	for _, erratum := range secErrata {
+		filepath := filepath.Join(dirPath, fmt.Sprintf("%s.json", erratum.UpdateinfoID))
+		if err := utils.Write(filepath, erratum); err != nil {
 			return xerrors.Errorf("failed to write AlmaLinux CVE details: %w", err)
 		}
 		bar.Increment()
