@@ -183,7 +183,7 @@ func run() error {
 	case "arch-linux":
 		al := arch_linux.NewArchLinux()
 		if err := al.Update(); err != nil {
-			return xerrors.Errorf("error in CWE update: %w", err)
+			return xerrors.Errorf("error in Arch Linux update: %w", err)
 		}
 		commitMsg = "Arch Linux Security Tracker"
 	case "alma":
