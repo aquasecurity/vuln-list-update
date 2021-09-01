@@ -1,0 +1,214 @@
+[
+  {
+    "_id": { "$oid": "6124ba4438ca2e5c441f5fff" },
+    "bs_repo_id": { "$oid": "5d9f70c5b456f24391e2644f" },
+    "updateinfo_id": "ALSA-2021:3253",
+    "description": "libsndfile is a C library for reading and writing files containing sampled sound, such as AIFF, AU, or WAV. \n\nSecurity Fix(es):\n\n* libsndfile: Heap buffer overflow via crafted WAV file allows arbitrary code execution (CVE-2021-3246)\n\nFor more details about the security issue(s), including the impact, a CVSS score, acknowledgments, and other related information, refer to the CVE page(s) listed in the References section.",
+    "fromstr": "packager@almalinux.org",
+    "issued_date": { "$date": 1629790196000 },
+    "pkglist": {
+      "name": "almalinux-8-for-x86_64-appstream-rpms__8_0_default",
+      "shortname": "almalinux-8-for-x86_64-appstream-rpms__8_0_default",
+      "packages": [
+        {
+          "name": "libsndfile",
+          "version": "1.0.28",
+          "release": "10.el8_4.1",
+          "epoch": "0",
+          "arch": "i686",
+          "src": "libsndfile-1.0.28-10.el8_4.1.src.rpm",
+          "filename": "libsndfile-1.0.28-10.el8_4.1.i686.rpm",
+          "sum": "a3f34fa6b1fbcdedc6a71458aad13e977b6daea9e40aea94d723e5cfaefff1a0",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "libsndfile",
+          "version": "1.0.28",
+          "release": "10.el8_4.1",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "libsndfile-1.0.28-10.el8_4.1.src.rpm",
+          "filename": "libsndfile-1.0.28-10.el8_4.1.x86_64.rpm",
+          "sum": "c16dcef117a3a396e0040d1e37f9ec3ae46bb3d34dc18b569f43be345832ba25",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        }
+      ]
+    },
+    "pushcount": "2",
+    "references": [
+      {
+        "href": "https://vulners.com/cve/CVE-2021-3246",
+        "type": "cve",
+        "id": "CVE-2021-3246",
+        "title": "CVE-2021-3246"
+      }
+    ],
+    "release": "0",
+    "rights": "Copyright 2021 AlmaLinux OS",
+    "severity": "Important",
+    "solution": "For details on how to apply this update, which includes the changes described in this advisory, refer to:\n\nhttps://access.redhat.com/articles/11258",
+    "status": "final",
+    "summary": "An update for libsndfile is now available for AlmaLinux\n\nAlmaLinux Product Security has rated this update as having a security impact of Important. A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE link(s) in the References section.",
+    "title": "Important: libsndfile security update",
+    "type": "security",
+    "updated_date": { "$date": 1629804795086 },
+    "version": "1"
+  },
+  {
+    "_id": { "$oid": "611fbbe338ca2e5c44c71fad" },
+    "bs_repo_id": { "$oid": "5d9f70c5b456f24391e2644f" },
+    "updateinfo_id": "ALBA-2021:3240",
+    "description": ".NET Core is a managed-software framework. It implements a subset of the .NET\nframework APIs and several new APIs, and it includes a CLR implementation.\n\nBug Fix(es) and Enhancement(s):\n\n* BUG_TITLE (BZ#XYZ)",
+    "fromstr": "packager@almalinux.org",
+    "issued_date": { "$date": 1629443779000 },
+    "pkglist": {
+      "name": "almalinux-8-for-x86_64-appstream-rpms__8_0_default",
+      "shortname": "almalinux-8-for-x86_64-appstream-rpms__8_0_default",
+      "packages": [
+        {
+          "name": "dotnet-host-fxr-2.1",
+          "version": "2.1.30",
+          "release": "1.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "dotnet-2.1.526-1.el8_4.src.rpm",
+          "filename": "dotnet-host-fxr-2.1-2.1.30-1.el8_4.x86_64.rpm",
+          "sum": "d42efa3d5c3ebf834124b755d93b035961aa97023b9059e9f6d532494506ae7e",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "dotnet-runtime-2.1",
+          "version": "2.1.30",
+          "release": "1.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "dotnet-2.1.526-1.el8_4.src.rpm",
+          "filename": "dotnet-runtime-2.1-2.1.30-1.el8_4.x86_64.rpm",
+          "sum": "7e37bc933d5dbbac91e0289d516505483d76f1c91365a47da72eeff9e5332119",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "dotnet-sdk-2.1",
+          "version": "2.1.526",
+          "release": "1.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "dotnet-2.1.526-1.el8_4.src.rpm",
+          "filename": "dotnet-sdk-2.1-2.1.526-1.el8_4.x86_64.rpm",
+          "sum": "9a470ce88166e121ca0a2b9622c07152fe92a27998417dfd57bee0d9f8982754",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "dotnet-sdk-2.1.5xx",
+          "version": "2.1.526",
+          "release": "1.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "dotnet-2.1.526-1.el8_4.src.rpm",
+          "filename": "dotnet-sdk-2.1.5xx-2.1.526-1.el8_4.x86_64.rpm",
+          "sum": "751e58a2eee6ad6adc4805d5a9bb4df903296f968d03546038ebaff3eb37d829",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        }
+      ]
+    },
+    "pushcount": "3",
+    "references": [],
+    "release": "0",
+    "rights": "Copyright 2021 AlmaLinux OS",
+    "severity": "None",
+    "solution": "Before applying this update, make sure all previously released errata relevant to your system have been applied.\n\nFor details on how to apply this update, which includes the changes described in this advisory, refer to:\n\nhttps://access.redhat.com/articles/11258",
+    "status": "final",
+    "summary": "An update for .NET Core 2.1 is now available for AlmaLinux.",
+    "title": ".NET Core 2.1 bugfix update",
+    "type": "bugfix",
+    "updated_date": { "$date": 1629727435019 },
+    "version": "1"
+  },
+  {
+    "_id": { "$oid": "611a6fa438ca2e5c441e0809" },
+    "bs_repo_id": { "$oid": "5d9f70f5b456f24391e285fe" },
+    "updateinfo_id": "ALSA-2021:3152",
+    "description": "Exiv2 is a C++ library to access image metadata, supporting read and write access to the Exif, IPTC and XMP metadata, Exif MakerNote support, extract and delete methods for Exif thumbnails, classes to access Ifd, and support for various image formats.\n\nSecurity Fix(es):\n\n* exiv2: Heap-based buffer overflow vulnerability in jp2image.cpp (CVE-2021-31291)\n\nFor more details about the security issue(s), including the impact, a CVSS score, acknowledgments, and other related information, refer to the CVE page(s) listed in the References section.",
+    "fromstr": "packager@almalinux.org",
+    "issued_date": { "$date": 1629104881000 },
+    "pkglist": {
+      "name": "codeready-builder-for-rhel-8-x86_64-rpms__8_0_default",
+      "shortname": "codeready-builder-for-rhel-8-x86_64-rpms__8_0_default",
+      "packages": [
+        {
+          "name": "exiv2-devel",
+          "version": "0.27.3",
+          "release": "3.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "exiv2-0.27.3-3.el8_4.src.rpm",
+          "filename": "exiv2-devel-0.27.3-3.el8_4.x86_64.rpm",
+          "sum": "87d2931076533b41afc31151df18caa4cf8664dae701fa0119231af92ee82eb6",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "exiv2-doc",
+          "version": "0.27.3",
+          "release": "3.el8_4",
+          "epoch": "0",
+          "arch": "noarch",
+          "src": "exiv2-0.27.3-3.el8_4.src.rpm",
+          "filename": "exiv2-doc-0.27.3-3.el8_4.noarch.rpm",
+          "sum": "16aba0a97d57c60bc3109fdcb9497e42372be57667f6ad060e146b9a69f1d2c7",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "exiv2",
+          "version": "0.27.3",
+          "release": "3.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "exiv2-0.27.3-3.el8_4.src.rpm",
+          "filename": "exiv2-0.27.3-3.el8_4.x86_64.rpm",
+          "sum": "e2a961e6cc7a03eeb045124832df07e42dc4e951efd4bbda14e31df749746db5",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        },
+        {
+          "name": "exiv2-libs",
+          "version": "0.27.3",
+          "release": "3.el8_4",
+          "epoch": "0",
+          "arch": "x86_64",
+          "src": "exiv2-0.27.3-3.el8_4.src.rpm",
+          "filename": "exiv2-libs-0.27.3-3.el8_4.x86_64.rpm",
+          "sum": "2edf875e3931f4f78b686a5e63f6d6f96a7e508e90fc20cde38989579c200eeb",
+          "sum_type": "sha256",
+          "reboot_suggested": 0
+        }
+      ]
+    },
+    "pushcount": "3",
+    "references": [
+      {
+        "href": "https://vulners.com/cve/CVE-2021-31291",
+        "type": "cve",
+        "id": "CVE-2021-31291",
+        "title": "CVE-2021-31291"
+      }
+    ],
+    "release": "0",
+    "rights": "Copyright 2021 AlmaLinux OS",
+    "severity": "Important",
+    "solution": "For details on how to apply this update, which includes the changes described in this advisory, refer to:\n\nhttps://access.redhat.com/articles/11258",
+    "status": "final",
+    "summary": "An update for exiv2 is now available for AlmaLinux\n\nAlmaLinux Product Security has rated this update as having a security impact of Important. A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE link(s) in the References section.",
+    "title": "Important: exiv2 security update",
+    "type": "security",
+    "updated_date": { "$date": 1629304379060 },
+    "version": "1"
+  }
+]

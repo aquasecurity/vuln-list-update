@@ -87,6 +87,10 @@ jobs:
       name: Arch Linux Security Advisory
       run: ./vuln-list-update -target arch-linux
 
+    - if: always()
+      name: AlmaLinux Security Advisory
+      run: ./vuln-list-update -target alma
+
     # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
     - if: always()
