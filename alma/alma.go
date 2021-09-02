@@ -171,7 +171,7 @@ func (c Config) update(version, url string) error {
 			continue
 		}
 
-		y := strconv.Itoa(time.Unix(erratum.IssuedDate.Date/int64(time.Microsecond), 0).Year())
+		y := strconv.Itoa(time.UnixMilli(erratum.IssuedDate.Date).Year())
 		secErrata[y] = append(secErrata[y], erratum)
 	}
 
