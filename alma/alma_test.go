@@ -65,7 +65,9 @@ func TestUpdate(t *testing.T) {
 				if info.IsDir() {
 					return nil
 				}
-				want, err := os.ReadFile(filepath.Join("testdata", "golden", filepath.Base(path)))
+
+				dir, file := filepath.Split(path)
+				want, err := os.ReadFile(filepath.Join("testdata", "golden", filepath.Base(dir), file))
 				assert.NoError(t, err, "failed to open the golden file")
 
 				got, err := os.ReadFile(path)

@@ -163,23 +163,34 @@ func (c Config) update(version, url string) error {
 		return xerrors.Errorf("failed to unmarshal json: %w", err)
 	}
 
-	var secErrata []erratum
+	secErrata := map[string][]erratum{}
 	for _, erratum := range errata {
 		if !strings.HasPrefix(erratum.UpdateinfoID, "ALSA-") {
 			continue
 		}
-		secErrata = append(secErrata, erratum)
+
+		y := strings.Split(strings.TrimPrefix(erratum.UpdateinfoID, "ALSA-"), ":")[0]
+		secErrata[y] = append(secErrata[y], erratum)
 	}
 
-	bar := pb.StartNew(len(secErrata))
-	for _, erratum := range secErrata {
-		filepath := filepath.Join(dirPath, fmt.Sprintf("%s.json", erratum.UpdateinfoID))
-		if err := utils.Write(filepath, erratum); err != nil {
-			return xerrors.Errorf("failed to write AlmaLinux CVE details: %w", err)
+	for year := range secErrata {
+		if err := os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
+			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
-		bar.Increment()
 	}
-	bar.Finish()
+
+	for year, errata := range secErrata {
+		log.Printf("Write Errata for AlmaLinux %s %s\n", version, year)
+		bar := pb.StartNew(len(errata))
+		for _, erratum := range errata {
+			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.UpdateinfoID))
+			if err := utils.Write(filepath, erratum); err != nil {
+				return xerrors.Errorf("failed to write AlmaLinux CVE details: %w", err)
+			}
+			bar.Increment()
+		}
+		bar.Finish()
+	}
 
 	return nil
 }

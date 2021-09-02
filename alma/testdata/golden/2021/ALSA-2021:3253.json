@@ -39,9 +39,9 @@
         "sum_type": "sha256",
         "reboot_suggested": 0
       }
-    ]
+    ],
+    "module": {}
   },
-  "module": {},
   "pushcount": "2",
   "references": [
     {
