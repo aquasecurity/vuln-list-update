@@ -96,7 +96,7 @@ type options struct {
 
 type option func(*options)
 
-func WithURL(urls map[string]string) option {
+func WithURLs(urls map[string]string) option {
 	return func(opts *options) { opts.urls = urls }
 }
 

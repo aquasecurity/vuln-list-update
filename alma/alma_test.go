@@ -53,7 +53,7 @@ func TestUpdate(t *testing.T) {
 			defer ts.Close()
 
 			dir := t.TempDir()
-			ac := alma.NewConfig(alma.WithURL(map[string]string{tt.version: ts.URL}), alma.WithDir(dir), alma.WithRetry(0))
+			ac := alma.NewConfig(alma.WithURLs(map[string]string{tt.version: ts.URL}), alma.WithDir(dir), alma.WithRetry(0))
 
 			if err := ac.Update(); tt.expectedError != nil {
 				require.Error(t, err)
