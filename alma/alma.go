@@ -6,7 +6,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
@@ -169,7 +171,7 @@ func (c Config) update(version, url string) error {
 			continue
 		}
 
-		y := strings.Split(strings.TrimPrefix(erratum.UpdateinfoID, "ALSA-"), ":")[0]
+		y := strconv.Itoa(time.Unix(erratum.IssuedDate.Date/1000, 0).Year())
 		secErrata[y] = append(secErrata[y], erratum)
 	}
 
