@@ -20,9 +20,7 @@ const (
 )
 
 var (
-	AlmaReleaseVersion = map[string]bool{
-		"8": true,
-	}
+	AlmaReleaseVersion = []string{"8"}
 )
 
 type erratum struct {
@@ -90,27 +88,53 @@ type Reference struct {
 	Title string `json:"title"`
 }
 
-type Config struct {
-	VulnListDir string
-	URLs        map[string]string
-	Retry       int
+type options struct {
+	urls  map[string]string
+	dir   string
+	retry int
 }
 
-func NewConfig() Config {
+type option func(*options)
+
+func WithURL(urls map[string]string) option {
+	return func(opts *options) { opts.urls = urls }
+}
+
+func WithDir(dir string) option {
+	return func(opts *options) { opts.dir = dir }
+}
+
+func WithRetry(retry int) option {
+	return func(opts *options) { opts.retry = retry }
+}
+
+type Config struct {
+	*options
+}
+
+func NewConfig(opts ...option) Config {
 	urls := map[string]string{}
-	for version := range AlmaReleaseVersion {
+	for _, version := range AlmaReleaseVersion {
 		urls[version] = fmt.Sprintf(urlFormat, version)
 	}
 
+	o := &options{
+		urls:  urls,
+		dir:   utils.VulnListDir(),
+		retry: retry,
+	}
+
+	for _, opt := range opts {
+		opt(o)
+	}
+
 	return Config{
-		VulnListDir: utils.VulnListDir(),
-		URLs:        urls,
-		Retry:       retry,
+		options: o,
 	}
 }
 
 func (c Config) Update() error {
-	for version, url := range c.URLs {
+	for version, url := range c.urls {
 		log.Printf("Fetching security advisories of AlmaLinux %s ...\n", version)
 		if err := c.update(version, url); err != nil {
 			return xerrors.Errorf("failed to update security advisories of AlmaLinux %s: %w", version, err)
@@ -120,7 +144,7 @@ func (c Config) Update() error {
 }
 
 func (c Config) update(version, url string) error {
-	dirPath := filepath.Join(c.VulnListDir, almaLinuxDir, version)
+	dirPath := filepath.Join(c.dir, almaLinuxDir, version)
 	log.Printf("Remove AlmaLinux %s directory %s\n", version, dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
 		return xerrors.Errorf("failed to remove AlmaLinux %s directory: %w", version, err)
@@ -129,7 +153,7 @@ func (c Config) update(version, url string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	body, err := utils.FetchURL(url, "", c.Retry)
+	body, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch security advisories from AlmaLinux: %w", err)
 	}
