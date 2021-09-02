@@ -31,7 +31,6 @@ type erratum struct {
 	Fromstr      string      `json:"fromstr"`
 	IssuedDate   Date        `json:"issued_date"`
 	Pkglist      Pkglist     `json:"pkglist"`
-	Module       Module      `json:"module"`
 	Pushcount    string      `json:"pushcount"`
 	References   []Reference `json:"references"`
 	Release      string      `json:"release"`
@@ -58,6 +57,7 @@ type Pkglist struct {
 	Name      string    `json:"name"`
 	Shortname string    `json:"shortname"`
 	Packages  []Package `json:"packages"`
+	Module    Module    `json:"module"`
 }
 
 type Package struct {
