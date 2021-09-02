@@ -173,14 +173,13 @@ func (c Config) update(version, url string) error {
 		secErrata[y] = append(secErrata[y], erratum)
 	}
 
-	for year := range secErrata {
+	for year, errata := range secErrata {
+		log.Printf("Write Errata for AlmaLinux %s %s\n", version, year)
+
 		if err := os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
 			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
-	}
 
-	for year, errata := range secErrata {
-		log.Printf("Write Errata for AlmaLinux %s %s\n", version, year)
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
 			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.UpdateinfoID))
