@@ -11,10 +11,10 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
-    - name: Set up Go 1.15
+    - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.15
+        go-version: 1.17
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
@@ -86,6 +86,10 @@ jobs:
     - if: always()
       name: Arch Linux Security Advisory
       run: ./vuln-list-update -target arch-linux
+
+    - if: always()
+      name: AlmaLinux Security Advisory
+      run: ./vuln-list-update -target alma
 
     # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
