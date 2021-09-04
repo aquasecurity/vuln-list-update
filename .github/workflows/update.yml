@@ -90,4 +90,5 @@ jobs:
 
     - if: always()
       name: ${{matrix.name}}
-      run: ./vuln-list-update -target ${{matrix.args}}
+      run: echo "-target ${{matrix.args}}"
+      #run: ./vuln-list-update -target ${{matrix.args}}
