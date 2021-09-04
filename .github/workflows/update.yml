@@ -6,7 +6,7 @@ on:
 
 jobs:
   update:
-    name: Update repo vuln-list
+    name: Update ${{matrix.name}}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -88,7 +88,5 @@ jobs:
     - name: Compile vuln-list-update
       run: go build -o vuln-list-update .
 
-    - if: always()
-      name: ${{matrix.name}}
-      run: echo "-target ${{matrix.args}}"
+    - run: echo "-target ${{matrix.args}}"
       #run: ./vuln-list-update -target ${{matrix.args}}
