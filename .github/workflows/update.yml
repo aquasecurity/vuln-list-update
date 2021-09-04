@@ -86,5 +86,5 @@ jobs:
       with:
         name: build
         path: vuln-list-update
-    - name: Update
+    - name: Update ${{matrix.name}}
       run: ./vuln-list-update -target ${{matrix.args}}
