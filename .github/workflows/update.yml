@@ -5,8 +5,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+      - name: Compile vuln-list-update
+        run: go build -o vuln-list-update .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: vuln-list-update
   update:
-    name: Update ${{matrix.name}}
+    needs: build
+    name: ${{matrix.name}}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -72,22 +89,19 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
-
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
-
     - name: Set Owner
       run: echo "VULNLIST_REPOSITORY_OWNER=$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $1}' | sed -e 's/:refs//')" >> $GITHUB_ENV
       shell: bash
-
     - name: Setup github user email and name
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
-
-    - name: Compile vuln-list-update
-      run: go build -o vuln-list-update .
-
+    - uses: actions/download-artifact@v2
+      with:
+        name: build
+        path: vuln-list-update
     - name: Update
       run: echo "-target ${{matrix.args}}"
       #run: ./vuln-list-update -target ${{matrix.args}}
