@@ -29,6 +29,7 @@ jobs:
         with:
           name: build
           path: vuln-list-update
+          if-no-files-found: error
   update:
     needs: build
     name: ${{matrix.name}}
