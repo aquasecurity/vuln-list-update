@@ -88,5 +88,6 @@ jobs:
     - name: Compile vuln-list-update
       run: go build -o vuln-list-update .
 
-    - run: echo "-target ${{matrix.args}}"
+    - name: Update
+      run: echo "-target ${{matrix.args}}"
       #run: ./vuln-list-update -target ${{matrix.args}}
