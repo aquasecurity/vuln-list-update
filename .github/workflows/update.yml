@@ -12,6 +12,7 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
       - uses: actions/cache@v2
+        name: Run Cache
         with:
           path: |
             ~/.cache/go-build
@@ -26,6 +27,7 @@ jobs:
       - name: Compile vuln-list-update
         run: go build -o vuln-list-update .
       - uses: actions/upload-artifact@v2
+        name: Upload the executable
         with:
           name: build
           path: vuln-list-update
@@ -108,6 +110,7 @@ jobs:
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
     - uses: actions/download-artifact@v2
+      name: Download the executable
       with:
         name: build
         path: vuln-list-update
