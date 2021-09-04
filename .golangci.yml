@@ -1,0 +1,7 @@
+linters:
+  enable:
+    - errorlint
+    - govet
+  disable:
+    - gci
+    - gofmt

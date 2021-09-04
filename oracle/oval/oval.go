@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/bzip2"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -66,7 +67,7 @@ func (c Config) Update() error {
 		//def.Title example: "\nELSA-2019-4827:  docker-engine docker-cli security update (IMPORTANT)"
 		elsaID := strings.TrimSpace(strings.Split(def.Title, ":")[0])
 		if err = c.saveELSAPerYear(dir, elsaID, def); err != nil {
-			if err == ErrInvalidELSAID {
+			if errors.Is(err, ErrInvalidELSAID) {
 				log.Printf("Invalid ELSA ID: %s\n", elsaID)
 				continue
 			}

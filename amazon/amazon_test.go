@@ -10,13 +10,11 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-
-	"github.com/stretchr/testify/require"
-
-	"golang.org/x/xerrors"
-
+	
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"golang.org/x/xerrors"
 )
 
 func Test_Update(t *testing.T) {
