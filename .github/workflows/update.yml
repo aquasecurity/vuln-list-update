@@ -39,60 +39,32 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: NVD
-            args: nvd
-          - name: Alpine Issue Tracker
-            args: alpine
-          - name: Debian Security Bug Tracker
-            args: debian
-          - name: Debian OVAL
-            args: debian-oval
-          - name: Ubuntu CVE Tracker
-            args: ubuntu
-          - name: Amazon Linux AMI Security Advisory
-            args: amazon
-          - name: Oracle Linux OVAL
-            args: oracle-oval
-          - name: Red Hat OVALv2
-            args: redhat-oval
-          - name: Photon CVE Advisory
-            args: photon
-          - name: GitHub Security Advisory
-            args: ghsa
-          - name: CWE
-            args: cwe
-          - name: SUSE CVRF
-            args: suse-cvrf
-          - name: GitLab Advisory Database
-            args: glad
-          - name: Arch Linux Security Advisory
-            args: arch-linux
-          - name: AlmaLinux Security Advisory
-            args: alma
-            # Red Hat Security Data API is unstable.
-            # It should be split into small pieces to reduce the impact of failure.
-          - name: Red Hat Security Data API 1996-2002
-            args: redhat -years 1996,1997,1998,1999,2000,2001,2002
-          - name: Red Hat Security Data API 2003-2008
-            args: redhat -years 2003,2004,2005,2006,2007,2008
-          - name: Red Hat Security Data API 2009-2011
-            args: redhat -years 2009,2010,2011
-          - name: Red Hat Security Data API 2012
-            args: redhat -years 2012
-          - name: Red Hat Security Data API 2013
-            args: redhat -years 2013
-          - name: Red Hat Security Data API 2014
-            args: redhat -years 2014
-          - name: Red Hat Security Data API 2015
-            args: redhat -years 2015
-          - name: Red Hat Security Data API 2016
-            args: redhat -years 2016
-          - name: Red Hat Security Data API 2017
-            args: redhat -years 2017
-          - name: Red Hat Security Data API 2018
-            args: redhat -years 2018
-          - name: Red Hat Security Data API 2019-2021
-            args: redhat -years 2019,2020,2021
+          - { "name": "NVD", "args": "nvd" }
+          - { "name": "Alpine Issue Tracker", args: "alpine" }
+          - { "name": "Debian Security Bug Tracker", "args": "debian"}
+          - { "name": "Debian OVAL", "args": "debian-oval" }
+          - { "name": "Ubuntu CVE Tracker", "args": "ubuntu" }
+          - { "name": "Amazon Linux AMI Security Advisory", "args": "amazon" }
+          - { "name": "Oracle Linux OVAL", "args": "oracle-oval" }
+          - { "name": "Red Hat OVALv2", "args": "redhat-oval" }
+          - { "name": "Photon CVE Advisory", "args": "photon" }
+          - { "name": "GitHub Security Advisory", "args": "ghsa" }
+          - { "name": "CWE", "args": "cwe" }
+          - { "name": "SUSE CVRF", "args": "suse-cvrf" }
+          - { "name": "GitLab Advisory Database", "args": "glad" }
+          - { "name": "Arch Linux Security Advisory", "args": "arch-linux" }
+          - { "name": "AlmaLinux Security Advisory", "args": "alma" }
+          - { "name": "Red Hat Security Data API 1996-2002", "args": "redhat -years 1996,1997,1998,1999,2000,2001,2002" }
+          - { "name": "Red Hat Security Data API 2003-2008", "args": "redhat -years 2003,2004,2005,2006,2007,2008" }
+          - { "name": "Red Hat Security Data API 2009-2011", "args": "redhat -years 2009,2010,2011" }
+          - { "name": "Red Hat Security Data API 2012", "args": "redhat -years 2012" }
+          - { "name": "Red Hat Security Data API 2013", "args": "redhat -years 2013" }
+          - { "name": "Red Hat Security Data API 2014", "args": "redhat -years 2014" }
+          - { "name": "Red Hat Security Data API 2015", "args": "redhat -years 2015" }
+          - { "name": "Red Hat Security Data API 2016", "args": "redhat -years 2016" }
+          - { "name": "Red Hat Security Data API 2017", "args": "redhat -years 2017" }
+          - { "name": "Red Hat Security Data API 2018", "args": "redhat -years 2018" }
+          - { "name": "Red Hat Security Data API 2019-2021", "args": "redhat -years 2019,2020,2021" }
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
@@ -115,4 +87,5 @@ jobs:
         name: build
         path: vuln-list-update
     - name: Update
-      run: ./vuln-list-update -target ${{matrix.args}}
+      run: echo "-target ${{matrix.args}}"
+      #run: ./vuln-list-update -target ${{matrix.args}}
