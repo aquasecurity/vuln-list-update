@@ -8,6 +8,23 @@ jobs:
   update:
     name: Update repo vuln-list
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: NVD
+            args: nvd
+            
+          - name: Alpine Issue Tracker
+            args: alpine
+          
+          - name: Debian Security Bug Tracker
+            args: debian
+
+          - name: Debian OVAL
+            args: debian-oval
+            
+          - name: Ubuntu CVE Tracker
+            args: ubuntu
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
@@ -32,24 +49,10 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
-      name: NVD
-      run: ./vuln-list-update -target nvd
+      name: ${{matrix.name}}
+      run: ./vuln-list-update -target ${{matrix.args}}
 
-    - if: always()
-      name: Alpine Issue Tracker
-      run: ./vuln-list-update -target alpine
-
-    - if: always()
-      name: Debian Security Bug Tracker
-      run: ./vuln-list-update -target debian
-
-    - if: always()
-      name: Debian OVAL
-      run: ./vuln-list-update -target debian-oval
-
-    - if: always()
-      name: Ubuntu CVE Tracker
-      run: ./vuln-list-update -target ubuntu
+    
 
     - if: always()
       name: Amazon Linux AMI Security Advisory
