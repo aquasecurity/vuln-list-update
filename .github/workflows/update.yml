@@ -87,5 +87,4 @@ jobs:
         name: build
         path: vuln-list-update
     - name: Update
-      run: echo "-target ${{matrix.args}}"
-      #run: ./vuln-list-update -target ${{matrix.args}}
+      run: ./vuln-list-update -target ${{matrix.args}}
