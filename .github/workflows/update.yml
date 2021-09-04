@@ -13,18 +13,58 @@ jobs:
         include:
           - name: NVD
             args: nvd
-            
           - name: Alpine Issue Tracker
             args: alpine
-          
           - name: Debian Security Bug Tracker
             args: debian
-
           - name: Debian OVAL
             args: debian-oval
-            
           - name: Ubuntu CVE Tracker
             args: ubuntu
+          - name: Amazon Linux AMI Security Advisory
+            args: amazon
+          - name: Oracle Linux OVAL
+            args: oracle-oval
+          - name: Red Hat OVALv2
+            args: redhat-oval
+          - name: Photon CVE Advisory
+            args: photon
+          - name: GitHub Security Advisory
+            args: ghsa
+          - name: CWE
+            args: cwe
+          - name: SUSE CVRF
+            args: suse-cvrf
+          - name: GitLab Advisory Database
+            args: glad
+          - name: Arch Linux Security Advisory
+            args: arch-linux
+          - name: AlmaLinux Security Advisory
+            args: alma
+            # Red Hat Security Data API is unstable.
+            # It should be split into small pieces to reduce the impact of failure.
+          - name: Red Hat Security Data API 1996-2002
+            args: redhat -years 1996,1997,1998,1999,2000,2001,2002
+          - name: Red Hat Security Data API 2003-2008
+            args: redhat -years 2003,2004,2005,2006,2007,2008
+          - name: Red Hat Security Data API 2009-2011
+            args: redhat -years 2009,2010,2011
+          - name: Red Hat Security Data API 2012
+            args: redhat -years 2012
+          - name: Red Hat Security Data API 2013
+            args: redhat -years 2013
+          - name: Red Hat Security Data API 2014
+            args: redhat -years 2014
+          - name: Red Hat Security Data API 2015
+            args: redhat -years 2015
+          - name: Red Hat Security Data API 2016
+            args: redhat -years 2016
+          - name: Red Hat Security Data API 2017
+            args: redhat -years 2017
+          - name: Red Hat Security Data API 2018
+            args: redhat -years 2018
+          - name: Red Hat Security Data API 2019-2021
+            args: redhat -years 2019,2020,2021
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
@@ -51,91 +91,3 @@ jobs:
     - if: always()
       name: ${{matrix.name}}
       run: ./vuln-list-update -target ${{matrix.args}}
-
-    
-
-    - if: always()
-      name: Amazon Linux AMI Security Advisory
-      run: ./vuln-list-update -target amazon
-
-    - if: always()
-      name: Oracle Linux OVAL
-      run: ./vuln-list-update -target oracle-oval
-
-    - if: always()
-      name: Red Hat OVALv2
-      run: ./vuln-list-update -target redhat-oval
-
-    - if: always()
-      name: Photon CVE Advisory
-      run: ./vuln-list-update -target photon
-
-    - if: always()
-      name: GitHub Security Advisory
-      run: ./vuln-list-update -target ghsa
-
-    - if: always()
-      name: CWE
-      run: ./vuln-list-update -target cwe
-
-    - if: always()
-      name: SUSE CVRF
-      run: ./vuln-list-update -target suse-cvrf
-
-    - if: always()
-      name: GitLab Advisory Database
-      run: ./vuln-list-update -target glad
-
-    - if: always()
-      name: Arch Linux Security Advisory
-      run: ./vuln-list-update -target arch-linux
-
-    - if: always()
-      name: AlmaLinux Security Advisory
-      run: ./vuln-list-update -target alma
-
-    # Red Hat Security Data API is unstable.
-    # It should be split into small pieces to reduce the impact of failure.
-    - if: always()
-      name: Red Hat Security Data API 1996-2002
-      run: ./vuln-list-update -target redhat -years 1996,1997,1998,1999,2000,2001,2002
-
-    - if: always()
-      name: Red Hat Security Data API 2003-2008
-      run: ./vuln-list-update -target redhat -years 2003,2004,2005,2006,2007,2008
-
-    - if: always()
-      name: Red Hat Security Data API 2009-2011
-      run: ./vuln-list-update -target redhat -years 2009,2010,2011
-
-    - if: always()
-      name: Red Hat Security Data API 2012
-      run: ./vuln-list-update -target redhat -years 2012
-
-    - if: always()
-      name: Red Hat Security Data API 2013
-      run: ./vuln-list-update -target redhat -years 2013
-
-    - if: always()
-      name: Red Hat Security Data API 2014
-      run: ./vuln-list-update -target redhat -years 2014
-
-    - if: always()
-      name: Red Hat Security Data API 2015
-      run: ./vuln-list-update -target redhat -years 2015
-
-    - if: always()
-      name: Red Hat Security Data API 2016
-      run: ./vuln-list-update -target redhat -years 2016
-
-    - if: always()
-      name: Red Hat Security Data API 2017
-      run: ./vuln-list-update -target redhat -years 2017
-
-    - if: always()
-      name: Red Hat Security Data API 2018
-      run: ./vuln-list-update -target redhat -years 2018
-
-    - if: always()
-      name: Red Hat Security Data API 2019-2021
-      run: ./vuln-list-update -target redhat -years 2019,2020,2021
