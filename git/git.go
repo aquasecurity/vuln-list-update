@@ -17,8 +17,7 @@ type Operations interface {
 	Checkout(string, string) error
 }
 
-type Config struct {
-}
+type Config struct{}
 
 func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[string]struct{}, error) {
 	exists, err := utils.Exists(filepath.Join(repoPath, ".git"))
