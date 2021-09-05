@@ -7,12 +7,11 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/aquasecurity/vuln-list-update/git"
+	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v2"
-
-	"github.com/aquasecurity/vuln-list-update/git"
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

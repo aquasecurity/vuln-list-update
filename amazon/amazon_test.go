@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	
+
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

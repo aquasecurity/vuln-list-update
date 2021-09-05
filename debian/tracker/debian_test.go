@@ -12,11 +12,9 @@ import (
 	"strings"
 	"testing"
 
-	"golang.org/x/xerrors"
-
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
-
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/xerrors"
 )
 
 func TestClient_Update(t *testing.T) {

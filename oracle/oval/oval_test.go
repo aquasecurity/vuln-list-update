@@ -9,9 +9,8 @@ import (
 	"testing"
 
 	"github.com/aquasecurity/vuln-list-update/oracle/oval"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/spf13/afero"
+	"github.com/stretchr/testify/assert"
 )
 
 var update = flag.Bool("update", false, "update golden files")

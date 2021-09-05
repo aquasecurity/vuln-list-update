@@ -10,10 +10,6 @@ import (
 	"strings"
 	"time"
 
-	githubql "github.com/shurcooL/githubv4"
-	"golang.org/x/oauth2"
-	"golang.org/x/xerrors"
-
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	"github.com/aquasecurity/vuln-list-update/amazon"
@@ -32,6 +28,9 @@ import (
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
+	githubql "github.com/shurcooL/githubv4"
+	"golang.org/x/oauth2"
+	"golang.org/x/xerrors"
 )
 
 const (

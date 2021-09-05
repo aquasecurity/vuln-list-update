@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-      "github.com/PuerkitoBio/goquery"
+	"github.com/PuerkitoBio/goquery"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
