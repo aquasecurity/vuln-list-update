@@ -23,19 +23,6 @@ const (
 	secFixUrl = "https://aquasecurity.github.io/secfixes-tracker/all.tar.gz"
 )
 
-var (
-	alpineActiveReleases = []string{
-		"edge-main",
-		"edge-community",
-		"3.14-main",
-		"3.14-community",
-		"3.13-main",
-		"3.12-main",
-		"3.11-main",
-		"3.10-main",
-	}
-)
-
 type Updater struct {
 	vulnListDir      string
 	appFs            afero.Fs
@@ -68,7 +55,7 @@ func (u Updater) Update() (err error) {
 	if err != nil {
 		return err
 	}
-	defer os.RemoveAll(u.fileDownloadPath)
+	defer os.RemoveAll(u.fileDownloadPath) // nolint: errcheck
 
 	err = u.ExtractTarGz(dir)
 	if err != nil {
@@ -92,7 +79,7 @@ func (u Updater) ExtractTarGz(saveDir string) error {
 		return xerrors.Errorf("failed creating reader for gz file: %w", err)
 	}
 	tarReader := tar.NewReader(uncompressedStream)
-	for true {
+	for {
 		header, err := tarReader.Next()
 		if err == io.EOF {
 			break
@@ -117,7 +104,7 @@ func (u Updater) ExtractTarGz(saveDir string) error {
 				return xerrors.Errorf("failed saving json file %s : %w", saveFileName, err)
 			}
 		default:
-			return xerrors.Errorf("ExtractTarGz: unknown type: %s in %s", header.Typeflag, header.Name)
+			return xerrors.Errorf("unknown type: %s", header.Name)
 		}
 	}
 	return nil
@@ -125,7 +112,10 @@ func (u Updater) ExtractTarGz(saveDir string) error {
 
 func (u Updater) save(fileName string, alpineUnfix interface{}) error {
 	f, err := u.appFs.Create(fileName)
-	defer f.Close()
+	if err != nil {
+		return xerrors.Errorf("failed creating json file: %w", err)
+	}
+	defer f.Close() // nolint: errcheck
 
 	b, err := utils.JSONMarshal(alpineUnfix)
 	if err != nil {

@@ -56,7 +56,7 @@ func TestUpdater_Update(t *testing.T) {
 			defer home.Close()
 			vulnListDir := "testdata/outfiles"
 			fileDownloadPath := filepath.Join(vulnListDir, tt.fields.fileDownloadPath)
-			defer os.RemoveAll(vulnListDir)
+			defer os.RemoveAll(vulnListDir) // nolint: errcheck
 			u := Updater{
 				vulnListDir:      vulnListDir,
 				appFs:            tt.fields.appFs,
@@ -89,6 +89,7 @@ func TestUpdater_Update(t *testing.T) {
 				assert.NoError(t, err, path)
 				var actualJson AlpineUnfix
 				err = json.Unmarshal(actual, &actualJson)
+				assert.NoError(t, err, path)
 				assert.Equal(t, expectedJson, actualJson, "")
 
 				return nil
