@@ -10,11 +10,12 @@ import (
 	"strings"
 	"time"
 
+	alpineunfix "github.com/aquasecurity/vuln-list-update/alpine/alpine-unfixed"
+
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
@@ -41,8 +42,8 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, alma, ghsa, glad, cwe)")
+	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfix, redhat, redhat-oval, "+
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -130,6 +131,12 @@ func run() error {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"
+	case "alpine-unfix":
+		alpineUnfix := alpineunfix.NewUpdater()
+		if err := alpineUnfix.Update(); err != nil {
+			return xerrors.Errorf("error in Alpine update: %w", err)
+		}
+		commitMsg = "Alpine Unfix Issue Tracker"
 	case "amazon":
 		ac := amazon.Config{
 			LinuxMirrorListURI: amazon.LinuxMirrorListURI,
@@ -183,15 +190,9 @@ func run() error {
 	case "arch-linux":
 		al := arch_linux.NewArchLinux()
 		if err := al.Update(); err != nil {
-			return xerrors.Errorf("error in Arch Linux update: %w", err)
+			return xerrors.Errorf("error in CWE update: %w", err)
 		}
 		commitMsg = "Arch Linux Security Tracker"
-	case "alma":
-		ac := alma.NewConfig()
-		if err := ac.Update(); err != nil {
-			return xerrors.Errorf("error in AlmaLinux update: %w", err)
-		}
-		commitMsg = "AlmaLinux Security Advisory"
 	default:
 		return xerrors.New("unknown target")
 	}
