@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"reflect"
-	"sort"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,10 +17,10 @@ import (
 
 func TestUpdater_Update(t *testing.T) {
 	type fields struct {
-		appFs          afero.Fs
-		retry          int
-		homeFiles      map[string]string
-		activeReleases []string
+		appFs            afero.Fs
+		retry            int
+		homeFiles        map[string]string
+		fileDownloadPath string
 	}
 	tests := []struct {
 		name        string
@@ -31,37 +30,15 @@ func TestUpdater_Update(t *testing.T) {
 	}{
 		{
 			name: "happy path", fields: fields{
-				appFs: afero.NewOsFs(),
-				retry: 0,
+				appFs:            afero.NewOsFs(),
+				retry:            0,
+				fileDownloadPath: "unfix",
 				homeFiles: map[string]string{
-					"/":                               "testdata/home.html",
-					"/branch/edge-main":               "testdata/edge-main.json",
-					"/branch/edge-main/vuln-orphaned": "testdata/vuln-orphaned.json",
-					"/branch/3.10-main":               "testdata/3.10-main.json",
-					"/branch/3.10-main/vuln-orphaned": "testdata/3.10-main_vuln-orphaned.json",
-					"/vuln/CVE-2019-6461":             "testdata/CVE-2019-6461.html",
-					"/vuln/CVE-2019-12212":            "testdata/CVE-2019-12212.html",
-					"/vuln/CVE-2019-12214":            "testdata/CVE-2019-12214.html",
-					"/vuln/CVE-2021-31879":            "testdata/CVE-2021-31879.html",
-					"/vuln/CVE-2021-26933":            "testdata/CVE-2021-26933.html",
+					"/": "testdata/happy_path/all.tar.gz",
 				},
-				activeReleases: []string{"edge-main", "3.10-main"},
 			}, wantErr: false,
 			goldenFiles: map[string]string{
-				"testdata/outfiles/alpine-unfixed/3.11/main/wget.json":           "testdata/golden/3.11/main/wget.json",
-				"testdata/outfiles/alpine-unfixed/3.11/main/cairo.json":          "testdata/golden/3.11/main/cairo.json",
-				"testdata/outfiles/alpine-unfixed/edge/community/freeimage.json": "testdata/golden/edge/community/freeimage.json",
-				"testdata/outfiles/alpine-unfixed/edge/main/wget.json":           "testdata/golden/edge/main/wget.json",
-				"testdata/outfiles/alpine-unfixed/edge/main/cairo.json":          "testdata/golden/edge/main/cairo.json",
-				"testdata/outfiles/alpine-unfixed/3.10/main/wget.json":           "testdata/golden/3.10/main/wget.json",
-				"testdata/outfiles/alpine-unfixed/3.10/main/xen.json":            "testdata/golden/3.10/main/xen.json",
-				"testdata/outfiles/alpine-unfixed/3.14/community/freeimage.json": "testdata/golden/3.14/community/freeimage.json",
-				"testdata/outfiles/alpine-unfixed/3.14/main/wget.json":           "testdata/golden/3.14/main/wget.json",
-				"testdata/outfiles/alpine-unfixed/3.14/main/cairo.json":          "testdata/golden/3.14/main/cairo.json",
-				"testdata/outfiles/alpine-unfixed/3.12/main/wget.json":           "testdata/golden/3.12/main/wget.json",
-				"testdata/outfiles/alpine-unfixed/3.12/main/cairo.json":          "testdata/golden/3.12/main/cairo.json",
-				"testdata/outfiles/alpine-unfixed/3.13/main/wget.json":           "testdata/golden/3.13/main/wget.json",
-				"testdata/outfiles/alpine-unfixed/3.13/main/cairo.json":          "testdata/golden/3.13/main/cairo.json",
+				"testdata/outfiles/alpine-unfix/CVE-2019-1003051.json": "testdata/golden/CVE-2019-1003051.json",
 			},
 		},
 	}
@@ -78,13 +55,14 @@ func TestUpdater_Update(t *testing.T) {
 			}))
 			defer home.Close()
 			vulnListDir := "testdata/outfiles"
+			fileDownloadPath := filepath.Join(vulnListDir, tt.fields.fileDownloadPath)
 			defer os.RemoveAll(vulnListDir)
 			u := Updater{
-				vulnListDir:    vulnListDir,
-				appFs:          tt.fields.appFs,
-				baseURL:        home.URL,
-				retry:          tt.fields.retry,
-				activeReleases: tt.fields.activeReleases,
+				vulnListDir:      vulnListDir,
+				appFs:            tt.fields.appFs,
+				baseURL:          home.URL,
+				fileDownloadPath: fileDownloadPath,
+				retry:            tt.fields.retry,
 			}
 			if err := u.Update(); (err != nil) != tt.wantErr {
 				t.Errorf("Update() error = %v, wantErr %v", err, tt.wantErr)
@@ -106,25 +84,11 @@ func TestUpdater_Update(t *testing.T) {
 				require.True(t, ok, path)
 				expected, err := ioutil.ReadFile(goldenPath)
 				assert.NoError(t, err, goldenPath)
-				var expectedJson SaveJsonFormat
+				var expectedJson AlpineUnfix
 				err = json.Unmarshal(expected, &expectedJson)
 				assert.NoError(t, err, path)
-				var actualJson SaveJsonFormat
+				var actualJson AlpineUnfix
 				err = json.Unmarshal(actual, &actualJson)
-				assert.NoError(t, err, path)
-				assert.True(t, expectedJson.PkgName == actualJson.PkgName)
-				assert.True(t, expectedJson.RepoName == actualJson.RepoName)
-				assert.True(t, expectedJson.DistroVersion == actualJson.DistroVersion)
-				for version, actualVuls := range actualJson.UnfixVersion {
-					if expVulns, ok := expectedJson.UnfixVersion[version]; !ok {
-						assert.True(t, ok)
-					} else {
-						sort.Strings(actualVuls)
-						sort.Strings(expVulns)
-						assert.True(t, reflect.DeepEqual(actualVuls, expVulns))
-					}
-				}
-				assert.True(t, expectedJson.DistroVersion == actualJson.DistroVersion)
 				assert.Equal(t, expectedJson, actualJson, "")
 
 				return nil

@@ -5,12 +5,13 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"math"
 	"math/big"
+	"net/http"
 	"os"
 	"os/exec"
-	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -229,7 +230,22 @@ func LookupEnv(key, defaultValue string) string {
 	return defaultValue
 }
 
-func JoinURL(base string, paths ...string) string {
-	p := path.Join(paths...)
-	return fmt.Sprintf("%s/%s", strings.TrimRight(base, "/"), strings.TrimLeft(p, "/"))
+func DownloadFile(filePath string, url string) error {
+	resp, err := http.Get(url)
+	if err != nil {
+		return fmt.Errorf("failed download trivy vuln-db %v", err)
+	}
+	defer resp.Body.Close()
+
+	out, err := os.Create(filePath)
+	if err != nil {
+		return fmt.Errorf("failed create file %v", err)
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return fmt.Errorf("failed save trivy vuln-db %v", err)
+	}
+	return nil
 }
