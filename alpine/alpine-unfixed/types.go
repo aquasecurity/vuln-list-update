@@ -7,17 +7,10 @@ type AlpineUnfix struct {
 }
 
 type State struct {
-	Fixed          bool   `json:"fixed,omitempty"`
+	Fixed          bool   `json:"fixed"`
 	Repo           string `json:"repo,omitempty"`
 	PackageName    string `json:"packageName,omitempty"`
 	PackageVersion string `json:"packageVersion,omitempty"`
-}
-
-type SaveJsonFormat struct {
-	DistroVersion string              `json:"distroversion,omitempty"`
-	RepoName      string              `json:"reponame,omitempty"`
-	UnfixVersion  map[string][]string `json:"unfix,omitempty"`
-	PkgName       string              `json:"name,omitempty"`
 }
 
 type CPEMatch struct {
