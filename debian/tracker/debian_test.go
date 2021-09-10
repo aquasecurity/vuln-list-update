@@ -19,18 +19,18 @@ type pkgDetail struct {
 
 func TestClient_Update(t *testing.T) {
 	tests := []struct {
-		name         string
-		repoPath     string
-		packagesPath string
-		wantBugs     map[string]tracker.Bug
-		wantDists    map[string]tracker.Distribution
-		wantPackages map[string][]pkgDetail
-		wantErr      string
+		name        string
+		repoPath    string
+		sourcesPath string
+		wantBugs    map[string]tracker.Bug
+		wantDists   map[string]tracker.Distribution
+		wantSources map[string][]pkgDetail
+		wantErr     string
 	}{
 		{
-			name:         "happy path",
-			repoPath:     "file::testdata/happy",
-			packagesPath: "file::testdata/happy/Packages/%s/%s/Packages",
+			name:        "happy path",
+			repoPath:    "file::testdata/happy",
+			sourcesPath: "file::testdata/happy/Sources/%s/%s/Sources",
 			wantBugs: map[string]tracker.Bug{
 				filepath.Join("DLA", "DLA-2711-1.json"): {
 					Header: &tracker.Header{
@@ -171,8 +171,8 @@ func TestClient_Update(t *testing.T) {
 					Contact:      "team@security.debian.org",
 				},
 			},
-			wantPackages: map[string][]pkgDetail{
-				filepath.Join("Packages", "stretch", "main", "Packages.json"): {
+			wantSources: map[string][]pkgDetail{
+				filepath.Join("Sources", "stretch", "main", "Sources.json"): {
 					{
 						Package: []string{"0ad"},
 						Version: []string{"0.0.21-2"},
@@ -182,29 +182,29 @@ func TestClient_Update(t *testing.T) {
 						Version: []string{"0.0.21-1"},
 					},
 				},
-				filepath.Join("Packages", "stretch", "contrib", "Packages.json"): {
+				filepath.Join("Sources", "stretch", "contrib", "Sources.json"): {
 					{
 						Package: []string{"alien-arena"},
 						Version: []string{"7.66+dfsg-3"},
 					},
 				},
-				filepath.Join("Packages", "buster", "main", "Packages.json"): {
+				filepath.Join("Sources", "buster", "main", "Sources.json"): {
 					{
-						Package: []string{"python-zzzeeksphinx"},
-						Version: []string{"1.0.20-2"},
+						Package: []string{"zzz-to-char"},
+						Version: []string{"0.1.3-2"},
 					},
 					{
-						Package: []string{"python3-zzzeeksphinx"},
+						Package: []string{"zzzeeksphinx"},
 						Version: []string{"1.0.20-2"},
 					},
 				},
-				filepath.Join("Packages", "buster", "contrib", "Packages.json"): {
+				filepath.Join("Sources", "buster", "contrib", "Sources.json"): {
 					{
-						Package: []string{"zfs-zed"},
-						Version: []string{"0.7.12-2+deb10u2"},
+						Package: []string{"zfs-auto-snapshot"},
+						Version: []string{"1.2.4-2"},
 					},
 					{
-						Package: []string{"zfsutils-linux"},
+						Package: []string{"zfs-linux"},
 						Version: []string{"0.7.12-2+deb10u2"},
 					},
 				},
@@ -219,7 +219,7 @@ func TestClient_Update(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tmpDir := t.TempDir()
-			c := tracker.NewClient(tracker.WithTrackerURL(tt.repoPath), tracker.WithPackagesURL(tt.packagesPath),
+			c := tracker.NewClient(tracker.WithTrackerURL(tt.repoPath), tracker.WithSourcesURL(tt.sourcesPath),
 				tracker.WithVulnListDir(tmpDir))
 
 			err := c.Update()
@@ -244,8 +244,8 @@ func TestClient_Update(t *testing.T) {
 				compare(t, filePath, &got, &tt.wantDists)
 			}
 
-			// Compare Packages
-			for name, want := range tt.wantPackages {
+			// Compare Sources
+			for name, want := range tt.wantSources {
 				var got []pkgDetail
 				filePath := filepath.Join(tmpDir, "debian", name)
 				compare(t, filePath, &got, &want)

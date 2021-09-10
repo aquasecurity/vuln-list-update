@@ -21,7 +21,7 @@ import (
 const (
 	debianDir          = "debian"
 	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
-	packagesURL        = "https://ftp.debian.org/debian/dists/%s/%s/binary-amd64/Packages.gz"
+	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
 )
 
 type Bug struct {
@@ -36,7 +36,7 @@ type listParser interface {
 
 type options struct {
 	trackerURL  string
-	packagesURL string
+	sourcesURL  string
 	vulnListDir string
 }
 
@@ -48,9 +48,9 @@ func WithTrackerURL(url string) option {
 	}
 }
 
-func WithPackagesURL(url string) option {
+func WithSourcesURL(url string) option {
 	return func(opts *options) {
-		opts.packagesURL = url
+		opts.sourcesURL = url
 	}
 }
 
@@ -69,7 +69,7 @@ type Client struct {
 func NewClient(opts ...option) Client {
 	o := &options{
 		trackerURL:  securityTrackerURL,
-		packagesURL: packagesURL,
+		sourcesURL:  sourcesURL,
 		vulnListDir: utils.VulnListDir(),
 	}
 
@@ -122,9 +122,9 @@ func (c Client) Update() error {
 		return xerrors.Errorf("unable to write %s: %w", distributionJSON, err)
 	}
 
-	err = c.updatePackages(ctx, dists)
+	err = c.updateSources(ctx, dists)
 	if err != nil {
-		return xerrors.Errorf("unable to fetch Packages: %w", err)
+		return xerrors.Errorf("unable to fetch Sources: %w", err)
 	}
 
 	return nil
@@ -244,8 +244,8 @@ func shouldStore(anns []*Annotation) bool {
 	return true
 }
 
-func (c Client) updatePackages(ctx context.Context, dists map[string]Distribution) error {
-	// Some codes don't have Packages in the repository
+func (c Client) updateSources(ctx context.Context, dists map[string]Distribution) error {
+	// Some codes don't have Sources in the repository
 	codes, err := supportedCodes(dists)
 	if err != nil {
 		return xerrors.Errorf("code error: %w", err)
@@ -253,39 +253,39 @@ func (c Client) updatePackages(ctx context.Context, dists map[string]Distributio
 
 	for _, code := range codes {
 		for _, r := range []string{"main", "contrib"} {
-			log.Printf("Updating Packages %s/%s", code, r)
-			url := fmt.Sprintf(c.packagesURL, code, r)
-			headers, err := c.fetchPackages(ctx, url)
+			log.Printf("Updating Sources %s/%s", code, r)
+			url := fmt.Sprintf(c.sourcesURL, code, r)
+			headers, err := c.fetchSources(ctx, url)
 			if err != nil {
-				return xerrors.Errorf("unable to fetch packages: %w", err)
+				return xerrors.Errorf("unable to fetch sources: %w", err)
 			}
 
-			filePath := filepath.Join(c.vulnListDir, debianDir, "Packages", code, r, "Packages.json")
+			filePath := filepath.Join(c.vulnListDir, debianDir, "Sources", code, r, "Sources.json")
 			if err = utils.Write(filePath, headers); err != nil {
-				return xerrors.Errorf("packages write error: %w", err)
+				return xerrors.Errorf("source write error: %w", err)
 			}
 		}
 	}
 	return nil
 }
 
-func (c Client) fetchPackages(ctx context.Context, url string) ([]textproto.MIMEHeader, error) {
+func (c Client) fetchSources(ctx context.Context, url string) ([]textproto.MIMEHeader, error) {
 	tmpFile, err := utils.DownloadToTempFile(ctx, url)
 	if err != nil {
-		return nil, xerrors.Errorf("packages download error: %w", err)
+		return nil, xerrors.Errorf("sources download error: %w", err)
 	}
 	defer os.Remove(tmpFile)
 
-	headers, err := c.parsePackages(tmpFile)
+	headers, err := c.parseSources(tmpFile)
 	if err != nil {
-		return nil, xerrors.Errorf("packages parse error: %w", err)
+		return nil, xerrors.Errorf("sources parse error: %w", err)
 	}
 
 	return headers, nil
 }
 
-func (c Client) parsePackages(packagePath string) ([]textproto.MIMEHeader, error) {
-	f, err := os.Open(packagePath)
+func (c Client) parseSources(sourcePath string) ([]textproto.MIMEHeader, error) {
+	f, err := os.Open(sourcePath)
 	if err != nil {
 		return nil, xerrors.Errorf("file open error: %w", err)
 	}
@@ -348,7 +348,7 @@ func supportedCodes(dists map[string]Distribution) ([]string, error) {
 		}
 
 		// Only last-eol, oldstable, stable and testing are fetched
-		// Older EOL versions do not have Packages.
+		// Older EOL versions do not have Sources.
 		if stable-2 <= major && major < stable+2 {
 			codes = append(codes, code)
 		}
