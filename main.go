@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	alpineunfix "github.com/aquasecurity/vuln-list-update/alpine/alpine-unfixed"
+	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -42,7 +42,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfix, redhat, redhat-oval, "+
+	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
@@ -131,12 +131,12 @@ func run() error {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"
-	case "alpine-unfix":
-		alpineUnfix := alpineunfix.NewUpdater()
-		if err := alpineUnfix.Update(); err != nil {
+	case "alpine-unfixed":
+		au := alpineunfixed.NewUpdater()
+		if err := au.Update(); err != nil {
 			return xerrors.Errorf("error in Alpine update: %w", err)
 		}
-		commitMsg = "Alpine Unfix Issue Tracker"
+		commitMsg = "Alpine Secfixes Tracker"
 	case "amazon":
 		ac := amazon.Config{
 			LinuxMirrorListURI: amazon.LinuxMirrorListURI,

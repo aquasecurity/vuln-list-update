@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"bytes"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -31,13 +30,4 @@ func WriteJSON(fs afero.Fs, dir, fileName string, data interface{}) error {
 		return xerrors.Errorf("failed to save a file: %w", err)
 	}
 	return nil
-}
-
-func JSONMarshal(t interface{}) ([]byte, error) {
-	buffer := &bytes.Buffer{}
-	encoder := json.NewEncoder(buffer)
-	encoder.SetEscapeHTML(false)
-	encoder.SetIndent("", "  ")
-	err := encoder.Encode(t)
-	return buffer.Bytes(), err
 }
