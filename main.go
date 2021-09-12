@@ -10,13 +10,13 @@ import (
 	"strings"
 	"time"
 
-	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
-
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
+	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
+	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/cwe"
@@ -193,6 +193,12 @@ func run() error {
 			return xerrors.Errorf("error in CWE update: %w", err)
 		}
 		commitMsg = "Arch Linux Security Tracker"
+	case "alma":
+		ac := alma.NewConfig()
+		if err := ac.Update(); err != nil {
+			return xerrors.Errorf("error in AlmaLinux update: %w", err)
+		}
+		commitMsg = "AlmaLinux Security Advisory"
 	default:
 		return xerrors.New("unknown target")
 	}

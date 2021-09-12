@@ -107,7 +107,7 @@ func FetchURL(url, apikey string, retry int) (res []byte, err error) {
 			log.Printf("retry after %f seconds\n", wait)
 			time.Sleep(time.Duration(time.Duration(wait) * time.Second))
 		}
-		res, err = FetchURLWithHeaders(url, map[string]string{"api-key": apikey})
+		res, err = fetchURL(url, map[string]string{"api-key": apikey})
 		if err == nil {
 			return res, nil
 		}
@@ -120,7 +120,7 @@ func RandInt() int {
 	return int(seed.Int64())
 }
 
-func FetchURLWithHeaders(url string, headers map[string]string) ([]byte, error) {
+func fetchURL(url string, headers map[string]string) ([]byte, error) {
 	req := gorequest.New().Get(url)
 	for key, value := range headers {
 		req.Header.Add(key, value)
