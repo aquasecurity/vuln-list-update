@@ -2,10 +2,10 @@ package alpineunfixed
 
 type unfixedVulnerability struct {
 	ID     string  `json:"id,omitempty"`
-	States []State `json:"state,omitempty"`
+	States []state `json:"state,omitempty"`
 }
 
-type State struct {
+type state struct {
 	Fixed          bool   `json:"fixed"`
 	Published      bool   `json:"published"`
 	Repo           string `json:"repo"`
