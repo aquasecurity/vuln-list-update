@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
@@ -22,6 +23,7 @@ const (
 	debianDir          = "debian"
 	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
 	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
+	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
 )
 
 type Bug struct {
@@ -35,9 +37,10 @@ type listParser interface {
 }
 
 type options struct {
-	trackerURL  string
-	sourcesURL  string
-	vulnListDir string
+	trackerURL         string
+	sourcesURL         string
+	securitySourcesURL string
+	vulnListDir        string
 }
 
 type option func(*options)
@@ -51,6 +54,12 @@ func WithTrackerURL(url string) option {
 func WithSourcesURL(url string) option {
 	return func(opts *options) {
 		opts.sourcesURL = url
+	}
+}
+
+func WithSecuritySourcesURL(url string) option {
+	return func(opts *options) {
+		opts.securitySourcesURL = url
 	}
 }
 
@@ -68,9 +77,10 @@ type Client struct {
 
 func NewClient(opts ...option) Client {
 	o := &options{
-		trackerURL:  securityTrackerURL,
-		sourcesURL:  sourcesURL,
-		vulnListDir: utils.VulnListDir(),
+		trackerURL:         securityTrackerURL,
+		sourcesURL:         sourcesURL,
+		securitySourcesURL: securitySourcesURL,
+		vulnListDir:        utils.VulnListDir(),
 	}
 
 	for _, opt := range opts {
@@ -251,18 +261,20 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 		return xerrors.Errorf("code error: %w", err)
 	}
 
-	for _, code := range codes {
-		for _, r := range []string{"main", "contrib"} {
-			log.Printf("Updating Sources %s/%s", code, r)
-			url := fmt.Sprintf(c.sourcesURL, code, r)
-			headers, err := c.fetchSources(ctx, url)
-			if err != nil {
-				return xerrors.Errorf("unable to fetch sources: %w", err)
-			}
+	for target, baseURL := range map[string]string{"source": c.sourcesURL, "updates-source": c.securitySourcesURL} {
+		for _, code := range codes {
+			for _, r := range []string{"main", "contrib"} {
+				log.Printf("Updating %s %s/%s", target, code, r)
+				url := fmt.Sprintf(baseURL, code, r)
+				headers, err := c.fetchSources(ctx, url)
+				if err != nil {
+					return xerrors.Errorf("unable to fetch sources: %w", err)
+				}
 
-			filePath := filepath.Join(c.vulnListDir, debianDir, "Sources", code, r, "Sources.json")
-			if err = utils.Write(filePath, headers); err != nil {
-				return xerrors.Errorf("source write error: %w", err)
+				filePath := filepath.Join(c.vulnListDir, debianDir, target, code, r, "Sources.json")
+				if err = utils.Write(filePath, headers); err != nil {
+					return xerrors.Errorf("source write error: %w", err)
+				}
 			}
 		}
 	}
@@ -272,6 +284,10 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 func (c Client) fetchSources(ctx context.Context, url string) ([]textproto.MIMEHeader, error) {
 	tmpFile, err := utils.DownloadToTempFile(ctx, url)
 	if err != nil {
+		// Some distributions may not have Sources
+		if strings.Contains(err.Error(), "bad response code: 404") {
+			return nil, nil
+		}
 		return nil, xerrors.Errorf("sources download error: %w", err)
 	}
 	defer os.Remove(tmpFile)

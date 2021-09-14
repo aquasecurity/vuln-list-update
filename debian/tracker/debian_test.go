@@ -19,18 +19,20 @@ type pkgDetail struct {
 
 func TestClient_Update(t *testing.T) {
 	tests := []struct {
-		name        string
-		repoPath    string
-		sourcesPath string
-		wantBugs    map[string]tracker.Bug
-		wantDists   map[string]tracker.Distribution
-		wantSources map[string][]pkgDetail
-		wantErr     string
+		name                string
+		repoPath            string
+		sourcesPath         string
+		securitySourcesPath string
+		wantBugs            map[string]tracker.Bug
+		wantDists           map[string]tracker.Distribution
+		wantSources         map[string][]pkgDetail
+		wantErr             string
 	}{
 		{
-			name:        "happy path",
-			repoPath:    "file::testdata/happy",
-			sourcesPath: "file::testdata/happy/Sources/%s/%s/Sources",
+			name:                "happy path",
+			repoPath:            "file::testdata/happy",
+			sourcesPath:         "file::testdata/happy/source/%s/%s/Sources",
+			securitySourcesPath: "file::testdata/happy/updates-source/%s/%s/Sources",
 			wantBugs: map[string]tracker.Bug{
 				filepath.Join("DLA", "DLA-2711-1.json"): {
 					Header: &tracker.Header{
@@ -172,7 +174,7 @@ func TestClient_Update(t *testing.T) {
 				},
 			},
 			wantSources: map[string][]pkgDetail{
-				filepath.Join("Sources", "stretch", "main", "Sources.json"): {
+				filepath.Join("source", "stretch", "main", "Sources.json"): {
 					{
 						Package: []string{"0ad"},
 						Version: []string{"0.0.21-2"},
@@ -182,13 +184,29 @@ func TestClient_Update(t *testing.T) {
 						Version: []string{"0.0.21-1"},
 					},
 				},
-				filepath.Join("Sources", "stretch", "contrib", "Sources.json"): {
+				filepath.Join("updates-source", "stretch", "main", "Sources.json"): {
+					{
+						Package: []string{"0ad"},
+						Version: []string{"0.0.21-2"},
+					},
+					{
+						Package: []string{"0ad-data"},
+						Version: []string{"0.0.21-1"},
+					},
+				},
+				filepath.Join("source", "stretch", "contrib", "Sources.json"): {
 					{
 						Package: []string{"alien-arena"},
 						Version: []string{"7.66+dfsg-3"},
 					},
 				},
-				filepath.Join("Sources", "buster", "main", "Sources.json"): {
+				filepath.Join("updates-source", "stretch", "contrib", "Sources.json"): {
+					{
+						Package: []string{"alien-arena"},
+						Version: []string{"7.66+dfsg-3"},
+					},
+				},
+				filepath.Join("source", "buster", "main", "Sources.json"): {
 					{
 						Package: []string{"zzz-to-char"},
 						Version: []string{"0.1.3-2"},
@@ -198,7 +216,13 @@ func TestClient_Update(t *testing.T) {
 						Version: []string{"1.0.20-2"},
 					},
 				},
-				filepath.Join("Sources", "buster", "contrib", "Sources.json"): {
+				filepath.Join("updates-source", "buster", "main", "Sources.json"): {
+					{
+						Package: []string{"zzz-to-char"},
+						Version: []string{"0.1.3-3"},
+					},
+				},
+				filepath.Join("source", "buster", "contrib", "Sources.json"): {
 					{
 						Package: []string{"zfs-auto-snapshot"},
 						Version: []string{"1.2.4-2"},
@@ -206,6 +230,12 @@ func TestClient_Update(t *testing.T) {
 					{
 						Package: []string{"zfs-linux"},
 						Version: []string{"0.7.12-2+deb10u2"},
+					},
+				},
+				filepath.Join("updates-source", "buster", "contrib", "Sources.json"): {
+					{
+						Package: []string{"zfs-linux"},
+						Version: []string{"0.7.12-2+deb10u3"},
 					},
 				},
 			},
@@ -220,7 +250,7 @@ func TestClient_Update(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tmpDir := t.TempDir()
 			c := tracker.NewClient(tracker.WithTrackerURL(tt.repoPath), tracker.WithSourcesURL(tt.sourcesPath),
-				tracker.WithVulnListDir(tmpDir))
+				tracker.WithSecuritySourcesURL(tt.securitySourcesPath), tracker.WithVulnListDir(tmpDir))
 
 			err := c.Update()
 			if tt.wantErr != "" {
