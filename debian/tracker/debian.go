@@ -10,7 +10,6 @@ import (
 	"net/textproto"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"github.com/cheggaaa/pb/v3"
@@ -255,14 +254,8 @@ func shouldStore(anns []*Annotation) bool {
 }
 
 func (c Client) updateSources(ctx context.Context, dists map[string]Distribution) error {
-	// Some codes don't have Sources in the repository
-	codes, err := supportedCodes(dists)
-	if err != nil {
-		return xerrors.Errorf("code error: %w", err)
-	}
-
 	for target, baseURL := range map[string]string{"source": c.sourcesURL, "updates-source": c.securitySourcesURL} {
-		for _, code := range codes {
+		for code := range dists {
 			for _, r := range []string{"main", "contrib"} {
 				log.Printf("Updating %s %s/%s", target, code, r)
 				url := fmt.Sprintf(baseURL, code, r)
@@ -284,7 +277,7 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 func (c Client) fetchSources(ctx context.Context, url string) ([]textproto.MIMEHeader, error) {
 	tmpFile, err := utils.DownloadToTempFile(ctx, url)
 	if err != nil {
-		// Some distributions may not have Sources
+		// Some codes don't have Sources in the repository
 		if strings.Contains(err.Error(), "bad response code: 404") {
 			return nil, nil
 		}
@@ -329,45 +322,4 @@ func (c Client) parseSources(sourcePath string) ([]textproto.MIMEHeader, error) 
 	}
 
 	return headers, nil
-}
-
-// end-of-life: EOL version
-// lts: oldstable
-// security: stable
-// none && security+1: testing
-func stableDist(dists map[string]Distribution) (int, error) {
-	for _, dist := range dists {
-		// "security" means stable version
-		if dist.Support == "security" {
-			return strconv.Atoi(dist.MajorVersion)
-		}
-	}
-	return 0, xerrors.New("no stable version")
-}
-
-func supportedCodes(dists map[string]Distribution) ([]string, error) {
-	stable, err := stableDist(dists)
-	if err != nil {
-		return nil, xerrors.Errorf("stable code: %w", err)
-	}
-
-	var codes []string
-	for code, dist := range dists {
-		// For sid
-		if dist.MajorVersion == "" {
-			continue
-		}
-
-		major, err := strconv.Atoi(dist.MajorVersion)
-		if err != nil {
-			return nil, xerrors.Errorf("failed to convert type to int")
-		}
-
-		// Only last-eol, oldstable, stable and testing are fetched
-		// Older EOL versions do not have Sources.
-		if stable-2 <= major && major < stable+2 {
-			codes = append(codes, code)
-		}
-	}
-	return codes, nil
 }
