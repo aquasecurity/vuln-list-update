@@ -1,0 +1,324 @@
+{
+  "_id": {
+    "$oid": "60c0a7e038ca2e5c4497c3d3"
+  },
+  "bs_repo_id": {
+    "$oid": "5d9f70c5b456f24391e2644f"
+  },
+  "updateinfo_id": "ALSA-2020:0279",
+  "description": "Kernel-based Virtual Machine (KVM) offers a full virtualization solution for Linux on numerous hardware platforms. The virt:rhel module contains packages which provide user-space components used to run virtual machines using KVM. The packages also provide APIs for managing and interacting with the virtualized systems.\n\nSecurity Fix(es):\n\n* hw: TSX Transaction Asynchronous Abort (TAA) (CVE-2019-11135)\n\nFor more details about the security issue(s), including the impact, a CVSS score, acknowledgments, and other related information, refer to the CVE page(s) listed in the References section.",
+  "fromstr": "packager@almalinux.org",
+  "issued_date": {
+    "$date": 1580305374000
+  },
+  "pkglist": {
+    "name": "almalinux-8-for-x86_64-appstream-rpms__8_1_virt",
+    "shortname": "almalinux-8-for-x86_64-appstream-rpms__8_1_virt",
+    "packages": [
+      {
+        "name": "libiscsi",
+        "version": "1.18.0",
+        "release": "8.module_el8.4.0+2523+3300d70f",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "libiscsi-1.18.0-8.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "libiscsi-1.18.0-8.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "86d271c69cabe62216c25e9dc8479bbcf18080903959b69e350edbba7d00e387",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi-devel",
+        "version": "1.18.0",
+        "release": "8.module_el8.4.0+2523+3300d70f",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "libiscsi-1.18.0-8.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "libiscsi-devel-1.18.0-8.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "123546b4ba750ae5e88030dc1bad55dde946d8a6e9bef011b4c33743a29aa581",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi-utils",
+        "version": "1.18.0",
+        "release": "8.module_el8.4.0+2523+3300d70f",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "libiscsi-1.18.0-8.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "libiscsi-utils-1.18.0-8.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "9761e9d62c57d356610daed17b00388511b07030c6802c9a24270294badf12b2",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf",
+        "version": "0.2.8",
+        "release": "12.module_el8.4.0+2523+3300d70f",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "netcf-0.2.8-12.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "netcf-0.2.8-12.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "dc6d26fd1e5412aba3c2df9bfd373edc56de4f2291f92b56612f20d04127f9ac",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf-devel",
+        "version": "0.2.8",
+        "release": "12.module_el8.4.0+2523+3300d70f",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "netcf-0.2.8-12.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "netcf-devel-0.2.8-12.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "d4f372bcb811bd1e437f8c77715412075b3f318a28e134b91694e3b1e7377d55",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf-libs",
+        "version": "0.2.8",
+        "release": "12.module_el8.4.0+2523+3300d70f",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "netcf-0.2.8-12.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "netcf-libs-0.2.8-12.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "3d88aea503e3470634655b6cec7dd9e31c3dd2f82f0aa1012c1cc5be47bacb3f",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "sgabios",
+        "version": "0.20170427git",
+        "release": "3.module_el8.4.0+2523+3300d70f",
+        "epoch": "1",
+        "arch": "x86_64",
+        "src": "sgabios-0.20170427git-3.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "sgabios-0.20170427git-3.module_el8.4.0+2523+3300d70f.x86_64.rpm",
+        "sum": "acdc68c873b0fffdaf991e78ee6f06619d0898aac0228b404ffda8f4df7410da",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "sgabios-bin",
+        "version": "0.20170427git",
+        "release": "3.module_el8.4.0+2523+3300d70f",
+        "epoch": "1",
+        "arch": "noarch",
+        "src": "sgabios-0.20170427git-3.module_el8.4.0+2523+3300d70f.src.rpm",
+        "filename": "sgabios-bin-0.20170427git-3.module_el8.4.0+2523+3300d70f.noarch.rpm",
+        "sum": "1e4026180606e1e9d3c097e15eaf5be82ff6be1c8db0568827d73ca60ec93631",
+        "sum_type": "sha256",
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi",
+        "version": "1.18.0",
+        "release": "8.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "b0ecad61d692057eaa21ceea8c62440ca78ff245ecfaf99245c3a98a79b6d93e",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi-devel",
+        "version": "1.18.0",
+        "release": "8.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "libiscsi-devel-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "77f25889b727c8cee2afb84f3550dda671068ae6f7524831d14726125d5a5ca9",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi-utils",
+        "version": "1.18.0",
+        "release": "8.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "libiscsi-utils-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "d96101b792d724177a04744368e6d421e7b1b362703125ff346b5d179b2a8fec",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf",
+        "version": "0.2.8",
+        "release": "12.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "67bae2c1bcfbcba4eac7b5f3cb820293a7f9061ef6585302212b8818fe9c6048",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf-devel",
+        "version": "0.2.8",
+        "release": "12.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "netcf-devel-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "00b3ab838dde88f8ae69e9689b09f352944cc93203698be035e8be9da1e9795c",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf-libs",
+        "version": "0.2.8",
+        "release": "12.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "x86_64",
+        "src": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "netcf-libs-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "4f9121d6b4d1cc84c1d551da8cb25a27608abb4a58f38beaa6edf3a927d76792",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "sgabios",
+        "version": "0.20170427git",
+        "release": "3.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "1",
+        "arch": "x86_64",
+        "src": "sgabios-0.20170427git-3.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "sgabios-0.20170427git-3.module_el8.3.0+2048+e7a0a3ea.x86_64.rpm",
+        "sum": "1304be859f8a674c16e466cd4c3e093849be38fe3accca0389dee3b35f848431",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "sgabios-bin",
+        "version": "0.20170427git",
+        "release": "3.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "1",
+        "arch": "noarch",
+        "src": "sgabios-0.20170427git-3.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "sgabios-bin-0.20170427git-3.module_el8.3.0+2048+e7a0a3ea.noarch.rpm",
+        "sum": "4b902dedf60f95f4ad616c2ec5fba18092e0b661ca07d86f3a05c59df70e8ce9",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi",
+        "version": "1.18.0",
+        "release": "8.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "i686",
+        "src": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "f3d7ca410a042583a92c168682347a9ef0fc92bfa1c1ab07736019dafe68533b",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi-devel",
+        "version": "1.18.0",
+        "release": "8.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "i686",
+        "src": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "libiscsi-devel-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "6354d76fcb3f9b45659f5abe06ec2f3a59420619b66d3967949d93b3a76a49f7",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "libiscsi-utils",
+        "version": "1.18.0",
+        "release": "8.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "i686",
+        "src": "libiscsi-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "libiscsi-utils-1.18.0-8.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "1b48736426106336aecd3b251329dca6eb67d703a3a906c30576599a9680019b",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf",
+        "version": "0.2.8",
+        "release": "12.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "i686",
+        "src": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "a1fedfd353c9753eb41616cfa441b34fbcc8da5d0926a40212761a5476a8a77f",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf-devel",
+        "version": "0.2.8",
+        "release": "12.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "i686",
+        "src": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "netcf-devel-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "2382e8ade6974ff73d169757ba744f1688d25130570f61eb6ecbeddec08a7dab",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "netcf-libs",
+        "version": "0.2.8",
+        "release": "12.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "0",
+        "arch": "i686",
+        "src": "netcf-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "netcf-libs-0.2.8-12.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "eb138f7be869d051491087b5952d125d192a791e8e30ba220ede3ea10cb170c5",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      },
+      {
+        "name": "sgabios",
+        "version": "0.20170427git",
+        "release": "3.module_el8.3.0+2048+e7a0a3ea",
+        "epoch": "1",
+        "arch": "i686",
+        "src": "sgabios-0.20170427git-3.module_el8.3.0+2048+e7a0a3ea.src.rpm",
+        "filename": "sgabios-0.20170427git-3.module_el8.3.0+2048+e7a0a3ea.i686.rpm",
+        "sum": "ae762fce191d248de990f617397e2461da48486d4fedc6dc264feaa9cc05c721",
+        "sum_type": 5,
+        "reboot_suggested": 0
+      }
+    ],
+    "module": {
+      "stream": "rhel",
+      "name": "virt",
+      "version": 8040020210811063000,
+      "arch": "x86_64",
+      "context": "522a0ee4"
+    }
+  },
+  "pushcount": "3",
+  "references": [
+    {
+      "href": "https://vulners.com/cve/CVE-2019-11135",
+      "type": "cve",
+      "id": "CVE-2019-11135",
+      "title": "CVE-2019-11135"
+    }
+  ],
+  "release": "0",
+  "rights": "Copyright 2021 AlmaLinux OS",
+  "severity": "Moderate",
+  "solution": "For details on how to apply this update, which includes the changes described in this advisory, refer to:\n\nhttps://access.redhat.com/articles/11258",
+  "status": "final",
+  "summary": "An update for the virt:rhel and virt-devel:rhel modules is now available for AlmaLinux\n\nAlmaLinux Product Security has rated this update as having a security impact of Moderate. A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE link(s) in the References section.",
+  "title": "Moderate: virt:rhel security update",
+  "type": "security",
+  "updated_date": {
+    "$date": 1580305374000
+  },
+  "version": "1"
+}

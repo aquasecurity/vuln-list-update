@@ -64,5 +64,4 @@ func download(ctx context.Context, src, dst string, mode getter.ClientMode) erro
 	}
 
 	return nil
-
 }
