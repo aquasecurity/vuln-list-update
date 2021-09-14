@@ -25,6 +25,10 @@ const (
 	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
 )
 
+var (
+	repos = []string{"main", "contrib", "non-free"}
+)
+
 type Bug struct {
 	Header      *Header
 	Annotations []*Annotation
@@ -256,7 +260,7 @@ func shouldStore(anns []*Annotation) bool {
 func (c Client) updateSources(ctx context.Context, dists map[string]Distribution) error {
 	for target, baseURL := range map[string]string{"source": c.sourcesURL, "updates-source": c.securitySourcesURL} {
 		for code := range dists {
-			for _, r := range []string{"main", "contrib"} {
+			for _, r := range repos {
 				log.Printf("Updating %s %s/%s", target, code, r)
 				url := fmt.Sprintf(baseURL, code, r)
 				headers, err := c.fetchSources(ctx, url)
