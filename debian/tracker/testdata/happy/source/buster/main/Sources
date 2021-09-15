@@ -1,0 +1,53 @@
+Package: zzz-to-char
+Binary: elpa-zzz-to-char
+Version: 0.1.3-2
+Maintainer: Debian Emacsen team <debian-emacsen@lists.debian.org>
+Uploaders: Lev Lamberov <dogsleg@debian.org>
+Build-Depends: debhelper-compat (= 12), dh-elpa
+Architecture: all
+Standards-Version: 4.3.0
+Format: 3.0 (quilt)
+Files:
+ b9cacbf2ae983bf37f7aa31fd268f6a6 1947 zzz-to-char_0.1.3-2.dsc
+ 0b48b30afd7781aa6072ddb6730ad5ac 2540 zzz-to-char_0.1.3.orig.tar.gz
+ c3ec0a2bf50cd89e0e987abfa42c7c90 2864 zzz-to-char_0.1.3-2.debian.tar.xz
+Vcs-Browser: https://salsa.debian.org/emacsen-team/zzz-to-char
+Vcs-Git: https://salsa.debian.org/emacsen-team/zzz-to-char.git
+Checksums-Sha256:
+ 7f76663703eb065787702ac747826a5c468e9b6f888bf7dd75201cb095d74d14 1947 zzz-to-char_0.1.3-2.dsc
+ a828b7b7e7daf7b52cfac7c95a4f66f2468e1232caa8ac6ad732c3aef410a529 2540 zzz-to-char_0.1.3.orig.tar.gz
+ 45c8ba0e0c086f7815c56dd7f62c628a44a9255aa98dcb260e589caec2406cbe 2864 zzz-to-char_0.1.3-2.debian.tar.xz
+Homepage: https://github.com/mrkkrp/zzz-to-char
+Package-List:
+ elpa-zzz-to-char deb lisp optional arch=all
+Directory: pool/main/z/zzz-to-char
+Priority: optional
+Section: misc
+
+Package: zzzeeksphinx
+Binary: python-zzzeeksphinx, python3-zzzeeksphinx
+Version: 1.0.20-2
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Uploaders: Piotr Ożarowski <piotr@debian.org>
+Build-Depends: debhelper (>= 9), dh-python, python-all, python3-all, python-setuptools, python3-setuptools
+Architecture: all
+Standards-Version: 4.0.0
+Format: 3.0 (quilt)
+Files:
+ 16f5bd47dd1d3d1b1095becc8d4c10dc 2145 zzzeeksphinx_1.0.20-2.dsc
+ 471c4b42495e76a7c23678e2f8eb2569 23030 zzzeeksphinx_1.0.20.orig.tar.gz
+ 32934345771155ae79fe4a19bbcc7267 5364 zzzeeksphinx_1.0.20-2.debian.tar.xz
+Vcs-Browser: https://salsa.debian.org/python-team/modules/zzzeeksphinx
+Vcs-Git: https://salsa.debian.org/python-team/modules/zzzeeksphinx.git
+Checksums-Sha256:
+ dc408a30ac8f94711701e4391562b1493dc093f49291b7635ee22488195b0bef 2145 zzzeeksphinx_1.0.20-2.dsc
+ 22730425059f912c99c9714051ebe78bf54454ba871b9b62ec76a7e5bd2532fb 23030 zzzeeksphinx_1.0.20.orig.tar.gz
+ c84fa1b863c90370de67bf709794bd33361e653e0f1b0ab23d29c173bccfb5b1 5364 zzzeeksphinx_1.0.20-2.debian.tar.xz
+Homepage: https://bitbucket.org/zzzeek/zzzeeksphinx
+Package-List:
+ python-zzzeeksphinx deb python optional arch=all
+ python3-zzzeeksphinx deb python optional arch=all
+Directory: pool/main/z/zzzeeksphinx
+Priority: optional
+Section: misc
+

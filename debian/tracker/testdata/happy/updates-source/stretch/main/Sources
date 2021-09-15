@@ -1,0 +1,16 @@
+Package: 0ad
+Version: 0.0.21-2
+Installed-Size: 18473
+Architecture: amd64
+Depends: 0ad-data (>= 0.0.21), 0ad-data (<= 0.0.21-2), 0ad-data-common (>= 0.0.21), 0ad-data-common (<= 0.0.21-2), libboost-filesystem1.62.0, libc6 (>= 2.15), libcurl3-gnutls (>= 7.16.2), libenet7, libgcc1 (>= 1:3.4), libgl1-mesa-glx | libgl1, libgloox15, libicu57 (>= 57.1-1~), libminiupnpc10 (>= 1.9.20140610), libnspr4 (>= 2:4.9.2), libnvtt2, libopenal1 (>= 1.14), libpng16-16 (>= 1.6.2-1), libsdl2-2.0-0 (>= 2.0.4), libstdc++6 (>= 5.2), libvorbisfile3 (>= 1.1.2), libwxbase3.0-0v5 (>= 3.0.2+dfsg), libwxgtk3.0-0v5 (>= 3.0.2+dfsg), libx11-6, libxcursor1 (>> 1.1.2), libxml2 (>= 2.9.0), zlib1g (>= 1:1.2.0)
+Tag: game::strategy, interface::graphical, interface::x11, role::program,
+ uitoolkit::sdl, uitoolkit::wxwidgets, use::gameplaying,
+ x11::application
+
+Package: 0ad-data
+Version: 0.0.21-1
+Installed-Size: 1572431
+Architecture: all
+Tag: role::app-data
+SHA256: 40b5fb58f38d80c09c717c23f2457a5162699e49c87083e16a7f661f511a6ab2
+

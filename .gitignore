@@ -12,7 +12,6 @@
 *.out
 
 .idea
-data
 vuln-list-update
 
 # MacOs
