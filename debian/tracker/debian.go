@@ -250,7 +250,9 @@ func (c Client) parseDistributions(dir string) (map[string]Distribution, error) 
 
 func shouldStore(anns []*Annotation) bool {
 	for _, ann := range anns {
-		if ann.Type == "RESERVED" || ann.Type == "REJECTED" || ann.Type == "NOT-FOR-US" {
+		// RESERVED should not have any information as below, but it is not always the case. We don't skip RESERVED here.
+		// https://security-team.debian.org/security_tracker.html#reserved-entries
+		if ann.Type == "REJECTED" || ann.Type == "NOT-FOR-US" {
 			return false
 		}
 	}
