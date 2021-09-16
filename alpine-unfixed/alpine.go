@@ -8,8 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"golang.org/x/xerrors"
-
+	"golang.org/x/xerrors" 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
