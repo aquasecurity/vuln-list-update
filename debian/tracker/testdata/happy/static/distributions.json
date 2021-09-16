@@ -1,0 +1,12 @@
+{
+  "stretch": {
+    "major-version": "9",
+    "support": "lts",
+    "contact": "debian-lts@lists.debian.org"
+  },
+  "buster": {
+    "major-version": "10",
+    "support": "security",
+    "contact": "team@security.debian.org"
+  }
+}

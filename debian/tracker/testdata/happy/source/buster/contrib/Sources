@@ -1,0 +1,65 @@
+Package: zfs-auto-snapshot
+Binary: zfs-auto-snapshot
+Version: 1.2.4-2
+Maintainer: Jonathan Carter <jcc@debian.org>
+Build-Depends: debhelper (>= 11)
+Architecture: all
+Standards-Version: 4.2.1
+Format: 3.0 (quilt)
+Files:
+ 2ec91862acf1337e3ead74bd65cd02eb 1947 zfs-auto-snapshot_1.2.4-2.dsc
+ 6c71731b441e1e0f8da385df583460d5 13375 zfs-auto-snapshot_1.2.4.orig.tar.gz
+ 8594bb7a344242bd6e6878e480b53089 1936 zfs-auto-snapshot_1.2.4-2.debian.tar.xz
+Vcs-Browser: https://salsa.debian.org/jcc/zfs-auto-snapshot
+Vcs-Git: https://salsa.debian.org/jcc/zfs-auto-snapshot.git
+Checksums-Sha256:
+ a41252b749f7f318239896ea7589c4ad72bb9578a32ef157c99d197be7941ecd 1947 zfs-auto-snapshot_1.2.4-2.dsc
+ 307f71f748cacf5149532891dc3174365a4494337d9cfc8e619d9038080f3e9b 13375 zfs-auto-snapshot_1.2.4.orig.tar.gz
+ 0ea6035cc7170e0d3aaf7add9ad6ef8d509c80b8265d025456ca78913a76c8ab 1936 zfs-auto-snapshot_1.2.4-2.debian.tar.xz
+Homepage: https://github.com/zfsonlinux/zfs-auto-snapshot
+Package-List:
+ zfs-auto-snapshot deb contrib/utils optional arch=all
+Directory: pool/contrib/z/zfs-auto-snapshot
+Priority: optional
+Section: contrib/misc
+
+Package: zfs-linux
+Binary: libnvpair1linux, libuutil1linux, libzfslinux-dev, libzfs2linux, libzpool2linux, zfs-dkms, zfs-initramfs, zfs-dracut, zfsutils-linux, zfs-zed, zfs-test, zfs-dbg
+Version: 0.7.12-2+deb10u2
+Maintainer: Debian ZFS on Linux maintainers <pkg-zfsonlinux-devel@alioth-lists.debian.net>
+Uploaders: Aron Xu <aron@debian.org>, Petter Reinholdtsen <pere@debian.org>, Carlos Alberto Lopez Perez <clopez@igalia.com>, Mo Zhou <cdluminate@gmail.com>,
+Build-Depends: autotools-dev, debhelper (>= 10.2), dh-autoreconf, dh-python, dkms (>> 2.1.1.2-5), libattr1-dev, libblkid-dev, libselinux1-dev, libtool, lsb-release, po-debconf, python3, uuid-dev, zlib1g-dev
+Architecture: linux-any all
+Standards-Version: 4.1.2
+Format: 3.0 (quilt)
+Files:
+ 8d6fc8d0996f10422984391bb718df35 3114 zfs-linux_0.7.12-2+deb10u2.dsc
+ 384c4bc1cc47c9c3f630e3232227f601 6565017 zfs-linux_0.7.12.orig.tar.gz
+ 666c004e5d1686b4271a7c68461defcc 51604 zfs-linux_0.7.12-2+deb10u2.debian.tar.xz
+Vcs-Browser: https://salsa.debian.org/zfsonlinux-team/zfs
+Vcs-Git: https://salsa.debian.org/zfsonlinux-team/zfs.git
+Checksums-Sha256:
+ 6694a08350ccee8f27152e07206ea894b674e4fa42b979b1e6d09865744889bc 3114 zfs-linux_0.7.12-2+deb10u2.dsc
+ 720e3b221c1ba5d4c18c990e48b86a2eb613575a0c3cc84c0aa784b17b7c2848 6565017 zfs-linux_0.7.12.orig.tar.gz
+ ed0d99ff92c93dd1ff6a08ec050cf19d4e3f5b76b2daa33b6426aa08500167c2 51604 zfs-linux_0.7.12-2+deb10u2.debian.tar.xz
+Homepage: http://www.zfsonlinux.org/
+Autobuild: yes
+Package-List:
+ libnvpair1linux deb contrib/libs optional arch=linux-any
+ libuutil1linux deb contrib/libs optional arch=linux-any
+ libzfs2linux deb contrib/libs optional arch=linux-any
+ libzfslinux-dev deb contrib/libdevel optional arch=linux-any
+ libzpool2linux deb contrib/libs optional arch=linux-any
+ zfs-dbg deb contrib/debug optional arch=linux-any
+ zfs-dkms deb contrib/kernel optional arch=all
+ zfs-dracut deb contrib/kernel optional arch=all
+ zfs-initramfs deb contrib/kernel optional arch=all
+ zfs-test deb contrib/admin optional arch=linux-any
+ zfs-zed deb contrib/admin optional arch=linux-any
+ zfsutils-linux deb contrib/admin optional arch=linux-any
+Testsuite: autopkgtest
+Testsuite-Triggers: dkms, spl-dkms
+Directory: pool/contrib/z/zfs-linux
+Priority: optional
+Section: contrib/misc
+

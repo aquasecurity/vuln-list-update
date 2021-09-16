@@ -51,20 +51,25 @@ func SaveCVEPerYear(dirName string, cveID string, data interface{}) error {
 }
 
 func Write(filePath string, data interface{}) error {
+	dir := filepath.Dir(filePath)
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		return xerrors.Errorf("failed to create %s: %w", dir, err)
+	}
+
 	f, err := os.Create(filePath)
 	if err != nil {
-		return err
+		return xerrors.Errorf("file create error: %w", err)
 	}
 	defer f.Close()
 
 	b, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
-		return err
+		return xerrors.Errorf("JSON marshal error: %w", err)
 	}
 
 	_, err = f.Write(b)
 	if err != nil {
-		return err
+		return xerrors.Errorf("file write error: %w", err)
 	}
 	return nil
 }
@@ -107,7 +112,7 @@ func FetchURL(url, apikey string, retry int) (res []byte, err error) {
 			log.Printf("retry after %f seconds\n", wait)
 			time.Sleep(time.Duration(time.Duration(wait) * time.Second))
 		}
-		res, err = fetchURL(url, apikey)
+		res, err = fetchURL(url, map[string]string{"api-key": apikey})
 		if err == nil {
 			return res, nil
 		}
@@ -120,10 +125,10 @@ func RandInt() int {
 	return int(seed.Int64())
 }
 
-func fetchURL(url, apikey string) ([]byte, error) {
+func fetchURL(url string, headers map[string]string) ([]byte, error) {
 	req := gorequest.New().Get(url)
-	if apikey != "" {
-		req.Header.Add("api-key", apikey)
+	for key, value := range headers {
+		req.Header.Add(key, value)
 	}
 	resp, body, errs := req.Type("text").EndBytes()
 	if len(errs) > 0 {
@@ -226,4 +231,13 @@ func LookupEnv(key, defaultValue string) string {
 		return val
 	}
 	return defaultValue
+}
+
+func StringInSlice(s string, ss []string) bool {
+	for _, str := range ss {
+		if s == str {
+			return true
+		}
+	}
+	return false
 }
