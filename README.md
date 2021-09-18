@@ -3,6 +3,7 @@
 [![Go Report Card][report-card-img]][report-card]
 [![License][license-img]][license]
 [![Update vuln-list repo](https://github.com/aquasecurity/vuln-list-update/actions/workflows/update.yml/badge.svg)](https://github.com/aquasecurity/vuln-list-update/actions/workflows/update.yml)
+[![codecov](https://codecov.io/gh/aquasecurity/vuln-list-update/branch/main/graph/badge.svg?token=)](https://codecov.io/gh/aquasecurity/vuln-list-update)
 
 [report-card-img]: https://goreportcard.com/badge/github.com/aquasecurity/vuln-list-update
 [report-card]: https://goreportcard.com/report/github.com/aquasecurity/vuln-list-update
