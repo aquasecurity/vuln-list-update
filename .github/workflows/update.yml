@@ -92,6 +92,10 @@ jobs:
       run: ./vuln-list-update -target alma
 
     - if: always()
+      name: Rocky Linux Security Advisory
+      run: ./vuln-list-update -target rocky
+
+    - if: always()
       name: OSV Database
       run: ./vuln-list-update -target osv
 

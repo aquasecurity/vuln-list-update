@@ -31,6 +31,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/photon"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
+	"github.com/aquasecurity/vuln-list-update/rocky"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -195,6 +196,12 @@ func run() error {
 			return xerrors.Errorf("AlmaLinux update error: %w", err)
 		}
 		commitMsg = "AlmaLinux Security Advisory"
+	case "rocky":
+		rc := rocky.NewConfig()
+		if err := rc.Update(); err != nil {
+			return xerrors.Errorf("Rocky Linux update error: %w", err)
+		}
+		commitMsg = "Rocky Linux Security Advisory"
 	case "osv":
 		p := osv.NewOsv()
 		if err := p.Update(); err != nil {
