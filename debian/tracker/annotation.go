@@ -183,17 +183,18 @@ func parseInner(inner string) (string, int) {
 	var severity string
 	var bugno int
 
-	// e.g. (bug #1345; low)
-	for _, ann := range strings.Split(inner, ";") {
-		// Parse severity
-		severity = severityRegexp.FindString(ann)
+	// e.g.
+	// - phpmyadmin 4:2.9.1.1-2 (bug #406486; low)
+	// - iceweasel \u003cremoved\u003e (unimportant; bug #556267)
 
-		// Parse bug number
-		match := bugNoRegexp.FindStringSubmatch(ann)
-		if len(match) > 0 {
-			str := match[bugNoRegexp.SubexpIndex("bugno")]
-			bugno, _ = strconv.Atoi(str)
-		}
+	// Parse severity
+	severity = severityRegexp.FindString(inner)
+
+	// Parse bug number
+	match := bugNoRegexp.FindStringSubmatch(inner)
+	if len(match) > 0 {
+		str := match[bugNoRegexp.SubexpIndex("bugno")]
+		bugno, _ = strconv.Atoi(str)
 	}
 	return severity, bugno
 }
