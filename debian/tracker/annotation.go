@@ -186,7 +186,11 @@ func parseInner(inner string) (string, int) {
 	// e.g. (bug #1345; low)
 	for _, ann := range strings.Split(inner, ";") {
 		// Parse severity
-		severity = severityRegexp.FindString(ann)
+		s := severityRegexp.FindString(ann)
+		if s != "" {
+			severity = s
+			continue
+		}
 
 		// Parse bug number
 		match := bugNoRegexp.FindStringSubmatch(ann)
