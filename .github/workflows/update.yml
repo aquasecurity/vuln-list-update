@@ -40,6 +40,10 @@ jobs:
       run: ./vuln-list-update -target alpine
 
     - if: always()
+        name: Alpine Unfixed Vulnerability Tracker
+        run: ./vuln-list-update -target alpine-unfixed
+
+    - if: always()
       name: Debian Security Bug Tracker
       run: ./vuln-list-update -target debian
 
