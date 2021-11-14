@@ -48,10 +48,6 @@ jobs:
       run: ./vuln-list-update -target debian
 
     - if: always()
-      name: Debian OVAL
-      run: ./vuln-list-update -target debian-oval
-
-    - if: always()
       name: Ubuntu CVE Tracker
       run: ./vuln-list-update -target ubuntu
 
