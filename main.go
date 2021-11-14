@@ -20,7 +20,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/cwe"
-	debianoval "github.com/aquasecurity/vuln-list-update/debian/oval"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
@@ -115,11 +114,6 @@ func run() error {
 			return xerrors.Errorf("Debian update error: %w", err)
 		}
 		commitMsg = "Debian Security Bug Tracker"
-	case "debian-oval":
-		if err := debianoval.Update(); err != nil {
-			return xerrors.Errorf("Debian OVAL update error: %w", err)
-		}
-		commitMsg = "Debian OVAL"
 	case "ubuntu":
 		if err := ubuntu.Update(); err != nil {
 			return xerrors.Errorf("Ubuntu update error: %w", err)
