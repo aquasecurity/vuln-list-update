@@ -80,7 +80,7 @@ func NewOsv(opts ...option) Osv {
 func (osv *Osv) Update() error {
 	allfiles, err := osv.getAllFiles()
 	if err != nil {
-		return err
+		return xerrors.Errorf("failed to get files: %w", err)
 	}
 
 	bar := pb.StartNew(osv.getAmountFiles(allfiles))
