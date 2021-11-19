@@ -89,20 +89,20 @@ func Test_Update(t *testing.T) {
 			if tt.wantErr != "" {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
-				return
-			}
+			} else {
 
-			require.NoError(t, err)
-
-			for _, f := range tt.wantFiles {
-				filePath := filepath.Join(f.eco.dir, f.pkg, f.name)
-				gotJSON, err := os.ReadFile(filepath.Join(testDir, filePath))
 				require.NoError(t, err)
 
-				wantJSON, err := os.ReadFile(filepath.Join("testdata", f.eco.name, "golden", f.pkg, f.name))
-				require.NoError(t, err)
+				for _, f := range tt.wantFiles {
+					filePath := filepath.Join(f.eco.dir, f.pkg, f.name)
+					gotJSON, err := os.ReadFile(filepath.Join(testDir, filePath))
+					require.NoError(t, err)
 
-				assert.JSONEq(t, string(wantJSON), string(gotJSON))
+					wantJSON, err := os.ReadFile(filepath.Join("testdata", f.eco.name, "golden", f.pkg, f.name))
+					require.NoError(t, err)
+
+					assert.JSONEq(t, string(wantJSON), string(gotJSON))
+				}
 			}
 		})
 	}

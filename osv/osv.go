@@ -34,8 +34,7 @@ type options struct {
 type option func(*options)
 
 type Osv struct {
-	opts  *options
-	AppFs afero.Fs
+	opts *options
 }
 
 func WithURL(url string) option {
@@ -56,10 +55,21 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 	}
 }
 
+func optionsContainsWithEcosystem(opts ...option) bool {
+	for _, opt := range opts {
+		if fmt.Sprintf("%v", opt) == fmt.Sprintf("%v", WithEcosystem(make(map[string]string))) {
+			return true
+		}
+	}
+	return false
+}
+
 func NewOsv(opts ...option) Osv {
 	ecosystemDirs := make(map[string]string)
-	for name, dir := range defaultEcosystemDirs {
-		ecosystemDirs[name] = dir
+	if !optionsContainsWithEcosystem(opts...) {
+		for name, dir := range defaultEcosystemDirs {
+			ecosystemDirs[name] = dir
+		}
 	}
 
 	o := &options{
