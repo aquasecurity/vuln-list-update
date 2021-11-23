@@ -55,31 +55,27 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 	}
 }
 
-func optionsContainsWithEcosystem(opts ...option) bool {
-	for _, opt := range opts {
-		if fmt.Sprintf("%v", opt) == fmt.Sprintf("%v", WithEcosystem(make(map[string]string))) {
-			return true
-		}
-	}
-	return false
-}
-
 func NewOsv(opts ...option) Osv {
-	ecosystemDirs := make(map[string]string)
-	if !optionsContainsWithEcosystem(opts...) {
-		for name, dir := range defaultEcosystemDirs {
-			ecosystemDirs[name] = dir
-		}
-	}
-
-	o := &options{
-		url:           securityTrackerURL,
-		dir:           filepath.Join(utils.VulnListDir(), osvDir),
-		ecosystemDirs: ecosystemDirs,
-	}
+	o := &options{}
 
 	for _, opt := range opts {
 		opt(o)
+	}
+
+	if len(o.ecosystemDirs) == 0 {
+		ecosystemDirs := make(map[string]string)
+		for name, dir := range defaultEcosystemDirs {
+			ecosystemDirs[name] = dir
+		}
+		o.ecosystemDirs = ecosystemDirs
+	}
+
+	if o.url == "" {
+		o.url = securityTrackerURL
+	}
+
+	if o.dir == "" {
+		o.dir = filepath.Join(utils.VulnListDir(), osvDir)
 	}
 
 	return Osv{

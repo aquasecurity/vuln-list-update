@@ -58,7 +58,7 @@ func Test_Update(t *testing.T) {
 		},
 		{
 			name:    "sad path, unable to download archive",
-			wantErr: "no files to download",
+			wantErr: "failed to get files",
 		},
 	}
 
