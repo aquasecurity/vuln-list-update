@@ -17,7 +17,7 @@ jobs:
         go-version: 1.17
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.4.0
 
     - name: Set Owner
       run: echo "VULNLIST_REPOSITORY_OWNER=$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $1}' | sed -e 's/:refs//')" >> $GITHUB_ENV
@@ -40,12 +40,12 @@ jobs:
       run: ./vuln-list-update -target alpine
 
     - if: always()
-      name: Debian Security Bug Tracker
-      run: ./vuln-list-update -target debian
+      name: Alpine Unfixed Vulnerability Tracker
+      run: ./vuln-list-update -target alpine-unfixed
 
     - if: always()
-      name: Debian OVAL
-      run: ./vuln-list-update -target debian-oval
+      name: Debian Security Bug Tracker
+      run: ./vuln-list-update -target debian
 
     - if: always()
       name: Ubuntu CVE Tracker

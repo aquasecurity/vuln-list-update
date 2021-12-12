@@ -131,12 +131,13 @@ func TestClient_Update(t *testing.T) {
 					},
 					Annotations: []*tracker.Annotation{
 						{
-							Original: "- putty 0.75-3 (bug #990901)",
+							Original: "- putty 0.75-3 (low; bug #990901)",
 							Line:     11,
 							Type:     "package",
 							Version:  "0.75-3",
 							Kind:     "fixed",
 							Package:  "putty",
+							Severity: "low",
 							BugNo:    990901,
 						},
 						{
