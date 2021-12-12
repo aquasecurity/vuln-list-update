@@ -9,7 +9,7 @@ require (
 	github.com/cheggaaa/pb/v3 v3.0.8
 	github.com/elazarl/goproxy v0.0.0-20190421051319-9d40249d3c2f // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f // indirect
-	github.com/hashicorp/go-getter v1.5.8
+	github.com/hashicorp/go-getter v1.5.9
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/kylelemons/godebug v1.1.0
 	github.com/mattn/go-jsonpointer v0.0.0-20180225143300-37667080efed
