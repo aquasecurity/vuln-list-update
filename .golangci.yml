@@ -1,6 +1,6 @@
 linters:
   enable:
     - errorlint
-    #- gci
-    - gofmt
+  # - gci
+  # - gofmt
     - govet
