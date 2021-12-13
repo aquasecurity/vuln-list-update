@@ -197,7 +197,7 @@ func run() error {
 	case "osv":
 		p := osv.NewOsv()
 		if err := p.Update(); err != nil {
-			return xerrors.Errorf("error in Osv update: %w", err)
+			return xerrors.Errorf("OSV update error: %w", err)
 		}
 		commitMsg = "Osv Security Advisories"
 	default:
