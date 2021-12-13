@@ -1,13 +1,11 @@
 package osv
 
 type OsvAffected struct {
-	Package  *OsvPackage `json:"package,omitempty"`
-	Ranges   []OsvRange  `json:"ranges,omitempty"`
-	Versions []string    `json:"versions,omitempty"`
-
-	// Ecosystem *OsvEcosystem `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem
-
-	// Database  *OsvDatabase  `json:"database_specific,omitempty"` //The meaning of the values within the object is entirely defined by the database
+	Package   *OsvPackage `json:"package,omitempty"`
+	Ranges    []OsvRange  `json:"ranges,omitempty"`
+	Versions  []string    `json:"versions,omitempty"`
+	Ecosystem interface{} `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem
+	Database  interface{} `json:"database_specific,omitempty"`  //The meaning of the values within the object is entirely defined by the database
 
 }
 type OsvPackage struct {
@@ -24,12 +22,6 @@ type OsvEvent struct {
 	Introduced string `json:"introduced,omitempty"`
 	Fixed      string `json:"fixed,omitempty"`
 }
-
-// type OsvEcosystem struct {
-// }
-
-// type OsvDatabase struct {
-// }
 
 type OsvReference struct {
 	Type string `json:"type,omitempty"`

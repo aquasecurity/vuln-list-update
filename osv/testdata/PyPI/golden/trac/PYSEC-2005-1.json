@@ -62,7 +62,10 @@
       "versions": [
         "0.8.4",
         "0.9"
-      ]
+      ],
+      "database_specific": {
+        "source": "https://github.com/pypa/advisory-db/blob/main/vulns/trac/PYSEC-2005-1.yaml"
+      }
     }
   ]
 }

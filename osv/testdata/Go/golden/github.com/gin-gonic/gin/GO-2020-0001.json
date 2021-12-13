@@ -31,7 +31,16 @@
             }
           ]
         }
-      ]
+      ],
+      "ecosystem_specific": {
+        "symbols": [
+          "defaultLogFormatter"
+        ]
+      },
+      "database_specific": {
+        "source": "https://storage.googleapis.com/go-vulndb/byID/GO-2020-0001.json",
+        "url": "https://go.googlesource.com/vulndb/+/refs/heads/master/reports/GO-2020-0001.yaml"
+      }
     }
   ]
 }

@@ -69,7 +69,10 @@
         "2.0.0b",
         "2.1.0",
         "2.1.0-beta"
-      ]
+      ],
+      "database_specific": {
+        "source": "https://github.com/pypa/advisory-db/blob/main/vulns/cherrypy/PYSEC-2006-1.yaml"
+      }
     }
   ]
 }

@@ -34,7 +34,16 @@
             }
           ]
         }
-      ]
+      ],
+      "ecosystem_specific": {
+        "symbols": [
+          "sqaush"
+        ]
+      },
+      "database_specific": {
+        "source": "https://storage.googleapis.com/go-vulndb/byID/GO-2021-0059.json",
+        "url": "https://go.googlesource.com/vulndb/+/refs/heads/master/reports/GO-2021-0059.yaml"
+      }
     }
   ]
 }

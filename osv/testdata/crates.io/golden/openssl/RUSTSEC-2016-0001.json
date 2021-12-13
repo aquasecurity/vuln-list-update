@@ -40,7 +40,20 @@
             }
           ]
         }
-      ]
+      ],
+      "ecosystem_specific": {
+        "affects": {
+          "functions": [],
+          "arch": [],
+          "os": []
+        }
+      },
+      "database_specific": {
+        "cvss": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "source": "https://github.com/rustsec/advisory-db/blob/osv/crates/RUSTSEC-2016-0001.json",
+        "categories": [],
+        "informational": null
+      }
     }
   ]
 }

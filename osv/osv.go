@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
-	"github.com/cheggaaa/pb"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 )
@@ -57,93 +57,46 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 
 func NewOsv(opts ...option) Osv {
 	o := &options{
-		url: securityTrackerURL,
-		dir: filepath.Join(utils.VulnListDir(), osvDir),
-		ecosystemDirs: defaultEcosystemDirs}
+		url:           securityTrackerURL,
+		dir:           filepath.Join(utils.VulnListDir(), osvDir),
+		ecosystemDirs: defaultEcosystemDirs,
 	}
-
+	for _, option := range opts {
+		option(o)
+	}
 	return Osv{
 		opts: o,
 	}
 }
 
 func (osv *Osv) Update() error {
-	allfiles, err := osv.getAllFiles()
-	if err != nil {
-		return xerrors.Errorf("failed to get files: %w", err)
-	}
-
-	bar := pb.StartNew(osv.getAmountFiles(allfiles))
-
-	for ecosystemDir, files := range allfiles {
-		for _, file := range files {
-			data, err := os.ReadFile(file)
-
-			if err != nil {
-				return xerrors.Errorf("unable to read %s: %w", file, err)
-			}
-
-			osvJson := &OsvJson{}
-
-			err = json.Unmarshal(data, osvJson)
-
-			if err != nil {
-				return xerrors.Errorf("unable to parse json %s: %w", file, err)
-			}
-
-			if err := utils.WriteJSON(afero.NewOsFs(), filepath.Join(osv.opts.dir, ecosystemDir, osvJson.Affected[0].Package.Name), fmt.Sprintf("%s.json", osvJson.Id), osvJson); err != nil {
-				return xerrors.Errorf("failed to write file: %w", err)
-			}
-
-			bar.Increment()
-		}
-	}
-	bar.Finish()
-	return nil
-}
-
-func (osv *Osv) getAmountFiles(allFiles map[string][]string) int {
-	amount := 0
-	for ecosystem := range allFiles {
-		amount += len(allFiles[ecosystem])
-	}
-	return amount
-}
-
-func (osv *Osv) getAllFiles() (map[string][]string, error) {
-	allfiles := make(map[string][]string)
-
-	if len(osv.opts.ecosystemDirs) == 0 {
-		return nil, xerrors.Errorf("no files to download, ecosystems: %s", osv.opts.ecosystemDirs)
-	}
 	for ecoSystem, ecoSystemDir := range osv.opts.ecosystemDirs {
+		log.Printf("Updating OSV %s advisories", ecoSystem)
 		tempDir, err := utils.DownloadToTempDir(context.Background(), fmt.Sprintf(osv.opts.url, ecoSystem))
 		if err != nil {
-			return nil, xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.opts.url, ecoSystem), err)
+			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.opts.url, ecoSystem), err)
 		}
-
-		ecoSystemFiles, err := getEcosystemFiles(tempDir)
-		if err != nil {
-			return nil, xerrors.Errorf("failed to find vulnerability files in the directory %s: %w", tempDir, err)
-		}
-		allfiles[ecoSystemDir] = ecoSystemFiles
-	}
-	return allfiles, nil
-}
-func getEcosystemFiles(dir string) ([]string, error) {
-	files := make([]string, 0)
-
-	err := filepath.WalkDir(dir,
-		func(path string, d fs.DirEntry, err error) error {
-			if err != nil {
-				return err
-			}
-
+		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, err error) error {
 			if !d.IsDir() {
-				files = append(files, path)
-			}
+				data, err := os.ReadFile(path)
+				if err != nil {
+					return err
+				}
+				osvJson := &OsvJson{}
+				err = json.Unmarshal(data, osvJson)
+				if err != nil {
+					return xerrors.Errorf("unable to parse json %s: %w", path, err)
+				}
 
+				if err := utils.WriteJSON(afero.NewOsFs(), filepath.Join(osv.opts.dir, ecoSystemDir, osvJson.Affected[0].Package.Name), fmt.Sprintf("%s.json", osvJson.Id), osvJson); err != nil {
+					return xerrors.Errorf("failed to write file: %w", err)
+				}
+			}
 			return nil
 		})
-	return files, err
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

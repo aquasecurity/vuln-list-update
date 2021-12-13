@@ -39,7 +39,6 @@ func Test_Update(t *testing.T) {
 		inputArchives string
 		ecosystem     []ecosystem
 		wantFiles     []fstruct
-		wantErr       string
 	}{
 		{
 			name:      "happy path python",
@@ -57,8 +56,8 @@ func Test_Update(t *testing.T) {
 			wantFiles: append(pythonFiles, rustFiles...),
 		},
 		{
-			name:    "sad path, unable to download archive",
-			wantErr: "failed to get files",
+			name:      "sad path, unable to download archive",
+			wantFiles: []fstruct{},
 		},
 	}
 
@@ -86,23 +85,17 @@ func Test_Update(t *testing.T) {
 
 			c := osv.NewOsv(osv.WithURL(testUrl), osv.WithDir(testDir), osv.WithEcosystem(testEcosystemDir))
 			err := c.Update()
-			if tt.wantErr != "" {
-				require.Error(t, err)
-				assert.Contains(t, err.Error(), tt.wantErr)
-			} else {
+			require.NoError(t, err)
 
+			for _, f := range tt.wantFiles {
+				filePath := filepath.Join(f.eco.dir, f.pkg, f.name)
+				gotJSON, err := os.ReadFile(filepath.Join(testDir, filePath))
 				require.NoError(t, err)
 
-				for _, f := range tt.wantFiles {
-					filePath := filepath.Join(f.eco.dir, f.pkg, f.name)
-					gotJSON, err := os.ReadFile(filepath.Join(testDir, filePath))
-					require.NoError(t, err)
+				wantJSON, err := os.ReadFile(filepath.Join("testdata", f.eco.name, "golden", f.pkg, f.name))
+				require.NoError(t, err)
 
-					wantJSON, err := os.ReadFile(filepath.Join("testdata", f.eco.name, "golden", f.pkg, f.name))
-					require.NoError(t, err)
-
-					assert.JSONEq(t, string(wantJSON), string(gotJSON))
-				}
+				assert.JSONEq(t, string(wantJSON), string(gotJSON))
 			}
 		})
 	}
