@@ -56,26 +56,10 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 }
 
 func NewOsv(opts ...option) Osv {
-	o := &options{}
-
-	for _, opt := range opts {
-		opt(o)
-	}
-
-	if len(o.ecosystemDirs) == 0 {
-		ecosystemDirs := make(map[string]string)
-		for name, dir := range defaultEcosystemDirs {
-			ecosystemDirs[name] = dir
-		}
-		o.ecosystemDirs = ecosystemDirs
-	}
-
-	if o.url == "" {
-		o.url = securityTrackerURL
-	}
-
-	if o.dir == "" {
-		o.dir = filepath.Join(utils.VulnListDir(), osvDir)
+	o := &options{
+		url: securityTrackerURL,
+		dir: filepath.Join(utils.VulnListDir(), osvDir),
+		ecosystemDirs: defaultEcosystemDirs}
 	}
 
 	return Osv{
