@@ -56,7 +56,7 @@ func NewVulnDB(opts ...option) VulnDB {
 	o := &options{
 		url:   vulndbURL,
 		dir:   filepath.Join(utils.VulnListDir(), vulndbDir),
-		retry: 3,
+		retry: retry,
 	}
 
 	for _, opt := range opts {
