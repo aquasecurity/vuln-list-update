@@ -33,8 +33,8 @@ type options struct {
 
 type option func(*options)
 
-type Osv struct {
-	opts *options
+type OSV struct {
+	*options
 }
 
 func WithURL(url string) option {
@@ -55,7 +55,7 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 	}
 }
 
-func NewOsv(opts ...option) Osv {
+func NewOsv(opts ...option) OSV {
 	o := &options{
 		url:           securityTrackerURL,
 		dir:           filepath.Join(utils.VulnListDir(), osvDir),
@@ -64,18 +64,19 @@ func NewOsv(opts ...option) Osv {
 	for _, option := range opts {
 		option(o)
 	}
-	return Osv{
-		opts: o,
+	return OSV{
+		options: o,
 	}
 }
 
-func (osv *Osv) Update() error {
-	for ecoSystem, ecoSystemDir := range osv.opts.ecosystemDirs {
+func (osv *OSV) Update() error {
+	for ecoSystem, ecoSystemDir := range osv.ecosystemDirs {
 		log.Printf("Updating OSV %s advisories", ecoSystem)
-		tempDir, err := utils.DownloadToTempDir(context.Background(), fmt.Sprintf(osv.opts.url, ecoSystem))
+		tempDir, err := utils.DownloadToTempDir(context.Background(), fmt.Sprintf(osv.url, ecoSystem))
 		if err != nil {
-			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.opts.url, ecoSystem), err)
+			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.url, ecoSystem), err)
 		}
+
 		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, err error) error {
 			if !d.IsDir() {
 				data, err := os.ReadFile(path)
@@ -88,7 +89,7 @@ func (osv *Osv) Update() error {
 					return xerrors.Errorf("unable to parse json %s: %w", path, err)
 				}
 
-				if err := utils.WriteJSON(afero.NewOsFs(), filepath.Join(osv.opts.dir, ecoSystemDir, osvJson.Affected[0].Package.Name), fmt.Sprintf("%s.json", osvJson.Id), osvJson); err != nil {
+				if err := utils.WriteJSON(afero.NewOsFs(), filepath.Join(osv.dir, ecoSystemDir, osvJson.Affected[0].Package.Name), fmt.Sprintf("%s.json", osvJson.Id), osvJson); err != nil {
 					return xerrors.Errorf("failed to write file: %w", err)
 				}
 			}
