@@ -91,6 +91,10 @@ jobs:
       name: AlmaLinux Security Advisory
       run: ./vuln-list-update -target alma
 
+    - if: always()
+      name: OSV Database
+      run: ./vuln-list-update -target osv
+
     # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
     - if: always()

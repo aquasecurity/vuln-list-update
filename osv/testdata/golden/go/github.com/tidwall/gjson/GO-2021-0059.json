@@ -1,0 +1,49 @@
+{
+  "id": "GO-2021-0059",
+  "details": "Due to improper bounds checking, maliciously crafted JSON objects\ncan cause an out-of-bounds panic. If parsing user input, this may\nbe used as a denial of service vector.\n",
+  "aliases": [
+    "CVE-2020-35380"
+  ],
+  "modified": "2021-04-14T12:00:00Z",
+  "published": "2021-04-14T12:00:00Z",
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/tidwall/gjson/commit/f0ee9ebde4b619767ae4ac03e8e42addb530f6bc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tidwall/gjson/issues/192"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "name": "github.com/tidwall/gjson",
+        "ecosystem": "Go"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.4"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "symbols": [
+          "sqaush"
+        ]
+      },
+      "database_specific": {
+        "source": "https://storage.googleapis.com/go-vulndb/byID/GO-2021-0059.json",
+        "url": "https://go.googlesource.com/vulndb/+/refs/heads/master/reports/GO-2021-0059.yaml"
+      }
+    }
+  ]
+}

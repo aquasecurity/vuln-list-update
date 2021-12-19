@@ -1,0 +1,46 @@
+{
+  "id": "GO-2020-0001",
+  "details": "The default [`Formatter`][LoggerConfig.Formatter] for the [`Logger`][] middleware\n(included in the [`Default`][] engine) allows attackers to inject arbitrary log\nentries by manipulating the request path.\n",
+  "modified": "2021-04-14T12:00:00Z",
+  "published": "2021-04-14T12:00:00Z",
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/gin-gonic/gin/pull/2237"
+    },
+    {
+      "type": "FIX",
+      "url": "https://github.com/gin-gonic/gin/commit/a71af9c144f9579f6dbe945341c1df37aaf09c0d"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "name": "github.com/gin-gonic/gin",
+        "ecosystem": "Go"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "symbols": [
+          "defaultLogFormatter"
+        ]
+      },
+      "database_specific": {
+        "source": "https://storage.googleapis.com/go-vulndb/byID/GO-2020-0001.json",
+        "url": "https://go.googlesource.com/vulndb/+/refs/heads/master/reports/GO-2020-0001.yaml"
+      }
+    }
+  ]
+}

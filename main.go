@@ -26,6 +26,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
+	"github.com/aquasecurity/vuln-list-update/osv"
 	"github.com/aquasecurity/vuln-list-update/photon"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
@@ -42,7 +43,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -193,6 +194,12 @@ func run() error {
 			return xerrors.Errorf("AlmaLinux update error: %w", err)
 		}
 		commitMsg = "AlmaLinux Security Advisory"
+	case "osv":
+		p := osv.NewOsv()
+		if err := p.Update(); err != nil {
+			return xerrors.Errorf("OSV update error: %w", err)
+		}
+		commitMsg = "OSV Database"
 	default:
 		return xerrors.New("unknown target")
 	}
