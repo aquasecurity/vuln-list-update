@@ -14,88 +14,104 @@ import (
 )
 
 func Test_Update(t *testing.T) {
-	type ecosystem struct {
-		name string
-		dir  string
-	}
-	type fstruct struct {
-		eco  ecosystem
-		pkg  string
-		name string
-	}
-
-	var (
-		defaultInputArchive = "testdata/%[1]s/all.zip"
-		pythonEco           = ecosystem{"PyPI", "python"}
-		pythonFiles         = []fstruct{{pythonEco, "trac", "PYSEC-2005-1.json"}, {pythonEco, "cherrypy", "PYSEC-2006-1.json"}, {pythonEco, "trac", "PYSEC-2006-2.json"}}
-		goEco               = ecosystem{"Go", "go"}
-		goFiles             = []fstruct{{goEco, "github.com/gin-gonic/gin", "GO-2020-0001.json"}, {goEco, "github.com/seccomp/libseccomp-golang", "GO-2020-0007.json"}, {goEco, "github.com/tidwall/gjson", "GO-2021-0059.json"}}
-		rustEco             = ecosystem{"crates.io", "rust"}
-		rustFiles           = []fstruct{{rustEco, "openssl", "RUSTSEC-2016-0001.json"}, {rustEco, "smallvec", "RUSTSEC-2019-0009.json"}, {rustEco, "tar", "RUSTSEC-2018-0002.json"}}
-	)
-
 	tests := []struct {
-		name          string
-		inputArchives string
-		ecosystem     []ecosystem
-		wantFiles     []fstruct
+		name      string
+		path      string
+		ecosystem map[string]string
+		wantFiles []string
+		wantErr   string
 	}{
 		{
-			name:      "happy path python",
-			ecosystem: []ecosystem{pythonEco},
-			wantFiles: pythonFiles,
+			name: "happy path python",
+			ecosystem: map[string]string{
+				"PyPI": "python",
+			},
+			wantFiles: []string{
+				filepath.Join("python", "cherrypy", "PYSEC-2006-1.json"),
+				filepath.Join("python", "trac", "PYSEC-2005-1.json"),
+				filepath.Join("python", "trac", "PYSEC-2006-2.json"),
+			},
 		},
 		{
-			name:      "happy path Go",
-			ecosystem: []ecosystem{goEco},
-			wantFiles: goFiles,
+			name: "happy path Go",
+			ecosystem: map[string]string{
+				"Go": "go",
+			},
+			wantFiles: []string{
+				filepath.Join("go", "github.com", "gin-gonic", "gin", "GO-2020-0001.json"),
+				filepath.Join("go", "github.com", "seccomp", "libseccomp-golang", "GO-2020-0007.json"),
+				filepath.Join("go", "github.com", "tidwall", "gjson", "GO-2021-0059.json"),
+			},
 		},
 		{
-			name:      "happy path python+rust",
-			ecosystem: []ecosystem{pythonEco, rustEco},
-			wantFiles: append(pythonFiles, rustFiles...),
+			name: "happy path python+rust",
+			ecosystem: map[string]string{
+				"PyPI":      "python",
+				"crates.io": "rust",
+			},
+			wantFiles: []string{
+				// Python
+				filepath.Join("python", "cherrypy", "PYSEC-2006-1.json"),
+				filepath.Join("python", "trac", "PYSEC-2005-1.json"),
+				filepath.Join("python", "trac", "PYSEC-2006-2.json"),
+
+				// Rust
+				filepath.Join("rust", "openssl", "RUSTSEC-2016-0001.json"),
+				filepath.Join("rust", "smallvec", "RUSTSEC-2019-0009.json"),
+				filepath.Join("rust", "tar", "RUSTSEC-2018-0002.json"),
+			},
 		},
 		{
-			name:      "sad path, unable to download archive",
-			wantFiles: []fstruct{},
+			name: "sad path, unable to download archive",
+			path: "/%s/unknown.zip",
+			ecosystem: map[string]string{
+				"PyPI": "python",
+			},
+			wantErr: "bad response code: 404",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			mux := http.NewServeMux()
-			for _, ecosystem := range tt.ecosystem {
-				b, err := os.ReadFile(fmt.Sprintf(defaultInputArchive, ecosystem.name))
+			for name, dir := range tt.ecosystem {
+				b, err := os.ReadFile(filepath.Join("testdata", dir, "all.zip"))
 				require.NoError(t, err)
-				mux.HandleFunc(fmt.Sprintf("/%s/", ecosystem.name), func(w http.ResponseWriter, r *http.Request) {
-					w.Write(b)
+				mux.HandleFunc(fmt.Sprintf("/%s/all.zip", name), func(w http.ResponseWriter, r *http.Request) {
+					_, err = w.Write(b)
+					require.NoError(t, err)
 				})
 			}
 			ts := httptest.NewServer(mux)
 
 			defer ts.Close()
 
-			//build test settings
+			// build test settings
 			testDir := t.TempDir()
-			testUrl := ts.URL + "/%[1]s/" + defaultInputArchive
-			testEcosystemDir := make(map[string]string)
-			for _, ecosystem := range tt.ecosystem {
-				testEcosystemDir[ecosystem.name] = ecosystem.dir
+			testURL := ts.URL + "/%s/all.zip"
+			if tt.path != "" {
+				testURL = ts.URL + tt.path
+				fmt.Println(testURL)
 			}
 
-			c := osv.NewOsv(osv.WithURL(testUrl), osv.WithDir(testDir), osv.WithEcosystem(testEcosystemDir))
+			c := osv.NewOsv(osv.WithURL(testURL), osv.WithDir(testDir), osv.WithEcosystem(tt.ecosystem))
+
 			err := c.Update()
-			require.NoError(t, err)
+			if tt.wantErr != "" {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), tt.wantErr)
+				return
+			}
+			assert.NoError(t, err)
 
-			for _, f := range tt.wantFiles {
-				filePath := filepath.Join(f.eco.dir, f.pkg, f.name)
-				gotJSON, err := os.ReadFile(filepath.Join(testDir, filePath))
+			for _, wantFile := range tt.wantFiles {
+				got, err := os.ReadFile(filepath.Join(testDir, wantFile))
 				require.NoError(t, err)
 
-				wantJSON, err := os.ReadFile(filepath.Join("testdata", f.eco.name, "golden", f.pkg, f.name))
+				want, err := os.ReadFile(filepath.Join("testdata", "golden", wantFile))
 				require.NoError(t, err)
 
-				assert.JSONEq(t, string(wantJSON), string(gotJSON))
+				assert.JSONEq(t, string(want), string(got))
 			}
 		})
 	}

@@ -9,8 +9,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (
@@ -85,7 +86,7 @@ func (osv *Database) Update() error {
 				}
 
 				var parsed OSV
-				if err = json.NewDecoder(f).Decode(parsed); err != nil {
+				if err = json.NewDecoder(f).Decode(&parsed); err != nil {
 					return xerrors.Errorf("unable to parse json %s: %w", path, err)
 				}
 
