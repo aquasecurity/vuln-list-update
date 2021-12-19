@@ -199,7 +199,7 @@ func run() error {
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}
-		commitMsg = "OSV Security Advisories"
+		commitMsg = "OSV Database"
 	default:
 		return xerrors.New("unknown target")
 	}

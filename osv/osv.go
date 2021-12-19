@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
-	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 )
 
@@ -33,7 +32,7 @@ type options struct {
 
 type option func(*options)
 
-type OSV struct {
+type Database struct {
 	*options
 }
 
@@ -55,48 +54,50 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 	}
 }
 
-func NewOsv(opts ...option) OSV {
+func NewOsv(opts ...option) Database {
 	o := &options{
 		url:           securityTrackerURL,
 		dir:           filepath.Join(utils.VulnListDir(), osvDir),
 		ecosystemDirs: defaultEcosystemDirs,
 	}
-	for _, option := range opts {
-		option(o)
+	for _, opt := range opts {
+		opt(o)
 	}
-	return OSV{
+	return Database{
 		options: o,
 	}
 }
 
-func (osv *OSV) Update() error {
+func (osv *Database) Update() error {
+	ctx := context.Background()
 	for ecoSystem, ecoSystemDir := range osv.ecosystemDirs {
 		log.Printf("Updating OSV %s advisories", ecoSystem)
-		tempDir, err := utils.DownloadToTempDir(context.Background(), fmt.Sprintf(osv.url, ecoSystem))
+		tempDir, err := utils.DownloadToTempDir(ctx, fmt.Sprintf(osv.url, ecoSystem))
 		if err != nil {
 			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.url, ecoSystem), err)
 		}
 
 		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, err error) error {
 			if !d.IsDir() {
-				data, err := os.ReadFile(path)
+				f, err := os.Open(path)
 				if err != nil {
-					return err
+					return xerrors.Errorf("file open error (%s): %w", path, err)
 				}
-				osvJson := &OsvJson{}
-				err = json.Unmarshal(data, osvJson)
-				if err != nil {
+
+				var parsed OSV
+				if err = json.NewDecoder(f).Decode(parsed); err != nil {
 					return xerrors.Errorf("unable to parse json %s: %w", path, err)
 				}
 
-				if err := utils.WriteJSON(afero.NewOsFs(), filepath.Join(osv.dir, ecoSystemDir, osvJson.Affected[0].Package.Name), fmt.Sprintf("%s.json", osvJson.Id), osvJson); err != nil {
+				filePath := filepath.Join(osv.dir, ecoSystemDir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
+				if err = utils.Write(filePath, parsed); err != nil {
 					return xerrors.Errorf("failed to write file: %w", err)
 				}
 			}
 			return nil
 		})
 		if err != nil {
-			return err
+			return xerrors.Errorf("walk error: %w", err)
 		}
 	}
 	return nil
