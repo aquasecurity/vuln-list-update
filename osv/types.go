@@ -1,7 +1,7 @@
 package osv
 
 type Affected struct {
-	Package   *Package    `json:"package,omitempty"`
+	Package   Package     `json:"package,omitempty"`
 	Ranges    []Range     `json:"ranges,omitempty"`
 	Versions  []string    `json:"versions,omitempty"`
 	Ecosystem interface{} `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem

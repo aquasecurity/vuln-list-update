@@ -95,6 +95,10 @@ jobs:
       name: OSV Database
       run: ./vuln-list-update -target osv
 
+    - if: always()
+      name: Go Vulnerability Database
+      run: ./vuln-list-update -target go-vulndb
+
     # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
     - if: always()

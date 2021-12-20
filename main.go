@@ -24,6 +24,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/glad"
+	govulndb "github.com/aquasecurity/vuln-list-update/go-vulndb"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/osv"
@@ -43,7 +44,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -200,6 +201,12 @@ func run() error {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}
 		commitMsg = "OSV Database"
+	case "go-vulndb":
+		src := govulndb.NewVulnDB()
+		if err := src.Update(); err != nil {
+			return xerrors.Errorf("Go Vulnerability Database update error: %w", err)
+		}
+		commitMsg = "Go Vulnerability Database"
 	default:
 		return xerrors.New("unknown target")
 	}
