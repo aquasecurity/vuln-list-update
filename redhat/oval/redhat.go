@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"compress/bzip2"
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -21,11 +22,15 @@ import (
 )
 
 const (
-	ovalDir      = "oval"
-	redhatDir    = "redhat"
+	ovalDir   = "oval"
+	redhatDir = "redhat"
+	cpeDir    = "redhat-cpe"
+
 	urlFormat    = "https://www.redhat.com/security/data/oval/v2/%s"
 	retry        = 5
 	pulpManifest = "PULP_MANIFEST"
+
+	repoToCpeURL = "https://www.redhat.com/security/data/metrics/repository-to-cpe.json"
 
 	testsDir       = "tests"
 	objectsDir     = "objects"
@@ -39,22 +44,29 @@ var (
 )
 
 type Config struct {
-	VulnListDir string
-	URLFormat   string
-	AppFs       afero.Fs
-	Retry       int
+	VulnListDir  string
+	URLFormat    string
+	RepoToCpeURL string
+	AppFs        afero.Fs
+	Retry        int
 }
 
 func NewConfig() Config {
 	return Config{
-		VulnListDir: utils.VulnListDir(),
-		URLFormat:   urlFormat,
-		AppFs:       afero.NewOsFs(),
-		Retry:       retry,
+		VulnListDir:  utils.VulnListDir(),
+		URLFormat:    urlFormat,
+		RepoToCpeURL: repoToCpeURL,
+		AppFs:        afero.NewOsFs(),
+		Retry:        retry,
 	}
 }
 
 func (c Config) Update() error {
+	log.Println("Updating Red Hat mapping from repositories to CPE names...")
+	if err := c.updateRepoToCpe(); err != nil {
+		return xerrors.Errorf("unable to update repository-to-cpe.json: %w", err)
+	}
+
 	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir)
 	log.Printf("Remove Red Hat OVAL v2 directory %s", dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
@@ -68,7 +80,7 @@ func (c Config) Update() error {
 	}
 	for _, ovalFilePath := range filePaths {
 		log.Printf("Fetching %s", ovalFilePath)
-		if err := c.update(ovalFilePath); err != nil {
+		if err := c.updateOVAL(ovalFilePath); err != nil {
 			return xerrors.Errorf("failed to update Red Hat OVAL v2 json: %w", err)
 		}
 	}
@@ -76,7 +88,31 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) update(ovalFile string) error {
+func (c Config) updateRepoToCpe() error {
+	b, err := utils.FetchURL(c.RepoToCpeURL, "", c.Retry)
+	if err != nil {
+		return xerrors.Errorf("failed to get %s: %w", c.RepoToCpeURL, err)
+	}
+
+	var repoToCPE repositoryToCPE
+	if err = json.Unmarshal(b, &repoToCPE); err != nil {
+		return xerrors.Errorf("JSON parse error: %w", err)
+	}
+
+	mapping := map[string][]string{}
+	for repo, cpes := range repoToCPE.Data {
+		mapping[repo] = cpes.Cpes
+	}
+
+	dir := filepath.Join(c.VulnListDir, cpeDir)
+	if err = utils.WriteJSON(c.AppFs, dir, "repository-to-cpe.json", mapping); err != nil {
+		return xerrors.Errorf("JSON write error: %w", err)
+	}
+
+	return nil
+}
+
+func (c Config) updateOVAL(ovalFile string) error {
 	// e.g. RHEL8/storage-gluster-3-including-unpatched.oval.xml.bz2
 	if !strings.HasPrefix(ovalFile, "RHEL") {
 		log.Printf("Skip %s", ovalFile)

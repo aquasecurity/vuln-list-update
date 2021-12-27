@@ -298,3 +298,9 @@ type UnameState struct {
 	Version   string    `xml:"version,attr" json:",omitempty"`
 	OsRelease OsRelease `xml:"os_release" json:",omitempty"`
 }
+
+type repositoryToCPE struct {
+	Data map[string]struct {
+		Cpes []string `json:"cpes"`
+	} `json:"data"`
+}

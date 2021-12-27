@@ -54,10 +54,11 @@ func TestConfig_Update(t *testing.T) {
 			tmpDir := "/tmp" // It is a virtual filesystem of afero.
 			appFs := afero.NewMemMapFs()
 			c := Config{
-				VulnListDir: tmpDir,
-				URLFormat:   ts.URL + "/%s",
-				AppFs:       appFs,
-				Retry:       0,
+				VulnListDir:  tmpDir,
+				URLFormat:    ts.URL + "/%s",
+				RepoToCpeURL: ts.URL + "/repository-to-cpe.json",
+				AppFs:        appFs,
+				Retry:        0,
 			}
 
 			err := c.Update()
@@ -70,7 +71,7 @@ func TestConfig_Update(t *testing.T) {
 			require.NoError(t, err, tc.name)
 
 			fileCount := 0
-			root := tmpDir + "/oval/redhat"
+			root := tmpDir + "/oval"
 			err = afero.Walk(appFs, root, func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					return err
