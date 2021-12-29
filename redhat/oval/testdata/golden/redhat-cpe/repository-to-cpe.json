@@ -1,0 +1,12 @@
+{
+  "3scale-amp-2-for-rhel-8-ppc64le-debug-rpms": [
+    "cpe:/a:redhat:3scale_amp:2.11::el8",
+    "cpe:/a:redhat:3scale_amp:2.12::el8",
+    "cpe:/a:redhat:3scale_amp:2.8::el8"
+  ],
+  "3scale-amp-2-for-rhel-8-ppc64le-rpms": [
+    "cpe:/a:redhat:3scale_amp:2.11::el8",
+    "cpe:/a:redhat:3scale_amp:2.12::el8",
+    "cpe:/a:redhat:3scale_amp:2.8::el8"
+  ]
+}
