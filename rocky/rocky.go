@@ -27,7 +27,7 @@ const (
 var (
 	urlFormat       = "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/"
 	defaultReleases = []string{"8"}
-	defaultRepos    = []string{"BaseOS", "AppStream", "Devel"}
+	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
 	defaultArches   = []string{"x86_64", "aarch64"}
 )
 
