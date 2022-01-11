@@ -2,7 +2,6 @@ package rocky_test
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -57,16 +56,8 @@ func Test_Update(t *testing.T) {
 			}))
 			defer tsUpdateInfoURL.Close()
 
-			tsMirrorListURL := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				body := fmt.Sprintf(
-					`# repo = rocky-BaseOS-8.4 arch = x86_64 country = JP country = ID country = KR country = CN country = GE country = TW country = AF country = KH country = PK country = HK country = CY \n
-%s/pub/Linux/rocky-linux/8.4/BaseOS/x86_64/os/`, tsUpdateInfoURL.URL)
-				_, _ = fmt.Fprintln(w, body)
-			}))
-			defer tsMirrorListURL.Close()
-
 			dir := t.TempDir()
-			rc := rocky.NewConfig(rocky.WithURL(tsMirrorListURL.URL+"/mirrorlist?release=%s&repo=%s-%s&arch=%s"), rocky.WithDir(dir), rocky.WithRetry(0), rocky.WithReleases([]string{"8"}), rocky.WithRepos([]string{"BaseOS"}), rocky.WithArches([]string{"x86_64"}))
+			rc := rocky.NewConfig(rocky.WithURL(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/"), rocky.WithDir(dir), rocky.WithRetry(0), rocky.WithReleases([]string{"8"}), rocky.WithRepos([]string{"BaseOS"}), rocky.WithArches([]string{"x86_64"}))
 			if err := rc.Update(); tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())

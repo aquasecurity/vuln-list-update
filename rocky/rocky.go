@@ -25,7 +25,7 @@ const (
 )
 
 var (
-	urlFormat       = "https://mirrors.rockylinux.org/mirrorlist?release=%s&repo=%s-%s&arch=%s"
+	urlFormat       = "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/"
 	defaultReleases = []string{"8"}
 	defaultRepos    = []string{"BaseOS", "AppStream", "Devel"}
 	defaultArches   = []string{"x86_64", "aarch64"}
@@ -150,8 +150,7 @@ func (c Config) Update() error {
 		for _, repo := range c.repos {
 			for _, arch := range c.arches {
 				log.Printf("Fetching Rocky Linux %s %s %s data...\n", release, repo, arch)
-				mirrorlistURL := fmt.Sprintf(c.url, release, repo, release, arch)
-				if err := c.update(release, repo, arch, mirrorlistURL); err != nil {
+				if err := c.update(release, repo, arch); err != nil {
 					return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
 				}
 			}
@@ -160,7 +159,7 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) update(release, repo, arch, mirrorlist string) error {
+func (c Config) update(release, repo, arch string) error {
 	dirPath := filepath.Join(c.dir, release, repo, arch)
 	log.Printf("Remove Rocky Linux %s %s %s directory %s\n", release, repo, arch, dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
@@ -170,42 +169,16 @@ func (c Config) update(release, repo, arch, mirrorlist string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	body, err := utils.FetchURL(mirrorlist, "", c.retry)
+	u, err := url.Parse(fmt.Sprintf(c.url, release, repo, arch))
 	if err != nil {
-		return xerrors.Errorf("failed to fetch mirrorlist for Rocky Linux: %w", err)
+		return xerrors.Errorf("failed to parse root url: %w", err)
 	}
-
-	// mirrorlist format(L1: header, L2~: mirror URL)
-	// 1: # repo = rocky-BaseOS-8.4 arch = aarch64 country = JP country = ID country = KR country = CN country = GE country = TW country = AF country = KH country = PK country = HK country = CY
-	// 2: http://ftp.riken.jp/Linux/rocky/8.4/BaseOS/aarch64/os/
-	// 3: https://ftp.yz.yamagata-u.ac.jp/pub/Linux/rocky-linux/8.4/BaseOS/aarch64/os/
-	// 4: ...
-	mirrorURLs := strings.Split(string(body), "\n")
-	if len(mirrorURLs) < 2 {
-		return xerrors.New("invalid mirrorlist format")
-	}
-
-	u, err := url.Parse(mirrorURLs[1])
-	if err != nil {
-		return xerrors.Errorf("failed to parse mirror url: %w", err)
-	}
-	// Path check: minimum Path pattern(/8.4/BaseOS/aarch64/os/)
-	ss := strings.Split(filepath.Clean(u.Path), "/")
-	if len(ss) < 5 {
-		return xerrors.Errorf("invalid mirror url path: %s", u.Path)
-	}
-	// u.Path: /Linux/rocky/8.4/BaseOS/aarch64/os/
-	// path.Join(ss[1:len(ss)-4]...): /Linux/rocky
-	// path.Join(ss[len(ss)-3:]...): /BaseOS/aarch64/os
-	// rootPath: /Linux/rocky/${release}/BaseOS/aarch64/os
-	rootPath := path.Join(path.Join(ss[1:len(ss)-4]...), release, path.Join(ss[len(ss)-3:]...))
-	u.Path = path.Join(rootPath, "/repodata/repomd.xml")
-
+	rootPath := u.Path
+	u.Path = path.Join(rootPath, "repodata/repomd.xml")
 	updateInfoPath, err := fetchUpdateInfoPath(u.String())
 	if err != nil {
 		return xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
 	}
-
 	u.Path = path.Join(rootPath, updateInfoPath)
 	uinfo, err := fetchUpdateInfo(u.String())
 	if err != nil {
