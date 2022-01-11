@@ -27,7 +27,7 @@ const (
 var (
 	urlFormat = "https://mirrors.rockylinux.org/mirrorlist?release=%s&repo=%s-%s&arch=%s"
 	releases  = []string{"8"}
-	repos     = []string{"BaseOS", "AppStream"}
+	repos     = []string{"BaseOS", "AppStream", "Devel"}
 	archs     = []string{"x86_64", "aarch64"}
 )
 
@@ -168,7 +168,7 @@ func (c Config) update(release, repo, arch, mirrorlist string) error {
 		return xerrors.Errorf("failed to fetch mirrorlist for Rocky Linux: %w", err)
 	}
 
-	// mirrorlist format
+	// mirrorlist format(L1: header, L2~: mirror URL)
 	// 1: # repo = rocky-BaseOS-8.4 arch = aarch64 country = JP country = ID country = KR country = CN country = GE country = TW country = AF country = KH country = PK country = HK country = CY
 	// 2: http://ftp.riken.jp/Linux/rocky/8.4/BaseOS/aarch64/os/
 	// 3: https://ftp.yz.yamagata-u.ac.jp/pub/Linux/rocky-linux/8.4/BaseOS/aarch64/os/
@@ -182,19 +182,24 @@ func (c Config) update(release, repo, arch, mirrorlist string) error {
 	if err != nil {
 		return xerrors.Errorf("failed to parse mirror url: %w", err)
 	}
-	ss := strings.Split(u.Path, "/")
+	// Path check: minimum Path pattern(/8.4/BaseOS/aarch64/os/)
+	ss := strings.Split(filepath.Clean(u.Path), "/")
 	if len(ss) < 5 {
 		return xerrors.Errorf("invalid mirror url path: %s", u.Path)
 	}
-	originalPath := path.Join(path.Join(ss[0:len(ss)-5]...), release, repo, arch, "os")
-	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
+	// u.Path: /Linux/rocky/8.4/BaseOS/aarch64/os/
+	// path.Join(ss[1:len(ss)-4]...): /Linux/rocky
+	// path.Join(ss[len(ss)-3:]...): /BaseOS/aarch64/os
+	// rootPath: /Linux/rocky/${release}/BaseOS/aarch64/os
+	rootPath := path.Join(path.Join(ss[1:len(ss)-4]...), release, path.Join(ss[len(ss)-3:]...))
+	u.Path = path.Join(rootPath, "/repodata/repomd.xml")
 
-	updateInfoPath, err := fetchUpdateInfoURL(u.String())
+	updateInfoPath, err := fetchUpdateInfoPath(u.String())
 	if err != nil {
-		return xerrors.Errorf("failed to fetch updateInfo URL: %w", err)
+		return xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
 	}
 
-	u.Path = path.Join(originalPath, updateInfoPath)
+	u.Path = path.Join(rootPath, updateInfoPath)
 	uinfo, err := fetchUpdateInfo(u.String())
 	if err != nil {
 		return xerrors.Errorf("failed to fetch updateInfo: %w", err)
@@ -235,10 +240,10 @@ func (c Config) update(release, repo, arch, mirrorlist string) error {
 	return nil
 }
 
-func fetchUpdateInfoURL(mirror string) (updateInfoPath string, err error) {
-	res, err := utils.FetchURL(mirror, "", retry)
+func fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
+	res, err := utils.FetchURL(repomdURL, "", retry)
 	if err != nil {
-		return "", xerrors.Errorf("failed to fetch %s: %w", mirror, err)
+		return "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
 	}
 
 	var repoMd RepoMd
