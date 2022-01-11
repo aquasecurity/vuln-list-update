@@ -25,10 +25,10 @@ const (
 )
 
 var (
-	urlFormat = "https://mirrors.rockylinux.org/mirrorlist?release=%s&repo=%s-%s&arch=%s"
-	releases  = []string{"8"}
-	repos     = []string{"BaseOS", "AppStream", "Devel"}
-	archs     = []string{"x86_64", "aarch64"}
+	urlFormat       = "https://mirrors.rockylinux.org/mirrorlist?release=%s&repo=%s-%s&arch=%s"
+	defaultReleases = []string{"8"}
+	defaultRepos    = []string{"BaseOS", "AppStream", "Devel"}
+	defaultArches   = []string{"x86_64", "aarch64"}
 )
 
 // RepoMd has repomd data
@@ -89,15 +89,18 @@ type Package struct {
 }
 
 type options struct {
-	urls  map[string]map[string]map[string]string
-	dir   string
-	retry int
+	url      string
+	dir      string
+	retry    int
+	releases []string
+	repos    []string
+	arches   []string
 }
 
 type option func(*options)
 
-func WithURLs(urls map[string]map[string]map[string]string) option {
-	return func(opts *options) { opts.urls = urls }
+func WithURL(url string) option {
+	return func(opts *options) { opts.url = url }
 }
 
 func WithDir(dir string) option {
@@ -108,28 +111,31 @@ func WithRetry(retry int) option {
 	return func(opts *options) { opts.retry = retry }
 }
 
+func WithReleases(releases []string) option {
+	return func(opts *options) { opts.releases = releases }
+}
+
+func WithRepos(repos []string) option {
+	return func(opts *options) { opts.repos = repos }
+}
+
+func WithArches(arches []string) option {
+	return func(opts *options) { opts.arches = arches }
+}
+
 type Config struct {
 	*options
 }
 
 func NewConfig(opts ...option) Config {
-	urls := map[string]map[string]map[string]string{}
-	for _, release := range releases {
-		urls[release] = map[string]map[string]string{}
-		for _, repo := range repos {
-			urls[release][repo] = map[string]string{}
-			for _, arch := range archs {
-				urls[release][repo][arch] = fmt.Sprintf(urlFormat, release, repo, release, arch)
-			}
-		}
-	}
-
 	o := &options{
-		urls:  urls,
-		dir:   filepath.Join(utils.VulnListDir(), rockyDir),
-		retry: retry,
+		url:      urlFormat,
+		dir:      filepath.Join(utils.VulnListDir(), rockyDir),
+		retry:    retry,
+		releases: defaultReleases,
+		repos:    defaultRepos,
+		arches:   defaultArches,
 	}
-
 	for _, opt := range opts {
 		opt(o)
 	}
@@ -140,11 +146,12 @@ func NewConfig(opts ...option) Config {
 }
 
 func (c Config) Update() error {
-	for release, repos := range c.urls {
-		for repo, archs := range repos {
-			for arch, url := range archs {
+	for _, release := range c.releases {
+		for _, repo := range c.repos {
+			for _, arch := range c.arches {
 				log.Printf("Fetching Rocky Linux %s %s %s data...\n", release, repo, arch)
-				if err := c.update(release, repo, arch, url); err != nil {
+				mirrorlistURL := fmt.Sprintf(c.url, release, repo, release, arch)
+				if err := c.update(release, repo, arch, mirrorlistURL); err != nil {
 					return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
 				}
 			}
