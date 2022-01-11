@@ -32,7 +32,7 @@ func Test_Update(t *testing.T) {
 		{
 			name:           "bad repomd response",
 			repomdFileName: "testdata/fixtures/repomd_invalid.xml",
-			expectedError:  xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo URL")),
+			expectedError:  xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
 		},
 		{
 			name:               "bad updateInfo response",
