@@ -88,6 +88,10 @@ func TestConfig_Update(t *testing.T) {
 									Summary:     "Low severity vulnerability that affects simplesamlphp/simplesamlphp",
 									UpdatedAt:   "2020-01-24T21:27:17Z",
 									WithdrawnAt: "",
+									CVSS: GithubCVSS{
+										Score:        3.7,
+										VectorString: "3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+									},
 								},
 								FirstPatchedVersion: FirstPatchedVersion{
 									Identifier: "1.14.4",
@@ -149,6 +153,10 @@ func TestConfig_Update(t *testing.T) {
 									Summary:     "High severity vulnerability that affects org.apache.solr:solr-core",
 									UpdatedAt:   "2020-01-28T22:26:54Z",
 									WithdrawnAt: "",
+									CVSS: GithubCVSS{
+										Score:        9.8,
+										VectorString: "3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+									},
 								},
 								FirstPatchedVersion: FirstPatchedVersion{
 									Identifier: "8.3.0",
@@ -188,6 +196,10 @@ func TestConfig_Update(t *testing.T) {
 									Summary:     "Moderate severity vulnerability that affects org.apache.qpid:qpid-broker",
 									UpdatedAt:   "2019-07-03T21:02:04Z",
 									WithdrawnAt: "",
+									CVSS: GithubCVSS{
+										Score:        9.8,
+										VectorString: "3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+									},
 								},
 								FirstPatchedVersion: FirstPatchedVersion{
 									Identifier: "6.0.0",
@@ -238,6 +250,10 @@ func TestConfig_Update(t *testing.T) {
 									Summary:     "Moderate severity vulnerability that affects org.apache.hive:hive, org.apache.hive:hive-exec, and org.apache.hive:hive-service",
 									UpdatedAt:   "2019-07-03T21:02:07Z",
 									WithdrawnAt: "",
+									CVSS: GithubCVSS{
+										Score:        4.3,
+										VectorString: "3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+									},
 								},
 								FirstPatchedVersion: FirstPatchedVersion{
 									Identifier: "2.3.1",
@@ -278,6 +294,10 @@ func TestConfig_Update(t *testing.T) {
 									Summary:     "Moderate severity vulnerability that affects org.apache.hive:hive, org.apache.hive:hive-exec, and org.apache.hive:hive-service",
 									UpdatedAt:   "2019-07-03T21:02:07Z",
 									WithdrawnAt: "",
+									CVSS: GithubCVSS{
+										Score:        4.3,
+										VectorString: "3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+									},
 								},
 								FirstPatchedVersion: FirstPatchedVersion{
 									Identifier: "2.2.1",
@@ -318,6 +338,10 @@ func TestConfig_Update(t *testing.T) {
 									Summary:     "Moderate severity vulnerability that affects org.apache.hive:hive, org.apache.hive:hive-exec, and org.apache.hive:hive-service",
 									UpdatedAt:   "2019-07-03T21:02:07Z",
 									WithdrawnAt: "",
+									CVSS: GithubCVSS{
+										Score:        4.3,
+										VectorString: "3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+									},
 								},
 								FirstPatchedVersion: FirstPatchedVersion{
 									Identifier: "2.1.2",

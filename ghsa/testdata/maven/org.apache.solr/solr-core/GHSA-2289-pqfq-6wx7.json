@@ -30,7 +30,11 @@
     "Severity": "HIGH",
     "Summary": "High severity vulnerability that affects org.apache.solr:solr-core",
     "UpdatedAt": "2020-01-28T22:26:54Z",
-    "WithdrawnAt": ""
+    "WithdrawnAt": "",
+    "CVSS": {
+      "Score": 9.8,
+      "VectorString": "3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
   },
   "Versions": [
     {
