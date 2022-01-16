@@ -1,28 +1,36 @@
 package fedora
 
 import (
+	"bufio"
 	"bytes"
 	"compress/bzip2"
+	"compress/gzip"
 	"encoding/xml"
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
+	"time"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
 	"github.com/ulikunitz/xz"
 	"golang.org/x/xerrors"
+	"gopkg.in/yaml.v2"
 )
 
 const (
-	retry = 3
-
-	fedoraDir = "fedora"
+	concurrency = 10
+	wait        = 1
+	retry       = 3
+	fedoraDir   = "fedora"
+	dateFormat  = "2006-01-02 15:04:05"
 )
 
 var (
@@ -43,6 +51,9 @@ var (
 		"x86_64":  {"noarch", "x86_64", "i686"},
 		"aarch64": {"noarch", "aarch64"},
 	}
+
+	cveIDPattern = regexp.MustCompile(`(CVE-\d{4}-\d{4,})`)
+	bugzillaURL  = "https://bugzilla.redhat.com/show_bug.cgi?ctype=xml&id=%s"
 )
 
 // RepoMd has repomd data
@@ -224,13 +235,29 @@ func (c Config) update(mode, release, repo, arch string) error {
 		return xerrors.Errorf("failed to fetch updateinfo: %w", err)
 	}
 
-	bar := pb.StartNew(len(vulns.FSAList))
+	fsalistByYear := map[string][]FSA{}
 	for _, fsa := range vulns.FSAList {
-		filepath := filepath.Join(dirPath, fmt.Sprintf("%s.json", fsa.ID))
-		if err := utils.Write(filepath, fsa); err != nil {
-			return xerrors.Errorf("failed to write Fedora CVE details: %w", err)
+		t, err := time.Parse(dateFormat, fsa.Issued.Date)
+		if err != nil {
+			return xerrors.Errorf("failed to parse issued date: %w", err)
 		}
-		bar.Increment()
+		y := fmt.Sprintf("%d", t.Year())
+		fsalistByYear[y] = append(fsalistByYear[y], fsa)
+	}
+
+	log.Printf("Write Fedora Linux (%s) %s %s %s Errata \n", mode, release, repo, arch)
+	bar := pb.StartNew(len(vulns.FSAList))
+	for year, fsalist := range fsalistByYear {
+		if err := os.Mkdir(filepath.Join(dirPath, year), os.ModePerm); err != nil {
+			return xerrors.Errorf("failed to mkdir: %w", err)
+		}
+		for _, fsa := range fsalist {
+			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", fsa.ID))
+			if err := utils.Write(filepath, fsa); err != nil {
+				return xerrors.Errorf("failed to write Fedora CVE details: %w", err)
+			}
+			bar.Increment()
+		}
 	}
 	bar.Finish()
 
@@ -255,7 +282,7 @@ func fetch(repo, arch, baseURL string) (*UpdateInfo, error) {
 func fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, error) {
 	u, err := url.Parse(baseURL)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to parse repomd URL: %w", err)
+		return nil, xerrors.Errorf("failed to parse baseURL: %w", err)
 	}
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
@@ -275,7 +302,43 @@ func fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, error) {
 }
 
 func fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error) {
-	return &UpdateInfo{}, nil
+	u, err := url.Parse(baseURL)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to parse baseURL: %w", err)
+	}
+
+	resp, err := http.Get(u.String())
+	if err != nil {
+		return nil, xerrors.Errorf("failed to get request modular page: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return &UpdateInfo{FSAList: []FSA{}}, nil
+	}
+
+	originalPath := u.Path
+	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
+
+	updateInfoPath, modulesPath, err := fetchRepomdData(u.String())
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch updateinfo, modules path from repomd.xml: %w", err)
+	}
+
+	u.Path = path.Join(originalPath, modulesPath)
+	modules, err := fetchModules(u.String())
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
+	}
+
+	u.Path = path.Join(originalPath, updateInfoPath)
+	uinfo, err := fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
+	}
+
+	extractModulesToUpdateInfo(uinfo, modules)
+
+	return uinfo, nil
 }
 
 func fetchRepomdData(repomdURL string) (updateInfoPath, modulesPath string, err error) {
@@ -321,7 +384,7 @@ func fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
 
 	var updateInfo UpdateInfo
 	if err := xml.NewDecoder(r).Decode(&updateInfo); err != nil {
-		return nil, err
+		return nil, xerrors.Errorf("failed to decode updateinfo: %w", err)
 	}
 	fsaList := []FSA{}
 	for _, fsa := range updateInfo.FSAList {
@@ -337,19 +400,9 @@ func fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
 		}
 		fsa.Packages = pkgs
 
-		var cveIDs []string
-		for _, ref := range fsa.References {
-			if strings.Contains(ref.Href, "CVE-") {
-				cveID, err := fetchCVEIDfromBugzilla(ref.Href)
-				if err != nil {
-					return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
-				}
-				if cveID == "" {
-					log.Printf("failed to fetch CVE-ID from Bugzilla XML alias elements. bugzilla url: %s", ref.Href)
-					continue
-				}
-				cveIDs = append(cveIDs, cveID)
-			}
+		cveIDs, err := fetchCVEIDs(fsa)
+		if err != nil {
+			return nil, xerrors.Errorf("failed to fetch CVE-IDs: %w", err)
 		}
 		fsa.CveIDs = cveIDs
 
@@ -358,30 +411,232 @@ func fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
 	return &UpdateInfo{FSAList: fsaList}, nil
 }
 
+func fetchCVEIDs(fsa FSA) ([]string, error) {
+	cveIDMap := map[string]struct{}{}
+	for _, ref := range fsa.References {
+		if strings.Contains(ref.Title, "CVE-") {
+			if strings.Contains(ref.Title, "various flaws") {
+				if strings.Contains(ref.Title, "...") {
+					cveIDs, err := fetchCVEIDsfromBugzilla(ref.ID)
+					if err != nil {
+						return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
+					}
+					if len(cveIDs) == 0 {
+						log.Printf("failed to fetch CVE-ID from Bugzilla XML alias elements. bugzilla url: %s\n", ref.Href)
+						continue
+					}
+					for _, cveID := range cveIDs {
+						cveIDMap[cveID] = struct{}{}
+					}
+				} else {
+					cveIDs := cveIDPattern.FindAllString(ref.Title, -1)
+					if len(cveIDs) == 0 {
+						log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
+						continue
+					}
+					for _, cveID := range cveIDs {
+						cveIDMap[cveID] = struct{}{}
+					}
+				}
+			} else {
+				cveID := cveIDPattern.FindString(ref.Title)
+				if cveID == "" {
+					log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
+					continue
+				}
+				cveIDMap[cveID] = struct{}{}
+			}
+		}
+	}
+	if len(cveIDMap) == 0 {
+		cveIDs := cveIDPattern.FindAllString(fsa.Description, -1)
+		if len(cveIDs) == 0 {
+			// log.Printf("failed to get CVE-ID from Description. errata(%s) does not contain the CVEID.\n", fsa.ID)
+			return []string{}, nil
+		}
+		for _, cveID := range cveIDs {
+			cveIDMap[cveID] = struct{}{}
+		}
+	}
+
+	cveIDs := []string{}
+	for cveID := range cveIDMap {
+		cveIDs = append(cveIDs, cveID)
+	}
+	return cveIDs, nil
+}
+
 type Bugzilla struct {
 	Bug struct {
-		Alias string `xml:"alias"`
+		Alias   string   `xml:"alias"`
+		Blocked []string `xml:"blocked"`
 	} `xml:"bug"`
 }
 
-func fetchCVEIDfromBugzilla(bugzillaURL string) (string, error) {
-	u, err := url.Parse(bugzillaURL)
+func fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
+	log.Printf("Fetching CVE-IDs using Bugzilla API. Root Bugzilla ID: %s\n", bugzillaID)
+
+	url := fmt.Sprintf(bugzillaURL, bugzillaID)
+	res, err := utils.FetchURL(url, "", retry)
 	if err != nil {
-		return "", xerrors.Errorf("failed to parse bugzilla URL: %w", err)
+		return nil, xerrors.Errorf("failed to fetch bugzilla xml: %w", err)
 	}
-	q := u.Query()
-	q.Set("ctype", "xml")
-	u.RawQuery = q.Encode()
 
-	res, err := utils.FetchURL(u.String(), "", retry)
+	var root Bugzilla
+	if err := xml.NewDecoder(bytes.NewReader(res)).Decode(&root); err != nil {
+		return nil, xerrors.Errorf("failed to decode bugzilla xml: %w", err)
+	}
+
+	if root.Bug.Alias != "" {
+		return []string{root.Bug.Alias}, nil
+	}
+
+	urls := []string{}
+	for _, blocked := range root.Bug.Blocked {
+		urls = append(urls, fmt.Sprintf(bugzillaURL, blocked))
+	}
+	xmlBytes, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
 	if err != nil {
-		return "", xerrors.Errorf("failed to fetch bugzilla xml: %w", err)
+		return nil, xerrors.Errorf("failed to fetch bugzilla xml: %w", err)
 	}
 
-	var bugzilla Bugzilla
-	if err := xml.NewDecoder(bytes.NewReader(res)).Decode(&bugzilla); err != nil {
-		return "", xerrors.Errorf("failed to decode bugzilla xml: %w", err)
+	cveIDs := []string{}
+	for _, xmlByte := range xmlBytes {
+		var b Bugzilla
+		if err := xml.NewDecoder(bytes.NewReader(xmlByte)).Decode(&b); err != nil {
+			return nil, xerrors.Errorf("failed to decode bugzilla xml: %w", err)
+		}
+		if b.Bug.Alias != "" {
+			cveIDs = append(cveIDs, b.Bug.Alias)
+		}
 	}
 
-	return bugzilla.Bug.Alias, nil
+	return cveIDs, nil
+}
+
+func fetchModules(url string) (map[string]ModuleInfo, error) {
+	res, err := utils.FetchURL(url, "", retry)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch modules: %w", err)
+	}
+
+	r, err := gzip.NewReader(bytes.NewBuffer(res))
+	if err != nil {
+		return nil, xerrors.Errorf("failed to decompress modules: %w", err)
+	}
+
+	modules := map[string]ModuleInfo{}
+	scanner := bufio.NewScanner(r)
+	var contents []string
+	for scanner.Scan() {
+		str := scanner.Text()
+		switch str {
+		case "---":
+			{
+				contents = []string{}
+			}
+		case "...":
+			{
+				var module ModuleInfo
+				err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module)
+				if _, ok := err.(*yaml.TypeError); err != nil && !ok {
+					return nil, xerrors.Errorf("failed to decode module info: %w", err)
+				}
+				modules[module.ConvertToUpdateInfoTitle()] = module
+			}
+		default:
+			{
+				contents = append(contents, str)
+			}
+		}
+	}
+
+	return modules, nil
+}
+
+type ModuleInfo struct {
+	Data struct {
+		Name      string `yaml:"name"`
+		Stream    string `yaml:"stream"`
+		Version   int64  `yaml:"version"`
+		Context   string `yaml:"context"`
+		Arch      string `yaml:"arch"`
+		Artifacts struct {
+			Rpms []string `yaml:"rpms"`
+		} `yaml:"artifacts"`
+	} `yaml:"data"`
+}
+
+func (m ModuleInfo) ConvertToUpdateInfoTitle() string {
+	return fmt.Sprintf("%s-%s-%d.%s", m.Data.Name, m.Data.Stream, m.Data.Version, m.Data.Context)
+}
+
+func extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo) error {
+	for i, fsa := range uinfo.FSAList {
+		m, ok := modules[fsa.Title]
+		if !ok {
+			log.Printf("failed to get module info. title: %s\n", fsa.Title)
+			continue
+		}
+
+		uinfo.FSAList[i].Module = Module{
+			Stream:  m.Data.Stream,
+			Name:    m.Data.Name,
+			Version: m.Data.Version,
+			Arch:    m.Data.Arch,
+			Context: m.Data.Context,
+		}
+
+		pkgs := []Package{}
+		for _, filename := range m.Data.Artifacts.Rpms {
+			name, ver, rel, epoch, arch, err := splitFileName(filename)
+			if err != nil {
+				return xerrors.Errorf("failed to split rpm filename: %w", err)
+			}
+			pkgs = append(pkgs, Package{
+				Name:     name,
+				Epoch:    epoch,
+				Version:  ver,
+				Release:  rel,
+				Arch:     arch,
+				Filename: fmt.Sprintf("%s.rpm", filename),
+			})
+		}
+		uinfo.FSAList[i].Packages = pkgs
+	}
+	return nil
+}
+
+// splitFileName returns a name, version, release, epoch, arch
+func splitFileName(filename string) (name, ver, rel, epoch, arch string, err error) {
+	filename = strings.TrimSuffix(filename, ".rpm")
+
+	archIndex := strings.LastIndex(filename, ".")
+	if archIndex == -1 {
+		return "", "", "", "", "", xerrors.Errorf("failed to parse arch from filename: %s", filename)
+	}
+	arch = filename[archIndex+1:]
+
+	relIndex := strings.LastIndex(filename[:archIndex], "-")
+	if relIndex == -1 {
+		return "", "", "", "", "", xerrors.Errorf("failed to parse release from filename: %s", filename)
+	}
+	rel = filename[relIndex+1 : archIndex]
+
+	verIndex := strings.LastIndex(filename[:relIndex], "-")
+	if verIndex == -1 {
+		return "", "", "", "", "", xerrors.Errorf("failed to parse version from filename: %s", filename)
+	}
+	ver = filename[verIndex+1 : relIndex]
+
+	epochIndex := strings.Index(ver, ":")
+	if epochIndex == -1 {
+		epoch = "0"
+	} else {
+		epoch = ver[:epochIndex]
+		ver = ver[epochIndex+1:]
+	}
+
+	name = filename[:verIndex]
+	return name, ver, rel, epoch, arch, nil
 }
