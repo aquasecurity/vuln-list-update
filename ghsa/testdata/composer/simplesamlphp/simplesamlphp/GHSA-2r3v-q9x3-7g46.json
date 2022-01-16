@@ -26,7 +26,11 @@
     "Severity": "LOW",
     "Summary": "Low severity vulnerability that affects simplesamlphp/simplesamlphp",
     "UpdatedAt": "2020-01-24T21:27:17Z",
-    "WithdrawnAt": ""
+    "WithdrawnAt": "",
+    "CVSS": {
+      "Score": 3.7,
+      "VectorString": "3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
   },
   "Versions": [
     {

@@ -24,6 +24,11 @@ type GithubSecurityAdvisory struct {
 	VulnerableVersionRange string
 }
 
+type GithubCVSS struct {
+	Score        float32
+	VectorString string
+}
+
 type GitHubClient struct {
 	ApiKey string
 }
@@ -46,6 +51,7 @@ type Advisory struct {
 	Summary     string
 	UpdatedAt   string
 	WithdrawnAt string
+	CVSS        GithubCVSS
 }
 
 type Identifier struct {

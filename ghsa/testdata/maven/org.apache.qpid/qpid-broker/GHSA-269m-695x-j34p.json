@@ -30,7 +30,11 @@
     "Severity": "MODERATE",
     "Summary": "Moderate severity vulnerability that affects org.apache.qpid:qpid-broker",
     "UpdatedAt": "2019-07-03T21:02:04Z",
-    "WithdrawnAt": ""
+    "WithdrawnAt": "",
+    "CVSS": {
+      "Score": 9.8,
+      "VectorString": "3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
   },
   "Versions": [
     {

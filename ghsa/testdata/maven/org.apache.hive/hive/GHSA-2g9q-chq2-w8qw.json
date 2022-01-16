@@ -30,7 +30,11 @@
     "Severity": "MODERATE",
     "Summary": "Moderate severity vulnerability that affects org.apache.hive:hive, org.apache.hive:hive-exec, and org.apache.hive:hive-service",
     "UpdatedAt": "2019-07-03T21:02:07Z",
-    "WithdrawnAt": ""
+    "WithdrawnAt": "",
+    "CVSS": {
+      "Score": 4.3,
+      "VectorString": "3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
   },
   "Versions": [
     {
