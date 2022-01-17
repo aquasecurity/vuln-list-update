@@ -336,7 +336,9 @@ func fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error) {
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
 
-	extractModulesToUpdateInfo(uinfo, modules)
+	if err := extractModulesToUpdateInfo(uinfo, modules); err != nil {
+		return nil, xerrors.Errorf("failed to extract modules to updateinfo: %w", err)
+	}
 
 	return uinfo, nil
 }
