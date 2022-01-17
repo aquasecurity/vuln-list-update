@@ -26,11 +26,11 @@ import (
 )
 
 const (
-	concurrency = 10
-	wait        = 1
-	retry       = 3
-	fedoraDir   = "fedora"
-	dateFormat  = "2006-01-02 15:04:05"
+	defaultConcurrency = 10
+	defaultWait        = 1
+	defaultRetry       = 3
+	fedoraDir          = "fedora"
+	dateFormat         = "2006-01-02 15:04:05"
 )
 
 var (
@@ -125,12 +125,14 @@ type Module struct {
 }
 
 type options struct {
-	urls     map[string]string
-	dir      string
-	retry    int
-	releases map[string][]string
-	repos    []string
-	arches   []string
+	urls        map[string]string
+	dir         string
+	concurrency int
+	wait        int
+	retry       int
+	releases    map[string][]string
+	repos       []string
+	arches      []string
 }
 
 type option func(*options)
@@ -141,6 +143,14 @@ func WithURLs(urls map[string]string) option {
 
 func WithDir(dir string) option {
 	return func(opts *options) { opts.dir = dir }
+}
+
+func WithConcurrency(concurrency int) option {
+	return func(opts *options) { opts.concurrency = concurrency }
+}
+
+func WithWait(wait int) option {
+	return func(opts *options) { opts.wait = wait }
 }
 
 func WithRetry(retry int) option {
@@ -165,12 +175,14 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		urls:     URIForamt,
-		dir:      filepath.Join(utils.VulnListDir(), fedoraDir),
-		retry:    retry,
-		releases: defaultReleases,
-		repos:    defaultRepos,
-		arches:   defaultArches,
+		urls:        URIForamt,
+		dir:         filepath.Join(utils.VulnListDir(), fedoraDir),
+		concurrency: defaultConcurrency,
+		wait:        defaultWait,
+		retry:       defaultRetry,
+		releases:    defaultReleases,
+		repos:       defaultRepos,
+		arches:      defaultArches,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -230,7 +242,7 @@ func (c Config) update(mode, release, repo, arch string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	vulns, err := fetch(repo, arch, baseURL)
+	vulns, err := c.fetch(repo, arch, baseURL)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch updateinfo: %w", err)
 	}
@@ -264,22 +276,22 @@ func (c Config) update(mode, release, repo, arch string) error {
 	return nil
 }
 
-func fetch(repo, arch, baseURL string) (*UpdateInfo, error) {
+func (c Config) fetch(repo, arch, baseURL string) (*UpdateInfo, error) {
 	if repo == "Modular" {
-		uinfo, err := fetchUpdateInfoModular(baseURL, arch)
+		uinfo, err := c.fetchUpdateInfoModular(baseURL, arch)
 		if err != nil {
 			return nil, xerrors.Errorf("failed to fetch updateinfo for Modular Package: %w", err)
 		}
 		return uinfo, nil
 	}
-	uinfo, err := fetchUpdateInfoEverything(baseURL, arch)
+	uinfo, err := c.fetchUpdateInfoEverything(baseURL, arch)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo for Everything Package: %w", err)
 	}
 	return uinfo, nil
 }
 
-func fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, error) {
+func (c Config) fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, error) {
 	u, err := url.Parse(baseURL)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to parse baseURL: %w", err)
@@ -287,13 +299,13 @@ func fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, error) {
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
 
-	updateInfoPath, _, err := fetchRepomdData(u.String())
+	updateInfoPath, _, err := c.fetchRepomdData(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo path from repomd.xml: %w", err)
 	}
 
 	u.Path = path.Join(originalPath, updateInfoPath)
-	uinfo, err := fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
+	uinfo, err := c.fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
@@ -301,7 +313,7 @@ func fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, error) {
 	return uinfo, nil
 }
 
-func fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error) {
+func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error) {
 	u, err := url.Parse(baseURL)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to parse baseURL: %w", err)
@@ -319,19 +331,19 @@ func fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error) {
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
 
-	updateInfoPath, modulesPath, err := fetchRepomdData(u.String())
+	updateInfoPath, modulesPath, err := c.fetchRepomdData(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo, modules path from repomd.xml: %w", err)
 	}
 
 	u.Path = path.Join(originalPath, modulesPath)
-	modules, err := fetchModules(u.String())
+	modules, err := c.fetchModules(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
 
 	u.Path = path.Join(originalPath, updateInfoPath)
-	uinfo, err := fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
+	uinfo, err := c.fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
@@ -343,8 +355,8 @@ func fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error) {
 	return uinfo, nil
 }
 
-func fetchRepomdData(repomdURL string) (updateInfoPath, modulesPath string, err error) {
-	res, err := utils.FetchURL(repomdURL, "", retry)
+func (c Config) fetchRepomdData(repomdURL string) (updateInfoPath, modulesPath string, err error) {
+	res, err := utils.FetchURL(repomdURL, "", c.retry)
 	if err != nil {
 		return "", "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
 	}
@@ -367,8 +379,8 @@ func fetchRepomdData(repomdURL string) (updateInfoPath, modulesPath string, err 
 	return updateInfoPath, modulesPath, nil
 }
 
-func fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
-	res, err := utils.FetchURL(url, "", retry)
+func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
+	res, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateInfo: %w", err)
 	}
@@ -402,7 +414,7 @@ func fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
 		}
 		fsa.Packages = pkgs
 
-		cveIDs, err := fetchCVEIDs(fsa)
+		cveIDs, err := c.fetchCVEIDs(fsa)
 		if err != nil {
 			return nil, xerrors.Errorf("failed to fetch CVE-IDs: %w", err)
 		}
@@ -413,12 +425,12 @@ func fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
 	return &UpdateInfo{FSAList: fsaList}, nil
 }
 
-func fetchCVEIDs(fsa FSA) ([]string, error) {
+func (c Config) fetchCVEIDs(fsa FSA) ([]string, error) {
 	cveIDMap := map[string]struct{}{}
 	for _, ref := range fsa.References {
 		if strings.Contains(ref.Title, "CVE-") {
 			if strings.Contains(ref.Title, "various flaws") && strings.Contains(ref.Title, "...") {
-				cveIDs, err := fetchCVEIDsfromBugzilla(ref.ID)
+				cveIDs, err := c.fetchCVEIDsfromBugzilla(ref.ID)
 				if err != nil {
 					return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
 				}
@@ -435,7 +447,7 @@ func fetchCVEIDs(fsa FSA) ([]string, error) {
 					log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
 					log.Println("Retry to get CVE-ID using Bugzilla API.")
 					var err error
-					cveIDs, err = fetchCVEIDsfromBugzilla(ref.ID)
+					cveIDs, err = c.fetchCVEIDsfromBugzilla(ref.ID)
 					if err != nil {
 						return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
 					}
@@ -471,11 +483,11 @@ type Bugzilla struct {
 	} `xml:"bug"`
 }
 
-func fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
+func (c Config) fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 	log.Printf("Fetching CVE-IDs using Bugzilla API. Root Bugzilla ID: %s\n", bugzillaID)
 
 	url := fmt.Sprintf(bugzillaURL, bugzillaID)
-	res, err := utils.FetchURL(url, "", retry)
+	res, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch bugzilla xml: %w", err)
 	}
@@ -493,7 +505,7 @@ func fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 	for _, blocked := range root.Bug.Blocked {
 		urls = append(urls, fmt.Sprintf(bugzillaURL, blocked))
 	}
-	xmlBytes, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
+	xmlBytes, err := utils.FetchConcurrently(urls, c.concurrency, c.wait, c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch bugzilla xml: %w", err)
 	}
@@ -512,8 +524,8 @@ func fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 	return cveIDs, nil
 }
 
-func fetchModules(url string) (map[string]ModuleInfo, error) {
-	res, err := utils.FetchURL(url, "", retry)
+func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
+	res, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch modules: %w", err)
 	}
