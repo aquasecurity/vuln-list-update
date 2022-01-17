@@ -609,7 +609,7 @@ func extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo
 				Version:  ver,
 				Release:  rel,
 				Arch:     arch,
-				Filename: fmt.Sprintf("%s.rpm", filename),
+				Filename: fmt.Sprintf("%s-%s-%s.%s.rpm", name, ver, rel, arch),
 			})
 		}
 		uinfo.FSAList[i].Packages = pkgs
