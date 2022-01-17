@@ -417,36 +417,32 @@ func fetchCVEIDs(fsa FSA) ([]string, error) {
 	cveIDMap := map[string]struct{}{}
 	for _, ref := range fsa.References {
 		if strings.Contains(ref.Title, "CVE-") {
-			if strings.Contains(ref.Title, "various flaws") {
-				if strings.Contains(ref.Title, "...") {
-					cveIDs, err := fetchCVEIDsfromBugzilla(ref.ID)
+			if strings.Contains(ref.Title, "various flaws") && strings.Contains(ref.Title, "...") {
+				cveIDs, err := fetchCVEIDsfromBugzilla(ref.ID)
+				if err != nil {
+					return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
+				}
+				if len(cveIDs) == 0 {
+					log.Printf("failed to fetch CVE-ID from Bugzilla XML alias elements. bugzilla url: %s\n", ref.Href)
+					continue
+				}
+				for _, cveID := range cveIDs {
+					cveIDMap[cveID] = struct{}{}
+				}
+			} else {
+				cveIDs := cveIDPattern.FindAllString(ref.Title, -1)
+				if strings.Count(ref.Title, "CVE-") != len(cveIDs) {
+					log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
+					log.Println("Retry to get CVE-ID using Bugzilla API.")
+					var err error
+					cveIDs, err = fetchCVEIDsfromBugzilla(ref.ID)
 					if err != nil {
 						return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
 					}
-					if len(cveIDs) == 0 {
-						log.Printf("failed to fetch CVE-ID from Bugzilla XML alias elements. bugzilla url: %s\n", ref.Href)
-						continue
-					}
-					for _, cveID := range cveIDs {
-						cveIDMap[cveID] = struct{}{}
-					}
-				} else {
-					cveIDs := cveIDPattern.FindAllString(ref.Title, -1)
-					if len(cveIDs) == 0 {
-						log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
-						continue
-					}
-					for _, cveID := range cveIDs {
-						cveIDMap[cveID] = struct{}{}
-					}
 				}
-			} else {
-				cveID := cveIDPattern.FindString(ref.Title)
-				if cveID == "" {
-					log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
-					continue
+				for _, cveID := range cveIDs {
+					cveIDMap[cveID] = struct{}{}
 				}
-				cveIDMap[cveID] = struct{}{}
 			}
 		}
 	}
