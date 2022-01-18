@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/aquasecurity/vuln-list-update/rocky"
@@ -17,44 +16,29 @@ import (
 
 func Test_Update(t *testing.T) {
 	tests := []struct {
-		name               string
-		repomdFileName     string
-		updateInfoFileName string
-		expectedError      error
+		name          string
+		rootDir       string
+		expectedError error
 	}{
 		{
-			name:               "happy path",
-			repomdFileName:     "repomd_valid.xml",
-			updateInfoFileName: "updateinfo_valid.xml.gz",
-			expectedError:      nil,
+			name:          "happy path",
+			rootDir:       "testdata/fixtures/happy",
+			expectedError: nil,
 		},
 		{
-			name:           "bad repomd response",
-			repomdFileName: "repomd_invalid.xml",
-			expectedError:  xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
+			name:          "bad repomd response",
+			rootDir:       "testdata/fixtures/repomd_invalid",
+			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
 		},
 		{
-			name:               "bad updateInfo response",
-			repomdFileName:     "repomd_valid.xml",
-			updateInfoFileName: "updateinfo_invalid.xml.gz",
-			expectedError:      xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
+			name:          "bad updateInfo response",
+			rootDir:       "testdata/fixtures/updateinfo_invalid",
+			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tsUpdateInfoURL := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				if strings.HasPrefix(r.URL.Path, "/pub/rocky/8/BaseOS/x86_64/os/repodata/") {
-					switch {
-					case strings.HasSuffix(r.URL.Path, "repomd.xml"):
-						r.URL.Path = filepath.Join(filepath.Dir(r.URL.Path), tt.repomdFileName)
-					case strings.HasSuffix(r.URL.Path, "updateinfo.xml.gz"):
-						r.URL.Path = filepath.Join(filepath.Dir(r.URL.Path), tt.updateInfoFileName)
-					}
-					http.StripPrefix("/pub/rocky/8/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir("testdata/fixtures")))
-				} else {
-					http.NotFound(w, r)
-				}
-			}))
+			tsUpdateInfoURL := httptest.NewServer(http.StripPrefix("/pub/rocky/8/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir(tt.rootDir))))
 			defer tsUpdateInfoURL.Close()
 
 			dir := t.TempDir()
