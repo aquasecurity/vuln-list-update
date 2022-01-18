@@ -42,7 +42,7 @@ func Test_Update(t *testing.T) {
 			defer tsUpdateInfoURL.Close()
 
 			dir := t.TempDir()
-			rc := rocky.NewConfig(rocky.WithURL(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/"), rocky.WithDir(dir), rocky.WithRetry(0), rocky.WithReleases([]string{"8"}), rocky.WithRepos([]string{"BaseOS"}), rocky.WithArches([]string{"x86_64"}))
+			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/", dir, 0, []string{"8"}, []string{"BaseOS"}, []string{"x86_64"}))
 			if err := rc.Update(); tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())

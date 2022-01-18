@@ -97,28 +97,15 @@ type options struct {
 
 type option func(*options)
 
-func WithURL(url string) option {
-	return func(opts *options) { opts.url = url }
-}
-
-func WithDir(dir string) option {
-	return func(opts *options) { opts.dir = dir }
-}
-
-func WithRetry(retry int) option {
-	return func(opts *options) { opts.retry = retry }
-}
-
-func WithReleases(releases []string) option {
-	return func(opts *options) { opts.releases = releases }
-}
-
-func WithRepos(repos []string) option {
-	return func(opts *options) { opts.repos = repos }
-}
-
-func WithArches(arches []string) option {
-	return func(opts *options) { opts.arches = arches }
+func With(url, dir string, retry int, releases, repos, arches []string) option {
+	return func(opts *options) {
+		opts.url = url
+		opts.dir = dir
+		opts.retry = retry
+		opts.releases = releases
+		opts.repos = repos
+		opts.arches = arches
+	}
 }
 
 type Config struct {
@@ -173,12 +160,12 @@ func (c Config) update(release, repo, arch string) error {
 	}
 	rootPath := u.Path
 	u.Path = path.Join(rootPath, "repodata/repomd.xml")
-	updateInfoPath, err := fetchUpdateInfoPath(u.String())
+	updateInfoPath, err := c.fetchUpdateInfoPath(u.String())
 	if err != nil {
 		return xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
 	}
 	u.Path = path.Join(rootPath, updateInfoPath)
-	uinfo, err := fetchUpdateInfo(u.String())
+	uinfo, err := c.fetchUpdateInfo(u.String())
 	if err != nil {
 		return xerrors.Errorf("failed to fetch updateInfo: %w", err)
 	}
@@ -213,8 +200,8 @@ func (c Config) update(release, repo, arch string) error {
 	return nil
 }
 
-func fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
-	res, err := utils.FetchURL(repomdURL, "", retry)
+func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
+	res, err := utils.FetchURL(repomdURL, "", c.retry)
 	if err != nil {
 		return "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
 	}
@@ -236,8 +223,8 @@ func fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
 	return updateInfoPath, nil
 }
 
-func fetchUpdateInfo(url string) (*UpdateInfo, error) {
-	res, err := utils.FetchURL(url, "", retry)
+func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
+	res, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateInfo: %w", err)
 	}
