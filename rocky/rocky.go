@@ -10,9 +10,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"strconv"
 	"strings"
-	"time"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
@@ -149,7 +147,7 @@ func (c Config) Update() error {
 	for _, release := range c.releases {
 		for _, repo := range c.repos {
 			for _, arch := range c.arches {
-				log.Printf("Fetching Rocky Linux %s %s %s data...\n", release, repo, arch)
+				log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
 				if err := c.update(release, repo, arch); err != nil {
 					return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
 				}
@@ -161,7 +159,7 @@ func (c Config) Update() error {
 
 func (c Config) update(release, repo, arch string) error {
 	dirPath := filepath.Join(c.dir, release, repo, arch)
-	log.Printf("Remove Rocky Linux %s %s %s directory %s\n", release, repo, arch, dirPath)
+	log.Printf("Remove Rocky Linux %s %s %s directory %s", release, repo, arch, dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
 		return xerrors.Errorf("failed to remove Rocky Linux %s %s %s directory: %w", release, repo, arch, err)
 	}
@@ -190,17 +188,12 @@ func (c Config) update(release, repo, arch string) error {
 		if !strings.HasPrefix(rlsa.ID, "RLSA-") {
 			continue
 		}
-
-		issuedDate, err := time.Parse("2006-01-02 15:04:05", rlsa.Issued.Date)
-		if err != nil {
-			return xerrors.Errorf("failed to parse issued date: %w", err)
-		}
-		y := strconv.Itoa(issuedDate.Year())
+		y := strings.Split(strings.TrimPrefix(rlsa.ID, "RLSA-"), ":")[0]
 		secErrata[y] = append(secErrata[y], rlsa)
 	}
 
 	for year, errata := range secErrata {
-		log.Printf("Write Errata for Rocky Linux %s %s %s %s\n", release, repo, arch, year)
+		log.Printf("Write Errata for Rocky Linux %s %s %s %s", release, repo, arch, year)
 
 		if err := os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
 			return xerrors.Errorf("failed to mkdir: %w", err)
@@ -208,8 +201,8 @@ func (c Config) update(release, repo, arch string) error {
 
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
-			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.ID))
-			if err := utils.Write(filepath, erratum); err != nil {
+			jsonPath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.ID))
+			if err := utils.Write(jsonPath, erratum); err != nil {
 				return xerrors.Errorf("failed to write Rocky Linux CVE details: %w", err)
 			}
 			bar.Increment()
@@ -238,7 +231,7 @@ func fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
 		}
 	}
 	if updateInfoPath == "" {
-		return "", xerrors.New("No updateinfo field in the repomd")
+		return "", xerrors.New("no updateinfo field in the repomd")
 	}
 	return updateInfoPath, nil
 }

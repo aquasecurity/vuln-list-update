@@ -24,34 +24,35 @@ func Test_Update(t *testing.T) {
 	}{
 		{
 			name:               "happy path",
-			repomdFileName:     "testdata/fixtures/repomd_valid.xml",
-			updateInfoFileName: "testdata/fixtures/updateinfo_valid.xml.gz",
+			repomdFileName:     "repomd_valid.xml",
+			updateInfoFileName: "updateinfo_valid.xml.gz",
 			expectedError:      nil,
 		},
 		{
 			name:           "bad repomd response",
-			repomdFileName: "testdata/fixtures/repomd_invalid.xml",
+			repomdFileName: "repomd_invalid.xml",
 			expectedError:  xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
 		},
 		{
 			name:               "bad updateInfo response",
-			repomdFileName:     "testdata/fixtures/repomd_valid.xml",
-			updateInfoFileName: "testdata/fixtures/updateinfo_invalid.xml.gz",
+			repomdFileName:     "repomd_valid.xml",
+			updateInfoFileName: "updateinfo_invalid.xml.gz",
 			expectedError:      xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tsUpdateInfoURL := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				switch {
-				case strings.HasSuffix(r.URL.Path, "repomd.xml"):
-					repomd, _ := os.ReadFile(tt.repomdFileName)
-					_, _ = w.Write(repomd)
-				case strings.HasSuffix(r.URL.Path, "updateinfo.xml.gz"):
-					buf, _ := os.ReadFile(tt.updateInfoFileName)
-					_, _ = w.Write(buf)
-				default:
-					assert.Fail(t, "bad URL requested: ", r.URL.Path, tt.name)
+				if strings.HasPrefix(r.URL.Path, "/pub/rocky/8/BaseOS/x86_64/os/repodata/") {
+					switch {
+					case strings.HasSuffix(r.URL.Path, "repomd.xml"):
+						r.URL.Path = filepath.Join(filepath.Dir(r.URL.Path), tt.repomdFileName)
+					case strings.HasSuffix(r.URL.Path, "updateinfo.xml.gz"):
+						r.URL.Path = filepath.Join(filepath.Dir(r.URL.Path), tt.updateInfoFileName)
+					}
+					http.StripPrefix("/pub/rocky/8/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir("testdata/fixtures")))
+				} else {
+					http.NotFound(w, r)
 				}
 			}))
 			defer tsUpdateInfoURL.Close()
@@ -65,6 +66,9 @@ func Test_Update(t *testing.T) {
 			}
 
 			err := filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
+				if errfp != nil {
+					return errfp
+				}
 				if info.IsDir() {
 					return nil
 				}
@@ -76,7 +80,7 @@ func Test_Update(t *testing.T) {
 				got, err := os.ReadFile(path)
 				assert.NoError(t, err, "failed to open the result file")
 
-				assert.Equal(t, string(want), string(got))
+				assert.JSONEq(t, string(want), string(got))
 
 				return nil
 			})
