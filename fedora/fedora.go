@@ -548,11 +548,12 @@ func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
 		case "...":
 			{
 				var module ModuleInfo
-				err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module)
-				if _, ok := err.(*yaml.TypeError); err != nil && !ok {
+				if err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module); err != nil {
 					return nil, xerrors.Errorf("failed to decode module info: %w", err)
 				}
-				modules[module.ConvertToUpdateInfoTitle()] = module
+				if module.Version == 2 {
+					modules[module.ConvertToUpdateInfoTitle()] = module
+				}
 			}
 		default:
 			{
@@ -565,7 +566,8 @@ func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
 }
 
 type ModuleInfo struct {
-	Data struct {
+	Version int `yaml:"version"`
+	Data    struct {
 		Name      string `yaml:"name"`
 		Stream    string `yaml:"stream"`
 		Version   int64  `yaml:"version"`
