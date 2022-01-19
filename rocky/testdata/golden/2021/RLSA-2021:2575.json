@@ -16,6 +16,7 @@
       "version": "1.8.3",
       "release": "3.el8_4",
       "arch": "i686",
+      "src": "lz4-1.8.3-3.el8_4.src.rpm",
       "filename": "lz4-libs-1.8.3-3.el8_4.i686.rpm"
     },
     {
@@ -24,6 +25,7 @@
       "version": "1.8.3",
       "release": "3.el8_4",
       "arch": "x86_64",
+      "src": "lz4-1.8.3-3.el8_4.src.rpm",
       "filename": "lz4-libs-1.8.3-3.el8_4.x86_64.rpm"
     },
     {
@@ -32,6 +34,7 @@
       "version": "1.8.3",
       "release": "3.el8_4",
       "arch": "x86_64",
+      "src": "lz4-1.8.3-3.el8_4.src.rpm",
       "filename": "lz4-devel-1.8.3-3.el8_4.x86_64.rpm"
     },
     {
@@ -40,6 +43,7 @@
       "version": "1.8.3",
       "release": "3.el8_4",
       "arch": "i686",
+      "src": "lz4-1.8.3-3.el8_4.src.rpm",
       "filename": "lz4-devel-1.8.3-3.el8_4.i686.rpm"
     },
     {
@@ -48,6 +52,7 @@
       "version": "1.8.3",
       "release": "3.el8_4",
       "arch": "x86_64",
+      "src": "lz4-1.8.3-3.el8_4.src.rpm",
       "filename": "lz4-1.8.3-3.el8_4.x86_64.rpm"
     }
   ],

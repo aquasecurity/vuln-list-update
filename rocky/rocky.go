@@ -83,6 +83,7 @@ type Package struct {
 	Version  string `xml:"version,attr" json:"version,omitempty"`
 	Release  string `xml:"release,attr" json:"release,omitempty"`
 	Arch     string `xml:"arch,attr" json:"arch,omitempty"`
+	Src      string `xml:"src,attr" json:"src,omitempty"`
 	Filename string `xml:"filename" json:"filename,omitempty"`
 }
 
