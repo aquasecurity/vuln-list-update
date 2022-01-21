@@ -332,7 +332,7 @@ func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error
 	return uinfo, nil
 }
 
-func (c Config) fetchRepomdData(repomdURL string) (updateInfoPath string, err error) {
+func (c Config) fetchRepomdData(repomdURL string) (string, error) {
 	res, err := utils.FetchURL(repomdURL, "", c.retry)
 	if err != nil {
 		return "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
@@ -345,14 +345,10 @@ func (c Config) fetchRepomdData(repomdURL string) (updateInfoPath string, err er
 
 	for _, repo := range repoMd.RepoList {
 		if repo.Type == "updateinfo" {
-			updateInfoPath = repo.Location.Href
-			break
+			return repo.Location.Href, nil
 		}
 	}
-	if updateInfoPath == "" {
-		return "", xerrors.New("No updateinfo field in the repomd")
-	}
-	return updateInfoPath, nil
+	return "", xerrors.New("No updateinfo field in the repomd")
 }
 
 func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
@@ -404,33 +400,35 @@ func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error)
 func (c Config) fetchCVEIDs(fsa FSA) ([]string, error) {
 	cveIDMap := map[string]struct{}{}
 	for _, ref := range fsa.References {
-		if strings.Contains(ref.Title, "CVE-") {
-			if strings.Contains(ref.Title, "various flaws") && strings.Contains(ref.Title, "...") {
-				cveIDs, err := c.fetchCVEIDsfromBugzilla(ref.ID)
+		if !strings.Contains(ref.Title, "CVE-") {
+			continue
+		}
+
+		if strings.Contains(ref.Title, "various flaws") && strings.Contains(ref.Title, "...") {
+			cveIDs, err := c.fetchCVEIDsfromBugzilla(ref.ID)
+			if err != nil {
+				return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
+			}
+			if len(cveIDs) == 0 {
+				log.Printf("failed to fetch CVE-ID from Bugzilla XML alias elements. bugzilla url: %s\n", ref.Href)
+				continue
+			}
+			for _, cveID := range cveIDs {
+				cveIDMap[cveID] = struct{}{}
+			}
+		} else {
+			cveIDs := cveIDPattern.FindAllString(ref.Title, -1)
+			if strings.Count(ref.Title, "CVE-") != len(cveIDs) {
+				log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
+				log.Println("Retry to get CVE-ID using Bugzilla API.")
+				var err error
+				cveIDs, err = c.fetchCVEIDsfromBugzilla(ref.ID)
 				if err != nil {
 					return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
 				}
-				if len(cveIDs) == 0 {
-					log.Printf("failed to fetch CVE-ID from Bugzilla XML alias elements. bugzilla url: %s\n", ref.Href)
-					continue
-				}
-				for _, cveID := range cveIDs {
-					cveIDMap[cveID] = struct{}{}
-				}
-			} else {
-				cveIDs := cveIDPattern.FindAllString(ref.Title, -1)
-				if strings.Count(ref.Title, "CVE-") != len(cveIDs) {
-					log.Printf("failed to fetch CVE-ID from Reference Title. bugzilla ID: %s, title: %s\n", ref.ID, ref.Title)
-					log.Println("Retry to get CVE-ID using Bugzilla API.")
-					var err error
-					cveIDs, err = c.fetchCVEIDsfromBugzilla(ref.ID)
-					if err != nil {
-						return nil, xerrors.Errorf("failed to fetch CVE-ID from Bugzilla: %w", err)
-					}
-				}
-				for _, cveID := range cveIDs {
-					cveIDMap[cveID] = struct{}{}
-				}
+			}
+			for _, cveID := range cveIDs {
+				cveIDMap[cveID] = struct{}{}
 			}
 		}
 	}
