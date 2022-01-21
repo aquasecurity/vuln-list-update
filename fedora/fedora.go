@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"compress/bzip2"
-	"compress/gzip"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -15,6 +14,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -54,6 +54,7 @@ var (
 
 	cveIDPattern = regexp.MustCompile(`(CVE-\d{4}-\d{4,})`)
 	bugzillaURL  = "https://bugzilla.redhat.com/show_bug.cgi?ctype=xml&id=%s"
+	moduleURL    = "https://kojipkgs.fedoraproject.org//packages/%s/%s/%d.%s/files/module/modulemd.%s.txt"
 )
 
 // RepoMd has repomd data
@@ -300,7 +301,7 @@ func (c Config) fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, er
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
 
-	updateInfoPath, _, err := c.fetchRepomdData(u.String())
+	updateInfoPath, err := c.fetchRepomdData(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo path from repomd.xml: %w", err)
 	}
@@ -332,19 +333,18 @@ func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
 
-	updateInfoPath, modulesPath, err := c.fetchRepomdData(u.String())
+	updateInfoPath, err := c.fetchRepomdData(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo, modules path from repomd.xml: %w", err)
 	}
 
-	u.Path = path.Join(originalPath, modulesPath)
-	modules, err := c.fetchModules(u.String())
+	u.Path = path.Join(originalPath, updateInfoPath)
+	uinfo, err := c.fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
 
-	u.Path = path.Join(originalPath, updateInfoPath)
-	uinfo, err := c.fetchUpdateInfo(u.String(), filepath.Ext(updateInfoPath)[1:], arch)
+	modules, err := c.fetchModules(uinfo, arch)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
@@ -356,28 +356,27 @@ func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error
 	return uinfo, nil
 }
 
-func (c Config) fetchRepomdData(repomdURL string) (updateInfoPath, modulesPath string, err error) {
+func (c Config) fetchRepomdData(repomdURL string) (updateInfoPath string, err error) {
 	res, err := utils.FetchURL(repomdURL, "", c.retry)
 	if err != nil {
-		return "", "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
+		return "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
 	}
 
 	var repoMd RepoMd
 	if err := xml.NewDecoder(bytes.NewBuffer(res)).Decode(&repoMd); err != nil {
-		return "", "", xerrors.Errorf("failed to decode repomd.xml: %w", err)
+		return "", xerrors.Errorf("failed to decode repomd.xml: %w", err)
 	}
 
 	for _, repo := range repoMd.RepoList {
 		if repo.Type == "updateinfo" {
 			updateInfoPath = repo.Location.Href
-		} else if repo.Type == "modules" {
-			modulesPath = repo.Location.Href
+			break
 		}
 	}
 	if updateInfoPath == "" {
-		return "", "", xerrors.New("No updateinfo field in the repomd")
+		return "", xerrors.New("No updateinfo field in the repomd")
 	}
-	return updateInfoPath, modulesPath, nil
+	return updateInfoPath, nil
 }
 
 func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
@@ -462,7 +461,6 @@ func (c Config) fetchCVEIDs(fsa FSA) ([]string, error) {
 	if len(cveIDMap) == 0 {
 		cveIDs := cveIDPattern.FindAllString(fsa.Description, -1)
 		if len(cveIDs) == 0 {
-			// log.Printf("failed to get CVE-ID from Description. errata(%s) does not contain the CVEID.\n", fsa.ID)
 			return []string{}, nil
 		}
 		for _, cveID := range cveIDs {
@@ -525,45 +523,73 @@ func (c Config) fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 	return cveIDs, nil
 }
 
-func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
-	res, err := utils.FetchURL(url, "", c.retry)
-	if err != nil {
-		return nil, xerrors.Errorf("failed to fetch modules: %w", err)
+func (c Config) fetchModules(uinfo *UpdateInfo, arch string) (map[string]ModuleInfo, error) {
+	moduleURLs := []string{}
+	for _, advisory := range uinfo.FSAList {
+		module, err := parseModuleFromAdvisoryTitle(advisory.Title)
+		if err != nil {
+			return nil, xerrors.Errorf("failed to parse moduleinfo: %w", err)
+		}
+		moduleURLs = append(moduleURLs, fmt.Sprintf(moduleURL, module.Name, module.Stream, module.Version, module.Context, arch))
+	}
+	if len(moduleURLs) == 0 {
+		return map[string]ModuleInfo{}, nil
 	}
 
-	r, err := gzip.NewReader(bytes.NewBuffer(res))
+	log.Printf("Fetching ModuleInfo from Build System Info...")
+	reps, err := utils.FetchConcurrently(moduleURLs, c.concurrency, c.wait, c.retry)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to decompress modules: %w", err)
+		return nil, xerrors.Errorf("failed to fetch moduleinfo: %w", err)
 	}
 
 	modules := map[string]ModuleInfo{}
-	scanner := bufio.NewScanner(r)
-	var contents []string
-	for scanner.Scan() {
-		str := scanner.Text()
-		switch str {
-		case "---":
-			{
-				contents = []string{}
-			}
-		case "...":
-			{
-				var module ModuleInfo
-				if err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module); err != nil {
-					return nil, xerrors.Errorf("failed to decode module info: %w", err)
+	for _, res := range reps {
+		scanner := bufio.NewScanner(bytes.NewReader(res))
+		var contents []string
+		for scanner.Scan() {
+			str := scanner.Text()
+			switch str {
+			case "---":
+				{
+					contents = []string{}
 				}
-				if module.Version == 2 {
-					modules[module.ConvertToUpdateInfoTitle()] = module
+			case "...":
+				{
+					var module ModuleInfo
+					if err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module); err != nil {
+						return nil, xerrors.Errorf("failed to decode module info: %w", err)
+					}
+					if module.Version == 2 {
+						modules[module.convertToUpdateInfoTitle()] = module
+					}
 				}
-			}
-		default:
-			{
-				contents = append(contents, str)
+			default:
+				{
+					contents = append(contents, str)
+				}
 			}
 		}
 	}
 
 	return modules, nil
+}
+
+func parseModuleFromAdvisoryTitle(title string) (Module, error) {
+	ss := strings.Split(title, "-")
+	name, stream := ss[0], ss[1]
+	ss = strings.Split(ss[2], ".")
+	ver, err := strconv.ParseInt(ss[0], 10, 64)
+	if err != nil {
+		return Module{}, xerrors.Errorf("failed to parse version of moduleinfo from title(%s) of advisory: %w", title, err)
+	}
+	ctx := ss[1]
+
+	return Module{
+		Name:    name,
+		Stream:  stream,
+		Version: ver,
+		Context: ctx,
+	}, nil
 }
 
 type ModuleInfo struct {
@@ -580,7 +606,7 @@ type ModuleInfo struct {
 	} `yaml:"data"`
 }
 
-func (m ModuleInfo) ConvertToUpdateInfoTitle() string {
+func (m ModuleInfo) convertToUpdateInfoTitle() string {
 	return fmt.Sprintf("%s-%s-%d.%s", m.Data.Name, m.Data.Stream, m.Data.Version, m.Data.Context)
 }
 
