@@ -29,7 +29,6 @@ const (
 	defaultWait        = 1
 	defaultRetry       = 3
 	fedoraDir          = "fedora"
-	dateFormat         = "2006-01-02 15:04:05"
 )
 
 var (
