@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>2035949</bug_id>
+          
+          <creation_ts>2021-12-28 18:52:04 +0000</creation_ts>
+          <short_desc>log4j-2.17.1 is available</short_desc>
+          <delta_ts>2022-01-06 01:11:38 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>2</classification_id>
+          <classification>Fedora</classification>
+          <product>Fedora</product>
+          <component>log4j</component>
+          <version>rawhide</version>
+          <rep_platform>Unspecified</rep_platform>
+          <op_sys>Unspecified</op_sys>
+          <bug_status>CLOSED</bug_status>
+          <resolution>ERRATA</resolution>
+          
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>FutureFeature, Triaged</keywords>
+          <priority>unspecified</priority>
+          <bug_severity>unspecified</bug_severity>
+          <target_milestone>---</target_milestone>
+          
+          
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Upstream Release Monitoring">upstream-release-monitoring</reporter>
+          <assigned_to name="Paul Wouters">paul.wouters</assigned_to>
+          <cc>dbhole</cc>
+    
+    
+    <cc>devrim</cc>
+    
+    
+    <cc>java-sig-commits</cc>
+    
+    
+    <cc>mizdebsk</cc>
+    
+    
+    <cc>paul.wouters</cc>
+          
+          <qa_contact name="Fedora Extras Quality Assurance">extras-qa</qa_contact>
+          
+          <cf_fixed_in>log4j-2.17.1-1.fc34 log4j-2.17.1-1.fc35</cf_fixed_in>
+          <cf_doc_type>---</cf_doc_type>
+          <cf_release_notes/>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          <cf_last_closed>2022-01-06 00:51:24</cf_last_closed>
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>15802218</commentid>
+    <comment_count>0</comment_count>
+    <who name="Upstream Release Monitoring">upstream-release-monitoring</who>
+    <bug_when>2021-12-28 18:52:04 +0000</bug_when>
+    <thetext>Latest upstream release: 2.17.1
+Current version/release in rawhide: 2.17.0-1.fc36
+URL: http://www.apache.org/dist/logging/log4j
+
+Please consult the package updates policy before you issue an update to a stable branch: https://docs.fedoraproject.org/en-US/fesco/Updates_Policy/
+
+
+More information about the service that created this bug can be found at: https://fedoraproject.org/wiki/Upstream_release_monitoring
+
+
+Please keep in mind that with any upstream change, there may also be packaging changes that need to be made. Specifically, please remember that it is your responsibility to review the new version to ensure that the licensing is still correct and that no non-free or legally problematic items have been added upstream.
+
+
+Based on the information from Anitya: https://release-monitoring.org/project/1836/</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15802219</commentid>
+    <comment_count>1</comment_count>
+      <attachid>1848115</attachid>
+    <who name="Upstream Release Monitoring">upstream-release-monitoring</who>
+    <bug_when>2021-12-28 18:52:12 +0000</bug_when>
+    <thetext>Created attachment 1848115
+Update to 2.17.1 (#2035949)</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15802220</commentid>
+    <comment_count>2</comment_count>
+    <who name="Upstream Release Monitoring">upstream-release-monitoring</who>
+    <bug_when>2021-12-28 18:56:03 +0000</bug_when>
+    <thetext>the-new-hotness/release-monitoring.org's scratch build of log4j-2.17.1-1.fc34.src.rpm for rawhide completed http://koji.fedoraproject.org/koji/taskinfo?taskID=80578862</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15802289</commentid>
+    <comment_count>3</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-12-28 21:42:56 +0000</bug_when>
+    <thetext>FEDORA-2021-c6f471ce0f has been submitted as an update to Fedora 35. https://bodhi.fedoraproject.org/updates/FEDORA-2021-c6f471ce0f</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15802299</commentid>
+    <comment_count>4</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-12-28 22:19:49 +0000</bug_when>
+    <thetext>FEDORA-2021-1bd9151bab has been submitted as an update to Fedora 34. https://bodhi.fedoraproject.org/updates/FEDORA-2021-1bd9151bab</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15802369</commentid>
+    <comment_count>5</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-12-29 01:04:02 +0000</bug_when>
+    <thetext>FEDORA-2021-1bd9151bab has been pushed to the Fedora 34 testing repository.
+Soon you'll be able to install the update with the following command:
+`sudo dnf upgrade --enablerepo=updates-testing --advisory=FEDORA-2021-1bd9151bab`
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-2021-1bd9151bab
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15802391</commentid>
+    <comment_count>6</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-12-29 01:12:48 +0000</bug_when>
+    <thetext>FEDORA-2021-c6f471ce0f has been pushed to the Fedora 35 testing repository.
+Soon you'll be able to install the update with the following command:
+`sudo dnf upgrade --enablerepo=updates-testing --advisory=FEDORA-2021-c6f471ce0f`
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-2021-c6f471ce0f
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15815086</commentid>
+    <comment_count>7</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2022-01-06 00:51:24 +0000</bug_when>
+    <thetext>FEDORA-2021-1bd9151bab has been pushed to the Fedora 34 stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15815129</commentid>
+    <comment_count>8</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2022-01-06 01:11:38 +0000</bug_when>
+    <thetext>FEDORA-2021-c6f471ce0f has been pushed to the Fedora 35 stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+  </long_desc>
+      
+          <attachment isobsolete="0" ispatch="1" isprivate="0">
+            <attachid>1848115</attachid>
+            <date>2021-12-28 18:52:12 +0000</date>
+            <delta_ts>2021-12-28 18:52:12 +0000</delta_ts>
+            <desc>Update to 2.17.1 (#2035949)</desc>
+            <filename>0001-Update-to-2.17.1-2035949.patch</filename>
+            <type>text/plain</type>
+            <size>981</size>
+            <attacher name="Upstream Release Monitoring">upstream-release-monitoring</attacher>
+            
+              <data encoding="base64">RnJvbSA4MzY3Y2EyN2MxYjRlMGEwMjMzMzk2NjdmZWYyYzgzZmM3Zjc3MWNkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBGZWRvcmEgUmVsZWFzZSBNb25pdG9yaW5nIDxyZWxlYXNlLW1v
+bml0b3JpbmdAZmVkb3JhcHJvamVjdC5vcmc+CkRhdGU6IFR1ZSwgMjggRGVjIDIwMjEgMTg6NTI6
+MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBVcGRhdGUgdG8gMi4xNy4xICgjMjAzNTk0OSkKCi0t
+LQogbG9nNGouc3BlYyB8IDUgKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyks
+IDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9sb2c0ai5zcGVjIGIvbG9nNGouc3BlYwppbmRl
+eCBmNGJhM2ZjLi5hMDYxZDMyIDEwMDY0NAotLS0gYS9sb2c0ai5zcGVjCisrKyBiL2xvZzRqLnNw
+ZWMKQEAgLTEsNyArMSw3IEBACiAlYmNvbmRfd2l0aG91dCAganBfbWluaW1hbAogCiBOYW1lOiAg
+ICAgICAgICAgbG9nNGoKLVZlcnNpb246ICAgICAgICAyLjE3LjAKK1ZlcnNpb246ICAgICAgICAy
+LjE3LjEKIFJlbGVhc2U6ICAgICAgICAxJXs/ZGlzdH0KIFN1bW1hcnk6ICAgICAgICBKYXZhIGxv
+Z2dpbmcgcGFja2FnZQogQnVpbGRBcmNoOiAgICAgIG5vYXJjaApAQCAtMjg0LDYgKzI4NCw5IEBA
+IHJtIC1yIGxvZzRqLTEuMi1hcGkvc3JjL21haW4vamF2YS9vcmcvYXBhY2hlL2xvZzRqL29yL2pt
+cwogCiAKICVjaGFuZ2Vsb2cKKyogVHVlIERlYyAyOCAyMDIxIEZlZG9yYSBSZWxlYXNlIE1vbml0
+b3JpbmcgPHJlbGVhc2UtbW9uaXRvcmluZ0BmZWRvcmFwcm9qZWN0Lm9yZz4gLSAyLjE3LjEtMQor
+LSBVcGRhdGUgdG8gMi4xNy4xICgjMjAzNTk0OSkKKwogKiBTYXQgRGVjIDE4IDIwMjEgUGF1bCBX
+b3V0ZXJzIDxwYXVsLndvdXRlcnNAYWl2ZW4uaW8+IC0gMi4xNy4wLTEKIC0gVXBkYXRlIGxvZzRq
+IHRvIDIuMTcuMCBmb3IgQ1ZFLTIwMjEtNDUxMDUgRGVuaWFsIG9mIFNlcnZpY2UgYXR0YWNrCiAK
+LS0gCjIuMzEuMQoK
+</data>
+
+          </attachment>
+      
+
+    </bug>
+
+</bugzilla>

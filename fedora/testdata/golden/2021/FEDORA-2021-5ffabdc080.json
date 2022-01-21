@@ -1,0 +1,120 @@
+{
+    "id": "FEDORA-2021-5ffabdc080",
+    "title": "chromium-94.0.4606.81-1.fc35",
+    "type": "security",
+    "issued": {
+      "date": "2021-10-29 22:48:33"
+    },
+    "updated": {
+      "date": "2021-10-14 14:40:18"
+    },
+    "severity": "Important",
+    "description": "Update to 94.0.4606.81. Built with is_official_build=true, which disables all sorts of debugging check functions that upstream turned on in 94. These debugging checks were failing and causing the program to crash in ... fun ways.\n\nIt also fixes the usual pile of security issues, most notably:\nCVE-2021-37974 CVE-2021-37975 CVE-2021-37976 CVE-2021-37977 CVE-2021-37978 CVE-2021-37979 CVE-2021-37980",
+    "packages": [
+      {
+        "name": "chromium-headless",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/c/chromium-headless-94.0.4606.81-1.fc35.i686.rpm",
+        "filename": "chromium-headless-94.0.4606.81-1.fc35.i686.rpm"
+      },
+      {
+        "name": "chromium",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/c/chromium-94.0.4606.81-1.fc35.i686.rpm",
+        "filename": "chromium-94.0.4606.81-1.fc35.i686.rpm"
+      },
+      {
+        "name": "chrome-remote-desktop",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/c/chrome-remote-desktop-94.0.4606.81-1.fc35.i686.rpm",
+        "filename": "chrome-remote-desktop-94.0.4606.81-1.fc35.i686.rpm"
+      },
+      {
+        "name": "chromium-common",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/c/chromium-common-94.0.4606.81-1.fc35.i686.rpm",
+        "filename": "chromium-common-94.0.4606.81-1.fc35.i686.rpm"
+      },
+      {
+        "name": "chromedriver",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/c/chromedriver-94.0.4606.81-1.fc35.i686.rpm",
+        "filename": "chromedriver-94.0.4606.81-1.fc35.i686.rpm"
+      },
+      {
+        "name": "chromium-headless",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/c/chromium-headless-94.0.4606.81-1.fc35.x86_64.rpm",
+        "filename": "chromium-headless-94.0.4606.81-1.fc35.x86_64.rpm"
+      },
+      {
+        "name": "chrome-remote-desktop",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/c/chrome-remote-desktop-94.0.4606.81-1.fc35.x86_64.rpm",
+        "filename": "chrome-remote-desktop-94.0.4606.81-1.fc35.x86_64.rpm"
+      },
+      {
+        "name": "chromedriver",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/c/chromedriver-94.0.4606.81-1.fc35.x86_64.rpm",
+        "filename": "chromedriver-94.0.4606.81-1.fc35.x86_64.rpm"
+      },
+      {
+        "name": "chromium-common",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/c/chromium-common-94.0.4606.81-1.fc35.x86_64.rpm",
+        "filename": "chromium-common-94.0.4606.81-1.fc35.x86_64.rpm"
+      },
+      {
+        "name": "chromium",
+        "epoch": "0",
+        "version": "94.0.4606.81",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/c/chromium-94.0.4606.81-1.fc35.x86_64.rpm",
+        "filename": "chromium-94.0.4606.81-1.fc35.x86_64.rpm"
+      }
+    ],
+    "module": {},
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2012664",
+        "id": "2012664",
+        "title": "CVE-2021-37977 CVE-2021-37978 CVE-2021-37979 CVE-2021-37980 chromium: various flaws [fedora-all]",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2021-37977",
+      "CVE-2021-37978",
+      "CVE-2021-37979",
+      "CVE-2021-37980"
+    ]
+  }

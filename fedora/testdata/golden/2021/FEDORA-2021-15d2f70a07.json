@@ -1,0 +1,87 @@
+{
+    "id": "FEDORA-2021-15d2f70a07",
+    "title": "squid-5.2-1.fc35",
+    "type": "security",
+    "issued": {
+      "date": "2021-10-29 22:48:33"
+    },
+    "updated": {
+      "date": "2021-10-05 23:15:00"
+    },
+    "severity": "Important",
+    "description": "- version update to 5.2\n- security update",
+    "packages": [
+      {
+        "name": "squid-debuginfo",
+        "epoch": "7",
+        "version": "5.2",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/s/squid-debuginfo-5.2-1.fc35.i686.rpm",
+        "filename": "squid-debuginfo-5.2-1.fc35.i686.rpm"
+      },
+      {
+        "name": "squid",
+        "epoch": "7",
+        "version": "5.2",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/s/squid-5.2-1.fc35.i686.rpm",
+        "filename": "squid-5.2-1.fc35.i686.rpm"
+      },
+      {
+        "name": "squid-debugsource",
+        "epoch": "7",
+        "version": "5.2",
+        "release": "1.fc35",
+        "arch": "i686",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/s/squid-debugsource-5.2-1.fc35.i686.rpm",
+        "filename": "squid-debugsource-5.2-1.fc35.i686.rpm"
+      },
+      {
+        "name": "squid-debuginfo",
+        "epoch": "7",
+        "version": "5.2",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/s/squid-debuginfo-5.2-1.fc35.x86_64.rpm",
+        "filename": "squid-debuginfo-5.2-1.fc35.x86_64.rpm"
+      },
+      {
+        "name": "squid-debugsource",
+        "epoch": "7",
+        "version": "5.2",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/s/squid-debugsource-5.2-1.fc35.x86_64.rpm",
+        "filename": "squid-debugsource-5.2-1.fc35.x86_64.rpm"
+      },
+      {
+        "name": "squid",
+        "epoch": "7",
+        "version": "5.2",
+        "release": "1.fc35",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/s/squid-5.2-1.fc35.x86_64.rpm",
+        "filename": "squid-5.2-1.fc35.x86_64.rpm"
+      }
+    ],
+    "module": {},
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1934559",
+        "id": "1934559",
+        "title": "squid: out-of-bounds read in WCCP protocol [fedora-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2010686",
+        "id": "2010686",
+        "title": "CVE-2021-41611 squid: improper certificate validation [fedora-all]",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2021-41611"
+    ]
+  }

@@ -16,7 +16,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
@@ -34,10 +33,12 @@ const (
 )
 
 var (
-	URIForamt = map[string]string{
-		"fedora": "https://dl.fedoraproject.org/pub/fedora/linux/updates/%s/%s/%s/",
-		"epel7":  "https://dl.fedoraproject.org/pub/epel/%s/%s/",
-		"epel":   "https://dl.fedoraproject.org/pub/epel/%s/%s/%s/",
+	urlFormat = map[string]string{
+		"fedora":     "https://dl.fedoraproject.org/pub/fedora/linux/updates/%s/%s/%s/",
+		"epel7":      "https://dl.fedoraproject.org/pub/epel/%s/%s/",
+		"epel":       "https://dl.fedoraproject.org/pub/epel/%s/%s/%s/",
+		"bugzilla":   "https://bugzilla.redhat.com/show_bug.cgi?ctype=xml&id=%s",
+		"moduleinfo": "https://kojipkgs.fedoraproject.org/packages/%s/%s/%d.%s/files/module/modulemd.%s.txt",
 	}
 
 	defaultReleases = map[string][]string{
@@ -53,8 +54,6 @@ var (
 	}
 
 	cveIDPattern = regexp.MustCompile(`(CVE-\d{4}-\d{4,})`)
-	bugzillaURL  = "https://bugzilla.redhat.com/show_bug.cgi?ctype=xml&id=%s"
-	moduleURL    = "https://kojipkgs.fedoraproject.org//packages/%s/%s/%d.%s/files/module/modulemd.%s.txt"
 )
 
 // RepoMd has repomd data
@@ -139,36 +138,17 @@ type options struct {
 
 type option func(*options)
 
-func WithURLs(urls map[string]string) option {
-	return func(opts *options) { opts.urls = urls }
-}
-
-func WithDir(dir string) option {
-	return func(opts *options) { opts.dir = dir }
-}
-
-func WithConcurrency(concurrency int) option {
-	return func(opts *options) { opts.concurrency = concurrency }
-}
-
-func WithWait(wait int) option {
-	return func(opts *options) { opts.wait = wait }
-}
-
-func WithRetry(retry int) option {
-	return func(opts *options) { opts.retry = retry }
-}
-
-func WithReleases(releases map[string][]string) option {
-	return func(opts *options) { opts.releases = releases }
-}
-
-func WithRepos(repos []string) option {
-	return func(opts *options) { opts.repos = repos }
-}
-
-func WithArches(arches []string) option {
-	return func(opts *options) { opts.arches = arches }
+func With(urls map[string]string, dir string, concurrency, wait, retry int, releases map[string][]string, repos, arches []string) option {
+	return func(opts *options) {
+		opts.urls = urls
+		opts.dir = dir
+		opts.concurrency = concurrency
+		opts.wait = wait
+		opts.retry = retry
+		opts.releases = releases
+		opts.repos = repos
+		opts.arches = arches
+	}
 }
 
 type Config struct {
@@ -177,7 +157,7 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		urls:        URIForamt,
+		urls:        urlFormat,
 		dir:         filepath.Join(utils.VulnListDir(), fedoraDir),
 		concurrency: defaultConcurrency,
 		wait:        defaultWait,
@@ -251,11 +231,8 @@ func (c Config) update(mode, release, repo, arch string) error {
 
 	fsalistByYear := map[string][]FSA{}
 	for _, fsa := range vulns.FSAList {
-		t, err := time.Parse(dateFormat, fsa.Issued.Date)
-		if err != nil {
-			return xerrors.Errorf("failed to parse issued date: %w", err)
-		}
-		y := fmt.Sprintf("%d", t.Year())
+		ss := strings.Split(fsa.ID, "-")
+		y := ss[len(ss)-2]
 		fsalistByYear[y] = append(fsalistByYear[y], fsa)
 	}
 
@@ -485,7 +462,7 @@ type Bugzilla struct {
 func (c Config) fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 	log.Printf("Fetching CVE-IDs using Bugzilla API. Root Bugzilla ID: %s\n", bugzillaID)
 
-	url := fmt.Sprintf(bugzillaURL, bugzillaID)
+	url := fmt.Sprintf(c.urls["bugzilla"], bugzillaID)
 	res, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch bugzilla xml: %w", err)
@@ -502,7 +479,7 @@ func (c Config) fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 
 	urls := []string{}
 	for _, blocked := range root.Bug.Blocked {
-		urls = append(urls, fmt.Sprintf(bugzillaURL, blocked))
+		urls = append(urls, fmt.Sprintf(c.urls["bugzilla"], blocked))
 	}
 	xmlBytes, err := utils.FetchConcurrently(urls, c.concurrency, c.wait, c.retry)
 	if err != nil {
@@ -530,7 +507,7 @@ func (c Config) fetchModules(uinfo *UpdateInfo, arch string) (map[string]ModuleI
 		if err != nil {
 			return nil, xerrors.Errorf("failed to parse moduleinfo: %w", err)
 		}
-		moduleURLs = append(moduleURLs, fmt.Sprintf(moduleURL, module.Name, module.Stream, module.Version, module.Context, arch))
+		moduleURLs = append(moduleURLs, fmt.Sprintf(c.urls["moduleinfo"], module.Name, module.Stream, module.Version, module.Context, arch))
 	}
 	if len(moduleURLs) == 0 {
 		return map[string]ModuleInfo{}, nil
@@ -559,9 +536,7 @@ func (c Config) fetchModules(uinfo *UpdateInfo, arch string) (map[string]ModuleI
 					if err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module); err != nil {
 						return nil, xerrors.Errorf("failed to decode module info: %w", err)
 					}
-					if module.Version == 2 {
-						modules[module.convertToUpdateInfoTitle()] = module
-					}
+					modules[module.convertToUpdateInfoTitle()] = module
 				}
 			default:
 				{
@@ -593,8 +568,7 @@ func parseModuleFromAdvisoryTitle(title string) (Module, error) {
 }
 
 type ModuleInfo struct {
-	Version int `yaml:"version"`
-	Data    struct {
+	Data struct {
 		Name      string `yaml:"name"`
 		Stream    string `yaml:"stream"`
 		Version   int64  `yaml:"version"`

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+  <bug>
+    <bug_id>2016142</bug_id>
+
+    <creation_ts>2021-10-20 18:49:11 +0000</creation_ts>
+    <short_desc>CVE-2021-2478 CVE-2021-2479 CVE-2021-2481 CVE-2021-35546 CVE-2021-35575 CVE-2021-35577 CVE-2021-35591 CVE-2021-35596 CVE-2021-35597 CVE-2021-35602 CVE-2021-35604 CVE-2021-35607 CVE-2021-35608 ... mysql:8.0/community-mysql: various flaws [fedora-all]</short_desc>
+    <delta_ts>2021-11-10 00:48:53 +0000</delta_ts>
+    <reporter_accessible>1</reporter_accessible>
+    <cclist_accessible>1</cclist_accessible>
+    <classification_id>2</classification_id>
+    <classification>Fedora</classification>
+    <product>Fedora</product>
+    <component>community-mysql</component>
+    <version>34</version>
+    <rep_platform>Unspecified</rep_platform>
+    <op_sys>Unspecified</op_sys>
+    <bug_status>CLOSED</bug_status>
+    <resolution>ERRATA</resolution>
+
+
+    <bug_file_loc/>
+    <status_whiteboard/>
+    <keywords>Security, SecurityTracking</keywords>
+    <priority>high</priority>
+    <bug_severity>medium</bug_severity>
+    <target_milestone>---</target_milestone>
+
+    <blocked>2016089</blocked>
+
+
+    <blocked>2016090</blocked>
+
+
+
+    <everconfirmed>1</everconfirmed>
+    <reporter name="Guilherme de Almeida Suckevicz">gsuckevi</reporter>
+    <assigned_to name="Michal Schorm">mschorm</assigned_to>
+    <cc>hhorak</cc>
+
+
+    <cc>ljavorsk</cc>
+
+
+    <cc>mmuzila</cc>
+
+
+    <cc>mschorm</cc>
+
+    <qa_contact name="Fedora Extras Quality Assurance">extras-qa</qa_contact>
+
+    <cf_fixed_in/>
+    <cf_doc_type>No Doc Update</cf_doc_type>
+    <cf_release_notes/>
+    <cf_story_points>---</cf_story_points>
+
+    <cf_environment/>
+    <cf_last_closed>2021-11-09 00:21:48</cf_last_closed>
+    <cf_type>---</cf_type>
+    <cf_regression_status>---</cf_regression_status>
+    <cf_mount_type>---</cf_mount_type>
+    <cf_documentation_action>---</cf_documentation_action>
+    <cf_crm/>
+    <cf_verified_branch/>
+    <cf_category>---</cf_category>
+    <cf_ovirt_team>---</cf_ovirt_team>
+
+    <cf_cloudforms_team>---</cf_cloudforms_team>
+    <cf_target_upstream_version/>
+
+
+
+
+
+    <target_release>---</target_release>
+
+    <votes>0</votes>
+
+
+
+
+
+
+
+    <comment_sort_order>oldest_to_newest</comment_sort_order>
+    <long_desc isprivate="0">
+      <commentid>15604648</commentid>
+      <comment_count>0</comment_count>
+      <who name="Guilherme de Almeida Suckevicz">gsuckevi</who>
+      <bug_when>2021-10-20 18:49:11 +0000</bug_when>
+      <thetext>
+This is an automatically created tracking bug!  It was created to ensure
+that one or more security vulnerabilities are fixed in affected versions
+of fedora-all.
+
+For comments that are specific to the vulnerability please use bugs filed
+against the "Security Response" product referenced in the "Blocks" field.
+
+For more information see:
+http://fedoraproject.org/wiki/Security/TrackingBugs
+
+When submitting as an update, use the fedpkg template provided in the next
+comment(s).  This will include the bug IDs of this tracking bug as well as
+the relevant top-level CVE bugs.
+
+Please also mention the CVE IDs being fixed in the RPM changelog and the
+fedpkg commit message.
+
+NOTE: this issue affects multiple supported versions of Fedora. While only
+one tracking bug has been filed, please correct all affected versions at
+the same time.  If you need to fix the versions independent of each other,
+you may clone this bug as appropriate.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15604649</commentid>
+      <comment_count>1</comment_count>
+      <who name="Guilherme de Almeida Suckevicz">gsuckevi</who>
+      <bug_when>2021-10-20 18:49:13 +0000</bug_when>
+      <thetext>Use the following template to for the 'fedpkg update' request to submit an
+update for this issue as it contains the top-level parent bug(s) as well as
+this tracking bug.  This will ensure that all associated bugs get updated
+when new packages are pushed to stable. =====
+
+# bugfix, security, enhancement, newpackage (required) type=security
+
+# low, medium, high, urgent (required) severity=high
+
+# testing, stable request=testing
+
+# Bug numbers: 1234,9876 bugs=2016088,2016089,2016090,2016091,2016092,2016093,2016094,2016095,2016096,2016097,2016098,2016099,2016100,2016101,2016104,2016105,2016106,2016107,2016108,2016109,2016110,2016111,2016112,2016113,2016114,2016116,2016117,2016118,2016119,2016120,2016121,2016122,2016124,2016126,2016127,2016128,2016129,2016130,2016131,2016132,2016133,2016134,2016135,2016137,2016138,2016142
+
+# Description of your update notes=Security fix for [PUT CVEs HERE]
+
+# Enable request automation based on the stable/unstable karma thresholds autokarma=True stable_karma=3 unstable_karma=-3
+
+# Automatically close bugs when this marked as stable close_bugs=True
+
+# Suggest that users restart after update suggest_reboot=False ======
+
+Additionally, you may opt to use the bodhi web interface to submit updates:
+
+https://bodhi.fedoraproject.org/updates/new</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15631117</commentid>
+      <comment_count>2</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-10-31 17:53:07 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-aba3bac39d has been submitted as an update to Fedora 33 Modular. https://bodhi.fedoraproject.org/updates/FEDORA-MODULAR-2021-aba3bac39d</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15631118</commentid>
+      <comment_count>3</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-10-31 17:53:07 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-217f84c072 has been submitted as an update to Fedora 35 Modular. https://bodhi.fedoraproject.org/updates/FEDORA-MODULAR-2021-217f84c072</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15631451</commentid>
+      <comment_count>4</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-01 00:21:36 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-217f84c072 has been pushed to the Fedora 35 Modular testing repository.
+
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-MODULAR-2021-217f84c072
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15631454</commentid>
+      <comment_count>5</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-01 00:26:32 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-aba3bac39d has been pushed to the Fedora 33 Modular testing repository.
+
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-MODULAR-2021-aba3bac39d
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15631455</commentid>
+      <comment_count>6</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-01 00:29:18 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-2292d9e442 has been pushed to the Fedora 34 Modular testing repository.
+
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-MODULAR-2021-2292d9e442
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15662966</commentid>
+      <comment_count>7</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-09 00:21:48 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-217f84c072 has been pushed to the Fedora 35 Modular stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15663097</commentid>
+      <comment_count>8</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-09 00:23:13 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-aba3bac39d has been pushed to the Fedora 33 Modular stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15663199</commentid>
+      <comment_count>9</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-09 00:24:19 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-2292d9e442 has been pushed to the Fedora 34 Modular stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+    </long_desc>
+    <long_desc isprivate="0">
+      <commentid>15671186</commentid>
+      <comment_count>10</comment_count>
+      <who name="Fedora Update System">updates</who>
+      <bug_when>2021-11-10 00:48:53 +0000</bug_when>
+      <thetext>FEDORA-MODULAR-2021-217f84c072 has been pushed to the Fedora 35 Modular stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+    </long_desc>
+
+
+
+  </bug>
+
+</bugzilla>

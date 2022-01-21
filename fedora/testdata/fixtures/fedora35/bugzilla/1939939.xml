@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>1939939</bug_id>
+          <alias>CVE-2021-28116</alias>
+          <creation_ts>2021-03-17 10:28:46 +0000</creation_ts>
+          <short_desc>CVE-2021-28116 squid: out-of-bounds read in WCCP protocol data may lead to information disclosure</short_desc>
+          <delta_ts>2021-10-11 22:27:54 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>3</classification_id>
+          <classification>Other</classification>
+          <product>Security Response</product>
+          <component>vulnerability</component>
+          <version>unspecified</version>
+          <rep_platform>All</rep_platform>
+          <op_sys>Linux</op_sys>
+          <bug_status>NEW</bug_status>
+          <resolution/>
+          
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>Security</keywords>
+          <priority>medium</priority>
+          <bug_severity>medium</bug_severity>
+          <target_milestone>---</target_milestone>
+          <dependson>1941505</dependson>
+    
+    
+    <dependson>1941506</dependson>
+    
+    
+    <dependson>1939940</dependson>
+          <blocked>1934571</blocked>
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Marian Rehak">mrehak</reporter>
+          <assigned_to name="Red Hat Product Security">security-response-team</assigned_to>
+          <cc>anon.amish</cc>
+    
+    
+    <cc>code</cc>
+    
+    
+    <cc>icesalov</cc>
+    
+    
+    <cc>jonathansteffan</cc>
+    
+    
+    <cc>jorton</cc>
+    
+    
+    <cc>lilhuang</cc>
+    
+    
+    <cc>luhliari</cc>
+    
+    
+    <cc>mkaplan</cc>
+    
+    
+    <cc>yjog</cc>
+    
+    
+    <cc>yozone</cc>
+          
+          
+          
+          <cf_fixed_in/>
+          <cf_doc_type>If docs needed, set a value</cf_doc_type>
+          <cf_release_notes>A flaw was found in squid. An out-of-bounds read in the WCCP protocol can be leveraged as part of a chain for remote code execution leading to an information disclosure. The highest threat from this vulnerability is to data confidentiality.</cf_release_notes>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>14879868</commentid>
+    <comment_count>0</comment_count>
+    <who name="Marian Rehak">mrehak</who>
+    <bug_when>2021-03-17 10:28:46 +0000</bug_when>
+    <thetext>In some configurations, squid allows information disclosure because of an out-of-bounds read in WCCP protocol data. This can be leveraged as part of a chain for remote code execution as nobody.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14879877</commentid>
+    <comment_count>1</comment_count>
+    <who name="Marian Rehak">mrehak</who>
+    <bug_when>2021-03-17 10:29:37 +0000</bug_when>
+    <thetext>Created squid tracking bugs for this issue:
+
+Affects: fedora-all [bug 1939940]</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14887711</commentid>
+    <comment_count>2</comment_count>
+    <who name="Mauro Matteo Cascella">mcascell</who>
+    <bug_when>2021-03-19 09:28:58 +0000</bug_when>
+    <thetext>External References:
+
+https://www.zerodayinitiative.com/advisories/ZDI-21-157/</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14887755</commentid>
+    <comment_count>3</comment_count>
+    <who name="Mauro Matteo Cascella">mcascell</who>
+    <bug_when>2021-03-19 09:41:24 +0000</bug_when>
+    <thetext>*** Bug 1934558 has been marked as a duplicate of this bug. ***</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

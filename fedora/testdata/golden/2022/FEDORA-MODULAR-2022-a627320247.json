@@ -1,0 +1,310 @@
+{
+    "id": "FEDORA-MODULAR-2022-a627320247",
+    "title": "nodejs-12-3520220113124632.f27b74a8",
+    "type": "security",
+    "issued": {
+      "date": "2022-01-14 01:06:46"
+    },
+    "updated": {
+      "date": "2022-01-14 20:51:56"
+    },
+    "severity": "Moderate",
+    "description": "## 2022-01-10, Version 12.22.9 'Erbium' (LTS), @richardlau\n\nThis is a security release.\n\n### Notable changes\n\n#### Improper handling of URI Subject Alternative Names (Medium)(CVE-2021-44531)\n\nAccepting arbitrary Subject Alternative Name (SAN) types, unless a PKI is specifically defined to use a particular SAN type, can result in bypassing name-constrained intermediates. Node.js was accepting URI SAN types, which PKIs are often not defined to use. Additionally, when a protocol allows URI SANs, Node.js did not match the URI correctly.\n\nVersions of Node.js with the fix for this disable the URI SAN type when checking a certificate against a hostname. This behavior can be reverted through the `--security-revert` command-line option.\n\nMore details will be available at [CVE-2021-44531](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44531) after publication.\n\n#### Certificate Verification Bypass via String Injection (Medium)(CVE-2021-44532)\n\nNode.js converts SANs (Subject Alternative Names) to a string format. It uses this string to check peer certificates against hostnames when validating connections. The string format was subject to an injection vulnerability when name constraints were used within a certificate chain, allowing the bypass of these name constraints.\n\nVersions of Node.js with the fix for this escape SANs containing the problematic characters in order to prevent the injection. This behavior can be reverted through the `--security-revert` command-line option.\n\nMore details will be available at [CVE-2021-44532](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44532) after publication.\n\n#### Incorrect handling of certificate subject and issuer fields (Medium)(CVE-2021-44533)\n\nNode.js did not handle multi-value Relative Distinguished Names correctly. Attackers could craft certificate subjects containing a single-value Relative Distinguished Name that would be interpreted as a multi-value Relative Distinguished Name, for example, in order to inject a Common Name that would allow bypassing the certificate subject verification.\n\nAffected versions of Node.js do not accept multi-value Relative Distinguished Names and are thus not vulnerable to such attacks themselves. However, third-party code that uses node's ambiguous presentation of certificate subjects may be vulnerable.\n\nMore details will be available at [CVE-2021-44533](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44533) after publication.\n\n#### Prototype pollution via `console.table` properties (Low)(CVE-2022-21824)\n\nDue to the formatting logic of the `console.table()` function it was not safe to allow user controlled input to be passed to the `properties` parameter while simultaneously passing a plain object with at least one property as the first parameter, which could be `__proto__`. The prototype pollution has very limited control, in that it only allows an empty string to be assigned numerical keys of the object prototype.\n\nVersions of Node.js with the fix for this use a null protoype for the object these properties are being assigned to.\n\nMore details will be available at [CVE-2022-21824](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21824) after publication.\n\nThanks to Patrik Oldsberg (rugvip) for reporting this vulnerability.\n\n## 2021-12-16, Version 12.22.8 'Erbium' (LTS), @richardlau\n\n### Notable Changes\n\nThis release contains a c-ares update to fix a regression introduced in\nNode.js 12.22.5 resolving CNAME records containing underscores\n[#39780](https://github.com/nodejs/node/issues/39780).\n\nRoot certificates have been updated to those from Mozilla's Network\nSecurity Services 3.71 [#40281](https://github.com/nodejs/node/pull/40280).\n",
+    "packages": [
+      {
+        "name": "c-ares",
+        "epoch": "0",
+        "version": "1.17.2",
+        "release": "1.module_f35+12821+0ca3efb5",
+        "arch": "src",
+        "filename": "c-ares-1.17.2-1.module_f35+12821+0ca3efb5.src.rpm"
+      },
+      {
+        "name": "c-ares",
+        "epoch": "0",
+        "version": "1.17.2",
+        "release": "1.module_f35+12821+0ca3efb5",
+        "arch": "x86_64",
+        "filename": "c-ares-1.17.2-1.module_f35+12821+0ca3efb5.x86_64.rpm"
+      },
+      {
+        "name": "c-ares-debuginfo",
+        "epoch": "0",
+        "version": "1.17.2",
+        "release": "1.module_f35+12821+0ca3efb5",
+        "arch": "x86_64",
+        "filename": "c-ares-debuginfo-1.17.2-1.module_f35+12821+0ca3efb5.x86_64.rpm"
+      },
+      {
+        "name": "c-ares-debugsource",
+        "epoch": "0",
+        "version": "1.17.2",
+        "release": "1.module_f35+12821+0ca3efb5",
+        "arch": "x86_64",
+        "filename": "c-ares-debugsource-1.17.2-1.module_f35+12821+0ca3efb5.x86_64.rpm"
+      },
+      {
+        "name": "c-ares-devel",
+        "epoch": "0",
+        "version": "1.17.2",
+        "release": "1.module_f35+12821+0ca3efb5",
+        "arch": "x86_64",
+        "filename": "c-ares-devel-1.17.2-1.module_f35+12821+0ca3efb5.x86_64.rpm"
+      },
+      {
+        "name": "libnghttp2",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libnghttp2-1.46.0-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libnghttp2-debuginfo",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libnghttp2-debuginfo-1.46.0-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libnghttp2-devel",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libnghttp2-devel-1.46.0-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libuv",
+        "epoch": "1",
+        "version": "1.43.0",
+        "release": "2.module_f35+13659+5e1a357e",
+        "arch": "src",
+        "filename": "libuv-1.43.0-2.module_f35+13659+5e1a357e.src.rpm"
+      },
+      {
+        "name": "libuv",
+        "epoch": "1",
+        "version": "1.43.0",
+        "release": "2.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libuv-1.43.0-2.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libuv-debuginfo",
+        "epoch": "1",
+        "version": "1.43.0",
+        "release": "2.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libuv-debuginfo-1.43.0-2.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libuv-debugsource",
+        "epoch": "1",
+        "version": "1.43.0",
+        "release": "2.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libuv-debugsource-1.43.0-2.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libuv-devel",
+        "epoch": "1",
+        "version": "1.43.0",
+        "release": "2.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libuv-devel-1.43.0-2.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "libuv-static",
+        "epoch": "1",
+        "version": "1.43.0",
+        "release": "2.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "libuv-static-1.43.0-2.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nghttp2",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "src",
+        "filename": "nghttp2-1.46.0-1.module_f35+13659+5e1a357e.src.rpm"
+      },
+      {
+        "name": "nghttp2",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nghttp2-1.46.0-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nghttp2-debuginfo",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nghttp2-debuginfo-1.46.0-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nghttp2-debugsource",
+        "epoch": "0",
+        "version": "1.46.0",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nghttp2-debugsource-1.46.0-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "src",
+        "filename": "nodejs-12.22.9-1.module_f35+13659+5e1a357e.src.rpm"
+      },
+      {
+        "name": "nodejs",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs-debuginfo",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-debuginfo-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs-debugsource",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-debugsource-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs-devel",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-devel-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs-docs",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "noarch",
+        "filename": "nodejs-docs-12.22.9-1.module_f35+13659+5e1a357e.noarch.rpm"
+      },
+      {
+        "name": "nodejs-full-i18n",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-full-i18n-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs-libs",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-libs-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "nodejs-libs-debuginfo",
+        "epoch": "1",
+        "version": "12.22.9",
+        "release": "1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "nodejs-libs-debuginfo-12.22.9-1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "npm",
+        "epoch": "1",
+        "version": "6.14.15",
+        "release": "1.12.22.9.1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "npm-6.14.15-1.12.22.9.1.module_f35+13659+5e1a357e.x86_64.rpm"
+      },
+      {
+        "name": "v8-devel",
+        "epoch": "2",
+        "version": "7.8.279.23",
+        "release": "1.12.22.9.1.module_f35+13659+5e1a357e",
+        "arch": "x86_64",
+        "filename": "v8-devel-7.8.279.23-1.12.22.9.1.module_f35+13659+5e1a357e.x86_64.rpm"
+      }
+    ],
+    "module": {
+      "stream": "12",
+      "name": "nodejs",
+      "version": 3520220113124632,
+      "arch": "x86_64",
+      "context": "f27b74a8"
+    },
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040839",
+        "id": "2040839",
+        "title": "CVE-2021-44531 nodejs: Improper handling of URI Subject Alternative Names",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040842",
+        "id": "2040842",
+        "title": "CVE-2021-44531 nodejs:12/nodejs: Improper handling of URI Subject Alternative Names [fedora-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040846",
+        "id": "2040846",
+        "title": "CVE-2021-44532 nodejs: Certificate Verification Bypass via String Injection",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040847",
+        "id": "2040847",
+        "title": "CVE-2021-44532 nodejs:12/nodejs: Certificate Verification Bypass via String Injection [fedora-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040856",
+        "id": "2040856",
+        "title": "CVE-2021-44533 nodejs: Incorrect handling of certificate subject and issuer fields",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040858",
+        "id": "2040858",
+        "title": "CVE-2021-44533 nodejs:12/nodejs: Incorrect handling of certificate subject and issuer fields [fedora-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040862",
+        "id": "2040862",
+        "title": "CVE-2022-21824 nodejs: Prototype pollution via console.table properties",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040864",
+        "id": "2040864",
+        "title": "CVE-2022-21824 nodejs:12/nodejs: Prototype pollution via console.table properties [fedora-all]",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2022-21824",
+      "CVE-2021-44531",
+      "CVE-2021-44532",
+      "CVE-2021-44533"
+    ]
+  }

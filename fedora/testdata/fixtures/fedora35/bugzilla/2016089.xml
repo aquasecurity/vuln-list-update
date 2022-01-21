@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>2016089</bug_id>
+          <alias>CVE-2021-2478</alias>
+          <creation_ts>2021-10-20 18:38:31 +0000</creation_ts>
+          <short_desc>CVE-2021-2478 mysql: Server: DML unspecified vulnerability (CPU Oct 2021)</short_desc>
+          <delta_ts>2021-10-28 20:32:33 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>3</classification_id>
+          <classification>Other</classification>
+          <product>Security Response</product>
+          <component>vulnerability</component>
+          <version>unspecified</version>
+          <rep_platform>All</rep_platform>
+          <op_sys>Linux</op_sys>
+          <bug_status>NEW</bug_status>
+          <resolution/>
+          
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>Security</keywords>
+          <priority>medium</priority>
+          <bug_severity>medium</bug_severity>
+          <target_milestone>---</target_milestone>
+          <dependson>2018324</dependson>
+    
+    
+    <dependson>2018325</dependson>
+    
+    
+    <dependson>2018326</dependson>
+    
+    
+    <dependson>2016141</dependson>
+    
+    
+    <dependson>2016142</dependson>
+          <blocked>2016154</blocked>
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Guilherme de Almeida Suckevicz">gsuckevi</reporter>
+          <assigned_to name="Red Hat Product Security">security-response-team</assigned_to>
+          <cc>damien.ciabrini</cc>
+    
+    
+    <cc>databases-maint</cc>
+    
+    
+    <cc>dbecker</cc>
+    
+    
+    <cc>dciabrin</cc>
+    
+    
+    <cc>hhorak</cc>
+    
+    
+    <cc>jjoyce</cc>
+    
+    
+    <cc>jorton</cc>
+    
+    
+    <cc>jschluet</cc>
+    
+    
+    <cc>lhh</cc>
+    
+    
+    <cc>ljavorsk</cc>
+    
+    
+    <cc>lpeer</cc>
+    
+    
+    <cc>mbayer</cc>
+    
+    
+    <cc>mburns</cc>
+    
+    
+    <cc>mkocka</cc>
+    
+    
+    <cc>mmuzila</cc>
+    
+    
+    <cc>mschorm</cc>
+    
+    
+    <cc>sclewis</cc>
+    
+    
+    <cc>slinaber</cc>
+    
+    
+    <cc>SpikeFedora</cc>
+          
+          
+          
+          <cf_fixed_in>mysql 8.0.27</cf_fixed_in>
+          <cf_doc_type>If docs needed, set a value</cf_doc_type>
+          <cf_release_notes/>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>15604558</commentid>
+    <comment_count>0</comment_count>
+    <who name="Guilherme de Almeida Suckevicz">gsuckevi</who>
+    <bug_when>2021-10-20 18:38:31 +0000</bug_when>
+    <thetext>Vulnerability in the MySQL Server product of Oracle MySQL (component: Server: DML). Supported versions that are affected are 8.0.26 and prior. Easily exploitable vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server. Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server.
+
+External References:
+
+http://www.oracle.com/security-alerts/cpuoct2021.html#AppendixMSQL</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15604667</commentid>
+    <comment_count>1</comment_count>
+    <who name="Guilherme de Almeida Suckevicz">gsuckevi</who>
+    <bug_when>2021-10-20 18:52:11 +0000</bug_when>
+    <thetext>Created community-mysql tracking bugs for this issue:
+
+Affects: fedora-all [bug 2016141]
+
+
+Created mysql:8.0/community-mysql tracking bugs for this issue:
+
+Affects: fedora-all [bug 2016142]</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

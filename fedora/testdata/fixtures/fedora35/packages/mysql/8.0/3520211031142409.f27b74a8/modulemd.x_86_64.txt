@@ -1,0 +1,72 @@
+---
+document: modulemd
+version: 2
+data:
+  name: mysql
+  stream: "8.0"
+  version: 3520211031142409
+  context: f27b74a8
+  arch: x86_64
+  summary: MySQL Module
+  description: >-
+    MySQL is a multi-user, multi-threaded SQL database server. MySQL is a client/server
+    implementation consisting of a server daemon (mysqld) and many different client
+    programs and libraries. The base package contains the standard MySQL client programs
+    and generic MySQL files.
+  license:
+    module:
+    - MIT
+    content:
+    - GPLv2 with exceptions and LGPLv2 and BSD
+  xmd: {}
+  dependencies:
+  - buildrequires:
+      platform: [f35]
+    requires:
+      platform: [f35]
+  profiles:
+    client:
+      description: Client.
+      rpms:
+      - community-mysql
+    devel:
+      description: Devel package.
+      rpms:
+      - community-mysql-devel
+    server:
+      description: Base server.
+      rpms:
+      - community-mysql-server
+  api:
+    rpms:
+    - community-mysql
+    - community-mysql-server
+  buildopts:
+    rpms:
+      macros: >
+        %runselftest 0
+
+        %check_testsuite 1
+  components:
+    rpms:
+      community-mysql:
+        rationale: The main component.
+        ref: 81249e56
+        arches: [aarch64, armv7hl, i686, ppc64le, s390x, x86_64]
+  artifacts:
+    rpms:
+    - community-mysql-0:8.0.27-1.module_f35+13269+c9322734.src
+    - community-mysql-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-common-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-debuginfo-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-debugsource-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-devel-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-devel-debuginfo-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-errmsg-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-libs-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-libs-debuginfo-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-server-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-server-debuginfo-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-test-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+    - community-mysql-test-debuginfo-0:8.0.27-1.module_f35+13269+c9322734.x86_64
+...

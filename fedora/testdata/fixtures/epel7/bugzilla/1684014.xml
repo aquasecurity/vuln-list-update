@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>1684014</bug_id>
+          
+          <creation_ts>2019-02-28 09:35:12 +0000</creation_ts>
+          <short_desc>matio: CVE-2019-02-9027 matio: heap-based buffer overflow in function ReadNextCell() in mat5.c [epel-all]</short_desc>
+          <delta_ts>2020-08-11 00:29:30 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>2</classification_id>
+          <classification>Fedora</classification>
+          <product>Fedora EPEL</product>
+          <component>matio</component>
+          <version>epel7</version>
+          <rep_platform>Unspecified</rep_platform>
+          <op_sys>Unspecified</op_sys>
+          <bug_status>CLOSED</bug_status>
+          <resolution>ERRATA</resolution>
+          
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>Security, SecurityTracking</keywords>
+          <priority>low</priority>
+          <bug_severity>low</bug_severity>
+          <target_milestone>---</target_milestone>
+          
+          <blocked>1684012</blocked>
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Dhananjay Arunesh">darunesh</reporter>
+          <assigned_to name="Christian Dersch">lupinix.fedora</assigned_to>
+          <cc>c.david86</cc>
+    
+    
+    <cc>kwizart</cc>
+    
+    
+    <cc>lupinix.fedora</cc>
+          
+          <qa_contact name="Fedora Extras Quality Assurance">extras-qa</qa_contact>
+          
+          <cf_fixed_in>matio-1.5.17-3.el7</cf_fixed_in>
+          <cf_doc_type>No Doc Update</cf_doc_type>
+          <cf_release_notes/>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          <cf_last_closed>2020-08-11 00:29:30</cf_last_closed>
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>12500314</commentid>
+    <comment_count>0</comment_count>
+    <who name="Dhananjay Arunesh">darunesh</who>
+    <bug_when>2019-02-28 09:35:12 +0000</bug_when>
+    <thetext>
+This is an automatically created tracking bug!  It was created to ensure
+that one or more security vulnerabilities are fixed in affected versions
+of epel-all.
+
+For comments that are specific to the vulnerability please use bugs filed
+against the "Security Response" product referenced in the "Blocks" field.
+
+For more information see:
+http://fedoraproject.org/wiki/Security/TrackingBugs
+
+When submitting as an update, use the fedpkg template provided in the next
+comment(s).  This will include the bug IDs of this tracking bug as well as
+the relevant top-level CVE bugs.
+
+Please also mention the CVE IDs being fixed in the RPM changelog and the
+fedpkg commit message.
+
+NOTE: this issue affects multiple supported versions of Fedora EPEL. While
+only one tracking bug has been filed, please correct all affected versions
+at the same time.  If you need to fix the versions independent of each
+other, you may clone this bug as appropriate.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>12500316</commentid>
+    <comment_count>1</comment_count>
+    <who name="Dhananjay Arunesh">darunesh</who>
+    <bug_when>2019-02-28 09:35:13 +0000</bug_when>
+    <thetext>Use the following template to for the 'fedpkg update' request to submit an
+update for this issue as it contains the top-level parent bug(s) as well as
+this tracking bug.  This will ensure that all associated bugs get updated
+when new packages are pushed to stable.
+
+=====
+
+# bugfix, security, enhancement, newpackage (required)
+type=security
+
+# low, medium, high, urgent (required)
+severity=low
+
+# testing, stable
+request=testing
+
+# Bug numbers: 1234,9876
+bugs=1684012,1684014
+
+# Description of your update
+notes=Security fix for [PUT CVEs HERE]
+
+# Enable request automation based on the stable/unstable karma thresholds
+autokarma=True
+stable_karma=3
+unstable_karma=-3
+
+# Automatically close bugs when this marked as stable
+close_bugs=True
+
+# Suggest that users restart after update
+suggest_reboot=False
+
+======
+
+Additionally, you may opt to use the bodhi web interface to submit updates:
+
+https://bodhi.fedoraproject.org/updates/new</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14119686</commentid>
+    <comment_count>2</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2020-07-17 19:03:21 +0000</bug_when>
+    <thetext>FEDORA-EPEL-2020-2c80eb66b5 has been submitted as an update to Fedora EPEL 7. https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2020-2c80eb66b5</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14120064</commentid>
+    <comment_count>3</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2020-07-18 00:23:34 +0000</bug_when>
+    <thetext>FEDORA-EPEL-2020-2c80eb66b5 has been pushed to the Fedora EPEL 7 testing repository.
+
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2020-2c80eb66b5
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14122322</commentid>
+    <comment_count>4</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2020-07-20 10:53:37 +0000</bug_when>
+    <thetext>FEDORA-EPEL-2020-2c80eb66b5 has been submitted as an update to Fedora EPEL 7. https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2020-2c80eb66b5</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14124825</commentid>
+    <comment_count>5</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2020-07-21 00:42:21 +0000</bug_when>
+    <thetext>FEDORA-EPEL-2020-2c80eb66b5 has been pushed to the Fedora EPEL 7 testing repository.
+
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2020-2c80eb66b5
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14193173</commentid>
+    <comment_count>6</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2020-08-11 00:29:30 +0000</bug_when>
+    <thetext>FEDORA-EPEL-2020-2c80eb66b5 has been pushed to the Fedora EPEL 7 stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

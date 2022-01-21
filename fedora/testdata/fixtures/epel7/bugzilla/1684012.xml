@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>1684012</bug_id>
+          <alias>CVE-2019-9027</alias>
+          <creation_ts>2019-02-28 09:34:35 +0000</creation_ts>
+          <short_desc>CVE-2019-9027 matio: heap-based buffer overflow in function ReadNextCell() in mat5.c</short_desc>
+          <delta_ts>2019-11-28 13:39:35 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>3</classification_id>
+          <classification>Other</classification>
+          <product>Security Response</product>
+          <component>vulnerability</component>
+          <version>unspecified</version>
+          <rep_platform>All</rep_platform>
+          <op_sys>Linux</op_sys>
+          <bug_status>CLOSED</bug_status>
+          <resolution>UPSTREAM</resolution>
+          
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>Security</keywords>
+          <priority>low</priority>
+          <bug_severity>low</bug_severity>
+          <target_milestone>---</target_milestone>
+          <dependson>1684013</dependson>
+    
+    
+    <dependson>1684014</dependson>
+          
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Dhananjay Arunesh">darunesh</reporter>
+          <assigned_to name="Red Hat Product Security">security-response-team</assigned_to>
+          <cc>c.david86</cc>
+    
+    
+    <cc>kwizart</cc>
+    
+    
+    <cc>lupinix.fedora</cc>
+          
+          
+          
+          <cf_fixed_in/>
+          <cf_doc_type>If docs needed, set a value</cf_doc_type>
+          <cf_release_notes/>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          <cf_last_closed>2019-06-10 10:49:24</cf_last_closed>
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>12500308</commentid>
+    <comment_count>0</comment_count>
+    <who name="Dhananjay Arunesh">darunesh</who>
+    <bug_when>2019-02-28 09:34:35 +0000</bug_when>
+    <thetext>An issue was discovered in libmatio.a in matio (aka MAT File I/O Library) 1.5.13. There is a heap-based buffer overflow problem in the function ReadNextCell() in mat5.c. 
+
+References:
+https://github.com/tbeu/matio/issues/103
+https://github.com/TeamSeri0us/pocs/tree/master/matio</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>12500313</commentid>
+    <comment_count>1</comment_count>
+    <who name="Dhananjay Arunesh">darunesh</who>
+    <bug_when>2019-02-28 09:34:56 +0000</bug_when>
+    <thetext>Created matio tracking bugs for this issue:
+
+Affects: fedora-all [bug 1684013]</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>12500317</commentid>
+    <comment_count>2</comment_count>
+    <who name="Dhananjay Arunesh">darunesh</who>
+    <bug_when>2019-02-28 09:35:18 +0000</bug_when>
+    <thetext>Created matio tracking bugs for this issue:
+
+Affects: epel-all [bug 1684014]</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>12825865</commentid>
+    <comment_count>3</comment_count>
+    <who name="Product Security DevOps Team">prodsec-dev</who>
+    <bug_when>2019-06-10 10:49:24 +0000</bug_when>
+    <thetext>This CVE Bugzilla entry is for community support informational purposes only as it does not affect a package in a commercially supported Red Hat product. Refer to the dependent bugs for status of those individual community products.</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

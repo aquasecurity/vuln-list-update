@@ -1,0 +1,244 @@
+{
+    "id": "FEDORA-EPEL-2020-2c80eb66b5",
+    "title": "libASL-0.1.7-6.el7 matio-1.5.17-3.el7 openmeeg-2.4-0.4.rc4.el7",
+    "type": "security",
+    "issued": {
+      "date": "2020-08-11 00:29:02"
+    },
+    "updated": {
+      "date": "2020-07-20 10:53:15"
+    },
+    "severity": "Low",
+    "description": "Update to 1.5.17 fixing several CVEs (see bugs), rebuilt depending packages libASL and openmeeg (soversion bump)\n",
+    "packages": [
+      {
+        "name": "libASL",
+        "epoch": "0",
+        "version": "0.1.7",
+        "release": "6.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/l/libASL-0.1.7-6.el7.x86_64.rpm",
+        "filename": "libASL-0.1.7-6.el7.x86_64.rpm"
+      },
+      {
+        "name": "libASL-bin",
+        "epoch": "0",
+        "version": "0.1.7",
+        "release": "6.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/l/libASL-bin-0.1.7-6.el7.x86_64.rpm",
+        "filename": "libASL-bin-0.1.7-6.el7.x86_64.rpm"
+      },
+      {
+        "name": "libASL-devel",
+        "epoch": "0",
+        "version": "0.1.7",
+        "release": "6.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/l/libASL-devel-0.1.7-6.el7.x86_64.rpm",
+        "filename": "libASL-devel-0.1.7-6.el7.x86_64.rpm"
+      },
+      {
+        "name": "libASL-doc",
+        "epoch": "0",
+        "version": "0.1.7",
+        "release": "6.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/l/libASL-doc-0.1.7-6.el7.x86_64.rpm",
+        "filename": "libASL-doc-0.1.7-6.el7.x86_64.rpm"
+      },
+      {
+        "name": "libASL-examples",
+        "epoch": "0",
+        "version": "0.1.7",
+        "release": "6.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/l/libASL-examples-0.1.7-6.el7.x86_64.rpm",
+        "filename": "libASL-examples-0.1.7-6.el7.x86_64.rpm"
+      },
+      {
+        "name": "libASL-debuginfo",
+        "epoch": "0",
+        "version": "0.1.7",
+        "release": "6.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/l/libASL-debuginfo-0.1.7-6.el7.x86_64.rpm",
+        "filename": "libASL-debuginfo-0.1.7-6.el7.x86_64.rpm"
+      },
+      {
+        "name": "matio",
+        "epoch": "0",
+        "version": "1.5.17",
+        "release": "3.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/m/matio-1.5.17-3.el7.x86_64.rpm",
+        "filename": "matio-1.5.17-3.el7.x86_64.rpm"
+      },
+      {
+        "name": "matio-devel",
+        "epoch": "0",
+        "version": "1.5.17",
+        "release": "3.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/m/matio-devel-1.5.17-3.el7.x86_64.rpm",
+        "filename": "matio-devel-1.5.17-3.el7.x86_64.rpm"
+      },
+      {
+        "name": "matio-debuginfo",
+        "epoch": "0",
+        "version": "1.5.17",
+        "release": "3.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/m/matio-debuginfo-1.5.17-3.el7.x86_64.rpm",
+        "filename": "matio-debuginfo-1.5.17-3.el7.x86_64.rpm"
+      },
+      {
+        "name": "openmeeg",
+        "epoch": "0",
+        "version": "2.4",
+        "release": "0.4.rc4.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/o/openmeeg-2.4-0.4.rc4.el7.x86_64.rpm",
+        "filename": "openmeeg-2.4-0.4.rc4.el7.x86_64.rpm"
+      },
+      {
+        "name": "openmeeg-devel",
+        "epoch": "0",
+        "version": "2.4",
+        "release": "0.4.rc4.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/o/openmeeg-devel-2.4-0.4.rc4.el7.x86_64.rpm",
+        "filename": "openmeeg-devel-2.4-0.4.rc4.el7.x86_64.rpm"
+      },
+      {
+        "name": "python2-openmeeg",
+        "epoch": "0",
+        "version": "2.4",
+        "release": "0.4.rc4.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/p/python2-openmeeg-2.4-0.4.rc4.el7.x86_64.rpm",
+        "filename": "python2-openmeeg-2.4-0.4.rc4.el7.x86_64.rpm"
+      },
+      {
+        "name": "openmeeg-doc",
+        "epoch": "0",
+        "version": "2.4",
+        "release": "0.4.rc4.el7",
+        "arch": "noarch",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/i386/o/openmeeg-doc-2.4-0.4.rc4.el7.noarch.rpm",
+        "filename": "openmeeg-doc-2.4-0.4.rc4.el7.noarch.rpm"
+      },
+      {
+        "name": "openmeeg-debuginfo",
+        "epoch": "0",
+        "version": "2.4",
+        "release": "0.4.rc4.el7",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/7/x86_64/o/openmeeg-debuginfo-2.4-0.4.rc4.el7.x86_64.rpm",
+        "filename": "openmeeg-debuginfo-2.4-0.4.rc4.el7.x86_64.rpm"
+      }
+    ],
+    "module": {},
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683942",
+        "id": "1683942",
+        "title": "CVE-2019-9033 matio: stack-based buffer over-read in function ReadNextCell() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683947",
+        "id": "1683947",
+        "title": "CVE-2019-9034 matio: stack-based buffer over-read for a memcpy in function ReadNextCell() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683986",
+        "id": "1683986",
+        "title": "CVE-2019-9035 matio: stack-based buffer over-read in function ReadNextStructField() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683990",
+        "id": "1683990",
+        "title": "CVE-2019-9036 matio: heap-based buffer overflow in function ReadNextFunctionHandle() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683993",
+        "id": "1683993",
+        "title": "CVE-2019-9037 matio: buffer over-read in function Mat_VarPrint() in mat.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684002",
+        "id": "1684002",
+        "title": "CVE-2019-9038 matio: out-of-bounds read with SEGV in function ReadNextCell() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684009",
+        "id": "1684009",
+        "title": "CVE-2019-9026 matio: heap-based buffer overflow in function InflateVarName() in inflate.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684014",
+        "id": "1684014",
+        "title": "matio: CVE-2019-02-9027 matio: heap-based buffer overflow in function ReadNextCell() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684017",
+        "id": "1684017",
+        "title": "CVE-2019-9028 matio: stack-based buffer over-read in the function InflateDimensions() in inflate.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684020",
+        "id": "1684020",
+        "title": "CVE-2019-9029 matio: out-of-bounds read with SEGV in function Mat_VarReadNextInfo5() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684025",
+        "id": "1684025",
+        "title": "CVE-2019-9030 matio: stack-based buffer over-read in Mat_VarReadNextInfo5() in mat5.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684041",
+        "id": "1684041",
+        "title": "CVE-2019-9032 matio: out-of-bounds write in function Mat_VarFree() in mat.c resulting in SEGV [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1685379",
+        "id": "1685379",
+        "title": "CVE-2019-9031 matio: null pointer dereference in function Mat_VarFree() in mat.c [epel-all]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1728478",
+        "id": "1728478",
+        "title": "CVE-2019-13107 matio: multiple interger overflow in mat.c, mat4.c, mat5.c, mat73.c and matvar_struct.c [epel-all]",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2019-13107",
+      "CVE-2019-9026",
+      "CVE-2019-9027",
+      "CVE-2019-9028",
+      "CVE-2019-9029",
+      "CVE-2019-9030",
+      "CVE-2019-9031",
+      "CVE-2019-9032",
+      "CVE-2019-9033",
+      "CVE-2019-9034",
+      "CVE-2019-9035",
+      "CVE-2019-9036",
+      "CVE-2019-9037",
+      "CVE-2019-9038"      
+    ]
+  }
