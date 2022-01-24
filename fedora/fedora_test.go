@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"sort"
 	"testing"
 
 	"github.com/aquasecurity/vuln-list-update/fedora"
@@ -18,11 +19,11 @@ import (
 
 func Test_Update(t *testing.T) {
 	type args struct {
-		mode         string
-		uinfoURLPath string
-		release      []string
-		repos        []string
-		arches       []string
+		mode    string
+		urlPath map[string]string
+		release []string
+		repos   []string
+		arches  []string
 	}
 	tests := []struct {
 		name          string
@@ -34,11 +35,11 @@ func Test_Update(t *testing.T) {
 			name:    "fedora 35",
 			rootDir: "testdata/fixtures/fedora35",
 			args: args{
-				mode:         "fedora",
-				uinfoURLPath: "/pub/fedora/linux/updates/%s/%s/%s/",
-				release:      []string{"35"},
-				repos:        []string{"Everything", "Modular"},
-				arches:       []string{"x86_64"},
+				mode:    "fedora",
+				urlPath: map[string]string{"fedora": "/pub/fedora/linux/updates/%s/%s/%s/"},
+				release: []string{"35"},
+				repos:   []string{"Everything", "Modular"},
+				arches:  []string{"x86_64"},
 			},
 			expectedError: nil,
 		},
@@ -46,11 +47,11 @@ func Test_Update(t *testing.T) {
 			name:    "epel 7",
 			rootDir: "testdata/fixtures/epel7",
 			args: args{
-				mode:         "epel",
-				uinfoURLPath: "/pub/epel/%s/%s/",
-				release:      []string{"7"},
-				repos:        []string{},
-				arches:       []string{"x86_64"},
+				mode:    "epel",
+				urlPath: map[string]string{"epel7": "/pub/epel/%s/%s/"},
+				release: []string{"7"},
+				repos:   []string{},
+				arches:  []string{"x86_64"},
 			},
 			expectedError: nil,
 		},
@@ -58,11 +59,11 @@ func Test_Update(t *testing.T) {
 			name:    "epel 8",
 			rootDir: "testdata/fixtures/epel8",
 			args: args{
-				mode:         "epel",
-				uinfoURLPath: "/pub/epel/%s/%s/%s/",
-				release:      []string{"8"},
-				repos:        []string{"Everything"},
-				arches:       []string{"x86_64"},
+				mode:    "epel",
+				urlPath: map[string]string{"epel": "/pub/epel/%s/%s/%s/"},
+				release: []string{"8"},
+				repos:   []string{"Everything"},
+				arches:  []string{"x86_64"},
 			},
 			expectedError: nil,
 		},
@@ -82,15 +83,24 @@ func Test_Update(t *testing.T) {
 			tsServerURL := httptest.NewServer(mux)
 			defer tsServerURL.Close()
 
+			url := map[string]string{}
+			for key, path := range tt.args.urlPath {
+				url[key] = tsServerURL.URL + path
+			}
+			url["bugzilla"] = tsServerURL.URL + "/show_bug.cgi?ctype=xml&id=%s"
+			url["moduleinfo"] = tsServerURL.URL + "/packages/%s/%s/%d.%s/files/module/modulemd.%s.txt"
+
 			dir := t.TempDir()
-			fd := fedora.NewConfig(fedora.With(map[string]string{tt.args.mode: tsServerURL.URL + tt.args.uinfoURLPath, "bugzilla": tsServerURL.URL + "/show_bug.cgi?ctype=xml&id=%s", "moduleinfo": tsServerURL.URL + "/packages/%s/%s/%d.%s/files/module/modulemd.%s.txt"}, dir, 1, 0, 0, map[string][]string{tt.args.mode: tt.args.release}, tt.args.repos, tt.args.arches))
-			if err := fd.Update(); tt.expectedError != nil {
+			fd := fedora.NewConfig(fedora.With(url, dir, 1, 0, 0, map[string][]string{tt.args.mode: tt.args.release}, tt.args.repos, tt.args.arches))
+			err := fd.Update()
+			if tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())
 				return
 			}
+			assert.NoError(t, err)
 
-			err := filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
+			err = filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
 				if errfp != nil {
 					return errfp
 				}
@@ -104,12 +114,14 @@ func Test_Update(t *testing.T) {
 				var want fedora.FSA
 				err = json.Unmarshal(b, &want)
 				assert.NoError(t, err, "failed to unmarshal json")
+				sort.Slice(want.CveIDs, func(i, j int) bool { return want.CveIDs[i] < want.CveIDs[j] })
 
 				b, err = os.ReadFile(path)
 				assert.NoError(t, err, "failed to open the result file")
 				var got fedora.FSA
 				err = json.Unmarshal(b, &got)
 				assert.NoError(t, err, "failed to unmarshal json")
+				sort.Slice(got.CveIDs, func(i, j int) bool { return got.CveIDs[i] < got.CveIDs[j] })
 
 				if !reflect.DeepEqual(got, want) {
 					t.Errorf("[%s]\n diff: %s", tt.name, pretty.Compare(got, want))

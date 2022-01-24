@@ -141,104 +141,13 @@
     "module": {},
     "references": [
       {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683942",
-        "id": "1683942",
-        "title": "CVE-2019-9033 matio: stack-based buffer over-read in function ReadNextCell() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683947",
-        "id": "1683947",
-        "title": "CVE-2019-9034 matio: stack-based buffer over-read for a memcpy in function ReadNextCell() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683986",
-        "id": "1683986",
-        "title": "CVE-2019-9035 matio: stack-based buffer over-read in function ReadNextStructField() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683990",
-        "id": "1683990",
-        "title": "CVE-2019-9036 matio: heap-based buffer overflow in function ReadNextFunctionHandle() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1683993",
-        "id": "1683993",
-        "title": "CVE-2019-9037 matio: buffer over-read in function Mat_VarPrint() in mat.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684002",
-        "id": "1684002",
-        "title": "CVE-2019-9038 matio: out-of-bounds read with SEGV in function ReadNextCell() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684009",
-        "id": "1684009",
-        "title": "CVE-2019-9026 matio: heap-based buffer overflow in function InflateVarName() in inflate.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
         "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684014",
         "id": "1684014",
         "title": "matio: CVE-2019-02-9027 matio: heap-based buffer overflow in function ReadNextCell() in mat5.c [epel-all]",
         "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684017",
-        "id": "1684017",
-        "title": "CVE-2019-9028 matio: stack-based buffer over-read in the function InflateDimensions() in inflate.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684020",
-        "id": "1684020",
-        "title": "CVE-2019-9029 matio: out-of-bounds read with SEGV in function Mat_VarReadNextInfo5() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684025",
-        "id": "1684025",
-        "title": "CVE-2019-9030 matio: stack-based buffer over-read in Mat_VarReadNextInfo5() in mat5.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1684041",
-        "id": "1684041",
-        "title": "CVE-2019-9032 matio: out-of-bounds write in function Mat_VarFree() in mat.c resulting in SEGV [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1685379",
-        "id": "1685379",
-        "title": "CVE-2019-9031 matio: null pointer dereference in function Mat_VarFree() in mat.c [epel-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1728478",
-        "id": "1728478",
-        "title": "CVE-2019-13107 matio: multiple interger overflow in mat.c, mat4.c, mat5.c, mat73.c and matvar_struct.c [epel-all]",
-        "type": "bugzilla"
       }
     ],
     "cveids": [
-      "CVE-2019-13107",
-      "CVE-2019-9026",
-      "CVE-2019-9027",
-      "CVE-2019-9028",
-      "CVE-2019-9029",
-      "CVE-2019-9030",
-      "CVE-2019-9031",
-      "CVE-2019-9032",
-      "CVE-2019-9033",
-      "CVE-2019-9034",
-      "CVE-2019-9035",
-      "CVE-2019-9036",
-      "CVE-2019-9037",
-      "CVE-2019-9038"      
+      "CVE-2019-9027"
     ]
   }

@@ -275,36 +275,10 @@
         "id": "2040847",
         "title": "CVE-2021-44532 nodejs:12/nodejs: Certificate Verification Bypass via String Injection [fedora-all]",
         "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040856",
-        "id": "2040856",
-        "title": "CVE-2021-44533 nodejs: Incorrect handling of certificate subject and issuer fields",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040858",
-        "id": "2040858",
-        "title": "CVE-2021-44533 nodejs:12/nodejs: Incorrect handling of certificate subject and issuer fields [fedora-all]",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040862",
-        "id": "2040862",
-        "title": "CVE-2022-21824 nodejs: Prototype pollution via console.table properties",
-        "type": "bugzilla"
-      },
-      {
-        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2040864",
-        "id": "2040864",
-        "title": "CVE-2022-21824 nodejs:12/nodejs: Prototype pollution via console.table properties [fedora-all]",
-        "type": "bugzilla"
       }
     ],
     "cveids": [
-      "CVE-2022-21824",
       "CVE-2021-44531",
-      "CVE-2021-44532",
-      "CVE-2021-44533"
+      "CVE-2021-44532"
     ]
   }

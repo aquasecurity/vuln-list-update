@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"compress/bzip2"
+	"compress/gzip"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -277,7 +278,7 @@ func (c Config) fetchUpdateInfoEverything(baseURL, arch string) (*UpdateInfo, er
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
 
-	updateInfoPath, err := c.fetchRepomdData(u.String())
+	updateInfoPath, _, err := c.fetchRepomdData(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo path from repomd.xml: %w", err)
 	}
@@ -309,7 +310,7 @@ func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error
 	originalPath := u.Path
 	u.Path = path.Join(originalPath, "/repodata/repomd.xml")
 
-	updateInfoPath, err := c.fetchRepomdData(u.String())
+	updateInfoPath, modulesPath, err := c.fetchRepomdData(u.String())
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch updateinfo, modules path from repomd.xml: %w", err)
 	}
@@ -320,35 +321,45 @@ func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error
 		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
 	}
 
-	modules, err := c.fetchModules(uinfo, arch)
-	if err != nil {
-		return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
+	modules := map[string]ModuleInfo{}
+	if modulesPath != "" {
+		u.Path = path.Join(originalPath, modulesPath)
+		modules, err = c.fetchModulesFromYaml(u.String())
+		if err != nil {
+			return nil, xerrors.Errorf("failed to fetch updateinfo data: %w", err)
+		}
 	}
 
-	if err := extractModulesToUpdateInfo(uinfo, modules); err != nil {
+	if err := c.extractModulesToUpdateInfo(uinfo, modules, arch); err != nil {
 		return nil, xerrors.Errorf("failed to extract modules to updateinfo: %w", err)
 	}
 
 	return uinfo, nil
 }
 
-func (c Config) fetchRepomdData(repomdURL string) (string, error) {
+func (c Config) fetchRepomdData(repomdURL string) (updateInfoPath, modulesPath string, err error) {
 	res, err := utils.FetchURL(repomdURL, "", c.retry)
 	if err != nil {
-		return "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
+		return "", "", xerrors.Errorf("failed to fetch %s: %w", repomdURL, err)
 	}
 
 	var repoMd RepoMd
 	if err := xml.NewDecoder(bytes.NewBuffer(res)).Decode(&repoMd); err != nil {
-		return "", xerrors.Errorf("failed to decode repomd.xml: %w", err)
+		return "", "", xerrors.Errorf("failed to decode repomd.xml: %w", err)
 	}
 
 	for _, repo := range repoMd.RepoList {
 		if repo.Type == "updateinfo" {
-			return repo.Location.Href, nil
+			updateInfoPath = repo.Location.Href
+		}
+		if repo.Type == "modules" {
+			modulesPath = repo.Location.Href
 		}
 	}
-	return "", xerrors.New("No updateinfo field in the repomd")
+	if updateInfoPath == "" {
+		return "", "", xerrors.New("failed to find updateinfo path from repomd.xml: no updateinfo field in the repomd")
+	}
+	return updateInfoPath, modulesPath, nil
 }
 
 func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error) {
@@ -497,20 +508,26 @@ func (c Config) fetchCVEIDsfromBugzilla(bugzillaID string) ([]string, error) {
 	return cveIDs, nil
 }
 
-func (c Config) fetchModules(uinfo *UpdateInfo, arch string) (map[string]ModuleInfo, error) {
-	moduleURLs := []string{}
-	for _, advisory := range uinfo.FSAList {
-		module, err := parseModuleFromAdvisoryTitle(advisory.Title)
-		if err != nil {
-			return nil, xerrors.Errorf("failed to parse moduleinfo: %w", err)
-		}
-		moduleURLs = append(moduleURLs, fmt.Sprintf(c.urls["moduleinfo"], module.Name, module.Stream, module.Version, module.Context, arch))
-	}
-	if len(moduleURLs) == 0 {
-		return map[string]ModuleInfo{}, nil
+func (c Config) fetchModulesFromYaml(modulesURL string) (map[string]ModuleInfo, error) {
+	res, err := utils.FetchURL(modulesURL, "", c.retry)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch modules: %w", err)
 	}
 
-	log.Printf("Fetching ModuleInfo from Build System Info...")
+	r, err := gzip.NewReader(bytes.NewBuffer(res))
+	if err != nil {
+		return nil, xerrors.Errorf("failed to decompress modules: %w", err)
+	}
+
+	modules, err := parseModulemd(r)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to parse modulemd: %w", err)
+	}
+	return modules, nil
+}
+
+func (c Config) fetchModulesFromKoji(moduleURLs []string) (map[string]ModuleInfo, error) {
+	log.Printf("Fetching ModuleInfo from Fedora Build System Info...")
 	reps, err := utils.FetchConcurrently(moduleURLs, c.concurrency, c.wait, c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch moduleinfo: %w", err)
@@ -518,32 +535,102 @@ func (c Config) fetchModules(uinfo *UpdateInfo, arch string) (map[string]ModuleI
 
 	modules := map[string]ModuleInfo{}
 	for _, res := range reps {
-		scanner := bufio.NewScanner(bytes.NewReader(res))
-		var contents []string
-		for scanner.Scan() {
-			str := scanner.Text()
-			switch str {
-			case "---":
-				{
-					contents = []string{}
+		ms, err := parseModulemd(bytes.NewReader(res))
+		if err != nil {
+			return nil, xerrors.Errorf("failed to parse modulemd: %w", err)
+		}
+		for title, minfo := range ms {
+			modules[title] = minfo
+		}
+	}
+	return modules, nil
+}
+
+func parseModulemd(modulemdReader io.Reader) (map[string]ModuleInfo, error) {
+	modules := map[string]ModuleInfo{}
+	scanner := bufio.NewScanner(modulemdReader)
+	var contents []string
+	for scanner.Scan() {
+		str := scanner.Text()
+		switch str {
+		case "---":
+			{
+				contents = []string{}
+			}
+		case "...":
+			{
+				var module ModuleInfo
+				if err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module); err != nil {
+					return nil, xerrors.Errorf("failed to decode module info: %w", err)
 				}
-			case "...":
-				{
-					var module ModuleInfo
-					if err := yaml.NewDecoder(strings.NewReader(strings.Join(contents, "\n"))).Decode(&module); err != nil {
-						return nil, xerrors.Errorf("failed to decode module info: %w", err)
-					}
+				if module.Version == 2 {
 					modules[module.convertToUpdateInfoTitle()] = module
 				}
-			default:
-				{
-					contents = append(contents, str)
-				}
+			}
+		default:
+			{
+				contents = append(contents, str)
 			}
 		}
 	}
-
 	return modules, nil
+}
+
+type ModuleInfo struct {
+	Version int `yaml:"version"`
+	Data    struct {
+		Name      string `yaml:"name"`
+		Stream    string `yaml:"stream"`
+		Version   int64  `yaml:"version"`
+		Context   string `yaml:"context"`
+		Arch      string `yaml:"arch"`
+		Artifacts struct {
+			Rpms []string `yaml:"rpms"`
+		} `yaml:"artifacts"`
+	} `yaml:"data"`
+}
+
+func (m ModuleInfo) convertToUpdateInfoTitle() string {
+	return fmt.Sprintf("%s-%s-%d.%s", m.Data.Name, m.Data.Stream, m.Data.Version, m.Data.Context)
+}
+
+func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo, fetchArch string) error {
+	missingModuleIdxs := []int{}
+	missingModuleURLs := []string{}
+	for i, fsa := range uinfo.FSAList {
+		minfo, ok := modules[fsa.Title]
+		if !ok {
+			m, err := parseModuleFromAdvisoryTitle(fsa.Title)
+			if err != nil {
+				return xerrors.Errorf("failed to parse module from advisory title: %w", err)
+			}
+			missingModuleIdxs = append(missingModuleIdxs, i)
+			minfoURL := fmt.Sprintf(urlFormat["moduleinfo"], m.Name, m.Stream, m.Version, m.Context, fetchArch)
+			missingModuleURLs = append(missingModuleURLs, minfoURL)
+			continue
+		}
+		extractModuleToAdvisory(&uinfo.FSAList[i], minfo)
+	}
+
+	if len(missingModuleURLs) == 0 {
+		return nil
+	}
+
+	missingModules, err := c.fetchModulesFromKoji(missingModuleURLs)
+	if err != nil {
+		return xerrors.Errorf("failed to fetch module info from fedora buildsystem: %w", err)
+	}
+
+	for _, idx := range missingModuleIdxs {
+		minfo, ok := missingModules[uinfo.FSAList[idx].Title]
+		if !ok {
+			log.Printf("failed to get module info. title: %s\n", uinfo.FSAList[idx].Title)
+			continue
+		}
+		extractModuleToAdvisory(&uinfo.FSAList[idx], minfo)
+	}
+
+	return nil
 }
 
 func parseModuleFromAdvisoryTitle(title string) (Module, error) {
@@ -564,56 +651,32 @@ func parseModuleFromAdvisoryTitle(title string) (Module, error) {
 	}, nil
 }
 
-type ModuleInfo struct {
-	Data struct {
-		Name      string `yaml:"name"`
-		Stream    string `yaml:"stream"`
-		Version   int64  `yaml:"version"`
-		Context   string `yaml:"context"`
-		Arch      string `yaml:"arch"`
-		Artifacts struct {
-			Rpms []string `yaml:"rpms"`
-		} `yaml:"artifacts"`
-	} `yaml:"data"`
-}
-
-func (m ModuleInfo) convertToUpdateInfoTitle() string {
-	return fmt.Sprintf("%s-%s-%d.%s", m.Data.Name, m.Data.Stream, m.Data.Version, m.Data.Context)
-}
-
-func extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo) error {
-	for i, fsa := range uinfo.FSAList {
-		m, ok := modules[fsa.Title]
-		if !ok {
-			log.Printf("failed to get module info. title: %s\n", fsa.Title)
-			continue
-		}
-
-		uinfo.FSAList[i].Module = Module{
-			Stream:  m.Data.Stream,
-			Name:    m.Data.Name,
-			Version: m.Data.Version,
-			Arch:    m.Data.Arch,
-			Context: m.Data.Context,
-		}
-
-		pkgs := []Package{}
-		for _, filename := range m.Data.Artifacts.Rpms {
-			name, ver, rel, epoch, arch, err := splitFileName(filename)
-			if err != nil {
-				return xerrors.Errorf("failed to split rpm filename: %w", err)
-			}
-			pkgs = append(pkgs, Package{
-				Name:     name,
-				Epoch:    epoch,
-				Version:  ver,
-				Release:  rel,
-				Arch:     arch,
-				Filename: fmt.Sprintf("%s-%s-%s.%s.rpm", name, ver, rel, arch),
-			})
-		}
-		uinfo.FSAList[i].Packages = pkgs
+func extractModuleToAdvisory(advisory *FSA, minfo ModuleInfo) error {
+	advisory.Module = Module{
+		Stream:  minfo.Data.Stream,
+		Name:    minfo.Data.Name,
+		Version: minfo.Data.Version,
+		Arch:    minfo.Data.Arch,
+		Context: minfo.Data.Context,
 	}
+
+	pkgs := []Package{}
+	for _, filename := range minfo.Data.Artifacts.Rpms {
+		name, ver, rel, epoch, arch, err := splitFileName(filename)
+		if err != nil {
+			return xerrors.Errorf("failed to split rpm filename: %w", err)
+		}
+		pkgs = append(pkgs, Package{
+			Name:     name,
+			Epoch:    epoch,
+			Version:  ver,
+			Release:  rel,
+			Arch:     arch,
+			Filename: fmt.Sprintf("%s-%s-%s.%s.rpm", name, ver, rel, arch),
+		})
+	}
+	advisory.Packages = pkgs
+
 	return nil
 }
 
