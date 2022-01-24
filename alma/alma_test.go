@@ -54,14 +54,18 @@ func TestUpdate(t *testing.T) {
 
 			dir := t.TempDir()
 			ac := alma.NewConfig(alma.WithURLs(map[string]string{tt.version: ts.URL}), alma.WithDir(dir), alma.WithRetry(0))
-
-			if err := ac.Update(); tt.expectedError != nil {
+			err := ac.Update()
+			if tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())
 				return
 			}
+			assert.NoError(t, err)
 
-			err := filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
+			err = filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
+				if errfp != nil {
+					return errfp
+				}
 				if info.IsDir() {
 					return nil
 				}
