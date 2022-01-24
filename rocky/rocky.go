@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"log"
 	"net/url"
@@ -163,6 +164,10 @@ func (c Config) update(release, repo, arch string) error {
 	u.Path = path.Join(rootPath, "repodata/repomd.xml")
 	updateInfoPath, err := c.fetchUpdateInfoPath(u.String())
 	if err != nil {
+		if errors.Is(err, ErrorNoUpdateInfoField) && repo == "extras" {
+			log.Printf("skip extras repository because updateinfo field is not in repomd.xml: %s", err)
+			return nil
+		}
 		return xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
 	}
 	u.Path = path.Join(rootPath, updateInfoPath)
@@ -201,6 +206,8 @@ func (c Config) update(release, repo, arch string) error {
 	return nil
 }
 
+var ErrorNoUpdateInfoField = xerrors.New("no updateinfo field in the repomd")
+
 func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
 	res, err := utils.FetchURL(repomdURL, "", c.retry)
 	if err != nil {
@@ -214,14 +221,10 @@ func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, er
 
 	for _, repo := range repoMd.RepoList {
 		if repo.Type == "updateinfo" {
-			updateInfoPath = repo.Location.Href
-			break
+			return repo.Location.Href, nil
 		}
 	}
-	if updateInfoPath == "" {
-		return "", xerrors.New("no updateinfo field in the repomd")
-	}
-	return updateInfoPath, nil
+	return "", ErrorNoUpdateInfoField
 }
 
 func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
