@@ -178,20 +178,14 @@ func NewConfig(opts ...option) Config {
 func (c Config) Update() error {
 	for mode, releases := range c.releases {
 		for _, release := range releases {
-			if mode == "epel" && release == "7" {
+			for _, repo := range c.repos {
 				for _, arch := range c.arches {
-					log.Printf("Fetching Fedora Linux (%s) %s %s data...\n", mode, release, arch)
-					if err := c.update(mode, release, "", arch); err != nil {
-						return xerrors.Errorf("failed to update security advisories of Fedora Linux EPEL %s %s: %w", release, arch, err)
+					if mode == "epel" && release == "7" {
+						repo = ""
 					}
-				}
-			} else {
-				for _, repo := range c.repos {
-					for _, arch := range c.arches {
-						log.Printf("Fetching Fedora Linux (%s) %s %s %s data...\n", mode, release, repo, arch)
-						if err := c.update(mode, release, repo, arch); err != nil {
-							return xerrors.Errorf("failed to update security advisories of Fedora Linux EPEL %s %s %s: %w", release, repo, arch, err)
-						}
+					log.Printf("Fetching Fedora Linux (%s) %s %s %s data...\n", mode, release, repo, arch)
+					if err := c.update(mode, release, repo, arch); err != nil {
+						return xerrors.Errorf("failed to update security advisories of Fedora/EPEL %s %s %s: %w", release, repo, arch, err)
 					}
 				}
 			}
