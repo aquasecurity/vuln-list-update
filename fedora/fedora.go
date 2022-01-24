@@ -603,7 +603,9 @@ func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string
 			missingModuleURLs = append(missingModuleURLs, minfoURL)
 			continue
 		}
-		extractModuleToAdvisory(&uinfo.FSAList[i], minfo)
+		if err := extractModuleToAdvisory(&uinfo.FSAList[i], minfo); err != nil {
+			return xerrors.Errorf("failed to extract module to advisory: %w", err)
+		}
 	}
 
 	if len(missingModuleURLs) == 0 {
@@ -621,7 +623,9 @@ func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string
 			log.Printf("failed to get module info. title: %s\n", uinfo.FSAList[idx].Title)
 			continue
 		}
-		extractModuleToAdvisory(&uinfo.FSAList[idx], minfo)
+		if err := extractModuleToAdvisory(&uinfo.FSAList[idx], minfo); err != nil {
+			return xerrors.Errorf("failed to extract module to advisory: %w", err)
+		}
 	}
 
 	return nil
