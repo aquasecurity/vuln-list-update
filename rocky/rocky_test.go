@@ -58,7 +58,7 @@ func Test_Update(t *testing.T) {
 			defer tsUpdateInfoURL.Close()
 
 			dir := t.TempDir()
-			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/", dir, 0, []string{"8"}, tt.repository, []string{"x86_64"}))
+			rc := rocky.NewConfig(rocky.With(map[string]string{"rocky": tsUpdateInfoURL.URL + "/pub/rocky/%s/%s/%s/os/", "koji": tsUpdateInfoURL.URL + "/kojifiles/packages/"}, dir, 1, 1, 0, []string{"8"}, tt.repository, []string{"x86_64"}))
 			if err := rc.Update(); tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())

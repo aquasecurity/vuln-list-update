@@ -7,6 +7,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/url"
 	"os"
@@ -14,6 +15,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
 	"github.com/ulikunitz/xz"
@@ -22,12 +24,17 @@ import (
 )
 
 const (
-	retry    = 3
-	rockyDir = "rocky"
+	concurrency = 20
+	wait        = 1
+	retry       = 3
+	rockyDir    = "rocky"
 )
 
 var (
-	urlFormat       = "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/"
+	urls = map[string]string{
+		"rocky": "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/",
+		"koji":  "https://kojidev.rockylinux.org/kojifiles/packages/",
+	}
 	defaultReleases = []string{"8"}
 	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
 	defaultArches   = []string{"x86_64", "aarch64"}
@@ -112,20 +119,24 @@ func (p Package) String() string {
 }
 
 type options struct {
-	url      string
-	dir      string
-	retry    int
-	releases []string
-	repos    []string
-	arches   []string
+	urls        map[string]string
+	dir         string
+	concurrency int
+	wait        int
+	retry       int
+	releases    []string
+	repos       []string
+	arches      []string
 }
 
 type option func(*options)
 
-func With(url, dir string, retry int, releases, repos, arches []string) option {
+func With(urls map[string]string, dir string, concurrency, wait, retry int, releases, repos, arches []string) option {
 	return func(opts *options) {
-		opts.url = url
+		opts.urls = urls
 		opts.dir = dir
+		opts.concurrency = concurrency
+		opts.wait = wait
 		opts.retry = retry
 		opts.releases = releases
 		opts.repos = repos
@@ -139,12 +150,14 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		url:      urlFormat,
-		dir:      filepath.Join(utils.VulnListDir(), rockyDir),
-		retry:    retry,
-		releases: defaultReleases,
-		repos:    defaultRepos,
-		arches:   defaultArches,
+		urls:        urls,
+		dir:         filepath.Join(utils.VulnListDir(), rockyDir),
+		concurrency: concurrency,
+		wait:        wait,
+		retry:       retry,
+		releases:    defaultReleases,
+		repos:       defaultRepos,
+		arches:      defaultArches,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -179,7 +192,7 @@ func (c Config) update(release, repo, arch string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	u, err := url.Parse(fmt.Sprintf(c.url, release, repo, arch))
+	u, err := url.Parse(fmt.Sprintf(c.urls["rocky"], release, repo, arch))
 	if err != nil {
 		return xerrors.Errorf("failed to parse root url: %w", err)
 	}
@@ -197,7 +210,7 @@ func (c Config) update(release, repo, arch string) error {
 	modules := map[string]ModuleInfo{}
 	if modulesPath != "" {
 		u.Path = path.Join(rootPath, modulesPath)
-		modules, err = c.fetchModules(u.String())
+		modules, err = c.fetchModulesFromYaml(u.String())
 		if err != nil {
 			return xerrors.Errorf("failed to fetch modules info: %w", err)
 		}
@@ -209,7 +222,7 @@ func (c Config) update(release, repo, arch string) error {
 		return xerrors.Errorf("failed to fetch updateInfo: %w", err)
 	}
 
-	if err := c.extractModulesToUpdateInfo(uinfo, modules); err != nil {
+	if err := c.extractModulesToUpdateInfo(uinfo, modules, arch); err != nil {
 		return xerrors.Errorf("failed to extract modules to updateinfo: %w", err)
 	}
 
@@ -297,7 +310,7 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 	return &updateInfo, nil
 }
 
-func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
+func (c Config) fetchModulesFromYaml(url string) (map[string]ModuleInfo, error) {
 	res, err := utils.FetchURL(url, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch modules: %w", err)
@@ -308,8 +321,17 @@ func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
 		return nil, xerrors.Errorf("failed to decompress modules: %w", err)
 	}
 
+	modules, err := parseModulemd(r)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to parse modulemd: %w", err)
+	}
+
+	return modules, nil
+}
+
+func parseModulemd(modulemdReader io.Reader) (map[string]ModuleInfo, error) {
 	modules := map[string]ModuleInfo{}
-	scanner := bufio.NewScanner(r)
+	scanner := bufio.NewScanner(modulemdReader)
 	var contents []string
 	for scanner.Scan() {
 		str := scanner.Text()
@@ -334,7 +356,6 @@ func (c Config) fetchModules(url string) (map[string]ModuleInfo, error) {
 			}
 		}
 	}
-
 	return modules, nil
 }
 
@@ -356,7 +377,7 @@ func (m ModuleInfo) String() string {
 	return fmt.Sprintf("%s:%s:%d:%s:%s", m.Data.Name, m.Data.Stream, m.Data.Version, m.Data.Context, m.Data.Arch)
 }
 
-func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo) error {
+func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo, arch string) error {
 	// pkgToModuleStr: convert from package information to moduleStr
 	pkgToModuleStr := map[string]string{}
 	for modularStr, module := range modules {
@@ -366,71 +387,35 @@ func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string
 	}
 
 	missingModuleIndex := []int{}
-	for i, rlsa := range uinfo.RLSAList {
-		// moduleStrToPkgs: convert from moduleStr to the relevant pkgs of the module (moduleStr is "" if it is not a module package)
-		moduleStrToPkgs := map[string][]Package{}
-		for _, pkg := range rlsa.Packages {
-			moduleStr := pkgToModuleStr[pkg.String()]
-			moduleStrToPkgs[moduleStr] = append(moduleStrToPkgs[moduleStr], pkg)
+	for i := range uinfo.RLSAList {
+		success, err := extractModuleToAdvisory(&uinfo.RLSAList[i], modules, pkgToModuleStr)
+		if err != nil {
+			return xerrors.Errorf("failed to extract module info to advisory: %w", err)
 		}
-
-		pkgLists := []PkgList{}
-		for modularStr, pkgs := range moduleStrToPkgs {
-			if modularStr == "" {
-				pkgLists = append(pkgLists, PkgList{
-					Packages: pkgs,
-				})
-				continue
-			}
-
-			// list the packages related to the module
-			module, ok := modules[modularStr]
-			if !ok {
-				missingModuleIndex = append(missingModuleIndex, i)
-			}
-
-			pkgs := []Package{}
-			for _, pkg := range module.Data.Artifacts.Rpms {
-				name, ver, rel, epoch, arch, err := splitFileName(pkg)
-				if err != nil {
-					return xerrors.Errorf("failed to split rpm filename: %w", err)
-				}
-				pkgs = append(pkgs, Package{
-					Name:     name,
-					Epoch:    epoch,
-					Version:  ver,
-					Release:  rel,
-					Arch:     arch,
-					Filename: fmt.Sprintf("%s-%s-%s.%s.rpm", name, ver, rel, arch),
-				})
-			}
-
-			pkgLists = append(pkgLists, PkgList{
-				Packages: pkgs,
-				Module: Module{
-					Stream:  module.Data.Stream,
-					Name:    module.Data.Name,
-					Version: module.Data.Version,
-					Arch:    module.Data.Arch,
-					Context: module.Data.Context,
-				},
-			})
+		if !success {
+			missingModuleIndex = append(missingModuleIndex, i)
 		}
-
-		uinfo.RLSAList[i].PkgLists = pkgLists
-		uinfo.RLSAList[i].Packages = nil
 	}
 
 	if len(missingModuleIndex) == 0 {
 		return nil
 	}
 
-	modules, err := c.fetchModulesFromKoji()
-	if err != nil {
-		return xerrors.Errorf("failed to fetch omdule info from rocky buildsystem: %w", err)
-	}
-
 	for _, idx := range missingModuleIndex {
+		modulenames := []string{}
+		ss := strings.Split(uinfo.RLSAList[idx].Title, " ")
+		for _, s := range ss[1:] {
+			if !strings.Contains(s, ":") {
+				continue
+			}
+			modulenames = append(modulenames, strings.Split(s, ":")[0])
+		}
+
+		modules, err := c.fetchModulesFromKoji(modulenames, arch)
+		if err != nil {
+			return xerrors.Errorf("failed to fetch module info from rocky buildsystem: %w", err)
+		}
+
 		// pkgToModuleStr: convert from package information to moduleStr
 		pkgToModuleStr := map[string]string{}
 		for modularStr, module := range modules {
@@ -439,65 +424,159 @@ func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string
 			}
 		}
 
-		moduleStrToPkgs := map[string][]Package{}
-		for _, pkg := range uinfo.RLSAList[idx].Packages {
-			moduleStr := pkgToModuleStr[pkg.String()]
-			moduleStrToPkgs[moduleStr] = append(moduleStrToPkgs[moduleStr], pkg)
+		success, err := extractModuleToAdvisory(&uinfo.RLSAList[idx], modules, pkgToModuleStr)
+		if err != nil {
+			return xerrors.Errorf("failed to extract module info to advisory: %w", err)
 		}
-
-		pkgLists := []PkgList{}
-		for modularStr, pkgs := range moduleStrToPkgs {
-			if modularStr == "" {
-				pkgLists = append(pkgLists, PkgList{
-					Packages: pkgs,
-				})
-				continue
-			}
-
-			// list the packages related to the module
-			module, ok := modules[modularStr]
-			if !ok {
-				log.Printf("failed to get module info. RLSA ID: %s\n", uinfo.RLSAList[idx].ID)
-				continue
-			}
-
-			pkgs := []Package{}
-			for _, pkg := range module.Data.Artifacts.Rpms {
-				name, ver, rel, epoch, arch, err := splitFileName(pkg)
-				if err != nil {
-					return xerrors.Errorf("failed to split rpm filename: %w", err)
-				}
-				pkgs = append(pkgs, Package{
-					Name:     name,
-					Epoch:    epoch,
-					Version:  ver,
-					Release:  rel,
-					Arch:     arch,
-					Filename: fmt.Sprintf("%s-%s-%s.%s.rpm", name, ver, rel, arch),
-				})
-			}
-
-			pkgLists = append(pkgLists, PkgList{
-				Packages: pkgs,
-				Module: Module{
-					Stream:  module.Data.Stream,
-					Name:    module.Data.Name,
-					Version: module.Data.Version,
-					Arch:    module.Data.Arch,
-					Context: module.Data.Context,
-				},
-			})
+		if !success {
+			log.Printf("failed to get module info. RLSA ID: %s\n", uinfo.RLSAList[idx].ID)
 		}
-
-		uinfo.RLSAList[idx].PkgLists = pkgLists
-		uinfo.RLSAList[idx].Packages = nil
 	}
 
 	return nil
 }
 
-func (c Config) fetchModulesFromKoji() (map[string]ModuleInfo, error) {
-	return nil, nil
+func extractModuleToAdvisory(rlsa *RLSA, modules map[string]ModuleInfo, pkgToModuleStr map[string]string) (bool, error) {
+	// moduleStrToPkgs: convert from moduleStr to the relevant pkgs of the module (moduleStr is "" if it is not a module package)
+	moduleStrToPkgs := map[string][]Package{}
+	for _, pkg := range rlsa.Packages {
+		moduleStr := pkgToModuleStr[pkg.String()]
+		moduleStrToPkgs[moduleStr] = append(moduleStrToPkgs[moduleStr], pkg)
+	}
+
+	pkgLists := []PkgList{}
+	for modularStr, pkgs := range moduleStrToPkgs {
+		if modularStr == "" {
+			pkgLists = append(pkgLists, PkgList{
+				Packages: pkgs,
+			})
+			continue
+		}
+
+		// list the packages related to the module
+		module, ok := modules[modularStr]
+		if !ok {
+			return false, nil
+		}
+
+		pkgs := []Package{}
+		for _, pkg := range module.Data.Artifacts.Rpms {
+			name, ver, rel, epoch, arch, err := splitFileName(pkg)
+			if err != nil {
+				return false, xerrors.Errorf("failed to split rpm filename: %w", err)
+			}
+			pkgs = append(pkgs, Package{
+				Name:     name,
+				Epoch:    epoch,
+				Version:  ver,
+				Release:  rel,
+				Arch:     arch,
+				Filename: fmt.Sprintf("%s-%s-%s.%s.rpm", name, ver, rel, arch),
+			})
+		}
+
+		pkgLists = append(pkgLists, PkgList{
+			Packages: pkgs,
+			Module: Module{
+				Stream:  module.Data.Stream,
+				Name:    module.Data.Name,
+				Version: module.Data.Version,
+				Arch:    module.Data.Arch,
+				Context: module.Data.Context,
+			},
+		})
+	}
+
+	rlsa.PkgLists = pkgLists
+	rlsa.Packages = nil
+
+	return true, nil
+}
+
+func (c Config) fetchModulesFromKoji(modulenames []string, arch string) (map[string]ModuleInfo, error) {
+	log.Printf("Fetching module info from rocky buildsystem...")
+	u, err := url.Parse(c.urls["koji"])
+	if err != nil {
+		return nil, xerrors.Errorf("failed to parse rocky buildsystem url: %w", err)
+	}
+
+	originalPath := u.Path
+	urls := []string{}
+	for _, modulename := range modulenames {
+		u.Path = filepath.Join(originalPath, modulename)
+		urls = append(urls, u.String())
+	}
+
+	log.Printf("Fetching stream path from rocky buildsystem...")
+	paths, err := c.getNextPath(urls)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to get package path: %w", err)
+	}
+	urls = []string{}
+	for _, path := range paths {
+		u.Path = filepath.Join(originalPath, path)
+		urls = append(urls, u.String())
+	}
+
+	log.Printf("Fetching version.context path from rocky buildsystem...")
+	paths, err = c.getNextPath(urls)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to get package path: %w", err)
+	}
+	urls = []string{}
+	for _, path := range paths {
+		if strings.Contains(path, ".module+el") {
+			continue
+		}
+		u.Path = filepath.Join(originalPath, path)
+		urls = append(urls, u.String(), fmt.Sprintf("files/module/modulemd.%s.txt", arch))
+	}
+
+	log.Printf("Fetching modulemd from rocky buildsystem...")
+	resps, err := utils.FetchConcurrently(urls, c.concurrency, c.wait, c.retry)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch moduledmd from rocky buildsystem: %w", err)
+	}
+
+	modules := map[string]ModuleInfo{}
+	for _, res := range resps {
+		ms, err := parseModulemd(bytes.NewReader(res))
+		if err != nil {
+			return nil, xerrors.Errorf("failed to parse modulemd: %w", err)
+		}
+		for moduleStr, minfo := range ms {
+			modules[moduleStr] = minfo
+		}
+	}
+
+	return modules, nil
+}
+
+func (c Config) getNextPath(fetchURLs []string) ([]string, error) {
+	resps, err := utils.FetchConcurrently(fetchURLs, c.concurrency, c.wait, c.retry)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to fetch from rocky buildsystem: %w", err)
+	}
+
+	paths := []string{}
+	for _, res := range resps {
+		doc, err := goquery.NewDocumentFromReader(bytes.NewReader(res))
+		if err != nil {
+			return nil, xerrors.Errorf("failed to parse rocky buildsystem html: %w", err)
+		}
+
+		relPath := strings.TrimPrefix(doc.Find("h1").Text(), "Index of /kojifiles/packages")
+		doc.Find("tr").Each(func(_ int, s *goquery.Selection) {
+			s.Find("img").Each(func(i int, imgsel *goquery.Selection) {
+				v, exsits := imgsel.Attr("alt")
+				if !exsits || v != "[DIR]" {
+					return
+				}
+				paths = append(paths, filepath.Join(relPath, s.Find("a").Text()))
+			})
+		})
+	}
+	return paths, nil
 }
 
 // splitFileName returns a name, version, release, epoch, arch
