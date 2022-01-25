@@ -24,7 +24,13 @@ func Test_Update(t *testing.T) {
 		{
 			name:          "happy path",
 			rootDir:       "testdata/fixtures/happy",
-			repository:    []string{"BaseOS"},
+			repository:    []string{"BaseOS", "AppStream"},
+			expectedError: nil,
+		},
+		{
+			name:          "not module in modules.yaml",
+			rootDir:       "testdata/fixtures/not_module_in_yaml",
+			repository:    []string{"AppStream"},
 			expectedError: nil,
 		},
 		{
@@ -58,7 +64,7 @@ func Test_Update(t *testing.T) {
 			defer tsUpdateInfoURL.Close()
 
 			dir := t.TempDir()
-			rc := rocky.NewConfig(rocky.With(map[string]string{"rocky": tsUpdateInfoURL.URL + "/pub/rocky/%s/%s/%s/os/", "koji": tsUpdateInfoURL.URL + "/kojifiles/packages/"}, dir, 1, 1, 0, []string{"8"}, tt.repository, []string{"x86_64"}))
+			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/", dir, 1, 1, 0, []string{"8"}, tt.repository, []string{"x86_64"}))
 			err := rc.Update()
 			if tt.expectedError != nil {
 				require.Error(t, err)
