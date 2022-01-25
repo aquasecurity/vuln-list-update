@@ -54,18 +54,20 @@ func Test_Update(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tsUpdateInfoURL := httptest.NewServer(http.StripPrefix("/pub/rocky/8/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir(tt.rootDir))))
+			tsUpdateInfoURL := httptest.NewServer(http.StripPrefix("/pub/rocky/8/", http.FileServer(http.Dir(tt.rootDir))))
 			defer tsUpdateInfoURL.Close()
 
 			dir := t.TempDir()
 			rc := rocky.NewConfig(rocky.With(map[string]string{"rocky": tsUpdateInfoURL.URL + "/pub/rocky/%s/%s/%s/os/", "koji": tsUpdateInfoURL.URL + "/kojifiles/packages/"}, dir, 1, 1, 0, []string{"8"}, tt.repository, []string{"x86_64"}))
-			if err := rc.Update(); tt.expectedError != nil {
+			err := rc.Update()
+			if tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())
 				return
 			}
+			assert.NoError(t, err)
 
-			err := filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
+			err = filepath.Walk(dir, func(path string, info os.FileInfo, errfp error) error {
 				if errfp != nil {
 					return errfp
 				}
