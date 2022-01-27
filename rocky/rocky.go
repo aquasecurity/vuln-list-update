@@ -25,10 +25,8 @@ import (
 )
 
 const (
-	concurrency = 20
-	wait        = 1
-	retry       = 3
-	rockyDir    = "rocky"
+	retry    = 3
+	rockyDir = "rocky"
 )
 
 var (
@@ -117,24 +115,20 @@ func (p Package) String() string {
 }
 
 type options struct {
-	url         string
-	dir         string
-	concurrency int
-	wait        int
-	retry       int
-	releases    map[string][]string
-	repos       []string
-	arches      []string
+	url      string
+	dir      string
+	retry    int
+	releases map[string][]string
+	repos    []string
+	arches   []string
 }
 
 type option func(*options)
 
-func With(url string, dir string, concurrency, wait, retry int, releases map[string][]string, repos, arches []string) option {
+func With(url string, dir string, retry int, releases map[string][]string, repos, arches []string) option {
 	return func(opts *options) {
 		opts.url = url
 		opts.dir = dir
-		opts.concurrency = concurrency
-		opts.wait = wait
 		opts.retry = retry
 		opts.releases = releases
 		opts.repos = repos
@@ -148,14 +142,12 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		url:         defaultURL,
-		dir:         filepath.Join(utils.VulnListDir(), rockyDir),
-		concurrency: concurrency,
-		wait:        wait,
-		retry:       retry,
-		releases:    defaultReleases,
-		repos:       defaultRepos,
-		arches:      defaultArches,
+		url:      defaultURL,
+		dir:      filepath.Join(utils.VulnListDir(), rockyDir),
+		retry:    retry,
+		releases: defaultReleases,
+		repos:    defaultRepos,
+		arches:   defaultArches,
 	}
 	for _, opt := range opts {
 		opt(o)
