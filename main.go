@@ -19,7 +19,7 @@ import (
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
-	cblmarineroval "github.com/aquasecurity/vuln-list-update/cbl-mariner/oval"
+	cblmariner "github.com/aquasecurity/vuln-list-update/cbl-mariner"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
@@ -46,7 +46,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, cbl-mariner-oval)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, cbl-mariner)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -215,8 +215,8 @@ func run() error {
 			return xerrors.Errorf("Go Vulnerability Database update error: %w", err)
 		}
 		commitMsg = "Go Vulnerability Database"
-	case "cbl-mariner-oval":
-		src := cblmarineroval.NewConfig()
+	case "cbl-mariner":
+		src := cblmariner.NewConfig()
 		if err := src.Update(); err != nil {
 			return xerrors.Errorf("CBL Mariner Vulnerability Data update error: %w", err)
 		}

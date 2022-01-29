@@ -1,4 +1,4 @@
-package oval
+package cblmariner
 
 import (
 	"context"
@@ -18,7 +18,6 @@ import (
 const (
 	repoURL = "https://github.com/microsoft/CBL-MarinerVulnerabilityData/archive/refs/heads/main.tar.gz//CBL-MarinerVulnerabilityData-main"
 	cblDir  = "cbl-mariner" // CBL Mariner Vulnerability Data
-	ovalDir = "oval"
 	retry   = 3
 
 	testsDir       = "tests"
@@ -59,7 +58,7 @@ func WithRetry(retry int) option {
 func NewConfig(opts ...option) Config {
 	o := &options{
 		url:   repoURL,
-		dir:   filepath.Join(utils.VulnListDir(), ovalDir, cblDir),
+		dir:   filepath.Join(utils.VulnListDir(), cblDir),
 		retry: retry,
 	}
 

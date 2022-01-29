@@ -1,4 +1,4 @@
-package oval
+package cblmariner
 
 import "encoding/xml"
 
