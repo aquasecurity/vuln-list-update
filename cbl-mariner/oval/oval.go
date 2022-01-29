@@ -1,4 +1,4 @@
-package cblmariner
+package oval
 
 import (
 	"context"
@@ -19,6 +19,7 @@ import (
 const (
 	repoURL = "https://github.com/microsoft/CBL-MarinerVulnerabilityData/archive/refs/heads/main.tar.gz//CBL-MarinerVulnerabilityData-main"
 	cblDir  = "cbl-mariner" // CBL Mariner Vulnerability Data
+	ovalDir = "oval"
 	retry   = 3
 
 	testsDir       = "tests"
@@ -59,7 +60,7 @@ func WithRetry(retry int) option {
 func NewConfig(opts ...option) Config {
 	o := &options{
 		url:   repoURL,
-		dir:   filepath.Join(utils.VulnListDir(), cblDir),
+		dir:   filepath.Join(utils.VulnListDir(), cblDir, ovalDir),
 		retry: retry,
 	}
 
@@ -75,7 +76,7 @@ func NewConfig(opts ...option) Config {
 func (c Config) Update() error {
 	ctx := context.Background()
 
-	log.Printf("Remove CBL-Mariner Vulnerability Data directory %s\n", c.dir)
+	log.Printf("Remove CBL Mariner Vulnerability Data directory %s\n", c.dir)
 	if err := os.RemoveAll(c.dir); err != nil {
 		return xerrors.Errorf("failed to remove CBL-Mariner Vulnerability Data directory: %w", err)
 	}

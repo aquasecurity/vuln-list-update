@@ -97,7 +97,7 @@ jobs:
 
     - if: always()
       name: CBL Mariner Vulnerability Data
-      run: ./vuln-list-update -target cbl-mariner
+      run: ./vuln-list-update -target cbl-mariner-oval
 
     - if: always()
       name: OSV Database

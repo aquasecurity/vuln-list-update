@@ -1,4 +1,4 @@
-package cblmariner_test
+package oval_test
 
 import (
 	"io/fs"
@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	cblmariner "github.com/aquasecurity/vuln-list-update/cbl-mariner"
+	cblmariner "github.com/aquasecurity/vuln-list-update/cbl-mariner/oval"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -49,7 +49,7 @@ func TestUpdate(t *testing.T) {
 				got, err := os.ReadFile(filepath.Join(tmpDir, path))
 				assert.NoError(t, err, tt.name)
 
-				goldenPath := filepath.Join("testdata", "golden", "cbl-mariner", path)
+				goldenPath := filepath.Join("testdata", "golden", "cbl-mariner", "oval", path)
 				want, err := os.ReadFile(goldenPath)
 				assert.NoError(t, err, tt.name)
 
