@@ -10,9 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (
@@ -43,7 +44,7 @@ type options struct {
 	retry int
 }
 
-func WithURLs(url string) option {
+func WithURL(url string) option {
 	return func(opts *options) { opts.url = url }
 }
 
@@ -151,21 +152,20 @@ func (c Config) update(version, path string) error {
 	return nil
 }
 
-func (c Config) saveAdvisoryPerYear(dirName string, id string, def Definition) error {
-	var year string
-	if strings.HasPrefix(id, "CVE") {
-		s := strings.Split(id, "-")
-		if len(s) != 3 {
-			log.Printf("invalid CVE-ID format: %s\n", id)
-			return ErrInvalidCVEFormat
-		}
-		year = s[1]
-	} else {
-		log.Printf("discovered non-CVE-ID: %s\n", id)
+func (c Config) saveAdvisoryPerYear(dirName string, vulnID string, def Definition) error {
+	if !strings.HasPrefix(vulnID, "CVE") {
+		log.Printf("discovered non-CVE-ID: %s", vulnID)
 		return ErrNonCVEID
 	}
-	yearDir := filepath.Join(dirName, year)
-	if err := utils.Write(filepath.Join(yearDir, fmt.Sprintf("%s.json", id)), def); err != nil {
+
+	s := strings.Split(vulnID, "-")
+	if len(s) != 3 {
+		log.Printf("invalid CVE-ID format: %s", vulnID)
+		return ErrInvalidCVEFormat
+	}
+
+	yearDir := filepath.Join(dirName, s[1])
+	if err := utils.Write(filepath.Join(yearDir, fmt.Sprintf("%s.json", vulnID)), def); err != nil {
 		return xerrors.Errorf("unable to write a JSON file: %w", err)
 	}
 	return nil
