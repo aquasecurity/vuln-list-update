@@ -197,7 +197,7 @@ func (c Config) update(majorVer string, releases []string, repo, arch string) er
 		}
 
 		for _, advFile := range advFiles {
-			log.Printf("Fetching advisory. updateinfo.xml.gz: %.10s, modules.yaml.xz: %.10s", advFile.updateinfo, advFile.modules)
+			log.Printf("Fetching advisory. updateinfo.xml: %.10s, modules.yaml: %.10s", advFile.updateinfo, advFile.modules)
 
 			u.Path = path.Join(rootPath, advFile.updateinfo)
 			uinfo, err := c.fetchSecurityAdvisory(u.String())
@@ -267,7 +267,7 @@ type advisoryFile struct {
 	modules    string
 }
 
-var repodataPattern = regexp.MustCompile(`^<a\shref="(.*-(?:modules\.yaml\.xz|updateinfo\.xml\.gz))">.*</a>\s(\d{2}-(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}\s\d{2}:\d{2}).*$`)
+var repodataPattern = regexp.MustCompile(`^<a\shref="(.*-(?:modules\.yaml\.(?:xz|gz)|updateinfo\.xml\.gz))">.*</a>\s(\d{2}-(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}\s\d{2}:\d{2}).*$`)
 
 func (c Config) fetchAdvisoryFiles(repodataURL string) ([]advisoryFile, error) {
 	res, err := utils.FetchURL(repodataURL, "", c.retry)
@@ -366,9 +366,20 @@ func (c Config) fetchModulesFromYaml(url string) (map[string]ModuleInfo, error) 
 		return nil, xerrors.Errorf("failed to fetch modules: %w", err)
 	}
 
-	r, err := xz.NewReader(bytes.NewBuffer(res))
-	if err != nil {
-		return nil, xerrors.Errorf("failed to decompress modules: %w", err)
+	var r io.Reader
+	switch ext := filepath.Ext(url)[1:]; ext {
+	case "xz":
+		r, err = xz.NewReader(bytes.NewBuffer(res))
+		if err != nil {
+			return nil, xerrors.Errorf("failed to decompress xz modules: %w", err)
+		}
+	case "gz":
+		r, err = gzip.NewReader(bytes.NewBuffer(res))
+		if err != nil {
+			return nil, xerrors.Errorf("failed to decompress gzip modules: %w", err)
+		}
+	default:
+		return nil, xerrors.Errorf("failed to decompress %s modules: unsupported extension", ext)
 	}
 
 	modules, err := parseModulemd(r)
