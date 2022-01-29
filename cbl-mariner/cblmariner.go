@@ -139,11 +139,6 @@ func (c Config) update(version, path string) error {
 	// write definitions
 	bar := pb.StartNew(len(oval.Definitions.Definition))
 	for _, def := range oval.Definitions.Definition {
-		// skip non-vulnerability definition
-		if def.Class != "vulnerability" {
-			continue
-		}
-
 		vulnID := def.Metadata.Reference.RefID
 
 		if err := c.saveAdvisoryPerYear(filepath.Join(dirPath, definitionsDir), vulnID, def); err != nil {
