@@ -18,9 +18,9 @@ https://github.com/aquasecurity/vuln-list/
 
 ```
 $ vuln-list-update -h
-Usage of vuln-list-update:
+Usage of ./vuln-list-update:
   -target string
-        update target (nvd, alpine, redhat, debian, ubuntu)
+        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, cbl-mariner)
   -years string
         update years (only redhat)
 ```

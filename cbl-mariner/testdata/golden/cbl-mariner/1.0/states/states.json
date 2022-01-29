@@ -1,0 +1,31 @@
+{
+  "RpminfoState": [
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:ste:1643374849000005",
+      "Version": "1643374849",
+      "Evr": {
+        "Text": "0:0.103.2-1.cm1",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      }
+    },
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:ste:1643374849000068",
+      "Version": "1643374849",
+      "Evr": {
+        "Text": "0:1.0.3-1.cm1",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      }
+    },
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:ste:1643374849000146",
+      "Version": "1643374849",
+      "Evr": {
+        "Text": "0:2.28-19.cm1",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      }
+    }
+  ]
+}
