@@ -19,13 +19,13 @@ import (
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
-	cblmariner "github.com/aquasecurity/vuln-list-update/cbl-mariner"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	govulndb "github.com/aquasecurity/vuln-list-update/go-vulndb"
+	mariner "github.com/aquasecurity/vuln-list-update/mariner"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/osv"
@@ -215,12 +215,12 @@ func run() error {
 			return xerrors.Errorf("Go Vulnerability Database update error: %w", err)
 		}
 		commitMsg = "Go Vulnerability Database"
-	case "cbl-mariner":
-		src := cblmariner.NewConfig()
+	case "mariner":
+		src := mariner.NewConfig()
 		if err := src.Update(); err != nil {
-			return xerrors.Errorf("CBL Mariner Vulnerability Data update error: %w", err)
+			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)
 		}
-		commitMsg = "CBL Mariner Vulnerability Data"
+		commitMsg = "CBL-Mariner Vulnerability Data"
 	default:
 		return xerrors.New("unknown target")
 	}

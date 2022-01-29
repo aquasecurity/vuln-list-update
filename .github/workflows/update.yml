@@ -96,8 +96,8 @@ jobs:
       run: ./vuln-list-update -target rocky
 
     - if: always()
-      name: CBL Mariner Vulnerability Data
-      run: ./vuln-list-update -target cbl-mariner
+      name: CBL-Mariner Vulnerability Data
+      run: ./vuln-list-update -target mariner
 
     - if: always()
       name: OSV Database

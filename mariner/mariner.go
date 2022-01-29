@@ -1,4 +1,4 @@
-package cblmariner
+package mariner
 
 import (
 	"context"
@@ -17,7 +17,7 @@ import (
 
 const (
 	repoURL = "https://github.com/microsoft/CBL-MarinerVulnerabilityData/archive/refs/heads/main.tar.gz//CBL-MarinerVulnerabilityData-main"
-	cblDir  = "cbl-mariner" // CBL Mariner Vulnerability Data
+	cblDir  = "mariner" // CBL-Mariner Vulnerability Data
 	retry   = 3
 
 	testsDir       = "tests"
@@ -74,19 +74,18 @@ func NewConfig(opts ...option) Config {
 func (c Config) Update() error {
 	ctx := context.Background()
 
-	log.Printf("Remove CBL Mariner Vulnerability Data directory %s\n", c.dir)
+	log.Printf("Remove CBL-Mariner Vulnerability Data directory %s\n", c.dir)
 	if err := os.RemoveAll(c.dir); err != nil {
 		return xerrors.Errorf("failed to remove CBL-Mariner Vulnerability Data directory: %w", err)
 	}
 
-	log.Print("Fetching CBL Mariner Vulnerability Data")
+	log.Print("Fetching CBL-Mariner Vulnerability Data")
 	tmpDir, err := utils.DownloadToTempDir(ctx, c.url)
 	if err != nil {
-		return xerrors.Errorf("failed to retrieve CBL Mariner Vulnerability Data: %w", err)
+		return xerrors.Errorf("failed to retrieve CBL-Mariner Vulnerability Data: %w", err)
 	}
 	defer os.RemoveAll(tmpDir)
 
-	log.Println("Walking cbl mariner...")
 	entries, err := os.ReadDir(tmpDir)
 	if err != nil {
 		return xerrors.Errorf("failed to read directory: %w", err)

@@ -1,4 +1,4 @@
-package cblmariner
+package mariner
 
 import "encoding/xml"
 
