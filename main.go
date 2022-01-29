@@ -220,6 +220,7 @@ func run() error {
 		if err := src.Update(); err != nil {
 			return xerrors.Errorf("CBL Mariner Vulnerability Data update error: %w", err)
 		}
+		commitMsg = "CBL Mariner Vulnerability Data"
 	default:
 		return xerrors.New("unknown target")
 	}
