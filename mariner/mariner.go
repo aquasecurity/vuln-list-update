@@ -75,7 +75,7 @@ func NewConfig(opts ...option) Config {
 func (c Config) Update() error {
 	ctx := context.Background()
 
-	log.Printf("Remove CBL-Mariner Vulnerability Data directory %s\n", c.dir)
+	log.Printf("Remove CBL-Mariner Vulnerability Data directory %sn", c.dir)
 	if err := os.RemoveAll(c.dir); err != nil {
 		return xerrors.Errorf("failed to remove CBL-Mariner Vulnerability Data directory: %w", err)
 	}
@@ -97,7 +97,10 @@ func (c Config) Update() error {
 			continue
 		}
 
-		if !(strings.HasPrefix(entry.Name(), "cbl-mariner-") && strings.HasSuffix(entry.Name(), ".xml")) {
+		if !strings.HasPrefix(entry.Name(), "cbl-mariner-") {
+			continue
+		}
+		if filepath.Ext(entry.Name()) != ".xml" {
 			continue
 		}
 

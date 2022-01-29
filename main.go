@@ -25,7 +25,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	govulndb "github.com/aquasecurity/vuln-list-update/go-vulndb"
-	mariner "github.com/aquasecurity/vuln-list-update/mariner"
+	"github.com/aquasecurity/vuln-list-update/mariner"
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/osv"
@@ -46,7 +46,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, cbl-mariner)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
