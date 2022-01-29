@@ -110,14 +110,14 @@ func (c Config) Update() error {
 }
 
 func (c Config) update(version, path string) error {
-	b, err := os.ReadFile(path)
+	f, err := os.Open(path)
 	if err != nil {
-		return xerrors.Errorf("failed to read file: %w", err)
+		return xerrors.Errorf("failed to open file: %w", err)
 	}
 
 	var oval OvalDefinitions
-	if err := xml.Unmarshal(b, &oval); err != nil {
-		return xerrors.Errorf("failed to unmarshal xml: %w", err)
+	if err := xml.NewDecoder(f).Decode(&oval); err != nil {
+		return xerrors.Errorf("failed to decode xml: %w", err)
 	}
 	dirPath := filepath.Join(c.dir, version)
 
