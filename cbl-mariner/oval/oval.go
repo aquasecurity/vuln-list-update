@@ -5,7 +5,6 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -60,7 +59,7 @@ func WithRetry(retry int) option {
 func NewConfig(opts ...option) Config {
 	o := &options{
 		url:   repoURL,
-		dir:   filepath.Join(utils.VulnListDir(), cblDir, ovalDir),
+		dir:   filepath.Join(utils.VulnListDir(), ovalDir, cblDir),
 		retry: retry,
 	}
 
@@ -89,34 +88,24 @@ func (c Config) Update() error {
 	defer os.RemoveAll(tmpDir)
 
 	log.Println("Walking cbl mariner...")
-	if err := c.walkDir(tmpDir); err != nil {
-		return xerrors.Errorf("failed to walk %s: %w", tmpDir, err)
+	entries, err := os.ReadDir(tmpDir)
+	if err != nil {
+		return xerrors.Errorf("failed to read directory: %w", err)
 	}
 
-	return nil
-}
-
-func (c Config) walkDir(root string) error {
-	fsys := os.DirFS(root)
-
-	if err := fs.WalkDir(fsys, ".", func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-		if !d.Type().IsRegular() {
-			return nil
-		}
-		if !(strings.HasPrefix(d.Name(), "cbl-mariner-") && strings.HasSuffix(d.Name(), ".xml")) {
-			return nil
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
 		}
 
-		osVersoin := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(d.Name(), "cbl-mariner-"), "-oval.xml"), "-preview")
-		if err := c.update(osVersoin, filepath.Join(root, path)); err != nil {
+		if !(strings.HasPrefix(entry.Name(), "cbl-mariner-") && strings.HasSuffix(entry.Name(), ".xml")) {
+			continue
+		}
+
+		osVersoin := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(entry.Name(), "cbl-mariner-"), "-oval.xml"), "-preview")
+		if err := c.update(osVersoin, filepath.Join(tmpDir, entry.Name())); err != nil {
 			return xerrors.Errorf("failed to update oval data: %w", err)
 		}
-		return nil
-	}); err != nil {
-		return xerrors.Errorf("failed to walk directory: %w", err)
 	}
 	return nil
 }

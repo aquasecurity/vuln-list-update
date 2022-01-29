@@ -25,7 +25,7 @@ func TestUpdate(t *testing.T) {
 		{
 			name:      "sad path, invalid xml",
 			inputFile: "file::testdata/sad/invalid",
-			wantError: "failed to walk directory: failed to update oval data: failed to unmarshal xml: XML syntax error on line 80: unexpected EOF",
+			wantError: "failed to update oval data: failed to unmarshal xml: XML syntax error on line 80: unexpected EOF",
 		},
 	}
 
