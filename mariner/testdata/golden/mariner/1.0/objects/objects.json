@@ -1,0 +1,19 @@
+{
+  "RpminfoObjects": [
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:obj:1643374849000004",
+      "Version": "1643374849",
+      "Name": "clamav"
+    },
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:obj:1643374849000051",
+      "Version": "1643374849",
+      "Name": "glibc"
+    },
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:obj:1643374849000067",
+      "Version": "1643374849",
+      "Name": "libwebp"
+    }
+  ]
+}

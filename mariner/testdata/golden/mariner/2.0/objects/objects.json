@@ -1,0 +1,19 @@
+{
+  "RpminfoObjects": [
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:obj:1643374850000123",
+      "Version": "1643374850",
+      "Name": "unzip"
+    },
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:obj:1643374850000429",
+      "Version": "1643374850",
+      "Name": "wireshark"
+    },
+    {
+      "ID": "oval:com.microsoft.cbl-mariner:obj:1643374850000669",
+      "Version": "1643374850",
+      "Name": "mysql"
+    }
+  ]
+}
