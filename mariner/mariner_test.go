@@ -24,7 +24,7 @@ func TestUpdate(t *testing.T) {
 		},
 		{
 			name:      "sad path, invalid xml",
-			inputFile: "file::testdata/sad/invalid",
+			inputFile: "file::testdata/sad",
 			wantErr:   "failed to decode xml",
 		},
 	}
