@@ -1,0 +1,50 @@
+<updates
+  <update from="releng@rockylinux.org" status="final" type="security" version="2">
+    <id>RLSA-2021:4511</id>
+    <title>Moderate: curl security and bug fix update</title>
+    <issued date="2021-11-15 07:26:41"></issued>
+    <updated date="2021-11-09 00:00:00"></updated>
+    <rights>Copyright (C) 2021 Rocky Enterprise Software Foundation</rights>
+    <release>Rocky Linux 8</release>
+    <pushcount>1</pushcount>
+    <severity>Moderate</severity>
+    <summary>An update for curl is now available for Rocky Linux 8.&#xA;Rocky Linux Product Security has rated this update as having a security impact of Moderate. A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE link(s) in the References section.</summary>
+    <description>For more information visit https://errata.rockylinux.org/RLSA-2021:4511</description>
+    <references>
+      <reference href="https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-22925.json" id="CVE-2021-22925" type="cve" title="Update information for CVE-2021-22925 is retrieved from Red Hat"></reference>
+    </references>
+    <pkglist>
+      <collection short="RL8">
+        <name>Rocky Linux 8</name>
+        <package name="libcurl-minimal" version="7.61.1" release="22.el8" epoch="0" arch="i686" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>libcurl-minimal-7.61.1-22.el8.i686.rpm</filename>
+          <sum type="sha256">b2ec1f86fd58731f4fe6bb19540b8cca8d61418a47760babef44fe37eb6d1707</sum>
+        </package>
+        <package name="libcurl-devel" version="7.61.1" release="22.el8" epoch="0" arch="i686" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>libcurl-devel-7.61.1-22.el8.i686.rpm</filename>
+          <sum type="sha256">4c278eb72cbb6d9cbc0ac4677cc25ef11302ce2b149e19e9e9789ea3fbcb2fb1</sum>
+        </package>
+        <package name="curl" version="7.61.1" release="22.el8" epoch="0" arch="x86_64" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>curl-7.61.1-22.el8.x86_64.rpm</filename>
+          <sum type="sha256">e372199f281feaad685fa855a3c585c381ca5abcbe2d7e5a6dde103f337cb7e2</sum>
+        </package>
+        <package name="libcurl" version="7.61.1" release="22.el8" epoch="0" arch="i686" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>libcurl-7.61.1-22.el8.i686.rpm</filename>
+          <sum type="sha256">7508b40b10f354ae27647efa810be3d53c7255fc39494d6addd5df536c5a9295</sum>
+        </package>
+        <package name="libcurl-devel" version="7.61.1" release="22.el8" epoch="0" arch="x86_64" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>libcurl-devel-7.61.1-22.el8.x86_64.rpm</filename>
+          <sum type="sha256">b97faa42eb51fb20ceb8a70d9fb7e5647de92775d52292ace032108f3d3fab30</sum>
+        </package>
+        <package name="libcurl" version="7.61.1" release="22.el8" epoch="0" arch="x86_64" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>libcurl-7.61.1-22.el8.x86_64.rpm</filename>
+          <sum type="sha256">7cc35e59072c0f21b2f8f7c4d8769b8b143299bab5438619d0a895ee9be62b8b</sum>
+        </package>
+        <package name="libcurl-minimal" version="7.61.1" release="22.el8" epoch="0" arch="x86_64" src="curl-7.61.1-22.el8.src.rpm">
+          <filename>libcurl-minimal-7.61.1-22.el8.x86_64.rpm</filename>
+          <sum type="sha256">a01088cec7aaabebb5389eb6181dc11e1fe240319e6ce18f7f625434386591f0</sum>
+        </package>
+      </collection>
+    </pkglist>
+  </update>
+</updates>

@@ -187,9 +187,16 @@ func (c Config) update(majorVer string, releases map[string][]string, repo, arch
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
+	// ["pub", "vault"] => ["vault", "pub"]
+	statuses := []string{}
+	for status := range releases {
+		statuses = append(statuses, status)
+	}
+	sort.Slice(statuses, func(i, j int) bool { return statuses[i] > statuses[j] })
+
 	advisories := map[string]Advisory{}
-	for status, rels := range releases {
-		for _, rel := range rels {
+	for _, status := range statuses {
+		for _, rel := range releases[status] {
 			u, err := url.Parse(fmt.Sprintf(c.url, status, rel, repo, arch))
 			if err != nil {
 				return xerrors.Errorf("failed to parse root url: %w", err)

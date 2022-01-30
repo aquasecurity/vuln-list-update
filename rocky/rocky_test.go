@@ -2,6 +2,7 @@ package rocky_test
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -15,6 +16,7 @@ import (
 	"github.com/kylelemons/godebug/pretty"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/xerrors"
 )
 
 func Test_Update(t *testing.T) {
@@ -32,20 +34,20 @@ func Test_Update(t *testing.T) {
 			repository:    []string{"BaseOS", "AppStream"},
 			expectedError: nil,
 		},
-		// {
-		// 	name:          "not module in modules.yaml",
-		// 	rootDir:       "testdata/fixtures/not_module_in_yaml",
-		// 	releases:      map[string]map[string][]string{"8": {"pub": {"8.5"}}},
-		// 	repository:    []string{"AppStream"},
-		// 	expectedError: nil,
-		// },
-		// {
-		// 	name:          "bad updateInfo response",
-		// 	rootDir:       "testdata/fixtures/updateinfo_invalid",
-		// 	releases:      map[string]map[string][]string{"8": {"pub": {"8.5"}}},
-		// 	repository:    []string{"BaseOS"},
-		// 	expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
-		// },
+		{
+			name:          "not module in modules.yaml",
+			rootDir:       "testdata/fixtures/not_module_in_yaml",
+			releases:      map[string]map[string][]string{"8": {"pub": {"8.5"}}},
+			repository:    []string{"AppStream"},
+			expectedError: nil,
+		},
+		{
+			name:          "bad updateInfo response",
+			rootDir:       "testdata/fixtures/updateinfo_invalid",
+			releases:      map[string]map[string][]string{"8": {"pub": {"8.5"}}},
+			repository:    []string{"BaseOS"},
+			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
