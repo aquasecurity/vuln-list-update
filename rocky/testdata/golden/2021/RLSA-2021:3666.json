@@ -1,0 +1,243 @@
+{
+  "id": "RLSA-2021:3666",
+  "title": "Important: nodejs:14 security and bug fix update",
+  "issued": {
+    "date": "2021-10-01 19:57:08"
+  },
+  "updated": {
+    "date": "2021-09-27 00:00:00"
+  },
+  "severity": "Important",
+  "description": "For more information visit https://errata.rockylinux.org/RLSA-2021:3666",
+  "pkglists": [
+    {
+      "packages": [
+        {
+          "name": "nodejs",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "src",
+          "filename": "nodejs-12.22.5-1.module+el8.4.0+647+e905fa21.src.rpm"
+        },
+        {
+          "name": "nodejs",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "x86_64",
+          "filename": "nodejs-12.22.5-1.module+el8.4.0+647+e905fa21.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-debuginfo",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "x86_64",
+          "filename": "nodejs-debuginfo-12.22.5-1.module+el8.4.0+647+e905fa21.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-debugsource",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "x86_64",
+          "filename": "nodejs-debugsource-12.22.5-1.module+el8.4.0+647+e905fa21.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-devel",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "x86_64",
+          "filename": "nodejs-devel-12.22.5-1.module+el8.4.0+647+e905fa21.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-docs",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "noarch",
+          "filename": "nodejs-docs-12.22.5-1.module+el8.4.0+647+e905fa21.noarch.rpm"
+        },
+        {
+          "name": "nodejs-full-i18n",
+          "epoch": "1",
+          "version": "12.22.5",
+          "release": "1.module+el8.4.0+647+e905fa21",
+          "arch": "x86_64",
+          "filename": "nodejs-full-i18n-12.22.5-1.module+el8.4.0+647+e905fa21.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-nodemon",
+          "epoch": "0",
+          "version": "2.0.3",
+          "release": "1.module+el8.4.0+638+5344c6f7",
+          "arch": "noarch",
+          "filename": "nodejs-nodemon-2.0.3-1.module+el8.4.0+638+5344c6f7.noarch.rpm"
+        },
+        {
+          "name": "nodejs-nodemon",
+          "epoch": "0",
+          "version": "2.0.3",
+          "release": "1.module+el8.4.0+638+5344c6f7",
+          "arch": "src",
+          "filename": "nodejs-nodemon-2.0.3-1.module+el8.4.0+638+5344c6f7.src.rpm"
+        },
+        {
+          "name": "nodejs-packaging",
+          "epoch": "0",
+          "version": "17",
+          "release": "3.module+el8.3.0+99+3663d81c",
+          "arch": "noarch",
+          "filename": "nodejs-packaging-17-3.module+el8.3.0+99+3663d81c.noarch.rpm"
+        },
+        {
+          "name": "nodejs-packaging",
+          "epoch": "0",
+          "version": "17",
+          "release": "3.module+el8.3.0+99+3663d81c",
+          "arch": "src",
+          "filename": "nodejs-packaging-17-3.module+el8.3.0+99+3663d81c.src.rpm"
+        },
+        {
+          "name": "npm",
+          "epoch": "1",
+          "version": "6.14.14",
+          "release": "1.12.22.5.1.module+el8.4.0+647+e905fa21",
+          "arch": "x86_64",
+          "filename": "npm-6.14.14-1.12.22.5.1.module+el8.4.0+647+e905fa21.x86_64.rpm"
+        }
+      ],
+      "module": {
+        "stream": "12",
+        "name": "nodejs",
+        "version": 8040020210921175910,
+        "arch": "x86_64",
+        "context": "9f9e2e7e"
+      }
+    },
+    {
+      "packages": [
+        {
+          "name": "nodejs",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "src",
+          "filename": "nodejs-14.17.5-1.module+el8.4.0+654+17ff1d38.src.rpm"
+        },
+        {
+          "name": "nodejs",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "x86_64",
+          "filename": "nodejs-14.17.5-1.module+el8.4.0+654+17ff1d38.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-debuginfo",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "x86_64",
+          "filename": "nodejs-debuginfo-14.17.5-1.module+el8.4.0+654+17ff1d38.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-debugsource",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "x86_64",
+          "filename": "nodejs-debugsource-14.17.5-1.module+el8.4.0+654+17ff1d38.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-devel",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "x86_64",
+          "filename": "nodejs-devel-14.17.5-1.module+el8.4.0+654+17ff1d38.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-docs",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "noarch",
+          "filename": "nodejs-docs-14.17.5-1.module+el8.4.0+654+17ff1d38.noarch.rpm"
+        },
+        {
+          "name": "nodejs-full-i18n",
+          "epoch": "1",
+          "version": "14.17.5",
+          "release": "1.module+el8.4.0+654+17ff1d38",
+          "arch": "x86_64",
+          "filename": "nodejs-full-i18n-14.17.5-1.module+el8.4.0+654+17ff1d38.x86_64.rpm"
+        },
+        {
+          "name": "nodejs-nodemon",
+          "epoch": "0",
+          "version": "2.0.3",
+          "release": "1.module+el8.4.0+639+18660d0d",
+          "arch": "noarch",
+          "filename": "nodejs-nodemon-2.0.3-1.module+el8.4.0+639+18660d0d.noarch.rpm"
+        },
+        {
+          "name": "nodejs-nodemon",
+          "epoch": "0",
+          "version": "2.0.3",
+          "release": "1.module+el8.4.0+639+18660d0d",
+          "arch": "src",
+          "filename": "nodejs-nodemon-2.0.3-1.module+el8.4.0+639+18660d0d.src.rpm"
+        },
+        {
+          "name": "nodejs-packaging",
+          "epoch": "0",
+          "version": "23",
+          "release": "3.module+el8.3.0+100+234774f7",
+          "arch": "noarch",
+          "filename": "nodejs-packaging-23-3.module+el8.3.0+100+234774f7.noarch.rpm"
+        },
+        {
+          "name": "nodejs-packaging",
+          "epoch": "0",
+          "version": "23",
+          "release": "3.module+el8.3.0+100+234774f7",
+          "arch": "src",
+          "filename": "nodejs-packaging-23-3.module+el8.3.0+100+234774f7.src.rpm"
+        },
+        {
+          "name": "npm",
+          "epoch": "1",
+          "version": "6.14.14",
+          "release": "1.14.17.5.1.module+el8.4.0+654+17ff1d38",
+          "arch": "x86_64",
+          "filename": "npm-6.14.14-1.14.17.5.1.module+el8.4.0+654+17ff1d38.x86_64.rpm"
+        }
+      ],
+      "module": {
+        "stream": "14",
+        "name": "nodejs",
+        "version": 8040020210927160837,
+        "arch": "x86_64",
+        "context": "9f9e2e7e"
+      }
+    }
+  ],
+  "references": [
+    {
+      "href": "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-22931.json",
+      "id": "CVE-2021-22931",
+      "title": "Update information for CVE-2021-22931 is retrieved from Red Hat",
+      "type": "cve"
+    },
+    {
+      "href": "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-23343.json",
+      "id": "CVE-2021-23343",
+      "title": "Update information for CVE-2021-23343 is retrieved from Red Hat",
+      "type": "cve"
+    }
+  ],
+  "cveids": ["CVE-2021-22931", "CVE-2021-23343"]
+}

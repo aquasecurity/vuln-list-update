@@ -30,10 +30,11 @@ const (
 )
 
 var (
-	defaultURL      = "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/repodata"
-	defaultReleases = map[string][]string{"8": {"8.3", "8.4", "8.5"}}
+	defaultURL      = "https://download.rockylinux.org/%s/rocky/%s/%s/%s/os/repodata"
+	defaultReleases = map[string]map[string][]string{"8": {"vault": {"8.3", "8.4"}, "pub": {"8.5"}}}
 	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
-	defaultArches   = []string{"x86_64", "aarch64"}
+	// defaultArches   = []string{"x86_64", "aarch64"}
+	defaultArches = []string{"x86_64"}
 )
 
 // RepoMd has repomd data
@@ -86,6 +87,10 @@ type Module struct {
 	Context string `json:"context,omitempty"`
 }
 
+func (m Module) String() string {
+	return fmt.Sprintf("%s:%s:%d:%s:%s", m.Name, m.Stream, m.Version, m.Context, m.Arch)
+}
+
 // Date has time information
 type Date struct {
 	Date string `xml:"date,attr" json:"date,omitempty"`
@@ -118,14 +123,14 @@ type options struct {
 	url      string
 	dir      string
 	retry    int
-	releases map[string][]string
+	releases map[string]map[string][]string
 	repos    []string
 	arches   []string
 }
 
 type option func(*options)
 
-func With(url string, dir string, retry int, releases map[string][]string, repos, arches []string) option {
+func With(url string, dir string, retry int, releases map[string]map[string][]string, repos, arches []string) option {
 	return func(opts *options) {
 		opts.url = url
 		opts.dir = dir
@@ -172,7 +177,7 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) update(majorVer string, releases []string, repo, arch string) error {
+func (c Config) update(majorVer string, releases map[string][]string, repo, arch string) error {
 	dirPath := filepath.Join(c.dir, majorVer, repo, arch)
 	log.Printf("Remove Rocky Linux %s %s %s directory %s", majorVer, repo, arch, dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
@@ -183,53 +188,55 @@ func (c Config) update(majorVer string, releases []string, repo, arch string) er
 	}
 
 	advisories := map[string]Advisory{}
-	for _, release := range releases {
-		u, err := url.Parse(fmt.Sprintf(c.url, release, repo, arch))
-		if err != nil {
-			return xerrors.Errorf("failed to parse root url: %w", err)
-		}
-		rootPath := u.Path
-
-		log.Printf("Fetching Rocky Linux %s %s %s Advisory filename from repodata html...", release, repo, arch)
-		advFiles, err := c.fetchAdvisoryFiles(u.String())
-		if err != nil {
-			return xerrors.Errorf("failed to fetch advisory files: %w", err)
-		}
-
-		for _, advFile := range advFiles {
-			log.Printf("Fetching advisory. updateinfo.xml: %.10s, modules.yaml: %.10s", advFile.updateinfo, advFile.modules)
-
-			u.Path = path.Join(rootPath, advFile.updateinfo)
-			uinfo, err := c.fetchSecurityAdvisory(u.String())
+	for status, rels := range releases {
+		for _, rel := range rels {
+			u, err := url.Parse(fmt.Sprintf(c.url, status, rel, repo, arch))
 			if err != nil {
-				return xerrors.Errorf("failed to fetch updateInfo: %w", err)
+				return xerrors.Errorf("failed to parse root url: %w", err)
+			}
+			rootPath := u.Path
+
+			log.Printf("Fetching Rocky Linux %s %s %s Advisory filename from repodata html...", rel, repo, arch)
+			advFiles, err := c.fetchAdvisoryFiles(u.String())
+			if err != nil {
+				return xerrors.Errorf("failed to fetch advisory files: %w", err)
 			}
 
-			modules := map[string]ModuleInfo{}
-			if advFile.modules != "" {
-				u.Path = path.Join(rootPath, advFile.modules)
-				modules, err = c.fetchModulesFromYaml(u.String())
+			for _, advFile := range advFiles {
+				log.Printf("Fetching advisory. updateinfo.xml: %.10s, modules.yaml: %.10s", advFile.updateinfo, advFile.modules)
+
+				u.Path = path.Join(rootPath, advFile.updateinfo)
+				uinfo, err := c.fetchSecurityAdvisory(u.String())
 				if err != nil {
-					return xerrors.Errorf("failed to fetch modules info: %w", err)
+					return xerrors.Errorf("failed to fetch updateInfo: %w", err)
 				}
-			}
 
-			if err := extractModulesToUpdateInfo(uinfo, modules); err != nil {
-				return xerrors.Errorf("failed to extract modules to updateinfo: %w", err)
-			}
+				modules := map[string]ModuleInfo{}
+				if advFile.modules != "" {
+					u.Path = path.Join(rootPath, advFile.modules)
+					modules, err = c.fetchModulesFromYaml(u.String())
+					if err != nil {
+						return xerrors.Errorf("failed to fetch modules info: %w", err)
+					}
+				}
 
-			for _, adv1 := range uinfo.Advisories {
-				adv2, ok := advisories[adv1.ID]
-				if ok {
-					if adv1.Updated.Date != adv2.Updated.Date {
-						advisories[adv1.ID] = adv1
-					} else if adv1.Issued.Date != adv2.Issued.Date {
-						advisories[adv1.ID] = adv1
-					} else if len(adv2.PkgLists) == 0 {
+				if err := extractModulesToUpdateInfo(uinfo, modules); err != nil {
+					return xerrors.Errorf("failed to extract modules to updateinfo: %w", err)
+				}
+
+				for _, adv1 := range uinfo.Advisories {
+					adv2, ok := advisories[adv1.ID]
+					if ok {
+						if adv1.Updated.Date != adv2.Updated.Date {
+							advisories[adv1.ID] = adv1
+						} else if adv1.Issued.Date != adv2.Issued.Date {
+							advisories[adv1.ID] = adv1
+						} else if len(adv2.PkgLists) == 0 {
+							advisories[adv1.ID] = adv1
+						}
+					} else {
 						advisories[adv1.ID] = adv1
 					}
-				} else {
-					advisories[adv1.ID] = adv1
 				}
 			}
 		}
