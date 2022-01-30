@@ -48,11 +48,6 @@ var (
 	defaultRepos  = []string{"Everything", "Modular"}
 	defaultArches = []string{"x86_64", "aarch64"}
 
-	pkgArchFilter = map[string][]string{
-		"x86_64":  {"noarch", "x86_64", "i686"},
-		"aarch64": {"noarch", "aarch64"},
-	}
-
 	cveIDPattern = regexp.MustCompile(`(CVE-\d{4}-\d{4,})`)
 )
 
@@ -385,7 +380,7 @@ func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error)
 
 		var pkgs []Package
 		for _, pkg := range adv.Packages {
-			if utils.StringInSlice(pkg.Arch, pkgArchFilter[arch]) {
+			if utils.StringInSlice(pkg.Arch, []string{"noarch", arch}) {
 				pkgs = append(pkgs, pkg)
 			}
 		}

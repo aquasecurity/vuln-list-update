@@ -16,33 +16,6 @@
         "epoch": "7",
         "version": "5.2",
         "release": "1.fc35",
-        "arch": "i686",
-        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/s/squid-debuginfo-5.2-1.fc35.i686.rpm",
-        "filename": "squid-debuginfo-5.2-1.fc35.i686.rpm"
-      },
-      {
-        "name": "squid",
-        "epoch": "7",
-        "version": "5.2",
-        "release": "1.fc35",
-        "arch": "i686",
-        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/s/squid-5.2-1.fc35.i686.rpm",
-        "filename": "squid-5.2-1.fc35.i686.rpm"
-      },
-      {
-        "name": "squid-debugsource",
-        "epoch": "7",
-        "version": "5.2",
-        "release": "1.fc35",
-        "arch": "i686",
-        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/s/squid-debugsource-5.2-1.fc35.i686.rpm",
-        "filename": "squid-debugsource-5.2-1.fc35.i686.rpm"
-      },
-      {
-        "name": "squid-debuginfo",
-        "epoch": "7",
-        "version": "5.2",
-        "release": "1.fc35",
         "arch": "x86_64",
         "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/x86_64/s/squid-debuginfo-5.2-1.fc35.x86_64.rpm",
         "filename": "squid-debuginfo-5.2-1.fc35.x86_64.rpm"
