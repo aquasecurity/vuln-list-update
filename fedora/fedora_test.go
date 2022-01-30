@@ -111,14 +111,14 @@ func Test_Update(t *testing.T) {
 				dir, file := filepath.Split(path)
 				b, err := os.ReadFile(filepath.Join("testdata", "golden", filepath.Base(dir), file))
 				assert.NoError(t, err, "failed to open the golden file")
-				var want fedora.FSA
+				var want fedora.Advisory
 				err = json.Unmarshal(b, &want)
 				assert.NoError(t, err, "failed to unmarshal json")
 				sort.Slice(want.CveIDs, func(i, j int) bool { return want.CveIDs[i] < want.CveIDs[j] })
 
 				b, err = os.ReadFile(path)
 				assert.NoError(t, err, "failed to open the result file")
-				var got fedora.FSA
+				var got fedora.Advisory
 				err = json.Unmarshal(b, &got)
 				assert.NoError(t, err, "failed to unmarshal json")
 				sort.Slice(got.CveIDs, func(i, j int) bool { return got.CveIDs[i] < got.CveIDs[j] })

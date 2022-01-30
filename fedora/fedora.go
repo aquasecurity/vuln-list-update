@@ -72,13 +72,13 @@ type Location struct {
 	Href string `xml:"href,attr"`
 }
 
-// UpdateInfo has a list of Fedora Security Advisory
+// UpdateInfo has a list of Fedora Advisory
 type UpdateInfo struct {
-	FSAList []FSA `xml:"update"`
+	Advisories []Advisory `xml:"update"`
 }
 
-// FSA has detailed data of Fedora Security Advisory
-type FSA struct {
+// Advisory has detailed data of Fedora Security Advisory
+type Advisory struct {
 	ID          string      `xml:"id" json:"id,omitempty"`
 	Title       string      `xml:"title" json:"title,omitempty"`
 	Type        string      `xml:"type,attr" json:"type,omitempty"`
@@ -223,22 +223,22 @@ func (c Config) update(mode, release, repo, arch string) error {
 		return xerrors.Errorf("failed to fetch updateinfo: %w", err)
 	}
 
-	fsalistByYear := map[string][]FSA{}
-	for _, fsa := range vulns.FSAList {
-		ss := strings.Split(fsa.ID, "-")
+	advlistByYear := map[string][]Advisory{}
+	for _, adv := range vulns.Advisories {
+		ss := strings.Split(adv.ID, "-")
 		y := ss[len(ss)-2]
-		fsalistByYear[y] = append(fsalistByYear[y], fsa)
+		advlistByYear[y] = append(advlistByYear[y], adv)
 	}
 
 	log.Printf("Write Fedora Linux (%s) %s %s %s Errata \n", mode, release, repo, arch)
-	bar := pb.StartNew(len(vulns.FSAList))
-	for year, fsalist := range fsalistByYear {
+	bar := pb.StartNew(len(vulns.Advisories))
+	for year, advlist := range advlistByYear {
 		if err := os.Mkdir(filepath.Join(dirPath, year), os.ModePerm); err != nil {
 			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
-		for _, fsa := range fsalist {
-			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", fsa.ID))
-			if err := utils.Write(filepath, fsa); err != nil {
+		for _, adv := range advlist {
+			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", adv.ID))
+			if err := utils.Write(filepath, adv); err != nil {
 				return xerrors.Errorf("failed to write Fedora CVE details: %w", err)
 			}
 			bar.Increment()
@@ -298,7 +298,7 @@ func (c Config) fetchUpdateInfoModular(baseURL, arch string) (*UpdateInfo, error
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return &UpdateInfo{FSAList: []FSA{}}, nil
+		return &UpdateInfo{Advisories: []Advisory{}}, nil
 	}
 
 	originalPath := u.Path
@@ -377,34 +377,34 @@ func (c Config) fetchUpdateInfo(url, compress, arch string) (*UpdateInfo, error)
 	if err := xml.NewDecoder(r).Decode(&updateInfo); err != nil {
 		return nil, xerrors.Errorf("failed to decode updateinfo: %w", err)
 	}
-	fsaList := []FSA{}
-	for _, fsa := range updateInfo.FSAList {
-		if fsa.Type != "security" {
+	advList := []Advisory{}
+	for _, adv := range updateInfo.Advisories {
+		if adv.Type != "security" {
 			continue
 		}
 
 		var pkgs []Package
-		for _, pkg := range fsa.Packages {
+		for _, pkg := range adv.Packages {
 			if utils.StringInSlice(pkg.Arch, pkgArchFilter[arch]) {
 				pkgs = append(pkgs, pkg)
 			}
 		}
-		fsa.Packages = pkgs
+		adv.Packages = pkgs
 
-		cveIDs, err := c.fetchCVEIDs(fsa)
+		cveIDs, err := c.fetchCVEIDs(adv)
 		if err != nil {
 			return nil, xerrors.Errorf("failed to fetch CVE-IDs: %w", err)
 		}
-		fsa.CveIDs = cveIDs
+		adv.CveIDs = cveIDs
 
-		fsaList = append(fsaList, fsa)
+		advList = append(advList, adv)
 	}
-	return &UpdateInfo{FSAList: fsaList}, nil
+	return &UpdateInfo{Advisories: advList}, nil
 }
 
-func (c Config) fetchCVEIDs(fsa FSA) ([]string, error) {
+func (c Config) fetchCVEIDs(adv Advisory) ([]string, error) {
 	cveIDMap := map[string]struct{}{}
-	for _, ref := range fsa.References {
+	for _, ref := range adv.References {
 		if !strings.Contains(ref.Title, "CVE-") {
 			continue
 		}
@@ -438,7 +438,7 @@ func (c Config) fetchCVEIDs(fsa FSA) ([]string, error) {
 		}
 	}
 	if len(cveIDMap) == 0 {
-		cveIDs := cveIDPattern.FindAllString(fsa.Description, -1)
+		cveIDs := cveIDPattern.FindAllString(adv.Description, -1)
 		if len(cveIDs) == 0 {
 			return []string{}, nil
 		}
@@ -591,10 +591,10 @@ func (m ModuleInfo) convertToUpdateInfoTitle() string {
 func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string]ModuleInfo, fetchArch string) error {
 	missingModuleIdxs := []int{}
 	missingModuleURLs := []string{}
-	for i, fsa := range uinfo.FSAList {
-		minfo, ok := modules[fsa.Title]
+	for i, adv := range uinfo.Advisories {
+		minfo, ok := modules[adv.Title]
 		if !ok {
-			m, err := parseModuleFromAdvisoryTitle(fsa.Title)
+			m, err := parseModuleFromAdvisoryTitle(adv.Title)
 			if err != nil {
 				return xerrors.Errorf("failed to parse module from advisory title: %w", err)
 			}
@@ -603,7 +603,7 @@ func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string
 			missingModuleURLs = append(missingModuleURLs, minfoURL)
 			continue
 		}
-		if err := extractModuleToAdvisory(&uinfo.FSAList[i], minfo); err != nil {
+		if err := extractModuleToAdvisory(&uinfo.Advisories[i], minfo); err != nil {
 			return xerrors.Errorf("failed to extract module to advisory: %w", err)
 		}
 	}
@@ -618,12 +618,12 @@ func (c Config) extractModulesToUpdateInfo(uinfo *UpdateInfo, modules map[string
 	}
 
 	for _, idx := range missingModuleIdxs {
-		minfo, ok := missingModules[uinfo.FSAList[idx].Title]
+		minfo, ok := missingModules[uinfo.Advisories[idx].Title]
 		if !ok {
-			log.Printf("failed to get module info. title: %s\n", uinfo.FSAList[idx].Title)
+			log.Printf("failed to get module info. title: %s\n", uinfo.Advisories[idx].Title)
 			continue
 		}
-		if err := extractModuleToAdvisory(&uinfo.FSAList[idx], minfo); err != nil {
+		if err := extractModuleToAdvisory(&uinfo.Advisories[idx], minfo); err != nil {
 			return xerrors.Errorf("failed to extract module to advisory: %w", err)
 		}
 	}
@@ -649,7 +649,7 @@ func parseModuleFromAdvisoryTitle(title string) (Module, error) {
 	}, nil
 }
 
-func extractModuleToAdvisory(advisory *FSA, minfo ModuleInfo) error {
+func extractModuleToAdvisory(advisory *Advisory, minfo ModuleInfo) error {
 	advisory.Module = Module{
 		Stream:  minfo.Data.Stream,
 		Name:    minfo.Data.Name,
