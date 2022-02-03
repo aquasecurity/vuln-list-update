@@ -40,6 +40,9 @@
       "Updated": {
         "Date": "2020-01-16"
       },
+      "Affected": {
+        "Resolution": {}
+      },
       "Cves": [
         {
           "CveID": "CVE-2020-0602",

@@ -35,6 +35,9 @@
       "Updated": {
         "Date": "2019-11-20"
       },
+      "Affected": {
+        "Resolution": {}
+      },
       "Cves": [
         {
           "CveID": "CVE-2019-14864",
