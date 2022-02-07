@@ -28,7 +28,7 @@ func TestConfig_Update(t *testing.T) {
 		{
 			name:      "happy path",
 			dir:       "testdata/happy",
-			wantFiles: 25,
+			wantFiles: 24,
 		},
 		{
 			name:    "404",
