@@ -39,12 +39,18 @@ func NewUpdater() Updater {
 	}
 }
 
-func (u Updater) Update() error {
+func (u Updater) Update(alternativeRepoURL string) error {
 	log.Print("Fetching GitLab Advisory Database (advisories-community)")
 
 	gc := git.Config{}
 	dir := filepath.Join(u.cacheDir, gladDir)
-	if _, err := gc.CloneOrPull(repoURL, dir, "main", false); err != nil {
+	defaultOrAlternativeRepoURL := repoURL
+
+	if len(alternativeRepoURL) > 0 {
+		defaultOrAlternativeRepoURL = alternativeRepoURL
+	}
+
+	if _, err := gc.CloneOrPull(defaultOrAlternativeRepoURL, dir, "main", false); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
