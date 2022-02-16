@@ -17,7 +17,7 @@ import (
 
 const (
 	repoURL    = "https://gitlab.com/gitlab-org/advisories-community.git"
-	repoBranch = "master"
+	repoBranch = "main"
 	gladDir    = "glad" // GitLab Advisory Database
 )
 
