@@ -16,8 +16,9 @@ import (
 )
 
 const (
-	repoURL = "https://gitlab.com/gitlab-org/advisories-community.git"
-	gladDir = "glad" // GitLab Advisory Database
+	repoURL    = "https://gitlab.com/gitlab-org/advisories-community.git"
+	repoBranch = "master"
+	gladDir    = "glad" // GitLab Advisory Database
 )
 
 var (
@@ -39,18 +40,23 @@ func NewUpdater() Updater {
 	}
 }
 
-func (u Updater) Update(alternativeRepoURL string) error {
+func (u Updater) Update(alternativeRepoURL string, alternativeRepoBranch string) error {
 	log.Print("Fetching GitLab Advisory Database (advisories-community)")
 
 	gc := git.Config{}
 	dir := filepath.Join(u.cacheDir, gladDir)
 	defaultOrAlternativeRepoURL := repoURL
+	defaultOrAlternativeRepoBranch := repoBranch
 
 	if len(alternativeRepoURL) > 0 {
 		defaultOrAlternativeRepoURL = alternativeRepoURL
 	}
 
-	if _, err := gc.CloneOrPull(defaultOrAlternativeRepoURL, dir, "main", false); err != nil {
+	if len(alternativeRepoBranch) > 0 {
+		defaultOrAlternativeRepoBranch = alternativeRepoBranch
+	}
+
+	if _, err := gc.CloneOrPull(defaultOrAlternativeRepoURL, dir, defaultOrAlternativeRepoBranch, false); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
