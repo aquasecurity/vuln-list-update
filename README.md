@@ -20,7 +20,7 @@ https://github.com/aquasecurity/vuln-list/
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-    	update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard)
+    	update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard, wrlinux)
   -target-branch string
     	alternative repository branch (only glad)
   -target-uri string

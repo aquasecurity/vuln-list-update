@@ -40,6 +40,7 @@ import (
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/aquasecurity/vuln-list-update/wrlinux"
 )
 
 const (
@@ -50,7 +51,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard, wrlinux)")
 	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -243,6 +244,11 @@ func run() error {
 			return xerrors.Errorf("Chainguard update error: %w", err)
 		}
 		commitMsg = "Chainguard Security Data"
+	case "wrlinux":
+		if err := wrlinux.Update(); err != nil {
+			return xerrors.Errorf("WRLinux update error: %w", err)
+		}
+		commitMsg = "Wind River CVE Tracker"
 	default:
 		return xerrors.New("unknown target")
 	}

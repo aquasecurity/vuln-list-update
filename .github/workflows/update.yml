@@ -100,6 +100,10 @@ jobs:
       run: ./vuln-list-update -target mariner
 
     - if: always()
+      name: WindRiver CVE Tracker
+      run: ./vuln-list-update -target wrlinux
+
+    - if: always()
       name: OSV Database
       run: ./vuln-list-update -target osv
 
