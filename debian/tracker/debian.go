@@ -19,8 +19,9 @@ import (
 )
 
 const (
-	debianDir          = "debian"
-	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
+	debianDir = "debian"
+	// securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
+	securityTrackerURL = "https://security-tracker.debian.org/tracker/data/json"
 	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
 	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
 )
@@ -106,39 +107,63 @@ func (c Client) Update() error {
 	}
 
 	log.Println("Fetching Debian data...")
-	tmpDir, err := utils.DownloadToTempDir(ctx, c.trackerURL)
+	vulsjsonfile, err := utils.DownloadToTempFile(ctx, c.trackerURL)
 	if err != nil {
 		return xerrors.Errorf("failed to retrieve Debian Security Tracker: %w", err)
 	}
-	defer os.RemoveAll(tmpDir)
+	defer os.RemoveAll(vulsjsonfile)
 
-	for _, p := range c.parsers {
-		list := filepath.Join(tmpDir, "data", p.Dir(), "list")
-		bugs, err := c.parseList(p, list)
+	log.Printf("temp dir: %s\n", vulsjsonfile)
+
+	jsonFile, err := os.Open(vulsjsonfile)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		return xerrors.Errorf("failed to read json file: %w", err)
+	}
+
+	vuls := make(map[string]interface{})
+
+	json.NewDecoder(bufio.NewReader(jsonFile)).Decode(&vuls)
+
+	for key, v := range vuls {
+		fldStr := filepath.Join(c.vulnListDir, debianDir, key)
+		os.Mkdir(fldStr, os.ModePerm)
+		cves := v.(map[string]interface{})
+		for cve, data := range cves {
+			cveFile := filepath.Join(fldStr, fmt.Sprintf("%s.json", cve))
+			utils.Write(cveFile, data)
+		}
+	}
+
+	/*
+		for _, p := range c.parsers {
+			list := filepath.Join(tmpDir, "data", p.Dir(), "list")
+			bugs, err := c.parseList(p, list)
+			if err != nil {
+				return xerrors.Errorf("debian parse error: %w", err)
+			}
+
+			if err = c.update(p.Dir(), bugs); err != nil {
+				return xerrors.Errorf("debian update error: %w", err)
+			}
+		}
+
+		log.Println("Parsing distributions.json...")
+		dists, err := c.parseDistributions(tmpDir)
 		if err != nil {
-			return xerrors.Errorf("debian parse error: %w", err)
+			return xerrors.Errorf("failed to update distributions: %w", err)
 		}
 
-		if err = c.update(p.Dir(), bugs); err != nil {
-			return xerrors.Errorf("debian update error: %w", err)
+		distributionJSON := filepath.Join(c.vulnListDir, debianDir, "distributions.json")
+		if err = utils.Write(distributionJSON, dists); err != nil {
+			return xerrors.Errorf("unable to write %s: %w", distributionJSON, err)
 		}
-	}
 
-	log.Println("Parsing distributions.json...")
-	dists, err := c.parseDistributions(tmpDir)
-	if err != nil {
-		return xerrors.Errorf("failed to update distributions: %w", err)
-	}
-
-	distributionJSON := filepath.Join(c.vulnListDir, debianDir, "distributions.json")
-	if err = utils.Write(distributionJSON, dists); err != nil {
-		return xerrors.Errorf("unable to write %s: %w", distributionJSON, err)
-	}
-
-	err = c.updateSources(ctx, dists)
-	if err != nil {
-		return xerrors.Errorf("unable to fetch Sources: %w", err)
-	}
+		err = c.updateSources(ctx, dists)
+		if err != nil {
+			return xerrors.Errorf("unable to fetch Sources: %w", err)
+		}
+	*/
 
 	return nil
 }
