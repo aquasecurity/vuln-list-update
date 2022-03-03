@@ -1,0 +1,106 @@
+{
+  "id": "RLSA-2021:1979",
+  "title": "Important: squid:4 security update",
+  "issued": {
+    "date": "2021-07-22 03:16:49"
+  },
+  "updated": {
+    "date": "2021-05-18 00:00:00"
+  },
+  "severity": "Important",
+  "description": "For more information visit https://errata.rockylinux.org/RLSA-2021:1979",
+  "pkglists": [
+    {
+      "packages": [
+        {
+          "name": "libecap",
+          "epoch": "0",
+          "version": "1.0.1",
+          "release": "2.module+el8.4.0+404+316a0dc5",
+          "arch": "src",
+          "filename": "libecap-1.0.1-2.module+el8.4.0+404+316a0dc5.src.rpm"
+        },
+        {
+          "name": "libecap",
+          "epoch": "0",
+          "version": "1.0.1",
+          "release": "2.module+el8.4.0+404+316a0dc5",
+          "arch": "x86_64",
+          "filename": "libecap-1.0.1-2.module+el8.4.0+404+316a0dc5.x86_64.rpm"
+        },
+        {
+          "name": "libecap-debuginfo",
+          "epoch": "0",
+          "version": "1.0.1",
+          "release": "2.module+el8.4.0+404+316a0dc5",
+          "arch": "x86_64",
+          "filename": "libecap-debuginfo-1.0.1-2.module+el8.4.0+404+316a0dc5.x86_64.rpm"
+        },
+        {
+          "name": "libecap-debugsource",
+          "epoch": "0",
+          "version": "1.0.1",
+          "release": "2.module+el8.4.0+404+316a0dc5",
+          "arch": "x86_64",
+          "filename": "libecap-debugsource-1.0.1-2.module+el8.4.0+404+316a0dc5.x86_64.rpm"
+        },
+        {
+          "name": "libecap-devel",
+          "epoch": "0",
+          "version": "1.0.1",
+          "release": "2.module+el8.4.0+404+316a0dc5",
+          "arch": "x86_64",
+          "filename": "libecap-devel-1.0.1-2.module+el8.4.0+404+316a0dc5.x86_64.rpm"
+        },
+        {
+          "name": "squid",
+          "epoch": "7",
+          "version": "4.11",
+          "release": "4.module+el8.4.0+404+316a0dc5.2",
+          "arch": "src",
+          "filename": "squid-4.11-4.module+el8.4.0+404+316a0dc5.2.src.rpm"
+        },
+        {
+          "name": "squid",
+          "epoch": "7",
+          "version": "4.11",
+          "release": "4.module+el8.4.0+404+316a0dc5.2",
+          "arch": "x86_64",
+          "filename": "squid-4.11-4.module+el8.4.0+404+316a0dc5.2.x86_64.rpm"
+        },
+        {
+          "name": "squid-debuginfo",
+          "epoch": "7",
+          "version": "4.11",
+          "release": "4.module+el8.4.0+404+316a0dc5.2",
+          "arch": "x86_64",
+          "filename": "squid-debuginfo-4.11-4.module+el8.4.0+404+316a0dc5.2.x86_64.rpm"
+        },
+        {
+          "name": "squid-debugsource",
+          "epoch": "7",
+          "version": "4.11",
+          "release": "4.module+el8.4.0+404+316a0dc5.2",
+          "arch": "x86_64",
+          "filename": "squid-debugsource-4.11-4.module+el8.4.0+404+316a0dc5.2.x86_64.rpm"
+        }
+      ],
+      "module": {
+        "stream": "4",
+        "name": "squid",
+        "version": 8040020210530192432,
+        "arch": "x86_64",
+        "context": "9f9e2e7e"
+      }
+    }
+  ],
+  "references": [
+    {
+      "href": "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2020-25097.json",
+      "id": "CVE-2020-25097",
+      "title": "Update information for CVE-2020-25097 is retrieved from Red Hat",
+      "type": "cve"
+    }
+  ],
+  "cveids": ["CVE-2020-25097"]
+}
