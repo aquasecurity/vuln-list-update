@@ -1,0 +1,54 @@
+{
+    "id": "FEDORA-2021-c6f471ce0f",
+    "title": "log4j-2.17.1-1.fc35",
+    "type": "security",
+    "issued": {
+      "date": "2022-01-06 01:10:57"
+    },
+    "updated": {
+      "date": "2021-12-28 21:42:52"
+    },
+    "severity": "Low",
+    "description": "Update log4j to 2.17.1 for CVE-2021-44832 RCE via JDBC Appender (when attacker controls config)",
+    "packages": [
+      {
+        "name": "log4j-jcl",
+        "epoch": "0",
+        "version": "2.17.1",
+        "release": "1.fc35",
+        "arch": "noarch",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/l/log4j-jcl-2.17.1-1.fc35.noarch.rpm",
+        "filename": "log4j-jcl-2.17.1-1.fc35.noarch.rpm"
+      },
+      {
+        "name": "log4j-slf4j",
+        "epoch": "0",
+        "version": "2.17.1",
+        "release": "1.fc35",
+        "arch": "noarch",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/l/log4j-slf4j-2.17.1-1.fc35.noarch.rpm",
+        "filename": "log4j-slf4j-2.17.1-1.fc35.noarch.rpm"
+      },
+      {
+        "name": "log4j",
+        "epoch": "0",
+        "version": "2.17.1",
+        "release": "1.fc35",
+        "arch": "noarch",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/35/i386/l/log4j-2.17.1-1.fc35.noarch.rpm",
+        "filename": "log4j-2.17.1-1.fc35.noarch.rpm"
+      }
+    ],
+    "module": {},
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2035949",
+        "id": "2035949",
+        "title": "log4j-2.17.1 is available",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2021-44832"
+    ]
+  }

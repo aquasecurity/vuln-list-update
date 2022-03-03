@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>1934558</bug_id>
+          
+          <creation_ts>2021-03-03 13:39:19 +0000</creation_ts>
+          <short_desc>squid: out-of-bounds read in WCCP protocol</short_desc>
+          <delta_ts>2021-03-19 09:41:25 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>3</classification_id>
+          <classification>Other</classification>
+          <product>Security Response</product>
+          <component>vulnerability</component>
+          <version>unspecified</version>
+          <rep_platform>All</rep_platform>
+          <op_sys>Linux</op_sys>
+          <bug_status>CLOSED</bug_status>
+          <resolution>DUPLICATE</resolution>
+          <dup_id>1939939</dup_id>
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>Security</keywords>
+          <priority>low</priority>
+          <bug_severity>low</bug_severity>
+          <target_milestone>---</target_milestone>
+          <dependson>1934560</dependson>
+    
+    
+    <dependson>1934559</dependson>
+          <blocked>1934571</blocked>
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Michael Kaplan">mkaplan</reporter>
+          <assigned_to name="Red Hat Product Security">security-response-team</assigned_to>
+          <cc>anon.amish</cc>
+    
+    
+    <cc>code</cc>
+    
+    
+    <cc>jonathansteffan</cc>
+    
+    
+    <cc>luhliari</cc>
+    
+    
+    <cc>mcascell</cc>
+          
+          
+          
+          <cf_fixed_in/>
+          <cf_doc_type>If docs needed, set a value</cf_doc_type>
+          <cf_release_notes/>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          <cf_last_closed>2021-03-19 09:41:25</cf_last_closed>
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>14837189</commentid>
+    <comment_count>0</comment_count>
+    <who name="Michael Kaplan">mkaplan</who>
+    <bug_when>2021-03-03 13:39:19 +0000</bug_when>
+    <thetext>The issue results from the lack of proper validation of user-supplied data, which can result in a read past the end of an allocated buffer. An attacker can leverage this in conjunction with other vulnerabilities to execute code in the context of the "nobody" user.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14837195</commentid>
+    <comment_count>2</comment_count>
+    <who name="Michael Kaplan">mkaplan</who>
+    <bug_when>2021-03-03 13:40:03 +0000</bug_when>
+    <thetext>Created squid tracking bugs for this issue:
+
+Affects: fedora-all [bug 1934559]</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14851777</commentid>
+    <comment_count>4</comment_count>
+    <who name="Mauro Matteo Cascella">mcascell</who>
+    <bug_when>2021-03-08 15:37:21 +0000</bug_when>
+    <thetext>External References:
+
+https://www.zerodayinitiative.com/advisories/ZDI-21-157/</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14887754</commentid>
+    <comment_count>5</comment_count>
+    <who name="Mauro Matteo Cascella">mcascell</who>
+    <bug_when>2021-03-19 09:41:25 +0000</bug_when>
+    <thetext>
+
+*** This bug has been marked as a duplicate of bug 1939939 ***</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

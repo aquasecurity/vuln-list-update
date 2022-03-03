@@ -96,6 +96,10 @@ jobs:
       run: ./vuln-list-update -target rocky
 
     - if: always()
+      name: Fedora Security Advisory
+      run: ./vuln-list-update -target fedora
+      
+    - if: always()
       name: CBL-Mariner Vulnerability Data
       run: ./vuln-list-update -target mariner
 

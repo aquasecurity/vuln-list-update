@@ -1,0 +1,100 @@
+{
+    "id": "FEDORA-EPEL-2021-f89c59b568",
+    "title": "botan2-2.12.1-4.el8",
+    "type": "security",
+    "issued": {
+      "date": "2021-11-15 05:07:11"
+    },
+    "updated": {
+      "date": "2021-11-07 13:12:57"
+    },
+    "severity": "Moderate",
+    "description": "Security fix for CVE-2021-24115 (low severity) and CVE-2021-40529 (medium)",
+    "packages": [
+      {
+        "name": "botan2-doc",
+        "epoch": "0",
+        "version": "2.12.1",
+        "release": "4.el8",
+        "arch": "noarch",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/8/i386/b/botan2-doc-2.12.1-4.el8.noarch.rpm",
+        "filename": "botan2-doc-2.12.1-4.el8.noarch.rpm"
+      },
+      {
+        "name": "botan2",
+        "epoch": "0",
+        "version": "2.12.1",
+        "release": "4.el8",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/8/x86_64/b/botan2-2.12.1-4.el8.x86_64.rpm",
+        "filename": "botan2-2.12.1-4.el8.x86_64.rpm"
+      },
+      {
+        "name": "botan2-devel",
+        "epoch": "0",
+        "version": "2.12.1",
+        "release": "4.el8",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/8/x86_64/b/botan2-devel-2.12.1-4.el8.x86_64.rpm",
+        "filename": "botan2-devel-2.12.1-4.el8.x86_64.rpm"
+      },
+      {
+        "name": "python3-botan2",
+        "epoch": "0",
+        "version": "2.12.1",
+        "release": "4.el8",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/8/x86_64/p/python3-botan2-2.12.1-4.el8.x86_64.rpm",
+        "filename": "python3-botan2-2.12.1-4.el8.x86_64.rpm"
+      },
+      {
+        "name": "botan2-debugsource",
+        "epoch": "0",
+        "version": "2.12.1",
+        "release": "4.el8",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/8/x86_64/b/botan2-debugsource-2.12.1-4.el8.x86_64.rpm",
+        "filename": "botan2-debugsource-2.12.1-4.el8.x86_64.rpm"
+      },
+      {
+        "name": "botan2-debuginfo",
+        "epoch": "0",
+        "version": "2.12.1",
+        "release": "4.el8",
+        "arch": "x86_64",
+        "src": "https://download.fedoraproject.org/pub/fedora/linux/updates/8/x86_64/b/botan2-debuginfo-2.12.1-4.el8.x86_64.rpm",
+        "filename": "botan2-debuginfo-2.12.1-4.el8.x86_64.rpm"
+      }
+    ],
+    "module": {},
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1934453",
+        "id": "1934453",
+        "title": "CVE-2021-24115 botan: constant-time computations are not used for certain decoding and encoding operations (base32, base58, base64, and hex).",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=1934458",
+        "id": "1934458",
+        "title": "CVE-2021-24115 botan2: botan: constant-time computations are not used for certain decoding and encoding operations (base32, base58, base64, and hex). [epel-8]",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2002825",
+        "id": "2002825",
+        "title": "CVE-2021-40529 botan: ElGamal implementation allows plaintext recovery",
+        "type": "bugzilla"
+      },
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2002829",
+        "id": "2002829",
+        "title": "CVE-2021-40529 botan2: botan: ElGamal implementation allows plaintext recovery [epel-8]",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2021-24115",
+      "CVE-2021-40529"
+    ]
+  }

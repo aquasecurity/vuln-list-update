@@ -1,0 +1,146 @@
+{
+    "id": "FEDORA-MODULAR-2021-217f84c072",
+    "title": "mysql-8.0-3520211031142409.f27b74a8",
+    "type": "security",
+    "issued": {
+      "date": "2021-11-10 00:48:52"
+    },
+    "updated": {
+      "date": "2021-10-31 17:53:03"
+    },
+    "severity": "Moderate",
+    "description": "**MySQL 8.0.27**\n\nRelease notes:\n\n    https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-27.html",
+    "packages": [
+      {
+        "name": "community-mysql",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "src",
+        "filename": "community-mysql-8.0.27-1.module_f35+13269+c9322734.src.rpm"
+      },
+      {
+        "name": "community-mysql",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-common",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-common-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-debuginfo",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-debuginfo-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-debugsource",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-debugsource-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-devel",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-devel-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-devel-debuginfo",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-devel-debuginfo-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-errmsg",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-errmsg-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-libs",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-libs-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-libs-debuginfo",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-libs-debuginfo-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-server",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-server-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-server-debuginfo",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-server-debuginfo-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-test",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-test-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      },
+      {
+        "name": "community-mysql-test-debuginfo",
+        "epoch": "0",
+        "version": "8.0.27",
+        "release": "1.module_f35+13269+c9322734",
+        "arch": "x86_64",
+        "filename": "community-mysql-test-debuginfo-8.0.27-1.module_f35+13269+c9322734.x86_64.rpm"
+      }
+    ],
+    "module": {
+      "stream": "8.0",
+      "name": "mysql",
+      "version": 3520211031142409,
+      "arch": "x86_64",
+      "context": "f27b74a8"
+    },
+    "references": [
+      {
+        "href": "https://bugzilla.redhat.com/show_bug.cgi?id=2016142",
+        "id": "2016142",
+        "title": "CVE-2021-2478 CVE-2021-2479 ... mysql:8.0/community-mysql: various flaws [fedora-all]",
+        "type": "bugzilla"
+      }
+    ],
+    "cveids": [
+      "CVE-2021-2478",
+      "CVE-2021-2479"
+    ]
+  }

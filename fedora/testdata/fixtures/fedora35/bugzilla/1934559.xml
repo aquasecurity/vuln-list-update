@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "https://bugzilla.redhat.com/page.cgi?id=bugzilla.dtd">
+<bugzilla version="5.0.4.rh65" urlbase="https://bugzilla.redhat.com/" maintainer="bugzilla-owner@redhat.com">
+
+    <bug>
+          <bug_id>1934559</bug_id>
+          
+          <creation_ts>2021-03-03 13:39:36 +0000</creation_ts>
+          <short_desc>squid: out-of-bounds read in WCCP protocol [fedora-all]</short_desc>
+          <delta_ts>2021-10-29 22:59:37 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>2</classification_id>
+          <classification>Fedora</classification>
+          <product>Fedora</product>
+          <component>squid</component>
+          <version>33</version>
+          <rep_platform>Unspecified</rep_platform>
+          <op_sys>Unspecified</op_sys>
+          <bug_status>CLOSED</bug_status>
+          <resolution>ERRATA</resolution>
+          
+          
+          <bug_file_loc/>
+          <status_whiteboard/>
+          <keywords>Security, SecurityTracking</keywords>
+          <priority>low</priority>
+          <bug_severity>low</bug_severity>
+          <target_milestone>---</target_milestone>
+          
+          <blocked>1934558</blocked>
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Michael Kaplan">mkaplan</reporter>
+          <assigned_to name="Luboš Uhliarik">luhliari</assigned_to>
+          <cc>anon.amish</cc>
+    
+    
+    <cc>code</cc>
+    
+    
+    <cc>jonathansteffan</cc>
+    
+    
+    <cc>luhliari</cc>
+          
+          <qa_contact name="Fedora Extras Quality Assurance">extras-qa</qa_contact>
+          
+          <cf_fixed_in>squid-5.2-1.fc33 squid-5.2-1.fc34 squid-5.2-1.fc35</cf_fixed_in>
+          <cf_doc_type>No Doc Update</cf_doc_type>
+          <cf_release_notes/>
+          <cf_story_points>---</cf_story_points>
+          
+          <cf_environment/>
+          <cf_last_closed>2021-10-13 20:26:06</cf_last_closed>
+          <cf_type>---</cf_type>
+          <cf_regression_status>---</cf_regression_status>
+          <cf_mount_type>---</cf_mount_type>
+          <cf_documentation_action>---</cf_documentation_action>
+          <cf_crm/>
+          <cf_verified_branch/>
+          <cf_category>---</cf_category>
+          <cf_ovirt_team>---</cf_ovirt_team>
+          
+          <cf_cloudforms_team>---</cf_cloudforms_team>
+          <cf_target_upstream_version/>
+          
+          
+          
+          
+          
+          <target_release>---</target_release>
+          
+          <votes>0</votes>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0">
+    <commentid>14837191</commentid>
+    <comment_count>0</comment_count>
+    <who name="Michael Kaplan">mkaplan</who>
+    <bug_when>2021-03-03 13:39:36 +0000</bug_when>
+    <thetext>
+This is an automatically created tracking bug!  It was created to ensure
+that one or more security vulnerabilities are fixed in affected versions
+of fedora-all.
+
+For comments that are specific to the vulnerability please use bugs filed
+against the "Security Response" product referenced in the "Blocks" field.
+
+For more information see:
+http://fedoraproject.org/wiki/Security/TrackingBugs
+
+When submitting as an update, use the fedpkg template provided in the next
+comment(s).  This will include the bug IDs of this tracking bug as well as
+the relevant top-level CVE bugs.
+
+Please also mention the CVE IDs being fixed in the RPM changelog and the
+fedpkg commit message.
+
+NOTE: this issue affects multiple supported versions of Fedora. While only
+one tracking bug has been filed, please correct all affected versions at
+the same time.  If you need to fix the versions independent of each other,
+you may clone this bug as appropriate.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>14837192</commentid>
+    <comment_count>1</comment_count>
+    <who name="Michael Kaplan">mkaplan</who>
+    <bug_when>2021-03-03 13:39:45 +0000</bug_when>
+    <thetext>Use the following template to for the 'fedpkg update' request to submit an
+update for this issue as it contains the top-level parent bug(s) as well as
+this tracking bug.  This will ensure that all associated bugs get updated
+when new packages are pushed to stable.
+
+=====
+
+# bugfix, security, enhancement, newpackage (required)
+type=security
+
+# low, medium, high, urgent (required)
+severity=low
+
+# testing, stable
+request=testing
+
+# Bug numbers: 1234,9876
+bugs=1934558,1934559
+
+# Description of your update
+notes=Security fix for [PUT CVEs HERE]
+
+# Enable request automation based on the stable/unstable karma thresholds
+autokarma=True
+stable_karma=3
+unstable_karma=-3
+
+# Automatically close bugs when this marked as stable
+close_bugs=True
+
+# Suggest that users restart after update
+suggest_reboot=False
+
+======
+
+Additionally, you may opt to use the bodhi web interface to submit updates:
+
+https://bodhi.fedoraproject.org/updates/new</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15556902</commentid>
+    <comment_count>2</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-05 23:15:06 +0000</bug_when>
+    <thetext>FEDORA-2021-15d2f70a07 has been submitted as an update to Fedora 35. https://bodhi.fedoraproject.org/updates/FEDORA-2021-15d2f70a07</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15556903</commentid>
+    <comment_count>3</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-05 23:15:08 +0000</bug_when>
+    <thetext>FEDORA-2021-de5e6c60c2 has been submitted as an update to Fedora 34. https://bodhi.fedoraproject.org/updates/FEDORA-2021-de5e6c60c2</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15556905</commentid>
+    <comment_count>4</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-05 23:15:11 +0000</bug_when>
+    <thetext>FEDORA-2021-4d2e7691ca has been submitted as an update to Fedora 33. https://bodhi.fedoraproject.org/updates/FEDORA-2021-4d2e7691ca</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15559817</commentid>
+    <comment_count>5</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-06 16:52:03 +0000</bug_when>
+    <thetext>FEDORA-2021-4d2e7691ca has been pushed to the Fedora 33 testing repository.
+Soon you'll be able to install the update with the following command:
+`sudo dnf upgrade --enablerepo=updates-testing --advisory=FEDORA-2021-4d2e7691ca`
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-2021-4d2e7691ca
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15559897</commentid>
+    <comment_count>6</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-06 17:13:38 +0000</bug_when>
+    <thetext>FEDORA-2021-de5e6c60c2 has been pushed to the Fedora 34 testing repository.
+Soon you'll be able to install the update with the following command:
+`sudo dnf upgrade --enablerepo=updates-testing --advisory=FEDORA-2021-de5e6c60c2`
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-2021-de5e6c60c2
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15562961</commentid>
+    <comment_count>7</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-07 15:53:33 +0000</bug_when>
+    <thetext>FEDORA-2021-15d2f70a07 has been pushed to the Fedora 35 testing repository.
+Soon you'll be able to install the update with the following command:
+`sudo dnf upgrade --enablerepo=updates-testing --advisory=FEDORA-2021-15d2f70a07`
+You can provide feedback for this update here: https://bodhi.fedoraproject.org/updates/FEDORA-2021-15d2f70a07
+
+See also https://fedoraproject.org/wiki/QA:Updates_Testing for more information on how to test updates.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15580823</commentid>
+    <comment_count>8</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-13 20:26:06 +0000</bug_when>
+    <thetext>FEDORA-2021-4d2e7691ca has been pushed to the Fedora 33 stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15580837</commentid>
+    <comment_count>9</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-13 20:28:37 +0000</bug_when>
+    <thetext>FEDORA-2021-de5e6c60c2 has been pushed to the Fedora 34 stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+  </long_desc><long_desc isprivate="0">
+    <commentid>15629220</commentid>
+    <comment_count>10</comment_count>
+    <who name="Fedora Update System">updates</who>
+    <bug_when>2021-10-29 22:59:37 +0000</bug_when>
+    <thetext>FEDORA-2021-15d2f70a07 has been pushed to the Fedora 35 stable repository.
+If problem still persists, please make note of it in this bug report.</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

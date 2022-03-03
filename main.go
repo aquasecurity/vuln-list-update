@@ -21,6 +21,7 @@ import (
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
+	"github.com/aquasecurity/vuln-list-update/fedora"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/glad"
@@ -112,6 +113,12 @@ func run() error {
 			return xerrors.Errorf("Red Hat OVALv2 update error: %w", err)
 		}
 		commitMsg = "Red Hat OVAL v2"
+	case "fedora":
+		fc := fedora.NewConfig()
+		if err := fc.Update(); err != nil {
+			return xerrors.Errorf("Fedora update error: %w", err)
+		}
+		commitMsg = "Fedora Security Advisory"
 	case "debian":
 		dc := tracker.NewClient()
 		if err := dc.Update(); err != nil {
