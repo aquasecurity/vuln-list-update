@@ -17,7 +17,7 @@ jobs:
         go-version: 1.17
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v2.4.0
+      uses: actions/checkout@v3
 
     - name: Set Owner
       run: echo "VULNLIST_REPOSITORY_OWNER=$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $1}' | sed -e 's/:refs//')" >> $GITHUB_ENV
