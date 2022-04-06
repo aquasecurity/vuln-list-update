@@ -5,20 +5,20 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
 
-    - name: Set up Go
+      - name: Set up Go
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
       id: go
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v3
-    
     - name: Lint
       uses: golangci/golangci-lint-action@v2
       with:
         version: v1.31
+        args: --timeout 3m --verbose
           
     - name: Test
       run: |
