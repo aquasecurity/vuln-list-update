@@ -27,20 +27,24 @@ var (
 )
 
 type Updater struct {
-	vulnListDir string
-	cacheDir    string
-	appFs       afero.Fs
+	alternativeRepoBranch string
+	alternativeRepoURL    string
+	vulnListDir           string
+	cacheDir              string
+	appFs                 afero.Fs
 }
 
-func NewUpdater() Updater {
+func NewUpdater(alternativeRepoURL string, alternativeRepoBranch string) Updater {
 	return Updater{
-		vulnListDir: utils.VulnListDir(),
-		cacheDir:    utils.CacheDir(),
-		appFs:       afero.NewOsFs(),
+		alternativeRepoBranch: alternativeRepoBranch,
+		alternativeRepoURL:    alternativeRepoURL,
+		vulnListDir:           utils.VulnListDir(),
+		cacheDir:              utils.CacheDir(),
+		appFs:                 afero.NewOsFs(),
 	}
 }
 
-func (u Updater) Update(alternativeRepoURL string, alternativeRepoBranch string) error {
+func (u Updater) Update() error {
 	log.Print("Fetching GitLab Advisory Database (advisories-community)")
 
 	gc := git.Config{}
@@ -48,12 +52,12 @@ func (u Updater) Update(alternativeRepoURL string, alternativeRepoBranch string)
 	defaultOrAlternativeRepoURL := repoURL
 	defaultOrAlternativeRepoBranch := repoBranch
 
-	if len(alternativeRepoURL) > 0 {
-		defaultOrAlternativeRepoURL = alternativeRepoURL
+	if len(u.alternativeRepoURL) > 0 {
+		defaultOrAlternativeRepoURL = u.alternativeRepoURL
 	}
 
-	if len(alternativeRepoBranch) > 0 {
-		defaultOrAlternativeRepoBranch = alternativeRepoBranch
+	if len(u.alternativeRepoBranch) > 0 {
+		defaultOrAlternativeRepoBranch = u.alternativeRepoBranch
 	}
 
 	if _, err := gc.CloneOrPull(defaultOrAlternativeRepoURL, dir, defaultOrAlternativeRepoBranch, false); err != nil {

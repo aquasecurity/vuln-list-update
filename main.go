@@ -176,8 +176,8 @@ func run() error {
 		}
 		commitMsg = "GitHub Security Advisory"
 	case "glad":
-		gu := glad.NewUpdater()
-		if err := gu.Update(*targetUri, *targetBranch); err != nil {
+		gu := glad.NewUpdater(*targetUri, *targetBranch)
+		if err := gu.Update(); err != nil {
 			return xerrors.Errorf("GitLab Advisory Database update error: %w", err)
 		}
 		commitMsg = "GitLab Advisory Database"
