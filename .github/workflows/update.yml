@@ -11,13 +11,13 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v3
+
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.17
-
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v3
+        go-version: 1.18
 
     - name: Set Owner
       run: echo "VULNLIST_REPOSITORY_OWNER=$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $1}' | sed -e 's/:refs//')" >> $GITHUB_ENV
