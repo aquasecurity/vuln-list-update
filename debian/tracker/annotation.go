@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
+	"golang.org/x/exp/slices"
 )
 
 var (
@@ -228,13 +228,12 @@ func (a pkgPseudoAnnotation) Apply(match []string, ann *Annotation) {
 	ann.Package = pkg
 	ann.Kind = kind
 
-	if utils.StringInSlice(kind, pseudoFreeText) {
+	if slices.Contains(pseudoFreeText, kind) {
 		ann.Description = inner
-	} else if utils.StringInSlice(kind, pseudoStruct) {
+	} else if slices.Contains(pseudoStruct, kind) {
 		severity, bugno := parseInner(inner)
 		ann.Severity = severity
 		ann.BugNo = bugno
-
 	}
 }
 
