@@ -19,7 +19,8 @@ jobs:
       uses: golangci/golangci-lint-action@v3.1.0
       with:
         version: v1.45
-          
+        args : --verbose
+
     - name: Test
       run: |
         go test -v ./...
