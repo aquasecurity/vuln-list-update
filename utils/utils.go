@@ -232,12 +232,3 @@ func LookupEnv(key, defaultValue string) string {
 	}
 	return defaultValue
 }
-
-func StringInSlice(s string, ss []string) bool {
-	for _, str := range ss {
-		if s == str {
-			return true
-		}
-	}
-	return false
-}
