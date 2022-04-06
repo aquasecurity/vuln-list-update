@@ -97,7 +97,7 @@ func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {
 				Acknowledgement: "",
 				Mitigation:      "\nUsers can lower the impact of this flaw by making sure their privacy settings only allow Pidgin to accept messages from the users on their buddy list.  This will prevent exploitation of this flaw by other random MSN users.\n    ",
 				AffectedRelease: []securitydataapi.RedhatAffectedRelease{
-					securitydataapi.RedhatAffectedRelease{
+					{
 						RedhatCVEID: 0,
 						ProductName: "Red Hat Enterprise Linux 3",
 						ReleaseDate: "2009-08-18T00:00:00Z",
