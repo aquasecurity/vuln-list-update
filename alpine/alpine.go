@@ -86,10 +86,11 @@ func (u Updater) Update() (err error) {
 
 	var releases []string
 	d.Find("a").Each(func(i int, selection *goquery.Selection) {
-		if !strings.HasPrefix(selection.Text(), "v") {
+		release := selection.Text()
+		if !strings.HasPrefix(release, "v") && !strings.HasPrefix(release, "edge") {
 			return
 		}
-		releases = append(releases, selection.Text())
+		releases = append(releases, release)
 	})
 
 	for _, release := range releases {
