@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alpine Linux">
+    <title>Alpine release branches | Alpine Linux</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css" />
+    <link rel="stylesheet" href="/css/grids-responsive-min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="shortcut icon" href="/alpine-logo.ico" />
+</head>
+
+<body>
+<div id="wrapper">
+    <header class="pure-g" id="header">
+        <div class="pure-u-1 pure-u-lg-4-24">
+            <div class="logo">
+                <a href="/"><img src="/alpinelinux-logo.svg" class="pure-img" alt="" /></a>
+            </div>
+        </div>
+        <input type="checkbox" id="menu-toggle-cb">
+        <label id="menu-toggle" for="menu-toggle-cb" onclick><s class="bar"></s><s class="bar"></s><s class="bar"></s></label>
+        <div class="pure-u-1 pure-u-lg-20-24 box-relative menu-wrapper">
+            <nav class="pure-menu pure-menu-horizontal menu-local">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="/about" class="pure-menu-link">About</a></li>
+                    <li class="pure-menu-item"><a href="/downloads" class="pure-menu-link">Downloads</a></li>
+                    <li class="pure-menu-item"><a href="/releases" class="pure-menu-link">Releases</a></li>
+                    <li class="pure-menu-item"><a href="/community" class="pure-menu-link">Community</a></li>
+                    <li class="pure-menu-item"><a href="/sponsors" class="pure-menu-link">Sponsors</a></li>
+                </ul>
+            </nav>
+            <nav class="pure-menu pure-menu-horizontal menu-external">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="https://docs.alpinelinux.org"
+                                                  class="pure-menu-link">docs</a></li>
+                    <li class="pure-menu-item"><a href="https://wiki.alpinelinux.org"
+                                                  class="pure-menu-link">wiki</a></li>
+                    <li class="pure-menu-item"><a href="https://git.alpinelinux.org" class="pure-menu-link">git</a>
+                    </li>
+                    <li class="pure-menu-item"><a href="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
+                                                  class="pure-menu-link">issues</a></li>
+                    <li class="pure-menu-item"><a href="https://pkgs.alpinelinux.org"
+                                                  class="pure-menu-link">packages</a></li>
+                    <li class="pure-menu-item"><a href="https://mirrors.alpinelinux.org"
+                                                  class="pure-menu-link">mirrors</a></li>
+                    <li class="pure-menu-item"><a href="https://security.alpinelinux.org"
+                                                  class="pure-menu-link">security</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Small. Simple. Secure.</h1>
+            <h3>Alpine Linux is a security-oriented, lightweight Linux distribution based on musl libc and busybox.
+            </h3>
+        </div>
+    </div>
+    <div id="content" class="releases">
+        <div class="pagedate">
+            <time datetime=""></time>
+        </div>
+        <h1>Release Branches</h1>
+
+        <p>There are several release branches for Alpine Linux available at the same
+            time. Each May and November we make a release branch from edge. The <em>main</em>
+            repository is typically supported for 2 years and the <em>community</em> repository
+            is supported until next stable release.</p>
+
+        <p>Security fixes beyond that can be made on request when there are patches available.</p>
+
+        <div class="releases">
+            <table class="pure-table pure-table-horizontal">
+                <thead>
+                <tr>
+                    <th nowrap>Branch</th>
+                    <th nowrap>Branch date</th>
+                    <th nowrap>Git Branch</th>
+                    <th nowrap>Minor releases</th>
+                    <th nowrap>End of support</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/edge/">edge</a></td>
+                    <td nowrap></td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=master">master</a></td>
+                    <td>
+                    </td>
+                    <td nowrap><time></time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.15/">v3.15</a></td>
+                    <td nowrap>2021-11-24</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.15-stable">3.15-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.12-3.13.10-3.14.6-3.15.4-released.html">3.15.4</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.11-3.13.9-3.14.5-3.15.3-released.html">3.15.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.15.2-released.html">3.15.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.15.1-released.html">3.15.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.15.0-released.html">3.15.0</a>
+                    </td>
+                    <td nowrap><time>2023-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.14/">v3.14</a></td>
+                    <td nowrap>2021-06-15</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.14-stable">3.14-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.12-3.13.10-3.14.6-3.15.4-released.html">3.14.6</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.11-3.13.9-3.14.5-3.15.3-released.html">3.14.5</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.10-3.13.8-3.14.4-released.html">3.14.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.3-released.html">3.14.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.2-released.html">3.14.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.1-released.html">3.14.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.0-released.html">3.14.0</a>
+                    </td>
+                    <td nowrap><time>2023-05-01</time></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div> <!-- end content -->
+    <footer>&copy; Copyright 2022 Alpine Linux Development Team all rights reserved | <a
+            href="/privacy-policy.html">Privacy Policy</a></footer>
+</div> <!-- end wrapper -->
+</body>
+
+</html>
