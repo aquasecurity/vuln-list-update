@@ -10,11 +10,6 @@ import (
 	"time"
 )
 
-const (
-	eolUrl       = "https://alpinelinux.org/releases/"
-	retryRequest = 1
-)
-
 func getEOFDates(eolUrl string, retry int) (map[string]time.Time, error) {
 	eolDates := make(map[string]time.Time)
 
