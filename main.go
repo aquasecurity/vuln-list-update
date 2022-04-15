@@ -4,6 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
+	eolalpine "github.com/aquasecurity/vuln-list-update/eol/alpine"
 	"log"
 	"os"
 	"strconv"
@@ -16,7 +18,6 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
-	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/cwe"
@@ -46,7 +47,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, eol-alpine)")
 	years = flag.String("years", "", "update years (only redhat)")
 )
 
@@ -219,6 +220,13 @@ func run() error {
 		src := mariner.NewConfig()
 		if err := src.Update(); err != nil {
 			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)
+		}
+		commitMsg = "CBL-Mariner Vulnerability Data"
+	// EOL dates
+	case "eol-alpine":
+		src := eolalpine.NewConfig()
+		if err := src.Update(); err != nil {
+			return xerrors.Errorf("Alpine end of life dates update error: %w", err)
 		}
 		commitMsg = "CBL-Mariner Vulnerability Data"
 	default:
