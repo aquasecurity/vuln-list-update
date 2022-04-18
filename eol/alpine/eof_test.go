@@ -1,41 +1,88 @@
 package alpine
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
 
-func Test_GetAllEOFDates(t *testing.T) {
+func TestConfig_Update(t *testing.T) {
 	tests := []struct {
-		name     string
-		filepath string
-		want     map[string]time.Time
+		name       string
+		filepath   string
+		goldenPath string
+		wantErr    string
 	}{
 		{
-			name:     "happy path",
-			filepath: "testdata/eol.html",
-			want: map[string]time.Time{
-				"3.15": time.Date(2023, 11, 01, 23, 59, 59, 0, time.UTC),
-				"3.14": time.Date(2023, 05, 01, 23, 59, 59, 0, time.UTC),
-				"edge": time.Date(9999, 1, 1, 0, 0, 0, 0, time.UTC),
-			},
+			name:       "happy path",
+			filepath:   "testdata/happy/eol.html",
+			goldenPath: "testdata/golden/alpine.json",
+		},
+		{
+			name:    "sad path. 404",
+			wantErr: "failed to get eol list from url: failed to fetch URL:",
+		},
+		{
+			name:     "sad path. HTML doesn't have table",
+			filepath: "testdata/sad/no-table.html",
+			wantErr:  "unable to get eol dates. Eol date list is empty.",
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				http.ServeFile(w, r, test.filepath)
+				if test.filepath != "" {
+					http.ServeFile(w, r, test.filepath)
+				} else {
+					w.WriteHeader(http.StatusNotFound)
+				}
 			}))
 			defer ts.Close()
 
-			dates, _ := getEOFDates(ts.URL, 1)
+			tmpDir, _ := os.MkdirTemp("", "eol-alpine")
+			filePath := filepath.Join(tmpDir, eolAlpineFolder, eolAlpineFile)
 
-			assert.Equal(t, test.want, dates)
+			c := NewConfig(WithVulnListDir(tmpDir), WithEolURL(ts.URL), WithRetry(1))
+
+			err := c.Update()
+
+			if test.wantErr != "" {
+				assert.NotNil(t, err)
+				assert.NoFileExists(t, filePath)
+			} else {
+				assert.Nil(t, err)
+				assert.FileExists(t, filePath)
+
+				wantJson, err := os.ReadFile(filePath)
+				assert.NoError(t, err)
+
+				gotJson, err := os.ReadFile(test.goldenPath)
+				assert.NoError(t, err)
+
+				assert.JSONEq(t, string(wantJson), string(gotJson))
+			}
 		})
 
+	}
+}
+
+func TestParse(t *testing.T) {
+	eolDates := &map[string]time.Time{}
+
+	f, err := os.ReadFile("testdata/golden/alpine.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = json.Unmarshal(f, eolDates)
+	if err != nil {
+		fmt.Println(err)
 	}
 }

@@ -226,9 +226,9 @@ func run() error {
 	case "eol-alpine":
 		src := eolalpine.NewConfig()
 		if err := src.Update(); err != nil {
-			return xerrors.Errorf("Alpine end of life dates update error: %w", err)
+			return xerrors.Errorf("Alpine end-of-life dates update error: %w", err)
 		}
-		commitMsg = "CBL-Mariner Vulnerability Data"
+		commitMsg = "Alpine end-of-life dates"
 	default:
 		return xerrors.New("unknown target")
 	}
