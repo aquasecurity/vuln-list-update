@@ -26,12 +26,12 @@ func TestConfig_Update(t *testing.T) {
 		},
 		{
 			name:    "sad path. 404",
-			wantErr: "failed to get eol list from url: failed to fetch URL:",
+			wantErr: "failed to get list of end-of-life dates from url: failed to fetch URL:",
 		},
 		{
 			name:     "sad path. HTML doesn't have table",
 			filepath: "testdata/sad/no-table.html",
-			wantErr:  "unable to get eol dates. Eol date list is empty.",
+			wantErr:  "List of end-of-life dates is empty.",
 		},
 	}
 

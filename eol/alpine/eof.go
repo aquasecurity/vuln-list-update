@@ -73,12 +73,12 @@ func (c Config) getEOFDates() (map[string]time.Time, error) {
 	log.Println("Fetching Alpine end-of-life dates...")
 	b, err := utils.FetchURL(c.eolUrl, "", c.retry)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to get eol list from url: %w", err)
+		return nil, xerrors.Errorf("failed to get list of end-of-life dates from url: %w", err)
 	}
 
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
 	if err != nil {
-		return nil, xerrors.Errorf("failed to read end-of-life date list: %w", err)
+		return nil, xerrors.Errorf("failed to read list of end-of-life dates: %w", err)
 	}
 
 	doc.Find("tbody tr").Each(func(_ int, tr *goquery.Selection) {
@@ -103,7 +103,7 @@ func (c Config) getEOFDates() (map[string]time.Time, error) {
 	})
 
 	if len(eolDates) == 0 {
-		return nil, xerrors.Errorf("unable to get eol dates. Eol date list is empty.")
+		return nil, xerrors.Errorf("List of end-of-life dates is empty.")
 	}
 
 	// edge version doesn't have EOL. Add max date.
