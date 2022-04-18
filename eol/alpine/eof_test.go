@@ -1,15 +1,12 @@
 package alpine
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
-	"time"
 )
 
 func TestConfig_Update(t *testing.T) {
@@ -70,19 +67,5 @@ func TestConfig_Update(t *testing.T) {
 			}
 		})
 
-	}
-}
-
-func TestParse(t *testing.T) {
-	eolDates := &map[string]time.Time{}
-
-	f, err := os.ReadFile("testdata/golden/alpine.json")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	err = json.Unmarshal(f, eolDates)
-	if err != nil {
-		fmt.Println(err)
 	}
 }
