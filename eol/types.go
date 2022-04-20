@@ -4,6 +4,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/eol/alma"
 	"github.com/aquasecurity/vuln-list-update/eol/alpine"
 	"github.com/aquasecurity/vuln-list-update/eol/debian"
+	"github.com/aquasecurity/vuln-list-update/eol/opensuse"
 	"github.com/aquasecurity/vuln-list-update/eol/rocky"
 )
 
@@ -12,4 +13,5 @@ var all = []EolSrc{
 	alpine.NewConfig(),
 	rocky.NewConfig(),
 	debian.NewConfig(),
+	opensuse.NewConfig(),
 }

@@ -1,4 +1,4 @@
-package rocky
+package opensuse
 
 import (
 	"net/http"
@@ -29,7 +29,7 @@ func TestConfig_Update(t *testing.T) {
 		{
 			name:     "sad path. Empty json has been returned",
 			filepath: "testdata/empty.json",
-			wantErr:  `unable to parse "" date`,
+			wantErr:  `list of end-of-life dates is empty`,
 		},
 		{
 			name:     "sad path. Bad json has been returned",

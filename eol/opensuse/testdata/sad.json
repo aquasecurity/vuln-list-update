@@ -1,0 +1,112 @@
+[
+  {
+    "cycle": "15.3",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2021-06-02",
+    "support": "2022-12-01",
+    "eol": "2022-12-01",
+    "cycleShortHand": 15.3
+  },
+  {
+    "cycle": "15.2",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2020-07-02",
+    "support": "2021-12-01",
+    "eol": "2021-12-01",
+    "cycleShortHand": 15.2
+  },
+  {
+    "cycle": "15.1",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2019-05-22",
+    "support": "2021-02-02",
+    "eol": "2021-02-02"
+  },
+  {
+    "cycle": "15.0",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2018-05-25",
+    "support": "2019-12-03",
+    "eol": "2019-12-03"
+  },
+  {
+    "cycle": "42.3",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2017-07-26",
+    "support": "2019-07-01",
+    "eol": "2019-07-01"
+  },
+  {
+    "cycle": "42.2",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2016-11-16",
+    "support": "2018-01-26",
+    "eol": "2018-01-26"
+  },
+  {
+    "cycle": "42.1",
+    "releaseLabel": "openSUSE Leap __RELEASE_CYCLE__",
+    "release": "2015-11-04",
+    "support": "2017-05-17",
+    "eol": "2017-05-17"
+  },
+  {
+    "cycle": "13.2",
+    "release": "2015-12-14",
+    "support": "2017-01-17",
+    "eol": "2017-01-17"
+  },
+  {
+    "cycle": "13.1",
+    "release": "2014-01-08",
+    "support": "2016-02-03",
+    "eol": "2016-02-03"
+  },
+  {
+    "cycle": "12.3",
+    "release": "2013-03-13",
+    "support": "2015-01-29",
+    "eol": "2015-01-29"
+  },
+  {
+    "cycle": "12.2",
+    "release": "2012-09-05",
+    "support": "2014-01-15",
+    "eol": "2014-01-15"
+  },
+  {
+    "cycle": "12.1",
+    "release": "2011-11-16",
+    "support": "2013-05-15",
+    "eol": "2013-05-15"
+  },
+  {
+    "cycle": "11.4",
+    "release": "2011-03-10",
+    "support": "2012-11-05",
+    "eol": "2012-11-05"
+  },
+  {
+    "cycle": "11.3",
+    "release": "2010-07-15",
+    "support": "2012-01-20",
+    "eol": "2012-01-20"
+  },
+  {
+    "cycle": "11.2",
+    "release": "2009-11-12",
+    "support": "2011-05-12",
+    "eol": "2011-05-12"
+  },
+  {
+    "cycle": "11.1",
+    "release": "2008-12-18",
+    "support": "2011-01-14",
+    "eol": "2011-01-14"
+  },
+  {
+    "cycle": "11.0",
+    "release": "2008-06-19",
+    "support": "2010-07-26",
+    "eol": "2010-07-26"
+  }
