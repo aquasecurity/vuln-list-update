@@ -2,17 +2,20 @@ package alpine
 
 import (
 	"bytes"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/aquasecurity/vuln-list-update/utils"
-	"github.com/spf13/afero"
-	"golang.org/x/xerrors"
 	"log"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
+	eolutils "github.com/aquasecurity/vuln-list-update/eol/utils"
+	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/spf13/afero"
+	"golang.org/x/xerrors"
 )
 
 const (
+	distName        = "alpine"
 	eolAlpineFolder = "eol/alpine"
 	eolAlpineFile   = "alpine.json"
 	eolAlpineUrl    = "https://alpinelinux.org/releases/"
@@ -51,6 +54,10 @@ func NewConfig(options ...Option) *Config {
 		option(c)
 	}
 	return c
+}
+
+func (c Config) Name() string {
+	return distName
 }
 
 func (c Config) Update() error {
@@ -95,8 +102,7 @@ func (c Config) getEOFDates() (map[string]time.Time, error) {
 					return
 				}
 
-				// Move time to end of day
-				date = d.Add(time.Hour*23 + time.Minute*59 + time.Second*59)
+				date = eolutils.MoveToEndOfDay(d)
 			}
 		})
 		eolDates[version] = date

@@ -3,13 +3,14 @@ package alpine
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestConfig_Update(t *testing.T) {
@@ -21,8 +22,8 @@ func TestConfig_Update(t *testing.T) {
 	}{
 		{
 			name:       "happy path",
-			filepath:   "testdata/happy/eol.html",
-			goldenPath: "testdata/golden/alpine.json",
+			filepath:   "testdata/eol.html",
+			goldenPath: "testdata/alpine.json",
 		},
 		{
 			name:    "sad path. 404",
@@ -30,7 +31,7 @@ func TestConfig_Update(t *testing.T) {
 		},
 		{
 			name:     "sad path. HTML doesn't have table",
-			filepath: "testdata/sad/no-table.html",
+			filepath: "testdata/no-table.html",
 			wantErr:  "List of end-of-life dates is empty.",
 		},
 	}
