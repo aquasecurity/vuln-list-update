@@ -48,7 +48,9 @@ const (
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, eol)")
-	years = flag.String("years", "", "update years (only redhat)")
+	years        = flag.String("years", "", "update years (only redhat)")
+	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
+	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
 )
 
 func main() {
@@ -175,7 +177,7 @@ func run() error {
 		}
 		commitMsg = "GitHub Security Advisory"
 	case "glad":
-		gu := glad.NewUpdater()
+		gu := glad.NewUpdater(*targetUri, *targetBranch)
 		if err := gu.Update(); err != nil {
 			return xerrors.Errorf("GitLab Advisory Database update error: %w", err)
 		}

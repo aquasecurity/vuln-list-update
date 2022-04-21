@@ -16,8 +16,9 @@ import (
 )
 
 const (
-	repoURL = "https://gitlab.com/gitlab-org/advisories-community.git"
-	gladDir = "glad" // GitLab Advisory Database
+	repoURL    = "https://gitlab.com/gitlab-org/advisories-community.git"
+	repoBranch = "main"
+	gladDir    = "glad" // GitLab Advisory Database
 )
 
 var (
@@ -26,16 +27,20 @@ var (
 )
 
 type Updater struct {
-	vulnListDir string
-	cacheDir    string
-	appFs       afero.Fs
+	alternativeRepoBranch string
+	alternativeRepoURL    string
+	vulnListDir           string
+	cacheDir              string
+	appFs                 afero.Fs
 }
 
-func NewUpdater() Updater {
+func NewUpdater(alternativeRepoURL string, alternativeRepoBranch string) Updater {
 	return Updater{
-		vulnListDir: utils.VulnListDir(),
-		cacheDir:    utils.CacheDir(),
-		appFs:       afero.NewOsFs(),
+		alternativeRepoBranch: alternativeRepoBranch,
+		alternativeRepoURL:    alternativeRepoURL,
+		vulnListDir:           utils.VulnListDir(),
+		cacheDir:              utils.CacheDir(),
+		appFs:                 afero.NewOsFs(),
 	}
 }
 
@@ -44,7 +49,18 @@ func (u Updater) Update() error {
 
 	gc := git.Config{}
 	dir := filepath.Join(u.cacheDir, gladDir)
-	if _, err := gc.CloneOrPull(repoURL, dir, "main", false); err != nil {
+	defaultOrAlternativeRepoURL := repoURL
+	defaultOrAlternativeRepoBranch := repoBranch
+
+	if len(u.alternativeRepoURL) > 0 {
+		defaultOrAlternativeRepoURL = u.alternativeRepoURL
+	}
+
+	if len(u.alternativeRepoBranch) > 0 {
+		defaultOrAlternativeRepoBranch = u.alternativeRepoBranch
+	}
+
+	if _, err := gc.CloneOrPull(defaultOrAlternativeRepoURL, dir, defaultOrAlternativeRepoBranch, false); err != nil {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
