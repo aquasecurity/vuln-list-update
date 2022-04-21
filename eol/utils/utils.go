@@ -9,6 +9,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
+//Cycles schema: https://endoflife.date/docs/api
 type Cycles []struct {
 	Cycle   string      `json:"cycle"`
 	Lts     bool        `json:"lts"`
