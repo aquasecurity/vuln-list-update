@@ -41,7 +41,7 @@ import (
 
 const (
 	repoURL          = "https://%s@github.com/%s/%s.git"
-	defaultRepoOwner = "DmitriyLewen"
+	defaultRepoOwner = "aquasecurity"
 	defaultRepoName  = "vuln-list"
 )
 
