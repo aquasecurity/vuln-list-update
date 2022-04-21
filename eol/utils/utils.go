@@ -10,10 +10,10 @@ import (
 )
 
 type Cycles []struct {
-	Cycle   string `json:"cycle"`
-	Lts     bool   `json:"lts"`
-	Support string `json:"support"`
-	Eol     string `json:"eol"`
+	Cycle   string      `json:"cycle"`
+	Lts     bool        `json:"lts"`
+	Support interface{} `json:"support"` // Support value can be string or bool
+	Eol     interface{} `json:"eol"`     // Eol value can be string or bool
 }
 
 // GetLifeCycles return []Cycles from github.com/endoflife-date/endoflife.date

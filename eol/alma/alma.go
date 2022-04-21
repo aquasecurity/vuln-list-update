@@ -75,11 +75,13 @@ func (c Config) Update() error {
 	}
 
 	for _, cycle := range cycles {
-		d, err := time.Parse("2006-01-02", cycle.Eol)
-		if err != nil {
-			return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
+		if eol, ok := cycle.Eol.(string); ok {
+			d, err := time.Parse("2006-01-02", eol)
+			if err != nil {
+				return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
+			}
+			eolDates[cycle.Cycle] = d
 		}
-		eolDates[cycle.Cycle] = d
 	}
 
 	return c.save(eolDates)

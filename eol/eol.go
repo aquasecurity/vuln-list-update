@@ -10,7 +10,7 @@ type EolSrc interface {
 func AllEolDatesUpdate() error {
 	for _, src := range all {
 		if err := src.Update(); err != nil {
-			return xerrors.Errorf("unable to update %q EOL dates", src.Name())
+			return xerrors.Errorf("unable to update %q EOL dates: %w", src.Name(), err)
 		}
 	}
 	return nil

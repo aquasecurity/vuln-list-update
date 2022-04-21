@@ -75,20 +75,22 @@ func (c Config) Update() error {
 	}
 
 	for _, cycle := range cycles {
-		d, err := time.Parse("2006-01-02", cycle.Eol)
-		if err != nil {
-			return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
-		}
+		if eol, ok := cycle.Eol.(string); ok {
+			d, err := time.Parse("2006-01-02", eol)
+			if err != nil {
+				return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
+			}
 
-		// RHEL has Extended life cycle support (ELS):
-		// https://access.redhat.com/support/policy/updates/errata/#Extended_Life_Cycle_Support
-		// https://endoflife.date only contains dates for Maintenance Support
-		// We should to overwrite RHEl 6 EOL date
-		if cycle.Cycle == "6" {
-			d = time.Date(2024, 6, 30, 0, 0, 0, 0, time.UTC)
-		}
+			// RHEL has Extended life cycle support (ELS):
+			// https://access.redhat.com/support/policy/updates/errata/#Extended_Life_Cycle_Support
+			// https://endoflife.date only contains dates for Maintenance Support
+			// We should to overwrite RHEl 6 EOL date
+			if cycle.Cycle == "6" {
+				d = time.Date(2024, 6, 30, 0, 0, 0, 0, time.UTC)
+			}
 
-		eolDates[cycle.Cycle] = eolutils.MoveToEndOfDay(d)
+			eolDates[cycle.Cycle] = eolutils.MoveToEndOfDay(d)
+		}
 	}
 
 	return c.save(eolDates)

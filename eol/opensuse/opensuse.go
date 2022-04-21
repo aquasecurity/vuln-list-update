@@ -79,11 +79,14 @@ func (c Config) Update() error {
 		if !strings.HasPrefix(cycle.Cycle, "15") && !strings.HasPrefix(cycle.Cycle, "42") {
 			continue
 		}
-		d, err := time.Parse("2006-01-02", cycle.Eol)
-		if err != nil {
-			return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
+
+		if eol, ok := cycle.Eol.(string); ok {
+			d, err := time.Parse("2006-01-02", eol)
+			if err != nil {
+				return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
+			}
+			eolDates[cycle.Cycle] = d
 		}
-		eolDates[cycle.Cycle] = d
 	}
 
 	if len(eolDates) == 0 {
