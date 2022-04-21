@@ -84,6 +84,10 @@ func (c Config) Update() error {
 		}
 	}
 
+	if len(eolDates) == 0 {
+		return xerrors.Errorf("list of end-of-life dates is empty")
+	}
+
 	return c.save(eolDates)
 }
 

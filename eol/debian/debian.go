@@ -84,11 +84,13 @@ func (c Config) Update() error {
 		}
 	}
 
+	if len(eolDates) == 0 {
+		return xerrors.Errorf("list of end-of-life dates is empty")
+	}
+
 	// There is no release date for Debian 12 at this time. But it has a database of vulnerabilities.
 	// We should to add it in eolDates.
-	if len(eolDates) > 0 {
-		eolDates["12"] = time.Date(3000, 1, 1, 23, 59, 59, 0, time.UTC)
-	}
+	eolDates["12"] = time.Date(3000, 1, 1, 23, 59, 59, 0, time.UTC)
 
 	return c.save(eolDates)
 }
