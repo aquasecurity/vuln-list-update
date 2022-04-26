@@ -87,7 +87,7 @@ func (c Config) Update() error {
 				if err != nil {
 					return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
 				}
-				eolDates[cycle.Cycle] = d
+				eolDates[cycle.Cycle] = eolutils.MoveToEndOfDay(d)
 			}
 		}
 	}

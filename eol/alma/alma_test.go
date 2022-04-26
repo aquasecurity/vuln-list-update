@@ -64,10 +64,10 @@ func TestConfig_Update(t *testing.T) {
 				assert.Nil(t, err)
 				assert.FileExists(t, filePath)
 
-				wantJson, err := os.ReadFile(filePath)
+				gotJson, err := os.ReadFile(filePath)
 				assert.NoError(t, err)
 
-				gotJson, err := os.ReadFile(test.goldenPath)
+				wantJson, err := os.ReadFile(test.goldenPath)
 				assert.NoError(t, err)
 
 				assert.JSONEq(t, string(wantJson), string(gotJson))

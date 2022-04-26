@@ -1,4 +1,4 @@
-package redhat
+package amazon
 
 import (
 	"net/http"
