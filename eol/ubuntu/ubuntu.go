@@ -84,7 +84,7 @@ func (c Config) Update() error {
 				eolDates[cycle.Cycle+"-ESM"] = eolutils.MoveToEndOfDay(d)
 			}
 		}
-		if support, ok := cycle.Eol.(string); ok {
+		if support, ok := cycle.Support.(string); ok {
 			d, err := time.Parse("2006-01-02", support)
 			if err != nil {
 				return xerrors.Errorf("unable to parse %q date: %w", cycle.Eol, err)
