@@ -7,6 +7,8 @@ import (
 	"github.com/aquasecurity/vuln-list-update/eol/centos"
 	"github.com/aquasecurity/vuln-list-update/eol/debian"
 	"github.com/aquasecurity/vuln-list-update/eol/opensuse"
+	"github.com/aquasecurity/vuln-list-update/eol/oracle"
+	"github.com/aquasecurity/vuln-list-update/eol/photon"
 	"github.com/aquasecurity/vuln-list-update/eol/redhat"
 	"github.com/aquasecurity/vuln-list-update/eol/rocky"
 	"github.com/aquasecurity/vuln-list-update/eol/sles"
@@ -20,6 +22,8 @@ var all = []EolSrc{
 	centos.NewConfig(),
 	debian.NewConfig(),
 	opensuse.NewConfig(),
+	oracle.NewConfig(),
+	photon.NewConfig(),
 	redhat.NewConfig(),
 	rocky.NewConfig(),
 	sles.NewConfig(),

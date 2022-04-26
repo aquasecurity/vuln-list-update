@@ -14,7 +14,7 @@ import (
 
 const (
 	baseUrl  = "https://endoflife.date/api/%s.json"
-	distName = "centOS"
+	distName = "CentOS"
 	dirPath  = "eol/centos"
 	fileName = "centos.json"
 	retry    = 3
