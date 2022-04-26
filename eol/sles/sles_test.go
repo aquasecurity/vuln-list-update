@@ -1,4 +1,4 @@
-package alpine
+package sles
 
 import (
 	"net/http"
@@ -19,16 +19,16 @@ func TestConfig_Update(t *testing.T) {
 	}{
 		{
 			name:       "happy path",
-			filepath:   "testdata/eol.html",
-			goldenPath: "testdata/alpine.json",
+			filepath:   "testdata/happy.html",
+			goldenPath: "testdata/golden.json",
 		},
 		{
 			name:    "sad path. 404",
 			wantErr: "failed to get list of end-of-life dates from url: failed to fetch URL:",
 		},
 		{
-			name:     "sad path. HTML doesn't have table",
-			filepath: "testdata/no-table.html",
+			name:     "sad path. No EOL dates",
+			filepath: "testdata/no-dates.html",
 			wantErr:  "List of end-of-life dates is empty.",
 		},
 	}
@@ -45,7 +45,7 @@ func TestConfig_Update(t *testing.T) {
 			defer ts.Close()
 
 			tmpDir, _ := os.MkdirTemp("", "eol-alpine")
-			filePath := filepath.Join(tmpDir, eolAlpineFolder, eolAlpineFile)
+			filePath := filepath.Join(tmpDir, dirPath, fileName)
 
 			c := NewConfig(WithVulnListDir(tmpDir), WithEolURL(ts.URL), WithRetry(1))
 

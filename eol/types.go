@@ -9,6 +9,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/eol/opensuse"
 	"github.com/aquasecurity/vuln-list-update/eol/redhat"
 	"github.com/aquasecurity/vuln-list-update/eol/rocky"
+	"github.com/aquasecurity/vuln-list-update/eol/sles"
 	"github.com/aquasecurity/vuln-list-update/eol/ubuntu"
 )
 
@@ -21,5 +22,6 @@ var all = []EolSrc{
 	opensuse.NewConfig(),
 	redhat.NewConfig(),
 	rocky.NewConfig(),
+	sles.NewConfig(),
 	ubuntu.NewConfig(),
 }
