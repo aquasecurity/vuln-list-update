@@ -1,7 +1,6 @@
 package kevc_test
 
 import (
-	"fmt"
 	"github.com/aquasecurity/vuln-list-update/kevc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -40,14 +39,17 @@ func TestUpdate(t *testing.T) {
 					http.NotFound(w, r)
 					return
 				} else {
-					fmt.Println(fileName)
 					http.ServeFile(w, r, fileName)
 				}
 			}))
 			defer ts.Close()
 
 			tmpDir := t.TempDir()
-			cc := kevc.NewConfig(kevc.WithURL(ts.URL+"/known_exploited_vulnerabilities.json"), kevc.WithDir(tmpDir), kevc.WithRetry(0))
+			cc := kevc.NewConfig(
+				kevc.WithURL(ts.URL+"/known_exploited_vulnerabilities.json"),
+				kevc.WithDir(tmpDir),
+				kevc.WithRetry(0),
+			)
 
 			err := cc.Update()
 			if tt.wantErr != "" {
@@ -56,6 +58,7 @@ func TestUpdate(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
+
 			err = filepath.Walk(tmpDir, func(path string, info os.FileInfo, errfp error) error {
 				if errfp != nil {
 					return errfp
