@@ -16,43 +16,36 @@ const (
 )
 
 type Config struct {
-	*options
-}
-
-type option func(*options)
-
-type options struct {
 	url   string
 	dir   string
 	retry int
 }
 
+type option func(config *Config)
+
 func WithURL(url string) option {
-	return func(opts *options) { opts.url = url }
+	return func(c *Config) { c.url = url }
 }
 
 func WithDir(dir string) option {
-	return func(opts *options) { opts.dir = dir }
+	return func(c *Config) { c.dir = dir }
 }
 
 func WithRetry(retry int) option {
-	return func(opts *options) { opts.retry = retry }
+	return func(c *Config) { c.retry = retry }
 }
 
 func NewConfig(opts ...option) Config {
-	o := &options{
+	c := Config{
 		url:   kevcURL,
 		dir:   filepath.Join(utils.VulnListDir(), kevcDir),
 		retry: retry,
 	}
-
 	for _, opt := range opts {
-		opt(o)
+		opt(&c)
 	}
 
-	return Config{
-		options: o,
-	}
+	return c
 }
 
 func (c Config) Update() error {
