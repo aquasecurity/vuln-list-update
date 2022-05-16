@@ -2,11 +2,13 @@ package kevc
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb"
 	"golang.org/x/xerrors"
 	"log"
 	"path/filepath"
+	"strings"
 )
 
 const (
@@ -72,11 +74,30 @@ func (c Config) Update() error {
 func (c Config) update(kevc KEVC) error {
 	bar := pb.StartNew(kevc.Count)
 	for _, vuln := range kevc.Vulnerabilities {
-		if err := utils.SaveCVEPerYear(c.dir, vuln.CveID, vuln); err != nil {
+		if err := c.saveCVEPerYear(vuln); err != nil {
 			return xerrors.Errorf("failed to save KEVC per year: %w", err)
 		}
 		bar.Increment()
 	}
 	bar.Finish()
+	return nil
+}
+
+func (c Config) saveCVEPerYear(vuln Vulnerability) error {
+	if !strings.HasPrefix(vuln.CveID, "CVE") {
+		log.Printf("discovered non-CVE-ID: %s", vuln.CveID)
+		return nil
+	}
+
+	s := strings.Split(vuln.CveID, "-")
+	if len(s) != 3 {
+		log.Printf("invalid CVE-ID format: %s", vuln.CveID)
+		return nil
+	}
+
+	yearDir := filepath.Join(c.dir, s[1])
+	if err := utils.Write(filepath.Join(yearDir, fmt.Sprintf("%s.json", vuln.CveID)), vuln); err != nil {
+		return xerrors.Errorf("unable to write a JSON file: %w", err)
+	}
 	return nil
 }
