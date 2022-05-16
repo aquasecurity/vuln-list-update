@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"path/filepath"
 	"time"
 
 	"golang.org/x/xerrors"
@@ -51,7 +52,7 @@ func update(year int) error {
 	}
 
 	for cveID, cve := range cves {
-		if err = utils.SaveCVEPerYear(redhatDir, cveID, cve); err != nil {
+		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), redhatDir), cveID, cve); err != nil {
 			return xerrors.Errorf("failed to save RedHat CVE detail: %w", err)
 		}
 	}
