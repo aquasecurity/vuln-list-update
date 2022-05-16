@@ -1,10 +1,10 @@
 package kevc_test
 
 import (
+	"fmt"
 	"github.com/aquasecurity/vuln-list-update/kevc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -14,33 +14,40 @@ import (
 
 func TestUpdate(t *testing.T) {
 	tests := []struct {
-		name      string
-		inputFile string
-		wantErr   string
+		name        string
+		servedFiles map[string]string
+		wantErr     string
 	}{
 		{
-			name:      "happy path",
-			inputFile: "testdata/happy/known_exploited_vulnerabilities.json",
+			name: "happy path",
+			servedFiles: map[string]string{
+				"/known_exploited_vulnerabilities.json": "testdata/happy/known_exploited_vulnerabilities.json",
+			},
 		},
 		{
-			name:      "sad path, invalid json",
-			inputFile: "testdata/sad/known_exploited_vulnerabilities.json",
-			wantErr:   "failed to KEVC json unmarshal",
+			name: "sad path, invalid json",
+			servedFiles: map[string]string{
+				"/known_exploited_vulnerabilities.json": "testdata/sad/known_exploited_vulnerabilities.json",
+			},
+			wantErr: "failed to KEVC json unmarshal",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				b, err := ioutil.ReadFile(tt.inputFile)
-				assert.NoError(t, err, tt.name)
-				_, err = w.Write(b)
-				assert.NoError(t, err, tt.name)
+				if fileName, ok := tt.servedFiles[r.URL.Path]; !ok {
+					http.NotFound(w, r)
+					return
+				} else {
+					fmt.Println(fileName)
+					http.ServeFile(w, r, fileName)
+				}
 			}))
 			defer ts.Close()
 
 			tmpDir := t.TempDir()
-			cc := kevc.NewConfig(kevc.WithURL(ts.URL+"/sites/default/files/feeds/known_exploited_vulnerabilities.json"), kevc.WithDir(tmpDir), kevc.WithRetry(0))
+			cc := kevc.NewConfig(kevc.WithURL(ts.URL+"/known_exploited_vulnerabilities.json"), kevc.WithDir(tmpDir), kevc.WithRetry(0))
 
 			err := cc.Update()
 			if tt.wantErr != "" {

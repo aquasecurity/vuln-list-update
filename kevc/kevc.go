@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb"
-	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 	"log"
 	"path/filepath"
@@ -21,19 +20,7 @@ const (
 type Updater struct {
 	kevcURL     string
 	vulnListDir string
-	cacheDir    string
-	appFs       afero.Fs
 	retry       int
-}
-
-func NewUpdater(url string) Updater {
-	return Updater{
-		kevcURL:     url,
-		vulnListDir: utils.VulnListDir(),
-		cacheDir:    utils.CacheDir(),
-		appFs:       afero.NewOsFs(),
-		retry:       retry,
-	}
 }
 
 type Config struct {
