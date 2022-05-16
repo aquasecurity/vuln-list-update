@@ -13,35 +13,24 @@ import (
 
 func TestUpdate(t *testing.T) {
 	tests := []struct {
-		name        string
-		servedFiles map[string]string
-		wantErr     string
+		name         string
+		inputFileDir string
+		wantErr      string
 	}{
 		{
-			name: "happy path",
-			servedFiles: map[string]string{
-				"/known_exploited_vulnerabilities.json": "testdata/happy/known_exploited_vulnerabilities.json",
-			},
+			name:         "happy path",
+			inputFileDir: "testdata/happy/",
 		},
 		{
-			name: "sad path, invalid json",
-			servedFiles: map[string]string{
-				"/known_exploited_vulnerabilities.json": "testdata/sad/known_exploited_vulnerabilities.json",
-			},
-			wantErr: "failed to KEVC json unmarshal",
+			name:         "sad path, invalid json",
+			inputFileDir: "testdata/sad/",
+			wantErr:      "failed to KEVC json unmarshal",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				if fileName, ok := tt.servedFiles[r.URL.Path]; !ok {
-					http.NotFound(w, r)
-					return
-				} else {
-					http.ServeFile(w, r, fileName)
-				}
-			}))
+			ts := httptest.NewServer(http.FileServer(http.Dir(tt.inputFileDir)))
 			defer ts.Close()
 
 			tmpDir := t.TempDir()
