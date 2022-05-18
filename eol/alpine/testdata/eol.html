@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alpine Linux">
+    <title>Alpine release branches | Alpine Linux</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css" />
+    <link rel="stylesheet" href="/css/grids-responsive-min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="shortcut icon" href="/alpine-logo.ico" />
+</head>
+
+<body>
+<div id="wrapper">
+    <header class="pure-g" id="header">
+        <div class="pure-u-1 pure-u-lg-4-24">
+            <div class="logo">
+                <a href="/"><img src="/alpinelinux-logo.svg" class="pure-img" alt="" /></a>
+            </div>
+        </div>
+        <input type="checkbox" id="menu-toggle-cb">
+        <label id="menu-toggle" for="menu-toggle-cb" onclick><s class="bar"></s><s class="bar"></s><s class="bar"></s></label>
+        <div class="pure-u-1 pure-u-lg-20-24 box-relative menu-wrapper">
+            <nav class="pure-menu pure-menu-horizontal menu-local">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="/about" class="pure-menu-link">About</a></li>
+                    <li class="pure-menu-item"><a href="/downloads" class="pure-menu-link">Downloads</a></li>
+                    <li class="pure-menu-item"><a href="/releases" class="pure-menu-link">Releases</a></li>
+                    <li class="pure-menu-item"><a href="/community" class="pure-menu-link">Community</a></li>
+                    <li class="pure-menu-item"><a href="/sponsors" class="pure-menu-link">Sponsors</a></li>
+                </ul>
+            </nav>
+            <nav class="pure-menu pure-menu-horizontal menu-external">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="https://docs.alpinelinux.org"
+                                                  class="pure-menu-link">docs</a></li>
+                    <li class="pure-menu-item"><a href="https://wiki.alpinelinux.org"
+                                                  class="pure-menu-link">wiki</a></li>
+                    <li class="pure-menu-item"><a href="https://git.alpinelinux.org" class="pure-menu-link">git</a>
+                    </li>
+                    <li class="pure-menu-item"><a href="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
+                                                  class="pure-menu-link">issues</a></li>
+                    <li class="pure-menu-item"><a href="https://pkgs.alpinelinux.org"
+                                                  class="pure-menu-link">packages</a></li>
+                    <li class="pure-menu-item"><a href="https://mirrors.alpinelinux.org"
+                                                  class="pure-menu-link">mirrors</a></li>
+                    <li class="pure-menu-item"><a href="https://security.alpinelinux.org"
+                                                  class="pure-menu-link">security</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Small. Simple. Secure.</h1>
+            <h3>Alpine Linux is a security-oriented, lightweight Linux distribution based on musl libc and busybox.
+            </h3>
+        </div>
+    </div>
+    <div id="content" class="releases">
+        <div class="pagedate">
+            <time datetime=""></time>
+        </div>
+        <h1>Release Branches</h1>
+
+        <p>There are several release branches for Alpine Linux available at the same
+            time. Each May and November we make a release branch from edge. The <em>main</em>
+            repository is typically supported for 2 years and the <em>community</em> repository
+            is supported until next stable release.</p>
+
+        <p>Security fixes beyond that can be made on request when there are patches available.</p>
+
+        <div class="releases">
+            <table class="pure-table pure-table-horizontal">
+                <thead>
+                <tr>
+                    <th nowrap>Branch</th>
+                    <th nowrap>Branch date</th>
+                    <th nowrap>Git Branch</th>
+                    <th nowrap>Minor releases</th>
+                    <th nowrap>End of support</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/edge/">edge</a></td>
+                    <td nowrap></td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=master">master</a></td>
+                    <td>
+                    </td>
+                    <td nowrap><time></time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.15/">v3.15</a></td>
+                    <td nowrap>2021-11-24</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.15-stable">3.15-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.12-3.13.10-3.14.6-3.15.4-released.html">3.15.4</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.11-3.13.9-3.14.5-3.15.3-released.html">3.15.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.15.2-released.html">3.15.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.15.1-released.html">3.15.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.15.0-released.html">3.15.0</a>
+                    </td>
+                    <td nowrap><time>2023-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.14/">v3.14</a></td>
+                    <td nowrap>2021-06-15</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.14-stable">3.14-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.12-3.13.10-3.14.6-3.15.4-released.html">3.14.6</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.11-3.13.9-3.14.5-3.15.3-released.html">3.14.5</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.10-3.13.8-3.14.4-released.html">3.14.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.3-released.html">3.14.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.2-released.html">3.14.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.1-released.html">3.14.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.14.0-released.html">3.14.0</a>
+                    </td>
+                    <td nowrap><time>2023-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.13/">v3.13</a></td>
+                    <td nowrap>2021-01-14</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.13-stable">3.13-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.12-3.13.10-3.14.6-3.15.4-released.html">3.13.10</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.11-3.13.9-3.14.5-3.15.3-released.html">3.13.9</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.10-3.13.8-3.14.4-released.html">3.13.8</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.11.13-3.12.9-3.13.7-released.html">3.13.7</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.11.12-3.12.8.-3.13.6-released.html">3.13.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.13.5-released.html">3.13.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.13.4-released.html">3.13.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.13.3-released.html">3.13.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.13.2-released.html">3.13.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.13.1-released.html">3.13.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.13.0-released.html">3.13.0</a>
+                    </td>
+                    <td nowrap><time>2022-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.12/">v3.12</a></td>
+                    <td nowrap>2020-05-29</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.12-stable">3.12-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.12-3.13.10-3.14.6-3.15.4-released.html">3.12.12</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.11-3.13.9-3.14.5-3.15.3-released.html">3.12.11</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.12.10-3.13.8-3.14.4-released.html">3.12.10</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.11.13-3.12.9-3.13.7-released.html">3.12.9</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.11.12-3.12.8.-3.13.6-released.html">3.12.8</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.10.9-3.11.11-3.12.7-released.html">3.12.7</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.10.8-3.11.10-3.12.6-released.html">3.12.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.7-3.11.9-3.12.5-released.html">3.12.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.6-3.11.8-3.12.4-released.html">3.12.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.12.3-released.html">3.12.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.12.2-released.html">3.12.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.12.1-released.html">3.12.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.12.0-released.html">3.12.0</a>
+                    </td>
+                    <td nowrap><time>2022-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.11/">v3.11</a></td>
+                    <td nowrap>2019-12-29</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.11-stable">3.11-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.11.13-3.12.9-3.13.7-released.html">3.11.13</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.11.12-3.12.8.-3.13.6-released.html">3.11.12</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.10.9-3.11.11-3.12.7-released.html">3.11.11</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.10.8-3.11.10-3.12.6-released.html">3.11.10</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.7-3.11.9-3.12.5-released.html">3.11.9</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.6-3.11.8-3.12.4-released.html">3.11.8</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.11.7-released.html">3.11.7</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.11.6-released.html">3.11.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.11.5-released.html">3.11.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.11.3-released.html">3.11.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.11.2-released.html">3.11.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.11.0-released.html">3.11.0</a>
+                    </td>
+                    <td nowrap><time>2021-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.10/">v3.10</a></td>
+                    <td nowrap>2019-06-19</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.10-stable">3.10-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.10.9-3.11.11-3.12.7-released.html">3.10.9</a>
+                        |&nbsp;<a
+                            href="..&#x2F;posts&#x2F;Alpine-3.10.8-3.11.10-3.12.6-released.html">3.10.8</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.7-3.11.9-3.12.5-released.html">3.10.7</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.6-3.11.8-3.12.4-released.html">3.10.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.6-and-3.10.5-released.html">3.10.5</a>
+                        |&nbsp;<a href="">3.10.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.3-released.html">3.10.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.2-released.html">3.10.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.1-released.html">3.10.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.10.0-released.html">3.10.0</a>
+                    </td>
+                    <td nowrap><time>2021-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.9/">v3.9</a></td>
+                    <td nowrap>2019-01-29</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.9-stable">3.9-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.6-and-3.10.5-released.html">3.9.6</a>
+                        |&nbsp;<a href="">3.9.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.4-released.html">3.9.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.3-released.html">3.9.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.2-released.html">3.9.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.1-released.html">3.9.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.9.0-released.html">3.9.0</a>
+                    </td>
+                    <td nowrap><time>2020-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.8/">v3.8</a></td>
+                    <td nowrap>2018-06-26</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.8-stable">3.8-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="">3.8.5</a>
+                        |&nbsp;<a href="">3.8.4</a>
+                        |&nbsp;<a href="">3.8.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.8.2-released.html">3.8.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.8.1-released.html">3.8.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.8.0-released.html">3.8.0</a>
+                    </td>
+                    <td nowrap><time>2020-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.7/">v3.7</a></td>
+                    <td nowrap>2017-11-30</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.7-stable">3.7-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="">3.7.3</a>
+                        |&nbsp;<a href="">3.7.2</a>
+                        |&nbsp;<a href="">3.7.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.7.0-released.html">3.7.0</a>
+                    </td>
+                    <td nowrap><time>2019-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.6/">v3.6</a></td>
+                    <td nowrap>2017-05-24</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.6-stable">3.6-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="">3.6.5</a>
+                        |&nbsp;<a href="">3.6.4</a>
+                        |&nbsp;<a href="">3.6.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.6.2-released.html">3.6.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.6.1-released.html">3.6.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.6.0-released.html">3.6.0</a>
+                    </td>
+                    <td nowrap><time>2019-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.5/">v3.5</a></td>
+                    <td nowrap>2016-12-22</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.5-stable">3.5-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="">3.5.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.5.2-released.html">3.5.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.5.1-released.html">3.5.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.5.0-released.html">3.5.0</a>
+                    </td>
+                    <td nowrap><time>2018-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.4/">v3.4</a></td>
+                    <td nowrap>2016-05-31</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.4-stable">3.4-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.6-released.html">3.4.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.5-released.html">3.4.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.4-released.html">3.4.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.3-released.html">3.4.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.2-released.html">3.4.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.1-released.html">3.4.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.4.0-released.html">3.4.0</a>
+                    </td>
+                    <td nowrap><time>2018-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.3/">v3.3</a></td>
+                    <td nowrap>2015-12-18</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.3-stable">3.3-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.3.3-released.html">3.3.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.3.2-released.html">3.3.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.3.1-released.html">3.3.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.3.0-released.html">3.3.0</a>
+                    </td>
+                    <td nowrap><time>2017-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.2/">v3.2</a></td>
+                    <td nowrap>2015-05-26</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.2-stable">3.2-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.2.3-released.html">3.2.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.2.2-released.html">3.2.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.2.1-released.html">3.2.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.2.0-released.html">3.2.0</a>
+                    </td>
+                    <td nowrap><time>2017-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.1/">v3.1</a></td>
+                    <td nowrap>2014-12-10</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.1-stable">3.1-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.1.4-released.html">3.1.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.1.3-released.html">3.1.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.1.2-released.html">3.1.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.1.1-released.html">3.1.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.1.0-released.html">3.1.0</a>
+                    </td>
+                    <td nowrap><time>2016-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v3.0/">v3.0</a></td>
+                    <td nowrap>2014-06-04</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=3.0-stable">3.0-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.6-released.html">3.0.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.5-released.html">3.0.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.4-released.html">3.0.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.3-released.html">3.0.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.2-released.html">3.0.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.1-released.html">3.0.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-3.0.0-released.html">3.0.0</a>
+                    </td>
+                    <td nowrap><time>2016-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.7/">v2.7</a></td>
+                    <td nowrap>2013-11-08</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.7-stable">2.7-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.9-released.html">2.7.9</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.8-released.html">2.7.8</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.7-released.html">2.7.7</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.6-released.html">2.7.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.5-released.html">2.7.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.4-released.html">2.7.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.3-released.html">2.7.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.2-released.html">2.7.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.1-released.html">2.7.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.7.0-released.html">2.7.0</a>
+                    </td>
+                    <td nowrap><time>2015-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.6/">v2.6</a></td>
+                    <td nowrap>2013-05-17</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.6-stable">2.6-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.6-released.html">2.6.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.5-released.html">2.6.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.4-released.html">2.6.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.3-released.html">2.6.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.2-released.html">2.6.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.1-released.html">2.6.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.6.0-released.html">2.6.0</a>
+                    </td>
+                    <td nowrap><time>2015-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.5/">v2.5</a></td>
+                    <td nowrap>2012-11-07</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.5-stable">2.5-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.5.4-released.html">2.5.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.5.3-released.html">2.5.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.5.2-released.html">2.5.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.5.1-released.html">2.5.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.5.0-released.html">2.5.0</a>
+                    </td>
+                    <td nowrap><time>2014-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.4/">v2.4</a></td>
+                    <td nowrap>2012-05-02</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.4-stable">2.4-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.11-released.html">2.4.11</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.10-released.html">2.4.10</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.9-released.html">2.4.9</a>
+                        |&nbsp;<a href="">2.4.8</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.7-released.html">2.4.7</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.6-released.html">2.4.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.5-released.html">2.4.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.4-released.html">2.4.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.3-released.html">2.4.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.2-released.html">2.4.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.1-released.html">2.4.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.4.0-released.html">2.4.0</a>
+                    </td>
+                    <td nowrap><time>2014-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.3/">v2.3</a></td>
+                    <td nowrap>2011-11-01</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.3-stable">2.3-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.6-released.html">2.3.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.4-and-2.3.5-released.html">2.3.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.4-and-2.3.5-released.html">2.3.4</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.3-released.html">2.3.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.2-released.html">2.3.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.1-released.html">2.3.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.3.0-released.html">2.3.0</a>
+                    </td>
+                    <td nowrap><time>2013-11-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.2/">v2.2</a></td>
+                    <td nowrap>2011-05-06</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.2-stable">2.2-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.2.3-released.html">2.2.3</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.2.2-released.html">2.2.2</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.2.1-released.html">2.2.1</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.2.0-released.html">2.2.0</a>
+                    </td>
+                    <td nowrap><time>2013-05-01</time></td>
+                </tr>
+                <tr>
+                    <td><a href="https://dl-cdn.alpinelinux.org/alpine/v2.1/">v2.1</a></td>
+                    <td nowrap>2010-11-01</td>
+                    <td nowrap><a href="https://git.alpinelinux.org/aports/log/?h=2.1-stable">2.1-stable</a>
+                    </td>
+                    <td>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.1.6-released.html">2.1.6</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.1.5-released.html">2.1.5</a>
+                        |&nbsp;<a href="..&#x2F;posts&#x2F;Alpine-2.1.4-released.html">2.1.4</a>
+                    </td>
+                    <td nowrap><time>2012-11-01</time></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div> <!-- end content -->
+    <footer>&copy; Copyright 2022 Alpine Linux Development Team all rights reserved | <a
+            href="/privacy-policy.html">Privacy Policy</a></footer>
+</div> <!-- end wrapper -->
+</body>
+
+</html>

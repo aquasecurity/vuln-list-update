@@ -10,13 +10,14 @@ import (
 	"strings"
 	"time"
 
+	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
+	"github.com/aquasecurity/vuln-list-update/eol"
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
-	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/cwe"
@@ -46,7 +47,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, eol)")
 	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -223,6 +224,11 @@ func run() error {
 			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)
 		}
 		commitMsg = "CBL-Mariner Vulnerability Data"
+	case "eol":
+		if err := eol.AllEolDatesUpdate(); err != nil {
+			return xerrors.Errorf("EOL dates update error: %w", err)
+		}
+		commitMsg = "EOL dates"
 	default:
 		return xerrors.New("unknown target")
 	}
