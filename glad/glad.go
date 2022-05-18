@@ -34,7 +34,12 @@ type Updater struct {
 	appFs                 afero.Fs
 }
 
-func NewUpdater(alternativeRepoURL string, alternativeRepoBranch string) Updater {
+func NewUpdater(alternativeRepoURL string, alternativeRepoBranch string, customTypes string) Updater {
+	if len(customTypes) > 0 {
+		customTypes := strings.Split(customTypes, ",")
+		supportedTypes = append(supportedTypes, customTypes...)
+	}
+
 	return Updater{
 		alternativeRepoBranch: alternativeRepoBranch,
 		alternativeRepoURL:    alternativeRepoURL,
