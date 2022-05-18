@@ -23,7 +23,7 @@ const (
 
 var (
 	// https://gitlab.com/gitlab-org/advisories-community
-	supportedTypes = []string{"gem", "go", "maven", "npm", "nuget", "packagist", "pypi", "nuget", "conan"}
+	supportedTypes = []string{"gem", "go", "maven", "npm", "nuget", "packagist", "pypi", "nuget", "conan", "alpine"}
 )
 
 type Updater struct {
