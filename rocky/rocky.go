@@ -11,8 +11,10 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
@@ -24,7 +26,8 @@ const (
 )
 
 var (
-	urlFormat       = "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/"
+	reposUrl        = "https://download.rockylinux.org/pub/rocky"
+	urlFormat       = reposUrl + "/%s/%s/%s/os/"
 	defaultReleases = []string{"8.5"}
 	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
 	defaultArches   = []string{"x86_64", "aarch64"}
@@ -89,22 +92,20 @@ type Package struct {
 }
 
 type options struct {
-	url      string
-	dir      string
-	retry    int
-	releases []string
-	repos    []string
-	arches   []string
+	url    string
+	dir    string
+	retry  int
+	repos  []string
+	arches []string
 }
 
 type option func(*options)
 
-func With(url, dir string, retry int, releases, repos, arches []string) option {
+func With(url, dir string, retry int, repos, arches []string) option {
 	return func(opts *options) {
 		opts.url = url
 		opts.dir = dir
 		opts.retry = retry
-		opts.releases = releases
 		opts.repos = repos
 		opts.arches = arches
 	}
@@ -116,12 +117,11 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		url:      urlFormat,
-		dir:      filepath.Join(utils.VulnListDir(), rockyDir),
-		retry:    retry,
-		releases: defaultReleases,
-		repos:    defaultRepos,
-		arches:   defaultArches,
+		url:    urlFormat,
+		dir:    filepath.Join(utils.VulnListDir(), rockyDir),
+		retry:  retry,
+		repos:  defaultRepos,
+		arches: defaultArches,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -133,7 +133,11 @@ func NewConfig(opts ...option) Config {
 }
 
 func (c Config) Update() error {
-	for _, release := range c.releases {
+	releases, err := GetReleasesList(reposUrl)
+	if err != nil {
+		return err
+	}
+	for _, release := range releases {
 		for _, repo := range c.repos {
 			for _, arch := range c.arches {
 				log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
@@ -252,4 +256,30 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 		updateInfo.RLSAList[i].CveIDs = cveIDs
 	}
 	return &updateInfo, nil
+}
+
+var GetReleasesList = func(reposUrl string) ([]string, error) {
+	var releases []string
+	releaseRegex := regexp.MustCompile(`\d+.\d+`)
+
+	b, err := utils.FetchURL(reposUrl, "", retry)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to get list of releases: %w", err)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
+	if err != nil {
+		return nil, xerrors.Errorf("failed to read list of releases: %w", err)
+	}
+
+	doc.Find("a").Each(func(i int, s *goquery.Selection) {
+		if release := releaseRegex.FindString(s.Text()); release != "" {
+			releases = append(releases, release)
+		}
+	})
+
+	if len(releases) == 0 {
+		return nil, xerrors.Errorf("failed to get list of releases: list is empty")
+	}
+	return releases, nil
 }

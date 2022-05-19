@@ -31,19 +31,19 @@ func Test_Update(t *testing.T) {
 			name:          "bad repomd response",
 			rootDir:       "testdata/fixtures/repomd_invalid",
 			repository:    []string{"BaseOS"},
-			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
+			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
 		},
 		{
 			name:          "bad updateInfo response",
 			rootDir:       "testdata/fixtures/updateinfo_invalid",
 			repository:    []string{"BaseOS"},
-			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
+			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
 		},
 		{
 			name:          "no updateInfo field(BaseOS)",
 			rootDir:       "testdata/fixtures/no_updateinfo_field",
 			repository:    []string{"BaseOS"},
-			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8 BaseOS x86_64: %w", xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", rocky.ErrorNoUpdateInfoField)),
+			expectedError: xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", rocky.ErrorNoUpdateInfoField)),
 		},
 		{
 			name:          "no updateInfo field(extras)",
@@ -54,11 +54,16 @@ func Test_Update(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tsUpdateInfoURL := httptest.NewServer(http.StripPrefix("/pub/rocky/8/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir(tt.rootDir))))
-			defer tsUpdateInfoURL.Close()
+			savedGetReleasesList := rocky.GetReleasesList
+			rocky.GetReleasesList = func(url string) ([]string, error) { return []string{"8.5"}, nil }
+			tsUpdateInfoURL := httptest.NewServer(http.StripPrefix("/pub/rocky/8.5/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir(tt.rootDir))))
+			defer func() {
+				tsUpdateInfoURL.Close()
+				rocky.GetReleasesList = savedGetReleasesList
+			}()
 
 			dir := t.TempDir()
-			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/", dir, 0, []string{"8"}, tt.repository, []string{"x86_64"}))
+			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky/%s/%s/%s/os/", dir, 0, tt.repository, []string{"x86_64"}))
 			if err := rc.Update(); tt.expectedError != nil {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.expectedError.Error())
@@ -85,6 +90,46 @@ func Test_Update(t *testing.T) {
 				return nil
 			})
 			assert.Nil(t, err, "filepath walk error")
+		})
+	}
+}
+
+func Test_GetReleasesList(t *testing.T) {
+	tests := []struct {
+		name         string
+		filepath     string
+		wantReleases []string
+		wantErr      string
+	}{
+		{
+			name:         "happy path",
+			filepath:     "testdata/fixtures/releases/happy.html",
+			wantReleases: []string{"8.5", "8.6"},
+		},
+		{
+			name:     "empty releases",
+			filepath: "testdata/fixtures/releases/empty.html",
+			wantErr:  "failed to get list of releases: list is empty",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				http.ServeFile(w, r, test.filepath)
+			}))
+			defer ts.Close()
+
+			releases, err := rocky.GetReleasesList(ts.URL)
+
+			if test.wantErr != "" {
+				assert.NotNil(t, err)
+				assert.Contains(t, err.Error(), test.wantErr)
+			} else {
+				assert.Nil(t, err)
+				assert.Equal(t, test.wantReleases, releases)
+			}
+
 		})
 	}
 }
