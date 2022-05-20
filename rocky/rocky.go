@@ -26,8 +26,8 @@ const (
 )
 
 var (
-	reposUrl        = "https://download.rockylinux.org/pub/rocky"
-	urlFormat       = reposUrl + "/%s/%s/%s/os/"
+	baseUrl         = "https://download.rockylinux.org/pub/rocky"
+	urlFormat       = "%s/%s/%s/%s/os/"
 	defaultReleases = []string{"8.5"}
 	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
 	defaultArches   = []string{"x86_64", "aarch64"}
@@ -92,18 +92,20 @@ type Package struct {
 }
 
 type options struct {
-	url    string
-	dir    string
-	retry  int
-	repos  []string
-	arches []string
+	baseUrl   string
+	urlFormat string
+	dir       string
+	retry     int
+	repos     []string
+	arches    []string
 }
 
 type option func(*options)
 
-func With(url, dir string, retry int, repos, arches []string) option {
+func With(baseUrl, urlFormat, dir string, retry int, repos, arches []string) option {
 	return func(opts *options) {
-		opts.url = url
+		opts.baseUrl = baseUrl
+		opts.urlFormat = urlFormat
 		opts.dir = dir
 		opts.retry = retry
 		opts.repos = repos
@@ -117,11 +119,12 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		url:    urlFormat,
-		dir:    filepath.Join(utils.VulnListDir(), rockyDir),
-		retry:  retry,
-		repos:  defaultRepos,
-		arches: defaultArches,
+		baseUrl:   baseUrl,
+		urlFormat: urlFormat,
+		dir:       filepath.Join(utils.VulnListDir(), rockyDir),
+		retry:     retry,
+		repos:     defaultRepos,
+		arches:    defaultArches,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -133,9 +136,9 @@ func NewConfig(opts ...option) Config {
 }
 
 func (c Config) Update() error {
-	releases, err := GetReleasesList(reposUrl)
+	releases, err := c.getReleasesList()
 	if err != nil {
-		return err
+		return xerrors.Errorf("failed to update security advisories of Rocky Linux: %w", err)
 	}
 	for _, release := range releases {
 		for _, repo := range c.repos {
@@ -160,7 +163,7 @@ func (c Config) update(release, repo, arch string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	u, err := url.Parse(fmt.Sprintf(c.url, release, repo, arch))
+	u, err := url.Parse(fmt.Sprintf(c.urlFormat, c.baseUrl, release, repo, arch))
 	if err != nil {
 		return xerrors.Errorf("failed to parse root url: %w", err)
 	}
@@ -258,11 +261,11 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 	return &updateInfo, nil
 }
 
-var GetReleasesList = func(reposUrl string) ([]string, error) {
+func (c Config) getReleasesList() ([]string, error) {
 	var releases []string
 	releaseRegex := regexp.MustCompile(`\d+.\d+`)
 
-	b, err := utils.FetchURL(reposUrl, "", retry)
+	b, err := utils.FetchURL(c.baseUrl, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get list of releases: %w", err)
 	}
