@@ -26,11 +26,10 @@ const (
 )
 
 var (
-	baseUrl         = "https://download.rockylinux.org/pub/rocky"
-	urlFormat       = "%s/%s/%s/%s/os/"
-	defaultReleases = []string{"8.5"}
-	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
-	defaultArches   = []string{"x86_64", "aarch64"}
+	baseUrl       = "https://download.rockylinux.org/pub/rocky"
+	urlFormat     = "%s/%s/%s/%s/os/"
+	defaultRepos  = []string{"BaseOS", "AppStream", "extras"}
+	defaultArches = []string{"x86_64", "aarch64"}
 )
 
 // RepoMd has repomd data
