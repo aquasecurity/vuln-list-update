@@ -7,7 +7,7 @@ require (
 	github.com/araddon/dateparse v0.0.0-20190426192744-0d74ffceef83
 	github.com/cheggaaa/pb v2.0.7+incompatible
 	github.com/cheggaaa/pb/v3 v3.0.8
-	github.com/hashicorp/go-getter v1.5.11
+	github.com/hashicorp/go-getter v1.6.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/mattn/go-jsonpointer v0.0.0-20180225143300-37667080efed
 	github.com/parnurzeal/gorequest v0.2.16
@@ -64,7 +64,7 @@ require (
 	golang.org/x/mod v0.6.0-dev.0.20211013180041-c96bc1413d57 // indirect
 	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20211213223007-03aa0b5f6827 // indirect
+	golang.org/x/sys v0.0.0-20220517195934-5e4e11fc645e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/api v0.60.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
