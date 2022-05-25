@@ -127,8 +127,8 @@ func (u Updater) walkDir(root string) error {
 				adv.PackageSlug = slug
 			}
 		}
-
 		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
+
 		if err = u.save(adv); err != nil {
 			return xerrors.Errorf("save error: %w", err)
 		}
@@ -145,7 +145,10 @@ func (u Updater) searchPrefix(adv advisory, advisories []advisory) string {
 			// => go/github.com/apache/thrift/lib/go/thrift
 			// go/github.com/apache/thrift/lib/go/thrift and go/github.com/apache/thrift-mini
 			// => skip this advisory
-			suffix := strings.TrimPrefix(adv.PackageSlug, a.PackageSlug)
+			suffix := strings.TrimPrefix(adv.PackageSlug, strings.TrimSuffix(a.PackageSlug, "/"))
+			if suffix == "/" { // same slugs
+				continue
+			}
 			if strings.HasPrefix(suffix, "/") {
 				return a.PackageSlug
 			}

@@ -123,6 +123,24 @@ func Test_searchPrefix(t *testing.T) {
 			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes-mini"}},
 			expectedSlug: "",
 		},
+		{
+			name: "nested packages have '/' suffix",
+			adv:  advisory{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver"},
+			advisories: []advisory{
+				{PackageSlug: "github.com/kubernetes/kubernetes/"},
+				{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver/"},
+			},
+			expectedSlug: "github.com/kubernetes/kubernetes/",
+		},
+		{
+			name: "nested packages have '/' suffix",
+			adv:  advisory{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver/"},
+			advisories: []advisory{
+				{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver/"},
+				{PackageSlug: "github.com/kubernetes/kubernetes/"},
+			},
+			expectedSlug: "github.com/kubernetes/kubernetes/",
+		},
 	}
 
 	for _, test := range tests {
