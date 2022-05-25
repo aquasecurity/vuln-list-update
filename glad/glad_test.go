@@ -20,13 +20,21 @@ func TestUpdater_WalkDir(t *testing.T) {
 		name          string
 		appFs         afero.Fs
 		rootDir       string
+		goldenDir     string
 		wantFileCount int
 		wantErr       string
 	}{
 		{
 			name:          "happy path",
 			rootDir:       "testdata/happy",
+			goldenDir:     "testdata/golden/happy",
 			wantFileCount: 4,
+		},
+		{
+			name:          "happy path",
+			rootDir:       "testdata/skip-slug-update",
+			goldenDir:     "testdata/golden/skip-slug-update",
+			wantFileCount: 2,
 		},
 		{
 			name:    "sad path",
@@ -70,7 +78,7 @@ func TestUpdater_WalkDir(t *testing.T) {
 				relPath, err := filepath.Rel(c.vulnListDir, path)
 				require.NoError(t, err, path)
 
-				goldenPath := filepath.Join("testdata", "golden", relPath)
+				goldenPath := filepath.Join(tc.goldenDir, relPath)
 				if *update {
 					fmt.Println(goldenPath)
 					err = ioutil.WriteFile(goldenPath, got, 0666)

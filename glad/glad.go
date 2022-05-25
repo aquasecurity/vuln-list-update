@@ -119,12 +119,15 @@ func (u Updater) walkDir(root string) error {
 		// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
 		adv.Identifier = strings.ToUpper(adv.Identifier)
 
-		slug := u.searchPrefix(adv, advisories)
-		if slug != "" {
-			// Update the package_slug to flatten nested packages
-			// e.g.  go/k8s.io/kubernetes => go/k8s.io/kubernetes
-			//       go/k8s.io/kubernetes/pkg/kubelet/kuberuntime => go/k8s.io/kubernetes
-			adv.PackageSlug = slug
+		// Only 'go' package slugs need to be updated
+		if strings.HasPrefix(adv.PackageSlug, "go") {
+			slug := u.searchPrefix(adv, advisories)
+			if slug != "" {
+				// Update the package_slug to flatten nested packages
+				// e.g.  go/k8s.io/kubernetes => go/k8s.io/kubernetes
+				//       go/k8s.io/kubernetes/pkg/kubelet/kuberuntime => go/k8s.io/kubernetes
+				adv.PackageSlug = slug
+			}
 		}
 		if err = u.save(adv); err != nil {
 			return xerrors.Errorf("save error: %w", err)
