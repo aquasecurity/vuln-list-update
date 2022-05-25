@@ -112,8 +112,6 @@ func (u Updater) walkDir(root string) error {
 	}
 
 	for _, adv := range advisories {
-		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
-
 		// Update Identifier to upper case
 		// e.g. cvE-2014-3530 => CVE-2014-3530
 		// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
@@ -129,6 +127,8 @@ func (u Updater) walkDir(root string) error {
 				adv.PackageSlug = slug
 			}
 		}
+
+		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
 		if err = u.save(adv); err != nil {
 			return xerrors.Errorf("save error: %w", err)
 		}
@@ -139,12 +139,16 @@ func (u Updater) walkDir(root string) error {
 
 func (u Updater) searchPrefix(adv advisory, advisories []advisory) string {
 	for _, a := range advisories {
-		if a.PackageSlug == adv.PackageSlug {
-			continue
-		}
-
 		if strings.HasPrefix(adv.PackageSlug, a.PackageSlug) {
-			return a.PackageSlug
+			// we should not trim part of package name:
+			// e.g.: go/github.com/apache/thrift/lib/go/thrift and go/github.com/apache/thrift
+			// => go/github.com/apache/thrift/lib/go/thrift
+			// go/github.com/apache/thrift/lib/go/thrift and go/github.com/apache/thrift-mini
+			// => skip this advisory
+			suffix := strings.TrimPrefix(adv.PackageSlug, a.PackageSlug)
+			if strings.HasPrefix(suffix, "/") {
+				return a.PackageSlug
+			}
 		}
 	}
 	return ""

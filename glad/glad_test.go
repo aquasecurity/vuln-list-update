@@ -31,7 +31,7 @@ func TestUpdater_WalkDir(t *testing.T) {
 			wantFileCount: 4,
 		},
 		{
-			name:          "happy path",
+			name:          "happy path, skip slug update for maven",
 			rootDir:       "testdata/skip-slug-update",
 			goldenDir:     "testdata/golden/skip-slug-update",
 			wantFileCount: 2,
@@ -94,6 +94,43 @@ func TestUpdater_WalkDir(t *testing.T) {
 			})
 			assert.Equal(t, tc.wantFileCount, fileCount)
 			assert.NoError(t, err, tc.name)
+		})
+	}
+}
+
+func Test_searchPrefix(t *testing.T) {
+	tests := []struct {
+		name         string
+		adv          advisory
+		advisories   []advisory
+		expectedSlug string
+	}{
+		{
+			name:         "update slug",
+			adv:          advisory{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver"},
+			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes"}},
+			expectedSlug: "github.com/kubernetes/kubernetes",
+		},
+		{
+			name:         "same slugs",
+			adv:          advisory{PackageSlug: "github.com/kubernetes/kubernetes"},
+			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes"}},
+			expectedSlug: "",
+		},
+		{
+			name:         "slug with same prefix in bottom folder",
+			adv:          advisory{PackageSlug: "github.com/kubernetes/kubernetes"},
+			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes-mini"}},
+			expectedSlug: "",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			u := Updater{}
+			slug := u.searchPrefix(test.adv, test.advisories)
+
+			assert.Equal(t, test.expectedSlug, slug)
 		})
 	}
 }
