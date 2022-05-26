@@ -32,13 +32,13 @@ func VulnListDir() string {
 	return filepath.Join(CacheDir(), "vuln-list")
 }
 
-func SaveCVEPerYear(dirName string, cveID string, data interface{}) error {
+func SaveCVEPerYear(dirPath string, cveID string, data interface{}) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		return xerrors.Errorf("invalid CVE-ID format: %s\n", cveID)
 	}
 
-	yearDir := filepath.Join(VulnListDir(), dirName, s[1])
+	yearDir := filepath.Join(dirPath, s[1])
 	if err := os.MkdirAll(yearDir, os.ModePerm); err != nil {
 		return err
 	}
