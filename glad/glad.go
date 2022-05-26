@@ -64,6 +64,11 @@ func (u Updater) Update() error {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
+	log.Println("Removing old glad files...")
+	if err := os.RemoveAll(filepath.Join(u.vulnListDir, gladDir)); err != nil {
+		xerrors.Errorf("can't remove a folder with old files %s/%s: %w", u.vulnListDir, gladDir, err)
+	}
+
 	log.Println("Walking glad...")
 	for _, target := range supportedTypes {
 		targetDir := filepath.Join(dir, target)
