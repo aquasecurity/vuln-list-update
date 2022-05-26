@@ -114,10 +114,8 @@ func (u Updater) walkDir(root string) error {
 	for _, adv := range advisories {
 		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
 
-		// Update Identifier to upper case
-		// e.g. cvE-2014-3530 => CVE-2014-3530
-		// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
-		adv.Identifier = strings.ToUpper(adv.Identifier)
+		adv.Identifier = updateIdentifiers(adv.Identifier, adv.Identifiers)
+		adv.Identifiers = nil
 
 		slug := u.searchPrefix(adv, advisories)
 		if slug != "" {
@@ -157,4 +155,22 @@ func (u Updater) save(adv advisory) error {
 		return xerrors.Errorf("unable to write JSON (%s): %w", fileName, err)
 	}
 	return nil
+}
+
+func updateIdentifiers(basicIdentifier string, basicIdentifiers []string) string {
+	// Update Identifier to upper case
+	// e.g. cvE-2014-3530 => CVE-2014-3530
+	// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
+	updated := strings.ToUpper(basicIdentifier)
+
+	// If an advisory doesn't have CVE-ID but there is GHSA-ID, we use GHSA-ID
+	if !strings.HasPrefix(updated, "CVE") {
+		for i := range basicIdentifiers {
+			if strings.HasPrefix(basicIdentifiers[i], "GHSA") {
+				updated = basicIdentifiers[i]
+				break
+			}
+		}
+	}
+	return updated
 }
