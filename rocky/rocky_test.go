@@ -20,48 +20,46 @@ func Test_Update(t *testing.T) {
 		releasesFilePath string
 		rootDir          string
 		repository       []string
-		expectedError    error
+		wantErr          error
 	}{
 		{
 			name:             "happy path",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/happy",
 			repository:       []string{"BaseOS"},
-			expectedError:    nil,
 		},
 		{
 			name:             "bad repomd response",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/repomd_invalid",
 			repository:       []string{"BaseOS"},
-			expectedError:    xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
+			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
 		},
 		{
 			name:             "bad updateInfo response",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/updateinfo_invalid",
 			repository:       []string{"BaseOS"},
-			expectedError:    xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
+			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
 		},
 		{
 			name:             "no updateInfo field(BaseOS)",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/no_updateinfo_field",
 			repository:       []string{"BaseOS"},
-			expectedError:    xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", rocky.ErrorNoUpdateInfoField)),
+			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", rocky.ErrorNoUpdateInfoField)),
 		},
 		{
 			name:             "no updateInfo field(extras)",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/no_updateinfo_field",
 			repository:       []string{"extras"},
-			expectedError:    nil,
 		},
 		{
 			name:             "empty list of releases",
 			releasesFilePath: "testdata/fixtures/releases/empty.html",
 			repository:       []string{"BaseOS"},
-			expectedError:    xerrors.Errorf("failed to update security advisories of Rocky Linux: %w", errors.New("failed to get list of releases: list is empty")),
+			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux: %w", errors.New("failed to get list of releases: list is empty")),
 		},
 	}
 	for _, tt := range tests {
@@ -77,9 +75,9 @@ func Test_Update(t *testing.T) {
 
 			dir := t.TempDir()
 			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky", "%s/%s/%s/%s/os/", dir, 0, tt.repository, []string{"x86_64"}))
-			if err := rc.Update(); tt.expectedError != nil {
+			if err := rc.Update(); tt.wantErr != nil {
 				require.Error(t, err)
-				assert.Contains(t, err.Error(), tt.expectedError.Error())
+				assert.Contains(t, err.Error(), tt.wantErr.Error())
 				return
 			}
 

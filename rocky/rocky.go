@@ -30,6 +30,8 @@ var (
 	urlFormat     = "%s/%s/%s/%s/os/"
 	defaultRepos  = []string{"BaseOS", "AppStream", "extras"}
 	defaultArches = []string{"x86_64", "aarch64"}
+
+	releaseRegex = regexp.MustCompile(`\d+.\d+`)
 )
 
 // RepoMd has repomd data
@@ -135,15 +137,17 @@ func NewConfig(opts ...option) Config {
 }
 
 func (c Config) Update() error {
+	// "8" is an alias of the latest release that doesn't contain old security advisories,
+	// so we have to get all available minor releases like 8.5 and 8.6 so that we can have all the advisories.
 	releases, err := c.getReleasesList()
 	if err != nil {
-		return xerrors.Errorf("failed to update security advisories of Rocky Linux: %w", err)
+		return xerrors.Errorf("failed to get a list of Rocky Linux releases: %w", err)
 	}
 	for _, release := range releases {
 		for _, repo := range c.repos {
 			for _, arch := range c.arches {
 				log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
-				if err := c.update(release, repo, arch); err != nil {
+				if err = c.update(release, repo, arch); err != nil {
 					return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
 				}
 			}
@@ -194,14 +198,14 @@ func (c Config) update(release, repo, arch string) error {
 	for year, errata := range secErrata {
 		log.Printf("Write Errata for Rocky Linux %s %s %s %s", release, repo, arch, year)
 
-		if err := os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
+		if err = os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
 			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
 
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
 			jsonPath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.ID))
-			if err := utils.Write(jsonPath, erratum); err != nil {
+			if err = utils.Write(jsonPath, erratum); err != nil {
 				return xerrors.Errorf("failed to write Rocky Linux CVE details: %w", err)
 			}
 			bar.Increment()
@@ -221,7 +225,7 @@ func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, er
 	}
 
 	var repoMd RepoMd
-	if err := xml.NewDecoder(bytes.NewBuffer(res)).Decode(&repoMd); err != nil {
+	if err = xml.NewDecoder(bytes.NewBuffer(res)).Decode(&repoMd); err != nil {
 		return "", xerrors.Errorf("failed to decode repomd.xml: %w", err)
 	}
 
@@ -245,7 +249,7 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 	defer r.Close()
 
 	var updateInfo UpdateInfo
-	if err := xml.NewDecoder(r).Decode(&updateInfo); err != nil {
+	if err = xml.NewDecoder(r).Decode(&updateInfo); err != nil {
 		return nil, err
 	}
 	for i, alas := range updateInfo.RLSAList {
@@ -261,9 +265,6 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 }
 
 func (c Config) getReleasesList() ([]string, error) {
-	var releases []string
-	releaseRegex := regexp.MustCompile(`\d+.\d+`)
-
 	b, err := utils.FetchURL(c.baseUrl, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get list of releases: %w", err)
@@ -274,6 +275,7 @@ func (c Config) getReleasesList() ([]string, error) {
 		return nil, xerrors.Errorf("failed to read list of releases: %w", err)
 	}
 
+	var releases []string
 	doc.Find("a").Each(func(i int, s *goquery.Selection) {
 		if release := releaseRegex.FindString(s.Text()); release != "" {
 			releases = append(releases, release)
