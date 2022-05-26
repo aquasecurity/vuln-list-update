@@ -166,9 +166,9 @@ func updateIdentifiers(basicIdentifier string, basicIdentifiers []string) string
 	// If an advisory doesn't have CVE-ID but there is GHSA-ID, we use GHSA-ID
 	if !strings.HasPrefix(updated, "CVE") {
 		for i := range basicIdentifiers {
-			if strings.HasPrefix(basicIdentifiers[i], "GHSA") {
-				updated = basicIdentifiers[i]
-				break
+			if ident := strings.ToUpper(basicIdentifiers[i]); strings.HasPrefix(ident, "GHSA") {
+				// return no uppercase string because GHSA id contains small letters (eg GHSA-qq97-vm5h-rrhg)
+				return basicIdentifiers[i]
 			}
 		}
 	}
