@@ -3,7 +3,7 @@
   "PackageSlug": "go/github.com/docker/distribution",
   "Title": "OCI Manifest Type Confusion Issue",
   "Description": "### Impact\n\nSystems that rely on digest equivalence for image attestations may be vulnerable to type confusion.",
-  "Date": "2022-02-11",
+  "Date": "2022-04-19",
   "Pubdate": "2022-02-08",
   "AffectedRange": "\u003cv2.8.0",
   "FixedVersions": [
