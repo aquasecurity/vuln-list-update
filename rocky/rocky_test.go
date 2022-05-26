@@ -1,7 +1,6 @@
 package rocky_test
 
 import (
-	"errors"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -11,7 +10,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/rocky"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/xerrors"
 )
 
 func Test_Update(t *testing.T) {
@@ -20,7 +18,7 @@ func Test_Update(t *testing.T) {
 		releasesFilePath string
 		rootDir          string
 		repository       []string
-		wantErr          error
+		wantErr          string
 	}{
 		{
 			name:             "happy path",
@@ -33,21 +31,21 @@ func Test_Update(t *testing.T) {
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/repomd_invalid",
 			repository:       []string{"BaseOS"},
-			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo path from repomd.xml")),
+			wantErr:          "failed to fetch updateInfo path from repomd.xml",
 		},
 		{
 			name:             "bad updateInfo response",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/updateinfo_invalid",
 			repository:       []string{"BaseOS"},
-			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", errors.New("failed to fetch updateInfo")),
+			wantErr:          "failed to fetch updateInfo",
 		},
 		{
 			name:             "no updateInfo field(BaseOS)",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/no_updateinfo_field",
 			repository:       []string{"BaseOS"},
-			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux 8.5 BaseOS x86_64: %w", xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", rocky.ErrorNoUpdateInfoField)),
+			wantErr:          rocky.ErrorNoUpdateInfoField.Error(),
 		},
 		{
 			name:             "no updateInfo field(extras)",
@@ -59,7 +57,7 @@ func Test_Update(t *testing.T) {
 			name:             "empty list of releases",
 			releasesFilePath: "testdata/fixtures/releases/empty.html",
 			repository:       []string{"BaseOS"},
-			wantErr:          xerrors.Errorf("failed to update security advisories of Rocky Linux: %w", errors.New("failed to get list of releases: list is empty")),
+			wantErr:          "list is empty",
 		},
 	}
 	for _, tt := range tests {
@@ -75,9 +73,9 @@ func Test_Update(t *testing.T) {
 
 			dir := t.TempDir()
 			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky", "%s/%s/%s/%s/os/", dir, 0, tt.repository, []string{"x86_64"}))
-			if err := rc.Update(); tt.wantErr != nil {
+			if err := rc.Update(); tt.wantErr != "" {
 				require.Error(t, err)
-				assert.Contains(t, err.Error(), tt.wantErr.Error())
+				assert.Contains(t, err.Error(), tt.wantErr)
 				return
 			}
 
