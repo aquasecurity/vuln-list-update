@@ -106,10 +106,14 @@ func Test_searchPrefix(t *testing.T) {
 		expectedSlug string
 	}{
 		{
-			name:         "update slug",
-			adv:          advisory{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver"},
-			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes"}},
-			expectedSlug: "github.com/kubernetes/kubernetes",
+			name: "update slug",
+			adv:  advisory{PackageSlug: "go/github.com/apache/thrift/lib/go/thrift"},
+			advisories: []advisory{
+				{PackageSlug: "go/github.com/apache/thrift/lib/go/thrift"},
+				{PackageSlug: "go/github.com/apache/thrift-mini"},
+				{PackageSlug: "go/github.com/apache/thrift"},
+			},
+			expectedSlug: "go/github.com/apache/thrift",
 		},
 		{
 			name:         "same slugs",
@@ -118,35 +122,19 @@ func Test_searchPrefix(t *testing.T) {
 			expectedSlug: "",
 		},
 		{
-			name:         "slug with same prefix in bottom folder",
-			adv:          advisory{PackageSlug: "github.com/kubernetes/kubernetes"},
-			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes-mini"}},
+			name: "slug with same prefix in bottom folder",
+			adv:  advisory{PackageSlug: "go/github.com/apache/thrift-mini"},
+			advisories: []advisory{
+				{PackageSlug: "go/github.com/apache/thrift"},
+			},
 			expectedSlug: "",
-		},
-		{
-			name: "nested packages have '/' suffix",
-			adv:  advisory{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver"},
-			advisories: []advisory{
-				{PackageSlug: "github.com/kubernetes/kubernetes/"},
-				{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver/"},
-			},
-			expectedSlug: "github.com/kubernetes/kubernetes/",
-		},
-		{
-			name: "nested packages have '/' suffix",
-			adv:  advisory{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver/"},
-			advisories: []advisory{
-				{PackageSlug: "github.com/kubernetes/kubernetes/pkg/apiserver/"},
-				{PackageSlug: "github.com/kubernetes/kubernetes/"},
-			},
-			expectedSlug: "github.com/kubernetes/kubernetes/",
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			u := Updater{}
-			slug := u.searchPrefix(test.adv, test.advisories)
+			slug := u.searchPrefix(test.adv.PackageSlug, test.advisories)
 
 			assert.Equal(t, test.expectedSlug, slug)
 		})

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/spf13/afero"
@@ -118,8 +119,8 @@ func (u Updater) walkDir(root string) error {
 		adv.Identifier = strings.ToUpper(adv.Identifier)
 
 		// Only 'go' package slugs need to be updated
-		if strings.HasPrefix(adv.PackageSlug, "go") {
-			slug := u.searchPrefix(adv, advisories)
+		if strings.HasPrefix(adv.PackageSlug, "go/") {
+			slug := u.searchPrefix(adv.PackageSlug, advisories)
 			if slug != "" {
 				// Update the package_slug to flatten nested packages
 				// e.g.  go/k8s.io/kubernetes => go/k8s.io/kubernetes
@@ -127,7 +128,6 @@ func (u Updater) walkDir(root string) error {
 				adv.PackageSlug = slug
 			}
 		}
-		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
 
 		if err = u.save(adv); err != nil {
 			return xerrors.Errorf("save error: %w", err)
@@ -137,21 +137,13 @@ func (u Updater) walkDir(root string) error {
 	return nil
 }
 
-func (u Updater) searchPrefix(adv advisory, advisories []advisory) string {
+func (u Updater) searchPrefix(pkgSlug string, advisories []advisory) string {
 	for _, a := range advisories {
-		if strings.HasPrefix(adv.PackageSlug, a.PackageSlug) {
-			// we should not trim part of package name:
-			// e.g.: go/github.com/apache/thrift/lib/go/thrift and go/github.com/apache/thrift
-			// => go/github.com/apache/thrift/lib/go/thrift
-			// go/github.com/apache/thrift/lib/go/thrift and go/github.com/apache/thrift-mini
-			// => skip this advisory
-			suffix := strings.TrimPrefix(adv.PackageSlug, strings.TrimSuffix(a.PackageSlug, "/"))
-			if suffix == "/" { // same slugs
-				continue
-			}
-			if strings.HasPrefix(suffix, "/") {
-				return a.PackageSlug
-			}
+		// '/' has been added to skip packages with same prefix
+		// e.g.: pkgSlug == go/github.com/apache/thrift-mini
+		// a.PackageSlug == go/github.com/apache/thrift
+		if matched, _ := regexp.MatchString(fmt.Sprintf("%s/", a.PackageSlug), pkgSlug); matched {
+			return a.PackageSlug
 		}
 	}
 	return ""
