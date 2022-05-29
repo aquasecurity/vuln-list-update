@@ -64,6 +64,11 @@ func (u Updater) Update() error {
 		return xerrors.Errorf("failed to clone or pull: %w", err)
 	}
 
+	log.Println("Removing old glad files...")
+	if err := os.RemoveAll(filepath.Join(u.vulnListDir, gladDir)); err != nil {
+		xerrors.Errorf("can't remove a folder with old files %s/%s: %w", u.vulnListDir, gladDir, err)
+	}
+
 	log.Println("Walking glad...")
 	for _, target := range supportedTypes {
 		targetDir := filepath.Join(dir, target)
@@ -114,10 +119,8 @@ func (u Updater) walkDir(root string) error {
 	for _, adv := range advisories {
 		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
 
-		// Update Identifier to upper case
-		// e.g. cvE-2014-3530 => CVE-2014-3530
-		// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
-		adv.Identifier = strings.ToUpper(adv.Identifier)
+		adv.Identifier = updateIdentifiers(adv.Identifier, adv.Identifiers)
+		adv.Identifiers = nil
 
 		slug := u.searchPrefix(adv, advisories)
 		if slug != "" {
@@ -157,4 +160,22 @@ func (u Updater) save(adv advisory) error {
 		return xerrors.Errorf("unable to write JSON (%s): %w", fileName, err)
 	}
 	return nil
+}
+
+func updateIdentifiers(basicIdentifier string, basicIdentifiers []string) string {
+	// Update Identifier to upper case
+	// e.g. cvE-2014-3530 => CVE-2014-3530
+	// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
+	updated := strings.ToUpper(basicIdentifier)
+
+	// If an advisory doesn't have CVE-ID but there is GHSA-ID, we use GHSA-ID
+	if !strings.HasPrefix(updated, "CVE") {
+		for i := range basicIdentifiers {
+			if ident := strings.ToUpper(basicIdentifiers[i]); strings.HasPrefix(ident, "GHSA") {
+				// return no uppercase string because GHSA id contains small letters (eg GHSA-qq97-vm5h-rrhg)
+				return basicIdentifiers[i]
+			}
+		}
+	}
+	return updated
 }
