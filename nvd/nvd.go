@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -109,7 +110,7 @@ func save(nvd *NVD) error {
 			continue
 		}
 
-		if err = utils.SaveCVEPerYear(nvdDir, cveID, item); err != nil {
+		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), nvdDir), cveID, item); err != nil {
 			return xerrors.Errorf("failed to save NVD CVE detail: %w", err)
 		}
 	}

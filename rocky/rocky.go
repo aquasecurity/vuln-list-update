@@ -11,8 +11,10 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
@@ -24,10 +26,12 @@ const (
 )
 
 var (
-	urlFormat       = "https://download.rockylinux.org/pub/rocky/%s/%s/%s/os/"
-	defaultReleases = []string{"8"}
-	defaultRepos    = []string{"BaseOS", "AppStream", "extras"}
-	defaultArches   = []string{"x86_64", "aarch64"}
+	baseUrl       = "https://download.rockylinux.org/pub/rocky"
+	urlFormat     = "%s/%s/%s/%s/os/"
+	defaultRepos  = []string{"BaseOS", "AppStream", "extras"}
+	defaultArches = []string{"x86_64", "aarch64"}
+
+	releaseRegex = regexp.MustCompile(`\d+.\d+`)
 )
 
 // RepoMd has repomd data
@@ -89,22 +93,22 @@ type Package struct {
 }
 
 type options struct {
-	url      string
-	dir      string
-	retry    int
-	releases []string
-	repos    []string
-	arches   []string
+	baseUrl   string
+	urlFormat string
+	dir       string
+	retry     int
+	repos     []string
+	arches    []string
 }
 
 type option func(*options)
 
-func With(url, dir string, retry int, releases, repos, arches []string) option {
+func With(baseUrl, urlFormat, dir string, retry int, repos, arches []string) option {
 	return func(opts *options) {
-		opts.url = url
+		opts.baseUrl = baseUrl
+		opts.urlFormat = urlFormat
 		opts.dir = dir
 		opts.retry = retry
-		opts.releases = releases
 		opts.repos = repos
 		opts.arches = arches
 	}
@@ -116,12 +120,12 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		url:      urlFormat,
-		dir:      filepath.Join(utils.VulnListDir(), rockyDir),
-		retry:    retry,
-		releases: defaultReleases,
-		repos:    defaultRepos,
-		arches:   defaultArches,
+		baseUrl:   baseUrl,
+		urlFormat: urlFormat,
+		dir:       filepath.Join(utils.VulnListDir(), rockyDir),
+		retry:     retry,
+		repos:     defaultRepos,
+		arches:    defaultArches,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -133,11 +137,17 @@ func NewConfig(opts ...option) Config {
 }
 
 func (c Config) Update() error {
-	for _, release := range c.releases {
+	// "8" is an alias of the latest release that doesn't contain old security advisories,
+	// so we have to get all available minor releases like 8.5 and 8.6 so that we can have all the advisories.
+	releases, err := c.getReleasesList()
+	if err != nil {
+		return xerrors.Errorf("failed to get a list of Rocky Linux releases: %w", err)
+	}
+	for _, release := range releases {
 		for _, repo := range c.repos {
 			for _, arch := range c.arches {
 				log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
-				if err := c.update(release, repo, arch); err != nil {
+				if err = c.update(release, repo, arch); err != nil {
 					return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
 				}
 			}
@@ -156,7 +166,7 @@ func (c Config) update(release, repo, arch string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	u, err := url.Parse(fmt.Sprintf(c.url, release, repo, arch))
+	u, err := url.Parse(fmt.Sprintf(c.urlFormat, c.baseUrl, release, repo, arch))
 	if err != nil {
 		return xerrors.Errorf("failed to parse root url: %w", err)
 	}
@@ -188,14 +198,14 @@ func (c Config) update(release, repo, arch string) error {
 	for year, errata := range secErrata {
 		log.Printf("Write Errata for Rocky Linux %s %s %s %s", release, repo, arch, year)
 
-		if err := os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
+		if err = os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
 			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
 
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
 			jsonPath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.ID))
-			if err := utils.Write(jsonPath, erratum); err != nil {
+			if err = utils.Write(jsonPath, erratum); err != nil {
 				return xerrors.Errorf("failed to write Rocky Linux CVE details: %w", err)
 			}
 			bar.Increment()
@@ -215,7 +225,7 @@ func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, er
 	}
 
 	var repoMd RepoMd
-	if err := xml.NewDecoder(bytes.NewBuffer(res)).Decode(&repoMd); err != nil {
+	if err = xml.NewDecoder(bytes.NewBuffer(res)).Decode(&repoMd); err != nil {
 		return "", xerrors.Errorf("failed to decode repomd.xml: %w", err)
 	}
 
@@ -239,7 +249,7 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 	defer r.Close()
 
 	var updateInfo UpdateInfo
-	if err := xml.NewDecoder(r).Decode(&updateInfo); err != nil {
+	if err = xml.NewDecoder(r).Decode(&updateInfo); err != nil {
 		return nil, err
 	}
 	for i, alas := range updateInfo.RLSAList {
@@ -252,4 +262,28 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 		updateInfo.RLSAList[i].CveIDs = cveIDs
 	}
 	return &updateInfo, nil
+}
+
+func (c Config) getReleasesList() ([]string, error) {
+	b, err := utils.FetchURL(c.baseUrl, "", c.retry)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to get list of releases: %w", err)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
+	if err != nil {
+		return nil, xerrors.Errorf("failed to read list of releases: %w", err)
+	}
+
+	var releases []string
+	doc.Find("a").Each(func(i int, s *goquery.Selection) {
+		if release := releaseRegex.FindString(s.Text()); release != "" {
+			releases = append(releases, release)
+		}
+	})
+
+	if len(releases) == 0 {
+		return nil, xerrors.Errorf("failed to get list of releases: list is empty")
+	}
+	return releases, nil
 }

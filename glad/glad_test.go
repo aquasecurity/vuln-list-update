@@ -28,7 +28,7 @@ func TestUpdater_WalkDir(t *testing.T) {
 			name:          "happy path",
 			rootDir:       "testdata/happy",
 			goldenDir:     "testdata/golden/happy",
-			wantFileCount: 4,
+			wantFileCount: 5,
 		},
 		{
 			name:          "happy path, skip slug update for maven",

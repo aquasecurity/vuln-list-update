@@ -2,6 +2,7 @@ package glad
 
 type advisory struct {
 	Identifier       string   `yaml:"identifier"`
+	Identifiers      []string `yaml:"identifiers" json:"identifiers,omitempty"`
 	PackageSlug      string   `yaml:"package_slug"`
 	Title            string   `yaml:"title"`
 	Description      string   `yaml:"description"`

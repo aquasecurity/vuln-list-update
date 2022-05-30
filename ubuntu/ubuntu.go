@@ -131,7 +131,7 @@ func walkDir(root string) error {
 			return xerrors.Errorf("error in parse: %w", err)
 		}
 
-		if err = utils.SaveCVEPerYear(ubuntuDir, vuln.Candidate, vuln); err != nil {
+		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), ubuntuDir), vuln.Candidate, vuln); err != nil {
 			return xerrors.Errorf("error in save: %w", err)
 		}
 

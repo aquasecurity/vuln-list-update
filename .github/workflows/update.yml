@@ -107,6 +107,10 @@ jobs:
       name: Go Vulnerability Database
       run: ./vuln-list-update -target go-vulndb
 
+    - if: always()
+      name: Known Exploited Vulnerabilities Catalog
+      run: ./vuln-list-update -target kevc
+
     # Red Hat Security Data API is unstable.
     # It should be split into small pieces to reduce the impact of failure.
     - if: always()

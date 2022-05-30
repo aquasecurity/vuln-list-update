@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/aquasecurity/vuln-list-update/kevc"
 	"log"
 	"os"
 	"strconv"
@@ -46,7 +47,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc)")
 	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -223,6 +224,12 @@ func run() error {
 			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)
 		}
 		commitMsg = "CBL-Mariner Vulnerability Data"
+	case "kevc":
+		src := kevc.NewConfig()
+		if err := src.Update(); err != nil {
+			return xerrors.Errorf("Known Exploited Vulnerability Catalog update error: %w", err)
+		}
+		commitMsg = "Known Exploited Vulnerability Catalog"
 	default:
 		return xerrors.New("unknown target")
 	}
