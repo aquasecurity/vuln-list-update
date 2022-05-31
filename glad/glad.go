@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/spf13/afero"
@@ -67,7 +66,7 @@ func (u Updater) Update() error {
 
 	log.Println("Removing old glad files...")
 	if err := os.RemoveAll(filepath.Join(u.vulnListDir, gladDir)); err != nil {
-		xerrors.Errorf("can't remove a folder with old files %s/%s: %w", u.vulnListDir, gladDir, err)
+		return xerrors.Errorf("can't remove a folder with old files %s/%s: %w", u.vulnListDir, gladDir, err)
 	}
 
 	log.Println("Walking glad...")
@@ -142,10 +141,18 @@ func (u Updater) walkDir(root string) error {
 
 func (u Updater) searchPrefix(pkgSlug string, advisories []advisory) string {
 	for _, a := range advisories {
+		if pkgSlug == a.PackageSlug {
+			continue
+		}
 		// '/' has been added to skip packages with same prefix
 		// e.g.: pkgSlug == go/github.com/apache/thrift-mini
 		// a.PackageSlug == go/github.com/apache/thrift
-		if matched, _ := regexp.MatchString(fmt.Sprintf("%s/", a.PackageSlug), pkgSlug); matched {
+		advSlug := a.PackageSlug
+		if !strings.HasSuffix(advSlug, "/") {
+			advSlug += "/"
+		}
+
+		if strings.HasPrefix(pkgSlug, advSlug) {
 			return a.PackageSlug
 		}
 	}
