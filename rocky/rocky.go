@@ -26,74 +26,18 @@ const (
 )
 
 var (
-	baseUrl       = "https://download.rockylinux.org/pub/rocky"
 	urlFormat     = "%s/%s/%s/%s/os/"
 	defaultRepos  = []string{"BaseOS", "AppStream", "extras"}
 	defaultArches = []string{"x86_64", "aarch64"}
 
-	releaseRegex = regexp.MustCompile(`\d+.\d+`)
+	minorReleaseVersionRegex = regexp.MustCompile(`^\d+.\d+[A-Za-z0-9-.]*/$`)
+	oldReleaseBaseUrl        = "https://dl.rockylinux.org/vault/rocky"
+	majorReleaseVersionRegex = regexp.MustCompile(`^\d+/$`)
+	actualReleaseBaseUrl     = "https://download.rockylinux.org/pub/rocky"
 )
 
-// RepoMd has repomd data
-type RepoMd struct {
-	RepoList []Repo `xml:"data"`
-}
-
-// Repo has a repo data
-type Repo struct {
-	Type     string   `xml:"type,attr"`
-	Location Location `xml:"location"`
-}
-
-// Location has a location of repomd
-type Location struct {
-	Href string `xml:"href,attr"`
-}
-
-// UpdateInfo has a list
-type UpdateInfo struct {
-	RLSAList []RLSA `xml:"update"`
-}
-
-// RLSA has detailed data of RLSA
-type RLSA struct {
-	ID          string      `xml:"id" json:"id,omitempty"`
-	Title       string      `xml:"title" json:"title,omitempty"`
-	Issued      Date        `xml:"issued" json:"issued,omitempty"`
-	Updated     Date        `xml:"updated" json:"updated,omitempty"`
-	Severity    string      `xml:"severity" json:"severity,omitempty"`
-	Description string      `xml:"description" json:"description,omitempty"`
-	Packages    []Package   `xml:"pkglist>collection>package" json:"packages,omitempty"`
-	References  []Reference `xml:"references>reference" json:"references,omitempty"`
-	CveIDs      []string    `json:"cveids,omitempty"`
-}
-
-// Date has time information
-type Date struct {
-	Date string `xml:"date,attr" json:"date,omitempty"`
-}
-
-// Reference has reference information
-type Reference struct {
-	Href  string `xml:"href,attr" json:"href,omitempty"`
-	ID    string `xml:"id,attr" json:"id,omitempty"`
-	Title string `xml:"title,attr" json:"title,omitempty"`
-	Type  string `xml:"type,attr" json:"type,omitempty"`
-}
-
-// Package has affected package information
-type Package struct {
-	Name     string `xml:"name,attr" json:"name,omitempty"`
-	Epoch    string `xml:"epoch,attr" json:"epoch,omitempty"`
-	Version  string `xml:"version,attr" json:"version,omitempty"`
-	Release  string `xml:"release,attr" json:"release,omitempty"`
-	Arch     string `xml:"arch,attr" json:"arch,omitempty"`
-	Src      string `xml:"src,attr" json:"src,omitempty"`
-	Filename string `xml:"filename" json:"filename,omitempty"`
-}
-
 type options struct {
-	baseUrl   string
+	baseUrls  []string
 	urlFormat string
 	dir       string
 	retry     int
@@ -103,9 +47,9 @@ type options struct {
 
 type option func(*options)
 
-func With(baseUrl, urlFormat, dir string, retry int, repos, arches []string) option {
+func With(urlFormat, dir string, retry int, repos, arches, baseUrls []string) option {
 	return func(opts *options) {
-		opts.baseUrl = baseUrl
+		opts.baseUrls = baseUrls
 		opts.urlFormat = urlFormat
 		opts.dir = dir
 		opts.retry = retry
@@ -120,7 +64,7 @@ type Config struct {
 
 func NewConfig(opts ...option) Config {
 	o := &options{
-		baseUrl:   baseUrl,
+		baseUrls:  []string{actualReleaseBaseUrl, oldReleaseBaseUrl},
 		urlFormat: urlFormat,
 		dir:       filepath.Join(utils.VulnListDir(), rockyDir),
 		retry:     retry,
@@ -137,18 +81,25 @@ func NewConfig(opts ...option) Config {
 }
 
 func (c Config) Update() error {
+	// there are 2 different urls for actual and old releases
 	// "8" is an alias of the latest release that doesn't contain old security advisories,
 	// so we have to get all available minor releases like 8.5 and 8.6 so that we can have all the advisories.
-	releases, err := c.getReleasesList()
-	if err != nil {
-		return xerrors.Errorf("failed to get a list of Rocky Linux releases: %w", err)
-	}
-	for _, release := range releases {
-		for _, repo := range c.repos {
-			for _, arch := range c.arches {
-				log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
-				if err = c.update(release, repo, arch); err != nil {
-					return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
+	for _, baseUrl := range c.baseUrls {
+		reg := minorReleaseVersionRegex
+		if baseUrl == actualReleaseBaseUrl {
+			reg = majorReleaseVersionRegex
+		}
+		releases, err := c.getReleasesList(reg, baseUrl)
+		if err != nil {
+			return xerrors.Errorf("failed to get a list of Rocky Linux releases: %w", err)
+		}
+		for _, release := range releases {
+			for _, repo := range c.repos {
+				for _, arch := range c.arches {
+					log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
+					if err = c.update(release, repo, arch, baseUrl); err != nil {
+						return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
+					}
 				}
 			}
 		}
@@ -156,7 +107,7 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) update(release, repo, arch string) error {
+func (c Config) update(release, repo, arch, baseUrl string) error {
 	dirPath := filepath.Join(c.dir, release, repo, arch)
 	log.Printf("Remove Rocky Linux %s %s %s directory %s", release, repo, arch, dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
@@ -166,7 +117,7 @@ func (c Config) update(release, repo, arch string) error {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
-	u, err := url.Parse(fmt.Sprintf(c.urlFormat, c.baseUrl, release, repo, arch))
+	u, err := url.Parse(fmt.Sprintf(c.urlFormat, baseUrl, release, repo, arch))
 	if err != nil {
 		return xerrors.Errorf("failed to parse root url: %w", err)
 	}
@@ -174,8 +125,8 @@ func (c Config) update(release, repo, arch string) error {
 	u.Path = path.Join(rootPath, "repodata/repomd.xml")
 	updateInfoPath, err := c.fetchUpdateInfoPath(u.String())
 	if err != nil {
-		if errors.Is(err, ErrorNoUpdateInfoField) && repo == "extras" {
-			log.Printf("skip extras repository because updateinfo field is not in repomd.xml: %s", err)
+		if errors.Is(err, ErrorNoUpdateInfoField) {
+			log.Printf("skip repository because updateinfo field is not in repomd.xml: %s", err)
 			return nil
 		}
 		return xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
@@ -264,8 +215,8 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 	return &updateInfo, nil
 }
 
-func (c Config) getReleasesList() ([]string, error) {
-	b, err := utils.FetchURL(c.baseUrl, "", c.retry)
+func (c Config) getReleasesList(reg *regexp.Regexp, baseUrl string) ([]string, error) {
+	b, err := utils.FetchURL(baseUrl, "", c.retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get list of releases: %w", err)
 	}
@@ -277,8 +228,8 @@ func (c Config) getReleasesList() ([]string, error) {
 
 	var releases []string
 	doc.Find("a").Each(func(i int, s *goquery.Selection) {
-		if release := releaseRegex.FindString(s.Text()); release != "" {
-			releases = append(releases, release)
+		if release := reg.FindString(s.Text()); release != "" {
+			releases = append(releases, strings.TrimSuffix(release, "/"))
 		}
 	})
 

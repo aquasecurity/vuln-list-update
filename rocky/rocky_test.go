@@ -16,6 +16,7 @@ func Test_Update(t *testing.T) {
 	tests := []struct {
 		name             string
 		releasesFilePath string
+		urlSuffix        string
 		rootDir          string
 		repository       []string
 		wantErr          string
@@ -24,38 +25,36 @@ func Test_Update(t *testing.T) {
 			name:             "happy path",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/happy",
+			urlSuffix:        "/pub/rocky",
 			repository:       []string{"BaseOS"},
 		},
 		{
 			name:             "bad repomd response",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/repomd_invalid",
-			repository:       []string{"BaseOS"},
+			urlSuffix:        "/pub/rocky",
+			repository:       []string{"BadOS"},
 			wantErr:          "failed to fetch updateInfo path from repomd.xml",
 		},
 		{
 			name:             "bad updateInfo response",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/updateinfo_invalid",
+			urlSuffix:        "/pub/rocky",
 			repository:       []string{"BaseOS"},
 			wantErr:          "failed to fetch updateInfo",
-		},
-		{
-			name:             "no updateInfo field(BaseOS)",
-			releasesFilePath: "testdata/fixtures/releases/happy.html",
-			rootDir:          "testdata/fixtures/no_updateinfo_field",
-			repository:       []string{"BaseOS"},
-			wantErr:          rocky.ErrorNoUpdateInfoField.Error(),
 		},
 		{
 			name:             "no updateInfo field(extras)",
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/no_updateinfo_field",
+			urlSuffix:        "/pub/rocky",
 			repository:       []string{"extras"},
 		},
 		{
 			name:             "empty list of releases",
 			releasesFilePath: "testdata/fixtures/releases/empty.html",
+			urlSuffix:        "/pub/rocky",
 			repository:       []string{"BaseOS"},
 			wantErr:          "list is empty",
 		},
@@ -72,7 +71,7 @@ func Test_Update(t *testing.T) {
 			defer tsUpdateInfoURL.Close()
 
 			dir := t.TempDir()
-			rc := rocky.NewConfig(rocky.With(tsUpdateInfoURL.URL+"/pub/rocky", "%s/%s/%s/%s/os/", dir, 0, tt.repository, []string{"x86_64"}))
+			rc := rocky.NewConfig(rocky.With("%s/%s/%s/%s/os/", dir, 0, tt.repository, []string{"x86_64"}, []string{tsUpdateInfoURL.URL + tt.urlSuffix}))
 			if err := rc.Update(); tt.wantErr != "" {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
