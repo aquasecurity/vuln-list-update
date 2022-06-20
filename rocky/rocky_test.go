@@ -54,6 +54,13 @@ func Test_Update(t *testing.T) {
 			repository:       []string{"extras"},
 		},
 		{
+			name:             "no repomd file",
+			releasesFilePath: "testdata/fixtures/releases/happy.html",
+			rootDir:          "testdata/fixtures/releases",
+			repository:       []string{"BaseOS"},
+			wantErr:          "failed to get security advisories from",
+		},
+		{
 			name:             "empty list of releases",
 			releasesFilePath: "testdata/fixtures/releases/empty.html",
 			repository:       []string{"BaseOS"},
