@@ -31,7 +31,7 @@ func Test_Update(t *testing.T) {
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/repomd_invalid",
 			repository:       []string{"BaseOS"},
-			wantErr:          "failed to get a list of Rocky Linux releases from url",
+			wantErr:          "failed to get security advisories from",
 		},
 		{
 			name:             "bad updateInfo response",
@@ -45,7 +45,7 @@ func Test_Update(t *testing.T) {
 			releasesFilePath: "testdata/fixtures/releases/happy.html",
 			rootDir:          "testdata/fixtures/no_updateinfo_field",
 			repository:       []string{"BaseOS"},
-			wantErr:          "failed to get a list of Rocky Linux releases from url",
+			wantErr:          "failed to get security advisories from",
 		},
 		{
 			name:             "no updateInfo field(extras)",

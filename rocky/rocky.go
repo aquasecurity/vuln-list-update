@@ -35,6 +35,9 @@ var (
 	defaultArches = []string{"x86_64", "aarch64"}
 
 	releaseRegex = regexp.MustCompile(`\d+.\d+[A-Za-z0-9-.]*`)
+
+	ErrNoUpdateInfoField = xerrors.New("no updateinfo field in the repomd")
+	ErrNoRepomdFile      = xerrors.New("no repomd file")
 )
 
 type options struct {
@@ -84,7 +87,7 @@ func NewConfig(opts ...option) Config {
 func (c Config) Update() error {
 	// there are 2 different urls for actual and old releases
 	for _, baseUrl := range c.baseUrls {
-		errataWasWrite := false
+		updated := false
 		// "8" is an alias of the latest release that doesn't contain old security advisories,
 		// so we have to get all available minor releases like 8.5 and 8.6 so that we can have all the advisories.
 		releases, err := c.getReleasesList(baseUrl)
@@ -95,47 +98,42 @@ func (c Config) Update() error {
 			for _, repo := range c.repos {
 				for _, arch := range c.arches {
 					log.Printf("Fetching Rocky Linux %s %s %s data...", release, repo, arch)
-					wasWrite, err := c.update(release, repo, arch, baseUrl)
-					if err != nil {
+					err = c.update(release, repo, arch, baseUrl)
+					if errors.Is(err, ErrNoUpdateInfoField) || errors.Is(err, ErrNoRepomdFile) {
+						log.Printf("Skip %s/%s/%s: %s", release, repo, arch, err)
+						continue
+					} else if err != nil {
 						return xerrors.Errorf("failed to update security advisories of Rocky Linux %s %s %s: %w", release, repo, arch, err)
 					}
-					if wasWrite {
-						errataWasWrite = true
-					}
+					updated = true
 				}
 			}
 		}
-		// we should know if url doesn't contain vulnerabilities
-		// probably database has been changed
-		if !errataWasWrite {
-			return xerrors.Errorf("failed to get a list of Rocky Linux releases from url: %s", baseUrl)
+		// No security advisories were found in this URL. The URL may have been changed.
+		if !updated {
+			return xerrors.Errorf("failed to get security advisories from %s", baseUrl)
 		}
-		errataWasWrite = false
 	}
 	return nil
 }
 
-func (c Config) update(release, repo, arch, baseUrl string) (bool, error) {
+func (c Config) update(release, repo, arch, baseUrl string) error {
 	dirPath := filepath.Join(c.dir, release, repo, arch)
 
 	u, err := url.Parse(fmt.Sprintf(c.urlFormat, baseUrl, release, repo, arch))
 	if err != nil {
-		return false, xerrors.Errorf("failed to parse root url: %w", err)
+		return xerrors.Errorf("failed to parse root url: %w", err)
 	}
 	rootPath := u.Path
 	u.Path = path.Join(rootPath, "repodata/repomd.xml")
 	updateInfoPath, err := c.fetchUpdateInfoPath(u.String())
 	if err != nil {
-		if errors.Is(err, ErrorNoUpdateInfoField) || errors.Is(err, ErrorNoRepomdFile) {
-			log.Printf("skip repository because there is no updateinfo information: %s", err)
-			return false, nil
-		}
-		return false, xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
+		return xerrors.Errorf("failed to fetch updateInfo path from repomd.xml: %w", err)
 	}
 	u.Path = path.Join(rootPath, updateInfoPath)
 	uinfo, err := c.fetchUpdateInfo(u.String())
 	if err != nil {
-		return false, xerrors.Errorf("failed to fetch updateInfo: %w", err)
+		return xerrors.Errorf("failed to fetch updateInfo: %w", err)
 	}
 
 	secErrata := map[string][]RLSA{}
@@ -149,10 +147,10 @@ func (c Config) update(release, repo, arch, baseUrl string) (bool, error) {
 
 	log.Printf("Remove Rocky Linux %s %s %s directory %s", release, repo, arch, dirPath)
 	if err = os.RemoveAll(dirPath); err != nil {
-		return false, xerrors.Errorf("failed to remove Rocky Linux %s %s %s directory: %w", release, repo, arch, err)
+		return xerrors.Errorf("failed to remove Rocky Linux %s %s %s directory: %w", release, repo, arch, err)
 	}
 	if err = os.MkdirAll(dirPath, os.ModePerm); err != nil {
-		return false, xerrors.Errorf("failed to mkdir: %w", err)
+		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
 
 	// save vulnerabilities
@@ -160,32 +158,27 @@ func (c Config) update(release, repo, arch, baseUrl string) (bool, error) {
 		log.Printf("Write Errata for Rocky Linux %s %s %s %s", release, repo, arch, year)
 
 		if err = os.MkdirAll(filepath.Join(dirPath, year), os.ModePerm); err != nil {
-			return false, xerrors.Errorf("failed to mkdir: %w", err)
+			return xerrors.Errorf("failed to mkdir: %w", err)
 		}
 
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
 			jsonPath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.ID))
 			if err = utils.Write(jsonPath, erratum); err != nil {
-				return false, xerrors.Errorf("failed to write Rocky Linux CVE details: %w", err)
+				return xerrors.Errorf("failed to write Rocky Linux CVE details: %w", err)
 			}
 			bar.Increment()
 		}
 		bar.Finish()
 	}
 
-	return true, nil
+	return nil
 }
-
-var (
-	ErrorNoUpdateInfoField = xerrors.New("no updateinfo field in the repomd")
-	ErrorNoRepomdFile      = xerrors.New("no repomd file")
-)
 
 func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, err error) {
 	res, err := utils.FetchURL(repomdURL, "", 0)
 	if err != nil {
-		return "", ErrorNoRepomdFile
+		return "", ErrNoRepomdFile
 	}
 
 	var repoMd RepoMd
@@ -198,7 +191,7 @@ func (c Config) fetchUpdateInfoPath(repomdURL string) (updateInfoPath string, er
 			return repo.Location.Href, nil
 		}
 	}
-	return "", ErrorNoUpdateInfoField
+	return "", ErrNoUpdateInfoField
 }
 
 func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
