@@ -188,7 +188,7 @@ func fetchAmazonLinux2022MirrorList(url, format string) (string, error) {
 	}
 
 	var root Root
-	// releasemd file has mistake: encoding="utf8" instead of "utf-8"
+	// releasemd file has typo: encoding="utf8" instead of "utf-8"
 	// https://stackoverflow.com/a/32224438
 	decoder := xml.NewDecoder(bytes.NewBuffer(res))
 	decoder.CharsetReader = charset.NewReaderLabel

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf8"?>
+<root>
+    <releases>
+        <release version="2022.0.20220518">
+            <update>
+                <name>2022.0.20220531</name>
+                <version_string>2022.0.20220531</version_string>
+                <release_notes>https://aws.amazon.com</release_notes>
+            </update>
+        </release>
+    </releases>
+</root>
