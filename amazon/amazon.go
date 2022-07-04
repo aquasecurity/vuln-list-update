@@ -28,36 +28,54 @@ const (
 )
 
 var (
-	linuxMirrorListURI = map[string]string{
+	mirrorListURI = map[string]string{
 		"1": "http://repo.us-west-2.amazonaws.com/2018.03/updates/x86_64/mirror.list",
 		"2": "https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list",
 	}
 )
 
 type Config struct {
-	LinuxMirrorListURI        map[string]string
-	VulnListDir               string
-	AL2022ReleasemdURI        string
-	AL2022MirrorListURIFormat string
+	mirrorListURI             map[string]string
+	vulnListDir               string
+	al2022ReleasemdURI        string
+	al2022MirrorListURIFormat string
 }
 
-func NewConfig() Config {
-	return Config{
-		LinuxMirrorListURI:        linuxMirrorListURI,
-		VulnListDir:               utils.VulnListDir(),
-		AL2022MirrorListURIFormat: al2022MirrorListURIFormat,
-		AL2022ReleasemdURI:        al2022ReleasemdURI,
+type option func(*Config)
+
+// With takes some internal values for testing
+func With(mirrorListURI map[string]string, vulnListDir, al2022ReleasemdURI, al2022MirrorListURIFormat string) option {
+	return func(opts *Config) {
+		opts.mirrorListURI = mirrorListURI
+		opts.vulnListDir = vulnListDir
+		opts.al2022ReleasemdURI = al2022ReleasemdURI
+		opts.al2022MirrorListURIFormat = al2022MirrorListURIFormat
 	}
+}
+
+func NewConfig(opts ...option) *Config {
+	config := &Config{
+		mirrorListURI:             mirrorListURI,
+		vulnListDir:               utils.VulnListDir(),
+		al2022MirrorListURIFormat: al2022MirrorListURIFormat,
+		al2022ReleasemdURI:        al2022ReleasemdURI,
+	}
+
+	for _, opt := range opts {
+		opt(config)
+	}
+
+	return config
 }
 
 func (ac Config) Update() error {
-	mirrorList2022, err := fetchAmazonLinux2022MirrorList(ac.AL2022ReleasemdURI, ac.AL2022MirrorListURIFormat)
+	mirrorList2022, err := fetchAmazonLinux2022MirrorList(ac.al2022ReleasemdURI, ac.al2022MirrorListURIFormat)
 	if err != nil {
 		return xerrors.Errorf("failed to fetch mirror list of Amazon Linux 2022: %w", err)
 	}
-	ac.LinuxMirrorListURI["2022"] = mirrorList2022
+	ac.mirrorListURI["2022"] = mirrorList2022
 
-	for version, amznURL := range ac.LinuxMirrorListURI {
+	for version, amznURL := range ac.mirrorListURI {
 		log.Printf("Fetching security advisories of Amazon Linux %s...\n", version)
 		if err := ac.update(version, amznURL); err != nil {
 			return xerrors.Errorf("failed to update security advisories of Amazon Linux %s: %w", version, err)
@@ -67,7 +85,7 @@ func (ac Config) Update() error {
 }
 
 func (ac Config) update(version, url string) error {
-	dir := filepath.Join(ac.VulnListDir, amazonDir, version)
+	dir := filepath.Join(ac.vulnListDir, amazonDir, version)
 	if err := os.RemoveAll(dir); err != nil {
 		return xerrors.Errorf("unable to remove amazon directory: %w", err)
 	}
