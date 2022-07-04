@@ -51,9 +51,9 @@ func TestConfig_Update(t *testing.T) {
 			repomdXmlFileName:    "testdata/fixtures/repomd_valid.xml",
 			releasemdXmlFileName: "testdata/fixtures/releasemd_valid.xml",
 			gzipFileNames: map[string]string{
-				"1": "testdata/fixtures/updateinfo_invalid.xml.gz",
+				"2022": "testdata/fixtures/updateinfo_invalid.xml.gz",
 			},
-			wantErr: xerrors.Errorf("failed to update security advisories of Amazon Linux 1: %w", errors.New("failed to fetch security advisories from Amazon Linux Security Center: Failed to fetch updateinfo")),
+			wantErr: xerrors.Errorf("failed to update security advisories of Amazon Linux 2022: %w", errors.New("failed to fetch security advisories from Amazon Linux Security Center: Failed to fetch updateinfo")),
 		},
 	}
 
