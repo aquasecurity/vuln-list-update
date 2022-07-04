@@ -4,12 +4,13 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/aquasecurity/vuln-list-update/kevc"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/aquasecurity/vuln-list-update/kevc"
 
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -139,10 +140,7 @@ func run() error {
 		}
 		commitMsg = "Alpine Secfixes Tracker"
 	case "amazon":
-		ac := amazon.Config{
-			LinuxMirrorListURI: amazon.LinuxMirrorListURI,
-			VulnListDir:        utils.VulnListDir(),
-		}
+		ac := amazon.NewConfig()
 		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("Amazon Linux update error: %w", err)
 		}

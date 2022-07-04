@@ -11,8 +11,10 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"sort"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
+	"golang.org/x/net/html/charset"
 	"golang.org/x/xerrors"
 	"gopkg.in/cheggaaa/pb.v1"
 )
@@ -20,81 +22,60 @@ import (
 const (
 	retry = 3
 
-	amazonDir = "amazon"
+	amazonDir                 = "amazon"
+	al2022ReleasemdURI        = "https://al2022-repos-us-west-2-9761ab97.s3.dualstack.us-west-2.amazonaws.com/core/releasemd.xml"
+	al2022MirrorListURIFormat = "https://al2022-repos-us-east-1-9761ab97.s3.dualstack.us-east-1.amazonaws.com/core/mirrors/%s/x86_64/mirror.list"
 )
 
 var (
-	LinuxMirrorListURI = map[string]string{
+	mirrorListURI = map[string]string{
 		"1": "http://repo.us-west-2.amazonaws.com/2018.03/updates/x86_64/mirror.list",
 		"2": "https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list",
 	}
 )
 
-// RepoMd has repomd data
-type RepoMd struct {
-	RepoList []Repo `xml:"data"`
-}
-
-// Repo has a repo data
-type Repo struct {
-	Type     string   `xml:"type,attr"`
-	Location Location `xml:"location"`
-}
-
-// Location has a location of repomd
-type Location struct {
-	Href string `xml:"href,attr"`
-}
-
-// UpdateInfo has a list of ALAS
-type UpdateInfo struct {
-	ALASList []ALAS `xml:"update"`
-}
-
-// ALAS has detailed data of ALAS
-type ALAS struct {
-	ID          string      `xml:"id" json:"id,omitempty"`
-	Title       string      `xml:"title" json:"title,omitempty"`
-	Issued      Date        `xml:"issued" json:"issued,omitempty"`
-	Updated     Date        `xml:"updated" json:"updated,omitempty"`
-	Severity    string      `xml:"severity" json:"severity,omitempty"`
-	Description string      `xml:"description" json:"description,omitempty"`
-	Packages    []Package   `xml:"pkglist>collection>package" json:"packages,omitempty"`
-	References  []Reference `xml:"references>reference" json:"references,omitempty"`
-	CveIDs      []string    `json:"cveids,omitempty"`
-}
-
-// Updated has updated at
-type Date struct {
-	Date string `xml:"date,attr" json:"date,omitempty"`
-}
-
-// Reference has reference information
-type Reference struct {
-	Href  string `xml:"href,attr" json:"href,omitempty"`
-	ID    string `xml:"id,attr" json:"id,omitempty"`
-	Title string `xml:"title,attr" json:"title,omitempty"`
-	Type  string `xml:"type,attr" json:"type,omitempty"`
-}
-
-// Package has affected package information
-type Package struct {
-	Name     string `xml:"name,attr" json:"name,omitempty"`
-	Epoch    string `xml:"epoch,attr" json:"epoch,omitempty"`
-	Version  string `xml:"version,attr" json:"version,omitempty"`
-	Release  string `xml:"release,attr" json:"release,omitempty"`
-	Arch     string `xml:"arch,attr" json:"arch,omitempty"`
-	Filename string `xml:"filename" json:"filename,omitempty"`
-}
-
 type Config struct {
-	LinuxMirrorListURI map[string]string
-	VulnListDir        string
+	mirrorListURI             map[string]string
+	vulnListDir               string
+	al2022ReleasemdURI        string
+	al2022MirrorListURIFormat string
+}
+
+type option func(*Config)
+
+// With takes some internal values for testing
+func With(mirrorListURI map[string]string, vulnListDir, al2022ReleasemdURI, al2022MirrorListURIFormat string) option {
+	return func(opts *Config) {
+		opts.mirrorListURI = mirrorListURI
+		opts.vulnListDir = vulnListDir
+		opts.al2022ReleasemdURI = al2022ReleasemdURI
+		opts.al2022MirrorListURIFormat = al2022MirrorListURIFormat
+	}
+}
+
+func NewConfig(opts ...option) *Config {
+	config := &Config{
+		mirrorListURI:             mirrorListURI,
+		vulnListDir:               utils.VulnListDir(),
+		al2022MirrorListURIFormat: al2022MirrorListURIFormat,
+		al2022ReleasemdURI:        al2022ReleasemdURI,
+	}
+
+	for _, opt := range opts {
+		opt(config)
+	}
+
+	return config
 }
 
 func (ac Config) Update() error {
-	// version = 1 or 2
-	for version, amznURL := range ac.LinuxMirrorListURI {
+	mirrorList2022, err := fetchAmazonLinux2022MirrorList(ac.al2022ReleasemdURI, ac.al2022MirrorListURIFormat)
+	if err != nil {
+		return xerrors.Errorf("failed to fetch mirror list of Amazon Linux 2022: %w", err)
+	}
+	ac.mirrorListURI["2022"] = mirrorList2022
+
+	for version, amznURL := range ac.mirrorListURI {
 		log.Printf("Fetching security advisories of Amazon Linux %s...\n", version)
 		if err := ac.update(version, amznURL); err != nil {
 			return xerrors.Errorf("failed to update security advisories of Amazon Linux %s: %w", version, err)
@@ -104,7 +85,7 @@ func (ac Config) Update() error {
 }
 
 func (ac Config) update(version, url string) error {
-	dir := filepath.Join(ac.VulnListDir, amazonDir, version)
+	dir := filepath.Join(ac.vulnListDir, amazonDir, version)
 	if err := os.RemoveAll(dir); err != nil {
 		return xerrors.Errorf("unable to remove amazon directory: %w", err)
 	}
@@ -216,4 +197,34 @@ func fetchUpdateInfo(url string) (*UpdateInfo, error) {
 		updateInfo.ALASList[i].CveIDs = cveIDs
 	}
 	return &updateInfo, nil
+}
+
+func fetchAmazonLinux2022MirrorList(url, format string) (string, error) {
+	res, err := utils.FetchURL(url, "", retry)
+	if err != nil {
+		return "", xerrors.Errorf("Failed to fetch releasemd.xml for AL2022. url: %s, err: %w", al2022ReleasemdURI, err)
+	}
+
+	var root Root
+	// releasemd file has typo: encoding="utf8" instead of "utf-8"
+	// https://stackoverflow.com/a/32224438
+	decoder := xml.NewDecoder(bytes.NewBuffer(res))
+	decoder.CharsetReader = charset.NewReaderLabel
+	if err := decoder.Decode(&root); err != nil {
+		return "", xerrors.Errorf("failed to decode releasemd.xml: %w", err)
+	}
+
+	var versions []string
+	for _, release := range root.Releases.Release {
+		versions = append(versions, release.Version)
+	}
+
+	if len(versions) == 0 {
+		return "", xerrors.Errorf("list of Amazon Linux releases is empty")
+	}
+
+	// latest release contains all recommendations from previous releases
+	// version format like "2022.0.20220531"
+	sort.Strings(versions)
+	return fmt.Sprintf(format, versions[len(versions)-1]), nil
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf8"?>
+<root>
+    <releases>
+        <release version="2022.0.20220518">
+            <update>
+                <name>2022.0.20220531</name>
+                <version_string>2022.0.20220531</version_string>
+                <release_notes>https://aws.amazon.com</release_notes>
+            </update>
+        </release>
+        <release version="2022.0.20220531">
+            <update>
+                <name>2022.0.20220628</name>
+                <version_string>2022.0.20220628</version_string>
+                <release_notes>https://aws.amazon.com</release_notes>
+            </update>
+        </release>
+    </releases>
+    <release version="2022.0.20220419">
+        <update>
+            <name>2022.0.20220504</name>
+            <version_string>2022.0.20220504</version_string>
+            <release_notes>https://aws.amazon.com</release_notes>
+        </update>
+        <update>
+            <name>2022.0.20220518</name>
+            <version_string>2022.0.20220518</version_string>
+            <release_notes>https://aws.amazon.com</release_notes>
+        </update>
+        <update>
+            <name>2022.0.20220531</name>
+            <version_string>2022.0.20220531</version_string>
+            <release_notes>https://aws.amazon.com</release_notes>
+        </update>
+        <update>
+            <name>2022.0.20220628</name>
+            <version_string>2022.0.20220628</version_string>
+            <release_notes>https://aws.amazon.com</release_notes>
+        </update>
+    </release>
+</root>
