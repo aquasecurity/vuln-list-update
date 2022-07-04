@@ -225,6 +225,6 @@ func fetchAmazonLinux2022MirrorList(url, format string) (string, error) {
 
 	// latest release contains all recommendations from previous releases
 	// version format like "2022.0.20220531"
-	sort.Sort(sort.StringSlice(versions))
+	sort.Strings(versions)
 	return fmt.Sprintf(format, versions[len(versions)-1]), nil
 }
