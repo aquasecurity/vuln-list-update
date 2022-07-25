@@ -20,13 +20,21 @@ func TestUpdater_WalkDir(t *testing.T) {
 		name          string
 		appFs         afero.Fs
 		rootDir       string
+		goldenDir     string
 		wantFileCount int
 		wantErr       string
 	}{
 		{
 			name:          "happy path",
 			rootDir:       "testdata/happy",
+			goldenDir:     "testdata/golden/happy",
 			wantFileCount: 5,
+		},
+		{
+			name:          "happy path, skip slug update for maven",
+			rootDir:       "testdata/skip-slug-update",
+			goldenDir:     "testdata/golden/skip-slug-update",
+			wantFileCount: 2,
 		},
 		{
 			name:    "sad path",
@@ -70,7 +78,7 @@ func TestUpdater_WalkDir(t *testing.T) {
 				relPath, err := filepath.Rel(c.vulnListDir, path)
 				require.NoError(t, err, path)
 
-				goldenPath := filepath.Join("testdata", "golden", relPath)
+				goldenPath := filepath.Join(tc.goldenDir, relPath)
 				if *update {
 					fmt.Println(goldenPath)
 					err = ioutil.WriteFile(goldenPath, got, 0666)
@@ -86,6 +94,49 @@ func TestUpdater_WalkDir(t *testing.T) {
 			})
 			assert.Equal(t, tc.wantFileCount, fileCount)
 			assert.NoError(t, err, tc.name)
+		})
+	}
+}
+
+func Test_searchPrefix(t *testing.T) {
+	tests := []struct {
+		name         string
+		adv          advisory
+		advisories   []advisory
+		expectedSlug string
+	}{
+		{
+			name: "update slug",
+			adv:  advisory{PackageSlug: "go/github.com/apache/thrift/lib/go/thrift"},
+			advisories: []advisory{
+				{PackageSlug: "go/github.com/apache/thrift/lib/go/thrift"},
+				{PackageSlug: "go/github.com/apache/thrift-mini"},
+				{PackageSlug: "go/github.com/apache/thrift"},
+			},
+			expectedSlug: "go/github.com/apache/thrift",
+		},
+		{
+			name:         "same slugs",
+			adv:          advisory{PackageSlug: "github.com/kubernetes/kubernetes"},
+			advisories:   []advisory{{PackageSlug: "github.com/kubernetes/kubernetes"}},
+			expectedSlug: "",
+		},
+		{
+			name: "slug with same prefix in bottom folder",
+			adv:  advisory{PackageSlug: "go/github.com/apache/thrift-mini"},
+			advisories: []advisory{
+				{PackageSlug: "go/github.com/apache/thrift"},
+			},
+			expectedSlug: "",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			u := Updater{}
+			slug := u.searchPrefix(test.adv.PackageSlug, test.advisories)
+
+			assert.Equal(t, test.expectedSlug, slug)
 		})
 	}
 }

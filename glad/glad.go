@@ -66,7 +66,7 @@ func (u Updater) Update() error {
 
 	log.Println("Removing old glad files...")
 	if err := os.RemoveAll(filepath.Join(u.vulnListDir, gladDir)); err != nil {
-		xerrors.Errorf("can't remove a folder with old files %s/%s: %w", u.vulnListDir, gladDir, err)
+		return xerrors.Errorf("can't remove a folder with old files %s/%s: %w", u.vulnListDir, gladDir, err)
 	}
 
 	log.Println("Walking glad...")
@@ -117,18 +117,20 @@ func (u Updater) walkDir(root string) error {
 	}
 
 	for _, adv := range advisories {
-		adv.PackageSlug = strings.TrimSuffix(adv.PackageSlug, "/")
-
 		adv.Identifier = updateIdentifiers(adv.Identifier, adv.Identifiers)
 		adv.Identifiers = nil
 
-		slug := u.searchPrefix(adv, advisories)
-		if slug != "" {
-			// Update the package_slug to flatten nested packages
-			// e.g.  go/k8s.io/kubernetes => go/k8s.io/kubernetes
-			//       go/k8s.io/kubernetes/pkg/kubelet/kuberuntime => go/k8s.io/kubernetes
-			adv.PackageSlug = slug
+		// Only 'go' package slugs need to be updated
+		if strings.HasPrefix(adv.PackageSlug, "go/") {
+			slug := u.searchPrefix(adv.PackageSlug, advisories)
+			if slug != "" {
+				// Update the package_slug to flatten nested packages
+				// e.g.  go/k8s.io/kubernetes => go/k8s.io/kubernetes
+				//       go/k8s.io/kubernetes/pkg/kubelet/kuberuntime => go/k8s.io/kubernetes
+				adv.PackageSlug = slug
+			}
 		}
+
 		if err = u.save(adv); err != nil {
 			return xerrors.Errorf("save error: %w", err)
 		}
@@ -137,13 +139,20 @@ func (u Updater) walkDir(root string) error {
 	return nil
 }
 
-func (u Updater) searchPrefix(adv advisory, advisories []advisory) string {
+func (u Updater) searchPrefix(pkgSlug string, advisories []advisory) string {
 	for _, a := range advisories {
-		if a.PackageSlug == adv.PackageSlug {
+		if pkgSlug == a.PackageSlug {
 			continue
 		}
+		// '/' has been added to skip packages with same prefix
+		// e.g.: pkgSlug == go/github.com/apache/thrift-mini
+		// a.PackageSlug == go/github.com/apache/thrift
+		advSlug := a.PackageSlug
+		if !strings.HasSuffix(advSlug, "/") {
+			advSlug += "/"
+		}
 
-		if strings.HasPrefix(adv.PackageSlug, a.PackageSlug) {
+		if strings.HasPrefix(pkgSlug, advSlug) {
 			return a.PackageSlug
 		}
 	}
