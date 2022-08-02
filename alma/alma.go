@@ -22,7 +22,7 @@ const (
 )
 
 var (
-	AlmaReleaseVersion = []string{"8"}
+	AlmaReleaseVersion = []string{"8", "9"}
 )
 
 type erratum struct {
