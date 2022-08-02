@@ -23,7 +23,7 @@ const (
 
 var (
 	// https://gitlab.com/gitlab-org/advisories-community
-	supportedTypes = []string{"gem", "go", "maven", "npm", "nuget", "packagist", "pypi", "nuget", "conan"}
+	supportedTypes = []string{"gem", "go", "maven", "npm", "nuget", "packagist", "pypi", "nuget", "conan", "alpine"}
 )
 
 type Updater struct {
@@ -34,7 +34,12 @@ type Updater struct {
 	appFs                 afero.Fs
 }
 
-func NewUpdater(alternativeRepoURL string, alternativeRepoBranch string) Updater {
+func NewUpdater(alternativeRepoURL string, alternativeRepoBranch string, customTypes string) Updater {
+	if len(customTypes) > 0 {
+		customTypes := strings.Split(customTypes, ",")
+		supportedTypes = append(supportedTypes, customTypes...)
+	}
+
 	return Updater{
 		alternativeRepoBranch: alternativeRepoBranch,
 		alternativeRepoURL:    alternativeRepoURL,

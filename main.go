@@ -52,6 +52,7 @@ var (
 	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
+	customTypes =  flag.String("custom-types", "", "additional (comma-separated list) of custom package types (only glad)")
 )
 
 func main() {
@@ -175,7 +176,7 @@ func run() error {
 		}
 		commitMsg = "GitHub Security Advisory"
 	case "glad":
-		gu := glad.NewUpdater(*targetUri, *targetBranch)
+		gu := glad.NewUpdater(*targetUri, *targetBranch, *customTypes)
 		if err := gu.Update(); err != nil {
 			return xerrors.Errorf("GitLab Advisory Database update error: %w", err)
 		}
