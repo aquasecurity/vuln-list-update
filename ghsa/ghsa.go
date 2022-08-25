@@ -29,8 +29,9 @@ var (
 	Pip        SecurityAdvisoryEcosystem = "PIP"
 	Rubygems   SecurityAdvisoryEcosystem = "RUBYGEMS"
 	Go         SecurityAdvisoryEcosystem = "GO"
+	Rust       SecurityAdvisoryEcosystem = "RUST"
 	Erlang     SecurityAdvisoryEcosystem = "ERLANG"
-	Ecosystems                           = []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems, Go, Erlang}
+	Ecosystems                           = []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems, Go, Erlang, Rust}
 
 	wait = func(i int) time.Duration {
 		sleep := math.Pow(float64(i), 2) + float64(utils.RandInt()%10)
