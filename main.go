@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/aquasecurity/vuln-list-update/kevc"
+	"github.com/aquasecurity/vuln-list-update/wolfi"
 
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -228,6 +229,12 @@ func run() error {
 			return xerrors.Errorf("Known Exploited Vulnerability Catalog update error: %w", err)
 		}
 		commitMsg = "Known Exploited Vulnerability Catalog"
+	case "wolfi":
+		wu := wolfi.NewUpdater()
+		if err := wu.Update(); err != nil {
+			return xerrors.Errorf("Wolfi update error: %w", err)
+		}
+		commitMsg = "Wolfi Issue Tracker"
 	default:
 		return xerrors.New("unknown target")
 	}
