@@ -121,5 +121,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2008-0658.html",
       "ID": "CVE-2008-0658"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2008-02-21"
+  }
 }

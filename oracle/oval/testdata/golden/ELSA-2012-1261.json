@@ -99,5 +99,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2012-3524.html",
       "ID": "CVE-2012-3524"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2012-09-13"
+  }
 }

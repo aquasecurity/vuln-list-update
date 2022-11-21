@@ -63,5 +63,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2013-1813.html",
       "ID": "CVE-2013-1813"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2013-11-25"
+  }
 }

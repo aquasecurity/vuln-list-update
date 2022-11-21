@@ -63,5 +63,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2019-14287.html",
       "ID": "CVE-2019-14287"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2019-10-15"
+  }
 }

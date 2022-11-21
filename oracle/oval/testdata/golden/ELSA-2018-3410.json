@@ -147,5 +147,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2018-14665.html",
       "ID": "CVE-2018-14665"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2018-11-07"
+  }
 }

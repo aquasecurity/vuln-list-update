@@ -167,6 +167,9 @@ func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {
 								ID:     "CVE-2007-0494",
 							},
 						},
+						Issued: oval.Issued{
+							Date: "2007-06-26",
+						},
 					},
 				},
 			},

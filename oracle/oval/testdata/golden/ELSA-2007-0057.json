@@ -145,5 +145,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2007-0494.html",
       "ID": "CVE-2007-0494"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2007-06-26"
+  }
 }
