@@ -255,5 +255,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2017-5715.html",
       "ID": "CVE-2017-5715"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2018-08-03"
+  }
 }

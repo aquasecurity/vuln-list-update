@@ -266,5 +266,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2016-6136.html",
       "ID": "CVE-2016-6136"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2016-11-20"
+  }
 }

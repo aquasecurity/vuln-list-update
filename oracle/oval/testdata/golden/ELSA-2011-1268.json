@@ -123,5 +123,8 @@
     "Criterions": null
   },
   "Severity": "IMPORTANT",
-  "Cves": null
+  "Cves": null,
+  "Issued": {
+    "Date": "2011-09-07"
+  }
 }

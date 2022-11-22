@@ -246,5 +246,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2015-1420.html",
       "ID": "CVE-2015-1420"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2017-02-09"
+  }
 }

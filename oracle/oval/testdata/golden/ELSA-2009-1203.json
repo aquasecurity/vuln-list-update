@@ -111,5 +111,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2009-2411.html",
       "ID": "CVE-2009-2411"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2009-08-10"
+  }
 }

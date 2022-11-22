@@ -183,5 +183,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2014-9322.html",
       "ID": "CVE-2014-9322"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2014-12-18"
+  }
 }

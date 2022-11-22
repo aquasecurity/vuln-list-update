@@ -63,5 +63,8 @@
       "Href": "http://linux.oracle.com/cve/CVE-2010-3765.html",
       "ID": "CVE-2010-3765"
     }
-  ]
+  ],
+  "Issued": {
+    "Date": "2010-10-28"
+  }
 }

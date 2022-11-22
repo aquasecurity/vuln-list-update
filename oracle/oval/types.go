@@ -12,6 +12,7 @@ type Definition struct {
 	Criteria    Criteria    `xml:"criteria"`
 	Severity    string      `xml:"metadata>advisory>severity"`
 	Cves        []Cve       `xml:"metadata>advisory>cve"`
+	Issued      Issued      `xml:"metadata>advisory>issued" json:",omitempty"`
 }
 
 type Reference struct {
@@ -34,4 +35,8 @@ type Criteria struct {
 
 type Criterion struct {
 	Comment string `xml:"comment,attr"`
+}
+
+type Issued struct {
+	Date string `xml:"date,attr" json:",omitempty"`
 }
