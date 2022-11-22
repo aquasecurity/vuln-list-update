@@ -38,6 +38,7 @@ import (
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/aquasecurity/vuln-list-update/wolfi"
 )
 
 const (
@@ -47,7 +48,7 @@ const (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
+	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, wolfi, redhat, redhat-oval, "+
 		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc)")
 	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -133,6 +134,12 @@ func run() error {
 			return xerrors.Errorf("Alpine update error: %w", err)
 		}
 		commitMsg = "Alpine Issue Tracker"
+	case "wolfi":
+		wu := wolfi.NewUpdater()
+		if err := wu.Update(); err != nil {
+			return xerrors.Errorf("Wolfi update error: %w", err)
+		}
+		commitMsg = "Wolfi Issue Tracker"
 	case "alpine-unfixed":
 		au := alpineunfixed.NewUpdater()
 		if err := au.Update(); err != nil {
