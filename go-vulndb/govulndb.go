@@ -2,14 +2,14 @@ package govulndb
 
 import (
 	"encoding/json"
+	"fmt"
+	"golang.org/x/xerrors"
 	"log"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
-
-	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
@@ -85,14 +85,9 @@ func (c VulnDB) Update() error {
 		return xerrors.Errorf("index error: %w", err)
 	}
 
-	var modulesErrors []error
 	for moduleName := range modules {
 		entries, err := c.parseModuleEntries(baseURL, moduleName)
 		if err != nil {
-			if strings.HasSuffix(err.Error(), notFoundError) {
-				modulesErrors = append(modulesErrors, err)
-				continue
-			}
 			return xerrors.Errorf("module entry error: %w", err)
 		}
 
@@ -101,17 +96,6 @@ func (c VulnDB) Update() error {
 			filePath := filepath.Join(c.dir, moduleName, entry.ID+".json")
 			if err = utils.Write(filePath, entry); err != nil {
 				return xerrors.Errorf("file write error: %w", err)
-			}
-		}
-	}
-
-	if len(modulesErrors) > 0 {
-		if len(modules) == len(modulesErrors) { // storage/logic broken
-			return xerrors.Errorf("all modules are broken. One of entry error: %w", modulesErrors[0])
-		} else {
-			log.Println("broken several modules:")
-			for _, err := range modulesErrors {
-				log.Println(err)
 			}
 		}
 	}
@@ -141,6 +125,10 @@ func (c VulnDB) parseModuleEntries(baseURL *url.URL, moduleName string) ([]Entry
 
 	res, err := utils.FetchURL(pkgURL.String(), "", c.retry)
 	if err != nil {
+		if strings.Contains(err.Error(), notFoundError) {
+			log.Println(fmt.Sprintf("module %s not found", moduleName))
+			return nil, nil
+		}
 		return nil, xerrors.Errorf("unable to query %s advisory: %w", moduleName, err)
 	}
 
