@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 
 	"golang.org/x/xerrors"
 
@@ -14,9 +15,10 @@ import (
 )
 
 const (
-	vulndbURL = "https://storage.googleapis.com/go-vulndb"
-	vulndbDir = "go"
-	retry     = 3
+	vulndbURL     = "https://storage.googleapis.com/go-vulndb"
+	vulndbDir     = "go"
+	retry         = 3
+	notFoundError = "HTTP error. status code: 404"
 )
 
 type options struct {
@@ -87,8 +89,11 @@ func (c VulnDB) Update() error {
 	for moduleName := range modules {
 		entries, err := c.parseModuleEntries(baseURL, moduleName)
 		if err != nil {
-			modulesErrors = append(modulesErrors, err)
-			continue
+			if strings.HasSuffix(err.Error(), notFoundError) {
+				modulesErrors = append(modulesErrors, err)
+				continue
+			}
+			return xerrors.Errorf("module entry error: %w", err)
 		}
 
 		for _, entry := range entries {
