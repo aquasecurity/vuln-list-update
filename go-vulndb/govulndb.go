@@ -83,10 +83,12 @@ func (c VulnDB) Update() error {
 		return xerrors.Errorf("index error: %w", err)
 	}
 
+	var modulesErrors []error
 	for moduleName := range modules {
 		entries, err := c.parseModuleEntries(baseURL, moduleName)
 		if err != nil {
-			return xerrors.Errorf("module entry error: %w", err)
+			modulesErrors = append(modulesErrors, err)
+			continue
 		}
 
 		for _, entry := range entries {
@@ -94,6 +96,17 @@ func (c VulnDB) Update() error {
 			filePath := filepath.Join(c.dir, moduleName, entry.ID+".json")
 			if err = utils.Write(filePath, entry); err != nil {
 				return xerrors.Errorf("file write error: %w", err)
+			}
+		}
+	}
+
+	if len(modulesErrors) > 0 {
+		if len(modules) == len(modulesErrors) { // storage/logic broken
+			return xerrors.Errorf("all modules are broken. One of entry error: %w", modulesErrors[0])
+		} else {
+			log.Println("broken several modules:")
+			for _, err := range modulesErrors {
+				log.Println(err)
 			}
 		}
 	}
