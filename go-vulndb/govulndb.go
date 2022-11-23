@@ -2,14 +2,14 @@ package govulndb
 
 import (
 	"encoding/json"
-	"fmt"
-	"golang.org/x/xerrors"
 	"log"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+
+	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
@@ -126,7 +126,7 @@ func (c VulnDB) parseModuleEntries(baseURL *url.URL, moduleName string) ([]Entry
 	res, err := utils.FetchURL(pkgURL.String(), "", c.retry)
 	if err != nil {
 		if strings.Contains(err.Error(), notFoundError) {
-			log.Println(fmt.Sprintf("module %s not found", moduleName))
+			log.Printf("module %s not found", moduleName)
 			return nil, nil
 		}
 		return nil, xerrors.Errorf("unable to query %s advisory: %w", moduleName, err)
