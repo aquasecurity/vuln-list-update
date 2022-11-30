@@ -57,6 +57,7 @@ func NewUpdater(options ...option) *Updater {
 	u, _ := url.Parse(repoURL)
 	updater := &Updater{
 		vulnListDir: utils.VulnListDir(),
+		advisoryDir: alpineDir,
 		appFs:       afero.NewOsFs(),
 		baseURL:     u,
 		retry:       retry,
