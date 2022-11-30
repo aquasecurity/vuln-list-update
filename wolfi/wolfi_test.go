@@ -69,8 +69,10 @@ func TestUpdater_Update(t *testing.T) {
 			baseURL, err := url.Parse(ts.URL)
 			require.NoError(t, err)
 
-			u := wolfi.NewUpdater(wolfi.WithVulnListDir("/tmp"), wolfi.WithBaseURL(baseURL),
-				wolfi.WithAppFs(tt.fields.appFs), wolfi.WithRetry(tt.fields.retry))
+			u := wolfi.NewUpdater(
+				wolfi.WithVulnListDir("/tmp"),
+				wolfi.WithBaseURL(baseURL),
+				wolfi.WithAppFs(tt.fields.appFs))
 			err = u.Update()
 			if tt.wantErr != "" {
 				require.NotNil(t, err)
