@@ -1,15 +1,12 @@
 package wolfi
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/url"
 	"path/filepath"
-	"strings"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 
@@ -79,27 +76,6 @@ func (u Updater) Update() (err error) {
 	}
 
 	return nil
-}
-
-func (u Updater) traverse(url url.URL) ([]string, error) {
-	b, err := utils.FetchURL(url.String(), "", u.retry)
-	if err != nil {
-		return nil, err
-	}
-
-	d, err := goquery.NewDocumentFromReader(bytes.NewReader(b))
-	if err != nil {
-		return nil, err
-	}
-
-	var files []string
-	d.Find("a").Each(func(i int, selection *goquery.Selection) {
-		if !strings.HasSuffix(selection.Text(), ".json") {
-			return
-		}
-		files = append(files, selection.Text())
-	})
-	return files, nil
 }
 
 func (u Updater) save() error {
