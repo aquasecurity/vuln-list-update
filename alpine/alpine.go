@@ -203,7 +203,7 @@ func (u Updater) savePkg(secdb secdb, pkg pkg, release string) error {
 	}
 
 	release = strings.TrimPrefix(release, "v")
-	dir := filepath.Join(u.vulnListDir, alpineDir, release, secdb.Reponame)
+	dir := filepath.Join(u.vulnListDir, u.advisoryDir, release, secdb.Reponame)
 	file := fmt.Sprintf("%s.json", pkg.Name)
 	if err := utils.WriteJSON(u.appFs, dir, file, advisory); err != nil {
 		return xerrors.Errorf("failed to write %s under %s: %w", file, dir, err)
