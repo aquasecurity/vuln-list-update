@@ -66,6 +66,7 @@ func (u *Updater) Update() error {
 
 	alpineUpdater := alpine.NewUpdater(
 		alpine.WithBaseURL(u.baseURL),
+		alpine.WithVulnListDir(u.vulnListDir),
 		alpine.WithAdvisoryDir(wolfiDir),
 		alpine.WithAppFs(u.appFs))
 	return alpineUpdater.Save("", secdbURLPath)
