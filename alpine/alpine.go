@@ -25,6 +25,7 @@ const (
 
 type Updater struct {
 	vulnListDir string
+	advisoryDir string
 	appFs       afero.Fs
 	baseURL     *url.URL
 	retry       int
@@ -34,6 +35,10 @@ type option func(c *Updater)
 
 func WithVulnListDir(v string) option {
 	return func(c *Updater) { c.vulnListDir = v }
+}
+
+func WithAdvisoryDir(s string) option {
+	return func(c *Updater) { c.advisoryDir = s }
 }
 
 func WithAppFs(v afero.Fs) option {
@@ -64,7 +69,7 @@ func NewUpdater(options ...option) *Updater {
 }
 
 func (u Updater) Update() (err error) {
-	dir := filepath.Join(u.vulnListDir, alpineDir)
+	dir := filepath.Join(u.vulnListDir, u.advisoryDir)
 	log.Printf("Remove Alpine directory %s", dir)
 	if err := u.appFs.RemoveAll(dir); err != nil {
 		return xerrors.Errorf("failed to remove Alpine directory: %w", err)
@@ -102,7 +107,7 @@ func (u Updater) Update() (err error) {
 		}
 
 		for _, file := range files {
-			if err = u.save(release, file); err != nil {
+			if err = u.Save(release, file); err != nil {
 				return err
 			}
 		}
@@ -132,7 +137,7 @@ func (u Updater) traverse(url url.URL) ([]string, error) {
 	return files, nil
 }
 
-func (u Updater) save(release, fileName string) error {
+func (u Updater) Save(release, fileName string) error {
 	log.Printf("  release: %s, file: %s", release, fileName)
 	advisoryURL := *u.baseURL
 	advisoryURL.Path = path.Join(advisoryURL.Path, release, fileName)
