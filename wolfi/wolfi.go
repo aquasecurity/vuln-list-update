@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	wolfiDir = "wolfi"
-	repoURL  = "https://packages.wolfi.dev/os"
+	wolfiDir     = "wolfi"
+	secdbURLBase = "https://packages.wolfi.dev"
+	secdbURLPath = "os/security.json"
 )
 
 type option func(c *Updater)
@@ -27,6 +28,10 @@ func WithAppFs(v afero.Fs) option {
 	return func(c *Updater) { c.appFs = v }
 }
 
+func WithBaseURL(v *url.URL) option {
+	return func(c *Updater) { c.baseURL = v }
+}
+
 type Updater struct {
 	vulnListDir string
 	appFs       afero.Fs
@@ -34,7 +39,7 @@ type Updater struct {
 }
 
 func NewUpdater(options ...option) *Updater {
-	u, _ := url.Parse(repoURL)
+	u, _ := url.Parse(secdbURLBase)
 	updater := &Updater{
 		vulnListDir: utils.VulnListDir(),
 		appFs:       afero.NewOsFs(),
@@ -63,5 +68,5 @@ func (u *Updater) Update() error {
 		alpine.WithBaseURL(u.baseURL),
 		alpine.WithAdvisoryDir(wolfiDir),
 		alpine.WithAppFs(u.appFs))
-	return alpineUpdater.Save("", "security.json")
+	return alpineUpdater.Save("", secdbURLPath)
 }
