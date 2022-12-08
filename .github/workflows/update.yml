@@ -108,6 +108,10 @@ jobs:
       run: ./vuln-list-update -target go-vulndb
 
     - if: always()
+      name: Wolfi Secdb
+      run: ./vuln-list-update -target wolfi
+
+    - if: always()
       name: Known Exploited Vulnerabilities Catalog
       run: ./vuln-list-update -target kevc
 
