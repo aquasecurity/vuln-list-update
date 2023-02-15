@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aquasecurity/vuln-list-update/chainguard"
 	"github.com/aquasecurity/vuln-list-update/kevc"
 	"github.com/aquasecurity/vuln-list-update/wolfi"
 
@@ -49,7 +50,7 @@ const (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi)")
+		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard)")
 	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -75,6 +76,7 @@ func run() error {
 	url := fmt.Sprintf(repoURL, githubToken, repoOwner, repoName)
 
 	log.Printf("target repository is %s/%s\n", repoOwner, repoName)
+	log.Printf("cloning/pulling into %s", utils.VulnListDir())
 
 	if _, err := gc.CloneOrPull(url, utils.VulnListDir(), "main", debug); err != nil {
 		return xerrors.Errorf("clone or pull error: %w", err)
@@ -234,7 +236,13 @@ func run() error {
 		if err := wu.Update(); err != nil {
 			return xerrors.Errorf("Wolfi update error: %w", err)
 		}
-		commitMsg = "Wolfi Issue Tracker"
+		commitMsg = "Wolfi Security Data"
+	case "chainguard":
+		cu := chainguard.NewUpdater()
+		if err := cu.Update(); err != nil {
+			return xerrors.Errorf("Chainguard update error: %w", err)
+		}
+		commitMsg = "Chainguard Security Data"
 	default:
 		return xerrors.New("unknown target")
 	}
