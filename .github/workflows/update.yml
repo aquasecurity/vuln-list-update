@@ -158,5 +158,5 @@ jobs:
       run: ./vuln-list-update -target redhat -years 2018
 
     - if: always()
-      name: Red Hat Security Data API 2019-2022
-      run: ./vuln-list-update -target redhat -years 2019,2020,2021,2022
+      name: Red Hat Security Data API 2019-2023
+      run: ./vuln-list-update -target redhat -years 2019,2020,2021,2022,2023
