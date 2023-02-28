@@ -30,7 +30,7 @@ require (
 	cloud.google.com/go/storage v1.14.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
-	github.com/aws/aws-sdk-go v1.15.78 // indirect
+	github.com/aws/aws-sdk-go v1.34.0 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/census-instrumentation/opencensus-proto v0.2.1 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
@@ -48,7 +48,7 @@ require (
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-version v1.1.0 // indirect
-	github.com/jmespath/go-jmespath v0.0.0-20160202185014-0b12d6b521d8 // indirect
+	github.com/jmespath/go-jmespath v0.3.0 // indirect
 	github.com/klauspost/compress v1.11.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
