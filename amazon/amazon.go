@@ -6,59 +6,51 @@ import (
 	"compress/gzip"
 	"encoding/xml"
 	"fmt"
+	"github.com/aquasecurity/vuln-list-update/utils"
+	"golang.org/x/xerrors"
+	"gopkg.in/cheggaaa/pb.v1"
 	"log"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
-	"sort"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
-	"golang.org/x/net/html/charset"
-	"golang.org/x/xerrors"
-	"gopkg.in/cheggaaa/pb.v1"
 )
 
 const (
 	retry = 3
 
-	amazonDir                 = "amazon"
-	al2022ReleasemdURI        = "https://al2022-repos-us-west-2-9761ab97.s3.dualstack.us-west-2.amazonaws.com/core/releasemd.xml"
-	al2022MirrorListURIFormat = "https://al2022-repos-us-east-1-9761ab97.s3.dualstack.us-east-1.amazonaws.com/core/mirrors/%s/x86_64/mirror.list"
+	amazonDir = "amazon"
 )
 
 var (
 	mirrorListURI = map[string]string{
 		"1": "http://repo.us-west-2.amazonaws.com/2018.03/updates/x86_64/mirror.list",
 		"2": "https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list",
+		// run `dnf repolist all --verbose` inside container to get `Repo-mirrors`
+		"2022": "https://cdn.amazonlinux.com/al2022/core/mirrors/latest/x86_64/mirror.list",
+		"2023": "https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list",
 	}
 )
 
 type Config struct {
-	mirrorListURI             map[string]string
-	vulnListDir               string
-	al2022ReleasemdURI        string
-	al2022MirrorListURIFormat string
+	mirrorListURI map[string]string
+	vulnListDir   string
 }
 
 type option func(*Config)
 
 // With takes some internal values for testing
-func With(mirrorListURI map[string]string, vulnListDir, al2022ReleasemdURI, al2022MirrorListURIFormat string) option {
+func With(mirrorListURI map[string]string, vulnListDir string) option {
 	return func(opts *Config) {
 		opts.mirrorListURI = mirrorListURI
 		opts.vulnListDir = vulnListDir
-		opts.al2022ReleasemdURI = al2022ReleasemdURI
-		opts.al2022MirrorListURIFormat = al2022MirrorListURIFormat
 	}
 }
 
 func NewConfig(opts ...option) *Config {
 	config := &Config{
-		mirrorListURI:             mirrorListURI,
-		vulnListDir:               utils.VulnListDir(),
-		al2022MirrorListURIFormat: al2022MirrorListURIFormat,
-		al2022ReleasemdURI:        al2022ReleasemdURI,
+		mirrorListURI: mirrorListURI,
+		vulnListDir:   utils.VulnListDir(),
 	}
 
 	for _, opt := range opts {
@@ -69,12 +61,6 @@ func NewConfig(opts ...option) *Config {
 }
 
 func (ac Config) Update() error {
-	mirrorList2022, err := fetchAmazonLinux2022MirrorList(ac.al2022ReleasemdURI, ac.al2022MirrorListURIFormat)
-	if err != nil {
-		return xerrors.Errorf("failed to fetch mirror list of Amazon Linux 2022: %w", err)
-	}
-	ac.mirrorListURI["2022"] = mirrorList2022
-
 	for version, amznURL := range ac.mirrorListURI {
 		log.Printf("Fetching security advisories of Amazon Linux %s...\n", version)
 		if err := ac.update(version, amznURL); err != nil {
@@ -197,34 +183,4 @@ func fetchUpdateInfo(url string) (*UpdateInfo, error) {
 		updateInfo.ALASList[i].CveIDs = cveIDs
 	}
 	return &updateInfo, nil
-}
-
-func fetchAmazonLinux2022MirrorList(url, format string) (string, error) {
-	res, err := utils.FetchURL(url, "", retry)
-	if err != nil {
-		return "", xerrors.Errorf("Failed to fetch releasemd.xml for AL2022. url: %s, err: %w", al2022ReleasemdURI, err)
-	}
-
-	var root Root
-	// releasemd file has typo: encoding="utf8" instead of "utf-8"
-	// https://stackoverflow.com/a/32224438
-	decoder := xml.NewDecoder(bytes.NewBuffer(res))
-	decoder.CharsetReader = charset.NewReaderLabel
-	if err := decoder.Decode(&root); err != nil {
-		return "", xerrors.Errorf("failed to decode releasemd.xml: %w", err)
-	}
-
-	var versions []string
-	for _, release := range root.Releases.Release {
-		versions = append(versions, release.Version)
-	}
-
-	if len(versions) == 0 {
-		return "", xerrors.Errorf("list of Amazon Linux releases is empty")
-	}
-
-	// latest release contains all recommendations from previous releases
-	// version format like "2022.0.20220531"
-	sort.Strings(versions)
-	return fmt.Sprintf(format, versions[len(versions)-1]), nil
 }

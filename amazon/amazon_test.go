@@ -18,38 +18,33 @@ import (
 
 func TestConfig_Update(t *testing.T) {
 	testCases := []struct {
-		name                 string
-		repomdXmlFileName    string
-		releasemdXmlFileName string
-		gzipFileNames        map[string]string
-		wantErr              error
+		name              string
+		repomdXmlFileName string
+		gzipFileNames     map[string]string
+		wantErr           error
 	}{
 		{
-			name:                 "happy path",
-			repomdXmlFileName:    "testdata/fixtures/repomd_valid.xml",
-			releasemdXmlFileName: "testdata/fixtures/releasemd_valid.xml",
+			name:              "happy path",
+			repomdXmlFileName: "testdata/fixtures/repomd_valid.xml",
 			gzipFileNames: map[string]string{
 				"1":    "testdata/fixtures/updateinfo_1_item.xml.gz",
 				"2":    "testdata/fixtures/updateinfo_2_items.xml.gz",
 				"2022": "testdata/fixtures/updateinfo_AL2022.xml.gz",
+				"2023": "testdata/fixtures/updateinfo_AL2023.xml.gz",
 			},
 			wantErr: nil,
 		},
 		{
-			name:                 "bad repomd XML response",
-			repomdXmlFileName:    "testdata/fixtures/repomd_invalid.xml",
-			releasemdXmlFileName: "testdata/fixtures/releasemd_valid.xml",
-			wantErr:              xerrors.Errorf("failed to update security advisories of Amazon Linux 2022: %w", errors.New("failed to fetch security advisories from Amazon Linux Security Center: Failed to fetch updateinfo")),
+			name:              "bad repomd XML response",
+			repomdXmlFileName: "testdata/fixtures/repomd_invalid.xml",
+			gzipFileNames: map[string]string{
+				"2022": "testdata/fixtures/updateinfo_AL2022.xml.gz",
+			},
+			wantErr: xerrors.Errorf("failed to update security advisories of Amazon Linux 2022: %w", errors.New("failed to fetch security advisories from Amazon Linux Security Center: Failed to fetch updateinfo")),
 		},
 		{
-			name:                 "bad releasemd XML response",
-			releasemdXmlFileName: "testdata/fixtures/releasemd_invalid.xml",
-			wantErr:              xerrors.Errorf("failed to fetch mirror list of Amazon Linux 2022: list of Amazon Linux releases is empty"),
-		},
-		{
-			name:                 "bad gzip data response",
-			repomdXmlFileName:    "testdata/fixtures/repomd_valid.xml",
-			releasemdXmlFileName: "testdata/fixtures/releasemd_valid.xml",
+			name:              "bad gzip data response",
+			repomdXmlFileName: "testdata/fixtures/repomd_valid.xml",
 			gzipFileNames: map[string]string{
 				"2022": "testdata/fixtures/updateinfo_invalid.xml.gz",
 			},
@@ -61,13 +56,6 @@ func TestConfig_Update(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				switch {
-				case strings.HasSuffix(r.URL.Path, "/releasemd.xml"):
-					buf, _ := os.ReadFile(tc.releasemdXmlFileName)
-					_, _ = w.Write(buf)
-				case strings.HasPrefix(r.URL.Path, "/2022/2022"):
-					// Check if the latest release is properly taken
-					assert.Equal(t, r.URL.Path, "/2022/2022.0.20220531/mirror.list")
-					fallthrough
 				case strings.HasSuffix(r.URL.Path, "/mirror.list"):
 					fmt.Println(r.URL.Path)
 					_, _ = fmt.Fprintf(w, "http://%s/%s", r.Host, getVersionFromURL(r.URL.Path))
@@ -87,12 +75,10 @@ func TestConfig_Update(t *testing.T) {
 
 			mirrorList := map[string]string{}
 			for key := range tc.gzipFileNames {
-				if key != "2022" { // only for AL 1 and AL 2. AL 2022 gets mirror list from releasemd.xml
-					mirrorList[key] = fmt.Sprintf("%s/%s/mirror.list", ts.URL, key)
-				}
+				mirrorList[key] = fmt.Sprintf("%s/%s/mirror.list", ts.URL, key)
 			}
 
-			ac := amazon.NewConfig(amazon.With(mirrorList, tmpDir, ts.URL+"/releasemd.xml", ts.URL+"/2022/%s/mirror.list"))
+			ac := amazon.NewConfig(amazon.With(mirrorList, tmpDir))
 
 			switch {
 			case tc.wantErr != nil:
