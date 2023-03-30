@@ -378,8 +378,8 @@ github.com/mattn/go-isatty v0.0.4/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNx
 github.com/mattn/go-isatty v0.0.16/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=
 github.com/mattn/go-isatty v0.0.17 h1:BTarxUcIeDqL27Mc+vyvdWYSL28zpIhv3RoTdsLMPng=
 github.com/mattn/go-isatty v0.0.17/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=
-github.com/mattn/go-jsonpointer v0.0.0-20180225143300-37667080efed h1:fCWISZq4YN4ulCJx7x0KB15rqxLEe3mtNJL8cSOGKZU=
-github.com/mattn/go-jsonpointer v0.0.0-20180225143300-37667080efed/go.mod h1:SDJ4hurDYyQ9/7nc+eCYtXqdufgK4Cq9TJlwPklqEYA=
+github.com/mattn/go-jsonpointer v0.0.1 h1:j5m5P9BdP4B/zn6J7oH3KIQSOa2OHmcNAKEozUW7wuE=
+github.com/mattn/go-jsonpointer v0.0.1/go.mod h1:1s8vx7JSjlgVRF+LW16MPpWSRZAxyrc1/FYzOonxeao=
 github.com/mattn/go-runewidth v0.0.4/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzpuz5H//U1FU=
 github.com/mattn/go-runewidth v0.0.12 h1:Y41i/hVW3Pgwr8gV+J23B9YEY0zxjptBuCWEaxmAOow=
 github.com/mattn/go-runewidth v0.0.12/go.mod h1:RAqKPSqVFrSLVXbA8x7dzmKdmGzieGRCM46jaSJTDAk=
