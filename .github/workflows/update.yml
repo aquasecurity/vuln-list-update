@@ -112,6 +112,10 @@ jobs:
       run: ./vuln-list-update -target wolfi
 
     - if: always()
+      name: Chainguard Secdb
+      run: ./vuln-list-update -target chainguard
+
+    - if: always()
       name: Known Exploited Vulnerabilities Catalog
       run: ./vuln-list-update -target kevc
 
