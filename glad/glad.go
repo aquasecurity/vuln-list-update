@@ -177,8 +177,15 @@ func updateIdentifiers(basicIdentifier string, basicIdentifiers []string) string
 	// https://gitlab.com/gitlab-org/advisories-community/-/blob/74a18a7968c2bdd2dd901f6c98f06cb1d9684476/maven/org.picketlink/picketlink-common/cvE-2014-3530.yml
 	updated := strings.ToUpper(basicIdentifier)
 
-	// If an advisory doesn't have CVE-ID but there is GHSA-ID, we use GHSA-ID
+	// If a `basicIdentifier` is not CVE-ID, then try to find CVE-ID or GHSA-ID in `basicIdentifiers`
 	if !strings.HasPrefix(updated, "CVE") {
+		// Try to find `CVE-ID`
+		for i := range basicIdentifiers {
+			if ident := strings.ToUpper(basicIdentifiers[i]); strings.HasPrefix(ident, "CVE") {
+				return ident
+			}
+		}
+		// If `CVE-ID` didn't find, then try to find `GHSA-ID`
 		for i := range basicIdentifiers {
 			if ident := strings.ToUpper(basicIdentifiers[i]); strings.HasPrefix(ident, "GHSA") {
 				// return no uppercase string because GHSA id contains small letters (eg GHSA-qq97-vm5h-rrhg)
