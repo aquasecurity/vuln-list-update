@@ -185,7 +185,7 @@ func updateIdentifiers(basicIdentifier string, basicIdentifiers []string) string
 				return ident
 			}
 		}
-		// If `CVE-ID` didn't find, then try to find `GHSA-ID`
+		// If `CVE-ID` is not found, then try to find `GHSA-ID`
 		for i := range basicIdentifiers {
 			if ident := strings.ToUpper(basicIdentifiers[i]); strings.HasPrefix(ident, "GHSA") {
 				// return no uppercase string because GHSA id contains small letters (eg GHSA-qq97-vm5h-rrhg)
