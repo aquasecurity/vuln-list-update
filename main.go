@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	alt "github.com/aquasecurity/vuln-list-update/alt/oval"
 	"log"
 	"os"
 	"strconv"
@@ -130,6 +131,12 @@ func run() error {
 			return xerrors.Errorf("Ubuntu update error: %w", err)
 		}
 		commitMsg = "Ubuntu CVE Tracker"
+	case "alt":
+		at := alt.NewConfig()
+		if err := at.Update(); err != nil {
+			return xerrors.Errorf("ALT OVAL update error: %w", err)
+		}
+		commitMsg = "ALT OVAL"
 	case "alpine":
 		au := alpine.NewUpdater()
 		if err := au.Update(); err != nil {
