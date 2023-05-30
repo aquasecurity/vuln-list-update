@@ -26,7 +26,6 @@ jobs:
     - name: back up vuln-list
       run: |
         cd vuln-list-all
-        git remote set-url origin git@github.com:$GITHUB_OWNER/vuln-list-backup.git
         git push -f https://${GITHUB_TOKEN}@github.com/$GITHUB_OWNER/vuln-list-backup.git main
         cd .. && rm -r -f vuln-list-all
 
