@@ -19,7 +19,7 @@ jobs:
     - name: clone the whole repo for backup
       uses: actions/checkout@v3
       with:
-      repository: ${{ github.repository_owner }}/vuln-list
+        repository: ${{ github.repository_owner }}/vuln-list
       path: vuln-list-all
 
     - name: back up vuln-list
@@ -30,7 +30,7 @@ jobs:
     - name: clone a shallow repo
       uses: actions/checkout@v3
       with:
-      repository: ${{ github.repository_owner }}/vuln-list
+        repository: ${{ github.repository_owner }}/vuln-list
       path: vuln-list
       fetch-depth: 100
 
