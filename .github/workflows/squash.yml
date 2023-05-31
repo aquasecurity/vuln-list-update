@@ -12,16 +12,17 @@ jobs:
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
-    - name: Setup github user email and name
-      run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
-
     - name: clone the whole repo for backup
       uses: actions/checkout@v3
       with:
         repository: ${{ github.repository_owner }}/vuln-list
         path: vuln-list-all
+        token: ${{ secrets.ACCESS_TOKEN }}
+
+    - name: Setup github user email and name
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
 
     - name: back up vuln-list
       run: |
