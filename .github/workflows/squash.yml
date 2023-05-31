@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_OWNER: ${{ github.repository_owner }}
-      PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
     - name: Setup github user email and name
       run: |
@@ -26,7 +26,8 @@ jobs:
     - name: back up vuln-list
       run: |
         cd vuln-list-all
-        git push -f https://${PERSONAL_ACCESS_TOKEN}@github.com/$GITHUB_OWNER/vuln-list-backup.git main
+        git remote set-url origin git@github.com:$GITHUB_OWNER/vuln-list-backup.git
+        git push -f
         cd .. && rm -r -f vuln-list-all
 
     - name: clone a shallow repo
