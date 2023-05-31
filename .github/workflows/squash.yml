@@ -16,6 +16,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: ${{ github.repository_owner }}/vuln-list
+        fetch-depth: 0
         path: vuln-list-all
         token: ${{ secrets.ACCESS_TOKEN }}
 
@@ -27,7 +28,7 @@ jobs:
     - name: back up vuln-list
       run: |
         cd vuln-list-all
-        git remote add origin https://github.com/$GITHUB_OWNER/vuln-list-backup.git
+        git remote set-url origin https://github.com/$GITHUB_OWNER/vuln-list-backup.git
         git push -f
         cd .. && rm -r -f vuln-list-all
 
