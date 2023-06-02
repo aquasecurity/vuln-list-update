@@ -28,7 +28,7 @@ jobs:
         repository: ${{ github.repository_owner }}/vuln-list
         token: ${{ secrets.ACCESS_TOKEN }}
         path: vuln-list
-        fetch-depth: 20
+        fetch-depth: 100
 
     - name: squash and push
       run: |
