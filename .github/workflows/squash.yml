@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get -y update
-        sudo apt-get -y install filter-repo
+        sudo apt-get -y install git-filter-repo
 
     - name: Setup github user email and name
       run: |
