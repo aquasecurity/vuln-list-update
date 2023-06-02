@@ -37,6 +37,3 @@ jobs:
         git filter-repo --force
         git remote add origin https://github.com/afdesk/vuln-list.git
         git push --force --set-upstream https://${GITHUB_TOKEN}@github.com/afdesk/vuln-list.git main
-#        git push --set-upstream origin main --force
-#        git filter-branch -- --all
-#        git push -f
