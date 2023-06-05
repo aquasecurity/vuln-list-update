@@ -8,32 +8,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_OWNER: ${{ github.repository_owner }}
-      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
     - name: Install dependencies
       run: |
         sudo apt-get -y update
         sudo apt-get -y install git-filter-repo
 
-    - name: Setup github user email and name
+    - name: Setup GitHub user email and name
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
 
-    - name: clone a shallow repo
+    - name: Clone a shallow repo
       uses: actions/checkout@v3
       with:
         repository: ${{ github.repository_owner }}/vuln-list
         token: ${{ secrets.ACCESS_TOKEN }}
         path: vuln-list
-        fetch-depth: 100
+        fetch-depth: 2000
 
-    - name: squash and push
+    - name: Squash and push
       run: |
         cd vuln-list
         git replace -f --graft $(git rev-list --max-parents=0 HEAD)
         git filter-repo --force
-        git remote add origin https://github.com/afdesk/vuln-list.git
-        git push --force --set-upstream https://${GITHUB_TOKEN}@github.com/afdesk/vuln-list.git main
+        git push --force --set-upstream https://${{ secrets.ACCESS_TOKEN }}@github.com/${{ github.repository_owner }}/vuln-list.git main
