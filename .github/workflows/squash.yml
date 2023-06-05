@@ -1,0 +1,35 @@
+name: Squash vuln-list repo
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get -y update
+        sudo apt-get -y install git-filter-repo
+
+    - name: Setup GitHub user email and name
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+
+    - name: Clone a shallow repo
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository_owner }}/vuln-list
+        token: ${{ secrets.ACCESS_TOKEN }}
+        path: vuln-list
+        fetch-depth: 2000
+
+    - name: Squash and push
+      run: |
+        cd vuln-list
+        git replace -f --graft $(git rev-list --max-parents=0 HEAD)
+        git filter-repo --force
+        git push --force --set-upstream https://${{ secrets.ACCESS_TOKEN }}@github.com/${{ github.repository_owner }}/vuln-list.git main
