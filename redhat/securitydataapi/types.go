@@ -89,12 +89,12 @@ func (r *RedhatCVEJSON) UnmarshalJSON(data []byte) error {
 			Mitigation RedhatCVEJSONMitigationObject
 		}
 		if err := json.Unmarshal(data, &m); err != nil {
-			return xerrors.Errorf("unknown package_state type: %w", err)
+			return xerrors.Errorf("unknown mitigation type: %w", err)
 		}
 		r.Mitigation = m.Mitigation.Value
 	case nil:
 	default:
-		return xerrors.New("unknown package_state type")
+		return xerrors.New("unknown mitigation type")
 	}
 
 	return nil
