@@ -45,7 +45,7 @@ jobs:
     
     - if: always()
       name: ALT Vulnerability
-      run: ./vuln-list-update -targer alt
+      run: ./vuln-list-update -target alt
       
     - if: always()
       name: Debian Security Bug Tracker
