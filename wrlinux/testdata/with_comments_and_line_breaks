@@ -1,0 +1,28 @@
+Candidate: CVE-2022-3134
+
+PublicDate: 2022-09-06
+
+Description:
+ Use After Free in GitHub repository vim/vim prior to 9.0.0389.
+
+Notes:
+
+Priority: high
+
+Bugs:
+ LINCD-10301
+ LIN1022-1711
+ LIN1021-4364
+ LIN1019-8796
+ LIN1018-9727
+
+# fixes/patches for different WRLinux releases
+# <vulnerable_release>_<package>: <status> [(<fixed_release>)]
+Patches_vim:
+10.20.6.0_vim: not-affected
+10.22.33.1_vim: not-affected
+# the following have releases have been fixed
+10.21.20.1_vim: released (10.21.20.14)
+10.19.45.1_vim: released (10.19.45.26)
+
+10.18.44.1_vim: released (10.18.44.28)

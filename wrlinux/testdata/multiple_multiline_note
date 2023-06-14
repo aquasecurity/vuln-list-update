@@ -1,0 +1,19 @@
+Candidate: CVE-2012-0880
+PublicDate: 2017-08-08
+Description:
+ Apache Xerces-C++ allows remote attackers to cause a denial of
+ service (CPU consumption) via a crafted message sent to an XML
+ service that causes hash table collisions.
+Notes:
+ note 1 line 1
+  note 1 line 2
+ note 2 line 1
+  note 2 line 2
+Priority: high
+Bugs:
+ LIN10-1106
+
+Patches_xerces:
+10.17.41.1_xerces: released (10.17.41.1)
+10.18.44.1_xerces: ignored (will not fix)
+10.19.45.1_xerces: ignored (will not fix)
