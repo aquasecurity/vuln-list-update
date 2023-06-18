@@ -37,6 +37,4 @@ jobs:
 
     - if: always()
       name: NVD
-      run: |
-        ./vuln-list-update -vuln-list-dir $VULN_LIST_DIR -target nvd
-        cd $VULN_LIST_DIR  && git commit -am "NVD" && git push
+      run: ./update.sh nvd "NVD"
