@@ -22,8 +22,9 @@ const (
 	retry       = 20 // Red Hat Security Data API is unstable
 )
 
-func Update(years []int) error {
-	for _, year := range years {
+func Update() error {
+	now := time.Now()
+	for year := 1996; year <= now.Year(); year++ {
 		if err := update(year); err != nil {
 			return xerrors.Errorf("error in RedHat update: %w", err)
 		}

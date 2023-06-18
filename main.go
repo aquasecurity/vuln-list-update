@@ -5,8 +5,6 @@ import (
 	"flag"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 	"time"
 
 	githubql "github.com/shurcooL/githubv4"
@@ -43,7 +41,6 @@ var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"debian, debian-oval, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
-	years        = flag.String("years", "", "update years (only redhat)")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
 )
@@ -68,18 +65,7 @@ func run() error {
 			return xerrors.Errorf("NVD update error: %w", err)
 		}
 	case "redhat":
-		var yearList []int
-		for _, y := range strings.Split(*years, ",") {
-			yearInt, err := strconv.Atoi(y)
-			if err != nil {
-				return xerrors.Errorf("invalid years: %w", err)
-			}
-			yearList = append(yearList, yearInt)
-		}
-		if len(yearList) == 0 {
-			return xerrors.New("years must be specified")
-		}
-		if err := securitydataapi.Update(yearList); err != nil {
+		if err := securitydataapi.Update(); err != nil {
 			return xerrors.Errorf("Red Hat Security Data API update error: %w", err)
 		}
 	case "redhat-oval":
