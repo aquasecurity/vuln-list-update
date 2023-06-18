@@ -20,7 +20,7 @@ jobs:
       with:
         go-version-file: go.mod
 
-    - name: Check out vuln-list repo
+    - name: Check out vuln-list-redhat repo
       uses: actions/checkout@v3
       with:
         repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
@@ -39,10 +39,10 @@ jobs:
       name: Red Hat OVALv2
       run: |
         ./vuln-list-update -vuln-list-dir $VULN_LIST_DIR -target redhat-oval
-        cd $VULN_LIST_DIR  && git commit -am "Red Hat OVAL v2" && git push
+        cd $VULN_LIST_DIR  && git add . && git commit -m "Red Hat OVAL v2" && git push
 
     - if: always()
       name: Red Hat Security Data API
       run: |
         ./vuln-list-update -vuln-list-dir $VULN_LIST_DIR --target redhat
-        cd $VULN_LIST_DIR  && git commit -am "Red Hat Security Data API" && git push
+        cd $VULN_LIST_DIR  && git add . && git commit -m "Red Hat Security Data API" && git push
