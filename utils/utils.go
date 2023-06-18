@@ -19,6 +19,8 @@ import (
 	pb "gopkg.in/cheggaaa/pb.v1"
 )
 
+var vulnListDir = filepath.Join(CacheDir(), "vuln-list")
+
 func CacheDir() string {
 	cacheDir, err := os.UserCacheDir()
 	if err != nil {
@@ -28,8 +30,12 @@ func CacheDir() string {
 	return dir
 }
 
+func SetVulnListDir(dir string) {
+	vulnListDir = dir
+}
+
 func VulnListDir() string {
-	return filepath.Join(CacheDir(), "vuln-list")
+	return vulnListDir
 }
 
 func SaveCVEPerYear(dirPath string, cveID string, data interface{}) error {
