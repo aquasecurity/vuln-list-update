@@ -39,10 +39,20 @@ jobs:
       name: Red Hat OVALv2
       run: |
         ./vuln-list-update -vuln-list-dir $VULN_LIST_DIR -target redhat-oval
-        cd $VULN_LIST_DIR  && git add . && git commit -m "Red Hat OVAL v2" && git push
+        cd $VULN_LIST_DIR
+        if [[ -n $(git status --porcelain) ]]; then
+          git add .
+          git commit -m "Red Hat OVAL v2"
+          git push
+        fi
 
     - if: always()
       name: Red Hat Security Data API
       run: |
         ./vuln-list-update -vuln-list-dir $VULN_LIST_DIR --target redhat
-        cd $VULN_LIST_DIR  && git add . && git commit -m "Red Hat Security Data API" && git push
+        cd $VULN_LIST_DIR
+        if [[ -n $(git status --porcelain) ]]; then
+          git add .
+          git commit -m "Red Hat Security Data API"
+          git push
+        fi
