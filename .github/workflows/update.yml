@@ -15,7 +15,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: 1.18
+        go-version-file: go.mod
 
     - name: Check out code
       uses: actions/checkout@v3
@@ -38,3 +38,75 @@ jobs:
     - if: always()
       name: NVD
       run: ./update.sh nvd "NVD"
+
+    - if: always()
+      name: Alpine Issue Tracker
+      run: ./update.sh alpine "Alpine Issue Tracker"
+
+    - if: always()
+      name: Alpine Unfixed Vulnerability Tracker
+      run: ./update.sh alpine-unfixed "Alpine Secshfixes Tracker"
+
+    - if: always()
+      name: Debian Security Bug Tracker
+      run: ./update.sh debian "Debian Security Bug Tracker"
+
+    - if: always()
+      name: Ubuntu CVE Tracker
+      run: ./update.sh ubuntu "Ubuntu CVE Tracker"
+
+    - if: always()
+      name: Amazon Linux AMI Security Advisory
+      run: ./update.sh amazon "Amazon Linux Security Center"
+
+    - if: always()
+      name: Oracle Linux OVAL
+      run: ./update.sh oracle-oval "Oracle Linux OVAL"
+
+    - if: always()
+      name: Photon CVE Advisory
+      run: ./update.sh photon "Photon Security Advisories"
+
+    - if: always()
+      name: GitHub Security Advisory
+      run: ./update.sh ghsa "GitHub Security Advisory"
+
+    - if: always()
+      name: CWE
+      run: ./update.sh cwe "CWE"
+
+    - if: always()
+      name: SUSE CVRF
+      run: ./update.sh suse-cvrf "SUSE CVRF"
+
+    - if: always()
+      name: GitLab Advisory Database
+      run: ./update.sh glad "GitLab Advisory Database"
+
+    - if: always()
+      name: AlmaLinux Security Advisory
+      run: ./update.sh alma "AlmaLinux Security Advisory"
+
+    - if: always()
+      name: Rocky Linux Security Advisory
+      run: ./update.sh rocky "Rocky Linux Security Advisory"
+
+    - if: always()
+      name: CBL-Mariner Vulnerability Data
+      run: ./update.sh mariner "CBL-Mariner Vulnerability Data"
+
+    - if: always()
+      name: OSV Database
+      run: ./update.sh osv "OSV Database"
+
+    - if: always()
+      name: Go Vulnerability Database
+      run: ./update.sh go-vulndb "Go Vulnerability Database"
+
+    - if: always()
+      name: Wolfi Secdb
+      run: ./update.sh wolfi "Wolfi Security Data
+
+    - if: always()
+      name: Chainguard Secdb
+      run: ./update.sh chainguard "Chainguard Security Data"
