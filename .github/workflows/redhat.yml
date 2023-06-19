@@ -1,4 +1,4 @@
-name: Update vuln-list-redhat
+name: Update vuln-list-redhat repo
 on:
   schedule:
   - cron: "0 */6 * * *"

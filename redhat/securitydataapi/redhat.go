@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	listURL   = "https://access.redhat.com/labs/securitydataapi/cve.json?page=%d&after=%s&per_page=500"
-	cveURL    = "https://access.redhat.com/labs/securitydataapi/cve/%s.json"
-	redhatDir = "redhat"
+	listURL = "https://access.redhat.com/labs/securitydataapi/cve.json?page=%d&after=%s&per_page=500"
+	cveURL  = "https://access.redhat.com/labs/securitydataapi/cve/%s.json"
+	apiDir  = "api"
 
 	concurrency = 10
 	wait        = 1
@@ -53,7 +53,7 @@ func update(year int) error {
 	}
 
 	for cveID, cve := range cves {
-		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), redhatDir), cveID, cve); err != nil {
+		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), apiDir), cveID, cve); err != nil {
 			return xerrors.Errorf("failed to save RedHat CVE detail: %w", err)
 		}
 	}
