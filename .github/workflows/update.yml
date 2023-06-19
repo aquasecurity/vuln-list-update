@@ -105,7 +105,7 @@ jobs:
 
     - if: always()
       name: Wolfi Secdb
-      run: ./update.sh wolfi "Wolfi Security Data
+      run: ./update.sh wolfi "Wolfi Security Data"
 
     - if: always()
       name: Chainguard Secdb
