@@ -61,6 +61,7 @@ type Advisory struct {
 	Rights          string          `xml:"rights" json:",omitempty"`
 	Issued          Issued          `xml:"issued" json:",omitempty"`
 	Updated         Updated         `xml:"updated" json:",omitempty"`
+	BDUs            []CVE           `xml:"bdu" json:"bdu"`
 	Cves            []CVE           `xml:"cve" json:",omitempty"`
 	Bugzilla        []Bugzilla      `xml:"bugzilla" json:",omitempty"`
 	AffectedCpeList AffectedCpeList `xml:"affected_cpe_list" json:",omitempty"`
@@ -81,6 +82,7 @@ type Updated struct {
 }
 
 type CVE struct {
+	Cvss   string `xml:"cvss,attr" json:",omitempty"`
 	Cvss3  string `xml:"cvss3,attr" json:",omitempty"`
 	Cwe    string `xml:"cwe,attr"   json:",omitempty"`
 	Href   string `xml:"href,attr"   json:",omitempty"`
