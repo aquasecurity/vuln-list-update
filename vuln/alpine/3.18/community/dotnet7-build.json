@@ -1,0 +1,35 @@
+{
+  "name": "dotnet7-build",
+  "secfixes": {
+    "7.0.103-r0": [
+      "CVE-2023-21808"
+    ],
+    "7.0.105-r0": [
+      "CVE-2023-28260"
+    ],
+    "7.0.107-r0": [
+      "CVE-2023-24895",
+      "CVE-2023-24897",
+      "CVE-2023-24936",
+      "CVE-2023-29331",
+      "CVE-2023-29337",
+      "CVE-2023-32032",
+      "CVE-2023-33126",
+      "CVE-2023-33128",
+      "CVE-2023-33135"
+    ]
+  },
+  "apkurl": "{{urlprefix}}/{{distroversion}}/{{reponame}}/{{arch}}/{{pkg.name}}-{{pkg.ver}}.apk",
+  "archs": [
+    "aarch64",
+    "armhf",
+    "armv7",
+    "ppc64le",
+    "s390x",
+    "x86",
+    "x86_64"
+  ],
+  "urlprefix": "https://dl-cdn.alpinelinux.org/alpine",
+  "reponame": "community",
+  "distroversion": "v3.18"
+}
