@@ -22,9 +22,8 @@ import (
 )
 
 const (
-	ovalDir   = "oval"
-	redhatDir = "redhat"
-	cpeDir    = "redhat-cpe"
+	ovalDir = "oval"
+	cpeDir  = "cpe"
 
 	urlFormat    = "https://www.redhat.com/security/data/oval/v2/%s"
 	retry        = 5
@@ -67,7 +66,7 @@ func (c Config) Update() error {
 		return xerrors.Errorf("unable to update repository-to-cpe.json: %w", err)
 	}
 
-	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir)
+	dirPath := filepath.Join(c.VulnListDir, ovalDir)
 	log.Printf("Remove Red Hat OVAL v2 directory %s", dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
 		return xerrors.Errorf("failed to remove Red Hat OVAL v2 directory: %w", err)
@@ -138,7 +137,7 @@ func (c Config) updateOVAL(ovalFile string) error {
 
 	// e.g. storage-gluster-3-including-unpatched
 	platform := strings.TrimSuffix(file, ".oval.xml.bz2")
-	dirPath := filepath.Join(c.VulnListDir, ovalDir, redhatDir, release, platform)
+	dirPath := filepath.Join(c.VulnListDir, ovalDir, release, platform)
 
 	// write tests/tests.json file
 	if err := utils.WriteJSON(c.AppFs, filepath.Join(dirPath, testsDir), "tests.json", ovalroot.Tests); err != nil {
