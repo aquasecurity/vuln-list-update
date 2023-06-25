@@ -48,10 +48,6 @@ jobs:
       run: ./update.sh alpine-unfixed "Alpine Secshfixes Tracker"
 
     - if: always()
-      name: Debian Security Bug Tracker
-      run: ./update.sh debian "Debian Security Bug Tracker"
-
-    - if: always()
       name: Ubuntu CVE Tracker
       run: ./update.sh ubuntu "Ubuntu CVE Tracker"
 

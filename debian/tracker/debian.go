@@ -26,7 +26,11 @@ const (
 )
 
 var (
-	repos = []string{"main", "contrib", "non-free"}
+	repos = []string{
+		"main",
+		"contrib",
+		"non-free",
+	}
 )
 
 type Bug struct {
@@ -91,8 +95,12 @@ func NewClient(opts ...option) Client {
 	}
 
 	return Client{
-		options:       o,
-		parsers:       []listParser{cveList{}, dlaList{}, dsaList{}},
+		options: o,
+		parsers: []listParser{
+			cveList{},
+			dlaList{},
+			dsaList{},
+		},
 		annDispatcher: newAnnotationDispatcher(),
 	}
 }
@@ -260,7 +268,10 @@ func shouldStore(anns []*Annotation) bool {
 }
 
 func (c Client) updateSources(ctx context.Context, dists map[string]Distribution) error {
-	for target, baseURL := range map[string]string{"source": c.sourcesURL, "updates-source": c.securitySourcesURL} {
+	for target, baseURL := range map[string]string{
+		"source":         c.sourcesURL,
+		"updates-source": c.securitySourcesURL,
+	} {
 		for code := range dists {
 			for _, r := range repos {
 				log.Printf("Updating %s %s/%s", target, code, r)
@@ -270,9 +281,16 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 					return xerrors.Errorf("unable to fetch sources: %w", err)
 				}
 
-				filePath := filepath.Join(c.vulnListDir, debianDir, target, code, r, "Sources.json")
-				if err = utils.Write(filePath, headers); err != nil {
-					return xerrors.Errorf("source write error: %w", err)
+				for _, header := range headers {
+					name := header.Get("Package")
+					if name == "" {
+						continue
+					}
+
+					filePath := filepath.Join(c.vulnListDir, debianDir, target, code, r, name[:1], name+".json")
+					if err = utils.Write(filePath, header); err != nil {
+						return xerrors.Errorf("source write error: %w", err)
+					}
 				}
 			}
 		}
