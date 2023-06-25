@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	debianDir          = "debian"
+	trackerDir         = "tracker"
 	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
 	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
 	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
@@ -109,7 +109,7 @@ func (c Client) Update() error {
 	ctx := context.Background()
 
 	log.Println("Removing old Debian data...")
-	if err := os.RemoveAll(filepath.Join(c.vulnListDir, debianDir)); err != nil {
+	if err := os.RemoveAll(filepath.Join(c.vulnListDir, trackerDir)); err != nil {
 		return xerrors.Errorf("failed to remove Debian dir: %w", err)
 	}
 
@@ -138,7 +138,7 @@ func (c Client) Update() error {
 		return xerrors.Errorf("failed to update distributions: %w", err)
 	}
 
-	distributionJSON := filepath.Join(c.vulnListDir, debianDir, "distributions.json")
+	distributionJSON := filepath.Join(c.vulnListDir, trackerDir, "distributions.json")
 	if err = utils.Write(distributionJSON, dists); err != nil {
 		return xerrors.Errorf("unable to write %s: %w", distributionJSON, err)
 	}
@@ -157,7 +157,7 @@ func (c Client) update(dirname string, bugs []Bug) error {
 	bar := pb.StartNew(len(bugs))
 	for _, bug := range bugs {
 		fileName := fmt.Sprintf("%s.json", bug.Header.ID)
-		filePath := filepath.Join(c.vulnListDir, debianDir, dirname, fileName)
+		filePath := filepath.Join(c.vulnListDir, trackerDir, dirname, fileName)
 		if err := utils.Write(filePath, bug); err != nil {
 			return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
 		}
@@ -287,7 +287,7 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 						continue
 					}
 
-					filePath := filepath.Join(c.vulnListDir, debianDir, target, code, r, name[:1], name+".json")
+					filePath := filepath.Join(c.vulnListDir, trackerDir, target, code, r, name[:1], name+".json")
 					if err = utils.Write(filePath, header); err != nil {
 						return xerrors.Errorf("source write error: %w", err)
 					}

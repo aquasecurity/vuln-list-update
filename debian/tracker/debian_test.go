@@ -256,21 +256,21 @@ func TestClient_Update(t *testing.T) {
 			// Compare CVE/list, DLA/list, and DSA/list
 			for name, want := range tt.wantBugs {
 				var got tracker.Bug
-				filePath := filepath.Join(tmpDir, "debian", name)
+				filePath := filepath.Join(tmpDir, "tracker", name)
 				compare(t, filePath, &got, &want)
 			}
 
 			// Compare distributions.json
 			{
 				var got map[string]tracker.Distribution
-				filePath := filepath.Join(tmpDir, "debian", "distributions.json")
+				filePath := filepath.Join(tmpDir, "tracker", "distributions.json")
 				compare(t, filePath, &got, &tt.wantDists)
 			}
 
 			// Compare Sources
 			for name, want := range tt.wantSources {
 				var got pkgDetail
-				filePath := filepath.Join(tmpDir, "debian", name)
+				filePath := filepath.Join(tmpDir, "tracker", name)
 				compare(t, filePath, &got, &want)
 			}
 		})
