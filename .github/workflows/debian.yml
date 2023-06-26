@@ -1,0 +1,40 @@
+name: Update vuln-list-debian repo
+on:
+  schedule:
+  - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update vuln-list-debian
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      VULN_LIST_DIR: "vuln-list-debian"
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version-file: go.mod
+
+    - name: Check out vuln-list-debian repo
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
+        token: ${{ secrets.ACCESS_TOKEN }}
+        path: ${{ env.VULN_LIST_DIR }}
+
+    - name: Setup github user email and name
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+
+    - name: Compile vuln-list-update
+      run: go build -o vuln-list-update .
+
+    - if: always()
+      name: Debian Security Bug Tracker
+      run: ./update.sh debian "Debian Security Bug Tracker"
