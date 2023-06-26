@@ -156,10 +156,17 @@ func (c Client) update(dirname string, bugs []Bug) error {
 	log.Printf("Saving Debian %s data...", dirname)
 	bar := pb.StartNew(len(bugs))
 	for _, bug := range bugs {
-		fileName := fmt.Sprintf("%s.json", bug.Header.ID)
-		filePath := filepath.Join(c.vulnListDir, trackerDir, dirname, fileName)
-		if err := utils.Write(filePath, bug); err != nil {
-			return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
+		dir := filepath.Join(c.vulnListDir, trackerDir, dirname)
+		if dirname == "CVE" {
+			if err := utils.SaveCVEPerYear(dir, bug.Header.ID, bug); err != nil {
+				return xerrors.Errorf("debian: failed to save CVE per year: %w", err)
+			}
+		} else {
+			fileName := fmt.Sprintf("%s.json", bug.Header.ID)
+			filePath := filepath.Join(dir, fileName)
+			if err := utils.Write(filePath, bug); err != nil {
+				return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
+			}
 		}
 		bar.Increment()
 	}

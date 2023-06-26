@@ -101,7 +101,7 @@ func TestClient_Update(t *testing.T) {
 						},
 					},
 				},
-				filepath.Join("CVE", "CVE-2021-36373.json"): {
+				filepath.Join("CVE", "2021", "CVE-2021-36373.json"): {
 					Header: &tracker.Header{
 						Original:    "CVE-2021-36373 (When reading a specially crafted TAR archive an Apache Ant build can b ...)",
 						Line:        5,
@@ -131,7 +131,7 @@ func TestClient_Update(t *testing.T) {
 						},
 					},
 				},
-				filepath.Join("CVE", "CVE-2021-36367.json"): {
+				filepath.Join("CVE", "2021", "CVE-2021-36367.json"): {
 					Header: &tracker.Header{
 						Original:    "CVE-2021-36367 (PuTTY through 0.75 proceeds with establishing an SSH session even if i ...)",
 						Line:        10,
