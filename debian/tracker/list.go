@@ -18,7 +18,6 @@ var (
 
 type Header struct {
 	Original    string `json:",omitempty"`
-	Line        int    `json:",omitempty"`
 	ID          string `json:",omitempty"`
 	Description string `json:",omitempty"`
 }
