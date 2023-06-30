@@ -37,13 +37,23 @@ var (
 	bugNoRegexp    = regexp.MustCompile(`bug #(?P<bugno>\d+)`)
 
 	// ref. https://salsa.debian.org/security-tracker-team/security-tracker/-/blob/50ca55fb66ec7592f9bc1053a11dbf0bd50ee425/lib/python/sectracker/parsers.py#L140-141
-	pseudoFreeText = []string{"no-dsa", "not-affected", "end-of-life", "ignored", "postponed"}
-	pseudoStruct   = []string{"unfixed", "removed", "itp", "undetermined"}
+	pseudoFreeText = []string{
+		"no-dsa",
+		"not-affected",
+		"end-of-life",
+		"ignored",
+		"postponed",
+	}
+	pseudoStruct = []string{
+		"unfixed",
+		"removed",
+		"itp",
+		"undetermined",
+	}
 )
 
 type Annotation struct {
 	Original    string   `json:",omitempty"`
-	Line        int      `json:",omitempty"`
 	Type        string   `json:",omitempty"`
 	Release     string   `json:",omitempty"`
 	Package     string   `json:",omitempty"`
@@ -78,7 +88,7 @@ func newAnnotationDispatcher() annotationDispatcher {
 	}
 }
 
-func (d annotationDispatcher) parseAnnotation(line string, lineno int) *Annotation {
+func (d annotationDispatcher) parseAnnotation(line string) *Annotation {
 	var once sync.Once
 	var ann *Annotation
 
@@ -88,7 +98,6 @@ func (d annotationDispatcher) parseAnnotation(line string, lineno int) *Annotati
 			once.Do(func() {
 				ann = &Annotation{
 					Original: strings.TrimSpace(line),
-					Line:     lineno,
 				}
 			})
 			p.Apply(match, ann)

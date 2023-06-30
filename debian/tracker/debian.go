@@ -186,13 +186,11 @@ func (c Client) parseList(parser listParser, filename string) ([]Bug, error) {
 		bugs   []Bug
 		anns   []*Annotation
 		header *Header
-		lineno int
 	)
 
 	s := bufio.NewScanner(f)
 	for s.Scan() {
 		line := s.Text()
-		lineno += 1
 
 		switch {
 		case line == "":
@@ -203,7 +201,7 @@ func (c Client) parseList(parser listParser, filename string) ([]Bug, error) {
 				continue
 			}
 
-			ann := c.annDispatcher.parseAnnotation(line, lineno)
+			ann := c.annDispatcher.parseAnnotation(line)
 			if ann != nil {
 				anns = append(anns, ann)
 			}
@@ -223,7 +221,6 @@ func (c Client) parseList(parser listParser, filename string) ([]Bug, error) {
 				log.Printf("malformed header: %s", line)
 				continue
 			}
-			header.Line = lineno
 		}
 	}
 
