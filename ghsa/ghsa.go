@@ -2,187 +2,152 @@ package ghsa
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/aquasecurity/vuln-list-update/git"
+	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/spf13/afero"
+	"golang.org/x/xerrors"
 	"log"
-	"math"
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
-	"github.com/cheggaaa/pb"
-	githubql "github.com/shurcooL/githubv4"
-	"github.com/shurcooL/graphql"
-	"github.com/spf13/afero"
-	"golang.org/x/xerrors"
 )
 
-// https://developer.github.com/v4/enum/securityadvisoryecosystem/
-type SecurityAdvisoryEcosystem string
-
-var (
-	Composer   SecurityAdvisoryEcosystem = "COMPOSER"
-	Maven      SecurityAdvisoryEcosystem = "MAVEN"
-	Npm        SecurityAdvisoryEcosystem = "NPM"
-	Nuget      SecurityAdvisoryEcosystem = "NUGET"
-	Pip        SecurityAdvisoryEcosystem = "PIP"
-	Rubygems   SecurityAdvisoryEcosystem = "RUBYGEMS"
-	Go         SecurityAdvisoryEcosystem = "GO"
-	Rust       SecurityAdvisoryEcosystem = "RUST"
-	Erlang     SecurityAdvisoryEcosystem = "ERLANG"
-	Pub        SecurityAdvisoryEcosystem = "PUB"
-	Ecosystems                           = []SecurityAdvisoryEcosystem{Composer, Maven, Npm, Nuget, Pip, Rubygems, Go, Erlang, Rust, Pub}
-
-	wait = func(i int) time.Duration {
-		sleep := math.Pow(float64(i), 2) + float64(utils.RandInt()%10)
-		return time.Duration(sleep) * time.Second
-	}
-)
+// ecosystems is list of ecosystems
+// name from file -> name of folder
+var ecosystems = map[Ecosystem]string{
+	"Packagist": "composer",
+	"Hex":       "erlang",
+	"go":        "Go",
+	"Maven":     "maven",
+	"npm":       "npm",
+	"NuGet":     "nuget",
+	"PyPI":      "pip",
+	"Pub":       "pub",
+	"RubyGems":  "rubygems",
+	"crates.io": "rust",
+}
 
 const (
 	ghsaDir         = "ghsa"
-	retry           = 5
-	maxResponseSize = 100
+	ghsaReviewedDir = "advisories/github-reviewed"
+	repoURL         = "https://github.com/github/advisory-database.git"
+	repoBranch      = "main"
 )
 
 type Config struct {
-	vulnListDir string
-	appFs       afero.Fs
-	retry       int
-	client      GithubClient
+	vulnListDir           string
+	cacheDir              string
+	alternativeRepoBranch string
+	alternativeRepoURL    string
+	appFs                 afero.Fs
 }
 
 type GithubClient interface {
 	Query(ctx context.Context, q interface{}, variables map[string]interface{}) error
 }
 
-func NewConfig(client GithubClient) Config {
+func NewConfig(alternativeRepoURL string, alternativeRepoBranch string) Config {
 	return Config{
-		vulnListDir: utils.VulnListDir(),
-		appFs:       afero.NewOsFs(),
-		retry:       retry,
-		client:      client,
+		vulnListDir:           utils.VulnListDir(),
+		cacheDir:              utils.CacheDir(),
+		alternativeRepoBranch: alternativeRepoBranch,
+		alternativeRepoURL:    alternativeRepoURL,
+		appFs:                 afero.NewOsFs(),
 	}
 }
 
 func (c Config) Update() error {
 	log.Print("Fetching GitHub Security Advisory")
 
-	for _, ecosystem := range Ecosystems {
-		err := c.update(ecosystem)
-		if err != nil {
-			return xerrors.Errorf("failed to update github security advisory ,%s: %w", ecosystem, err)
-		}
+	gc := git.Config{}
+	dir := filepath.Join(c.cacheDir, ghsaDir)
+	defaultOrAlternativeRepoURL := repoURL
+	defaultOrAlternativeRepoBranch := repoBranch
+
+	if len(c.alternativeRepoURL) > 0 {
+		defaultOrAlternativeRepoURL = c.alternativeRepoURL
 	}
+
+	if len(c.alternativeRepoBranch) > 0 {
+		defaultOrAlternativeRepoBranch = c.alternativeRepoBranch
+	}
+
+	if _, err := gc.CloneOrPull(defaultOrAlternativeRepoURL, dir, defaultOrAlternativeRepoBranch, false); err != nil {
+		return xerrors.Errorf("failed to clone or pull: %w", err)
+	}
+
+	log.Println("Removing old ghsa files...")
+	if err := os.RemoveAll(filepath.Join(c.vulnListDir, ghsaDir)); err != nil {
+		return xerrors.Errorf("can't remove a folder with old files %s/%s: %w", c.vulnListDir, ghsaDir, err)
+	}
+
+	log.Println("Walking ghsa...")
+
+	if err := c.walkDir(dir); err != nil {
+		return xerrors.Errorf("failed to walk %s: %w", dir, err)
+	}
+
 	return nil
 }
 
-func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
-	log.Printf("Fetching GitHub Security Advisory: %s", ecosystem)
+func (c Config) walkDir(ghsaDir string) error {
+	reviewedDir := filepath.Join(ghsaDir, ghsaReviewedDir)
+	err := afero.Walk(c.appFs, reviewedDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return xerrors.Errorf("file walk error: %w", err)
+		}
+		if info.IsDir() {
+			return nil
+		}
 
-	dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)))
-	if err := os.RemoveAll(dir); err != nil {
-		return xerrors.Errorf("unable to remove github security advisory directory: %w", err)
-	}
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
-		return xerrors.Errorf("failed to mkdir: %w", err)
-	}
+		ext := filepath.Ext(path)
+		if ext != ".json" {
+			return nil
+		}
 
-	ghsas, err := c.fetchGithubSecurityAdvisories(ecosystem)
+		f, err := c.appFs.Open(path)
+		if err != nil {
+			return xerrors.Errorf("file open error (%s): %w", path, err)
+		}
+		defer f.Close()
+
+		var entry Entry
+		if err = json.NewDecoder(f).Decode(&entry); err != nil {
+			return xerrors.Errorf("unable to decode JSON (%s): %w", path, err)
+		}
+		err = c.saveGSHA(ghsaDir, entry)
+		if err != nil {
+			return xerrors.Errorf("unable to save advisory (%s): %w", path, err)
+		}
+
+		return nil
+	})
 	if err != nil {
-		return xerrors.Errorf("failed to fetch github security advisory: %w", err)
+		return xerrors.Errorf("walk error: %w", err)
 	}
 
-	ghsaJsonMap := make(map[string]GithubSecurityAdvisoryJson)
-	for _, ghsa := range ghsas {
-		// skip bad ghsa
-		if ghsa.Package.Name == "" {
-			continue
-		}
-		ghsa.Package.Name = strings.TrimSpace(ghsa.Package.Name)
-
-		ghsaJson, ok := ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name]
-		if ok {
-			va := Version{
-				FirstPatchedVersion:    ghsa.FirstPatchedVersion,
-				VulnerableVersionRange: ghsa.VulnerableVersionRange,
-			}
-			ghsaJson.Versions = append(ghsaJson.Versions, va)
-			ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name] = ghsaJson
-
-		} else {
-			ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name] = GithubSecurityAdvisoryJson{
-				Severity:  ghsa.Severity,
-				UpdatedAt: ghsa.UpdatedAt,
-				Package:   ghsa.Package,
-				Advisory:  ghsa.Advisory,
-				Versions: []Version{
-					{
-						FirstPatchedVersion:    ghsa.FirstPatchedVersion,
-						VulnerableVersionRange: ghsa.VulnerableVersionRange,
-					},
-				},
-			}
-		}
-	}
-
-	bar := pb.StartNew(len(ghsaJsonMap))
-	for _, ghsaJson := range ghsaJsonMap {
-		dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), strings.Replace(ghsaJson.Package.Name, ":", "/", -1))
-		err := c.saveGSHA(dir, ghsaJson.Advisory.GhsaId, ghsaJson)
-		if err != nil {
-			return xerrors.Errorf("failed to save github security advisory: %w", err)
-		}
-		bar.Increment()
-	}
-	bar.Finish()
 	return nil
 }
 
-func (c Config) fetchGithubSecurityAdvisories(ecosystem SecurityAdvisoryEcosystem) ([]GithubSecurityAdvisory, error) {
-	var getVulnerabilitiesQuery GetVulnerabilitiesQuery
-	var ghsas []GithubSecurityAdvisory
-	variables := map[string]interface{}{
-		"ecosystem": ecosystem,
-		"total":     graphql.Int(maxResponseSize),
-		"cursor":    (*githubql.String)(nil),
-	}
-	for {
-		var err error
-		for i := 0; i <= c.retry; i++ {
-			if i > 0 {
-				sleep := wait(i)
-				log.Printf("retry after %s", sleep)
-				time.Sleep(sleep)
-			}
-
-			err = c.client.Query(context.Background(), &getVulnerabilitiesQuery, variables)
-			if err == nil || len(getVulnerabilitiesQuery.Nodes) > 0 {
-				break
+func (c Config) saveGSHA(_ string, entry Entry) error {
+	uniqPkgName := map[string]struct{}{}
+	for _, pkg := range entry.Affected {
+		name := pkg.Module.Path
+		if pkg.Module.Ecosystem == "Maven" {
+			name = strings.ReplaceAll(pkg.Module.Path, ":", "/")
+		}
+		if ecosystemDir, ok := ecosystems[pkg.Module.Ecosystem]; ok {
+			if _, ok := uniqPkgName[name]; !ok {
+				fileName := fmt.Sprintf("%s.json", entry.ID)
+				dir := filepath.Join(c.vulnListDir, ghsaDir, ecosystemDir, name)
+				if err := utils.WriteJSON(c.appFs, dir, fileName, entry); err != nil {
+					return xerrors.Errorf("failed to write file: %w", err)
+				}
+				uniqPkgName[name] = struct{}{}
 			}
 		}
-		// GitHub GraphQL API may return error and one of nodes == nil
-		// We must write other nodes.
-		// Bad node will be skipped in 'update' function
-		if err != nil && len(getVulnerabilitiesQuery.Nodes) == 0 {
-			return nil, xerrors.Errorf("graphql api error: %w", err)
-		}
-
-		ghsas = append(ghsas, getVulnerabilitiesQuery.Nodes...)
-		if !getVulnerabilitiesQuery.PageInfo.HasNextPage {
-			break
-		}
-
-		variables["cursor"] = githubql.NewString(getVulnerabilitiesQuery.PageInfo.EndCursor)
-	}
-	return ghsas, nil
-}
-
-func (c Config) saveGSHA(dirName string, ghsaID string, data interface{}) error {
-	fileName := fmt.Sprintf("%s.json", ghsaID)
-	if err := utils.WriteJSON(c.appFs, dirName, fileName, data); err != nil {
-		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil
 }

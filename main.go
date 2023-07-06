@@ -1,14 +1,10 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"log"
-	"os"
 	"time"
 
-	githubql "github.com/shurcooL/githubv4"
-	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/alma"
@@ -41,8 +37,8 @@ var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
-	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
-	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
+	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad/ghsa)")
+	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad/ghsa)")
 )
 
 func main() {
@@ -113,12 +109,7 @@ func run() error {
 			return xerrors.Errorf("Photon update error: %w", err)
 		}
 	case "ghsa":
-		src := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
-		)
-		httpClient := oauth2.NewClient(context.Background(), src)
-
-		gc := ghsa.NewConfig(githubql.NewClient(httpClient))
+		gc := ghsa.NewConfig(*targetUri, *targetBranch)
 		if err := gc.Update(); err != nil {
 			return xerrors.Errorf("GitHub Security Advisory update error: %w", err)
 		}

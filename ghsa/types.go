@@ -1,81 +1,101 @@
 package ghsa
 
-import githubql "github.com/shurcooL/githubv4"
+import (
+	"encoding/json"
+	"time"
+)
 
-type GetVulnerabilitiesQuery struct {
-	SecurityVulnerabilities `graphql:"securityVulnerabilities(ecosystem: $ecosystem, first: $total, after: $cursor)"`
+type RangeType string
+
+type Ecosystem string
+
+type Module struct {
+	Path      string    `json:"name"`
+	Ecosystem Ecosystem `json:"ecosystem"`
 }
 
-type SecurityVulnerabilities struct {
-	Nodes    []GithubSecurityAdvisory
-	PageInfo PageInfo
-}
-type PageInfo struct {
-	EndCursor   githubql.String
-	HasNextPage bool
+type RangeEvent struct {
+	Introduced string `json:"introduced,omitempty"`
+	Fixed      string `json:"fixed,omitempty"`
 }
 
-type GithubSecurityAdvisory struct {
-	Severity               string
-	UpdatedAt              string
-	Package                Package
-	Advisory               Advisory
-	FirstPatchedVersion    FirstPatchedVersion
-	VulnerableVersionRange string
+type Range struct {
+	Type   RangeType    `json:"type"`
+	Events []RangeEvent `json:"events"`
 }
 
-type GithubCVSS struct {
-	Score        float32
-	VectorString string
+type ReferenceType string
+
+type Reference struct {
+	Type ReferenceType `json:"type"`
+	URL  string        `json:"url"`
 }
 
-type GitHubClient struct {
-	ApiKey string
+type Affected struct {
+	Module            Module             `json:"package"`
+	Ranges            []Range            `json:"ranges,omitempty"`
+	EcosystemSpecific *EcosystemSpecific `json:"ecosystem_specific,omitempty"`
 }
 
 type Package struct {
-	Ecosystem string
-	Name      string
+	Path    string   `json:"path"`
+	GOOS    []string `json:"goos,omitempty"`
+	GOARCH  []string `json:"goarch,omitempty"`
+	Symbols []string `json:"symbols,omitempty"`
 }
 
-type Advisory struct {
-	DatabaseId  int
-	Id          string
-	GhsaId      string
-	References  []Reference
-	Identifiers []Identifier
-	Description string
-	Origin      string
-	PublishedAt string
-	Severity    string
-	Summary     string
-	UpdatedAt   string
-	WithdrawnAt string
-	CVSS        GithubCVSS
+type EcosystemSpecific struct {
+	Packages []Package `json:"imports,omitempty"`
 }
 
-type Identifier struct {
-	Type  string
-	Value string
+type Entry struct {
+	SchemaVersion    string            `json:"schema_version,omitempty"`
+	ID               string            `json:"id"`
+	Modified         Time              `json:"modified,omitempty"`
+	Published        Time              `json:"published,omitempty"`
+	Withdrawn        *Time             `json:"withdrawn,omitempty"`
+	Aliases          []string          `json:"aliases,omitempty"`
+	Summary          string            `json:"summary,omitempty"`
+	Details          string            `json:"details"`
+	Affected         []Affected        `json:"affected"`
+	References       []Reference       `json:"references,omitempty"`
+	Credits          []Credit          `json:"credits,omitempty"`
+	DatabaseSpecific *DatabaseSpecific `json:"database_specific,omitempty"`
 }
 
-type Reference struct {
-	Url string
+type Credit struct {
+	Name string `json:"name"`
 }
 
-type FirstPatchedVersion struct {
-	Identifier string
+type DatabaseSpecific struct {
+	URL string `json:"url,omitempty"`
 }
 
-type Version struct {
-	FirstPatchedVersion    FirstPatchedVersion
-	VulnerableVersionRange string
+// Time is a wrapper for time.Time that marshals and unmarshals
+// RFC3339 formatted UTC strings.
+type Time struct {
+	time.Time
 }
 
-type GithubSecurityAdvisoryJson struct {
-	Severity  string
-	UpdatedAt string
-	Package   Package
-	Advisory  Advisory
-	Versions  []Version
+// MarshalJSON encodes the time as
+// an RFC3339-formatted string in UTC (ending in "Z"),
+// as required by the OSV specification.
+func (t *Time) MarshalJSON() ([]byte, error) {
+	return json.Marshal(t.UTC().Format(time.RFC3339))
+}
+
+// UnmarshalJSON decodes an RFC3339-formatted string
+// into a Time struct. It errors if data
+// is not a valid RFC3339-formatted string.
+func (t *Time) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+	time, err := time.Parse(time.RFC3339, s)
+	if err != nil {
+		return err
+	}
+	t.Time = time.UTC()
+	return nil
 }
