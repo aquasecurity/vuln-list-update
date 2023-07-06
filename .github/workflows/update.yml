@@ -96,10 +96,6 @@ jobs:
       run: ./update.sh osv "OSV Database"
 
     - if: always()
-      name: Go Vulnerability Database
-      run: ./update.sh go-vulndb "Go Vulnerability Database"
-
-    - if: always()
       name: Wolfi Secdb
       run: ./update.sh wolfi "Wolfi Security Data"
 

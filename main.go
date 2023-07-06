@@ -21,7 +21,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
-	govulndb "github.com/aquasecurity/vuln-list-update/go-vulndb"
 	"github.com/aquasecurity/vuln-list-update/kevc"
 	"github.com/aquasecurity/vuln-list-update/mariner"
 	"github.com/aquasecurity/vuln-list-update/nvd"
@@ -39,7 +38,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, go-vulndb, mariner, kevc, wolfi, chainguard)")
+		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -151,11 +150,6 @@ func run() error {
 		p := osv.NewOsv()
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
-		}
-	case "go-vulndb":
-		src := govulndb.NewVulnDB()
-		if err := src.Update(); err != nil {
-			return xerrors.Errorf("Go Vulnerability Database update error: %w", err)
 		}
 	case "mariner":
 		src := mariner.NewConfig()
