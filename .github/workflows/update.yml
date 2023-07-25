@@ -23,7 +23,7 @@ jobs:
     - name: Check out vuln-list repo
       uses: actions/checkout@v3
       with:
-        repository: ${{ github.repository_owner }}/vuln-list
+        repository: ${{ github.repository_owner }}/vuln-list-reserve
         token: ${{ secrets.ACCESS_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
 
