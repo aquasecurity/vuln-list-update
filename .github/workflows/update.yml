@@ -36,10 +36,6 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
-      name: NVD
-      run: ./update.sh nvd "NVD"
-
-    - if: always()
       name: Alpine Issue Tracker
       run: ./update.sh alpine "Alpine Issue Tracker"
 
