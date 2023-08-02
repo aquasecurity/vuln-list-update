@@ -103,16 +103,6 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 		}
 		ghsa.Package.Name = strings.TrimSpace(ghsa.Package.Name)
 
-		// Part Swift packages have `https://` prefix or `.git` suffix
-		// e.g. https://github.com/github/advisory-database/blob/76f65b0d0fdac39c8b0e834ab03562b5f80d5b27/advisories/github-reviewed/2023/06/GHSA-r6ww-5963-7r95/GHSA-r6ww-5963-7r95.json#L21
-		// https://github.com/github/advisory-database/blob/76f65b0d0fdac39c8b0e834ab03562b5f80d5b27/advisories/github-reviewed/2023/07/GHSA-jq43-q8mx-r7mq/GHSA-jq43-q8mx-r7mq.json#L21
-		// Trim them to fit the same format
-		// as in https://github.com/github/advisory-database/blob/76f65b0d0fdac39c8b0e834ab03562b5f80d5b27/advisories/github-reviewed/2023/06/GHSA-qvxg-wjxc-r4gg/GHSA-qvxg-wjxc-r4gg.json#L21
-		if ecosystem == Swift {
-			ghsa.Package.Name = strings.TrimLeft(ghsa.Package.Name, "https://")
-			ghsa.Package.Name = strings.TrimRight(ghsa.Package.Name, ".git")
-		}
-
 		ghsaJson, ok := ghsaJsonMap[ghsa.Advisory.GhsaId+ghsa.Package.Name]
 		if ok {
 			va := Version{
@@ -140,7 +130,16 @@ func (c Config) update(ecosystem SecurityAdvisoryEcosystem) error {
 
 	bar := pb.StartNew(len(ghsaJsonMap))
 	for _, ghsaJson := range ghsaJsonMap {
-		dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), strings.Replace(ghsaJson.Package.Name, ":", "/", -1))
+		pkgName := strings.Replace(ghsaJson.Package.Name, ":", "/", -1)
+		// Part Swift advisories have `https://` prefix or `.git` suffix
+		// e.g. https://github.com/github/advisory-database/blob/76f65b0d0fdac39c8b0e834ab03562b5f80d5b27/advisories/github-reviewed/2023/06/GHSA-r6ww-5963-7r95/GHSA-r6ww-5963-7r95.json#L21
+		// https://github.com/github/advisory-database/blob/76f65b0d0fdac39c8b0e834ab03562b5f80d5b27/advisories/github-reviewed/2023/07/GHSA-jq43-q8mx-r7mq/GHSA-jq43-q8mx-r7mq.json#L21
+		// Trim them to get correct directory
+		if ecosystem == Swift {
+			pkgName = strings.TrimPrefix(pkgName, "https///")
+			pkgName = strings.TrimSuffix(pkgName, ".git")
+		}
+		dir := filepath.Join(c.vulnListDir, ghsaDir, strings.ToLower(string(ecosystem)), pkgName)
 		err := c.saveGSHA(dir, ghsaJson.Advisory.GhsaId, ghsaJson)
 		if err != nil {
 			return xerrors.Errorf("failed to save github security advisory: %w", err)
