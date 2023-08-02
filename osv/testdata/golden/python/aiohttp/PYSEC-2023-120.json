@@ -271,6 +271,5 @@
           "source": "https://github.com/pypa/advisory-database/blob/main/vulns/aiohttp/PYSEC-2023-120.yaml"
         }
       }
-    ],
-    "schema_version": "1.4.0"
+    ]
   }
