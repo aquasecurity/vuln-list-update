@@ -30,6 +30,7 @@ func Test_Update(t *testing.T) {
 				filepath.Join("python", "cherrypy", "PYSEC-2006-1.json"),
 				filepath.Join("python", "trac", "PYSEC-2005-1.json"),
 				filepath.Join("python", "trac", "PYSEC-2006-2.json"),
+				filepath.Join("python", "aiohttp", "PYSEC-2023-120.json"),
 			},
 		},
 		{
