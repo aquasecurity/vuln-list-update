@@ -42,10 +42,6 @@ jobs:
     - if: always()
       name: Alpine Unfixed Vulnerability Tracker
       run: ./update.sh alpine-unfixed "Alpine Secshfixes Tracker"
-    
-    - if: always()
-      name: ALT Vulnerability
-      run: ./vuln-list-update -target alt
 
     - if: always()
       name: Ubuntu CVE Tracker
