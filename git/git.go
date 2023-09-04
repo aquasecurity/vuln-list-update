@@ -69,7 +69,13 @@ func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[stri
 }
 
 func clone(url, repoPath, branch string) error {
-	commandAndArgs := []string{"clone", "--depth", "1", url, repoPath}
+	commandAndArgs := []string{
+		"clone",
+		"--depth",
+		"1",
+		url,
+		repoPath,
+	}
 	if branch != "" {
 		commandAndArgs = append(commandAndArgs, "-b", branch)
 	}
@@ -85,7 +91,12 @@ func clone(url, repoPath, branch string) error {
 func pull(url, repoPath, branch string) ([]string, error) {
 	commandArgs := generateGitArgs(repoPath)
 
-	remoteCmd := []string{"remote", "get-url", "--push", "origin"}
+	remoteCmd := []string{
+		"remote",
+		"get-url",
+		"--push",
+		"origin",
+	}
 	output, err := utils.Exec("git", append(commandArgs, remoteCmd...))
 	if err != nil {
 		return nil, xerrors.Errorf("error in git rev-list: %w", err)
@@ -95,7 +106,12 @@ func pull(url, repoPath, branch string) ([]string, error) {
 		return nil, xerrors.Errorf("remote url is %s, target is %s", remoteURL, url)
 	}
 
-	revParseCmd := []string{"rev-list", "-n", "1", "--all"}
+	revParseCmd := []string{
+		"rev-list",
+		"-n",
+		"1",
+		"--all",
+	}
 	output, err = utils.Exec("git", append(commandArgs, revParseCmd...))
 	if err != nil {
 		return nil, xerrors.Errorf("error in git rev-list: %w", err)
@@ -106,7 +122,10 @@ func pull(url, repoPath, branch string) ([]string, error) {
 		return nil, nil
 	}
 
-	pullCmd := []string{"pull", "origin"}
+	pullCmd := []string{
+		"pull",
+		"origin",
+	}
 	if branch != "" {
 		pullCmd = append(pullCmd, branch)
 	}
@@ -114,12 +133,20 @@ func pull(url, repoPath, branch string) ([]string, error) {
 		return nil, xerrors.Errorf("error in git pull: %w", err)
 	}
 
-	fetchCmd := []string{"fetch", "--prune"}
+	fetchCmd := []string{
+		"fetch",
+		"--prune",
+	}
 	if _, err = utils.Exec("git", append(commandArgs, fetchCmd...)); err != nil {
 		return nil, xerrors.Errorf("error in git fetch: %w", err)
 	}
 
-	diffCmd := []string{"diff", commitHash, "HEAD", "--name-only"}
+	diffCmd := []string{
+		"diff",
+		commitHash,
+		"HEAD",
+		"--name-only",
+	}
 	output, err = utils.Exec("git", append(commandArgs, diffCmd...))
 	if err != nil {
 		return nil, err
@@ -130,88 +157,31 @@ func pull(url, repoPath, branch string) ([]string, error) {
 
 func fetchAll(repoPath string) error {
 	commandArgs := generateGitArgs(repoPath)
-	configCmd := []string{"config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"}
+	configCmd := []string{
+		"config",
+		"remote.origin.fetch",
+		"+refs/heads/*:refs/remotes/origin/*",
+	}
 	if _, err := utils.Exec("git", append(commandArgs, configCmd...)); err != nil {
 		return xerrors.Errorf("error in git config: %w", err)
 	}
 
-	fetchCmd := []string{"fetch", "--all"}
+	fetchCmd := []string{
+		"fetch",
+		"--all",
+	}
 	if _, err := utils.Exec("git", append(commandArgs, fetchCmd...)); err != nil {
 		return xerrors.Errorf("error in git fetch: %w", err)
 	}
 	return nil
 }
 
-func (gc Config) Commit(repoPath, targetPath, message string) error {
-	commandArgs := generateGitArgs(repoPath)
-	addCmd := []string{"add", filepath.Join(repoPath, targetPath)}
-	if _, err := utils.Exec("git", append(commandArgs, addCmd...)); err != nil {
-		return xerrors.Errorf("error in git add: %w", err)
-	}
-
-	commitCmd := []string{"commit", "--message", message}
-	if _, err := utils.Exec("git", append(commandArgs, commitCmd...)); err != nil {
-		return xerrors.Errorf("error in git commit: %w", err)
-	}
-
-	return nil
-}
-
-func (gc Config) Push(repoPath, branch string) error {
-	commandArgs := generateGitArgs(repoPath)
-	pushCmd := []string{"push", "origin", branch}
-	if _, err := utils.Exec("git", append(commandArgs, pushCmd...)); err != nil {
-		return xerrors.Errorf("error in git push: %w", err)
-	}
-	return nil
-}
-
-func (gc Config) Clean(repoPath string) error {
-	commandArgs := generateGitArgs(repoPath)
-	resetCmd := []string{"reset", "--hard", "HEAD"}
-	if _, err := utils.Exec("git", append(commandArgs, resetCmd...)); err != nil {
-		return xerrors.Errorf("git reset error: %w", err)
-	}
-
-	cleanCmd := []string{"clean", "-df"}
-	if _, err := utils.Exec("git", append(commandArgs, cleanCmd...)); err != nil {
-		return xerrors.Errorf("git clean error: %w", err)
-	}
-	return nil
-}
-
-func (gc Config) RemoteBranch(repoPath string) ([]string, error) {
-	commandArgs := generateGitArgs(repoPath)
-	branchCmd := []string{"branch", "--remote"}
-	output, err := utils.Exec("git", append(commandArgs, branchCmd...))
-	if err != nil {
-		return nil, xerrors.Errorf("error in git branch: %w", err)
-	}
-	return strings.Split(output, "\n"), nil
-}
-
-func (gc Config) Checkout(repoPath string, branch string) error {
-	commandArgs := generateGitArgs(repoPath)
-	checkoutCmd := []string{"checkout", branch}
-	_, err := utils.Exec("git", append(commandArgs, checkoutCmd...))
-	if err != nil {
-		return xerrors.Errorf("error in git checkout: %w", err)
-	}
-	return nil
-}
-
-func (gc Config) Status(repoPath string) ([]string, error) {
-	commandArgs := generateGitArgs(repoPath)
-
-	statusCmd := []string{"status", "--porcelain"}
-	output, err := utils.Exec("git", append(commandArgs, statusCmd...))
-	if err != nil {
-		return nil, xerrors.Errorf("error in git status: %w", err)
-	}
-	return strings.Split(strings.TrimSpace(output), "\n"), nil
-}
-
 func generateGitArgs(repoPath string) []string {
 	gitDir := filepath.Join(repoPath, ".git")
-	return []string{"--git-dir", gitDir, "--work-tree", repoPath}
+	return []string{
+		"--git-dir",
+		gitDir,
+		"--work-tree",
+		repoPath,
+	}
 }

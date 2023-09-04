@@ -23,7 +23,7 @@ type NVD struct {
 
 const (
 	baseURL     = "https://nvd.nist.gov/feeds/json/cve/1.1"
-	nvdDir      = "nvd"
+	feedDir     = "feed"
 	concurrency = 5
 	wait        = 0
 	retry       = 5
@@ -110,7 +110,7 @@ func save(nvd *NVD) error {
 			continue
 		}
 
-		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), nvdDir), cveID, item); err != nil {
+		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), feedDir), cveID, item); err != nil {
 			return xerrors.Errorf("failed to save NVD CVE detail: %w", err)
 		}
 	}

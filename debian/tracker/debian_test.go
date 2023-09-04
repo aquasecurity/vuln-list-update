@@ -25,7 +25,7 @@ func TestClient_Update(t *testing.T) {
 		securitySourcesPath string
 		wantBugs            map[string]tracker.Bug
 		wantDists           map[string]tracker.Distribution
-		wantSources         map[string][]pkgDetail
+		wantSources         map[string]pkgDetail
 		wantErr             string
 	}{
 		{
@@ -37,20 +37,22 @@ func TestClient_Update(t *testing.T) {
 				filepath.Join("DLA", "DLA-2711-1.json"): {
 					Header: &tracker.Header{
 						Original:    "[19 Jul 2021] DLA-2711-1 thunderbird - security update",
-						Line:        1,
 						ID:          "DLA-2711-1",
 						Description: "thunderbird - security update",
 					},
 					Annotations: []*tracker.Annotation{
 						{
 							Original: "{CVE-2021-29969 CVE-2021-29970 CVE-2021-29976 CVE-2021-30547}",
-							Line:     2,
 							Type:     "xref",
-							Bugs:     []string{"CVE-2021-29969", "CVE-2021-29970", "CVE-2021-29976", "CVE-2021-30547"},
+							Bugs: []string{
+								"CVE-2021-29969",
+								"CVE-2021-29970",
+								"CVE-2021-29976",
+								"CVE-2021-30547",
+							},
 						},
 						{
 							Original: "[stretch] - thunderbird 1:78.12.0-1~deb9u1",
-							Line:     3,
 							Type:     "package",
 							Release:  "stretch",
 							Package:  "thunderbird",
@@ -62,20 +64,20 @@ func TestClient_Update(t *testing.T) {
 				filepath.Join("DSA", "DSA-4480-1.json"): {
 					Header: &tracker.Header{
 						Original:    "[11 Jul 2019] DSA-4480-1 redis - security update",
-						Line:        1,
 						ID:          "DSA-4480-1",
 						Description: "redis - security update",
 					},
 					Annotations: []*tracker.Annotation{
 						{
 							Original: "{CVE-2019-10192 CVE-2019-10193}",
-							Line:     2,
 							Type:     "xref",
-							Bugs:     []string{"CVE-2019-10192", "CVE-2019-10193"},
+							Bugs: []string{
+								"CVE-2019-10192",
+								"CVE-2019-10193",
+							},
 						},
 						{
 							Original: "[stretch] - redis 3:3.2.6-3+deb9u3",
-							Line:     3,
 							Type:     "package",
 							Release:  "stretch",
 							Package:  "redis",
@@ -84,7 +86,6 @@ func TestClient_Update(t *testing.T) {
 						},
 						{
 							Original: "[buster] - redis 5:5.0.3-4+deb10u1",
-							Line:     4,
 							Type:     "package",
 							Release:  "buster",
 							Package:  "redis",
@@ -93,17 +94,15 @@ func TestClient_Update(t *testing.T) {
 						},
 					},
 				},
-				filepath.Join("CVE", "CVE-2021-36373.json"): {
+				filepath.Join("CVE", "2021", "CVE-2021-36373.json"): {
 					Header: &tracker.Header{
 						Original:    "CVE-2021-36373 (When reading a specially crafted TAR archive an Apache Ant build can b ...)",
-						Line:        5,
 						ID:          "CVE-2021-36373",
 						Description: "(When reading a specially crafted TAR archive an Apache Ant build can b ...)",
 					},
 					Annotations: []*tracker.Annotation{
 						{
 							Original: "- ant <unfixed> (unimportant)",
-							Line:     6,
 							Type:     "package",
 							Kind:     "unfixed",
 							Package:  "ant",
@@ -111,29 +110,25 @@ func TestClient_Update(t *testing.T) {
 						},
 						{
 							Original:    "NOTE: https://www.openwall.com/lists/oss-security/2021/07/13/5",
-							Line:        7,
 							Type:        "NOTE",
 							Description: "https://www.openwall.com/lists/oss-security/2021/07/13/5",
 						},
 						{
 							Original:    "NOTE: Crash in CLI tool, no security impact",
-							Line:        8,
 							Type:        "NOTE",
 							Description: "Crash in CLI tool, no security impact",
 						},
 					},
 				},
-				filepath.Join("CVE", "CVE-2021-36367.json"): {
+				filepath.Join("CVE", "2021", "CVE-2021-36367.json"): {
 					Header: &tracker.Header{
 						Original:    "CVE-2021-36367 (PuTTY through 0.75 proceeds with establishing an SSH session even if i ...)",
-						Line:        10,
 						ID:          "CVE-2021-36367",
 						Description: "(PuTTY through 0.75 proceeds with establishing an SSH session even if i ...)",
 					},
 					Annotations: []*tracker.Annotation{
 						{
 							Original: "- putty 0.75-3 (low; bug #990901)",
-							Line:     11,
 							Type:     "package",
 							Version:  "0.75-3",
 							Kind:     "fixed",
@@ -143,7 +138,6 @@ func TestClient_Update(t *testing.T) {
 						},
 						{
 							Original:    "[bullseye] - putty <no-dsa> (Minor issue)",
-							Line:        12,
 							Type:        "package",
 							Release:     "bullseye",
 							Kind:        "no-dsa",
@@ -152,7 +146,6 @@ func TestClient_Update(t *testing.T) {
 						},
 						{
 							Original:    "[buster] - putty <no-dsa> (Minor issue)",
-							Line:        13,
 							Type:        "package",
 							Release:     "buster",
 							Kind:        "no-dsa",
@@ -174,70 +167,54 @@ func TestClient_Update(t *testing.T) {
 					Contact:      "team@security.debian.org",
 				},
 			},
-			wantSources: map[string][]pkgDetail{
-				filepath.Join("source", "stretch", "main", "Sources.json"): {
-					{
-						Package: []string{"0ad"},
-						Version: []string{"0.0.21-2"},
-					},
-					{
-						Package: []string{"0ad-data"},
-						Version: []string{"0.0.21-1"},
-					},
+			wantSources: map[string]pkgDetail{
+				filepath.Join("source", "stretch", "main", "0", "0ad.json"): {
+					Package: []string{"0ad"},
+					Version: []string{"0.0.21-2"},
 				},
-				filepath.Join("updates-source", "stretch", "main", "Sources.json"): {
-					{
-						Package: []string{"0ad"},
-						Version: []string{"0.0.21-2"},
-					},
-					{
-						Package: []string{"0ad-data"},
-						Version: []string{"0.0.21-1"},
-					},
+				filepath.Join("source", "stretch", "main", "0", "0ad-data.json"): {
+					Package: []string{"0ad-data"},
+					Version: []string{"0.0.21-1"},
 				},
-				filepath.Join("source", "stretch", "contrib", "Sources.json"): {
-					{
-						Package: []string{"alien-arena"},
-						Version: []string{"7.66+dfsg-3"},
-					},
+				filepath.Join("updates-source", "stretch", "main", "0", "0ad.json"): {
+					Package: []string{"0ad"},
+					Version: []string{"0.0.21-2"},
 				},
-				filepath.Join("updates-source", "stretch", "contrib", "Sources.json"): {
-					{
-						Package: []string{"alien-arena"},
-						Version: []string{"7.66+dfsg-3"},
-					},
+				filepath.Join("updates-source", "stretch", "main", "0", "0ad-data.json"): {
+					Package: []string{"0ad-data"},
+					Version: []string{"0.0.21-1"},
 				},
-				filepath.Join("source", "buster", "main", "Sources.json"): {
-					{
-						Package: []string{"zzz-to-char"},
-						Version: []string{"0.1.3-2"},
-					},
-					{
-						Package: []string{"zzzeeksphinx"},
-						Version: []string{"1.0.20-2"},
-					},
+				filepath.Join("source", "stretch", "contrib", "a", "alien-arena.json"): {
+					Package: []string{"alien-arena"},
+					Version: []string{"7.66+dfsg-3"},
 				},
-				filepath.Join("updates-source", "buster", "main", "Sources.json"): {
-					{
-						Package: []string{"zzz-to-char"},
-						Version: []string{"0.1.3-3"},
-					},
+				filepath.Join("updates-source", "stretch", "contrib", "a", "alien-arena.json"): {
+					Package: []string{"alien-arena"},
+					Version: []string{"7.66+dfsg-3"},
 				},
-				filepath.Join("source", "buster", "contrib", "Sources.json"): {
-					{
-						Package: []string{"zfs-auto-snapshot"},
-						Version: []string{"1.2.4-2"},
-					},
-					{
-						Package: []string{"zfs-linux"},
-						Version: []string{"0.7.12-2+deb10u2"},
-					},
+				filepath.Join("source", "buster", "main", "z", "zzz-to-char.json"): {
+					Package: []string{"zzz-to-char"},
+					Version: []string{"0.1.3-2"},
 				},
-				filepath.Join("updates-source", "buster", "contrib", "Sources.json"): {
-					{
-						Package: []string{"zfs-linux"},
-						Version: []string{"0.7.12-2+deb10u3"},
-					},
+				filepath.Join("source", "buster", "main", "z", "zzzeeksphinx.json"): {
+					Package: []string{"zzzeeksphinx"},
+					Version: []string{"1.0.20-2"},
+				},
+				filepath.Join("updates-source", "buster", "main", "z", "zzz-to-char.json"): {
+					Package: []string{"zzz-to-char"},
+					Version: []string{"0.1.3-3"},
+				},
+				filepath.Join("source", "buster", "contrib", "z", "zfs-auto-snapshot.json"): {
+					Package: []string{"zfs-auto-snapshot"},
+					Version: []string{"1.2.4-2"},
+				},
+				filepath.Join("source", "buster", "contrib", "z", "zfs-linux.json"): {
+					Package: []string{"zfs-linux"},
+					Version: []string{"0.7.12-2+deb10u2"},
+				},
+				filepath.Join("updates-source", "buster", "contrib", "z", "zfs-linux.json"): {
+					Package: []string{"zfs-linux"},
+					Version: []string{"0.7.12-2+deb10u3"},
 				},
 			},
 		},
@@ -264,21 +241,21 @@ func TestClient_Update(t *testing.T) {
 			// Compare CVE/list, DLA/list, and DSA/list
 			for name, want := range tt.wantBugs {
 				var got tracker.Bug
-				filePath := filepath.Join(tmpDir, "debian", name)
+				filePath := filepath.Join(tmpDir, "tracker", name)
 				compare(t, filePath, &got, &want)
 			}
 
 			// Compare distributions.json
 			{
 				var got map[string]tracker.Distribution
-				filePath := filepath.Join(tmpDir, "debian", "distributions.json")
+				filePath := filepath.Join(tmpDir, "tracker", "distributions.json")
 				compare(t, filePath, &got, &tt.wantDists)
 			}
 
 			// Compare Sources
 			for name, want := range tt.wantSources {
-				var got []pkgDetail
-				filePath := filepath.Join(tmpDir, "debian", name)
+				var got pkgDetail
+				filePath := filepath.Join(tmpDir, "tracker", name)
 				compare(t, filePath, &got, &want)
 			}
 		})

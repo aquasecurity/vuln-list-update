@@ -19,14 +19,18 @@ import (
 )
 
 const (
-	debianDir          = "debian"
+	trackerDir         = "tracker"
 	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
 	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
 	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
 )
 
 var (
-	repos = []string{"main", "contrib", "non-free"}
+	repos = []string{
+		"main",
+		"contrib",
+		"non-free",
+	}
 )
 
 type Bug struct {
@@ -91,8 +95,12 @@ func NewClient(opts ...option) Client {
 	}
 
 	return Client{
-		options:       o,
-		parsers:       []listParser{cveList{}, dlaList{}, dsaList{}},
+		options: o,
+		parsers: []listParser{
+			cveList{},
+			dlaList{},
+			dsaList{},
+		},
 		annDispatcher: newAnnotationDispatcher(),
 	}
 }
@@ -101,7 +109,7 @@ func (c Client) Update() error {
 	ctx := context.Background()
 
 	log.Println("Removing old Debian data...")
-	if err := os.RemoveAll(filepath.Join(c.vulnListDir, debianDir)); err != nil {
+	if err := os.RemoveAll(filepath.Join(c.vulnListDir, trackerDir)); err != nil {
 		return xerrors.Errorf("failed to remove Debian dir: %w", err)
 	}
 
@@ -130,7 +138,7 @@ func (c Client) Update() error {
 		return xerrors.Errorf("failed to update distributions: %w", err)
 	}
 
-	distributionJSON := filepath.Join(c.vulnListDir, debianDir, "distributions.json")
+	distributionJSON := filepath.Join(c.vulnListDir, trackerDir, "distributions.json")
 	if err = utils.Write(distributionJSON, dists); err != nil {
 		return xerrors.Errorf("unable to write %s: %w", distributionJSON, err)
 	}
@@ -148,10 +156,17 @@ func (c Client) update(dirname string, bugs []Bug) error {
 	log.Printf("Saving Debian %s data...", dirname)
 	bar := pb.StartNew(len(bugs))
 	for _, bug := range bugs {
-		fileName := fmt.Sprintf("%s.json", bug.Header.ID)
-		filePath := filepath.Join(c.vulnListDir, debianDir, dirname, fileName)
-		if err := utils.Write(filePath, bug); err != nil {
-			return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
+		dir := filepath.Join(c.vulnListDir, trackerDir, dirname)
+		if dirname == "CVE" {
+			if err := utils.SaveCVEPerYear(dir, bug.Header.ID, bug); err != nil {
+				return xerrors.Errorf("debian: failed to save CVE per year: %w", err)
+			}
+		} else {
+			fileName := fmt.Sprintf("%s.json", bug.Header.ID)
+			filePath := filepath.Join(dir, fileName)
+			if err := utils.Write(filePath, bug); err != nil {
+				return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
+			}
 		}
 		bar.Increment()
 	}
@@ -171,13 +186,11 @@ func (c Client) parseList(parser listParser, filename string) ([]Bug, error) {
 		bugs   []Bug
 		anns   []*Annotation
 		header *Header
-		lineno int
 	)
 
 	s := bufio.NewScanner(f)
 	for s.Scan() {
 		line := s.Text()
-		lineno += 1
 
 		switch {
 		case line == "":
@@ -188,7 +201,7 @@ func (c Client) parseList(parser listParser, filename string) ([]Bug, error) {
 				continue
 			}
 
-			ann := c.annDispatcher.parseAnnotation(line, lineno)
+			ann := c.annDispatcher.parseAnnotation(line)
 			if ann != nil {
 				anns = append(anns, ann)
 			}
@@ -208,7 +221,6 @@ func (c Client) parseList(parser listParser, filename string) ([]Bug, error) {
 				log.Printf("malformed header: %s", line)
 				continue
 			}
-			header.Line = lineno
 		}
 	}
 
@@ -260,7 +272,10 @@ func shouldStore(anns []*Annotation) bool {
 }
 
 func (c Client) updateSources(ctx context.Context, dists map[string]Distribution) error {
-	for target, baseURL := range map[string]string{"source": c.sourcesURL, "updates-source": c.securitySourcesURL} {
+	for target, baseURL := range map[string]string{
+		"source":         c.sourcesURL,
+		"updates-source": c.securitySourcesURL,
+	} {
 		for code := range dists {
 			for _, r := range repos {
 				log.Printf("Updating %s %s/%s", target, code, r)
@@ -270,9 +285,16 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 					return xerrors.Errorf("unable to fetch sources: %w", err)
 				}
 
-				filePath := filepath.Join(c.vulnListDir, debianDir, target, code, r, "Sources.json")
-				if err = utils.Write(filePath, headers); err != nil {
-					return xerrors.Errorf("source write error: %w", err)
+				for _, header := range headers {
+					name := header.Get("Package")
+					if name == "" {
+						continue
+					}
+
+					filePath := filepath.Join(c.vulnListDir, trackerDir, target, code, r, name[:1], name+".json")
+					if err = utils.Write(filePath, header); err != nil {
+						return xerrors.Errorf("source write error: %w", err)
+					}
 				}
 			}
 		}

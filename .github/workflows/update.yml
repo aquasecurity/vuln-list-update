@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      VULN_LIST_DIR: "vuln-list"
     steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: 1.18
+        go-version-file: go.mod
 
-    - name: Check out code into the Go module directory
+    - name: Check out vuln-list repo
       uses: actions/checkout@v3
-
-    - name: Set Owner
-      run: echo "VULNLIST_REPOSITORY_OWNER=$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $1}' | sed -e 's/:refs//')" >> $GITHUB_ENV
-      shell: bash
+      with:
+        repository: ${{ github.repository_owner }}/vuln-list
+        token: ${{ secrets.ACCESS_TOKEN }}
+        path: ${{ env.VULN_LIST_DIR }}
 
     - name: Setup github user email and name
       run: |
@@ -32,139 +36,69 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
-      name: NVD
-      run: ./vuln-list-update -target nvd
-
-    - if: always()
       name: Alpine Issue Tracker
-      run: ./vuln-list-update -target alpine
+      run: ./update.sh alpine "Alpine Issue Tracker"
 
     - if: always()
       name: Alpine Unfixed Vulnerability Tracker
-      run: ./vuln-list-update -target alpine-unfixed
+      run: ./update.sh alpine-unfixed "Alpine Secshfixes Tracker"
     
     - if: always()
       name: ALT Vulnerability
       run: ./vuln-list-update -target alt
-      
-    - if: always()
-      name: Debian Security Bug Tracker
-      run: ./vuln-list-update -target debian
 
     - if: always()
       name: Ubuntu CVE Tracker
-      run: ./vuln-list-update -target ubuntu
+      run: ./update.sh ubuntu "Ubuntu CVE Tracker"
 
     - if: always()
       name: Amazon Linux AMI Security Advisory
-      run: ./vuln-list-update -target amazon
+      run: ./update.sh amazon "Amazon Linux Security Center"
 
     - if: always()
       name: Oracle Linux OVAL
-      run: ./vuln-list-update -target oracle-oval
-
-    - if: always()
-      name: Red Hat OVALv2
-      run: ./vuln-list-update -target redhat-oval
+      run: ./update.sh oracle-oval "Oracle Linux OVAL"
 
     - if: always()
       name: Photon CVE Advisory
-      run: ./vuln-list-update -target photon
+      run: ./update.sh photon "Photon Security Advisories"
 
     - if: always()
       name: GitHub Security Advisory
-      run: ./vuln-list-update -target ghsa
+      run: ./update.sh ghsa "GitHub Security Advisory"
 
     - if: always()
       name: CWE
-      run: ./vuln-list-update -target cwe
+      run: ./update.sh cwe "CWE"
 
     - if: always()
       name: SUSE CVRF
-      run: ./vuln-list-update -target suse-cvrf
+      run: ./update.sh suse-cvrf "SUSE CVRF"
 
     - if: always()
       name: GitLab Advisory Database
-      run: ./vuln-list-update -target glad
-
-    - if: always()
-      name: Arch Linux Security Advisory
-      run: ./vuln-list-update -target arch-linux
+      run: ./update.sh glad "GitLab Advisory Database"
 
     - if: always()
       name: AlmaLinux Security Advisory
-      run: ./vuln-list-update -target alma
+      run: ./update.sh alma "AlmaLinux Security Advisory"
 
     - if: always()
       name: Rocky Linux Security Advisory
-      run: ./vuln-list-update -target rocky
+      run: ./update.sh rocky "Rocky Linux Security Advisory"
 
     - if: always()
       name: CBL-Mariner Vulnerability Data
-      run: ./vuln-list-update -target mariner
+      run: ./update.sh mariner "CBL-Mariner Vulnerability Data"
 
     - if: always()
       name: OSV Database
-      run: ./vuln-list-update -target osv
-
-    - if: always()
-      name: Go Vulnerability Database
-      run: ./vuln-list-update -target go-vulndb
+      run: ./update.sh osv "OSV Database"
 
     - if: always()
       name: Wolfi Secdb
-      run: ./vuln-list-update -target wolfi
+      run: ./update.sh wolfi "Wolfi Security Data"
 
     - if: always()
       name: Chainguard Secdb
-      run: ./vuln-list-update -target chainguard
-
-    - if: always()
-      name: Known Exploited Vulnerabilities Catalog
-      run: ./vuln-list-update -target kevc
-
-    # Red Hat Security Data API is unstable.
-    # It should be split into small pieces to reduce the impact of failure.
-    - if: always()
-      name: Red Hat Security Data API 1996-2002
-      run: ./vuln-list-update -target redhat -years 1996,1997,1998,1999,2000,2001,2002
-
-    - if: always()
-      name: Red Hat Security Data API 2003-2008
-      run: ./vuln-list-update -target redhat -years 2003,2004,2005,2006,2007,2008
-
-    - if: always()
-      name: Red Hat Security Data API 2009-2011
-      run: ./vuln-list-update -target redhat -years 2009,2010,2011
-
-    - if: always()
-      name: Red Hat Security Data API 2012
-      run: ./vuln-list-update -target redhat -years 2012
-
-    - if: always()
-      name: Red Hat Security Data API 2013
-      run: ./vuln-list-update -target redhat -years 2013
-
-    - if: always()
-      name: Red Hat Security Data API 2014
-      run: ./vuln-list-update -target redhat -years 2014
-
-    - if: always()
-      name: Red Hat Security Data API 2015
-      run: ./vuln-list-update -target redhat -years 2015
-
-    - if: always()
-      name: Red Hat Security Data API 2016
-      run: ./vuln-list-update -target redhat -years 2016
-
-    - if: always()
-      name: Red Hat Security Data API 2017
-      run: ./vuln-list-update -target redhat -years 2017
-
-    - if: always()
-      name: Red Hat Security Data API 2018
-      run: ./vuln-list-update -target redhat -years 2018
-
-    - if: always()
-      name: Red Hat Security Data API 2019-2023
-      run: ./vuln-list-update -target redhat -years 2019,2020,2021,2022,2023
+      run: ./update.sh chainguard "Chainguard Security Data"
