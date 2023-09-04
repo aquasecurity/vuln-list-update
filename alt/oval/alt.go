@@ -6,20 +6,20 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/aquasecurity/vuln-list-update/utils"
-	"github.com/cheggaaa/pb/v3"
-	"github.com/spf13/afero"
-	"golang.org/x/xerrors"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/cheggaaa/pb/v3"
+	"github.com/spf13/afero"
+	"golang.org/x/xerrors"
 )
 
 const (
 	ovalDir = "oval"
-	altDir  = "alt"
 
 	urlFormat = "https://rdb.altlinux.org/api/errata/export/oval/%s"
 	retry     = 5
@@ -46,7 +46,7 @@ func NewConfig() Config {
 }
 
 func (c Config) Update() error {
-	dirPath := filepath.Join(c.VulnListDir, ovalDir, altDir)
+	dirPath := filepath.Join(c.VulnListDir, ovalDir)
 	log.Printf("Remove ALT OVAL directory %s", dirPath)
 	if err := os.RemoveAll(dirPath); err != nil {
 		return xerrors.Errorf("failed to remove ALT directory: %w", err)
@@ -116,7 +116,7 @@ func (c Config) updateOVAL(ovalPath string) error {
 		if strings.Contains(f.Name, "ALTPU-20221161") {
 			println("")
 		}
-		dirPath := filepath.Join(c.VulnListDir, ovalDir, altDir, platform, splits[0])
+		dirPath := filepath.Join(c.VulnListDir, ovalDir, platform, splits[0])
 		if err = utils.WriteJSON(c.AppFs, dirPath, "tests.json", oval.Tests); err != nil {
 			rc.Close()
 			return xerrors.Errorf("failed to write tests: %w", err)
