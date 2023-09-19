@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path/filepath"
 	"strings"
 
 	"github.com/aquasecurity/vuln-list-update/k8s/utils"
@@ -69,7 +70,7 @@ func update() error {
 		return err
 	}
 	for _, cve := range k8sdb.Cves {
-		if err = uu.Write(fmt.Sprintf("%s.json", cve.ID), cve); err != nil {
+		if err = uu.Write(filepath.Join(uu.VulnListDir(), "upstream", fmt.Sprintf("%s.json", cve.ID)), cve); err != nil {
 			return xerrors.Errorf("failed to save k8s CVE detail: %w", err)
 		}
 	}
