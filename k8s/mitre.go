@@ -7,7 +7,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/aquasecurity/vuln-list-update/k8s/utils"
 	"github.com/hashicorp/go-version"
 )
 
@@ -102,17 +101,17 @@ func parseMitreCve(externalURL string, cveID string) (*Cve, error) {
 			}
 			switch {
 			case len(strings.TrimSpace(v.LessThanOrEqual)) > 0:
-				introduce, lastAffected = utils.UpdateVersions(v.LessThanOrEqual, v.Version)
+				introduce, lastAffected = updateVersions(v.LessThanOrEqual, v.Version)
 			case len(strings.TrimSpace(v.LessThan)) > 0:
 				if strings.HasSuffix(v.LessThan, ".0") {
 					v.Version = "0"
 				}
-				introduce, fixed = utils.UpdateVersions(v.LessThan, v.Version)
-			case utils.MinorVersion(v.Version):
+				introduce, fixed = updateVersions(v.LessThan, v.Version)
+			case minorVersion(v.Version):
 				requireMerge = true
 				introduce = v.Version
 			default:
-				introduce, lastAffected = utils.ExtractRangeVersions(v.Version)
+				introduce, lastAffected = extractRangeVersions(v.Version)
 			}
 			vulnerableVersions = append(vulnerableVersions, &Version{
 				Introduced:   introduce,
@@ -135,7 +134,7 @@ func parseMitreCve(externalURL string, cveID string) (*Cve, error) {
 			Vector: vector,
 			Score:  score,
 		},
-		Package:  utils.GetComponentFromDescription(description, component),
+		Package:  getComponentFromDescription(description, component),
 		versions: vulnerableVersions,
 	}, nil
 }
@@ -170,7 +169,7 @@ func sanitizedVersions(v *MitreVersion) (*MitreVersion, bool) {
 			v.LessThanOrEqual = strings.TrimPrefix(v.Version, "<= ")
 		case strings.HasPrefix(strings.TrimSpace(v.Version), "prior to"):
 			priorToVersion := strings.TrimSpace(strings.TrimPrefix(v.Version, "prior to"))
-			if utils.MinorVersion(priorToVersion) {
+			if minorVersion(priorToVersion) {
 				priorToVersion = priorToVersion + ".0"
 				v.Version = priorToVersion
 			}
@@ -180,9 +179,9 @@ func sanitizedVersions(v *MitreVersion) (*MitreVersion, bool) {
 		}
 	}
 	return &MitreVersion{
-		Version:         utils.TrimString(v.Version, []string{"v", "V"}),
-		LessThanOrEqual: utils.TrimString(v.LessThanOrEqual, []string{"v", "V"}),
-		LessThan:        utils.TrimString(v.LessThan, []string{"v", "V"}),
+		Version:         trimString(v.Version, []string{"v", "V"}),
+		LessThanOrEqual: trimString(v.LessThanOrEqual, []string{"v", "V"}),
+		LessThan:        trimString(v.LessThan, []string{"v", "V"}),
 	}, true
 }
 
@@ -226,7 +225,7 @@ func mergeVersionRange(affectedVersions []*Version) ([]*Version, error) {
 	newAffectedVesion := make([]*Version, 0)
 	minorVersions := make([]*Version, 0)
 	for _, av := range affectedVersions {
-		if utils.MinorVersion(av.Introduced) {
+		if minorVersion(av.Introduced) {
 			minorVersions = append(minorVersions, av)
 		} else if strings.Count(av.Introduced, ".") > 1 && len(minorVersions) > 0 {
 			newAffectedVesion = append(newAffectedVesion, &Version{
@@ -267,7 +266,7 @@ func getMetrics(cve MitreCVE) (string, float64) {
 		if len(vectorString) == 0 {
 			vectorString = metric.CvssV3_1.VectorString
 		}
-		_, score = utils.CvssVectorToScore(vectorString)
+		_, score = cvssVectorToScore(vectorString)
 	}
 	return vectorString, score
 }

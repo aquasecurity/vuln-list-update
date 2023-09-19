@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aquasecurity/vuln-list-update/k8s/utils"
 	"github.com/aquasecurity/vuln-list-update/osv"
 	uu "github.com/aquasecurity/vuln-list-update/utils"
 	"golang.org/x/xerrors"
@@ -85,7 +84,7 @@ func ParseVulnDBData(db CVE) (*VulnDB, error) {
 		if strings.Contains(excludeNonCoreComponentsCves, item.ID) {
 			continue
 		}
-		for _, cveID := range utils.GetMultiIDs(item.ID) {
+		for _, cveID := range getMultiIDs(item.ID) {
 			vulnerability, err := parseMitreCve(item.ExternalURL, cveID)
 			if err != nil {
 				return nil, err
@@ -93,7 +92,7 @@ func ParseVulnDBData(db CVE) (*VulnDB, error) {
 			if cveMissingImportantData(vulnerability) {
 				continue
 			}
-			descComponent := utils.GetComponentFromDescription(item.ContentText, vulnerability.Package)
+			descComponent := getComponentFromDescription(item.ContentText, vulnerability.Package)
 			fullVulnerabilities = append(fullVulnerabilities, &osv.OSV{
 				ID:         cveID,
 				Modified:   item.DatePublished,
@@ -149,7 +148,7 @@ func getComponentName(k8sComponent string, mitreComponent string) string {
 	if strings.ToLower(mitreComponent) != "kubernetes" {
 		k8sComponent = mitreComponent
 	}
-	return strings.ToLower(fmt.Sprintf("%s/%s", utils.UpstreamOrgByName(k8sComponent), utils.UpstreamRepoByName(k8sComponent)))
+	return strings.ToLower(fmt.Sprintf("%s/%s", upstreamOrgByName(k8sComponent), upstreamRepoByName(k8sComponent)))
 }
 
 func validateCvesData(cves []*osv.OSV) error {
@@ -165,7 +164,7 @@ func validateCvesData(cves []*osv.OSV) error {
 			result = multierror.Append(result, fmt.Errorf("\nSummary is mssing on cve #%s", cve.ID))
 		}
 		for _, af := range cve.Affected {
-			if len(strings.TrimPrefix(af.Package.Name, utils.UpstreamOrgByName(af.Package.Name))) == 0 {
+			if len(strings.TrimPrefix(af.Package.Name, upstreamOrgByName(af.Package.Name))) == 0 {
 				result = multierror.Append(result, fmt.Errorf("\nComponent is mssing on cve #%s", cve.ID))
 			}
 		}

@@ -1,4 +1,4 @@
-package utils
+package k8s
 
 import (
 	"testing"
@@ -20,7 +20,7 @@ func Test_ExtractVersions(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotIntoduce, gotLastAffected := UpdateVersions(tt.less, tt.version)
+			gotIntoduce, gotLastAffected := updateVersions(tt.less, tt.version)
 			assert.Equal(t, gotIntoduce, tt.wantIntroduce)
 			assert.Equal(t, gotLastAffected, tt.wantLastAffected)
 		})
@@ -39,7 +39,7 @@ func Test_ExtractRangeVersions(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotIntoduce, gotLastAffected := ExtractRangeVersions(tt.version)
+			gotIntoduce, gotLastAffected := extractRangeVersions(tt.version)
 			assert.Equal(t, gotIntoduce, tt.wantIntroduce)
 			assert.Equal(t, gotLastAffected, tt.wantLastAffected)
 		})

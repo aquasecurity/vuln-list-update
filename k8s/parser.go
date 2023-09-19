@@ -1,4 +1,4 @@
-package utils
+package k8s
 
 import (
 	"fmt"
@@ -29,14 +29,14 @@ var (
 	}
 )
 
-func TrimString(version string, trimValues []string) string {
+func trimString(version string, trimValues []string) string {
 	for _, v := range trimValues {
 		version = strings.ReplaceAll(version, v, "")
 	}
 	return strings.TrimSpace(version)
 }
 
-func CvssVectorToScore(vector string) (string, float64) {
+func cvssVectorToScore(vector string) (string, float64) {
 	bm, err := metric.NewBase().Decode(vector) //CVE-2020-1472: ZeroLogon
 	if err != nil {
 		return "", 0.0
@@ -44,12 +44,12 @@ func CvssVectorToScore(vector string) (string, float64) {
 	return bm.Severity().String(), bm.Score()
 }
 
-func UpdateVersions(to, introduce string) (string, string) {
+func updateVersions(to, introduce string) (string, string) {
 	if introduce == "0" {
 		return introduce, to
 	}
 
-	if MinorVersion(introduce) {
+	if minorVersion(introduce) {
 		return introduce + ".0", to
 	}
 
@@ -59,11 +59,11 @@ func UpdateVersions(to, introduce string) (string, string) {
 	return introduce, to
 }
 
-func ExtractRangeVersions(introduce string) (string, string) {
+func extractRangeVersions(introduce string) (string, string) {
 	var lastAffected string
 	validVersion := make([]string, 0)
 	// clean unwanted strings from versions
-	versionParts := strings.Split(TrimString(introduce, maps.Keys(UpstreamRepoName)), " ")
+	versionParts := strings.Split(trimString(introduce, maps.Keys(UpstreamRepoName)), " ")
 	for _, p := range versionParts {
 		candidate, err := version.Parse(p)
 		if err != nil {
@@ -80,7 +80,7 @@ func ExtractRangeVersions(introduce string) (string, string) {
 	return introduce, lastAffected
 }
 
-func GetMultiIDs(id string) []string {
+func getMultiIDs(id string) []string {
 	var idsList []string
 	if strings.Contains(id, ",") {
 		idParts := strings.Split(id, ",")
@@ -94,7 +94,7 @@ func GetMultiIDs(id string) []string {
 	return []string{id}
 }
 
-func UpstreamOrgByName(component string) string {
+func upstreamOrgByName(component string) string {
 	for key, components := range UpstreamOrgName {
 		for _, c := range strings.Split(components, ",") {
 			if strings.TrimSpace(c) == strings.ToLower(component) {
@@ -105,14 +105,14 @@ func UpstreamOrgByName(component string) string {
 	return ""
 }
 
-func UpstreamRepoByName(component string) string {
+func upstreamRepoByName(component string) string {
 	if val, ok := UpstreamRepoName[component]; ok {
 		return val
 	}
 	return component
 }
 
-func GetComponentFromDescription(descriptions string, currentComponent string) string {
+func getComponentFromDescription(descriptions string, currentComponent string) string {
 	if strings.ToLower(currentComponent) != "kubernetes" {
 		return currentComponent
 	}
@@ -144,6 +144,6 @@ func GetComponentFromDescription(descriptions string, currentComponent string) s
 }
 
 // MinorVersion returns true if version is minor version 1.1 or 2.2 and etc
-func MinorVersion(version string) bool {
+func minorVersion(version string) bool {
 	return strings.Count(version, ".") == 1
 }
