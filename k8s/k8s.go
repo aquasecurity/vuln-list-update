@@ -100,7 +100,7 @@ func ParseVulnDBData(db K8sCVE) (*K8sVulnDB, error) {
 				Summary:    item.Summary,
 				Details:    vulnerability.Description,
 				Affected:   getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
-				References: []osv.Reference{{Url: mitreURL}, {Url: mitreURL}},
+				References: []osv.Reference{{Url: item.URL}, {Url: item.ExternalURL}},
 			})
 		}
 		err := validateCvesData(fullVulnerabilities)
