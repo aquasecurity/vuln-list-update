@@ -3,11 +3,14 @@ package k8s
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
 	"github.com/aquasecurity/vuln-list-update/k8s/utils"
 	"github.com/aquasecurity/vuln-list-update/osv"
+	uu "github.com/aquasecurity/vuln-list-update/utils"
+	"golang.org/x/xerrors"
 
 	"github.com/hashicorp/go-multierror"
 )
@@ -51,6 +54,28 @@ const (
 	// excludeNonCoreComponentsCves exclude  cves with missing data or non k8s core components
 	excludeNonCoreComponentsCves = "CVE-2019-11255,CVE-2020-10749,CVE-2020-8554"
 )
+
+func Update() error {
+	if err := update(); err != nil {
+		return xerrors.Errorf("error in k8s update: %w", err)
+	}
+	return nil
+}
+
+func update() error {
+	log.Printf("Fetching k8s cves")
+	k8sdb, err := Collect()
+	if err != nil {
+		return err
+	}
+	for _, cve := range k8sdb.Cves {
+		if err = uu.Write(fmt.Sprintf("%s.json", cve.ID), cve); err != nil {
+			return xerrors.Errorf("failed to save k8s CVE detail: %w", err)
+		}
+	}
+
+	return nil
+}
 
 func ParseVulnDBData(db K8sCVE) (*K8sVulnDB, error) {
 	fullVulnerabilities := make([]*osv.OSV, 0)
