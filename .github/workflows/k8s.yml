@@ -36,5 +36,5 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
-      name: K8s Security Tracker
-      run: ./update.sh k8s "K8s Security Tracker"
+      name: K8s official vulnerability advisory
+      run: ./update.sh k8s "K8s official vulnerability advisory"
