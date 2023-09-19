@@ -11,7 +11,7 @@ import (
 func Test_ParseVulneDB(t *testing.T) {
 	b, err := os.ReadFile("./testdata/k8s-db.json")
 	assert.NoError(t, err)
-	var bi K8sCVE
+	var bi CVE
 	err = json.Unmarshal(b, &bi)
 	assert.NoError(t, err)
 	kvd, err := ParseVulnDBData(bi)

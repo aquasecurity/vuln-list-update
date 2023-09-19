@@ -10,11 +10,6 @@ import (
 	"golang.org/x/exp/maps"
 )
 
-const (
-	LessThanOrEqual = "lessThenOrEqual"
-	LessThen        = "lessThen"
-)
-
 var (
 	UpstreamOrgName = map[string]string{
 		"k8s.io":      "controller-manager,kubelet,apiserver,kubectl,kubernetes,kube-scheduler,kube-proxy",

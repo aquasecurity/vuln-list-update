@@ -22,11 +22,11 @@ const (
 	cveList      = "https://www.cve.org/"
 )
 
-type K8sVulnDB struct {
+type VulnDB struct {
 	Cves []*osv.OSV
 }
 
-type K8sCVE struct {
+type CVE struct {
 	Items []Item `json:"items,omitempty"`
 }
 
@@ -39,15 +39,16 @@ type Item struct {
 	URL           string `json:"url,omitempty"`
 }
 
-func Collect() (*K8sVulnDB, error) {
+func Collect() (*VulnDB, error) {
 	response, err := http.Get(k8svulnDBURL)
 	if err != nil {
 		return nil, err
 	}
-	var db K8sCVE
+	var db CVE
 	if err = json.NewDecoder(response.Body).Decode(&db); err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
 	return ParseVulnDBData(db)
 }
 
@@ -78,8 +79,8 @@ func update() error {
 	return nil
 }
 
-func ParseVulnDBData(db K8sCVE) (*K8sVulnDB, error) {
-	fullVulnerabilities := make([]*osv.OSV, 0)
+func ParseVulnDBData(db CVE) (*VulnDB, error) {
+	var fullVulnerabilities []*osv.OSV
 	for _, item := range db.Items {
 		if strings.Contains(excludeNonCoreComponentsCves, item.ID) {
 			continue
@@ -89,7 +90,7 @@ func ParseVulnDBData(db K8sCVE) (*K8sVulnDB, error) {
 			if err != nil {
 				return nil, err
 			}
-			if cveMissingImpoertantData(vulnerability) {
+			if cveMissingImportantData(vulnerability) {
 				continue
 			}
 			descComponent := utils.GetComponentFromDescription(item.ContentText, vulnerability.Package)
@@ -108,7 +109,7 @@ func ParseVulnDBData(db K8sCVE) (*K8sVulnDB, error) {
 			return nil, err
 		}
 	}
-	return &K8sVulnDB{fullVulnerabilities}, nil
+	return &VulnDB{fullVulnerabilities}, nil
 }
 
 func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
@@ -127,8 +128,7 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 		}
 		if len(av.Fixed) > 0 {
 			events = append(events, osv.Event{Fixed: av.Fixed})
-		}
-		if len(av.LastAffected) > 0 && len(av.Fixed) == 0 {
+		} else if len(av.LastAffected) > 0 && len(av.Fixed) == 0 {
 			events = append(events, osv.Event{LastAffected: av.LastAffected})
 		}
 		if len(av.Introduced) > 0 && len(av.LastAffected) == 0 && len(av.Fixed) == 0 {
@@ -201,7 +201,7 @@ func validateCvesData(cves []*osv.OSV) error {
 	return result
 }
 
-func cveMissingImpoertantData(vulnerability *Cve) bool {
+func cveMissingImportantData(vulnerability *Cve) bool {
 	return len(vulnerability.versions) == 0 ||
 		len(vulnerability.Package) == 0 ||
 		len(vulnerability.CvssV3.Vector) == 0
