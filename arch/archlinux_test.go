@@ -1,7 +1,6 @@
 package arch_test
 
 import (
-	"github.com/aquasecurity/vuln-list-update/arch"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -11,6 +10,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/vuln-list-update/arch"
 )
 
 func TestUpdate(t *testing.T) {

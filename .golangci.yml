@@ -4,11 +4,35 @@ run:
 linters:
   enable:
     - gofmt
-  disable:
-    - errcheck
+    - bodyclose
+    - staticcheck
+    - unused
+    - gci
+    - gomodguard
+    - tenv
     - gosimple
     - govet
+  disable:
+    - errcheck
     - ineffassign
-    - staticcheck
     - structcheck
-    - unused
+linters-settings:
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/aquasecurity/)
+      - blank
+      - dot
+  gomodguard:
+    blocked:
+      modules:
+        - github.com/hashicorp/go-version:
+            recommendations:
+              - github.com/aquasecurity/go-version
+            reason: "`aquasecurity/go-version` is degisned for our use-cases"
+        - github.com/Masterminds/semver:
+            recommendations:
+              - github.com/aquasecurity/go-version
+            reason: "`aquasecurity/go-version` is degisned for our use-cases"
+

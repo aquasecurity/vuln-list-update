@@ -1,14 +1,16 @@
 package kevc_test
 
 import (
-	"github.com/aquasecurity/vuln-list-update/kevc"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/vuln-list-update/kevc"
 )
 
 func TestUpdate(t *testing.T) {

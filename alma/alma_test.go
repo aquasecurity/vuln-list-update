@@ -8,10 +8,11 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/alma"
 )
 
 func TestUpdate(t *testing.T) {
