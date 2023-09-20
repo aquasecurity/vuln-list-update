@@ -29,11 +29,11 @@ var (
 	}
 )
 
-func trimString(version string, trimValues []string) string {
+func trimString(s string, trimValues []string) string {
 	for _, v := range trimValues {
-		version = strings.ReplaceAll(version, v, "")
+		s = strings.Trim(s, v)
 	}
-	return strings.TrimSpace(version)
+	return strings.TrimSpace(s)
 }
 
 func cvssVectorToScore(vector string) (string, float64) {

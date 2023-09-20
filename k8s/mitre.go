@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	version "github.com/aquasecurity/go-pep440-version"
+	version "github.com/aquasecurity/go-version/pkg/version"
 )
 
 type MitreCVE struct {
@@ -102,13 +102,13 @@ func parseMitreCve(externalURL string, cveID string) (*Cve, error) {
 				continue
 			}
 			switch {
-			case len(strings.TrimSpace(v.LessThanOrEqual)) > 0:
-				introduce, lastAffected = updateVersions(v.LessThanOrEqual, v.Version)
-			case len(strings.TrimSpace(v.LessThan)) > 0:
+			case len(v.LessThan) > 0:
 				if strings.HasSuffix(v.LessThan, ".0") {
 					v.Version = "0"
 				}
 				introduce, fixed = updateVersions(v.LessThan, v.Version)
+			case len(v.LessThanOrEqual) > 0:
+				introduce, lastAffected = updateVersions(v.LessThanOrEqual, v.Version)
 			case minorVersion(v.Version):
 				requireMerge = true
 				introduce = v.Version
