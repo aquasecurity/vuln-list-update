@@ -61,6 +61,7 @@ func updateVersions(to, introduce string) (string, string) {
 }
 
 func extractRangeVersions(introduce string) (string, string) {
+	// Example https://cveawg.mitre.org/api/cve/CVE-2021-25749
 	var lastAffected string
 	validVersion := make([]string, 0)
 	// clean unwanted strings from versions
