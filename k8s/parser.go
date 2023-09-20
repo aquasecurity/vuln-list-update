@@ -45,14 +45,15 @@ func cvssVectorToScore(vector string) (string, float64) {
 }
 
 func updateVersions(to, introduce string) (string, string) {
+	// Example: https://cveawg.mitre.org/api/cve/CVE-2023-2878
 	if introduce == "0" {
 		return introduce, to
 	}
-
+	// Example: https://cveawg.mitre.org/api/cve/CVE-2019-11243
 	if minorVersion(introduce) {
 		return introduce + ".0", to
 	}
-
+	// Example: https://cveawg.mitre.org/api/cve/CVE-2019-1002100
 	if lIndex := strings.LastIndex(to, "."); lIndex != -1 {
 		return strings.TrimSpace(fmt.Sprintf("%s.%s", to[:lIndex], "0")), to
 	}

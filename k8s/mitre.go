@@ -146,27 +146,25 @@ func sanitizedVersions(v *MitreVersion) (*MitreVersion, bool) {
 	if (v.LessThanOrEqual == "unspecified" || v.LessThan == "unspecified") && len(v.Version) > 0 {
 		return v, false
 	}
-	if len(v.LessThanOrEqual) > 0 {
-		switch {
-		case v.LessThanOrEqual == "<=":
-			v.LessThanOrEqual = v.Version
-		case strings.Contains(v.LessThanOrEqual, "<="):
-			v.LessThanOrEqual = strings.TrimSpace(strings.ReplaceAll(strings.TrimSpace(v.LessThanOrEqual), "<=", ""))
-		}
+	// example https://cveawg.mitre.org/api/cve/CVE-2023-2727
+	if len(v.LessThanOrEqual) > 0 && v.LessThanOrEqual == "<=" {
+		v.LessThanOrEqual = v.Version
 	} else if len(v.LessThan) > 0 {
 		switch {
-		case strings.HasPrefix(strings.TrimSpace(v.LessThan), "prior to"):
-			v.LessThan = strings.TrimSpace(strings.TrimPrefix(v.Version, "prior to"))
+		// example https://cveawg.mitre.org/api/cve/CVE-2019-11244
 		case strings.HasSuffix(strings.TrimSpace(v.LessThan), "*"):
 			v.Version = strings.TrimSpace(strings.ReplaceAll(v.LessThan, "*", ""))
 			v.LessThan = ""
 		}
 	} else if len(v.Version) > 0 {
 		switch {
+		// example https://cveawg.mitre.org/api/cve/CVE-2020-8566
 		case strings.HasPrefix(v.Version, "< "):
 			v.LessThan = strings.TrimPrefix(v.Version, "< ")
+			// example https://cveawg.mitre.org/api/cve/CVE-2020-8565
 		case strings.HasPrefix(v.Version, "<= "):
 			v.LessThanOrEqual = strings.TrimPrefix(v.Version, "<= ")
+			//example https://cveawg.mitre.org/api/cve/CVE-2019-11247
 		case strings.HasPrefix(strings.TrimSpace(v.Version), "prior to"):
 			priorToVersion := strings.TrimSpace(strings.TrimPrefix(v.Version, "prior to"))
 			if minorVersion(priorToVersion) {
@@ -174,6 +172,7 @@ func sanitizedVersions(v *MitreVersion) (*MitreVersion, bool) {
 				v.Version = priorToVersion
 			}
 			v.LessThan = priorToVersion
+			// all version is vulnerable : https://cveawg.mitre.org/api/cve/CVE-2017-1002101
 		case strings.HasSuffix(strings.TrimSpace(v.Version), ".x"):
 			v.Version = strings.TrimSpace(strings.ReplaceAll(v.Version, ".x", ""))
 		}
@@ -221,6 +220,7 @@ func mergeVersionRange(affectedVersions []*Version) ([]*Version, error) {
 	// example: vulnerable 1.3, 1.4, 1.5, 1.6 and prior to versions 1.7.14, 1.8.9 will be form as follow:
 	// Introduced: 1.3.0  Fixed: 1.7.14
 	// Introduced: 1.8.0  Fixed: 1.8.9
+	// example: https://cveawg.mitre.org/api/cve/CVE-2019-11249
 	sort.Sort(byVersion(affectedVersions))
 	newAffectedVesion := make([]*Version, 0)
 	minorVersions := make([]*Version, 0)
