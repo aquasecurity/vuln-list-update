@@ -8,7 +8,7 @@ GOLANGCI_LINT := $(BIN_DIR)/golangci-lint
 .PHONY: lint lintfix test build
 
 $(GOLANGCI_LINT):
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(BIN_DIR) v1.54.2
+	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(BIN_DIR) v1.54.2
 
 lint: $(GOLANGCI_LINT)
 	@$(GOLANGCI_LINT) run
