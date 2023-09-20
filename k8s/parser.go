@@ -2,12 +2,12 @@ package k8s
 
 import (
 	"fmt"
-
 	"strings"
 
-	version "github.com/aquasecurity/go-pep440-version"
 	"github.com/goark/go-cvss/v3/metric"
 	"golang.org/x/exp/maps"
+
+	version "github.com/aquasecurity/go-pep440-version"
 )
 
 var (

@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aquasecurity/vuln-list-update/osv"
-	uu "github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/hashicorp/go-multierror"
 	"golang.org/x/xerrors"
 
-	"github.com/hashicorp/go-multierror"
+	"github.com/aquasecurity/vuln-list-update/osv"
+	uu "github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

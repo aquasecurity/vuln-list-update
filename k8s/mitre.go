@@ -80,6 +80,7 @@ func parseMitreCve(externalURL string, cveID string) (*Cve, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
 	var cve MitreCVE
 	if err = json.NewDecoder(response.Body).Decode(&cve); err != nil {
 		return nil, err
