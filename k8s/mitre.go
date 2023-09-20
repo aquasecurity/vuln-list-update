@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
+	"strconv"
 	"strings"
 
-	"github.com/hashicorp/go-version"
+	version "github.com/aquasecurity/go-pep440-version"
 )
 
 type MitreCVE struct {
@@ -204,11 +205,11 @@ func (s byVersion) Swap(i, j int) {
 }
 
 func (s byVersion) Less(i, j int) bool {
-	v1, err := version.NewVersion(s[i].Introduced)
+	v1, err := version.Parse(s[i].Introduced)
 	if err != nil {
 		return false
 	}
-	v2, err := version.NewVersion(s[j].Introduced)
+	v2, err := version.Parse(s[j].Introduced)
 	if err != nil {
 		return false
 	}
@@ -245,15 +246,13 @@ func mergeVersionRange(affectedVersions []*Version) ([]*Version, error) {
 	// example: vulnerable 1.3, 1.4, 1.5, 1.6  will be form as follow:
 	// Introduced: 1.3.0  Fixed: 1.7.0
 	if len(minorVersions) > 0 {
-		ver, err := version.NewSemver(fmt.Sprintf("%s.0", minorVersions[len(minorVersions)-1].Introduced))
+		currentVersion := fmt.Sprintf("%s.0", minorVersions[len(minorVersions)-1].Introduced)
+		versionParts, err := versionParts(currentVersion)
 		if err != nil {
 			return nil, err
 		}
-		versionParts := ver.Segments()
-		if len(versionParts) == 3 {
-			fixed := fmt.Sprintf("%d.%d.%d", versionParts[0], versionParts[1]+1, versionParts[2])
-			newAffectedVesion = append(newAffectedVesion, &Version{Introduced: fmt.Sprintf("%s.0", minorVersions[0].Introduced), Fixed: fixed})
-		}
+		fixed := fmt.Sprintf("%d.%d.%d", versionParts[0], versionParts[1]+1, versionParts[2])
+		newAffectedVesion = append(newAffectedVesion, &Version{Introduced: fmt.Sprintf("%s.0", minorVersions[0].Introduced), Fixed: fixed})
 	}
 	return newAffectedVesion, nil
 }
@@ -269,4 +268,17 @@ func getMetrics(cve MitreCVE) (string, float64) {
 		_, score = cvssVectorToScore(vectorString)
 	}
 	return vectorString, score
+}
+
+func versionParts(version string) ([]int, error) {
+	parts := strings.Split(version, ".")
+	intParts := make([]int, 0)
+	for _, p := range parts {
+		i, err := strconv.Atoi(p)
+		if err != nil {
+			return nil, err
+		}
+		intParts = append(intParts, i)
+	}
+	return intParts, nil
 }
