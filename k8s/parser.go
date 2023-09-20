@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/goark/go-cvss/v3/metric"
-	"golang.org/x/exp/maps"
 
 	version "github.com/aquasecurity/go-pep440-version"
 )
@@ -65,8 +64,8 @@ func extractRangeVersions(introduce string) (string, string) {
 	var lastAffected string
 	validVersion := make([]string, 0)
 	// clean unwanted strings from versions
-	versionParts := strings.Split(trimString(introduce, maps.Keys(UpstreamRepoName)), " ")
-	for _, p := range versionParts {
+	versionRangeParts := strings.Split(introduce, " ")
+	for _, p := range versionRangeParts {
 		candidate, err := version.Parse(p)
 		if err != nil {
 			continue
