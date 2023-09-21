@@ -1,15 +1,9 @@
 #!/bin/bash
 
 TARGET=$1
-COMMIT_MSG=$2
 
 if [ -z "$TARGET" ]; then
   echo "target required"
-  exit 1
-fi
-
-if [ -z "$COMMIT_MSG" ]; then
-  echo "commit message required"
   exit 1
 fi
 
