@@ -127,16 +127,15 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 		}
 		if len(av.Fixed) > 0 {
 			events = append(events, osv.Event{Fixed: av.Fixed})
-		} else if len(av.LastAffected) > 0 && len(av.Fixed) == 0 {
+		} else if len(av.LastAffected) > 0 {
 			events = append(events, osv.Event{LastAffected: av.LastAffected})
-		}
-		if len(av.Introduced) > 0 && len(av.LastAffected) == 0 && len(av.Fixed) == 0 {
+		} else if len(av.Introduced) > 0 && len(av.LastAffected) == 0 && len(av.Fixed) == 0 {
 			events = append(events, osv.Event{LastAffected: av.Introduced})
 		}
 		ranges = append(ranges, osv.Range{
 			Events: events,
 		})
-		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "k8s"}, Severities: []osv.Severity{{Type: cvss.Vector, Score: fmt.Sprintf("%.1f", cvss.Score)}}})
+		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "kubernetes"}, Severities: []osv.Severity{{Type: cvss.Vector, Score: fmt.Sprintf("%.1f", cvss.Score)}}})
 	}
 	return affected
 }
