@@ -86,17 +86,14 @@ func update() error {
 
 func ParseVulnDBData(db CVE) (*VulnDB, error) {
 	var fullVulnerabilities []*osv.OSV
-	cvesMap, err := getCurrentCvesMap()
+	cvesMap, err := getExitingCvesToModifiedMap()
 	if err != nil {
 		return nil, err
 	}
 	for _, item := range db.Items {
 		for _, cveID := range getMultiIDs(item.ID) {
-			if strings.Contains(excludeNonCoreComponentsCves, item.ID) {
-				continue
-			}
 			// check if the current cve is older than the existing one on the vuln-list-k8s repo
-			if olderCve(cveID, item.DatePublished, cvesMap) {
+			if strings.Contains(excludeNonCoreComponentsCves, item.ID) || olderCve(cveID, item.DatePublished, cvesMap) {
 				continue
 			}
 			vulnerability, err := parseMitreCve(item.ExternalURL, cveID)
@@ -219,15 +216,14 @@ func cveMissingImportantData(vulnerability *Cve) bool {
 		len(vulnerability.CvssV3.Vector) == 0
 }
 
-// getCurrentCvesMap get the existing cves from vuln-list-k8s repo and map it to cve id and last updated
-func getCurrentCvesMap() (map[string]string, error) {
+// getExitingCvesToModifiedMap get the existing cves from vuln-list-k8s repo and map it to cve id and last updated
+func getExitingCvesToModifiedMap() (map[string]string, error) {
 	response, err := http.Get(vulnListRepoTarBall)
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
 	return tarToMap(response.Body)
-
 }
 
 // tarToMap read ewxisting cves from tar file and map it to cve id and last updated
