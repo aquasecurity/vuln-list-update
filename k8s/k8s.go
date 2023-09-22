@@ -48,12 +48,16 @@ func Collect() (*VulnDB, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
 	var db CVE
 	if err = json.NewDecoder(response.Body).Decode(&db); err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
-	return ParseVulnDBData(db)
+	cvesMap, err := getExitingCvesToModifiedMap()
+	if err != nil {
+		return nil, err
+	}
+	return ParseVulnDBData(db, cvesMap)
 }
 
 const (
@@ -84,12 +88,8 @@ func update() error {
 	return nil
 }
 
-func ParseVulnDBData(db CVE) (*VulnDB, error) {
+func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 	var fullVulnerabilities []*osv.OSV
-	cvesMap, err := getExitingCvesToModifiedMap()
-	if err != nil {
-		return nil, err
-	}
 	for _, item := range db.Items {
 		for _, cveID := range getMultiIDs(item.ID) {
 			// check if the current cve is older than the existing one on the vuln-list-k8s repo
@@ -115,7 +115,7 @@ func ParseVulnDBData(db CVE) (*VulnDB, error) {
 			})
 		}
 	}
-	err = validateCvesData(fullVulnerabilities)
+	err := validateCvesData(fullVulnerabilities)
 	if err != nil {
 		return nil, err
 	}

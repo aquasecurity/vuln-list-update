@@ -14,7 +14,7 @@ func Test_ParseVulneDB(t *testing.T) {
 	var bi CVE
 	err = json.Unmarshal(b, &bi)
 	assert.NoError(t, err)
-	kvd, err := ParseVulnDBData(bi)
+	kvd, err := ParseVulnDBData(bi, map[string]string{})
 	assert.NoError(t, err)
 	err = validateCvesData(kvd.Cves)
 	assert.NoError(t, err)
