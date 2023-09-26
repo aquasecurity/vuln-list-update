@@ -6,7 +6,7 @@ import (
 
 	"github.com/goark/go-cvss/v3/metric"
 
-	version "github.com/aquasecurity/go-pep440-version"
+	version "github.com/aquasecurity/go-version/pkg/version"
 )
 
 var (
