@@ -14,7 +14,7 @@ cd "$VULN_LIST_DIR" || exit 1
 if [[ -n $(git status --porcelain) ]]; then
   # List changed files
 CHANGED_FILES=$(git ls-files . --exclude-standard --others | grep "CVE")
-REPO="$REPOSITORY_OWNER/$$VULN_LIST_DIR"
+REPO="$REPOSITORY_OWNER/$VULN_LIST_DIR"
 BASE_BRANCH="main"
 # Loop through changed files and create PRs
 for FILE in $CHANGED_FILES; do
