@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goark/go-cvss/v3/metric"
-
 	version "github.com/aquasecurity/go-version/pkg/version"
 )
 
@@ -33,14 +31,6 @@ func trimString(s string, trimValues []string) string {
 		s = strings.Trim(s, v)
 	}
 	return strings.TrimSpace(s)
-}
-
-func cvssVectorToScore(vector string) (string, float64) {
-	bm, err := metric.NewBase().Decode(vector) //CVE-2020-1472: ZeroLogon
-	if err != nil {
-		return "", 0.0
-	}
-	return bm.Severity().String(), bm.Score()
 }
 
 func updateVersions(to, introduce string) (string, string) {

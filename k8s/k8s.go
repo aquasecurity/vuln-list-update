@@ -146,7 +146,7 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 		ranges = append(ranges, osv.Range{
 			Events: events,
 		})
-		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "kubernetes"}, Severities: []osv.Severity{{Type: cvss.Vector, Score: fmt.Sprintf("%.1f", cvss.Score)}}})
+		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "kubernetes"}, Severities: []osv.Severity{{Type: cvss.Type, Score: cvss.Vector}}})
 	}
 	return affected
 }

@@ -61,7 +61,7 @@ type Cve struct {
 
 type Cvssv3 struct {
 	Vector string
-	Score  float64
+	Type   string
 }
 
 type Version struct {
@@ -128,13 +128,13 @@ func parseMitreCve(externalURL string, cveID string) (*Cve, error) {
 			return nil, err
 		}
 	}
-	vector, score := getMetrics(cve)
+	vector, vectorType := getMetrics(cve)
 	description := getDescription(cve.Containers.Cna.Descriptions)
 	return &Cve{
 		Description: description,
 		CvssV3: Cvssv3{
 			Vector: vector,
-			Score:  score,
+			Type:   vectorType,
 		},
 		Package:  getComponentFromDescription(description, component),
 		versions: vulnerableVersions,
@@ -258,17 +258,18 @@ func mergeVersionRange(affectedVersions []*Version) ([]*Version, error) {
 	return newAffectedVesion, nil
 }
 
-func getMetrics(cve MitreCVE) (string, float64) {
+func getMetrics(cve MitreCVE) (string, string) {
 	var vectorString string
-	var score float64
+	var vectorType string
 	for _, metric := range cve.Containers.Cna.Metrics {
 		vectorString = metric.CvssV3_0.VectorString
+		vectorType = "CVSS_V3_0"
 		if len(vectorString) == 0 {
 			vectorString = metric.CvssV3_1.VectorString
+			vectorType = "CVSS_V3_1"
 		}
-		_, score = cvssVectorToScore(vectorString)
 	}
-	return vectorString, score
+	return vectorString, vectorType
 }
 
 func versionParts(version string) ([]int, error) {
