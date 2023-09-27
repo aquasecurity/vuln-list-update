@@ -260,16 +260,13 @@ func mergeVersionRange(affectedVersions []*Version) ([]*Version, error) {
 
 func getMetrics(cve MitreCVE) (string, string) {
 	var vectorString string
-	var vectorType string
 	for _, metric := range cve.Containers.Cna.Metrics {
 		vectorString = metric.CvssV3_0.VectorString
-		vectorType = "CVSS_V3_0"
 		if len(vectorString) == 0 {
 			vectorString = metric.CvssV3_1.VectorString
-			vectorType = "CVSS_V3_1"
 		}
 	}
-	return vectorString, vectorType
+	return vectorString, "CVSS_V3"
 }
 
 func versionParts(version string) ([]int, error) {
