@@ -239,6 +239,9 @@ func cveIDToModifiedMap(cveFolderPath string) (map[string]string, error) {
 		if file.IsDir() {
 			continue
 		}
+		if !(strings.Contains(file.Name(), "CVE-") && strings.HasSuffix(file.Name(), ".json")) {
+			continue
+		}
 		b, err := os.ReadFile(filepath.Join(cveFolderPath, file.Name()))
 		if err != nil {
 			return nil, err
