@@ -8,10 +8,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aquasecurity/vuln-list-update/oracle/oval"
+	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/spf13/afero"
+	"github.com/aquasecurity/vuln-list-update/oracle/oval"
 )
 
 var update = flag.Bool("update", false, "update golden files")

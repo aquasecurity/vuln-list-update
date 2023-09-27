@@ -1,4 +1,4 @@
-name: Update vuln-list-redhat repo
+name: Update vuln-list-k8s repo
 on:
   schedule:
   - cron: "0 */6 * * *"
@@ -6,11 +6,12 @@ on:
 
 jobs:
   update:
-    name: Update vuln-list-redhat
+    name: Update vuln-list-k8s
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      VULN_LIST_DIR: "vuln-list-redhat"
+      VULN_LIST_DIR: "vuln-list-k8s"
+      REPOSITORY_OWNER: ${{ github.repository_owner }}
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -20,10 +21,10 @@ jobs:
       with:
         go-version-file: go.mod
 
-    - name: Check out vuln-list-redhat repo
+    - name: Check out vuln-list-k8s repo
       uses: actions/checkout@v4
       with:
-        repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
+        repository: ${{ env.REPOSITORY_OWNER }}/${{ env.VULN_LIST_DIR }}
         token: ${{ secrets.ACCESS_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
 
@@ -36,9 +37,5 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
-      name: Red Hat OVALv2
-      run: ./update.sh redhat-oval "Red Hat OVAL v2"
-
-    - if: always()
-      name: Red Hat Security Data API
-      run: ./update.sh redhat "Red Hat Security Data API"
+      name: K8s official vulnerability advisory
+      run: ./create_pr.sh k8s

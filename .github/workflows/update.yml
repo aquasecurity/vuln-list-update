@@ -13,7 +13,7 @@ jobs:
       VULN_LIST_DIR: "vuln-list"
     steps:
     - name: Check out code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Go
       uses: actions/setup-go@v4
@@ -21,7 +21,7 @@ jobs:
         go-version-file: go.mod
 
     - name: Check out vuln-list repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: ${{ github.repository_owner }}/vuln-list
         token: ${{ secrets.ACCESS_TOKEN }}

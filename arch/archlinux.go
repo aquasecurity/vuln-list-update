@@ -7,10 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
-
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

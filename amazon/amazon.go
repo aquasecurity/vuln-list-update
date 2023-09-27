@@ -6,14 +6,16 @@ import (
 	"compress/gzip"
 	"encoding/xml"
 	"fmt"
-	"github.com/aquasecurity/vuln-list-update/utils"
-	"golang.org/x/xerrors"
-	"gopkg.in/cheggaaa/pb.v1"
 	"log"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
+
+	"golang.org/x/xerrors"
+	"gopkg.in/cheggaaa/pb.v1"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

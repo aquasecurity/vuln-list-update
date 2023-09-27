@@ -11,8 +11,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 type CWEConfig struct {

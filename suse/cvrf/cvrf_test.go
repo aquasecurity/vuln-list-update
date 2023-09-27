@@ -8,10 +8,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/spf13/afero"
 
 	"github.com/aquasecurity/vuln-list-update/suse/cvrf"
 )
