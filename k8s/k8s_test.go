@@ -32,6 +32,12 @@ func Test_cveIDToModifiedMap(t *testing.T) {
 		assert.Equal(t, tm["CVE-2018-1002102"], "2018-11-26T11:07:36Z")
 	})
 
+	t.Run("not compatibale file", func(t *testing.T) {
+		tm, err := cveIDToModifiedMap("./testdata/sad/upstream")
+		assert.NoError(t, err)
+		assert.True(t, len(tm) == 0)
+	})
+
 	t.Run("non existing folder", func(t *testing.T) {
 		tm, err := cveIDToModifiedMap("./test")
 		assert.NoError(t, err)
