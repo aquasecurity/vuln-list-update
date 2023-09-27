@@ -16,3 +16,4 @@ vuln-list-update
 
 # MacOs
 .DS_Store
+.vscode
