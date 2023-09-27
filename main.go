@@ -7,9 +7,6 @@ import (
 	"os"
 	"time"
 
-	alt "github.com/aquasecurity/vuln-list-update/alt/oval"
-	"github.com/aquasecurity/vuln-list-update/wolfi"
-
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
@@ -17,6 +14,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
+	alt "github.com/aquasecurity/vuln-list-update/alt/oval"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/chainguard"
@@ -37,6 +35,7 @@ import (
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/aquasecurity/vuln-list-update/wolfi"
 )
 
 var (
