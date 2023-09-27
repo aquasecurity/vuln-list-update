@@ -273,19 +273,23 @@ func olderCve(cveID string, currentCVEUpdated string, existCveLastUpdated map[st
 	if len(existCveLastUpdated) == 0 {
 		return false
 	}
-	if lastUpdated, ok := existCveLastUpdated[cveID]; ok {
-		existastUpdated, err := time.Parse(time.RFC3339, lastUpdated)
-		if err != nil {
-			return false
-		}
-		currentLastUpdated, err := time.Parse(time.RFC3339, currentCVEUpdated)
-		if err != nil {
-			return false
-		}
-		// check if the current collcted cve is older or same as the existing one
-		if currentLastUpdated.Before(existastUpdated) || currentLastUpdated == existastUpdated {
-			return true
-		}
+	var lastUpdated string
+	var ok bool
+	if lastUpdated, ok = existCveLastUpdated[cveID]; !ok {
+		return false
 	}
+	existLastUpdated, err := time.Parse(time.RFC3339, lastUpdated)
+	if err != nil {
+		return false
+	}
+	currentLastUpdated, err := time.Parse(time.RFC3339, currentCVEUpdated)
+	if err != nil {
+		return false
+	}
+	// check if the current collcted cve is older or same as the existing one
+	if currentLastUpdated.Before(existLastUpdated) || currentLastUpdated == existLastUpdated {
+		return true
+	}
+
 	return false
 }

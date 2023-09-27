@@ -52,8 +52,9 @@ func Test_OlderCve(t *testing.T) {
 		want            bool
 	}{
 		{Name: "match CVE but older Modified", currentCveID: "CVE-2018-1002102", currentModified: "2018-11-25T11:07:36Z", cveModified: map[string]string{"CVE-2018-1002102": "2018-11-26T11:07:36Z"}, want: true},
-		{Name: "match CVE but older Modified", currentCveID: "CVE-2018-1002102", currentModified: "2018-11-27T11:07:36Z", cveModified: map[string]string{"CVE-2018-1002102": "2018-11-26T11:07:36Z"}, want: false},
-		{Name: "match CVE but older Modified", currentCveID: "CVE-2018-1002102", currentModified: "2018-11-27T11:07:36Z", cveModified: map[string]string{}, want: false},
+		{Name: "match CVE but older not Modified", currentCveID: "CVE-2018-1002102", currentModified: "2018-11-27T11:07:36Z", cveModified: map[string]string{"CVE-2018-1002102": "2018-11-26T11:07:36Z"}, want: false},
+		{Name: "match CVE same time", currentCveID: "CVE-2018-1002102", currentModified: "2018-11-27T11:07:36Z", cveModified: map[string]string{"CVE-2018-1002102": "2018-11-27T11:07:36Z"}, want: true},
+		{Name: "no existing cve", currentCveID: "CVE-2018-1002102", currentModified: "2018-11-27T11:07:36Z", cveModified: map[string]string{}, want: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
