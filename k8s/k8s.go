@@ -1,14 +1,12 @@
 package k8s
 
 import (
-	"archive/tar"
-	"compress/gzip"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -16,6 +14,7 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/osv"
+	"github.com/aquasecurity/vuln-list-update/utils"
 	uu "github.com/aquasecurity/vuln-list-update/utils"
 )
 
@@ -223,49 +222,35 @@ func getExitingCvesToModifiedMap() (map[string]string, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
-	return tarToMap(response.Body)
+	return cveIDToModifiedMap(utils.VulnListDir())
 }
 
-// tarToMap read ewxisting cves from tar file and map it to cve id and last updated
-func tarToMap(reader io.ReadCloser) (map[string]string, error) {
-	cveTimeMap := make(map[string]string)
-	gz, err := gzip.NewReader(reader)
-	if err != nil {
-		return nil, err
+// cveIDToModifiedMap read existing cves from vulnList folder and map it to cve id and last updated
+func cveIDToModifiedMap(cveFolderPath string) (map[string]string, error) {
+	mapCveTime := make(map[string]string)
+	if _, err := os.Stat(cveFolderPath); os.IsNotExist(err) {
+		return mapCveTime, nil
 	}
-	defer func() {
-		_ = gz.Close()
-	}()
-	tarReader := tar.NewReader(gz)
-	for {
-		header, err := tarReader.Next()
-		if err == io.EOF {
-			break
-		} else if err != nil {
+	fileInfo, err := os.ReadDir(cveFolderPath)
+	if err != nil {
+		return mapCveTime, err
+	}
+	for _, file := range fileInfo {
+		if file.IsDir() {
+			continue
+		}
+		b, err := os.ReadFile(filepath.Join(cveFolderPath, file.Name()))
+		if err != nil {
 			return nil, err
 		}
-		info := header.FileInfo()
-		switch header.Typeflag {
-
-		// if its a dir and it doesn't exist create it
-		case tar.TypeDir:
-			continue
-		case tar.TypeReg:
-			if strings.Contains(info.Name(), "CVE-") && strings.HasSuffix(info.Name(), ".json") {
-				b, err := io.ReadAll(tarReader)
-				if err != nil {
-					return nil, err
-				}
-				var cve osv.OSV
-				err = json.Unmarshal([]byte(strings.ReplaceAll(string(b), "\n", "")), &cve)
-				if err != nil {
-					return nil, err
-				}
-				cveTimeMap[cve.ID] = cve.Modified
-			}
+		var cve osv.OSV
+		err = json.Unmarshal([]byte(strings.ReplaceAll(string(b), "\n", "")), &cve)
+		if err != nil {
+			return nil, err
 		}
+		mapCveTime[cve.ID] = cve.Modified
 	}
-	return cveTimeMap, nil
+	return mapCveTime, nil
 }
 
 // olderCve check if the current cve is older than the existing one

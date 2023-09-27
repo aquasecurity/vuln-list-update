@@ -25,19 +25,15 @@ func Test_ParseVulneDB(t *testing.T) {
 	assert.Equal(t, string(wantVulnDB), string(gotVulnDB))
 }
 
-func Test_TarToMap(t *testing.T) {
-	t.Run("valid tar file with cve", func(t *testing.T) {
-		r, err := os.Open("./testdata/fixture/cve_data.tgz")
-		assert.NoError(t, err)
-		tm, err := tarToMap(r)
+func Test_cveIDToModifiedMap(t *testing.T) {
+	t.Run("valid folder with cve", func(t *testing.T) {
+		tm, err := cveIDToModifiedMap("./testdata/happy/upstream")
 		assert.NoError(t, err)
 		assert.Equal(t, tm["CVE-2018-1002102"], "2018-11-26T11:07:36Z")
 	})
 
-	t.Run("no valid tar file without cve", func(t *testing.T) {
-		r, err := os.Open("./testdata/fixture/no_cve_test.tgz")
-		assert.NoError(t, err)
-		tm, err := tarToMap(r)
+	t.Run("non existing folder", func(t *testing.T) {
+		tm, err := cveIDToModifiedMap("./test")
 		assert.NoError(t, err)
 		assert.True(t, len(tm) == 0)
 	})
