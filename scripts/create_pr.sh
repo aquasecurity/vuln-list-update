@@ -42,5 +42,7 @@ if [[ -n $(git status --porcelain) ]]; then
     gh pr create --base "$BASE_BRANCH" --head "$BRANCH_NAME" --title "$PR_TITLE" --body "$PR_BODY" --repo "$REPO"
 
     git checkout $BASE_BRANCH
+
+    sleep 30
   done
 fi
