@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 TARGET=$1
 COMMIT_MSG=$2

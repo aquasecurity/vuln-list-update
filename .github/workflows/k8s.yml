@@ -9,7 +9,7 @@ jobs:
     name: Update vuln-list-k8s
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list-k8s"
       REPOSITORY_OWNER: ${{ github.repository_owner }}
     steps:
@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: ${{ env.REPOSITORY_OWNER }}/${{ env.VULN_LIST_DIR }}
-        token: ${{ secrets.ACCESS_TOKEN }}
+        token: ${{ secrets.ORG_REPO_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
 
     - name: Setup github user email and name
@@ -38,4 +38,4 @@ jobs:
 
     - if: always()
       name: K8s official vulnerability advisory
-      run: ./create_pr.sh k8s
+      run: ./scripts/create_pr.sh k8s
