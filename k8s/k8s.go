@@ -19,10 +19,10 @@ import (
 )
 
 const (
-	k8svulnDBURL        = "https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json"
-	vulnListRepoTarBall = "https://api.github.com/repos/aquasecurity/vuln-list-k8s/tarball"
-	mitreURL            = "https://cveawg.mitre.org/api/cve"
-	cveList             = "https://www.cve.org/"
+	k8svulnDBURL   = "https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json"
+	mitreURL       = "https://cveawg.mitre.org/api/cve"
+	cveList        = "https://www.cve.org/"
+	upstreamFolder = "upstream"
 )
 
 type VulnDB struct {
@@ -52,7 +52,7 @@ func Collect() (*VulnDB, error) {
 	if err = json.NewDecoder(response.Body).Decode(&db); err != nil {
 		return nil, err
 	}
-	cvesMap, err := getExitingCvesToModifiedMap()
+	cvesMap, err := cveIDToModifiedMap(filepath.Join(utils.VulnListDir(), upstreamFolder))
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func update() error {
 		return err
 	}
 	for _, cve := range k8sdb.Cves {
-		if err = uu.Write(filepath.Join(uu.VulnListDir(), "upstream", fmt.Sprintf("%s.json", cve.ID)), cve); err != nil {
+		if err = uu.Write(filepath.Join(uu.VulnListDir(), upstreamFolder, fmt.Sprintf("%s.json", cve.ID)), cve); err != nil {
 			return xerrors.Errorf("failed to save k8s CVE detail: %w", err)
 		}
 	}
@@ -215,16 +215,6 @@ func cveMissingImportantData(vulnerability *Cve) bool {
 		len(vulnerability.CvssV3.Vector) == 0
 }
 
-// getExitingCvesToModifiedMap get the existing cves from vuln-list-k8s repo and map it to cve id and last updated
-func getExitingCvesToModifiedMap() (map[string]string, error) {
-	response, err := http.Get(vulnListRepoTarBall)
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
-	return cveIDToModifiedMap(utils.VulnListDir())
-}
-
 // cveIDToModifiedMap read existing cves from vulnList folder and map it to cve id and last updated
 func cveIDToModifiedMap(cveFolderPath string) (map[string]string, error) {
 	mapCveTime := make(map[string]string)
@@ -237,6 +227,9 @@ func cveIDToModifiedMap(cveFolderPath string) (map[string]string, error) {
 	}
 	for _, file := range fileInfo {
 		if file.IsDir() {
+			continue
+		}
+		if !(strings.Contains(file.Name(), "CVE-") && strings.HasSuffix(file.Name(), ".json")) {
 			continue
 		}
 		b, err := os.ReadFile(filepath.Join(cveFolderPath, file.Name()))

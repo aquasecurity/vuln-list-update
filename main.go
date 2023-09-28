@@ -174,7 +174,7 @@ func run() error {
 		}
 	case "k8s":
 		if err := k8s.Update(); err != nil {
-			return xerrors.Errorf("Chainguard update error: %w", err)
+			return xerrors.Errorf("k8s update error: %w", err)
 		}
 	default:
 		return xerrors.New("unknown target")
