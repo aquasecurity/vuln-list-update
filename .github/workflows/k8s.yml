@@ -38,4 +38,4 @@ jobs:
 
     - if: always()
       name: K8s official vulnerability advisory
-      run: ./create_pr.sh k8s
+      run: ./scripts/create_pr.sh k8s

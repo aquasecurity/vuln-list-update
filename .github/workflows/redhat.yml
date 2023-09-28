@@ -37,8 +37,8 @@ jobs:
 
     - if: always()
       name: Red Hat OVALv2
-      run: ./update.sh redhat-oval "Red Hat OVAL v2"
+      run: ./scripts/update.sh redhat-oval "Red Hat OVAL v2"
 
     - if: always()
       name: Red Hat Security Data API
-      run: ./update.sh redhat "Red Hat Security Data API"
+      run: ./scripts/update.sh redhat "Red Hat Security Data API"

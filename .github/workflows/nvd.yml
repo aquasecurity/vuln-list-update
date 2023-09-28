@@ -37,4 +37,4 @@ jobs:
 
     - if: always()
       name: NVD
-      run: ./update.sh nvd "NVD"
+      run: ./scripts/update.sh nvd "NVD"
