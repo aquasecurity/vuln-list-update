@@ -24,7 +24,7 @@ if [[ -n $(git status --porcelain) ]]; then
     PR_BODY="This PR updates $FILE"
 
     # Check if a PR with the same branch name already exists
-    OPEN_PR_COUNT=$(gh pr list --state open --base $BASE_BRANCH --repo "$REPO" | grep "$FILE" | wc -l)
+    OPEN_PR_COUNT=$(gh pr list --state open --base $BASE_BRANCH --repo "$REPO"  --limit 50| grep "$FILE" | wc -l)
 
     if [ "$OPEN_PR_COUNT" != 0 ]; then
       echo "PR for $FILE already exists, skipping."
