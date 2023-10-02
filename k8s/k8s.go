@@ -103,13 +103,19 @@ func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 			}
 			descComponent := getComponentFromDescription(item.ContentText, vulnerability.Package)
 			fullVulnerabilities = append(fullVulnerabilities, &osv.OSV{
-				ID:         cveID,
-				Modified:   item.DatePublished,
-				Published:  item.DatePublished,
-				Summary:    item.Summary,
-				Details:    vulnerability.Description,
-				Affected:   getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
-				References: []osv.Reference{{Url: item.URL}, {Url: item.ExternalURL}},
+				ID:        cveID,
+				Modified:  item.DatePublished,
+				Published: item.DatePublished,
+				Summary:   item.Summary,
+				Details:   vulnerability.Description,
+				Affected:  getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
+				References: []osv.Reference{
+					{
+						Url: item.URL, Type: "ADVISORY",
+					}, {
+						Url: item.ExternalURL, Type: "ADVISORY",
+					},
+				},
 			})
 		}
 	}
@@ -138,6 +144,7 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 			Ranges: []osv.Range{
 				{
 					Events: events,
+					Type:   "SEMVER",
 				},
 			},
 			Package: osv.Package{
