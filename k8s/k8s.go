@@ -2,7 +2,6 @@ package k8s
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -104,34 +103,31 @@ func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 			}
 			descComponent := getComponentFromDescription(item.ContentText, vulnerability.Package)
 			fullVulnerabilities = append(fullVulnerabilities, &osv.OSV{
-				ID:         cveID,
-				Modified:   item.DatePublished,
-				Published:  item.DatePublished,
-				Summary:    item.Summary,
-				Details:    vulnerability.Description,
-				Affected:   getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
-				References: []osv.Reference{{Url: item.URL}, {Url: item.ExternalURL}},
+				ID:        cveID,
+				Modified:  item.DatePublished,
+				Published: item.DatePublished,
+				Summary:   item.Summary,
+				Details:   vulnerability.Description,
+				Affected:  getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
+				References: []osv.Reference{
+					{
+						Url: item.URL, Type: "ADVISORY",
+					}, {
+						Url: item.ExternalURL, Type: "ADVISORY",
+					},
+				},
 			})
 		}
-	}
-	err := validateCvesData(fullVulnerabilities)
-	if err != nil {
-		return nil, err
 	}
 	return &VulnDB{fullVulnerabilities}, nil
 }
 
 func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
-	affected := make([]osv.Affected, 0)
+	events := make([]osv.Event, 0)
 	for _, av := range v {
 		if len(av.Introduced) == 0 {
 			continue
 		}
-		if av.Introduced == "0.0.0" {
-			av.Introduced = "0"
-		}
-		events := make([]osv.Event, 0)
-		ranges := make([]osv.Range, 0)
 		if len(av.Introduced) > 0 {
 			events = append(events, osv.Event{Introduced: av.Introduced})
 		}
@@ -142,12 +138,28 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 		} else if len(av.Introduced) > 0 && len(av.LastAffected) == 0 && len(av.Fixed) == 0 {
 			events = append(events, osv.Event{LastAffected: av.Introduced})
 		}
-		ranges = append(ranges, osv.Range{
-			Events: events,
-		})
-		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "kubernetes"}, Severities: []osv.Severity{{Type: cvss.Type, Score: cvss.Vector}}})
 	}
-	return affected
+	return []osv.Affected{
+		{
+			Ranges: []osv.Range{
+				{
+					Events: events,
+					Type:   "SEMVER",
+				},
+			},
+			Package: osv.Package{
+				Name:      p,
+				Ecosystem: "kubernetes",
+			},
+			Severities: []osv.Severity{
+				{
+					Type:  cvss.Type,
+					Score: cvss.Vector,
+				},
+			},
+		},
+	}
+
 }
 
 func getComponentName(k8sComponent string, mitreComponent string) string {
@@ -158,55 +170,6 @@ func getComponentName(k8sComponent string, mitreComponent string) string {
 		k8sComponent = mitreComponent
 	}
 	return strings.ToLower(fmt.Sprintf("%s/%s", upstreamOrgByName(k8sComponent), upstreamRepoByName(k8sComponent)))
-}
-
-func validateCvesData(cves []*osv.OSV) error {
-	var result error
-	for _, cve := range cves {
-		if len(cve.ID) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nid is mssing on cve #%s", cve.ID))
-		}
-		if len(cve.Published) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nCreatedAt is mssing on cve #%s", cve.ID))
-		}
-		if len(cve.Summary) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nSummary is mssing on cve #%s", cve.ID))
-		}
-		for _, af := range cve.Affected {
-			if len(strings.TrimPrefix(af.Package.Name, upstreamOrgByName(af.Package.Name))) == 0 {
-				result = errors.Join(result, fmt.Errorf("\nComponent is mssing on cve #%s", cve.ID))
-			}
-		}
-		if len(cve.Details) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nDescription is mssing on cve #%s", cve.ID))
-		}
-		if len(cve.Affected) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nAffected Version is missing on cve #%s", cve.ID))
-		}
-		if len(cve.Affected) > 0 {
-			for _, v := range cve.Affected {
-				for _, s := range v.Severities {
-					if len(s.Type) == 0 {
-						result = errors.Join(result, fmt.Errorf("\nVector is mssing on cve #%s", cve.ID))
-					}
-				}
-				for _, r := range v.Ranges {
-					for i := 1; i < len(r.Events); i++ {
-						if len(r.Events[i-1].Introduced) == 0 {
-							result = errors.Join(result, fmt.Errorf("\nAffectedVersion Introduced is missing from cve #%s", cve.ID))
-						}
-						if len(r.Events[i].Fixed) == 0 && len(r.Events[i].LastAffected) == 0 {
-							result = errors.Join(result, fmt.Errorf("\nAffectedVersion Fixed and LastAffected are missing from cve #%s", cve.ID))
-						}
-					}
-				}
-			}
-		}
-		if len(cve.References) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nUrls is mssing on cve #%s", cve.ID))
-		}
-	}
-	return result
 }
 
 func cveMissingImportantData(vulnerability *Cve) bool {
