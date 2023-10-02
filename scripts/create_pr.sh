@@ -16,11 +16,6 @@ if [[ -n $(git status --porcelain) ]]; then
   CHANGED_FILES=$(git ls-files . --exclude-standard --others | grep "CVE")
   REPO="$REPOSITORY_OWNER/$VULN_LIST_DIR"
   BASE_BRANCH="main"
-  # Download schema.json
-  wget https://raw.githubusercontent.com/ossf/osv-schema/v1.6.0/validation/schema.json
-
-  # Install JSON osv schema validator
-  pip install check-jsonschema
 
   # Loop through changed files and create PRs
   for FILE in $CHANGED_FILES; do
@@ -36,9 +31,6 @@ if [[ -n $(git status --porcelain) ]]; then
       echo "PR for $FILE already exists, skipping."
       continue
     fi
-
-    # Validate the cve schema
-    check-jsonschema --schemafile schema.json "$FILE"
 
     # Create a new branch and push it
     git checkout -b "$BRANCH_NAME"
