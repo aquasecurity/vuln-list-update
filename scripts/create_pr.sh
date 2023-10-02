@@ -16,7 +16,6 @@ if [[ -n $(git status --porcelain) ]]; then
   CHANGED_FILES=$(git ls-files . --exclude-standard --others | grep "CVE")
   REPO="$REPOSITORY_OWNER/$VULN_LIST_DIR"
   BASE_BRANCH="main"
-
   # Loop through changed files and create PRs
   for FILE in $CHANGED_FILES; do
 
@@ -25,7 +24,7 @@ if [[ -n $(git status --porcelain) ]]; then
     PR_BODY="This PR updates $FILE"
 
     # Check if a PR with the same branch name already exists
-    OPEN_PR_COUNT=$(gh pr list --state open --base $BASE_BRANCH --repo "$REPO"  --limit 50| grep "$FILE" | wc -l)
+    OPEN_PR_COUNT=$(gh pr list --state open --base $BASE_BRANCH --repo "$REPO" --limit 50 | grep "$FILE" | wc -l)
 
     if [ "$OPEN_PR_COUNT" != 0 ]; then
       echo "PR for $FILE already exists, skipping."
