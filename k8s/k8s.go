@@ -122,16 +122,11 @@ func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 }
 
 func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
-	affected := make([]osv.Affected, 0)
+	events := make([]osv.Event, 0)
 	for _, av := range v {
 		if len(av.Introduced) == 0 {
 			continue
 		}
-		if av.Introduced == "0.0.0" {
-			av.Introduced = "0"
-		}
-		events := make([]osv.Event, 0)
-		ranges := make([]osv.Range, 0)
 		if len(av.Introduced) > 0 {
 			events = append(events, osv.Event{Introduced: av.Introduced})
 		}
@@ -142,12 +137,27 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 		} else if len(av.Introduced) > 0 && len(av.LastAffected) == 0 && len(av.Fixed) == 0 {
 			events = append(events, osv.Event{LastAffected: av.Introduced})
 		}
-		ranges = append(ranges, osv.Range{
-			Events: events,
-		})
-		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "kubernetes"}, Severities: []osv.Severity{{Type: cvss.Type, Score: cvss.Vector}}})
 	}
-	return affected
+	return []osv.Affected{
+		{
+			Ranges: []osv.Range{
+				{
+					Events: events,
+				},
+			},
+			Package: osv.Package{
+				Name:      p,
+				Ecosystem: "kubernetes",
+			},
+			Severities: []osv.Severity{
+				{
+					Type:  cvss.Type,
+					Score: cvss.Vector,
+				},
+			},
+		},
+	}
+
 }
 
 func getComponentName(k8sComponent string, mitreComponent string) string {
@@ -191,7 +201,10 @@ func validateCvesData(cves []*osv.OSV) error {
 					}
 				}
 				for _, r := range v.Ranges {
-					for i := 1; i < len(r.Events); i++ {
+					if len(r.Events)%2 != 0 {
+						result = errors.Join(result, fmt.Errorf("\nAffectedVersion Events are not in pairs on cve #%s", cve.ID))
+					}
+					for i := 1; i < len(r.Events); i += 2 {
 						if len(r.Events[i-1].Introduced) == 0 {
 							result = errors.Join(result, fmt.Errorf("\nAffectedVersion Introduced is missing from cve #%s", cve.ID))
 						}

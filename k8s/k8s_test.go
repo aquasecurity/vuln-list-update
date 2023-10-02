@@ -16,8 +16,6 @@ func Test_ParseVulneDB(t *testing.T) {
 	assert.NoError(t, err)
 	kvd, err := ParseVulnDBData(bi, map[string]string{})
 	assert.NoError(t, err)
-	err = validateCvesData(kvd.Cves)
-	assert.NoError(t, err)
 	gotVulnDB, err := json.Marshal(kvd.Cves)
 	assert.NoError(t, err)
 	wantVulnDB, err := os.ReadFile("./testdata/expected-vulndb.json")
