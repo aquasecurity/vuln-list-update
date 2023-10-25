@@ -2,7 +2,6 @@ package k8s
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,10 +18,10 @@ import (
 )
 
 const (
-	k8svulnDBURL        = "https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json"
-	vulnListRepoTarBall = "https://api.github.com/repos/aquasecurity/vuln-list-k8s/tarball"
-	mitreURL            = "https://cveawg.mitre.org/api/cve"
-	cveList             = "https://www.cve.org/"
+	k8svulnDBURL   = "https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json"
+	mitreURL       = "https://cveawg.mitre.org/api/cve"
+	cveList        = "https://www.cve.org/"
+	upstreamFolder = "upstream"
 )
 
 type VulnDB struct {
@@ -52,7 +51,7 @@ func Collect() (*VulnDB, error) {
 	if err = json.NewDecoder(response.Body).Decode(&db); err != nil {
 		return nil, err
 	}
-	cvesMap, err := getExitingCvesToModifiedMap()
+	cvesMap, err := cveIDToModifiedMap(filepath.Join(utils.VulnListDir(), upstreamFolder))
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +78,7 @@ func update() error {
 		return err
 	}
 	for _, cve := range k8sdb.Cves {
-		if err = uu.Write(filepath.Join(uu.VulnListDir(), "upstream", fmt.Sprintf("%s.json", cve.ID)), cve); err != nil {
+		if err = uu.Write(filepath.Join(uu.VulnListDir(), upstreamFolder, fmt.Sprintf("%s.json", cve.ID)), cve); err != nil {
 			return xerrors.Errorf("failed to save k8s CVE detail: %w", err)
 		}
 	}
@@ -104,34 +103,31 @@ func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 			}
 			descComponent := getComponentFromDescription(item.ContentText, vulnerability.Package)
 			fullVulnerabilities = append(fullVulnerabilities, &osv.OSV{
-				ID:         cveID,
-				Modified:   item.DatePublished,
-				Published:  item.DatePublished,
-				Summary:    item.Summary,
-				Details:    vulnerability.Description,
-				Affected:   getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
-				References: []osv.Reference{{Url: item.URL}, {Url: item.ExternalURL}},
+				ID:        cveID,
+				Modified:  item.DatePublished,
+				Published: item.DatePublished,
+				Summary:   item.Summary,
+				Details:   vulnerability.Description,
+				Affected:  getAffectedEvents(vulnerability.versions, getComponentName(descComponent, vulnerability.Package), vulnerability.CvssV3),
+				References: []osv.Reference{
+					{
+						Url: item.URL, Type: "ADVISORY",
+					}, {
+						Url: item.ExternalURL, Type: "ADVISORY",
+					},
+				},
 			})
 		}
-	}
-	err := validateCvesData(fullVulnerabilities)
-	if err != nil {
-		return nil, err
 	}
 	return &VulnDB{fullVulnerabilities}, nil
 }
 
 func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
-	affected := make([]osv.Affected, 0)
+	events := make([]osv.Event, 0)
 	for _, av := range v {
 		if len(av.Introduced) == 0 {
 			continue
 		}
-		if av.Introduced == "0.0.0" {
-			av.Introduced = "0"
-		}
-		events := make([]osv.Event, 0)
-		ranges := make([]osv.Range, 0)
 		if len(av.Introduced) > 0 {
 			events = append(events, osv.Event{Introduced: av.Introduced})
 		}
@@ -142,12 +138,28 @@ func getAffectedEvents(v []*Version, p string, cvss Cvssv3) []osv.Affected {
 		} else if len(av.Introduced) > 0 && len(av.LastAffected) == 0 && len(av.Fixed) == 0 {
 			events = append(events, osv.Event{LastAffected: av.Introduced})
 		}
-		ranges = append(ranges, osv.Range{
-			Events: events,
-		})
-		affected = append(affected, osv.Affected{Ranges: ranges, Package: osv.Package{Name: p, Ecosystem: "kubernetes"}, Severities: []osv.Severity{{Type: cvss.Type, Score: cvss.Vector}}})
 	}
-	return affected
+	return []osv.Affected{
+		{
+			Ranges: []osv.Range{
+				{
+					Events: events,
+					Type:   "SEMVER",
+				},
+			},
+			Package: osv.Package{
+				Name:      p,
+				Ecosystem: "kubernetes",
+			},
+			Severities: []osv.Severity{
+				{
+					Type:  cvss.Type,
+					Score: cvss.Vector,
+				},
+			},
+		},
+	}
+
 }
 
 func getComponentName(k8sComponent string, mitreComponent string) string {
@@ -160,69 +172,10 @@ func getComponentName(k8sComponent string, mitreComponent string) string {
 	return strings.ToLower(fmt.Sprintf("%s/%s", upstreamOrgByName(k8sComponent), upstreamRepoByName(k8sComponent)))
 }
 
-func validateCvesData(cves []*osv.OSV) error {
-	var result error
-	for _, cve := range cves {
-		if len(cve.ID) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nid is mssing on cve #%s", cve.ID))
-		}
-		if len(cve.Published) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nCreatedAt is mssing on cve #%s", cve.ID))
-		}
-		if len(cve.Summary) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nSummary is mssing on cve #%s", cve.ID))
-		}
-		for _, af := range cve.Affected {
-			if len(strings.TrimPrefix(af.Package.Name, upstreamOrgByName(af.Package.Name))) == 0 {
-				result = errors.Join(result, fmt.Errorf("\nComponent is mssing on cve #%s", cve.ID))
-			}
-		}
-		if len(cve.Details) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nDescription is mssing on cve #%s", cve.ID))
-		}
-		if len(cve.Affected) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nAffected Version is missing on cve #%s", cve.ID))
-		}
-		if len(cve.Affected) > 0 {
-			for _, v := range cve.Affected {
-				for _, s := range v.Severities {
-					if len(s.Type) == 0 {
-						result = errors.Join(result, fmt.Errorf("\nVector is mssing on cve #%s", cve.ID))
-					}
-				}
-				for _, r := range v.Ranges {
-					for i := 1; i < len(r.Events); i++ {
-						if len(r.Events[i-1].Introduced) == 0 {
-							result = errors.Join(result, fmt.Errorf("\nAffectedVersion Introduced is missing from cve #%s", cve.ID))
-						}
-						if len(r.Events[i].Fixed) == 0 && len(r.Events[i].LastAffected) == 0 {
-							result = errors.Join(result, fmt.Errorf("\nAffectedVersion Fixed and LastAffected are missing from cve #%s", cve.ID))
-						}
-					}
-				}
-			}
-		}
-		if len(cve.References) == 0 {
-			result = errors.Join(result, fmt.Errorf("\nUrls is mssing on cve #%s", cve.ID))
-		}
-	}
-	return result
-}
-
 func cveMissingImportantData(vulnerability *Cve) bool {
 	return len(vulnerability.versions) == 0 ||
 		len(vulnerability.Package) == 0 ||
 		len(vulnerability.CvssV3.Vector) == 0
-}
-
-// getExitingCvesToModifiedMap get the existing cves from vuln-list-k8s repo and map it to cve id and last updated
-func getExitingCvesToModifiedMap() (map[string]string, error) {
-	response, err := http.Get(vulnListRepoTarBall)
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
-	return cveIDToModifiedMap(utils.VulnListDir())
 }
 
 // cveIDToModifiedMap read existing cves from vulnList folder and map it to cve id and last updated
@@ -237,6 +190,9 @@ func cveIDToModifiedMap(cveFolderPath string) (map[string]string, error) {
 	}
 	for _, file := range fileInfo {
 		if file.IsDir() {
+			continue
+		}
+		if !(strings.Contains(file.Name(), "CVE-") && strings.HasSuffix(file.Name(), ".json")) {
 			continue
 		}
 		b, err := os.ReadFile(filepath.Join(cveFolderPath, file.Name()))

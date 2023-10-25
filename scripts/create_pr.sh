@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 TARGET=$1
 
@@ -24,7 +24,7 @@ if [[ -n $(git status --porcelain) ]]; then
     PR_BODY="This PR updates $FILE"
 
     # Check if a PR with the same branch name already exists
-    OPEN_PR_COUNT=$(gh pr list --state open --base $BASE_BRANCH --repo "$REPO" | grep "$FILE" | wc -l)
+    OPEN_PR_COUNT=$(gh pr list --state open --base $BASE_BRANCH --repo "$REPO"  --limit 50| grep "$FILE" | wc -l)
 
     if [ "$OPEN_PR_COUNT" != 0 ]; then
       echo "PR for $FILE already exists, skipping."
@@ -42,5 +42,7 @@ if [[ -n $(git status --porcelain) ]]; then
     gh pr create --base "$BASE_BRANCH" --head "$BRANCH_NAME" --title "$PR_TITLE" --body "$PR_BODY" --repo "$REPO"
 
     git checkout $BASE_BRANCH
+
+    sleep 30
   done
 fi

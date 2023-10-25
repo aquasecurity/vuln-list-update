@@ -9,7 +9,7 @@ jobs:
     name: Update repo vuln-list
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list"
     steps:
     - name: Check out code
@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: ${{ github.repository_owner }}/vuln-list
-        token: ${{ secrets.ACCESS_TOKEN }}
+        token: ${{ secrets.ORG_REPO_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
 
     - name: Setup github user email and name
@@ -37,64 +37,64 @@ jobs:
 
     - if: always()
       name: Alpine Issue Tracker
-      run: ./update.sh alpine "Alpine Issue Tracker"
+      run: ./scripts/update.sh alpine "Alpine Issue Tracker"
 
     - if: always()
       name: Alpine Unfixed Vulnerability Tracker
-      run: ./update.sh alpine-unfixed "Alpine Secshfixes Tracker"
+      run: ./scripts/update.sh alpine-unfixed "Alpine Secshfixes Tracker"
 
     - if: always()
       name: Ubuntu CVE Tracker
-      run: ./update.sh ubuntu "Ubuntu CVE Tracker"
+      run: ./scripts/update.sh ubuntu "Ubuntu CVE Tracker"
 
     - if: always()
       name: Amazon Linux AMI Security Advisory
-      run: ./update.sh amazon "Amazon Linux Security Center"
+      run: ./scripts/update.sh amazon "Amazon Linux Security Center"
 
     - if: always()
       name: Oracle Linux OVAL
-      run: ./update.sh oracle-oval "Oracle Linux OVAL"
+      run: ./scripts/update.sh oracle-oval "Oracle Linux OVAL"
 
     - if: always()
       name: Photon CVE Advisory
-      run: ./update.sh photon "Photon Security Advisories"
+      run: ./scripts/update.sh photon "Photon Security Advisories"
 
     - if: always()
       name: GitHub Security Advisory
-      run: ./update.sh ghsa "GitHub Security Advisory"
+      run: ./scripts/update.sh ghsa "GitHub Security Advisory"
 
     - if: always()
       name: CWE
-      run: ./update.sh cwe "CWE"
+      run: ./scripts/update.sh cwe "CWE"
 
     - if: always()
       name: SUSE CVRF
-      run: ./update.sh suse-cvrf "SUSE CVRF"
+      run: ./scripts/update.sh suse-cvrf "SUSE CVRF"
 
     - if: always()
       name: GitLab Advisory Database
-      run: ./update.sh glad "GitLab Advisory Database"
+      run: ./scripts/update.sh glad "GitLab Advisory Database"
 
     - if: always()
       name: AlmaLinux Security Advisory
-      run: ./update.sh alma "AlmaLinux Security Advisory"
+      run: ./scripts/update.sh alma "AlmaLinux Security Advisory"
 
     - if: always()
       name: Rocky Linux Security Advisory
-      run: ./update.sh rocky "Rocky Linux Security Advisory"
+      run: ./scripts/update.sh rocky "Rocky Linux Security Advisory"
 
     - if: always()
       name: CBL-Mariner Vulnerability Data
-      run: ./update.sh mariner "CBL-Mariner Vulnerability Data"
+      run: ./scripts/update.sh mariner "CBL-Mariner Vulnerability Data"
 
     - if: always()
       name: OSV Database
-      run: ./update.sh osv "OSV Database"
+      run: ./scripts/update.sh osv "OSV Database"
 
     - if: always()
       name: Wolfi Secdb
-      run: ./update.sh wolfi "Wolfi Security Data"
+      run: ./scripts/update.sh wolfi "Wolfi Security Data"
 
     - if: always()
       name: Chainguard Secdb
-      run: ./update.sh chainguard "Chainguard Security Data"
+      run: ./scripts/update.sh chainguard "Chainguard Security Data"
