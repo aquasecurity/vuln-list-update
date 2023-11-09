@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -158,8 +159,26 @@ func (c Client) update(dirname string, bugs []Bug) error {
 	for _, bug := range bugs {
 		dir := filepath.Join(c.vulnListDir, trackerDir, dirname)
 		if dirname == "CVE" {
-			if err := utils.SaveCVEPerYear(dir, bug.Header.ID, bug); err != nil {
-				return xerrors.Errorf("debian: failed to save CVE per year: %w", err)
+			if strings.HasSuffix(bug.Header.ID, "-XXXX") {
+				var bugno int
+				for _, ann := range bug.Annotations {
+					if ann.Type == "package" && ann.BugNo != 0 {
+						bugno = ann.BugNo
+						break
+					}
+				}
+
+				bug.Header.ID = tempBugName(bugno, bug.Header.Description)
+
+				fileName := fmt.Sprintf("%s.json", bug.Header.ID)
+				filePath := filepath.Join(dir, "TEMP", fileName)
+				if err := utils.Write(filePath, bug); err != nil {
+					return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
+				}
+			} else {
+				if err := utils.SaveCVEPerYear(dir, bug.Header.ID, bug); err != nil {
+					return xerrors.Errorf("debian: failed to save CVE per year: %w", err)
+				}
 			}
 		} else {
 			fileName := fmt.Sprintf("%s.json", bug.Header.ID)
@@ -350,4 +369,16 @@ func (c Client) parseSources(sourcePath string) ([]textproto.MIMEHeader, error) 
 	}
 
 	return headers, nil
+}
+
+// ref. https://salsa.debian.org/security-tracker-team/security-tracker/-/blob/50ca55fb66ec7592f9bc1053a11dbf0bd50ee425/lib/python/bugs.py#L402
+func tempBugName(bugNumber int, description string) string {
+	switch {
+	case strings.HasPrefix(description, "["):
+		description = strings.TrimPrefix(strings.TrimSuffix(description, "]"), "[")
+	case strings.HasPrefix(description, "("):
+		description = strings.TrimPrefix(strings.TrimSuffix(description, ")"), "(")
+	}
+	hash := fmt.Sprintf("%x", md5.Sum([]byte(description)))
+	return fmt.Sprintf("TEMP-%07d-%s", bugNumber, strings.ToUpper(hash[:6]))
 }

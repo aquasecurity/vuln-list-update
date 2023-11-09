@@ -1,3 +1,11 @@
+CVE-2023-XXXX [code execution via malformed XTGETTCAP]
+	- foot 1.15.3-2 (bug #1053115)
+	[bookworm] - foot 1.13.1-2+deb12u1
+	[bullseye] - foot <no-dsa> (Minor issue)
+	NOTE: https://codeberg.org/dnkl/foot/commit/8a5f2915e9d327d1517d1da49ce7e2303fe61d36
+CVE-2023-XXXX [Other security issues from wordpress 6.3.2]
+	- wordpress <unfixed>
+	NOTE: https://wordpress.org/documentation/wordpress-version/version-6-3-2/
 CVE-2021-36980 (Open vSwitch (aka openvswitch) 2.11.0 through 2.15.0 has a use-after-f ...)
         TODO: check
 CVE-2021-36383 (Xen Orchestra (with xo-web through 5.80.0 and xo-server through 5.84.0 ...)
