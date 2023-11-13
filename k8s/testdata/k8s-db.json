@@ -63,6 +63,18 @@
         },
         {
             "_kubernetes_io": {
+                "google_group_url": "https://groups.google.com/g/kubernetes-announce/search?q=CVE-2020-8554",
+                "issue_number": 97076
+            },
+            "content_text": "CVSS Rating: **Medium** ([CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L))\r\n \r\nThis issue affects multitenant clusters. If a potential attacker can already create or edit services and pods, then they may be able to intercept traffic from other pods (or nodes) in the cluster.\r\n \r\nAn attacker that is able to create a ClusterIP service and set the spec.externalIPs field can intercept traffic to that IP. An attacker that is able to patch the status (which is considered a privileged operation and should not typically be granted to users) of a LoadBalancer service can set the status.loadBalancer.ingress.ip to similar effect.\r\nThis issue is a design flaw that cannot be mitigated without user-facing changes.\r\n### Affected Components and Configurations\r\n\r\nAll Kubernetes versions are affected. Multi-tenant clusters that grant tenants the ability to create and update services and pods are most vulnerable.\r\n### Mitigations\r\n\r\nThere is no patch for this issue, and it can currently only be mitigated by restricting access to the vulnerable features. Because an in-tree fix would require a breaking change, we will open a conversation about a longer-term fix or built-in mitigation after the embargo is lifted\r\n\r\nTo restrict the use of external IPs we are providing an admission webhook container: k8s.gcr.io/multitenancy/externalip-webhook:v1.0.0. The source code and deployment instructions are published at https://github.com/kubernetes-sigs/externalip-webhook.\r\n\r\nAlternatively, external IPs can be restricted using [OPA Gatekeeper](https://github.com/open-policy-agent/gatekeeper). A sample ConstraintTemplate and Constraint can be found here: https://github.com/open-policy-agent/gatekeeper-library/tree/master/library/general/externalip.\r\n\r\nNo mitigations are provided for LoadBalancer IPs since we do not recommend granting users *patch service/status* permission. If LoadBalancer IP restrictions are required, the approach for the external IP mitigations can be copied.\r\n### Detection\r\n\r\nExternalIP services are not widely used, so we recommend manually auditing any external IP usage. Users should not patch service status, so audit events for patch service status requests authenticated to a user may be suspicious.\r\n \r\nIf you find evidence that this vulnerability has been exploited, please contact security@kubernetes.io\r\n#### Acknowledgements\r\n\r\nThis vulnerability was reported by Etienne Champetier (@champtar) of Anevia.\r\n \r\n/area security\r\n/kind bug\r\n/committee product-security\r\n/sig network\r\n",
+            "date_published": "2020-12-04T20:02:15Z",
+            "external_url": "https://www.cve.org/cverecord?id=CVE-2020-8554",
+            "id": "CVE-2020-8554",
+            "summary": "Man in the middle using LoadBalancer or ExternalIPs",
+            "url": "https://github.com/kubernetes/kubernetes/issues/97076"
+        },
+        {
+            "_kubernetes_io": {
                 "google_group_url": "https://groups.google.com/g/kubernetes-announce/search?q=CVE-2020-8557",
                 "issue_number": 93032
             },
