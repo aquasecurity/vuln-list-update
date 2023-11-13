@@ -24,6 +24,34 @@ const (
 	upstreamFolder = "upstream"
 )
 
+type options struct {
+	mitreURL string
+}
+
+type option func(*options)
+
+func WithMitreURL(mitreURL string) option {
+	return func(opts *options) {
+		opts.mitreURL = mitreURL
+	}
+}
+
+type Updater struct {
+	*options
+}
+
+func NewUpdater(opts ...option) Updater {
+	o := &options{
+		mitreURL: mitreURL,
+	}
+	for _, opt := range opts {
+		opt(o)
+	}
+	return Updater{
+		options: o,
+	}
+}
+
 type VulnDB struct {
 	Cves []*osv.OSV
 }
@@ -41,7 +69,7 @@ type Item struct {
 	URL           string `json:"url,omitempty"`
 }
 
-func Collect() (*VulnDB, error) {
+func (u Updater) Collect() (*VulnDB, error) {
 	response, err := http.Get(k8svulnDBURL)
 	if err != nil {
 		return nil, err
@@ -55,7 +83,7 @@ func Collect() (*VulnDB, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ParseVulnDBData(db, cvesMap)
+	return u.ParseVulnDBData(db, cvesMap)
 }
 
 const (
@@ -63,17 +91,17 @@ const (
 	excludeNonCoreComponentsCves = "CVE-2019-11255,CVE-2020-10749,CVE-2020-8554"
 )
 
-func Update() error {
-	if err := update(); err != nil {
+func (u Updater) Update() error {
+	if err := u.update(); err != nil {
 		return xerrors.Errorf("error in k8s update: %w", err)
 	}
 	return nil
 }
 
-func update() error {
+func (u Updater) update() error {
 	log.Printf("Fetching k8s cves")
 
-	k8sdb, err := Collect()
+	k8sdb, err := u.Collect()
 	if err != nil {
 		return err
 	}
@@ -86,7 +114,7 @@ func update() error {
 	return nil
 }
 
-func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
+func (u Updater) ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 	var fullVulnerabilities []*osv.OSV
 	for _, item := range db.Items {
 		for _, cveID := range getMultiIDs(item.ID) {
@@ -94,7 +122,7 @@ func ParseVulnDBData(db CVE, cvesMap map[string]string) (*VulnDB, error) {
 			if strings.Contains(excludeNonCoreComponentsCves, item.ID) || olderCve(cveID, item.DatePublished, cvesMap) {
 				continue
 			}
-			vulnerability, err := parseMitreCve(item.ExternalURL, cveID)
+			vulnerability, err := parseMitreCve(item.ExternalURL, u.mitreURL, cveID)
 			if err != nil {
 				return nil, err
 			}

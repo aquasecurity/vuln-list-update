@@ -2,7 +2,12 @@ package k8s
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/fs"
+	"net/http"
+	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,7 +19,26 @@ func Test_ParseVulneDB(t *testing.T) {
 	var bi CVE
 	err = json.Unmarshal(b, &bi)
 	assert.NoError(t, err)
-	kvd, err := ParseVulnDBData(bi, map[string]string{})
+
+	mux := http.NewServeMux()
+	err = filepath.WalkDir("./testdata/mitreCVEs", func(path string, d fs.DirEntry, err error) error {
+		if !d.IsDir() {
+			f, err := os.ReadFile(path)
+			assert.NoError(t, err)
+			mux.HandleFunc(fmt.Sprintf("/%s", filepath.Base(path)), func(w http.ResponseWriter, r *http.Request) {
+				_, err = w.Write(f)
+				assert.NoError(t, err)
+			})
+		}
+		return nil
+	})
+	assert.NoError(t, err)
+
+	ts := httptest.NewServer(mux)
+	defer ts.Close()
+
+	updater := NewUpdater(WithMitreURL(ts.URL))
+	kvd, err := updater.ParseVulnDBData(bi, map[string]string{})
 	assert.NoError(t, err)
 	gotVulnDB, err := json.Marshal(kvd.Cves)
 	assert.NoError(t, err)
