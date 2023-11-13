@@ -23,9 +23,10 @@ func Test_ParseVulneDB(t *testing.T) {
 	mux := http.NewServeMux()
 	err = filepath.WalkDir("./testdata/mitreCVEs", func(path string, d fs.DirEntry, err error) error {
 		if !d.IsDir() {
-			f, err := os.ReadFile(path)
+			var f []byte
+			f, err = os.ReadFile(path)
 			assert.NoError(t, err)
-			mux.HandleFunc(fmt.Sprintf("/%s", filepath.Base(path)), func(w http.ResponseWriter, r *http.Request) {
+			mux.HandleFunc(fmt.Sprintf("/%s", filepath.Base(path)), func(w http.ResponseWriter, _ *http.Request) {
 				_, err = w.Write(f)
 				assert.NoError(t, err)
 			})
