@@ -173,7 +173,8 @@ func run() error {
 			return xerrors.Errorf("Chainguard update error: %w", err)
 		}
 	case "k8s":
-		if err := k8s.Update(); err != nil {
+		ku := k8s.NewUpdater()
+		if err := ku.Update(); err != nil {
 			return xerrors.Errorf("k8s update error: %w", err)
 		}
 	default:

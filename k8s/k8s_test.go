@@ -2,6 +2,8 @@ package k8s
 
 import (
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
@@ -14,7 +16,12 @@ func Test_ParseVulneDB(t *testing.T) {
 	var bi CVE
 	err = json.Unmarshal(b, &bi)
 	assert.NoError(t, err)
-	kvd, err := ParseVulnDBData(bi, map[string]string{})
+
+	ts := httptest.NewServer(http.FileServer(http.Dir("./testdata/mitreCVEs")))
+	defer ts.Close()
+
+	updater := NewUpdater(WithMitreURL(ts.URL))
+	kvd, err := updater.ParseVulnDBData(bi, map[string]string{})
 	assert.NoError(t, err)
 	gotVulnDB, err := json.Marshal(kvd.Cves)
 	assert.NoError(t, err)

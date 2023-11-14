@@ -71,7 +71,7 @@ type Version struct {
 	FixedIndex   int    `json:"-"`
 }
 
-func parseMitreCve(externalURL string, cveID string) (*Cve, error) {
+func parseMitreCve(externalURL, mitreURL, cveID string) (*Cve, error) {
 	if !strings.HasPrefix(externalURL, cveList) {
 		// if no external url provided, return empty vulnerability to be skipped
 		return &Cve{}, nil
