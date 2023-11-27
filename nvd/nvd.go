@@ -1,21 +1,18 @@
 package nvd
 
 import (
-	"bufio"
-	"bytes"
-	"compress/gzip"
 	"encoding/json"
 	"fmt"
-	"log"
+	"io"
+	"net/http"
+	"net/url"
+	"os"
 	"path/filepath"
-	"strings"
+	"strconv"
 	"time"
 
-	jsonpointer "github.com/mattn/go-jsonpointer"
-	"golang.org/x/xerrors"
-	pb "gopkg.in/cheggaaa/pb.v1"
-
 	"github.com/aquasecurity/vuln-list-update/utils"
+	"golang.org/x/xerrors"
 )
 
 type NVD struct {
@@ -23,140 +20,184 @@ type NVD struct {
 }
 
 const (
-	baseURL     = "https://nvd.nist.gov/feeds/json/cve/1.1"
-	feedDir     = "feed"
-	concurrency = 5
-	wait        = 0
-	retry       = 5
+	baseURL       = "https://nvd.nist.gov/feeds/json/cve/1.1"
+	feedDir       = "feed"
+	concurrency   = 5
+	wait          = 0
+	retry         = 5 // TODO move const to updater??
+	url20         = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
+	apiDir        = "../../testdata/api"
+	nvdTimeFormat = "2006-01-02T15:04:05"
 )
 
-func Update(thisYear int) error {
-	lastUpdatedDate, err := utils.GetLastUpdatedDate("nvd")
-	if err != nil {
-		return err
-	}
-
-	var old bool
-	var feeds []string
-	for _, feed := range []string{"modified", "recent"} {
-		lastModifiedDate, err := fetchLastModifiedDate(feed)
-		if err != nil {
-			return err
-		}
-
-		if lastUpdatedDate.After(lastModifiedDate) {
-			continue
-		}
-		feeds = append(feeds, feed)
-
-		duration := lastModifiedDate.Sub(lastUpdatedDate)
-		if duration > 24*time.Hour*7 {
-			old = true
-		}
-	}
-
-	if old {
-		// Fetch all years
-		feeds = []string{}
-		for year := 2002; year <= thisYear; year++ {
-			feeds = append(feeds, fmt.Sprint(year))
-		}
-	}
-
-	feedCount := len(feeds)
-	if feedCount == 0 {
-		return nil
-	}
-
-	urls := make([]string, feedCount)
-	for i, feed := range feeds {
-		url := fmt.Sprintf("%s/nvdcve-1.1-%s.json.gz", baseURL, feed)
-		urls[i] = url
-	}
-
-	log.Println("Fetching NVD data...")
-	responses, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
-	if err != nil {
-		return xerrors.Errorf("failed to fetch concurrently: %w", err)
-	}
-
-	log.Println("Saving NVD data...")
-	bar := pb.StartNew(len(responses))
-	for _, res := range responses {
-		nvd, err := decode(res)
-		if err != nil {
-			return xerrors.Errorf("failed to decode NVD response: %w", err)
-		}
-
-		if err := save(nvd); err != nil {
-			return err
-		}
-		bar.Increment()
-	}
-	bar.Finish()
-	return nil
+type options struct {
+	apiDir         string
+	baseURL        string
+	apiKey         string
+	lastModEndDate time.Time // time.Now() by default // TODO rename???
 }
 
-func save(nvd *NVD) error {
-	for _, item := range nvd.CVEItems {
-		v, err := jsonpointer.Get(item, "/cve/CVE_data_meta/ID")
-		if err != nil {
-			log.Println(err)
-			continue
-		}
+type option func(*options)
 
-		cveID, ok := v.(string)
-		if !ok {
-			log.Println("failed to type assertion")
-			continue
-		}
-
-		if err = utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), feedDir), cveID, item); err != nil {
-			return xerrors.Errorf("failed to save NVD CVE detail: %w", err)
-		}
+func WithLastModEndDate(lastModEndDate time.Time) option {
+	return func(opts *options) {
+		opts.lastModEndDate = lastModEndDate
 	}
-	return nil
 }
 
-func fetchLastModifiedDate(feed string) (time.Time, error) {
-	log.Printf("Fetching NVD metadata(%s)...\n", feed)
+type Updater struct {
+	*options
+}
 
-	url := fmt.Sprintf("%s/nvdcve-1.1-%s.meta", baseURL, feed)
-	res, err := utils.FetchURL(url, "", 5)
-	if err != nil {
-		return time.Time{}, xerrors.Errorf("fetch error: %w", err)
+func NewUpdater(opts ...option) Updater {
+	o := &options{
+		apiDir:         apiDir,
+		baseURL:        url20,
+		apiKey:         os.Getenv("NVD_API_KEY"),
+		lastModEndDate: time.Now(),
 	}
 
-	scanner := bufio.NewScanner(bytes.NewBuffer(res))
-	for scanner.Scan() {
-		line := scanner.Text()
-		s := strings.SplitN(line, ":", 2)
-		if len(s) != 2 {
-			continue
+	for _, opt := range opts {
+		opt(o)
+	}
+	return Updater{
+		options: o,
+	}
+}
+
+func (updater Updater) Update() error {
+	intervals, err := timeIntervals(updater.lastModEndDate)
+	if err != nil {
+		return xerrors.Errorf("unable to build time intervals: %w", err)
+	}
+
+	for _, interval := range intervals {
+		var entry Entry // TODO rename???
+		var rootURL string
+		// save only 1 CVE for 1st fetch to find number of CVEs
+		rootURL, err = urlWithParams(updater.baseURL, 0, 1, interval)
+
+		entry, err = getEntryFromURL(rootURL, updater.apiKey, retry)
+		if err != nil {
+			return xerrors.Errorf("unable to get entry for %q: %w", rootURL, err)
 		}
-		if s[0] == "lastModifiedDate" {
-			t, err := time.Parse(time.RFC3339, s[1])
+
+		// 2000 is max sire of response page
+		for entry.StartIndex <= entry.TotalResults {
+			var pageEntry Entry
+			var pageURL string
+			pageURL, err = urlWithParams(updater.baseURL, entry.StartIndex, 2000, interval)
+
+			pageEntry, err = getEntryFromURL(pageURL, updater.apiKey, retry)
 			if err != nil {
-				return time.Time{}, err
+				return xerrors.Errorf("unable to get entry for %q: %w", pageURL, err)
 			}
-			return t, nil
+			if err = save(pageEntry); err != nil {
+				return xerrors.Errorf("unable to save entry: %w", err)
+			}
+			entry.StartIndex += 2000
 		}
 	}
-	return time.Unix(0, 0), nil
 
+	return nil
 }
 
-func decode(b []byte) (*NVD, error) {
-	zr, err := gzip.NewReader(bytes.NewBuffer(b))
-	if err != nil {
-		return nil, err
+func getEntryFromURL(url, apiKey string, retry int) (Entry, error) {
+	var entry Entry
+	for i := 0; i < retry; i++ {
+		r, err := fetchURL(url, apiKey)
+		if err != nil {
+			return entry, xerrors.Errorf("unable to fetch: %w", err)
+		}
+		if r != nil {
+			if err = json.NewDecoder(r).Decode(&entry); err != nil {
+				return entry, xerrors.Errorf("unable to decode response for %q: %w", url, err)
+			}
+			return entry, nil
+		}
 	}
-	defer zr.Close()
+	return entry, xerrors.Errorf("unable to get entry from %q", url)
+}
 
-	nvd := &NVD{}
-	err = json.NewDecoder(zr).Decode(nvd)
-	if err != nil {
-		return nil, err
+func fetchURL(url, apiKey string) (io.ReadCloser, error) {
+	var c http.Client
+	var resp *http.Response
+	for i := 0; i < 50; i++ {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, xerrors.Errorf("unable to build request for %q", url, err)
+		}
+		if apiKey != "" {
+			req.Header.Set("apiKey", apiKey)
+		}
+
+		resp, err = c.Do(req)
+		if err != nil {
+			continue
+		}
+
+		// TODO update logic for error codes
+		if resp.StatusCode == http.StatusServiceUnavailable {
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		if resp.StatusCode == http.StatusForbidden {
+			time.Sleep(10 * time.Second)
+			continue
+		}
+		if resp.StatusCode == http.StatusOK {
+			return resp.Body, nil
+		}
 	}
-	return nvd, nil
+	return nil, xerrors.Errorf("unable to get response")
+}
+
+func timeIntervals(endTime time.Time) ([]timeInterval, error) {
+	//lastUpdatedDate, err := utils.GetLastUpdatedDate("nvd")
+	//if err != nil {
+	//	return nil, xerrors.Errorf("unable to get lastUpdatedDate: %w", err)
+	//}
+	lastUpdatedDate := time.Now().Add(-110 * 24 * time.Hour)
+	var intervals []timeInterval
+	for endTime.Sub(lastUpdatedDate).Hours()/24 > 120 {
+		newLastUpdatedDate := lastUpdatedDate.Add(120 * 24 * time.Hour)
+		intervals = append(intervals, timeInterval{
+			lastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
+			lastModEndDate:   newLastUpdatedDate.Format(nvdTimeFormat),
+		})
+		lastUpdatedDate = newLastUpdatedDate
+	}
+
+	// fill latest interval
+	intervals = append(intervals, timeInterval{
+		lastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
+		lastModEndDate:   endTime.Format(nvdTimeFormat),
+	})
+
+	return intervals, nil
+}
+
+func save(entry Entry) error {
+	for _, cve := range entry.Vulnerabilities {
+		path := filepath.Join(apiDir, fmt.Sprintf("%s.json", cve.Cve.ID))
+		if err := utils.Write(path, cve); err != nil {
+			return xerrors.Errorf("unable to write %s: %w", cve.Cve.ID, err)
+		}
+	}
+	return nil
+}
+
+func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval timeInterval) (string, error) {
+	u, err := url.Parse(baseUrl)
+	if err != nil {
+		return "", xerrors.Errorf("unable to parse %q base url: %w", baseUrl, err)
+	}
+	q := u.Query()
+	q.Set("lastModStartDate", interval.lastModStartDate)
+	q.Set("lastModEndDate", interval.lastModEndDate)
+	q.Set("startIndex", strconv.Itoa(startIndex))
+	q.Set("resultsPerPage", strconv.Itoa(resultsPerPage))
+	decoded, err := url.QueryUnescape(q.Encode()) // TODO refactor
+	u.RawQuery = decoded
+	return u.String(), nil
 }
