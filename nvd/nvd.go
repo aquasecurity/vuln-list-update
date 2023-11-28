@@ -3,6 +3,7 @@ package nvd
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -10,8 +11,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (
@@ -85,42 +87,52 @@ func (u Updater) Update() error {
 	}
 
 	for _, interval := range intervals {
-		var entry Entry
-		var rootURL string
-		// save only 1 CVE for 1st fetch to find number of CVEs
-		rootURL, err = urlWithParams(u.baseURL, 0, 1, interval)
-
-		entry, err = u.getEntryFromURL(rootURL)
+		var totalResults int
+		// startIndex for 1st request == 0
+		totalResults, err = u.saveEntry(interval, 0)
 		if err != nil {
-			return xerrors.Errorf("unable to get entry for %q: %w", rootURL, err)
+			return xerrors.Errorf("unable to save entry CVEs for %q: %w", interval, err)
 		}
 
-		for entry.StartIndex <= entry.TotalResults {
-			var pageEntry Entry
-			var pageURL string
-			pageURL, err = urlWithParams(u.baseURL, entry.StartIndex, u.maxResultsPerPage, interval)
-
-			pageEntry, err = u.getEntryFromURL(pageURL)
+		// if there are more records than maxResultsPerPage
+		// check next records page by page (first page is saved above)
+		for startIndex := u.maxResultsPerPage; startIndex < totalResults; startIndex += u.maxResultsPerPage {
+			_, err = u.saveEntry(interval, startIndex)
 			if err != nil {
-				return xerrors.Errorf("unable to get entry for %q: %w", pageURL, err)
+				return xerrors.Errorf("unable to save entry CVEs for: %s", interval)
 			}
-			if err = save(pageEntry); err != nil {
-				return xerrors.Errorf("unable to save entry: %w", err)
-			}
-			entry.StartIndex += u.maxResultsPerPage
 		}
 	}
 
 	return nil
 }
 
-func save(entry Entry) error {
+func (u Updater) saveEntry(interval timeInterval, startIndex int) (int, error) {
+	entryURL, err := urlWithParams(u.baseURL, startIndex, u.maxResultsPerPage, interval)
+	if err != nil {
+		return 0, xerrors.Errorf("unable to get url with query parameters: %w", err)
+	}
+
+	var entry Entry
+	entry, err = u.getEntry(entryURL)
+	if err != nil {
+		return 0, xerrors.Errorf("unable to get entry for %q: %w", entryURL, err)
+	}
+	if err = save(entry, interval.lastModEndDate); err != nil {
+		return 0, xerrors.Errorf("unable to save entry: %w", err)
+	}
+	return entry.TotalResults, nil
+}
+
+func save(entry Entry, lastModEndDate string) error {
 	for _, cve := range entry.Vulnerabilities {
 		if err := utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), apiDir), cve.Cve.ID, cve); err != nil {
 			return xerrors.Errorf("unable to write %s: %w", cve.Cve.ID, err)
 		}
 	}
-	timestamp, err := time.Parse(nvdTimeFormat, entry.Timestamp)
+	// we need to save  LastModEndDate to avoid saving  wrong time if we get errors when saving all CVEs (first run)
+	// after this we can switch to recording.Timestamp
+	timestamp, err := time.Parse(nvdTimeFormat, lastModEndDate)
 	if err != nil {
 		return xerrors.Errorf("unable to parse timestamp: %w", err)
 	}
@@ -133,7 +145,7 @@ func save(entry Entry) error {
 	return nil
 }
 
-func (u Updater) getEntryFromURL(url string) (Entry, error) {
+func (u Updater) getEntry(url string) (Entry, error) {
 	var entry Entry
 	r, err := fetchURL(url, u.apiKey, u.retry)
 	if err != nil {
@@ -151,37 +163,42 @@ func (u Updater) getEntryFromURL(url string) (Entry, error) {
 
 func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 	var c http.Client
-	var resp *http.Response
 	for i := 0; i <= retry; i++ {
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
-			return nil, xerrors.Errorf("unable to build request for %q", url, err)
+			return nil, xerrors.Errorf("unable to build request for %q: %w", url, err)
 		}
 		if apiKey != "" {
 			req.Header.Set("apiKey", apiKey)
 		}
 
-		resp, err = c.Do(req)
-		if err != nil {
+		resp, _ := c.Do(req)
+		switch resp.StatusCode {
+		case http.StatusForbidden:
+			log.Printf("NVD rate limit. Waiting to gain access")
+			// NVD limits:
+			// Without API key: 5 requests / 30 seconds window
+			// With API key: 50 requests / 30 seconds window
+			time.Sleep(30 * time.Second)
 			continue
-		}
-
-		// TODO update logic for error codes
-		if resp.StatusCode == http.StatusServiceUnavailable {
+		case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout:
+			log.Printf("NVD API is unstable: %s. Try to fetch URL again", resp.Status)
+			// NVD API works unstable
 			time.Sleep(1 * time.Second)
 			continue
-		}
-		if resp.StatusCode == http.StatusForbidden {
-			time.Sleep(10 * time.Second)
-			continue
-		}
-		if resp.StatusCode == http.StatusOK {
+		case http.StatusOK:
 			return resp.Body, nil
+		default:
+			return nil, xerrors.Errorf("unexpected status code: %s", resp.Status)
 		}
+
 	}
-	return nil, xerrors.Errorf("unable to get response")
+	return nil, xerrors.Errorf("unable to fetch url")
 }
 
+// 120 days is  maximum time range for the NVD API:
+// `The maximum allowed range when using any date range options is 120 consecutive days.`
+// timeIntervals divides time into intervals of 120 days
 func timeIntervals(endTime time.Time) ([]timeInterval, error) {
 	lastUpdatedDate, err := utils.GetLastUpdatedDate("nvd")
 	if err != nil {
@@ -221,6 +238,9 @@ func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval time
 	// https://nvd.nist.gov/developers/vulnerabilities:
 	// `Please note, if a positive Z value is used (such as +01:00 for Central European Time) then the "+" should be encoded in the request as "%2B".`
 	decoded, err := url.QueryUnescape(q.Encode())
+	if err != nil {
+		return "", xerrors.Errorf("unable to decode query params: %w", err)
+	}
 	u.RawQuery = decoded
 	return u.String(), nil
 }
