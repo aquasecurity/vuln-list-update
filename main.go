@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
+	"os"
+
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
-	"log"
-	"os"
 
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
