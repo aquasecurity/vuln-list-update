@@ -35,6 +35,7 @@ func GetLastUpdatedDate(dist string) (time.Time, error) {
 }
 
 func getLastUpdatedDate() (map[string]time.Time, error) {
+	lastUpdatedFilePath = filepath.Join(VulnListDir(), lastUpdatedFile) // update path if VulnListDir has been changed.
 	lastUpdated := LastUpdated{}
 	if _, err := os.Stat(lastUpdatedFilePath); os.IsNotExist(err) {
 		return lastUpdated, nil
