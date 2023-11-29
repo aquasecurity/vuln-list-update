@@ -130,8 +130,8 @@ func save(entry Entry, lastModEndDate string) error {
 			return xerrors.Errorf("unable to write %s: %w", cve.Cve.ID, err)
 		}
 	}
-	// we need to save  LastModEndDate to avoid saving  wrong time if we get errors when saving all CVEs (first run)
-	// after this we can switch to recording.Timestamp
+	// we need to save LastModEndDate to avoid saving wrong time if we get errors when saving all CVEs (first run)
+	// after this we can switch to entry.Timestamp
 	timestamp, err := time.Parse(nvdTimeFormat, lastModEndDate)
 	if err != nil {
 		return xerrors.Errorf("unable to parse timestamp: %w", err)
