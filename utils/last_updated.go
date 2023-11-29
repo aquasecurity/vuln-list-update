@@ -28,7 +28,7 @@ func GetLastUpdatedDate(dist string) (time.Time, error) {
 
 	t, ok := lastUpdated[dist]
 	if !ok {
-		return time.Unix(0, 0), nil
+		return time.Unix(0, 0).UTC(), nil
 	}
 
 	return t, nil

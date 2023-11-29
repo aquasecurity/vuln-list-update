@@ -233,7 +233,7 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(1970, 03, 01, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []timeInterval{
 				{
-					lastModStartDate: "1970-01-01T06:00:00",
+					lastModStartDate: "1970-01-01T00:00:00",
 					lastModEndDate:   "1970-03-01T00:00:00",
 				},
 			},

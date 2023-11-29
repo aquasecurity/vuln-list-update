@@ -69,7 +69,7 @@ func NewUpdater(opts ...option) Updater {
 		apiKey:            os.Getenv(apiKeyEnvName),
 		maxResultsPerPage: maxResultsPerPage,
 		retry:             retry,
-		lastModEndDate:    time.Now(),
+		lastModEndDate:    time.Now().UTC(),
 	}
 
 	for _, opt := range opts {
@@ -172,7 +172,11 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 			req.Header.Set("apiKey", apiKey)
 		}
 
-		resp, _ := c.Do(req)
+		resp, err := c.Do(req)
+		if resp == nil {
+			log.Printf("Got nil response with error: %s. Try to get Entry again", err)
+			continue
+		}
 		switch resp.StatusCode {
 		case http.StatusForbidden:
 			log.Printf("NVD rate limit. Waiting to gain access")
