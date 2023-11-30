@@ -84,7 +84,7 @@ func TestUpdate(t *testing.T) {
 			},
 		},
 		{
-			name:              "503 error",
+			name:              "503 response",
 			maxResultsPerPage: 10,
 			wantApiKey:        "test_api_key",
 			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
@@ -93,7 +93,7 @@ func TestUpdate(t *testing.T) {
 			wantError:         "unable to fetch url",
 		},
 		{
-			name:              "408 error",
+			name:              "408 response",
 			maxResultsPerPage: 10,
 			wantApiKey:        "test_api_key",
 			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
@@ -102,7 +102,7 @@ func TestUpdate(t *testing.T) {
 			wantError:         "unable to fetch url",
 		},
 		{
-			name:              "502 error",
+			name:              "502 response",
 			maxResultsPerPage: 10,
 			wantApiKey:        "test_api_key",
 			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
@@ -111,7 +111,7 @@ func TestUpdate(t *testing.T) {
 			wantError:         "unable to fetch url",
 		},
 		{
-			name:              "504 error",
+			name:              "504 response",
 			maxResultsPerPage: 10,
 			wantApiKey:        "test_api_key",
 			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),

@@ -173,8 +173,8 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 		}
 
 		resp, err := c.Do(req)
-		if resp == nil {
-			log.Printf("Got nil response with error: %s. Try to get Entry again", err)
+		if err != nil {
+			log.Printf("Response error: %s. Try to get Entry again", err)
 			continue
 		}
 		switch resp.StatusCode {
