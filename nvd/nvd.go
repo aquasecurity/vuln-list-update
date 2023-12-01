@@ -148,6 +148,7 @@ func save(entry Entry, lastModEndDate string) error {
 func (u Updater) getEntry(url string) (Entry, error) {
 	var entry Entry
 	r, err := fetchURL(url, u.apiKey, u.retry)
+	defer r.Close()
 	if err != nil {
 		return entry, xerrors.Errorf("unable to fetch: %w", err)
 	}
@@ -164,7 +165,7 @@ func (u Updater) getEntry(url string) (Entry, error) {
 func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 	var c http.Client
 	for i := 0; i <= retry; i++ {
-		req, err := http.NewRequest("GET", url, nil)
+		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			return nil, xerrors.Errorf("unable to build request for %q: %w", url, err)
 		}
@@ -179,7 +180,7 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 		}
 		switch resp.StatusCode {
 		case http.StatusForbidden:
-			log.Printf("NVD rate limit. Waiting to gain access")
+			log.Println("NVD rate limit. Waiting to gain access")
 			// NVD limits:
 			// Without API key: 5 requests / 30 seconds window
 			// With API key: 50 requests / 30 seconds window
