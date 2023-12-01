@@ -148,10 +148,12 @@ func save(entry Entry, lastModEndDate string) error {
 func (u Updater) getEntry(url string) (Entry, error) {
 	var entry Entry
 	r, err := fetchURL(url, u.apiKey, u.retry)
-	defer r.Close()
+
 	if err != nil {
 		return entry, xerrors.Errorf("unable to fetch: %w", err)
 	}
+	defer r.Close()
+
 	if r != nil {
 		if err = json.NewDecoder(r).Decode(&entry); err != nil {
 			return entry, xerrors.Errorf("unable to decode response for %q: %w", url, err)
