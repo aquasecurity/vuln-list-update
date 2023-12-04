@@ -125,9 +125,9 @@ func (u Updater) saveEntry(interval timeInterval, startIndex int) (int, error) {
 }
 
 func save(entry Entry, lastModEndDate string) error {
-	for _, cve := range entry.Vulnerabilities {
-		if err := utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), apiDir), cve.Cve.ID, cve); err != nil {
-			return xerrors.Errorf("unable to write %s: %w", cve.Cve.ID, err)
+	for _, vuln := range entry.Vulnerabilities {
+		if err := utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), apiDir), vuln.Cve.ID, vuln.Cve); err != nil {
+			return xerrors.Errorf("unable to write %s: %w", vuln.Cve.ID, err)
 		}
 	}
 	// we need to save LastModEndDate to avoid saving wrong time if we get errors when saving all CVEs (first run)
