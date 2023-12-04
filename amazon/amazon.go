@@ -12,8 +12,8 @@ import (
 	"path"
 	"path/filepath"
 
+	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
-	"gopkg.in/cheggaaa/pb.v1"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
