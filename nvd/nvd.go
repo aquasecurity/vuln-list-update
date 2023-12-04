@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	retry             = 5
+	retry             = 50
 	url20             = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
 	apiDir            = "api"
 	nvdTimeFormat     = "2006-01-02T15:04:05"
@@ -200,7 +200,7 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 		}
 
 	}
-	return nil, xerrors.Errorf("unable to fetch url")
+	return nil, xerrors.Errorf("unable to fetch url. Retry limit exceeded.")
 }
 
 // 120 days is  maximum time range for the NVD API:
