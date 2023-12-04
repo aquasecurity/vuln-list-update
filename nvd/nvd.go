@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
+	pb "github.com/cheggaaa/pb/v3"
 	jsonpointer "github.com/mattn/go-jsonpointer"
 	"golang.org/x/xerrors"
-	pb "gopkg.in/cheggaaa/pb.v1"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
