@@ -99,7 +99,7 @@ func (u Updater) Update() error {
 		for startIndex := u.maxResultsPerPage; startIndex < totalResults; startIndex += u.maxResultsPerPage {
 			_, err = u.saveEntry(interval, startIndex)
 			if err != nil {
-				return xerrors.Errorf("unable to save entry CVEs for %q: %s", interval, err)
+				return xerrors.Errorf("unable to save entry CVEs for %q: %w", interval, err)
 			}
 		}
 	}
