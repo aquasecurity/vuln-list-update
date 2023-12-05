@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	pb "github.com/cheggaaa/pb/v3"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
-	pb "gopkg.in/cheggaaa/pb.v1"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )

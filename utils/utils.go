@@ -14,9 +14,9 @@ import (
 	"strings"
 	"time"
 
+	pb "github.com/cheggaaa/pb/v3"
 	"github.com/parnurzeal/gorequest"
 	"golang.org/x/xerrors"
-	pb "gopkg.in/cheggaaa/pb.v1"
 )
 
 var vulnListDir = filepath.Join(CacheDir(), "vuln-list")
