@@ -88,18 +88,9 @@ func (u Updater) Update() error {
 
 	for _, interval := range intervals {
 		log.Printf("Fetching NVD entries from %s to %s...", interval.lastModStartDate, interval.lastModEndDate)
-		var totalResults int
-		// startIndex for 1st request == 0
-		totalResults, err = u.saveEntry(interval, 0)
-		if err != nil {
-			return xerrors.Errorf("unable to save entry CVEs for %q: %w", interval, err)
-		}
-
-		// if there are more records than maxResultsPerPage
-		// check next records page by page (first page is saved above)
-		for startIndex := u.maxResultsPerPage; startIndex < totalResults; startIndex += u.maxResultsPerPage {
-			_, err = u.saveEntry(interval, startIndex)
-			if err != nil {
+		totalResults := 1 // Set a dummy value to start the loop
+		for startIndex := 0; startIndex < totalResults; startIndex += u.maxResultsPerPage {
+			if totalResults, err = u.saveEntry(interval, startIndex); err != nil {
 				return xerrors.Errorf("unable to save entry CVEs for %q: %w", interval, err)
 			}
 		}
