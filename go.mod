@@ -10,7 +10,6 @@ require (
 	github.com/cheggaaa/pb/v3 v3.1.4
 	github.com/hashicorp/go-getter v1.7.3
 	github.com/kylelemons/godebug v1.1.0
-	github.com/mattn/go-jsonpointer v0.0.1
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0
 	github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f

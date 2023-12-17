@@ -87,6 +87,7 @@ func (u Updater) Update() error {
 	}
 
 	for _, interval := range intervals {
+		log.Printf("Fetching NVD entries from %s to %s...", interval.lastModStartDate, interval.lastModEndDate)
 		var totalResults int
 		// startIndex for 1st request == 0
 		totalResults, err = u.saveEntry(interval, 0)
@@ -148,20 +149,17 @@ func save(entry Entry, lastModEndDate string) error {
 func (u Updater) getEntry(url string) (Entry, error) {
 	var entry Entry
 	r, err := fetchURL(url, u.apiKey, u.retry)
-
 	if err != nil {
-		return entry, xerrors.Errorf("unable to fetch: %w", err)
+		return Entry{}, xerrors.Errorf("unable to fetch: %w", err)
+	} else if r == nil {
+		return Entry{}, xerrors.Errorf("unable to get entry from %q", url)
 	}
 	defer r.Close()
 
-	if r != nil {
-		if err = json.NewDecoder(r).Decode(&entry); err != nil {
-			return entry, xerrors.Errorf("unable to decode response for %q: %w", url, err)
-		}
-		return entry, nil
+	if err = json.NewDecoder(r).Decode(&entry); err != nil {
+		return Entry{}, xerrors.Errorf("unable to decode response for %q: %w", url, err)
 	}
-
-	return entry, xerrors.Errorf("unable to get entry from %q", url)
+	return entry, nil
 }
 
 func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
@@ -203,9 +201,9 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 	return nil, xerrors.Errorf("unable to fetch url. Retry limit exceeded.")
 }
 
-// 120 days is  maximum time range for the NVD API:
-// `The maximum allowed range when using any date range options is 120 consecutive days.`
-// timeIntervals divides time into intervals of 120 days
+// timeIntervals returns time intervals for NVD API
+// NVD API doesn't allow to get more than 120 days per request.
+// So we need to split the time range into intervals.
 func timeIntervals(endTime time.Time) ([]timeInterval, error) {
 	lastUpdatedDate, err := utils.GetLastUpdatedDate("nvd")
 	if err != nil {
