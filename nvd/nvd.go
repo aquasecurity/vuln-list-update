@@ -90,6 +90,11 @@ func (u Updater) Update() error {
 		}
 	}
 
+	// Update last_updated.json at the end.
+	if err = utils.SetLastUpdatedDate(apiDir, u.lastModEndDate); err != nil {
+		return xerrors.Errorf("unable to update last_updated.json file: %w", err)
+	}
+
 	return nil
 }
 
@@ -99,39 +104,19 @@ func (u Updater) saveEntry(interval timeInterval, startIndex int) (int, error) {
 		return 0, xerrors.Errorf("unable to get url with query parameters: %w", err)
 	}
 
-	var entry Entry
-	entry, err = u.getEntry(entryURL)
+	entry, err := u.fetchEntry(entryURL)
 	if err != nil {
 		return 0, xerrors.Errorf("unable to get entry for %q: %w", entryURL, err)
 	}
-	if err = save(entry, interval.lastModEndDate); err != nil {
-		return 0, xerrors.Errorf("unable to save entry: %w", err)
+	for _, vuln := range entry.Vulnerabilities {
+		if err := utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), apiDir), vuln.Cve.ID, vuln.Cve); err != nil {
+			return 0, xerrors.Errorf("unable to write %s: %w", vuln.Cve.ID, err)
+		}
 	}
 	return entry.TotalResults, nil
 }
 
-func save(entry Entry, lastModEndDate string) error {
-	for _, vuln := range entry.Vulnerabilities {
-		if err := utils.SaveCVEPerYear(filepath.Join(utils.VulnListDir(), apiDir), vuln.Cve.ID, vuln.Cve); err != nil {
-			return xerrors.Errorf("unable to write %s: %w", vuln.Cve.ID, err)
-		}
-	}
-	// we need to save LastModEndDate to avoid saving wrong time if we get errors when saving all CVEs (first run)
-	// after this we can switch to entry.Timestamp
-	timestamp, err := time.Parse(nvdTimeFormat, lastModEndDate)
-	if err != nil {
-		return xerrors.Errorf("unable to parse timestamp: %w", err)
-	}
-	// update the Last_updated.json file after saving each entry
-	// to avoid overwriting this entry if we fail to save the next entry
-	err = utils.SetLastUpdatedDate("nvd", timestamp)
-	if err != nil {
-		return xerrors.Errorf("unable to save last_updated.json file: %w", err)
-	}
-	return nil
-}
-
-func (u Updater) getEntry(url string) (Entry, error) {
+func (u Updater) fetchEntry(url string) (Entry, error) {
 	var entry Entry
 	r, err := fetchURL(url, u.apiKey, u.retry)
 	if err != nil {
@@ -174,7 +159,7 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 		case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout:
 			log.Printf("NVD API is unstable: %s. Try to fetch URL again", resp.Status)
 			// NVD API works unstable
-			time.Sleep(1 * time.Second)
+			time.Sleep(time.Duration(i) * time.Second)
 			continue
 		case http.StatusOK:
 			return resp.Body, nil
@@ -190,7 +175,7 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 // NVD API doesn't allow to get more than 120 days per request.
 // So we need to split the time range into intervals.
 func timeIntervals(endTime time.Time) ([]timeInterval, error) {
-	lastUpdatedDate, err := utils.GetLastUpdatedDate("nvd")
+	lastUpdatedDate, err := utils.GetLastUpdatedDate(apiDir)
 	if err != nil {
 		return nil, xerrors.Errorf("unable to get lastUpdatedDate: %w", err)
 	}
