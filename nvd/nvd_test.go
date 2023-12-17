@@ -1,7 +1,6 @@
 package nvd_test
 
 import (
-	"github.com/aquasecurity/vuln-list-update/nvd"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -13,6 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/aquasecurity/vuln-list-update/nvd"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
