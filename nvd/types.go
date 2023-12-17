@@ -169,7 +169,7 @@ type VendorComment struct {
 	LastModified string `json:"lastModified"`
 }
 
-type timeInterval struct {
-	lastModStartDate string
-	lastModEndDate   string
+type TimeInterval struct {
+	LastModStartDate string
+	LastModEndDate   string
 }

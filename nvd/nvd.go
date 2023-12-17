@@ -22,6 +22,7 @@ const (
 	apiDir            = "api"
 	nvdTimeFormat     = "2006-01-02T15:04:05"
 	maxResultsPerPage = 2000
+	retryAfter        = 30 * time.Second
 	apiKeyEnvName     = "NVD_API_KEY"
 )
 
@@ -51,11 +52,18 @@ func WithRetry(retry int) Option {
 	}
 }
 
+func WithRetryAfter(retryAfter time.Duration) Option {
+	return func(u *Updater) {
+		u.retryAfter = retryAfter
+	}
+}
+
 type Updater struct {
 	baseURL           string
 	apiKey            string
 	maxResultsPerPage int
 	retry             int
+	retryAfter        time.Duration
 	lastModEndDate    time.Time // time.Now() by default
 }
 
@@ -65,6 +73,7 @@ func NewUpdater(opts ...Option) *Updater {
 		apiKey:            os.Getenv(apiKeyEnvName),
 		maxResultsPerPage: maxResultsPerPage,
 		retry:             retry,
+		retryAfter:        retryAfter,
 		lastModEndDate:    time.Now().UTC(),
 	}
 
@@ -75,13 +84,13 @@ func NewUpdater(opts ...Option) *Updater {
 }
 
 func (u Updater) Update() error {
-	intervals, err := timeIntervals(u.lastModEndDate)
+	intervals, err := TimeIntervals(u.lastModEndDate)
 	if err != nil {
 		return xerrors.Errorf("unable to build time intervals: %w", err)
 	}
 
 	for _, interval := range intervals {
-		log.Printf("Fetching NVD entries from %s to %s...", interval.lastModStartDate, interval.lastModEndDate)
+		log.Printf("Fetching NVD entries from %s to %s...", interval.LastModStartDate, interval.LastModEndDate)
 		totalResults := 1 // Set a dummy value to start the loop
 		for startIndex := 0; startIndex < totalResults; startIndex += u.maxResultsPerPage {
 			if totalResults, err = u.saveEntry(interval, startIndex); err != nil {
@@ -98,7 +107,7 @@ func (u Updater) Update() error {
 	return nil
 }
 
-func (u Updater) saveEntry(interval timeInterval, startIndex int) (int, error) {
+func (u Updater) saveEntry(interval TimeInterval, startIndex int) (int, error) {
 	entryURL, err := urlWithParams(u.baseURL, startIndex, u.maxResultsPerPage, interval)
 	if err != nil {
 		return 0, xerrors.Errorf("unable to get url with query parameters: %w", err)
@@ -118,7 +127,7 @@ func (u Updater) saveEntry(interval timeInterval, startIndex int) (int, error) {
 
 func (u Updater) fetchEntry(url string) (Entry, error) {
 	var entry Entry
-	r, err := fetchURL(url, u.apiKey, u.retry)
+	r, err := u.fetchURL(url)
 	if err != nil {
 		return Entry{}, xerrors.Errorf("unable to fetch: %w", err)
 	} else if r == nil {
@@ -132,15 +141,15 @@ func (u Updater) fetchEntry(url string) (Entry, error) {
 	return entry, nil
 }
 
-func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
+func (u Updater) fetchURL(url string) (io.ReadCloser, error) {
 	var c http.Client
-	for i := 0; i <= retry; i++ {
+	for i := 0; i <= u.retry; i++ {
 		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			return nil, xerrors.Errorf("unable to build request for %q: %w", url, err)
 		}
-		if apiKey != "" {
-			req.Header.Set("apiKey", apiKey)
+		if u.apiKey != "" {
+			req.Header.Set("apiKey", u.apiKey)
 		}
 
 		resp, err := c.Do(req)
@@ -154,7 +163,7 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 			// NVD limits:
 			// Without API key: 5 requests / 30 seconds window
 			// With API key: 50 requests / 30 seconds window
-			time.Sleep(30 * time.Second)
+			time.Sleep(u.retryAfter)
 			continue
 		case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout:
 			log.Printf("NVD API is unstable: %s. Try to fetch URL again", resp.Status)
@@ -171,41 +180,41 @@ func fetchURL(url, apiKey string, retry int) (io.ReadCloser, error) {
 	return nil, xerrors.Errorf("unable to fetch url. Retry limit exceeded.")
 }
 
-// timeIntervals returns time intervals for NVD API
+// TimeIntervals returns time intervals for NVD API
 // NVD API doesn't allow to get more than 120 days per request.
 // So we need to split the time range into intervals.
-func timeIntervals(endTime time.Time) ([]timeInterval, error) {
+func TimeIntervals(endTime time.Time) ([]TimeInterval, error) {
 	lastUpdatedDate, err := utils.GetLastUpdatedDate(apiDir)
 	if err != nil {
 		return nil, xerrors.Errorf("unable to get lastUpdatedDate: %w", err)
 	}
-	var intervals []timeInterval
+	var intervals []TimeInterval
 	for endTime.Sub(lastUpdatedDate).Hours()/24 > 120 {
 		newLastUpdatedDate := lastUpdatedDate.Add(120 * 24 * time.Hour)
-		intervals = append(intervals, timeInterval{
-			lastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
-			lastModEndDate:   newLastUpdatedDate.Format(nvdTimeFormat),
+		intervals = append(intervals, TimeInterval{
+			LastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
+			LastModEndDate:   newLastUpdatedDate.Format(nvdTimeFormat),
 		})
 		lastUpdatedDate = newLastUpdatedDate
 	}
 
 	// fill latest interval
-	intervals = append(intervals, timeInterval{
-		lastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
-		lastModEndDate:   endTime.Format(nvdTimeFormat),
+	intervals = append(intervals, TimeInterval{
+		LastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
+		LastModEndDate:   endTime.Format(nvdTimeFormat),
 	})
 
 	return intervals, nil
 }
 
-func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval timeInterval) (string, error) {
+func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval TimeInterval) (string, error) {
 	u, err := url.Parse(baseUrl)
 	if err != nil {
 		return "", xerrors.Errorf("unable to parse %q base url: %w", baseUrl, err)
 	}
 	q := u.Query()
-	q.Set("lastModStartDate", interval.lastModStartDate)
-	q.Set("lastModEndDate", interval.lastModEndDate)
+	q.Set("LastModStartDate", interval.LastModStartDate)
+	q.Set("LastModEndDate", interval.LastModEndDate)
 	q.Set("startIndex", strconv.Itoa(startIndex))
 	q.Set("resultsPerPage", strconv.Itoa(resultsPerPage))
 	// NVD API doesn't work with escaped `:`

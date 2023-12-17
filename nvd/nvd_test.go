@@ -1,6 +1,7 @@
-package nvd
+package nvd_test
 
 import (
+	"github.com/aquasecurity/vuln-list-update/nvd"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -124,7 +125,7 @@ func TestUpdate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.wantApiKey != "" {
-				t.Setenv(apiKeyEnvName, tt.wantApiKey)
+				t.Setenv("NVD_API_KEY", tt.wantApiKey)
 			}
 
 			// overwrite vuln-list dir
@@ -134,7 +135,7 @@ func TestUpdate(t *testing.T) {
 			defer utils.SetVulnListDir(savedVulnListDir)
 
 			// create last_updated.json file into temp dir
-			err := utils.SetLastUpdatedDate("nvd", tt.lastUpdatedTime)
+			err := utils.SetLastUpdatedDate("api", tt.lastUpdatedTime)
 			require.NoError(t, err)
 
 			respStatus := tt.respStatus
@@ -172,7 +173,8 @@ func TestUpdate(t *testing.T) {
 			ts := httptest.NewServer(mux)
 			defer ts.Close()
 
-			u := NewUpdater(WithBaseURL(ts.URL), WithMaxResultsPerPage(tt.maxResultsPerPage), WithRetry(tt.retry), WithLastModEndDate(tt.fakeTimeNow))
+			u := nvd.NewUpdater(nvd.WithBaseURL(ts.URL), nvd.WithMaxResultsPerPage(tt.maxResultsPerPage),
+				nvd.WithRetry(tt.retry), nvd.WithLastModEndDate(tt.fakeTimeNow), nvd.WithRetryAfter(1*time.Second))
 			err = u.Update()
 			if tt.wantError != "" {
 				require.ErrorContains(t, err, tt.wantError)
@@ -199,16 +201,16 @@ func TestTimeIntervals(t *testing.T) {
 		name            string
 		lastUpdatedTime time.Time
 		fakeTimeNow     time.Time
-		wantIntervals   []timeInterval
+		wantIntervals   []nvd.TimeInterval
 	}{
 		{
 			name:            "one interval",
 			lastUpdatedTime: time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
 			fakeTimeNow:     time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
-			wantIntervals: []timeInterval{
+			wantIntervals: []nvd.TimeInterval{
 				{
-					lastModStartDate: "2023-11-26T00:00:00",
-					lastModEndDate:   "2023-11-28T00:00:00",
+					LastModStartDate: "2023-11-26T00:00:00",
+					LastModEndDate:   "2023-11-28T00:00:00",
 				},
 			},
 		},
@@ -216,14 +218,14 @@ func TestTimeIntervals(t *testing.T) {
 			name:            "two intervals",
 			lastUpdatedTime: time.Date(2023, 5, 28, 0, 0, 0, 0, time.UTC),
 			fakeTimeNow:     time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
-			wantIntervals: []timeInterval{
+			wantIntervals: []nvd.TimeInterval{
 				{
-					lastModStartDate: "2023-05-28T00:00:00",
-					lastModEndDate:   "2023-09-25T00:00:00",
+					LastModStartDate: "2023-05-28T00:00:00",
+					LastModEndDate:   "2023-09-25T00:00:00",
 				},
 				{
-					lastModStartDate: "2023-09-25T00:00:00",
-					lastModEndDate:   "2023-11-28T00:00:00",
+					LastModStartDate: "2023-09-25T00:00:00",
+					LastModEndDate:   "2023-11-28T00:00:00",
 				},
 			},
 		},
@@ -231,10 +233,10 @@ func TestTimeIntervals(t *testing.T) {
 			name:            "last_updated.json file doesn't exist",
 			lastUpdatedTime: time.Unix(0, 0),
 			fakeTimeNow:     time.Date(1970, 03, 01, 0, 0, 0, 0, time.UTC),
-			wantIntervals: []timeInterval{
+			wantIntervals: []nvd.TimeInterval{
 				{
-					lastModStartDate: "1970-01-01T00:00:00",
-					lastModEndDate:   "1970-03-01T00:00:00",
+					LastModStartDate: "1970-01-01T00:00:00",
+					LastModEndDate:   "1970-03-01T00:00:00",
 				},
 			},
 		},
@@ -250,11 +252,11 @@ func TestTimeIntervals(t *testing.T) {
 
 			if tt.lastUpdatedTime != time.Unix(0, 0) {
 				// create last_updated.json file into temp dir
-				err := utils.SetLastUpdatedDate("nvd", tt.lastUpdatedTime)
+				err := utils.SetLastUpdatedDate("api", tt.lastUpdatedTime)
 				assert.NoError(t, err)
 			}
 
-			gotIntervals, err := timeIntervals(tt.fakeTimeNow)
+			gotIntervals, err := nvd.TimeIntervals(tt.fakeTimeNow)
 			assert.NoError(t, err)
 
 			assert.Equal(t, tt.wantIntervals, gotIntervals)
