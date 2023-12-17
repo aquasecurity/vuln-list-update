@@ -25,7 +25,33 @@ const (
 	apiKeyEnvName     = "NVD_API_KEY"
 )
 
-type options struct {
+type Option func(*Updater)
+
+func WithLastModEndDate(lastModEndDate time.Time) Option {
+	return func(u *Updater) {
+		u.lastModEndDate = lastModEndDate
+	}
+}
+
+func WithMaxResultsPerPage(maxResultsPerPage int) Option {
+	return func(u *Updater) {
+		u.maxResultsPerPage = maxResultsPerPage
+	}
+}
+
+func WithBaseURL(url string) Option {
+	return func(u *Updater) {
+		u.baseURL = url
+	}
+}
+
+func WithRetry(retry int) Option {
+	return func(u *Updater) {
+		u.retry = retry
+	}
+}
+
+type Updater struct {
 	baseURL           string
 	apiKey            string
 	maxResultsPerPage int
@@ -33,38 +59,8 @@ type options struct {
 	lastModEndDate    time.Time // time.Now() by default
 }
 
-type option func(*options)
-
-func WithLastModEndDate(lastModEndDate time.Time) option {
-	return func(opts *options) {
-		opts.lastModEndDate = lastModEndDate
-	}
-}
-
-func WithMaxResultsPerPage(maxResultsPerPage int) option {
-	return func(opts *options) {
-		opts.maxResultsPerPage = maxResultsPerPage
-	}
-}
-
-func WithBaseURL(url string) option {
-	return func(opts *options) {
-		opts.baseURL = url
-	}
-}
-
-func WithRetry(retry int) option {
-	return func(opts *options) {
-		opts.retry = retry
-	}
-}
-
-type Updater struct {
-	*options
-}
-
-func NewUpdater(opts ...option) Updater {
-	o := &options{
+func NewUpdater(opts ...Option) *Updater {
+	u := &Updater{
 		baseURL:           url20,
 		apiKey:            os.Getenv(apiKeyEnvName),
 		maxResultsPerPage: maxResultsPerPage,
@@ -73,11 +69,9 @@ func NewUpdater(opts ...option) Updater {
 	}
 
 	for _, opt := range opts {
-		opt(o)
+		opt(u)
 	}
-	return Updater{
-		options: o,
-	}
+	return u
 }
 
 func (u Updater) Update() error {
