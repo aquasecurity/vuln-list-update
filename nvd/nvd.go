@@ -213,8 +213,8 @@ func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval Time
 		return "", xerrors.Errorf("unable to parse %q base url: %w", baseUrl, err)
 	}
 	q := u.Query()
-	q.Set("LastModStartDate", interval.LastModStartDate)
-	q.Set("LastModEndDate", interval.LastModEndDate)
+	q.Set("lastModStartDate", interval.LastModStartDate)
+	q.Set("lastModEndDate", interval.LastModEndDate)
 	q.Set("startIndex", strconv.Itoa(startIndex))
 	q.Set("resultsPerPage", strconv.Itoa(resultsPerPage))
 	// NVD API doesn't work with escaped `:`
