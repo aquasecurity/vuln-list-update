@@ -3,7 +3,7 @@ package nvd
 import (
 	"encoding/json"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"os"
@@ -90,12 +90,14 @@ func (u Updater) Update() error {
 	}
 
 	for _, interval := range intervals {
-		log.Printf("Fetching NVD entries from %s to %s...", interval.LastModStartDate, interval.LastModEndDate)
+		slog.Info("Fetching NVD entries...", slog.String("start", interval.LastModStartDate),
+			slog.String("end", interval.LastModEndDate))
 		totalResults := 1 // Set a dummy value to start the loop
 		for startIndex := 0; startIndex < totalResults; startIndex += u.maxResultsPerPage {
 			if totalResults, err = u.saveEntry(interval, startIndex); err != nil {
 				return xerrors.Errorf("unable to save entry CVEs for %q: %w", interval, err)
 			}
+			slog.Info("Fetched NVD entries", slog.Int("total", totalResults), slog.Int("start_index", startIndex))
 		}
 	}
 
@@ -154,19 +156,19 @@ func (u Updater) fetchURL(url string) (io.ReadCloser, error) {
 
 		resp, err := c.Do(req)
 		if err != nil {
-			log.Printf("Response error: %s. Try to get Entry again", err)
+			slog.Error("Response error. Try to get the entry again.", slog.String("error", err.Error()))
 			continue
 		}
 		switch resp.StatusCode {
 		case http.StatusForbidden:
-			log.Println("NVD rate limit. Waiting to gain access")
+			slog.Error("NVD rate limit. Wait to gain access.")
 			// NVD limits:
 			// Without API key: 5 requests / 30 seconds window
 			// With API key: 50 requests / 30 seconds window
 			time.Sleep(u.retryAfter)
 			continue
 		case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout:
-			log.Printf("NVD API is unstable: %s. Try to fetch URL again", resp.Status)
+			slog.Error("NVD API is unstable. Try to fetch URL again.", slog.String("status_code", resp.Status))
 			// NVD API works unstable
 			time.Sleep(time.Duration(i) * time.Second)
 			continue
