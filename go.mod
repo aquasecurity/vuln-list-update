@@ -1,6 +1,6 @@
 module github.com/aquasecurity/vuln-list-update
 
-go 1.20
+go 1.21.5
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
