@@ -5,7 +5,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"testing"
 	"time"
@@ -560,11 +559,11 @@ func TestConfig_Update(t *testing.T) {
 				assert.True(t, ok, tc.name)
 
 				if *update {
-					err = ioutil.WriteFile(goldenPath, actual, 0666)
+					err = os.WriteFile(goldenPath, actual, 0666)
 					assert.NoError(t, err, tc.name)
 				}
 
-				expected, err := ioutil.ReadFile(goldenPath)
+				expected, err := os.ReadFile(goldenPath)
 				assert.NoError(t, err, tc.name)
 
 				assert.Equal(t, string(expected), string(actual), tc.name)

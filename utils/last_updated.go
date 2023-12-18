@@ -2,7 +2,6 @@ package utils
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
@@ -64,7 +63,7 @@ func SetLastUpdatedDate(dist string, lastUpdatedDate time.Time) error {
 	if err != nil {
 		return err
 	}
-	if err = ioutil.WriteFile(lastUpdatedFilePath, b, 0600); err != nil {
+	if err = os.WriteFile(lastUpdatedFilePath, b, 0600); err != nil {
 		return xerrors.Errorf("failed to write last updated date: %w", err)
 	}
 

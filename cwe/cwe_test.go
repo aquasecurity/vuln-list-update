@@ -2,7 +2,6 @@ package cwe
 
 import (
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -57,7 +56,7 @@ func TestUpdate(t *testing.T) {
 				cweURL = tc.cweServerUrl
 			} else {
 				ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-					b, _ := ioutil.ReadFile(tc.inputZipFile)
+					b, _ := os.ReadFile(tc.inputZipFile)
 					_, _ = io.WriteString(w, string(b))
 				}))
 				cweURL = ts.URL
@@ -66,11 +65,7 @@ func TestUpdate(t *testing.T) {
 				}()
 			}
 
-			dir, _ := ioutil.TempDir("", "TestUpdate-*")
-			defer func() {
-				_ = os.RemoveAll(dir)
-			}()
-
+			dir := t.TempDir()
 			c := NewCWEWithConfig(cweURL, filepath.Join(dir), 0)
 			err := c.Update()
 			switch {
@@ -78,10 +73,10 @@ func TestUpdate(t *testing.T) {
 				require.Error(t, err, tc.name)
 			default:
 				// CWE-209.json is one file within good-small-cwe.xml.zip
-				gotJSON, err := ioutil.ReadFile(filepath.Join(dir, "CWE-209.json"))
+				gotJSON, err := os.ReadFile(filepath.Join(dir, "CWE-209.json"))
 				require.NoError(t, err, tc.name)
 
-				wantJSON, _ := ioutil.ReadFile(tc.expectedOutputJSONFile)
+				wantJSON, _ := os.ReadFile(tc.expectedOutputJSONFile)
 				assert.JSONEq(t, string(wantJSON), string(gotJSON), tc.name)
 			}
 		})

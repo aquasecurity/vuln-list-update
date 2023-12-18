@@ -2,7 +2,7 @@ package oval_test
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/kylelemons/godebug/pretty"
@@ -178,7 +178,7 @@ func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {
 	}
 	for testname, tt := range tests {
 		t.Run(testname, func(t *testing.T) {
-			xmlByte, err := ioutil.ReadFile(tt.in)
+			xmlByte, err := os.ReadFile(tt.in)
 			if err != nil {
 				require.NoError(t, err)
 			}

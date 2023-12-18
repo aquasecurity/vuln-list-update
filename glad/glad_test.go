@@ -2,8 +2,6 @@ package glad
 
 import (
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -80,12 +78,11 @@ func TestUpdater_WalkDir(t *testing.T) {
 
 				goldenPath := filepath.Join(tc.goldenDir, relPath)
 				if *update {
-					fmt.Println(goldenPath)
-					err = ioutil.WriteFile(goldenPath, got, 0666)
+					err = os.WriteFile(goldenPath, got, 0666)
 					assert.NoError(t, err, tc.name)
 				}
 
-				want, err := ioutil.ReadFile(goldenPath)
+				want, err := os.ReadFile(goldenPath)
 				assert.NoError(t, err, goldenPath)
 
 				assert.JSONEq(t, string(want), string(got), tc.name)
