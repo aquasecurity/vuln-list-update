@@ -5,7 +5,6 @@ import (
 	"flag"
 	"log"
 	"os"
-	"time"
 
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -53,7 +52,6 @@ func main() {
 
 func run() error {
 	flag.Parse()
-	now := time.Now().UTC()
 
 	if *vulnListDir != "" {
 		utils.SetVulnListDir(*vulnListDir)
@@ -61,7 +59,8 @@ func run() error {
 
 	switch *target {
 	case "nvd":
-		if err := nvd.Update(now.Year()); err != nil {
+		u := nvd.NewUpdater()
+		if err := u.Update(); err != nil {
 			return xerrors.Errorf("NVD update error: %w", err)
 		}
 	case "redhat":

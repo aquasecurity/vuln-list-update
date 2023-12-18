@@ -2,7 +2,6 @@ package utils
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
@@ -28,13 +27,14 @@ func GetLastUpdatedDate(dist string) (time.Time, error) {
 
 	t, ok := lastUpdated[dist]
 	if !ok {
-		return time.Unix(0, 0), nil
+		return time.Unix(0, 0).UTC(), nil
 	}
 
 	return t, nil
 }
 
 func getLastUpdatedDate() (map[string]time.Time, error) {
+	lastUpdatedFilePath = filepath.Join(VulnListDir(), lastUpdatedFile) // update path if VulnListDir has been changed.
 	lastUpdated := LastUpdated{}
 	if _, err := os.Stat(lastUpdatedFilePath); os.IsNotExist(err) {
 		return lastUpdated, nil
@@ -63,7 +63,7 @@ func SetLastUpdatedDate(dist string, lastUpdatedDate time.Time) error {
 	if err != nil {
 		return err
 	}
-	if err = ioutil.WriteFile(lastUpdatedFilePath, b, 0600); err != nil {
+	if err = os.WriteFile(lastUpdatedFilePath, b, 0600); err != nil {
 		return xerrors.Errorf("failed to write last updated date: %w", err)
 	}
 
