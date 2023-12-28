@@ -154,6 +154,64 @@ func TestClient_Update(t *testing.T) {
 						},
 					},
 				},
+				filepath.Join("CVE", "TEMP", "TEMP-1053115-9454E3.json"): {
+					Header: &tracker.Header{
+						Original:    "CVE-2023-XXXX [code execution via malformed XTGETTCAP]",
+						ID:          "TEMP-1053115-9454E3",
+						Description: "[code execution via malformed XTGETTCAP]",
+					},
+					Annotations: []*tracker.Annotation{
+						{
+							Original: "- foot 1.15.3-2 (bug #1053115)",
+							Type:     "package",
+							Package:  "foot",
+							Kind:     "fixed",
+							Version:  "1.15.3-2",
+							BugNo:    1053115,
+						},
+						{
+							Original: "[bookworm] - foot 1.13.1-2+deb12u1",
+							Type:     "package",
+							Release:  "bookworm",
+							Package:  "foot",
+							Kind:     "fixed",
+							Version:  "1.13.1-2+deb12u1",
+						},
+						{
+							Original:    "[bullseye] - foot <no-dsa> (Minor issue)",
+							Type:        "package",
+							Release:     "bullseye",
+							Package:     "foot",
+							Kind:        "no-dsa",
+							Description: "Minor issue",
+						},
+						{
+							Original:    "NOTE: https://codeberg.org/dnkl/foot/commit/8a5f2915e9d327d1517d1da49ce7e2303fe61d36",
+							Type:        "NOTE",
+							Description: "https://codeberg.org/dnkl/foot/commit/8a5f2915e9d327d1517d1da49ce7e2303fe61d36",
+						},
+					},
+				},
+				filepath.Join("CVE", "TEMP", "TEMP-0000000-556898.json"): {
+					Header: &tracker.Header{
+						Original:    "CVE-2023-XXXX [Other security issues from wordpress 6.3.2]",
+						ID:          "TEMP-0000000-556898",
+						Description: "[Other security issues from wordpress 6.3.2]",
+					},
+					Annotations: []*tracker.Annotation{
+						{
+							Original: "- wordpress <unfixed>",
+							Type:     "package",
+							Package:  "wordpress",
+							Kind:     "unfixed",
+						},
+						{
+							Original:    "NOTE: https://wordpress.org/documentation/wordpress-version/version-6-3-2/",
+							Type:        "NOTE",
+							Description: "https://wordpress.org/documentation/wordpress-version/version-6-3-2/",
+						},
+					},
+				},
 			},
 			wantDists: map[string]tracker.Distribution{
 				"stretch": {

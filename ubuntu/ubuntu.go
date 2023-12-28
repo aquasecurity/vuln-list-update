@@ -2,7 +2,6 @@ package ubuntu
 
 import (
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -147,7 +146,7 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 	vuln.Patches = map[Package]Statuses{}
 	vuln.UpstreamLinks = map[Package][]string{}
 
-	all, err := ioutil.ReadAll(r)
+	all, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}

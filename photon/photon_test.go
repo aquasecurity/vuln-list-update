@@ -3,7 +3,6 @@ package photon_test
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -139,7 +138,7 @@ func TestConfig_Update(t *testing.T) {
 					http.NotFound(w, r)
 					return
 				}
-				b, err := ioutil.ReadFile(filePath)
+				b, err := os.ReadFile(filePath)
 				assert.NoError(t, err, tc.name)
 				_, err = w.Write(b)
 				assert.NoError(t, err, tc.name)
@@ -182,11 +181,11 @@ func TestConfig_Update(t *testing.T) {
 				assert.True(t, ok, tc.name)
 
 				if *update {
-					err = ioutil.WriteFile(goldenPath, actual, 0666)
+					err = os.WriteFile(goldenPath, actual, 0666)
 					assert.NoError(t, err, tc.name)
 				}
 
-				expected, err := ioutil.ReadFile(goldenPath)
+				expected, err := os.ReadFile(goldenPath)
 				assert.NoError(t, err, tc.name)
 
 				assert.Equal(t, expected, actual, tc.name)
