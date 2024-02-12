@@ -22,6 +22,7 @@ func TestConfig_Update(t *testing.T) {
 		repomdXmlFileName string
 		gzipFileNames     map[string]string
 		wantErr           error
+		extras            map[string]string
 	}{
 		{
 			name:              "happy path",
@@ -33,6 +34,9 @@ func TestConfig_Update(t *testing.T) {
 				"2023": "testdata/fixtures/updateinfo_AL2023.xml.gz",
 			},
 			wantErr: nil,
+			extras: map[string]string{
+				"2": "testdata/fixtures/updateinfo_2_extras.xml.gz",
+			},
 		},
 		{
 			name:              "bad repomd XML response",
@@ -58,12 +62,23 @@ func TestConfig_Update(t *testing.T) {
 				switch {
 				case strings.HasSuffix(r.URL.Path, "/mirror.list"):
 					fmt.Println(r.URL.Path)
-					_, _ = fmt.Fprintf(w, "http://%s/%s", r.Host, getVersionFromURL(r.URL.Path))
+					pathSuffix := "core"
+					if strings.Contains(r.URL.Path, "extras") {
+						pathSuffix = "extras"
+					}
+					_, _ = fmt.Fprintf(w, "http://%s/%s/%s", r.Host, getVersionFromURL(r.URL.Path), pathSuffix)
 				case strings.HasSuffix(r.URL.Path, "/repomd.xml"):
 					repomd, _ := os.ReadFile(tc.repomdXmlFileName)
 					_, _ = w.Write(repomd)
+				case strings.HasSuffix(r.URL.Path, "extras.json"):
+					extras, _ := os.ReadFile("testdata/fixtures/extras.json")
+					_, _ = w.Write(extras)
 				case strings.Contains(r.URL.Path, "updateinfo.xml.gz"):
-					buf, _ := os.ReadFile(tc.gzipFileNames[getVersionFromURL(r.URL.Path)])
+					filename := tc.gzipFileNames[getVersionFromURL(r.URL.Path)]
+					if strings.Contains(r.URL.Path, "extras") {
+						filename = tc.extras[getVersionFromURL(r.URL.Path)]
+					}
+					buf, _ := os.ReadFile(filename)
 					_, _ = w.Write(buf)
 				default:
 					assert.Fail(t, "bad URL requested: ", r.URL.Path, tc.name)
@@ -75,10 +90,14 @@ func TestConfig_Update(t *testing.T) {
 
 			mirrorList := map[string]string{}
 			for key := range tc.gzipFileNames {
-				mirrorList[key] = fmt.Sprintf("%s/%s/mirror.list", ts.URL, key)
+				mirrorList[key] = fmt.Sprintf("%s/%s/core/mirror.list", ts.URL, key)
+			}
+			extrasList := map[string]string{}
+			for key := range tc.extras {
+				extrasList[key] = fmt.Sprintf("%s/%s/extras.json", ts.URL, key)
 			}
 
-			ac := amazon.NewConfig(amazon.With(mirrorList, tmpDir))
+			ac := amazon.NewConfig(amazon.With(mirrorList, tmpDir, extrasList))
 
 			switch {
 			case tc.wantErr != nil:

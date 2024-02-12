@@ -69,3 +69,11 @@ type Releases struct {
 type Release struct {
 	Version string `xml:"version,attr"`
 }
+
+type ExtrasTopic struct {
+	Name string `json:"n"`
+}
+
+type ExtrasListing struct {
+	Topics []ExtrasTopic `json:"topics"`
+}

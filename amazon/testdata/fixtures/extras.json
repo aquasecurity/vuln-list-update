@@ -1,0 +1,8 @@
+{
+    "motd": "",
+    "status": "ok",
+    "version": 1,
+    "topics": [
+        {"n": "golang1.19", "inst": ["golang"], "versions": ["stable"]}
+    ]
+}

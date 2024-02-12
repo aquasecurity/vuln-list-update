@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"compress/gzip"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"log"
@@ -32,19 +33,24 @@ var (
 		"2022": "https://cdn.amazonlinux.com/al2022/core/mirrors/latest/x86_64/mirror.list",
 		"2023": "https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list",
 	}
+	extrasListURI = map[string]string{
+		"2": "https://cdn.amazonlinux.com/2/extras-catalog-x86_64.json",
+	}
 )
 
 type Config struct {
 	mirrorListURI map[string]string
+	extrasListURI map[string]string
 	vulnListDir   string
 }
 
 type option func(*Config)
 
 // With takes some internal values for testing
-func With(mirrorListURI map[string]string, vulnListDir string) option {
+func With(mirrorListURI map[string]string, vulnListDir string, extrasListURI map[string]string) option {
 	return func(opts *Config) {
 		opts.mirrorListURI = mirrorListURI
+		opts.extrasListURI = extrasListURI
 		opts.vulnListDir = vulnListDir
 	}
 }
@@ -52,6 +58,7 @@ func With(mirrorListURI map[string]string, vulnListDir string) option {
 func NewConfig(opts ...option) *Config {
 	config := &Config{
 		mirrorListURI: mirrorListURI,
+		extrasListURI: extrasListURI,
 		vulnListDir:   utils.VulnListDir(),
 	}
 
@@ -80,27 +87,56 @@ func (ac Config) update(version, url string) error {
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to mkdir: %w", err)
 	}
-
-	vulns, err := fetchUpdateInfoAmazonLinux(url)
+	extrasMirrors, err := ac.fetchExtrasMirrors(version)
 	if err != nil {
-		return xerrors.Errorf("failed to fetch security advisories from Amazon Linux Security Center: %w", err)
+		return xerrors.Errorf("failed to fetch extras mirrors: %w", err)
 	}
 
-	bar := pb.StartNew(len(vulns.ALASList))
-	for _, alas := range vulns.ALASList {
-		filePath := filepath.Join(dir, fmt.Sprintf("%s.json", alas.ID))
-		if err = utils.Write(filePath, alas); err != nil {
-			return xerrors.Errorf("failed to write Amazon CVE details: %w", err)
+	bar := pb.StartNew(0)
+	for i, url := range append([]string{url}, extrasMirrors...) {
+		isExtras := i > 0
+		vulns, err := fetchUpdateInfoAmazonLinux(url, isExtras)
+		if err != nil {
+			return xerrors.Errorf("failed to fetch security advisories from Amazon Linux Security Center: %w", err)
 		}
-		bar.Increment()
+		bar.AddTotal(int64(len(vulns.ALASList)))
+		for _, alas := range vulns.ALASList {
+			filePath := filepath.Join(dir, fmt.Sprintf("%s.json", alas.ID))
+			if err = utils.Write(filePath, alas); err != nil {
+				return xerrors.Errorf("failed to write Amazon CVE details: %w", err)
+			}
+			bar.Increment()
+		}
 	}
 	bar.Finish()
 
 	return nil
-
 }
 
-func fetchUpdateInfoAmazonLinux(mirrorListURL string) (uinfo *UpdateInfo, err error) {
+func (ac Config) fetchExtrasMirrors(version string) ([]string, error) {
+	extrasURL, ok := ac.extrasListURI[version]
+	if !ok {
+		return []string{}, nil
+	}
+	res, err := utils.FetchURL(extrasURL, "", retry)
+	if err != nil {
+		return nil, err
+	}
+	var extrasListing ExtrasListing
+	if err = json.Unmarshal(res, &extrasListing); err != nil {
+		return nil, err
+	}
+	var mirrorURLs []string
+	parsedURL, _ := url.Parse(extrasURL)
+	baseURL := fmt.Sprintf("%s://%s", parsedURL.Scheme, parsedURL.Host)
+	for _, topic := range extrasListing.Topics {
+		url := fmt.Sprintf("%s/%s/extras/%s/latest/x86_64/mirror.list", baseURL, version, topic.Name)
+		mirrorURLs = append(mirrorURLs, url)
+	}
+	return mirrorURLs, nil
+}
+
+func fetchUpdateInfoAmazonLinux(mirrorListURL string, isOptional bool) (uinfo *UpdateInfo, err error) {
 	body, err := utils.FetchURL(mirrorListURL, "", retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch mirror list files: %w", err)
@@ -122,7 +158,9 @@ func fetchUpdateInfoAmazonLinux(mirrorListURL string) (uinfo *UpdateInfo, err er
 
 		updateInfoPath, err := fetchUpdateInfoURL(u.String())
 		if err != nil {
-			log.Printf("Failed to fetch updateInfo URL: %s\n", err)
+			if !isOptional {
+				log.Printf("Failed to fetch updateInfo URL: %s\n", err)
+			}
 			continue
 		}
 
@@ -133,6 +171,9 @@ func fetchUpdateInfoAmazonLinux(mirrorListURL string) (uinfo *UpdateInfo, err er
 			continue
 		}
 		return uinfo, nil
+	}
+	if isOptional {
+		return &UpdateInfo{}, nil
 	}
 	return nil, xerrors.New("Failed to fetch updateinfo")
 }
