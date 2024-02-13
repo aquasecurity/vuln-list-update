@@ -140,10 +140,19 @@ func (c Config) update(version, path string) error {
 	}
 
 	// write definitions
-	bar := pb.StartNew(len(oval.Definitions.Definition))
+	var definitions = make(map[string][]Definition)
 	for _, def := range oval.Definitions.Definition {
 		vulnID := def.Metadata.Reference.RefID
 
+		if defs, ok := definitions[vulnID]; ok {
+			definitions[vulnID] = append(defs, def)
+		} else {
+			definitions[vulnID] = []Definition{def}
+		}
+	}
+
+	bar := pb.StartNew(len(oval.Definitions.Definition))
+	for vulnID, def := range definitions {
 		if err := c.saveAdvisoryPerYear(filepath.Join(dirPath, definitionsDir), vulnID, def); err != nil {
 			return xerrors.Errorf("failed to save advisory per year: %w", err)
 		}
@@ -155,7 +164,7 @@ func (c Config) update(version, path string) error {
 	return nil
 }
 
-func (c Config) saveAdvisoryPerYear(dirName string, vulnID string, def Definition) error {
+func (c Config) saveAdvisoryPerYear(dirName string, vulnID string, defs []Definition) error {
 	if !strings.HasPrefix(vulnID, "CVE") {
 		log.Printf("discovered non-CVE-ID: %s", vulnID)
 		return ErrNonCVEID
@@ -168,7 +177,7 @@ func (c Config) saveAdvisoryPerYear(dirName string, vulnID string, def Definitio
 	}
 
 	yearDir := filepath.Join(dirName, s[1])
-	if err := utils.Write(filepath.Join(yearDir, fmt.Sprintf("%s.json", vulnID)), def); err != nil {
+	if err := utils.Write(filepath.Join(yearDir, fmt.Sprintf("%s.json", vulnID)), defs); err != nil {
 		return xerrors.Errorf("unable to write a JSON file: %w", err)
 	}
 	return nil
