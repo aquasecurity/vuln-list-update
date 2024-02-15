@@ -34,6 +34,8 @@ var (
 		"2023": "https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list",
 	}
 	extrasListURI = map[string]string{
+		// Extracted from the amazon-linux-extras tool in an amazonlinux2 image
+		// (path: /usr/lib/python2.7/site-packages/amazon_linux_extras/software_catalog.py)
 		"2": "https://cdn.amazonlinux.com/2/extras-catalog-x86_64.json",
 	}
 )
@@ -93,9 +95,9 @@ func (ac Config) update(version, url string) error {
 	}
 
 	bar := pb.StartNew(0)
-	for i, url := range append([]string{url}, extrasMirrors...) {
+	for i, mirrorURL := range append([]string{url}, extrasMirrors...) {
 		isExtras := i > 0
-		vulns, err := fetchUpdateInfoAmazonLinux(url, isExtras)
+		vulns, err := fetchUpdateInfoAmazonLinux(mirrorURL, isExtras)
 		if err != nil {
 			return xerrors.Errorf("failed to fetch security advisories from Amazon Linux Security Center: %w", err)
 		}
@@ -136,7 +138,7 @@ func (ac Config) fetchExtrasMirrors(version string) ([]string, error) {
 	return mirrorURLs, nil
 }
 
-func fetchUpdateInfoAmazonLinux(mirrorListURL string, isOptional bool) (uinfo *UpdateInfo, err error) {
+func fetchUpdateInfoAmazonLinux(mirrorListURL string, isExtras bool) (uinfo *UpdateInfo, err error) {
 	body, err := utils.FetchURL(mirrorListURL, "", retry)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch mirror list files: %w", err)
@@ -158,7 +160,8 @@ func fetchUpdateInfoAmazonLinux(mirrorListURL string, isOptional bool) (uinfo *U
 
 		updateInfoPath, err := fetchUpdateInfoURL(u.String())
 		if err != nil {
-			if !isOptional {
+			// There are cases when extras don't contain an `updateinfo` value, avoiding to output unnecessary warnings
+			if !isExtras {
 				log.Printf("Failed to fetch updateInfo URL: %s\n", err)
 			}
 			continue
@@ -172,7 +175,8 @@ func fetchUpdateInfoAmazonLinux(mirrorListURL string, isOptional bool) (uinfo *U
 		}
 		return uinfo, nil
 	}
-	if isOptional {
+	// When extras don't contain any `updateinfo` value, we just return an empty set without error
+	if isExtras {
 		return &UpdateInfo{}, nil
 	}
 	return nil, xerrors.New("Failed to fetch updateinfo")
