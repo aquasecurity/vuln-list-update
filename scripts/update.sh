@@ -1,4 +1,13 @@
-#!/bin/bash -eu
+#!/bin/bash -eEu
+
+HEAD=$(git rev-parse HEAD)
+shopt -s inherit_errexit
+on_error() {
+    echo "[Err] Revert changes" >&2
+    git reset --hard "${HEAD}"
+    exit 1
+}
+trap on_error ERR
 
 TARGET=$1
 COMMIT_MSG=$2
