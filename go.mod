@@ -3,7 +3,7 @@ module github.com/aquasecurity/vuln-list-update
 go 1.21.5
 
 require (
-	github.com/PuerkitoBio/goquery v1.9.0
+	github.com/PuerkitoBio/goquery v1.9.1
 	github.com/aquasecurity/go-version v0.0.0-20210121072130-637058cfe492
 	github.com/araddon/dateparse v0.0.0-20190426192744-0d74ffceef83
 	github.com/cheggaaa/pb v2.0.7+incompatible
