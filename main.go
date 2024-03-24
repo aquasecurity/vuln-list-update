@@ -1,13 +1,9 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"log"
-	"os"
 
-	githubql "github.com/shurcooL/githubv4"
-	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/alma"
@@ -18,7 +14,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/chainguard"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
-	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/k8s"
 	"github.com/aquasecurity/vuln-list-update/kevc"
@@ -38,7 +33,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s)")
+		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -110,16 +105,6 @@ func run() error {
 		pc := photon.NewConfig()
 		if err := pc.Update(); err != nil {
 			return xerrors.Errorf("Photon update error: %w", err)
-		}
-	case "ghsa":
-		src := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
-		)
-		httpClient := oauth2.NewClient(context.Background(), src)
-
-		gc := ghsa.NewConfig(githubql.NewClient(httpClient))
-		if err := gc.Update(); err != nil {
-			return xerrors.Errorf("GitHub Security Advisory update error: %w", err)
 		}
 	case "glad":
 		gu := glad.NewUpdater(*targetUri, *targetBranch)
