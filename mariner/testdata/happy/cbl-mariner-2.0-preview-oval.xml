@@ -55,6 +55,38 @@
         <criterion comment="Package mysql is installed with version 8.0.24 or earlier" test_ref="oval:com.microsoft.cbl-mariner:tst:1643374850000854"/>
       </criteria>
     </definition>
+    <definition class="vulnerability" id="oval:com.microsoft.cbl-mariner:def:31880" version="1">
+      <metadata>
+        <title>CVE-2023-5678 affecting package openssl for versions less than 1.1.1k-28</title>
+        <affected family="unix">
+          <platform>CBL-Mariner</platform>
+        </affected>
+        <reference ref_id="CVE-2023-5678" ref_url="https://nvd.nist.gov/vuln/detail/CVE-2023-5678" source="CVE"/>
+        <patchable>true</patchable>
+        <advisory_id>31880-1</advisory_id>
+        <severity>Medium</severity>
+        <description>CVE-2023-5678 affecting package openssl for versions less than 1.1.1k-28. A patched version of the package is available.</description>
+      </metadata>
+      <criteria operator="AND">
+        <criterion comment="Package openssl is earlier than 1.1.1k-28, affected by CVE-2023-5678" test_ref="oval:com.microsoft.cbl-mariner:tst:31880000"/>
+      </criteria>
+    </definition>
+    <definition class="vulnerability" id="oval:com.microsoft.cbl-mariner:def:31872" version="1">
+      <metadata>
+        <title>CVE-2023-5678 affecting package edk2 for versions less than 20230301gitf80f052277c8-38</title>
+        <affected family="unix">
+          <platform>CBL-Mariner</platform>
+        </affected>
+        <reference ref_id="CVE-2023-5678" ref_url="https://nvd.nist.gov/vuln/detail/CVE-2023-5678" source="CVE"/>
+        <patchable>true</patchable>
+        <advisory_id>31872-1</advisory_id>
+        <severity>Medium</severity>
+        <description>CVE-2023-5678 affecting package edk2 for versions less than 20230301gitf80f052277c8-38. A patched version of the package is available.</description>
+      </metadata>
+      <criteria operator="AND">
+        <criterion comment="Package edk2 is earlier than 20230301gitf80f052277c8-38, affected by CVE-2023-5678" test_ref="oval:com.microsoft.cbl-mariner:tst:31872000"/>
+      </criteria>
+    </definition>
   </definitions>
   <tests>
     <linux-def:rpminfo_test check="at least one" comment="Package unzip is installed with version 6.0 or earlier" id="oval:com.microsoft.cbl-mariner:tst:1643374850000269" version="1643374850">
@@ -69,6 +101,14 @@
       <linux-def:object object_ref="oval:com.microsoft.cbl-mariner:obj:1643374850000669"/>
       <linux-def:state state_ref="oval:com.microsoft.cbl-mariner:ste:1643374850000670"/>
     </linux-def:rpminfo_test>
+    <linux-def:rpminfo_test check="at least one" comment="Package openssl is earlier than 1.1.1k-28, affected by CVE-2023-5678" id="oval:com.microsoft.cbl-mariner:tst:31880000" version="0">
+      <linux-def:object object_ref="oval:com.microsoft.cbl-mariner:obj:31880001"/>
+      <linux-def:state state_ref="oval:com.microsoft.cbl-mariner:ste:31880002"/>
+    </linux-def:rpminfo_test>
+    <linux-def:rpminfo_test check="at least one" comment="Package edk2 is earlier than 20230301gitf80f052277c8-38, affected by CVE-2023-5678" id="oval:com.microsoft.cbl-mariner:tst:31872000" version="0">
+      <linux-def:object object_ref="oval:com.microsoft.cbl-mariner:obj:31872001"/>
+      <linux-def:state state_ref="oval:com.microsoft.cbl-mariner:ste:31872002"/>
+    </linux-def:rpminfo_test>
   </tests>
   <objects>
     <linux-def:rpminfo_object id="oval:com.microsoft.cbl-mariner:obj:1643374850000123" version="1643374850">
@@ -80,6 +120,12 @@
     <linux-def:rpminfo_object id="oval:com.microsoft.cbl-mariner:obj:1643374850000669" version="1643374850">
       <linux-def:name>mysql</linux-def:name>
     </linux-def:rpminfo_object>
+    <linux-def:rpminfo_object id="oval:com.microsoft.cbl-mariner:obj:31880001" version="0">
+      <linux-def:name>openssl</linux-def:name>
+    </linux-def:rpminfo_object>
+    <linux-def:rpminfo_object id="oval:com.microsoft.cbl-mariner:obj:31872001" version="0">
+      <linux-def:name>edk2</linux-def:name>
+    </linux-def:rpminfo_object>
   </objects>
   <states>
     <linux-def:rpminfo_state id="oval:com.microsoft.cbl-mariner:ste:1643374850000031" version="1643374850">
@@ -90,6 +136,12 @@
     </linux-def:rpminfo_state>
     <linux-def:rpminfo_state id="oval:com.microsoft.cbl-mariner:ste:1643374850000670" version="1643374850">
       <linux-def:evr datatype="evr_string" operation="less than or equal">0:8.0.24-1.cm1</linux-def:evr>
+    </linux-def:rpminfo_state>
+    <linux-def:rpminfo_state id="oval:com.microsoft.cbl-mariner:ste:31880002" version="0">
+      <linux-def:evr datatype="evr_string" operation="less than">0:1.1.1k-28.cm2</linux-def:evr>
+    </linux-def:rpminfo_state>
+    <linux-def:rpminfo_state id="oval:com.microsoft.cbl-mariner:ste:31872002" version="0">
+      <linux-def:evr datatype="evr_string" operation="less than">0:20230301gitf80f052277c8-38.cm2</linux-def:evr>
     </linux-def:rpminfo_state>
   </states>
 </oval_definitions>
