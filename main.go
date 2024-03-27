@@ -13,6 +13,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
+	alt "github.com/aquasecurity/vuln-list-update/alt/oval"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/chainguard"
@@ -37,7 +38,7 @@ import (
 )
 
 var (
-	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
+	target = flag.String("target", "", "update target (nvd, alpine, alt, alpine-unfixed, redhat, redhat-oval, "+
 		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -80,6 +81,11 @@ func run() error {
 	case "ubuntu":
 		if err := ubuntu.Update(); err != nil {
 			return xerrors.Errorf("Ubuntu update error: %w", err)
+		}
+	case "alt":
+		at := alt.NewConfig()
+		if err := at.Update(); err != nil {
+			return xerrors.Errorf("ALT OVAL update error: %w", err)
 		}
 	case "alpine":
 		au := alpine.NewUpdater()
