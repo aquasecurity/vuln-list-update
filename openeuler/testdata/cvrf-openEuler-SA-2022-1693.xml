@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1"
+><DocumentTitle xml:lang="en"
+>An update for python-XStatic-jquery-ui is now available for openEuler-20.03-LTS-SP3</DocumentTitle
+><DocumentType
+>Security Advisory</DocumentType
+><DocumentPublisher Type="Vendor"
+><ContactDetails
+>openeuler-security@openeuler.org</ContactDetails
+><IssuingAuthority
+>openEuler security committee</IssuingAuthority
+></DocumentPublisher
+><DocumentTracking
+><Identification
+><ID
+>openEuler-SA-2022-1693</ID
+></Identification
+><Status
+>Final</Status
+><Version
+>1.0</Version
+><RevisionHistory
+><Revision
+><Number
+>1.0</Number
+><Date
+>2022-06-02</Date
+><Description
+>Initial</Description
+></Revision
+></RevisionHistory
+><InitialReleaseDate
+>2022-06-02</InitialReleaseDate
+><CurrentReleaseDate
+>2022-06-02</CurrentReleaseDate
+><Generator
+><Engine
+>openEuler SA Tool V1.0</Engine
+><Date
+>2022-06-02</Date
+></Generator
+></DocumentTracking
+><DocumentNotes
+><Note Title="Synopsis" Type="General" Ordinal="1" xml:lang="en"
+>python-XStatic-jquery-ui security update</Note
+><Note Title="Summary" Type="General" Ordinal="2" xml:lang="en"
+>An update for python-XStatic-jquery-ui is now available for openEuler-20.03-LTS-SP3.</Note
+><Note Title="Description" Type="General" Ordinal="3" xml:lang="en"
+>jquery-ui javascript library packaged for setuptools (easy_install) / pip. This package is intended to be used by **any** project that needs these files. It intentionally does **not** provide any extra code except some metadata **nor** has any extra requirements. You MAY use some minimal support code from the XStatic base package, if you like. You can find more info about the xstatic packaging way in the package `XStatic`.
+
+Security Fix(es):
+
+jQuery-UI is the official jQuery user interface library. Prior to version 1.13.0, accepting the value of various `*Text` options of the Datepicker widget from untrusted sources may execute untrusted code. The issue is fixed in jQuery UI 1.13.0. The values passed to various `*Text` options are now always treated as pure text, not HTML. A workaround is to not accept the value of the `*Text` options from untrusted sources.(CVE-2021-41183)</Note>
+<Note Title="Topic" Type="General" Ordinal="4" xml:lang="en"
+>An update for python-XStatic-jquery-ui is now available for openEuler-20.03-LTS-SP3.
+
+openEuler Security has rated this update as having a security impact of medium. A Common Vunlnerability Scoring System(CVSS)base score,which gives a detailed severity rating, is available for each vulnerability from the CVElink(s) in the References section.</Note>
+<Note Title="Severity" Type="General" Ordinal="5" xml:lang="en"
+>Medium</Note
+><Note Title="Affected Component" Type="General" Ordinal="6" xml:lang="en">python-XStatic-jquery-ui</Note>
+</DocumentNotes
+><DocumentReferences
+><Reference Type="Self"
+><URL
+>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2022-1693</URL
+></Reference
+><Reference Type="openEuler CVE"
+><URL
+>https://www.openeuler.org/en/security/cve/detail.html?id=CVE-2021-41183</URL
+></Reference>
+<Reference Type="Other"
+><URL
+>https://nvd.nist.gov/vuln/detail/CVE-2021-41183</URL
+></Reference
+></DocumentReferences>
+<ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1"
+><Branch Type="Product Name" Name="openEuler"
+><FullProductName ProductID="openEuler-20.03-LTS-SP3" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">openEuler-20.03-LTS-SP3</FullProductName
+></Branch
+><Branch Type="Package Arch" Name="noarch"
+><FullProductName ProductID="python3-XStatic-jquery-ui-1.12.1.1-2" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3"
+>python3-XStatic-jquery-ui-1.12.1.1-2.oe1.noarch.rpm</FullProductName
+><FullProductName ProductID="python-XStatic-jquery-ui-help-1.12.1.1-2" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">python-XStatic-jquery-ui-help-1.12.1.1-2.oe1.noarch.rpm</FullProductName
+></Branch
+><Branch Type="Package Arch" Name="src"
+><FullProductName ProductID="python-XStatic-jquery-ui-1.12.1.1-2" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">python-XStatic-jquery-ui-1.12.1.1-2.oe1.src.rpm</FullProductName
+></Branch
+></ProductTree
+><Vulnerability Ordinal="1" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1"
+><Notes
+><Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">jQuery-UI is the official jQuery user interface library. Prior to version 1.13.0, accepting the value of various `*Text` options of the Datepicker widget from untrusted sources may execute untrusted code. The issue is fixed in jQuery UI 1.13.0. The values passed to various `*Text` options are now always treated as pure text, not HTML. A workaround is to not accept the value of the `*Text` options from untrusted sources.</Note
+></Notes><ReleaseDate
+>2022-06-02</ReleaseDate
+><CVE>CVE-2021-41183</CVE
+><ProductStatuses
+><Status Type="Fixed"
+><ProductID
+>openEuler-20.03-LTS-SP3</ProductID
+></Status
+></ProductStatuses
+><Threats
+><Threat Type="Impact"
+><Description
+>Medium</Description
+></Threat
+></Threats
+><CVSSScoreSets
+><ScoreSet
+><BaseScore>6.1</BaseScore
+><Vector
+>AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N</Vector
+></ScoreSet
+></CVSSScoreSets
+><Remediations
+><Remediation Type="Vendor Fix"
+><Description
+>python-XStatic-jquery-ui security update</Description
+><DATE
+>2022-06-02</DATE
+><URL
+>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2022-1693</URL
+></Remediation
+></Remediations
+></Vulnerability
+></cvrfdoc
+>

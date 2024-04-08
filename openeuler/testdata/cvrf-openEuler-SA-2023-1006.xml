@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+	<DocumentTitle xml:lang="en">An update for curl is now available for openEuler-20.03-LTS-SP3</DocumentTitle>
+	<DocumentType>Security Advisory</DocumentType>
+	<DocumentPublisher Type="Vendor">
+		<ContactDetails>openeuler-security@openeuler.org</ContactDetails>
+		<IssuingAuthority>openEuler security committee</IssuingAuthority>
+	</DocumentPublisher>
+	<DocumentTracking>
+		<Identification>
+			<ID>openEuler-SA-2023-1006</ID>
+		</Identification>
+		<Status>Final</Status>
+		<Version>1.0</Version>
+		<RevisionHistory>
+			<Revision>
+				<Number>1.0</Number>
+				<Date>2023-01-06</Date>
+				<Description>Initial</Description>
+			</Revision>
+		</RevisionHistory>
+		<InitialReleaseDate>2023-01-06</InitialReleaseDate>
+		<CurrentReleaseDate>2023-01-06</CurrentReleaseDate>
+		<Generator>
+			<Engine>openEuler SA Tool V1.0</Engine>
+			<Date>2023-01-06</Date>
+		</Generator>
+	</DocumentTracking>
+	<DocumentNotes>
+		<Note Title="Synopsis" Type="General" Ordinal="1" xml:lang="en">curl security update</Note>
+		<Note Title="Summary" Type="General" Ordinal="2" xml:lang="en">An update for curl is now available for openEuler-20.03-LTS-SP3.</Note>
+		<Note Title="Description" Type="General" Ordinal="3" xml:lang="en">cURL is a computer software project providing a library (libcurl) and command-line tool (curl) for transferring data using various protocols.
+
+Security Fix(es):
+
+A vulnerability was found in curl. In this issue, curl can be asked to tunnel all protocols virtually it supports through an HTTP proxy. HTTP proxies can deny these tunnel operations using an appropriate HTTP error response code. When getting denied to tunnel the specific SMB or TELNET protocols, curl can use a heap-allocated struct after it has been freed and shut down the code path in its transfer.(CVE-2022-43552)</Note>
+		<Note Title="Topic" Type="General" Ordinal="4" xml:lang="en">An update for curl is now available for openEuler-20.03-LTS-SP3.
+
+openEuler Security has rated this update as having a security impact of medium. A Common Vunlnerability Scoring System(CVSS)base score,which gives a detailed severity rating, is available for each vulnerability from the CVElink(s) in the References section.</Note>
+		<Note Title="Severity" Type="General" Ordinal="5" xml:lang="en">Medium</Note>
+		<Note Title="Affected Component" Type="General" Ordinal="6" xml:lang="en">curl</Note>
+	</DocumentNotes>
+	<DocumentReferences>
+		<Reference Type="Self">
+			<URL>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2023-1006</URL>
+		</Reference>
+		<Reference Type="openEuler CVE">
+			<URL>https://www.openeuler.org/en/security/cve/detail.html?id=CVE-2022-43552</URL>
+		</Reference>
+		<Reference Type="Other">
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2022-43552</URL>
+		</Reference>
+	</DocumentReferences>
+	<ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+		<Branch Type="Product Name" Name="openEuler">
+			<FullProductName ProductID="openEuler-20.03-LTS-SP3" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">openEuler-20.03-LTS-SP3</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="aarch64">
+			<FullProductName ProductID="curl-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-7.71.1-20.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="curl-debuginfo-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-debuginfo-7.71.1-20.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="libcurl-devel-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">libcurl-devel-7.71.1-20.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="libcurl-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">libcurl-7.71.1-20.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="curl-debugsource-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-debugsource-7.71.1-20.oe1.aarch64.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="noarch">
+			<FullProductName ProductID="curl-help-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-help-7.71.1-20.oe1.noarch.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="src">
+			<FullProductName ProductID="curl-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-7.71.1-20.oe1.src.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="x86_64">
+			<FullProductName ProductID="libcurl-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">libcurl-7.71.1-20.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="curl-debuginfo-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-debuginfo-7.71.1-20.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="libcurl-devel-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">libcurl-devel-7.71.1-20.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="curl-debugsource-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-debugsource-7.71.1-20.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="curl-7.71.1-20" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP3">curl-7.71.1-20.oe1.x86_64.rpm</FullProductName>
+		</Branch>
+	</ProductTree>
+	<Vulnerability Ordinal="1" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">A vulnerability was found in curl. In this issue, curl can be asked to tunnel all protocols virtually it supports through an HTTP proxy. HTTP proxies can deny these tunnel operations using an appropriate HTTP error response code. When getting denied to tunnel the specific SMB or TELNET protocols, curl can use a heap-allocated struct after it has been freed and shut down the code path in its transfer.</Note>
+		</Notes>
+		<ReleaseDate>2023-01-06</ReleaseDate>
+		<CVE>CVE-2022-43552</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-20.03-LTS-SP3</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>Medium</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>5.9</BaseScore>
+				<Vector>AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>curl security update</Description>
+				<DATE>2023-01-06</DATE>
+				<URL>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2023-1006</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+</cvrfdoc>

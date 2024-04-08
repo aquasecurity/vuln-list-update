@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+	<DocumentTitle xml:lang="en">An update for wireshark is now available for openEuler-22.03-LTS-SP1</DocumentTitle>
+	<DocumentType>Security Advisory</DocumentType>
+	<DocumentPublisher Type="Vendor">
+		<ContactDetails>openeuler-security@openeuler.org</ContactDetails>
+		<IssuingAuthority>openEuler security committee</IssuingAuthority>
+	</DocumentPublisher>
+	<DocumentTracking>
+		<Identification>
+			<ID>openEuler-SA-2023-1374</ID>
+		</Identification>
+		<Status>Final</Status>
+		<Version>1.0</Version>
+		<RevisionHistory>
+			<Revision>
+				<Number>1.0</Number>
+				<Date>2023-06-27</Date>
+				<Description>Initial</Description>
+			</Revision>
+		</RevisionHistory>
+		<InitialReleaseDate>2023-06-27</InitialReleaseDate>
+		<CurrentReleaseDate>2023-06-27</CurrentReleaseDate>
+		<Generator>
+			<Engine>openEuler SA Tool V1.0</Engine>
+			<Date>2023-06-27</Date>
+		</Generator>
+	</DocumentTracking>
+	<DocumentNotes>
+		<Note Title="Synopsis" Type="General" Ordinal="1" xml:lang="en">wireshark security update</Note>
+		<Note Title="Summary" Type="General" Ordinal="2" xml:lang="en">An update for wireshark is now available for openEuler-22.03-LTS-SP1.</Note>
+		<Note Title="Description" Type="General" Ordinal="3" xml:lang="en">Wireshark allows you to examine protocol data stored in files or as it is captured from wired or wireless (WiFi or Bluetooth) networks, USB devices, and many other sources.  It supports dozens of protocol capture file formats and understands more than a thousand protocols. It has many powerful features including a rich display filter language and the ability to reassemble multiple protocol packets in order to, for example, view a complete TCP stream, save the contents of a file which was transferred over HTTP or CIFS, or play back an RTP audio stream.
+
+Security Fix(es):
+
+XRA dissector infinite loop in Wireshark 4.0.0 to 4.0.5 and 3.6.0 to 3.6.13 allows denial of service via packet injection or crafted capture file(CVE-2023-2952)
+
+Due to failure in validating the length provided by an attacker-crafted MSMMS packet, Wireshark version 4.0.5 and prior, in an unusual configuration, is susceptible to a heap-based buffer overflow, and possibly code execution in the context of the process running Wireshark(CVE-2023-0667)</Note>
+		<Note Title="Topic" Type="General" Ordinal="4" xml:lang="en">An update for wireshark is now available for openEuler-22.03-LTS-SP1.
+
+openEuler Security has rated this update as having a security impact of critical. A Common Vunlnerability Scoring System(CVSS)base score,which gives a detailed severity rating, is available for each vulnerability from the CVElink(s) in the References section.</Note>
+		<Note Title="Severity" Type="General" Ordinal="5" xml:lang="en">Critical</Note>
+		<Note Title="Affected Component" Type="General" Ordinal="6" xml:lang="en">wireshark</Note>
+	</DocumentNotes>
+	<DocumentReferences>
+		<Reference Type="Self">
+			<URL>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2023-1374</URL>
+		</Reference>
+		<Reference Type="openEuler CVE">
+			<URL>https://www.openeuler.org/en/security/cve/detail.html?id=CVE-2023-2952</URL>
+			<URL>https://www.openeuler.org/en/security/cve/detail.html?id=CVE-2023-0667</URL>
+		</Reference>
+		<Reference Type="Other">
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2023-2952</URL>
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2023-0667</URL>
+		</Reference>
+	</DocumentReferences>
+	<ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+		<Branch Type="Product Name" Name="openEuler">
+			<FullProductName ProductID="openEuler-22.03-LTS-SP1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">openEuler-22.03-LTS-SP1</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="aarch64">
+			<FullProductName ProductID="wireshark-devel-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-devel-3.6.14-1.oe2203sp1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-debugsource-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-debugsource-3.6.14-1.oe2203sp1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-help-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-help-3.6.14-1.oe2203sp1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-debuginfo-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-debuginfo-3.6.14-1.oe2203sp1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-3.6.14-1.oe2203sp1.aarch64.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="src">
+			<FullProductName ProductID="wireshark-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-3.6.14-1.oe2203sp1.src.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="x86_64">
+			<FullProductName ProductID="wireshark-debugsource-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-debugsource-3.6.14-1.oe2203sp1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-help-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-help-3.6.14-1.oe2203sp1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-devel-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-devel-3.6.14-1.oe2203sp1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-debuginfo-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-debuginfo-3.6.14-1.oe2203sp1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="wireshark-3.6.14-1" CPE="cpe:/a:openEuler:openEuler:22.03-LTS-SP1">wireshark-3.6.14-1.oe2203sp1.x86_64.rpm</FullProductName>
+		</Branch>
+	</ProductTree>
+	<Vulnerability Ordinal="1" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">XRA dissector infinite loop in Wireshark 4.0.0 to 4.0.5 and 3.6.0 to 3.6.13 allows denial of service via packet injection or crafted capture file</Note>
+		</Notes>
+		<ReleaseDate>2023-06-27</ReleaseDate>
+		<CVE>CVE-2023-2952</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-22.03-LTS-SP1</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>Medium</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>6.5</BaseScore>
+				<Vector>AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>wireshark security update</Description>
+				<DATE>2023-06-27</DATE>
+				<URL>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2023-1374</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+	<Vulnerability Ordinal="2" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="2" xml:lang="en">Due to failure in validating the length provided by an attacker-crafted MSMMS packet, Wireshark version 4.0.5 and prior, in an unusual configuration, is susceptible to a heap-based buffer overflow, and possibly code execution in the context of the process running Wireshark</Note>
+		</Notes>
+		<ReleaseDate>2023-06-27</ReleaseDate>
+		<CVE>CVE-2023-0667</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-22.03-LTS-SP1</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>Critical</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>9.8</BaseScore>
+				<Vector>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>wireshark security update</Description>
+				<DATE>2023-06-27</DATE>
+				<URL>https://www.openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2023-1374</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+</cvrfdoc>

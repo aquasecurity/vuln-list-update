@@ -98,3 +98,7 @@ jobs:
     - if: always()
       name: Chainguard Secdb
       run: ./scripts/update.sh chainguard "Chainguard Security Data"
+    
+    - if: always()
+      name: openEuler CVE
+      run: ./scripts/update.sh openeuler "openEuler CVE Data"

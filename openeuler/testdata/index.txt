@@ -1,0 +1,13 @@
+2021/cvrf-openEuler-SA-2021-1033.xml
+2021/cvrf-openEuler-SA-2021-1202.xml
+2021/cvrf-openEuler-SA-2021-1480.xml
+2022/cvrf-openEuler-SA-2022-1485.xml
+2022/cvrf-openEuler-SA-2022-1580.xml
+2022/cvrf-openEuler-SA-2022-1704.xml
+2023/cvrf-openEuler-SA-2023-1006.xml
+2023/cvrf-openEuler-SA-2023-1010.xml
+2023/cvrf-openEuler-SA-2023-1374.xml
+2024/cvrf-openEuler-SA-2024-1151.xml
+2024/cvrf-openEuler-SA-2024-1295.xml
+2024/cvrf-openEuler-SA-2024-1349.xml
+2022/cvrf-openEuler-SA-2022-1693.xml
