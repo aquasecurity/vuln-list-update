@@ -25,7 +25,7 @@ func TestConfig_Update(t *testing.T) {
 		expectedErrorMsg string
 	}{
 		{
-			name:  "positive test sles",
+			name:  "positive test openEuler",
 			appFs: afero.NewMemMapFs(),
 			xmlFileNames: map[string]string{
 				"/security/data/cvrf/index.txt":                            "testdata/index.txt",
