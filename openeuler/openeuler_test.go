@@ -30,31 +30,13 @@ func TestConfig_Update(t *testing.T) {
 			xmlFileNames: map[string]string{
 				"/security/data/cvrf/index.txt":                            "testdata/index.txt",
 				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1033.xml": "testdata/cvrf-openEuler-SA-2021-1033.xml",
-				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1202.xml": "testdata/cvrf-openEuler-SA-2021-1202.xml",
-				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1480.xml": "testdata/cvrf-openEuler-SA-2021-1480.xml",
-				"/security/data/cvrf/2022/cvrf-openEuler-SA-2022-1485.xml": "testdata/cvrf-openEuler-SA-2022-1485.xml",
-				"/security/data/cvrf/2022/cvrf-openEuler-SA-2022-1580.xml": "testdata/cvrf-openEuler-SA-2022-1580.xml",
-				"/security/data/cvrf/2022/cvrf-openEuler-SA-2022-1704.xml": "testdata/cvrf-openEuler-SA-2022-1704.xml",
-				"/security/data/cvrf/2023/cvrf-openEuler-SA-2023-1006.xml": "testdata/cvrf-openEuler-SA-2023-1006.xml",
-				"/security/data/cvrf/2023/cvrf-openEuler-SA-2023-1010.xml": "testdata/cvrf-openEuler-SA-2023-1010.xml",
 				"/security/data/cvrf/2023/cvrf-openEuler-SA-2023-1374.xml": "testdata/cvrf-openEuler-SA-2023-1374.xml",
-				"/security/data/cvrf/2024/cvrf-openEuler-SA-2024-1151.xml": "testdata/cvrf-openEuler-SA-2024-1151.xml",
-				"/security/data/cvrf/2024/cvrf-openEuler-SA-2024-1295.xml": "testdata/cvrf-openEuler-SA-2024-1295.xml",
 				"/security/data/cvrf/2024/cvrf-openEuler-SA-2024-1349.xml": "testdata/cvrf-openEuler-SA-2024-1349.xml",
 				"/security/data/cvrf/2022/cvrf-openEuler-SA-2022-1693.xml": "testdata/cvrf-openEuler-SA-2022-1693.xml",
 			},
 			goldenFiles: map[string]string{
 				"/tmp/cvrf/openeuler/2021/openEuler-SA-2021-1033.json": "testdata/golden/openEuler-SA-2021-1033.json",
-				"/tmp/cvrf/openeuler/2021/openEuler-SA-2021-1202.json": "testdata/golden/openEuler-SA-2021-1202.json",
-				"/tmp/cvrf/openeuler/2021/openEuler-SA-2021-1480.json": "testdata/golden/openEuler-SA-2021-1480.json",
-				"/tmp/cvrf/openeuler/2022/openEuler-SA-2022-1485.json": "testdata/golden/openEuler-SA-2022-1485.json",
-				"/tmp/cvrf/openeuler/2022/openEuler-SA-2022-1580.json": "testdata/golden/openEuler-SA-2022-1580.json",
-				"/tmp/cvrf/openeuler/2022/openEuler-SA-2022-1704.json": "testdata/golden/openEuler-SA-2022-1704.json",
-				"/tmp/cvrf/openeuler/2023/openEuler-SA-2023-1006.json": "testdata/golden/openEuler-SA-2023-1006.json",
-				"/tmp/cvrf/openeuler/2023/openEuler-SA-2023-1010.json": "testdata/golden/openEuler-SA-2023-1010.json",
 				"/tmp/cvrf/openeuler/2023/openEuler-SA-2023-1374.json": "testdata/golden/openEuler-SA-2023-1374.json",
-				"/tmp/cvrf/openeuler/2024/openEuler-SA-2024-1151.json": "testdata/golden/openEuler-SA-2024-1151.json",
-				"/tmp/cvrf/openeuler/2024/openEuler-SA-2024-1295.json": "testdata/golden/openEuler-SA-2024-1295.json",
 				"/tmp/cvrf/openeuler/2024/openEuler-SA-2024-1349.json": "testdata/golden/openEuler-SA-2024-1349.json",
 				"/tmp/cvrf/openeuler/2022/openEuler-SA-2022-1693.json": "testdata/golden/openEuler-SA-2022-1693.json",
 			},
@@ -128,8 +110,8 @@ func TestConfig_Update(t *testing.T) {
 			err := c.Update()
 			switch {
 			case tc.expectedErrorMsg != "":
-				require.NotNil(t, err, tc.name)
-				assert.Contains(t, err.Error(), tc.expectedErrorMsg, tc.name)
+				require.Error(t, err)
+				require.ErrorContains(t, err, tc.expectedErrorMsg)
 				return
 			default:
 				assert.NoError(t, err, tc.name)

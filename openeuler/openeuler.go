@@ -22,7 +22,6 @@ var (
 	retry        = 5
 	concurrency  = 20
 	wait         = 1
-	cvrfDir      = "cvrf"
 	openeulerDir = "openeuler"
 )
 
@@ -57,7 +56,9 @@ func (c Config) Update() error {
 	}
 	lines := strings.Split(string(res), "\n")
 	cvrfUrlsMap := make(map[string][]string)
-	for _, line := range lines {
+	scanner := bufio.NewScanner(bytes.NewReader(res))
+	for scanner.Scan() {
+		line := scanner.Text()
 		if line == "" {
 			continue
 		}
@@ -102,13 +103,13 @@ func (c Config) update(year string, urls []string) error {
 		cvrfs = append(cvrfs, cv)
 	}
 
-	dir := filepath.Join(cvrfDir, openeulerDir, year)
+	dir := filepath.Join(openeulerDir, year)
 	log.Printf("Fetching openEuler CVRF %s data into %s ...", year, dir)
 
 	bar := pb.StartNew(len(cvrfs))
 	for _, cvrf := range cvrfs {
 		yearDir := filepath.Join(c.VulnListDir, dir)
-		if err = c.saveCvrf(yearDir, cvrf.Tracking.ID, cvrf); err != nil {
+		if err = c.saveCvrf(yearDir, cvrf); err != nil {
 			return xerrors.Errorf("failed to save CVRF: %w", err)
 		}
 		bar.Increment()
@@ -118,7 +119,8 @@ func (c Config) update(year string, urls []string) error {
 	return nil
 }
 
-func (c Config) saveCvrf(dirName string, cvrfID string, data interface{}) error {
+func (c Config) saveCvrf(dirName string, cvrf Cvrf) error {
+	cvrfID := cvrf.Tracking.ID
 	substrings := strings.Split(cvrfID, "-")
 	if len(substrings) < 4 {
 		log.Printf("invalid CVRF-ID format: %s", cvrfID)
@@ -126,7 +128,7 @@ func (c Config) saveCvrf(dirName string, cvrfID string, data interface{}) error 
 	}
 
 	fileName := fmt.Sprintf("%s.json", cvrfID)
-	if err := utils.WriteJSON(c.AppFs, dirName, fileName, data); err != nil {
+	if err := utils.WriteJSON(c.AppFs, dirName, fileName, cvrf); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil
