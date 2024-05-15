@@ -191,7 +191,7 @@ func AdvisoryID(def Definition) string {
 	if id == "" {
 		ss := strings.Split(def.ID, ":")
 		id = ss[len(ss)-1]
-		// for `0` versions `_0` suffix is omitted.
+		// for `0` versions `-0` suffix is omitted.
 		if def.Version != "" && def.Version[len(def.Version)-1:] != "0" {
 			id = fmt.Sprintf("%s-%s", id, def.Version[len(def.Version)-1:])
 		}
