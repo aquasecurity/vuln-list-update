@@ -153,21 +153,9 @@ func (c Config) update(version, path string) error {
 	return nil
 }
 func (c Config) saveAdvisoryPerYear(dirName string, def Definition) error {
-	// Mariner uses `<ID>_<last_number_from_version>` format for `advisory_id`.
-	// But `advisory_id` is not required field.
-	// Therefore, if `advisory_id` is not exist, we create this field independently.
-	// cf. https://github.com/aquasecurity/vuln-list-update/pull/271#issuecomment-2111678641
-	advisoryID := def.Metadata.AdvisoryID
-	if advisoryID == "" {
-		advisoryID = def.ID
-		// for `0` versions `_0` suffix is omitted.
-		if def.Version != "" && def.Version[len(def.Version)-1:] != "0" {
-			advisoryID = fmt.Sprintf("%s_%s", advisoryID, def.Version[len(def.Version)-1:])
-		}
-	}
 	// Use advisory_id for file name to avoid overwriting files when there are 2 definitions for same CVE
 	// cf. https://github.com/aquasecurity/trivy-db/issues/379
-	fileName := fmt.Sprintf("%s.json", advisoryID)
+	fileName := fmt.Sprintf("%s.json", AdvisoryID(def))
 
 	vulnID := def.Metadata.Reference.RefID
 	if !strings.HasPrefix(vulnID, "CVE") {
@@ -186,4 +174,27 @@ func (c Config) saveAdvisoryPerYear(dirName string, def Definition) error {
 		return xerrors.Errorf("unable to write a JSON file: %w", err)
 	}
 	return nil
+}
+
+// AdvisoryID returns advisoryID for Definition.
+// If `advisory_id` field does not exist, create this field yourself using the Azure Linux format.
+//
+// Azure Linux uses `<number_after_last_colon_from_id>-<last_number_from_version>` format for `advisory_id`.
+// cf. https://github.com/aquasecurity/vuln-list-update/pull/271#issuecomment-2111678641
+// e.g.
+//   - `id="oval:com.microsoft.cbl-mariner:def:27423" version="2000000001"` => `27423-1`
+//   - `id="oval:com.microsoft.cbl-mariner:def:11073" version="2000000000"` => `11073`
+//   - `id="oval:com.microsoft.cbl-mariner:def:6343" version="1"` => `6343-1`
+//   - `id="oval:com.microsoft.cbl-mariner:def:6356" version="0"` => `6356`
+func AdvisoryID(def Definition) string {
+	id := def.Metadata.AdvisoryID
+	if id == "" {
+		ss := strings.Split(def.ID, ":")
+		id = ss[len(ss)-1]
+		// for `0` versions `_0` suffix is omitted.
+		if def.Version != "" && def.Version[len(def.Version)-1:] != "0" {
+			id = fmt.Sprintf("%s-%s", id, def.Version[len(def.Version)-1:])
+		}
+	}
+	return id
 }
