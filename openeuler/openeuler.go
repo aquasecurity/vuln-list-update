@@ -1,6 +1,8 @@
 package openeuler
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"log"
@@ -50,11 +52,10 @@ func (c Config) Update() error {
 	baseURL := u.Path
 	u.Path = path.Join(baseURL, "index.txt")
 
-	res, err := utils.FetchURL(u.String(), "", retry)
+	res, err := utils.FetchURL(u.String(), "", c.Retry)
 	if err != nil {
 		return xerrors.Errorf("Cannot download openEuler CVRF list: %v", err)
 	}
-	lines := strings.Split(string(res), "\n")
 	cvrfUrlsMap := make(map[string][]string)
 	scanner := bufio.NewScanner(bytes.NewReader(res))
 	for scanner.Scan() {
@@ -78,7 +79,7 @@ func (c Config) Update() error {
 }
 
 func (c Config) update(year string, urls []string) error {
-	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
+	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, c.Retry)
 	if err != nil {
 		log.Printf("failed to fetch CVRF data from repo.openEuler.org, err: %s", err)
 	}

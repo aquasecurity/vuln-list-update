@@ -35,10 +35,10 @@ func TestConfig_Update(t *testing.T) {
 				"/security/data/cvrf/2022/cvrf-openEuler-SA-2022-1693.xml": "testdata/cvrf-openEuler-SA-2022-1693.xml",
 			},
 			goldenFiles: map[string]string{
-				"/tmp/cvrf/openeuler/2021/openEuler-SA-2021-1033.json": "testdata/golden/openEuler-SA-2021-1033.json",
-				"/tmp/cvrf/openeuler/2023/openEuler-SA-2023-1374.json": "testdata/golden/openEuler-SA-2023-1374.json",
-				"/tmp/cvrf/openeuler/2024/openEuler-SA-2024-1349.json": "testdata/golden/openEuler-SA-2024-1349.json",
-				"/tmp/cvrf/openeuler/2022/openEuler-SA-2022-1693.json": "testdata/golden/openEuler-SA-2022-1693.json",
+				"/tmp/openeuler/2021/openEuler-SA-2021-1033.json": "testdata/golden/openEuler-SA-2021-1033.json",
+				"/tmp/openeuler/2023/openEuler-SA-2023-1374.json": "testdata/golden/openEuler-SA-2023-1374.json",
+				"/tmp/openeuler/2024/openEuler-SA-2024-1349.json": "testdata/golden/openEuler-SA-2024-1349.json",
+				"/tmp/openeuler/2022/openEuler-SA-2022-1693.json": "testdata/golden/openEuler-SA-2022-1693.json",
 			},
 		},
 		{
@@ -46,7 +46,7 @@ func TestConfig_Update(t *testing.T) {
 			appFs: afero.NewReadOnlyFs(afero.NewOsFs()),
 			xmlFileNames: map[string]string{
 				"/security/data/cvrf/index.txt":                            "testdata/invalid-index.txt",
-				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1202.xml": "testdata/golden/openEuler-SA-2021-1202.json",
+				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1033.xml": "testdata/golden/openEuler-SA-2021-1033.json",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed Update openEuler CVRF: failed to decode openEuler cvrf XML: EOF",
@@ -56,7 +56,7 @@ func TestConfig_Update(t *testing.T) {
 			appFs: afero.NewMemMapFs(),
 			xmlFileNames: map[string]string{
 				"/security/data/cvrf/index.txt":                            "testdata/invalid-index.txt",
-				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1202.xml": "testdata/EOF.txt",
+				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1033.xml": "testdata/EOF.txt",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "",
@@ -66,7 +66,7 @@ func TestConfig_Update(t *testing.T) {
 			appFs: afero.NewMemMapFs(),
 			xmlFileNames: map[string]string{
 				"/security/data/cvrf/index.txt":                            "testdata/invalid-index.txt",
-				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1202.xml": "testdata/invalid.txt",
+				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1033.xml": "testdata/invalid.txt",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed Update openEuler CVRF: failed to decode openEuler cvrf XML: EOF",
@@ -76,14 +76,13 @@ func TestConfig_Update(t *testing.T) {
 			appFs: afero.NewMemMapFs(),
 			xmlFileNames: map[string]string{
 				"/security/data/cvrf/index.txt":                            "testdata/invalid-index.txt",
-				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1202.xml": "testdata/broken-cvrf.xml",
+				"/security/data/cvrf/2021/cvrf-openEuler-SA-2021-1033.xml": "testdata/broken-cvrf.xml",
 			},
 			goldenFiles:      map[string]string{},
 			expectedErrorMsg: "failed Update openEuler CVRF: failed to decode openEuler cvrf XML: XML syntax error on line 180: unexpected EOF",
 		},
 	}
 	for _, tc := range testCases {
-		t.Log("Entering...")
 		t.Run(tc.name, func(t *testing.T) {
 			t.Log("http ready to start...")
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
