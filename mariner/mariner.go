@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	repoURL = "https://github.com/microsoft/CBL-MarinerVulnerabilityData/archive/refs/heads/main.tar.gz//CBL-MarinerVulnerabilityData-main"
+	repoURL = "https://github.com/microsoft/AzureLinuxVulnerabilityData/archive/refs/heads/main.tar.gz//AzureLinuxVulnerabilityData-main"
 	cblDir  = "mariner" // CBL-Mariner Vulnerability Data
 	retry   = 3
 
