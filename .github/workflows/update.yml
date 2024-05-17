@@ -60,10 +60,6 @@ jobs:
       run: ./scripts/update.sh photon "Photon Security Advisories"
 
     - if: always()
-      name: GitHub Security Advisory
-      run: ./scripts/update.sh ghsa "GitHub Security Advisory"
-
-    - if: always()
       name: CWE
       run: ./scripts/update.sh cwe "CWE"
 
