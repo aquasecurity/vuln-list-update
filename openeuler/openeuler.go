@@ -63,9 +63,11 @@ func (c Config) Update() error {
 		if line == "" {
 			continue
 		}
-		parts := strings.SplitN(line, "/", 2)
+		// Take year from url
+		// e.g. `2021/cvrf-openEuler-SA-2021-1001.xml` -> `2021`
+		year, _, _ := strings.Cut(line, "/")
 		u.Path = path.Join(baseURL, line)
-		cvrfUrlsMap[parts[0]] = append(cvrfUrlsMap[parts[0]], u.String())
+		cvrfUrlsMap[year] = append(cvrfUrlsMap[year], u.String())
 	}
 
 	for year, urls := range cvrfUrlsMap {
@@ -121,6 +123,7 @@ func (c Config) update(year string, urls []string) error {
 }
 
 func (c Config) saveCvrf(dirName string, cvrf Cvrf) error {
+	// e.g. openEuler-SA-2021-1033
 	cvrfID := cvrf.Tracking.ID
 	substrings := strings.Split(cvrfID, "-")
 	if len(substrings) < 4 {

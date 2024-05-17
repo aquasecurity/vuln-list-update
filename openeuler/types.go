@@ -1,12 +1,19 @@
 package openeuler
 
 type Cvrf struct {
-	Title           string           `xml:"DocumentTitle"`
-	Tracking        DocumentTracking `xml:"DocumentTracking"`
-	Notes           []DocumentNote   `xml:"DocumentNotes>Note"`
-	ProductTree     ProductTree      `xml:"ProductTree"`
-	References      []Reference      `xml:"DocumentReferences>Reference"`
-	Vulnerabilities []Vulnerability  `xml:"Vulnerability"`
+	Title           string             `xml:"DocumentTitle"`
+	Type            string             `xml:"DocumentType"`
+	Publisher       DocumentPublisher  `xml:"DocumentPublisher"`
+	Tracking        DocumentTracking   `xml:"DocumentTracking"`
+	Notes           []DocumentNote     `xml:"DocumentNotes>Note"`
+	ProductTree     ProductTree        `xml:"ProductTree"`
+	References      []Reference        `xml:"DocumentReferences>Reference"`
+	Vulnerabilities []Vulnerability    `xml:"Vulnerability"`
+}
+
+type DocumentPublisher struct {
+	ContactDetails     string     `xml:"ContactDetails"`
+	IssuingAuthority   string     `xml:"IssuingAuthority"`
 }
 
 type DocumentTracking struct {
@@ -15,6 +22,7 @@ type DocumentTracking struct {
 	Version            string     `xml:"Version"`
 	InitialReleaseDate string     `xml:"InitialReleaseDate"`
 	CurrentReleaseDate string     `xml:"CurrentReleaseDate"`
+	Generator          Generator  `xml:"Generator"`
 	RevisionHistory    []Revision `xml:"RevisionHistory>Revision"`
 }
 
@@ -40,6 +48,11 @@ type Production struct {
 	Text      string `xml:",chardata"`
 }
 
+type Generator struct {
+	Engine   string  `xml:"Engine"`
+	Date     string  `xml:"Date"`
+}
+
 type Revision struct {
 	Number      string `xml:"Number"`
 	Date        string `xml:"Date"`
@@ -47,11 +60,13 @@ type Revision struct {
 }
 
 type Vulnerability struct {
-	CVE             string   `xml:"CVE"`
-	Description     string   `xml:"Notes>Note"`
-	Threats         []Threat `xml:"Threats>Threat"`
-	ProductStatuses []Status `xml:"ProductStatuses>Status"`
-	CVSSScoreSets   ScoreSet `xml:"CVSSScoreSets>ScoreSet" json:",omitempty"`
+	CVE             string      `xml:"CVE"`
+	Note            string      `xml:"Notes>Note"`
+	ReleaseDate     string      `xml:"ReleaseDate"`
+	Threats         []Threat    `xml:"Threats>Threat"`
+	ProductStatuses []Status    `xml:"ProductStatuses>Status"`
+	CVSSScoreSets   ScoreSet    `xml:"CVSSScoreSets>ScoreSet" json:",omitempty"`
+	Remediations    Remediation `xml:"Remediations>Remediation" json:",omitempty"`
 }
 
 type Reference struct {
@@ -71,6 +86,13 @@ type Status struct {
 type ScoreSet struct {
 	BaseScore string `xml:"BaseScore" json:",omitempty"`
 	Vector    string `xml:"Vector" json:",omitempty"`
+}
+
+type Remediation struct {
+	Type        string `xml:"Type,attr"`
+	Description string `xml:"Description" json:",omitempty"`
+	Date        string `xml:"DATE" json:",omitempty"`
+	URL         string `xml:"URL" json:",omitempty"`
 }
 
 type Package struct {
