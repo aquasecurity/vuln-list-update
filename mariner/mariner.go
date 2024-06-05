@@ -17,9 +17,11 @@ import (
 )
 
 const (
-	repoURL = "https://github.com/microsoft/AzureLinuxVulnerabilityData/archive/refs/heads/main.tar.gz//AzureLinuxVulnerabilityData-main"
-	cblDir  = "mariner" // CBL-Mariner Vulnerability Data
-	retry   = 3
+	// CBL Mariner was rebranded to Azure Linux for version 3.0. The same repo is used for both CBL Mariner and Azure Linux vulnerability data.
+	repoURL  = "https://github.com/microsoft/AzureLinuxVulnerabilityData/archive/refs/heads/main.tar.gz//AzureLinuxVulnerabilityData-main"
+	cblDir   = "mariner" // CBL-Mariner Vulnerability Data
+	azureDir = "azure"   // Azure Linux Vulnerability Data
+	retry    = 3
 
 	testsDir       = "tests"
 	objectsDir     = "objects"
@@ -59,7 +61,7 @@ func WithRetry(retry int) option {
 func NewConfig(opts ...option) Config {
 	o := &options{
 		url:   repoURL,
-		dir:   filepath.Join(utils.VulnListDir(), cblDir),
+		dir:   utils.VulnListDir(),
 		retry: retry,
 	}
 
@@ -76,8 +78,12 @@ func (c Config) Update() error {
 	ctx := context.Background()
 
 	log.Printf("Remove CBL-Mariner Vulnerability Data directory %sn", c.dir)
-	if err := os.RemoveAll(c.dir); err != nil {
+	if err := os.RemoveAll(filepath.Join(c.dir, cblDir)); err != nil {
 		return xerrors.Errorf("failed to remove CBL-Mariner Vulnerability Data directory: %w", err)
+	}
+	log.Printf("Remove Azure Linux Vulnerability Data directory %sn", c.dir)
+	if err := os.RemoveAll(filepath.Join(c.dir, azureDir)); err != nil {
+		return xerrors.Errorf("failed to remove Azure Linux Vulnerability Data directory: %w", err)
 	}
 
 	log.Print("Fetching CBL-Mariner Vulnerability Data")
@@ -105,14 +111,14 @@ func (c Config) Update() error {
 		}
 
 		osVersion := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(strings.TrimPrefix(entry.Name(), "azurelinux-"), "cbl-mariner-"), "-oval.xml"), "-preview")
-		if err := c.update(osVersion, filepath.Join(tmpDir, entry.Name())); err != nil {
+		if err := c.update(osVersion, filepath.Join(tmpDir, entry.Name()), strings.HasPrefix(entry.Name(), "azurelinux-")); err != nil {
 			return xerrors.Errorf("failed to update oval data: %w", err)
 		}
 	}
 	return nil
 }
 
-func (c Config) update(version, path string) error {
+func (c Config) update(version, path string, isAzureLinux bool) error {
 	f, err := os.Open(path)
 	if err != nil {
 		return xerrors.Errorf("failed to open file: %w", err)
@@ -122,7 +128,12 @@ func (c Config) update(version, path string) error {
 	if err := xml.NewDecoder(f).Decode(&oval); err != nil {
 		return xerrors.Errorf("failed to decode xml: %w", err)
 	}
-	dirPath := filepath.Join(c.dir, version)
+	var dirPath string
+	if isAzureLinux {
+		dirPath = filepath.Join(c.dir, azureDir, version)
+	} else {
+		dirPath = filepath.Join(c.dir, cblDir, version)
+	}
 
 	// write tests/tests.json file
 	if err := utils.Write(filepath.Join(dirPath, testsDir, "tests.json"), oval.Tests); err != nil {

@@ -54,7 +54,7 @@ func TestUpdate(t *testing.T) {
 				rel, err := filepath.Rel(tmpDir, path)
 				require.NoError(t, err, path)
 
-				goldenPath := filepath.Join("testdata", "golden", "mariner", rel)
+				goldenPath := filepath.Join("testdata", "golden", rel)
 				want, err := os.ReadFile(goldenPath)
 				require.NoError(t, err, goldenPath)
 
