@@ -1,0 +1,44 @@
+<oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:linux-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-common-5 https://oval.mitre.org/language/version5.11/ovaldefinition/complete/oval-common-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 https://oval.mitre.org/language/version5.11/ovaldefinition/complete/oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#linux https://oval.mitre.org/language/version5.11/ovaldefinition/complete/linux-definitions-schema.xsd ">
+  <generator>
+    <oval:product_name>Azure Linux OVAL Definition Generator</oval:product_name>
+    <oval:product_version>17</oval:product_version>
+    <oval:schema_version>5.11</oval:schema_version>
+    <oval:timestamp>2024-06-04T12:04:26.353796366Z</oval:timestamp>
+    <oval:content_version>1717502666</oval:content_version>
+  </generator>
+  <definitions>
+    <definition class="vulnerability" id="oval:com.microsoft.azurelinux:def:42064" version="1">
+      <metadata>
+        <title>CVE-2024-35176 affecting package rubygem-rexml for versions less than 3.2.8-1</title>
+        <affected family="unix">
+          <platform>Azure Linux</platform>
+        </affected>
+        <reference ref_id="CVE-2024-35176" ref_url="https://nvd.nist.gov/vuln/detail/CVE-2024-35176" source="CVE"/>
+        <patchable>true</patchable>
+        <advisory_date>2024-05-31T18:55:08Z</advisory_date>
+        <advisory_id>42064-1</advisory_id>
+        <severity>Medium</severity>
+        <description>CVE-2024-35176 affecting package rubygem-rexml for versions less than 3.2.8-1. An upgraded version of the package is available that resolves this issue.</description>
+      </metadata>
+      <criteria operator="AND">
+        <criterion comment="Package rubygem-rexml is earlier than 3.2.8-1, affected by CVE-2024-35176" test_ref="oval:com.microsoft.azurelinux:tst:42064000"/>
+      </criteria>
+    </definition>
+  </definitions>
+  <tests>
+    <linux-def:rpminfo_test check="at least one" comment="Package rubygem-rexml is earlier than 3.2.8-1, affected by CVE-2024-35176" id="oval:com.microsoft.azurelinux:tst:42064000" version="1">
+      <linux-def:object object_ref="oval:com.microsoft.azurelinux:obj:42064001"/>
+      <linux-def:state state_ref="oval:com.microsoft.azurelinux:ste:42064002"/>
+    </linux-def:rpminfo_test>
+  </tests>
+  <objects>
+    <linux-def:rpminfo_object id="oval:com.microsoft.azurelinux:obj:42064001" version="1">
+      <linux-def:name>rubygem-rexml</linux-def:name>
+    </linux-def:rpminfo_object>
+  </objects>
+  <states>
+    <linux-def:rpminfo_state id="oval:com.microsoft.azurelinux:ste:42064002" version="1">
+      <linux-def:evr datatype="evr_string" operation="less than">0:3.2.8-1.azl3</linux-def:evr>
+    </linux-def:rpminfo_state>
+  </states>
+</oval_definitions>

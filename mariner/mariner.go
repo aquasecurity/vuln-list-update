@@ -97,15 +97,15 @@ func (c Config) Update() error {
 			continue
 		}
 
-		if !strings.HasPrefix(entry.Name(), "cbl-mariner-") {
+		if !(strings.HasPrefix(entry.Name(), "cbl-mariner-") || strings.HasPrefix(entry.Name(), "azurelinux-")) {
 			continue
 		}
 		if filepath.Ext(entry.Name()) != ".xml" {
 			continue
 		}
 
-		osVersoin := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(entry.Name(), "cbl-mariner-"), "-oval.xml"), "-preview")
-		if err := c.update(osVersoin, filepath.Join(tmpDir, entry.Name())); err != nil {
+		osVersion := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(strings.TrimPrefix(entry.Name(), "azurelinux-"), "cbl-mariner-"), "-oval.xml"), "-preview")
+		if err := c.update(osVersion, filepath.Join(tmpDir, entry.Name())); err != nil {
 			return xerrors.Errorf("failed to update oval data: %w", err)
 		}
 	}
