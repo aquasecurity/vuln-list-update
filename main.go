@@ -151,8 +151,7 @@ func run() error {
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}
-	case "azure":
-	case "mariner":
+	case "azure", "mariner":
 		src := mariner.NewConfig()
 		if err := src.Update(); err != nil {
 			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)
