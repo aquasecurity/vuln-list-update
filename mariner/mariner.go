@@ -77,16 +77,16 @@ func NewConfig(opts ...option) Config {
 func (c Config) Update() error {
 	ctx := context.Background()
 
-	log.Printf("Remove CBL-Mariner Vulnerability Data directory %sn", c.dir)
+	log.Printf("Remove CBL-Mariner Vulnerability Data directory %s", c.dir)
 	if err := os.RemoveAll(filepath.Join(c.dir, cblDir)); err != nil {
 		return xerrors.Errorf("failed to remove CBL-Mariner Vulnerability Data directory: %w", err)
 	}
-	log.Printf("Remove Azure Linux Vulnerability Data directory %sn", c.dir)
+	log.Printf("Remove Azure Linux Vulnerability Data directory %s", c.dir)
 	if err := os.RemoveAll(filepath.Join(c.dir, azureDir)); err != nil {
 		return xerrors.Errorf("failed to remove Azure Linux Vulnerability Data directory: %w", err)
 	}
 
-	log.Print("Fetching CBL-Mariner Vulnerability Data")
+	log.Print("Fetching Azure Linux and CBL-Mariner Vulnerability Data")
 	tmpDir, err := utils.DownloadToTempDir(ctx, c.url)
 	if err != nil {
 		return xerrors.Errorf("failed to retrieve CBL-Mariner Vulnerability Data: %w", err)
@@ -128,10 +128,8 @@ func (c Config) update(version, path string, isAzureLinux bool) error {
 	if err := xml.NewDecoder(f).Decode(&oval); err != nil {
 		return xerrors.Errorf("failed to decode xml: %w", err)
 	}
-	var dirPath string
-	if isAzureLinux {
-		dirPath = filepath.Join(c.dir, azureDir, version)
-	} else {
+dirPath := filepath.Join(c.dir, azureDir, version)
+	if !isAzureLinux {
 		dirPath = filepath.Join(c.dir, cblDir, version)
 	}
 
