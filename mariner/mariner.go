@@ -27,6 +27,9 @@ const (
 	objectsDir     = "objects"
 	statesDir      = "states"
 	definitionsDir = "definitions"
+
+	azurePrefix   = "azurelinux-"
+	marinerPrefix = "cbl-mariner-"
 )
 
 var (
@@ -103,15 +106,15 @@ func (c Config) Update() error {
 			continue
 		}
 
-		if !(strings.HasPrefix(entry.Name(), "cbl-mariner-") || strings.HasPrefix(entry.Name(), "azurelinux-")) {
+		if !(strings.HasPrefix(entry.Name(), marinerPrefix) || strings.HasPrefix(entry.Name(), azurePrefix)) {
 			continue
 		}
 		if filepath.Ext(entry.Name()) != ".xml" {
 			continue
 		}
 
-		osVersion := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(strings.TrimPrefix(entry.Name(), "azurelinux-"), "cbl-mariner-"), "-oval.xml"), "-preview")
-		if err := c.update(osVersion, filepath.Join(tmpDir, entry.Name()), strings.HasPrefix(entry.Name(), "azurelinux-")); err != nil {
+		osVersion := strings.TrimSuffix(strings.TrimSuffix(strings.TrimPrefix(strings.TrimPrefix(entry.Name(), azurePrefix), marinerPrefix), "-oval.xml"), "-preview")
+		if err := c.update(osVersion, filepath.Join(tmpDir, entry.Name()), strings.HasPrefix(entry.Name(), azurePrefix)); err != nil {
 			return xerrors.Errorf("failed to update oval data: %w", err)
 		}
 	}
@@ -128,7 +131,7 @@ func (c Config) update(version, path string, isAzureLinux bool) error {
 	if err := xml.NewDecoder(f).Decode(&oval); err != nil {
 		return xerrors.Errorf("failed to decode xml: %w", err)
 	}
-dirPath := filepath.Join(c.dir, azureDir, version)
+	dirPath := filepath.Join(c.dir, azureDir, version)
 	if !isAzureLinux {
 		dirPath = filepath.Join(c.dir, cblDir, version)
 	}
