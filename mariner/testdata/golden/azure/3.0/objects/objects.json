@@ -1,0 +1,9 @@
+{
+  "RpminfoObjects": [
+    {
+      "ID": "oval:com.microsoft.azurelinux:obj:42064001",
+      "Version": "1",
+      "Name": "rubygem-rexml"
+    }
+  ]
+}

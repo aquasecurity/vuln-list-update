@@ -39,7 +39,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s, openeuler)")
+		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s, azure, openeuler)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -152,7 +152,7 @@ func run() error {
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}
-	case "mariner":
+	case "azure", "mariner":
 		src := mariner.NewConfig()
 		if err := src.Update(); err != nil {
 			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)

@@ -1,0 +1,13 @@
+{
+  "RpminfoState": [
+    {
+      "ID": "oval:com.microsoft.azurelinux:ste:42064002",
+      "Version": "1",
+      "Evr": {
+        "Text": "0:3.2.8-1.azl3",
+        "Datatype": "evr_string",
+        "Operation": "less than"
+      }
+    }
+  ]
+}
