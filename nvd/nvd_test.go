@@ -80,7 +80,7 @@ func TestUpdate(t *testing.T) {
 			wantFiles: []string{
 				filepath.Join("api", "2020", "CVE-2020-8167.json"),
 				filepath.Join("api", "2021", "CVE-2021-22903.json"),
-				filepath.Join("api", "2021", "CVE-2021-3881.json"),
+				filepath.Join("api", "2024", "CVE-2024-5732.json"),
 				"last_updated.json",
 			},
 		},
