@@ -11,7 +11,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list-k8s"
-      REPOSITORY_OWNER: ${{ github.repository_owner }}
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -24,7 +23,7 @@ jobs:
     - name: Check out vuln-list-k8s repo
       uses: actions/checkout@v4
       with:
-        repository: ${{ env.REPOSITORY_OWNER }}/${{ env.VULN_LIST_DIR }}
+        repository: ${{ github.repository_owner }}/vuln-list-k8s
         token: ${{ secrets.ORG_REPO_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
 
@@ -37,5 +36,5 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
-      name: K8s official vulnerability advisory
-      run: ./scripts/create_pr.sh k8s
+      name: K8s upstream Advisory"
+      run: ./scripts/update.sh k8s "k8s CVE Data"
