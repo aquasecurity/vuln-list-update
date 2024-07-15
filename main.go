@@ -20,7 +20,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
-	"github.com/aquasecurity/vuln-list-update/k8s"
 	"github.com/aquasecurity/vuln-list-update/kevc"
 	"github.com/aquasecurity/vuln-list-update/mariner"
 	"github.com/aquasecurity/vuln-list-update/nvd"
@@ -39,7 +38,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s, azure, openeuler)")
+		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -171,11 +170,6 @@ func run() error {
 		cu := chainguard.NewUpdater()
 		if err := cu.Update(); err != nil {
 			return xerrors.Errorf("Chainguard update error: %w", err)
-		}
-	case "k8s":
-		ku := k8s.NewUpdater()
-		if err := ku.Update(); err != nil {
-			return xerrors.Errorf("k8s update error: %w", err)
 		}
 	case "openeuler":
 		ec := openeuler.NewConfig()
