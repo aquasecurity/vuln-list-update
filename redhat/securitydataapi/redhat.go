@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -23,6 +24,12 @@ const (
 )
 
 func Update() error {
+	dirPath := filepath.Join(utils.VulnListDir(), apiDir)
+	log.Printf("Remove RedHat API directory %s", dirPath)
+	if err := os.RemoveAll(dirPath); err != nil {
+		return xerrors.Errorf("failed to remove RedHat API directory: %w", err)
+	}
+
 	now := time.Now()
 	for year := 1996; year <= now.Year(); year++ {
 		if err := update(year); err != nil {
