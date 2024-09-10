@@ -84,8 +84,8 @@ jobs:
       run: ./scripts/update.sh rocky "Rocky Linux Security Advisory"
 
     - if: always()
-      name: CBL-Mariner Vulnerability Data
-      run: ./scripts/update.sh mariner "CBL-Mariner Vulnerability Data"
+      name: Azure Linux and CBL-Mariner Vulnerability Data
+      run: ./scripts/update.sh azure "Azure Linux and CBL-Mariner Vulnerability Data"
 
     - if: always()
       name: OSV Database
@@ -98,3 +98,7 @@ jobs:
     - if: always()
       name: Chainguard Secdb
       run: ./scripts/update.sh chainguard "Chainguard Security Data"
+    
+    - if: always()
+      name: openEuler CVE
+      run: ./scripts/update.sh openeuler "openEuler CVE Data"

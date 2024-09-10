@@ -13,7 +13,14 @@ if [ -z "$COMMIT_MSG" ]; then
   exit 1
 fi
 
-./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target "$TARGET"
+result=0
+./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target "$TARGET" || result=$?
+
+if [ $result -ne 0 ]; then
+  echo "[Err] Revert changes" >&2
+  cd "$VULN_LIST_DIR" && git reset --hard HEAD
+  exit 1
+fi
 
 cd "$VULN_LIST_DIR" || exit 1
 

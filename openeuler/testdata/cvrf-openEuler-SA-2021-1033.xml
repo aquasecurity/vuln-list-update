@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+	<DocumentTitle xml:lang="en">An update for sane-backends is now available for openEuler-20.03-LTS and openEuler-20.03-LTS-SP1</DocumentTitle>
+	<DocumentType>Security Advisory</DocumentType>
+	<DocumentPublisher Type="Vendor">
+		<ContactDetails>openeuler-security@openeuler.org</ContactDetails>
+		<IssuingAuthority>openEuler security committee</IssuingAuthority>
+	</DocumentPublisher>
+	<DocumentTracking>
+		<Identification>
+			<ID>openEuler-SA-2021-1033</ID>
+		</Identification>
+		<Status>Final</Status>
+		<Version>1.0</Version>
+		<RevisionHistory>
+			<Revision>
+				<Number>1.0</Number>
+				<Date>2021-02-05</Date>
+				<Description>Initial</Description>
+			</Revision>
+		</RevisionHistory>
+		<InitialReleaseDate>2021-02-05</InitialReleaseDate>
+		<CurrentReleaseDate>2021-02-05</CurrentReleaseDate>
+		<Generator>
+			<Engine>openEuler SA Tool V1.0</Engine>
+			<Date>2021-02-05</Date>
+		</Generator>
+	</DocumentTracking>
+	<DocumentNotes>
+		<Note Title="Synopsis" Type="General" Ordinal="1" xml:lang="en">sane-backends security update</Note>
+		<Note Title="Summary" Type="General" Ordinal="2" xml:lang="en">An update for sane-backends is now available for openEuler-20.03-LTS and openEuler-20.03-LTS-SP1.</Note>
+		<Note Title="Description" Type="General" Ordinal="3" xml:lang="en">SANE (Scanner Access Now Easy) is a sane and simple interface to both local and networked scanners and other image acquisition devices like digital still and video cameras.\r\n\r\n
+Security Fix(es):\r\n\r\n
+A NULL pointer dereference in sanei_epson_net_read in SANE Backends before 1.0.30 allows a malicious device connected to the same local network as the victim to cause a denial of service, aka GHSL-2020-075.(CVE-2020-12867)\r\n\r\n</Note>
+		<Note Title="Topic" Type="General" Ordinal="4" xml:lang="en">An update for sane-backends is now available for openEuler-20.03-LTS and openEuler-20.03-LTS-SP1.\r\n\r\n
+openEuler Security has rated this update as having a security impact of medium. A Common Vunlnerability Scoring System(CVSS)base score,which gives a detailed severity rating, is available for each vulnerability from the CVElink(s) in the References section.</Note>
+		<Note Title="Severity" Type="General" Ordinal="5" xml:lang="en">Medium</Note>
+		<Note Title="Affected Component" Type="General" Ordinal="6" xml:lang="en">sane-backends</Note>
+	</DocumentNotes>
+	<DocumentReferences>
+		<Reference Type="Self">
+			<URL>https://openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2021-1033</URL>
+		</Reference>
+		<Reference Type="openEuler CVE">
+			<URL>https://openeuler.org/en/security/cve/detail.html?id=CVE-2020-12867</URL>
+		</Reference>
+		<Reference Type="Other">
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2020-12867</URL>
+		</Reference>
+	</DocumentReferences>
+	<ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+		<Branch Type="Product Name" Name="openEuler">
+			<FullProductName ProductID="openEuler-20.03-LTS" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">openEuler-20.03-LTS</FullProductName>
+			<FullProductName ProductID="openEuler-20.03-LTS-SP1" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">openEuler-20.03-LTS-SP1</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="aarch64">
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debuginfo-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-debuginfo-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debugsource-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-debugsource-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-devel-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-devel-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-libs-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-libs-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-cameras-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-drivers-cameras-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-scanners-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-drivers-scanners-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debuginfo-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-debuginfo-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debugsource-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-debugsource-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-devel-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-devel-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-libs-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-libs-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-cameras-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-drivers-cameras-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-scanners-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-drivers-scanners-1.0.28-9.oe1.aarch64.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="noarch">
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-help-1.0.28-9.oe1.noarch.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-help-1.0.28-9.oe1.noarch.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="src">
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-1.0.28-9.oe1.src.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-1.0.28-9.oe1.src.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="x86_64">
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debuginfo-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-debuginfo-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debugsource-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-debugsource-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-devel-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-devel-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-libs-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-libs-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-cameras-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-drivers-cameras-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-scanners-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS">sane-backends-drivers-scanners-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debuginfo-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-debuginfo-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-debugsource-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-debugsource-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-devel-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-devel-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-libs-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-libs-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-cameras-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-drivers-cameras-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="sane-backends-drivers-scanners-1.0.28-9" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">sane-backends-drivers-scanners-1.0.28-9.oe1.x86_64.rpm</FullProductName>
+		</Branch>
+	</ProductTree>
+	<Vulnerability Ordinal="1" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">A NULL pointer dereference in sanei_epson_net_read in SANE Backends before 1.0.30 allows a malicious device connected to the same local network as the victim to cause a denial of service, aka GHSL-2020-075.</Note>
+		</Notes>
+		<ReleaseDate>2021-02-05</ReleaseDate>
+		<CVE>CVE-2020-12867</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-20.03-LTS</ProductID>
+				<ProductID>openEuler-20.03-LTS-SP1</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>Medium</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>5.5</BaseScore>
+				<Vector>AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>sane-backends security update</Description>
+				<DATE>2021-02-05</DATE>
+				<URL>https://openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2021-1033</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+</cvrfdoc>

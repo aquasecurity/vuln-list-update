@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+	<DocumentTitle xml:lang="en">An update for libxml2 is now available for openEuler-20.03-LTS-SP1</DocumentTitle>
+	<DocumentType>Security Advisory</DocumentType>
+	<DocumentPublisher Type="Vendor">
+		<ContactDetails>openeuler-security@openeuler.org</ContactDetails>
+		<IssuingAuthority>openEuler security committee</IssuingAuthority>
+	</DocumentPublisher>
+	<DocumentTracking>
+		<Identification>
+			<ID>openEuler-SA-2021-1202</ID>
+		</Identification>
+		<Status>Final</Status>
+		<Version>1.0</Version>
+		<RevisionHistory>
+			<Revision>
+				<Number>1.0</Number>
+				<Date>2021-06-07</Date>
+				<Description>Initial</Description>
+			</Revision>
+		</RevisionHistory>
+		<InitialReleaseDate>2021-06-07</InitialReleaseDate>
+		<CurrentReleaseDate>2021-06-07</CurrentReleaseDate>
+		<Generator>
+			<Engine>openEuler SA Tool V1.0</Engine>
+			<Date>2021-06-07</Date>
+		</Generator>
+	</DocumentTracking>
+	<DocumentNotes>
+		<Note Title="Synopsis" Type="General" Ordinal="1" xml:lang="en">libxml2 security update</Note>
+		<Note Title="Summary" Type="General" Ordinal="2" xml:lang="en">An update for libxml2 is now available for openEuler-20.03-LTS-SP1.</Note>
+		<Note Title="Description" Type="General" Ordinal="3" xml:lang="en">This library allows to manipulate XML files. It includes support to read, modify and write XML and HTML files. There is DTDs support this includes parsing and validation even with complex DtDs, either at parse time or later once the document has been modified. The output can be a simple SAX stream or and in-memory DOM like representations. In this case one can use the built-in XPath and XPointer implementation to select sub nodes or ranges. A flexible Input/Output mechanism is available, with existing HTTP and FTP modules and combined to an URI library.
+
+Security Fix(es):
+
+A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors while parsing XML mixed content, causing a NULL dereference. If an untrusted XML document was parsed in recovery mode and post-validated, the flaw could be used to crash the application. The highest threat from this vulnerability is to system availability.(CVE-2021-3537)
+
+There&apos;s a flaw in libxml2 in versions before 2.9.11. An attacker who is able to submit a crafted file to be processed by an application linked with libxml2 could trigger a use-after-free. The greatest impact from this flaw is to confidentiality, integrity, and availability.(CVE-2021-3518)
+
+There is a flaw in the xml entity encoding functionality of libxml2 in versions before 2.9.11. An attacker who is able to supply a crafted file to be processed by an application linked with the affected functionality of libxml2 could trigger an out-of-bounds read. The most likely impact of this flaw is to application availability, with some potential impact to confidentiality and integrity if an attacker is able to use memory information to further exploit the application.(CVE-2021-3517)</Note>
+		<Note Title="Topic" Type="General" Ordinal="4" xml:lang="en">An update for libxml2 is now available for openEuler-20.03-LTS-SP1.
+
+openEuler Security has rated this update as having a security impact of high. A Common Vunlnerability Scoring System(CVSS)base score,which gives a detailed severity rating, is available for each vulnerability from the CVElink(s) in the References section.</Note>
+		<Note Title="Severity" Type="General" Ordinal="5" xml:lang="en">High</Note>
+		<Note Title="Affected Component" Type="General" Ordinal="6" xml:lang="en">libxml2</Note>
+	</DocumentNotes>
+	<DocumentReferences>
+		<Reference Type="Self">
+			<URL>https://openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2021-1202</URL>
+		</Reference>
+		<Reference Type="openEuler CVE">
+			<URL>https://openeuler.org/en/security/cve/detail.html?id=CVE-2021-3537</URL>
+			<URL>https://openeuler.org/en/security/cve/detail.html?id=CVE-2021-3518</URL>
+			<URL>https://openeuler.org/en/security/cve/detail.html?id=CVE-2021-3517</URL>
+		</Reference>
+		<Reference Type="Other">
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2021-3537</URL>
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2021-3518</URL>
+			<URL>https://nvd.nist.gov/vuln/detail/CVE-2021-3517</URL>
+		</Reference>
+	</DocumentReferences>
+	<ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+		<Branch Type="Product Name" Name="openEuler">
+			<FullProductName ProductID="openEuler-20.03-LTS-SP1" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">openEuler-20.03-LTS-SP1</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="aarch64">
+			<FullProductName ProductID="libxml2-debugsource-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-debugsource-2.9.10-16.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="libxml2-debuginfo-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-debuginfo-2.9.10-16.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="libxml2-devel-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-devel-2.9.10-16.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="python2-libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">python2-libxml2-2.9.10-16.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="python3-libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">python3-libxml2-2.9.10-16.oe1.aarch64.rpm</FullProductName>
+			<FullProductName ProductID="libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-2.9.10-16.oe1.aarch64.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="noarch">
+			<FullProductName ProductID="libxml2-help-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-help-2.9.10-16.oe1.noarch.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="src">
+			<FullProductName ProductID="libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-2.9.10-16.oe1.src.rpm</FullProductName>
+		</Branch>
+		<Branch Type="Package Arch" Name="x86_64">
+			<FullProductName ProductID="libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-2.9.10-16.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="python3-libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">python3-libxml2-2.9.10-16.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="libxml2-debugsource-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-debugsource-2.9.10-16.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="python2-libxml2-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">python2-libxml2-2.9.10-16.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="libxml2-debuginfo-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-debuginfo-2.9.10-16.oe1.x86_64.rpm</FullProductName>
+			<FullProductName ProductID="libxml2-devel-2.9.10-16" CPE="cpe:/a:openEuler:openEuler:20.03-LTS-SP1">libxml2-devel-2.9.10-16.oe1.x86_64.rpm</FullProductName>
+		</Branch>
+	</ProductTree>
+	<Vulnerability Ordinal="1" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors while parsing XML mixed content, causing a NULL dereference. If an untrusted XML document was parsed in recovery mode and post-validated, the flaw could be used to crash the application. The highest threat from this vulnerability is to system availability.</Note>
+		</Notes>
+		<ReleaseDate>2021-06-07</ReleaseDate>
+		<CVE>CVE-2021-3537</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-20.03-LTS-SP1</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>Medium</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>5.9</BaseScore>
+				<Vector>AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>libxml2 security update</Description>
+				<DATE>2021-06-07</DATE>
+				<URL>https://openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2021-1202</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+	<Vulnerability Ordinal="2" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="2" xml:lang="en">There&apos;s a flaw in libxml2 in versions before 2.9.11. An attacker who is able to submit a crafted file to be processed by an application linked with libxml2 could trigger a use-after-free. The greatest impact from this flaw is to confidentiality, integrity, and availability.</Note>
+		</Notes>
+		<ReleaseDate>2021-06-07</ReleaseDate>
+		<CVE>CVE-2021-3518</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-20.03-LTS-SP1</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>High</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>8.8</BaseScore>
+				<Vector>AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>libxml2 security update</Description>
+				<DATE>2021-06-07</DATE>
+				<URL>https://openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2021-1202</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+	<Vulnerability Ordinal="3" xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1">
+		<Notes>
+			<Note Title="Vulnerability Description" Type="General" Ordinal="3" xml:lang="en">There is a flaw in the xml entity encoding functionality of libxml2 in versions before 2.9.11. An attacker who is able to supply a crafted file to be processed by an application linked with the affected functionality of libxml2 could trigger an out-of-bounds read. The most likely impact of this flaw is to application availability, with some potential impact to confidentiality and integrity if an attacker is able to use memory information to further exploit the application.</Note>
+		</Notes>
+		<ReleaseDate>2021-06-07</ReleaseDate>
+		<CVE>CVE-2021-3517</CVE>
+		<ProductStatuses>
+			<Status Type="Fixed">
+				<ProductID>openEuler-20.03-LTS-SP1</ProductID>
+			</Status>
+		</ProductStatuses>
+		<Threats>
+			<Threat Type="Impact">
+				<Description>High</Description>
+			</Threat>
+		</Threats>
+		<CVSSScoreSets>
+			<ScoreSet>
+				<BaseScore>8.6</BaseScore>
+				<Vector>AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H</Vector>
+			</ScoreSet>
+		</CVSSScoreSets>
+		<Remediations>
+			<Remediation Type="Vendor Fix">
+				<Description>libxml2 security update</Description>
+				<DATE>2021-06-07</DATE>
+				<URL>https://openeuler.org/en/security/safety-bulletin/detail.html?id=openEuler-SA-2021-1202</URL>
+			</Remediation>
+		</Remediations>
+	</Vulnerability>
+    <Vulnerability>
