@@ -27,6 +27,7 @@ import (
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/osv"
 	"github.com/aquasecurity/vuln-list-update/photon"
+	redhatcsafvex "github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
 	"github.com/aquasecurity/vuln-list-update/rocky"
@@ -38,7 +39,8 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler)")
+		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, "+
+		"chainguard, azure, openeuler)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -71,6 +73,11 @@ func run() error {
 		rc := redhatoval.NewConfig()
 		if err := rc.Update(); err != nil {
 			return xerrors.Errorf("Red Hat OVALv2 update error: %w", err)
+		}
+	case "redhat-csaf-vex":
+		rc := redhatcsafvex.NewConfig()
+		if err := rc.Update(); err != nil {
+			return xerrors.Errorf("Red Hat CSAF VEX update error: %w", err)
 		}
 	case "debian":
 		dc := tracker.NewClient()
