@@ -100,7 +100,7 @@ func (c *Config) Update() error {
 			return xerrors.Errorf("failed to load advisory: %w", err)
 		}
 
-		_, fileName := filepath.Split(hdr.Name)
+		fileName := filepath.Base(hdr.Name)
 		cveID := strings.TrimSuffix(fileName, filepath.Ext(fileName))
 		if err = utils.SaveCVEPerYear(c.baseDir, cveID, advisory); err != nil {
 			return xerrors.Errorf("failed to save advisory: %w", err)
