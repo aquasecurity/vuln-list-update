@@ -61,6 +61,7 @@ func NewConfig() Config {
 }
 
 func (c Config) Update() error {
+	// TODO: move it to CSAF VEX
 	log.Println("Updating Red Hat mapping from repositories to CPE names...")
 	if err := c.updateRepoToCpe(); err != nil {
 		return xerrors.Errorf("unable to update repository-to-cpe.json: %w", err)

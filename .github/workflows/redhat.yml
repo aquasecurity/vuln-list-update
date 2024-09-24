@@ -42,3 +42,7 @@ jobs:
     - if: always()
       name: Red Hat Security Data API
       run: ./scripts/update.sh redhat "Red Hat Security Data API"
+
+    - if: always()
+      name: Red Hat CSAF VEX
+      run: ./scripts/update.sh redhat-csaf-vex "Red Hat CSAF VEX"
