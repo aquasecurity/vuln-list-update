@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 
@@ -23,13 +24,15 @@ func TestConfig_Update(t *testing.T) {
 	tests := []struct {
 		name      string
 		dir       string
-		wantFiles int
+		wantFiles []string
 		wantErr   string
 	}{
 		{
-			name:      "happy path",
-			dir:       "testdata/happy",
-			wantFiles: 1,
+			name: "happy path",
+			dir:  "testdata/happy",
+			wantFiles: []string{
+				"2024/cve-2024-0208.json",
+			},
 		},
 		{
 			name:    "404",
@@ -71,16 +74,19 @@ func TestConfig_Update(t *testing.T) {
 
 			var fileCount int
 			err = filepath.Walk(baseDir, func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					return err
+				require.NoError(t, err)
+				if info.IsDir() {
+					return nil
 				}
-				if !info.IsDir() {
-					fileCount++
-				}
+				fileCount++
+
+				relPath, err := filepath.Rel(baseDir, path)
+				require.NoError(t, err)
+				require.True(t, slices.Contains(tt.wantFiles, relPath), relPath)
 				return nil
 			})
 			assert.NoError(t, err, tt.name)
-			assert.Equal(t, tt.wantFiles, fileCount, tt.name)
+			assert.Equal(t, len(tt.wantFiles), fileCount, tt.name)
 		})
 	}
 }
