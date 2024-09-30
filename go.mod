@@ -9,7 +9,7 @@ require (
 	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/csaf-poc/csaf_distribution/v3 v3.0.0
 	github.com/hashicorp/go-getter v1.7.5
-	github.com/klauspost/compress v1.15.11
+	github.com/klauspost/compress v1.17.10
 	github.com/kylelemons/godebug v1.1.0
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/samber/lo v1.47.0
