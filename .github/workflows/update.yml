@@ -102,3 +102,7 @@ jobs:
     - if: always()
       name: openEuler CVE
       run: ./scripts/update.sh openeuler "openEuler CVE Data"
+
+    - if: always()
+      name: Anolis OVAL 
+      run: ./scripts/update.sh anolis "Anolis OVAL Data"

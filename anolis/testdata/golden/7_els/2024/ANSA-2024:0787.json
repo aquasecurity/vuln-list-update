@@ -1,0 +1,69 @@
+{
+  "ID": "oval:cn.openanolis:def:20240787",
+  "Version": "1",
+  "Class": "patch",
+  "Metadata": {
+    "Title": "ANSA-2024:0787: libndp security update (Important)",
+    "Affected": {
+      "Family": "unix",
+      "Platform": [
+        "Anolis OS 7"
+      ]
+    },
+    "References": [
+      {
+        "RefID": "ANSA-2024:0787",
+        "RefURL": "https://anas.openanolis.cn/errata/detail/ANSA-2024:0787",
+        "Source": "ANSA"
+      }
+    ],
+    "Description": "Package updates are available for Anolis 7 that fix the following vulnerabilities:\n\nCVE-2024-5564:\nA vulnerability was found in libndp. This flaw allows a local malicious user to cause a buffer overflow in NetworkManager, triggered by sending a malformed IPv6 router advertisement packet. This issue occurred as libndp was not correctly validating the route length information.",
+    "Advisory": {
+      "Severity": "Important",
+      "Issued": {
+        "Date": "2024-08-08"
+      },
+      "Updated": {
+        "Date": "2024-08-13"
+      },
+      "Cves": [
+        {
+          "ID": "CVE-2024-5564",
+          "CVSS3": "8.1/CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "Impact": "Important",
+          "Href": "https://anas.openanolis.cn/cves/detail/CVE-2024-5564",
+          "CWE": "CWE-120",
+          "Public": "20240729"
+        }
+      ],
+      "AffectedCpeList": [
+        "cpe:2.3:o:openanolis:anolis_os:7:*:*:*:*:*:*:* "
+      ]
+    }
+  },
+  "Criteria": {
+    "Operator": "AND",
+    "Criterias": [
+      {
+        "Operator": "OR",
+        "Criterias": null,
+        "Criterions": [
+          {
+            "Comment": "libndp is earlier than 0:1.2-10.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240787001"
+          },
+          {
+            "Comment": "libndp-devel is earlier than 0:devel-1.2-10.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240787002"
+          }
+        ]
+      }
+    ],
+    "Criterions": [
+      {
+        "Comment": "Anolis OS 7 is installed",
+        "TestRef": "oval:cn.openanolis:tst:1"
+      }
+    ]
+  }
+}
