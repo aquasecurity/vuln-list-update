@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/cheggaaa/pb"
+	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -135,6 +136,10 @@ func (c Config) update(version, path string, isAzureLinux bool) error {
 	if !isAzureLinux {
 		dirPath = filepath.Join(c.dir, cblDir, version)
 	}
+
+	oval.Tests.RpminfoTests = lo.Filter(oval.Tests.RpminfoTests, func(test RpminfoTest, _ int) bool {
+		return !shouldSkipByComment(test.Comment)
+	})
 
 	// write tests/tests.json file
 	if err := utils.Write(filepath.Join(dirPath, testsDir, "tests.json"), oval.Tests); err != nil {

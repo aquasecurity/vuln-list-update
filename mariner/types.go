@@ -121,7 +121,7 @@ type Evr struct {
 
 func (c Criteria) MarshalJSON() ([]byte, error) {
 	for _, criterion := range c.Criterion {
-		if strings.Contains(criterion.Comment, "earlier than") || strings.Contains(criterion.Comment, "or earlier") {
+		if !shouldSkipByComment(criterion.Comment) {
 			type Alias Criteria
 			return json.Marshal(&struct {
 				Criterion Criterion `json:",omitempty"`
@@ -133,4 +133,12 @@ func (c Criteria) MarshalJSON() ([]byte, error) {
 		}
 	}
 	return nil, xerrors.Errorf("supported cretirion operator not found")
+}
+
+// shouldSkipByComment tells when a test/criterion should be skipped based on a comment
+func shouldSkipByComment(comment string) bool {
+	if !strings.Contains(comment, "earlier than") && !strings.Contains(comment, "or earlier") {
+		return true
+	}
+	return false
 }
