@@ -4,6 +4,16 @@
       "ID": "oval:com.microsoft.azurelinux:obj:42064001",
       "Version": "1",
       "Name": "rubygem-rexml"
+    },
+    {
+      "ID": "oval:com.microsoft.azurelinux:obj:52881004",
+      "Version": "1",
+      "Name": "golang"
+    },
+    {
+      "ID": "oval:com.microsoft.azurelinux:obj:52881001",
+      "Version": "1",
+      "Name": "golang"
     }
   ]
 }

@@ -20,9 +20,11 @@
   },
   "Criteria": {
     "Operator": "AND",
-    "Criterion": {
-      "Comment": "Package mysql is installed with version 8.0.24 or earlier",
-      "TestRef": "oval:com.microsoft.cbl-mariner:tst:1643374850000854"
-    }
+    "Criterion": [
+      {
+        "Comment": "Package mysql is installed with version 8.0.24 or earlier",
+        "TestRef": "oval:com.microsoft.cbl-mariner:tst:1643374850000854"
+      }
+    ]
   }
 }

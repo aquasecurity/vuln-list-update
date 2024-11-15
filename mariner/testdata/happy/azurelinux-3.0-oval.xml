@@ -24,21 +24,58 @@
         <criterion comment="Package rubygem-rexml is earlier than 3.2.8-1, affected by CVE-2024-35176" test_ref="oval:com.microsoft.azurelinux:tst:42064000"/>
       </criteria>
     </definition>
+    <definition class="vulnerability" id="oval:com.microsoft.azurelinux:def:52881" version="2">
+      <metadata>
+        <title>CVE-2023-29409 affecting package golang for versions less than 1.20.7-1</title>
+        <affected family="unix">
+          <platform>Azure Linux</platform>
+        </affected>
+        <reference ref_id="CVE-2023-29409" ref_url="https://nvd.nist.gov/vuln/detail/CVE-2023-29409" source="CVE"/>
+        <patchable>true</patchable>
+        <advisory_id>52881-2</advisory_id>
+        <severity>Medium</severity>
+        <description>CVE-2023-29409 affecting package golang for versions less than 1.20.7-1. A patched version of the package is available.</description>
+      </metadata>
+      <criteria operator="AND">
+        <criterion comment="Package golang is earlier than 1.20.7-1, affected by CVE-2023-29409" test_ref="oval:com.microsoft.azurelinux:tst:52881000"/>
+        <criterion comment="Package golang is greater than 0.0.0, affected by CVE-2023-29409" test_ref="oval:com.microsoft.azurelinux:tst:52881003"/>
+      </criteria>
+    </definition>
   </definitions>
   <tests>
     <linux-def:rpminfo_test check="at least one" comment="Package rubygem-rexml is earlier than 3.2.8-1, affected by CVE-2024-35176" id="oval:com.microsoft.azurelinux:tst:42064000" version="1">
       <linux-def:object object_ref="oval:com.microsoft.azurelinux:obj:42064001"/>
       <linux-def:state state_ref="oval:com.microsoft.azurelinux:ste:42064002"/>
     </linux-def:rpminfo_test>
+    <linux-def:rpminfo_test check="at least one" comment="Package golang is greater than 0.0.0, affected by CVE-2023-29409" id="oval:com.microsoft.azurelinux:tst:52881003" version="1">
+      <linux-def:object object_ref="oval:com.microsoft.azurelinux:obj:52881004"/>
+      <linux-def:state state_ref="oval:com.microsoft.azurelinux:ste:52881005"/>
+    </linux-def:rpminfo_test>
+    <linux-def:rpminfo_test check="at least one" comment="Package golang is earlier than 1.20.7-1, affected by CVE-2023-29409" id="oval:com.microsoft.azurelinux:tst:52881000" version="1">
+      <linux-def:object object_ref="oval:com.microsoft.azurelinux:obj:52881001"/>
+      <linux-def:state state_ref="oval:com.microsoft.azurelinux:ste:52881002"/>
+    </linux-def:rpminfo_test>
   </tests>
   <objects>
     <linux-def:rpminfo_object id="oval:com.microsoft.azurelinux:obj:42064001" version="1">
       <linux-def:name>rubygem-rexml</linux-def:name>
     </linux-def:rpminfo_object>
+    <linux-def:rpminfo_object id="oval:com.microsoft.azurelinux:obj:52881004" version="1">
+      <linux-def:name>golang</linux-def:name>
+    </linux-def:rpminfo_object>
+    <linux-def:rpminfo_object id="oval:com.microsoft.azurelinux:obj:52881001" version="1">
+      <linux-def:name>golang</linux-def:name>
+    </linux-def:rpminfo_object>
   </objects>
   <states>
     <linux-def:rpminfo_state id="oval:com.microsoft.azurelinux:ste:42064002" version="1">
       <linux-def:evr datatype="evr_string" operation="less than">0:3.2.8-1.azl3</linux-def:evr>
+    </linux-def:rpminfo_state>
+    <linux-def:rpminfo_state id="oval:com.microsoft.azurelinux:ste:52881005" version="1">
+      <linux-def:evr datatype="evr_string" operation="greater than">0:0.0.0.azl3</linux-def:evr>
+    </linux-def:rpminfo_state>
+    <linux-def:rpminfo_state id="oval:com.microsoft.azurelinux:ste:52881002" version="1">
+      <linux-def:evr datatype="evr_string" operation="less than">0:1.20.7-1.azl3</linux-def:evr>
     </linux-def:rpminfo_state>
   </states>
 </oval_definitions>

@@ -21,9 +21,11 @@
   },
   "Criteria": {
     "Operator": "AND",
-    "Criterion": {
-      "Comment": "Package libwebp is earlier than 1.0.3-1, affected by CVE-2018-25012",
-      "TestRef": "oval:com.microsoft.cbl-mariner:tst:1643374849000151"
-    }
+    "Criterion": [
+      {
+        "Comment": "Package libwebp is earlier than 1.0.3-1, affected by CVE-2018-25012",
+        "TestRef": "oval:com.microsoft.cbl-mariner:tst:1643374849000151"
+      }
+    ]
   }
 }

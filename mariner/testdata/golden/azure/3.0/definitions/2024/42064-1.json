@@ -21,9 +21,11 @@
   },
   "Criteria": {
     "Operator": "AND",
-    "Criterion": {
-      "Comment": "Package rubygem-rexml is earlier than 3.2.8-1, affected by CVE-2024-35176",
-      "TestRef": "oval:com.microsoft.azurelinux:tst:42064000"
-    }
+    "Criterion": [
+      {
+        "Comment": "Package rubygem-rexml is earlier than 3.2.8-1, affected by CVE-2024-35176",
+        "TestRef": "oval:com.microsoft.azurelinux:tst:42064000"
+      }
+    ]
   }
 }
