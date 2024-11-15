@@ -1,6 +1,12 @@
 package mariner
 
-import "encoding/xml"
+import (
+	"encoding/json"
+	"encoding/xml"
+	"strings"
+
+	"golang.org/x/xerrors"
+)
 
 type OvalDefinitions struct {
 	XMLName        xml.Name    `xml:"oval_definitions" json:",omitempty"`
@@ -54,8 +60,8 @@ type Definition struct {
 	Criteria Criteria `xml:"criteria" json:",omitempty"`
 }
 type Criteria struct {
-	Operator  string    `xml:"operator,attr" json:",omitempty"`
-	Criterion Criterion `xml:"criterion" json:",omitempty"`
+	Operator  string      `xml:"operator,attr" json:",omitempty"`
+	Criterion []Criterion `xml:"criterion" json:",omitempty"`
 }
 
 type Criterion struct {
@@ -111,4 +117,20 @@ type Evr struct {
 	Text      string `xml:",chardata" json:",omitempty"`
 	Datatype  string `xml:"datatype,attr" json:",omitempty"`
 	Operation string `xml:"operation,attr" json:",omitempty"`
+}
+
+func (c Criteria) MarshalJSON() ([]byte, error) {
+	for _, criterion := range c.Criterion {
+		if strings.Contains(criterion.Comment, "earlier than") || strings.Contains(criterion.Comment, "or earlier") {
+			type Alias Criteria
+			return json.Marshal(&struct {
+				Criterion Criterion `json:",omitempty"`
+				*Alias
+			}{
+				Criterion: criterion,
+				Alias:     (*Alias)(&c),
+			})
+		}
+	}
+	return nil, xerrors.Errorf("supported cretirion operator not found")
 }
