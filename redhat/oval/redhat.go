@@ -25,11 +25,11 @@ const (
 	ovalDir = "oval"
 	cpeDir  = "cpe"
 
-	urlFormat    = "https://www.redhat.com/security/data/oval/v2/%s"
+	urlFormat    = "https://security.access.redhat.com/data/oval/v2/%s"
 	retry        = 5
 	pulpManifest = "PULP_MANIFEST"
 
-	repoToCpeURL = "https://www.redhat.com/security/data/metrics/repository-to-cpe.json"
+	repoToCpeURL = "https://security.access.redhat.com/data/meta/v1/repository-to-cpe.json"
 
 	testsDir       = "tests"
 	objectsDir     = "objects"
