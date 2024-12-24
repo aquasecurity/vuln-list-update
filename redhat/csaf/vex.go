@@ -22,7 +22,7 @@ import (
 const (
 	vexDir  = "csaf-vex"
 	retry   = 5
-	baseURL = "https://access.redhat.com/security/data/csaf/v2/vex/"
+	baseURL = "https://security.access.redhat.com/data/csaf/v2/vex/"
 )
 
 type Option func(*Config)
