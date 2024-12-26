@@ -1,0 +1,81 @@
+{
+  "ID": "oval:cn.openanolis:def:20240786",
+  "Version": "1",
+  "Class": "patch",
+  "Metadata": {
+    "Title": "ANSA-2024:0786: firefox security update (Important)",
+    "Affected": {
+      "Family": "unix",
+      "Platform": [
+        "Anolis OS 7"
+      ]
+    },
+    "References": [
+      {
+        "RefID": "ANSA-2024:0786",
+        "RefURL": "https://anas.openanolis.cn/errata/detail/ANSA-2024:0786",
+        "Source": "ANSA"
+      }
+    ],
+    "Description": "Package updates are available for Anolis 7 that fix the following vulnerabilities:\n\nCVE-2024-6601:\nA race condition could lead to a cross-origin container obtaining permissions of the top-level origin. This vulnerability affects Firefox \u003c 128, Firefox ESR \u003c 115.13, Thunderbird \u003c 115.13, and Thunderbird \u003c 128.\n\nCVE-2024-6603:\nIn an out-of-memory scenario an allocation could fail but free would have been called on the pointer afterwards leading to memory corruption. This vulnerability affects Firefox \u003c 128, Firefox ESR \u003c 115.13, Thunderbird \u003c 115.13, and Thunderbird \u003c 128.\n\nCVE-2024-6604:\nMemory safety bugs present in Firefox 127, Firefox ESR 115.12, and Thunderbird 115.12. Some of these bugs showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code. This vulnerability affects Firefox \u003c 128, Firefox ESR \u003c 115.13, Thunderbird \u003c 115.13, and Thunderbird \u003c 128.",
+    "Advisory": {
+      "Severity": "Important",
+      "Issued": {
+        "Date": "2024-08-08"
+      },
+      "Updated": {
+        "Date": "2024-08-13"
+      },
+      "Cves": [
+        {
+          "ID": "CVE-2024-6601",
+          "CVSS3": "6.1/CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+          "Impact": "Moderate",
+          "Href": "https://anas.openanolis.cn/cves/detail/CVE-2024-6601",
+          "CWE": "CWE-281",
+          "Public": "20240723"
+        },
+        {
+          "ID": "CVE-2024-6603",
+          "CVSS3": "6.1/CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+          "Impact": "Moderate",
+          "Href": "https://anas.openanolis.cn/cves/detail/CVE-2024-6603",
+          "CWE": "CWE-119",
+          "Public": "20240723"
+        },
+        {
+          "ID": "CVE-2024-6604",
+          "CVSS3": "7.5/CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H",
+          "Impact": "Important",
+          "Href": "https://anas.openanolis.cn/cves/detail/CVE-2024-6604",
+          "CWE": "CWE-120",
+          "Public": "20240723"
+        }
+      ],
+      "AffectedCpeList": [
+        "cpe:2.3:o:openanolis:anolis_os:7:*:*:*:*:*:*:* "
+      ]
+    }
+  },
+  "Criteria": {
+    "Operator": "AND",
+    "Criterias": [
+      {
+        "Operator": "OR",
+        "Criterias": null,
+        "Criterions": [
+          {
+            "Comment": "firefox is earlier than 0:115.13.0-3.0.1.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240786001"
+          }
+        ]
+      }
+    ],
+    "Criterions": [
+      {
+        "Comment": "Anolis OS 7 is installed",
+        "TestRef": "oval:cn.openanolis:tst:1"
+      }
+    ]
+  }
+}
