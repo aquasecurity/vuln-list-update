@@ -12,7 +12,7 @@ require (
 	github.com/klauspost/compress v1.17.11
 	github.com/kylelemons/godebug v1.1.0
 	github.com/parnurzeal/gorequest v0.2.16
-	github.com/samber/lo v1.47.0
+	github.com/samber/lo v1.49.0
 	github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0
 	github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f
 	github.com/spf13/afero v1.11.0
