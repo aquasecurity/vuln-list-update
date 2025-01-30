@@ -105,11 +105,12 @@ func (u Updater) Update() error {
 
 	// If NVD didn't return records for all intervals
 	// we shouldn't update the last update as it might be a bug.
-	if totalEntries > 0 {
-		// Update last_updated.json at the end.
-		if err = utils.SetLastUpdatedDate(apiDir, u.lastModEndDate); err != nil {
-			return xerrors.Errorf("unable to update last_updated.json file: %w", err)
-		}
+	if totalEntries == 0 {
+		return nil
+	}
+	// Update last_updated.json at the end.
+	if err = utils.SetLastUpdatedDate(apiDir, u.lastModEndDate); err != nil {
+		return xerrors.Errorf("unable to update last_updated.json file: %w", err)
 	}
 
 	return nil
