@@ -89,6 +89,7 @@ func (u Updater) Update() error {
 		return xerrors.Errorf("unable to build time intervals: %w", err)
 	}
 
+	var totalEntries int
 	for _, interval := range intervals {
 		slog.Info("Fetching NVD entries...", slog.String("start", interval.LastModStartDate),
 			slog.String("end", interval.LastModEndDate))
@@ -99,8 +100,14 @@ func (u Updater) Update() error {
 			}
 			slog.Info("Fetched NVD entries", slog.Int("total", totalResults), slog.Int("start_index", startIndex))
 		}
+		totalEntries += totalResults
 	}
 
+	// If NVD didn't return records for all intervals
+	// we shouldn't update the last update as it might be a bug.
+	if totalEntries == 0 {
+		return nil
+	}
 	// Update last_updated.json at the end.
 	if err = utils.SetLastUpdatedDate(apiDir, u.lastModEndDate); err != nil {
 		return xerrors.Errorf("unable to update last_updated.json file: %w", err)
