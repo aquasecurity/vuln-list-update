@@ -85,6 +85,20 @@ func TestUpdate(t *testing.T) {
 			},
 		},
 		{
+			name:              "sad path 0 page",
+			maxResultsPerPage: 1,
+			wantApiKey:        "test_api_key",
+			lastUpdatedTime:   time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
+			fakeTimeNow:       time.Date(2023, 11, 30, 0, 0, 0, 0, time.UTC),
+			respFiles: map[string]string{
+				"resultsPerPage=1&startIndex=0": "testdata/fixtures/emptyResp.json",
+			},
+			respStatus: 200,
+			wantFiles: []string{
+				"last_updated.json",
+			},
+		},
+		{
 			name:              "503 response",
 			maxResultsPerPage: 10,
 			wantApiKey:        "test_api_key",
