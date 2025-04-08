@@ -1,7 +1,6 @@
 package cwe
 
 import (
-	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -57,7 +56,7 @@ func TestUpdate(t *testing.T) {
 			} else {
 				ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 					b, _ := os.ReadFile(tc.inputZipFile)
-					_, _ = io.WriteString(w, string(b))
+					_, _ = w.Write(b)
 				}))
 				cweURL = ts.URL
 				defer func() {
