@@ -106,7 +106,7 @@ func (c Config) Update() error {
 			continue
 		}
 
-		if !(strings.HasPrefix(entry.Name(), marinerPrefix) || strings.HasPrefix(entry.Name(), azurePrefix)) {
+		if !strings.HasPrefix(entry.Name(), marinerPrefix) && !strings.HasPrefix(entry.Name(), azurePrefix) {
 			continue
 		}
 		if filepath.Ext(entry.Name()) != ".xml" {
