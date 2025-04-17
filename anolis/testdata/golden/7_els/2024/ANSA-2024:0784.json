@@ -1,0 +1,97 @@
+{
+  "ID": "oval:cn.openanolis:def:20240784",
+  "Version": "1",
+  "Class": "patch",
+  "Metadata": {
+    "Title": "ANSA-2024:0784: pki-core security update (Important)",
+    "Affected": {
+      "Family": "unix",
+      "Platform": [
+        "Anolis OS 7"
+      ]
+    },
+    "References": [
+      {
+        "RefID": "ANSA-2024:0784",
+        "RefURL": "https://anas.openanolis.cn/errata/detail/ANSA-2024:0784",
+        "Source": "ANSA"
+      }
+    ],
+    "Description": "Package updates are available for Anolis 7 that fix the following vulnerabilities:\n\nCVE-2023-4727:\nA flaw was found in dogtag-pki and pki-core. The token authentication scheme can be bypassed with a LDAP injection. By passing the query string parameter sessionID=*, an attacker can authenticate with an existing session saved in the LDAP directory server, which may lead to escalation of privilege.",
+    "Advisory": {
+      "Severity": "Important",
+      "Issued": {
+        "Date": "2024-08-08"
+      },
+      "Updated": {
+        "Date": "2024-08-13"
+      },
+      "Cves": [
+        {
+          "ID": "CVE-2023-4727",
+          "CVSS3": "7.5/CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "Impact": "Important",
+          "Href": "https://anas.openanolis.cn/cves/detail/CVE-2023-4727",
+          "CWE": "CWE-305",
+          "Public": "20240725"
+        }
+      ],
+      "AffectedCpeList": [
+        "cpe:2.3:o:openanolis:anolis_os:7:*:*:*:*:*:*:* "
+      ]
+    }
+  },
+  "Criteria": {
+    "Operator": "AND",
+    "Criterias": [
+      {
+        "Operator": "OR",
+        "Criterias": null,
+        "Criterions": [
+          {
+            "Comment": "pki-symkey is earlier than 0:symkey-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784001"
+          },
+          {
+            "Comment": "pki-tools is earlier than 0:tools-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784002"
+          },
+          {
+            "Comment": "pki-core is earlier than 0:core-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784003"
+          },
+          {
+            "Comment": "pki-base is earlier than 0:base-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784004"
+          },
+          {
+            "Comment": "pki-base-java is earlier than 0:base-java-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784005"
+          },
+          {
+            "Comment": "pki-ca is earlier than 0:ca-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784006"
+          },
+          {
+            "Comment": "pki-javadoc is earlier than 0:javadoc-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784007"
+          },
+          {
+            "Comment": "pki-kra is earlier than 0:kra-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784008"
+          },
+          {
+            "Comment": "pki-server is earlier than 0:server-10.5.18-32.an7",
+            "TestRef": "oval:cn.openanolis:tst:20240784009"
+          }
+        ]
+      }
+    ],
+    "Criterions": [
+      {
+        "Comment": "Anolis OS 7 is installed",
+        "TestRef": "oval:cn.openanolis:tst:1"
+      }
+    ]
+  }
+}
