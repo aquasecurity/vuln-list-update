@@ -18,6 +18,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/chainguard"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
+	"github.com/aquasecurity/vuln-list-update/echo"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/kevc"
@@ -180,6 +181,11 @@ func run() error {
 		}
 	case "openeuler":
 		ec := openeuler.NewConfig()
+		if err := ec.Update(); err != nil {
+			return xerrors.Errorf("openEuler CVE update error: %w", err)
+		}
+	case "echo":
+		ec := echo.NewUpdater()
 		if err := ec.Update(); err != nil {
 			return xerrors.Errorf("openEuler CVE update error: %w", err)
 		}

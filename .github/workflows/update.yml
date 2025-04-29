@@ -102,3 +102,7 @@ jobs:
     - if: always()
       name: openEuler CVE
       run: ./scripts/update.sh openeuler "openEuler CVE Data"
+
+    - if: always()
+      name: Echo CVEs
+      run: ./scripts/update.sh echo "Echo CVE Data"
