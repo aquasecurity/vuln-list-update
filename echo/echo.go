@@ -2,6 +2,7 @@ package echo
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -74,7 +75,8 @@ func (u *Updater) Update() error {
 		if err != nil {
 			return xerrors.Errorf("failed to marshal Echo json data")
 		}
-		pkgFilePath := ""
+
+		pkgFilePath := filepath.Join(dir, fmt.Sprintf("%s.json", pkgName))
 		if err := utils.Write(pkgFilePath, cveJsonData); err != nil {
 			return xerrors.Errorf("failed to write pkg %s file to path %s", pkgName, pkgFilePath)
 		}
