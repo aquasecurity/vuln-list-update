@@ -1,0 +1,29 @@
+{
+  "nginx": {
+    "CVE-2021-3618": { "fixed_version": "1.21.0" },
+    "CVE-2023-44487": { "fixed_version": "1.25.2" }
+  },
+  "python": {
+    "CVE-2007-4559": { "fixed_version": "3.6.16" },
+    "CVE-2009-2940": {},
+    "CVE-2009-3720": {},
+    "CVE-2013-0340": { "fixed_version": "3.6.15" },
+    "CVE-2015-20107": { "fixed_version": "3.7.15" },
+    "CVE-2016-3189": { "fixed_version": "3.7.13" },
+    "CVE-2018-25032": { "fixed_version": "3.7.14" },
+    "CVE-2019-12900": { "fixed_version": "3.7.13" },
+    "CVE-2020-10735": { "fixed_version": "3.7.14" },
+    "CVE-2020-29396": {},
+    "CVE-2021-28861": { "fixed_version": "3.7.14" },
+    "CVE-2021-32052": {},
+    "CVE-2022-26488": { "fixed_version": "3.7.12" },
+    "CVE-2022-37454": { "fixed_version": "3.7.16" },
+    "CVE-2022-42919": { "fixed_version": "3.7.15" },
+    "CVE-2022-45061": { "fixed_version": "3.7.15" },
+    "CVE-2023-24329": { "fixed_version": "3.7.17" },
+    "CVE-2023-27043": { "fixed_version": "2.7.18" },
+    "CVE-2023-36632": { "fixed_version": "3.11.4" },
+    "CVE-2023-40217": { "fixed_version": "3.8.18" },
+    "CVE-2024-6232": { "fixed_version": "3.8.20" },
+    "CVE-2024-7592": { "fixed_version": "3.8.20" },
+    "CVE-2024-9287": { "fixed_version": "3.9.21" }

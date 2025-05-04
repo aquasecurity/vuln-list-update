@@ -29,9 +29,14 @@ func WithBaseURL(v *url.URL) option {
 	return func(c *Updater) { c.baseURL = v }
 }
 
+func WithFilePath(v string) option {
+	return func(c *Updater) { c.filePath = v }
+}
+
 type Updater struct {
 	vulnListDir string
 	baseURL     *url.URL
+	filePath    string
 }
 
 func NewUpdater(options ...option) *Updater {
@@ -39,6 +44,7 @@ func NewUpdater(options ...option) *Updater {
 	updater := &Updater{
 		vulnListDir: utils.VulnListDir(),
 		baseURL:     u,
+		filePath:    advisoriesFilePath,
 	}
 	for _, option := range options {
 		option(updater)
@@ -59,7 +65,7 @@ func (u *Updater) Update() error {
 
 	log.Println("Fetching Echo data...")
 
-	url := u.baseURL.JoinPath(advisoriesFilePath)
+	url := u.baseURL.JoinPath(u.filePath)
 	data, err := utils.FetchURL(url.String(), "", 2)
 	if err != nil {
 		return xerrors.Errorf("Failed to fetch Echo advisory file from %s - %s", url.String(), err.Error())
@@ -71,13 +77,8 @@ func (u *Updater) Update() error {
 	}
 
 	for pkgName, cveMap := range advisory {
-		cveJsonData, err := json.Marshal(cveMap)
-		if err != nil {
-			return xerrors.Errorf("failed to marshal Echo json data")
-		}
-
 		pkgFilePath := filepath.Join(dir, fmt.Sprintf("%s.json", pkgName))
-		if err := utils.Write(pkgFilePath, cveJsonData); err != nil {
+		if err := utils.Write(pkgFilePath, cveMap); err != nil {
 			return xerrors.Errorf("failed to write pkg %s file to path %s", pkgName, pkgFilePath)
 		}
 	}

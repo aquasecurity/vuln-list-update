@@ -1,115 +1,116 @@
-package echo_test
+package echo
 
 import (
-	"flag"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"os"
+	"path/filepath"
 	"testing"
 
-	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/vuln-list-update/wolfi"
 )
 
-var update = flag.Bool("update", false, "update golden files")
+type expectedVuln struct {
+	Package      string
+	CVE          string
+	FixedVersion string
+}
 
 func TestUpdater_Update(t *testing.T) {
-	type fields struct {
-		appFs afero.Fs
-		retry int
-	}
 	tests := []struct {
 		name        string
-		fields      fields
-		fileNames   map[string]string
-		goldenFiles map[string]string
-		wantErr     string
+		testFile    string
+		wantErr     bool
+		expected    []expectedVuln
 	}{
 		{
-			name: "happy path",
-			fields: fields{
-				appFs: afero.NewMemMapFs(),
-				retry: 0,
-			},
-			fileNames: map[string]string{
-				"/os/security.json": "testdata/security.json",
-			},
-			goldenFiles: map[string]string{
-				"/tmp/wolfi/os/binutils.json": "testdata/golden/binutils.json",
+			name:     "valid response",
+			testFile: "testdata/valid.json",
+			expected: []expectedVuln{
+				{
+					Package:      "nginx",
+					CVE:          "CVE-2023-44487",
+					FixedVersion: "1.25.2",
+				},
+				{
+					Package:      "python",
+					CVE:          "CVE-2024-9287",
+					FixedVersion: "3.9.21",
+				},
+				{
+					Package:      "python",
+					CVE:          "CVE-2009-2940",
+					FixedVersion: "",
+				},
+				{
+					Package:      "python", 
+					CVE:          "CVE-2020-29396",
+					FixedVersion: "",
+				},
+				{
+					Package:      "python",
+					CVE:          "CVE-2021-32052",
+					FixedVersion: "",
+				},
 			},
 		},
 		{
-			name: "404",
-			fields: fields{
-				appFs: afero.NewMemMapFs(),
-				retry: 0,
-			},
-			fileNames: map[string]string{
-				"/": "testdata/index.html",
-			},
-			wantErr: "status code: 404",
+			name:     "invalid JSON response",
+			testFile: "testdata/invalid.json",
+			wantErr:  true,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				fileName, ok := tt.fileNames[r.URL.Path]
-				if !ok {
-					http.NotFound(w, r)
-					return
+				if tt.testFile != "" {
+					http.ServeFile(w, r, tt.testFile)
+				} else {
+					w.WriteHeader(http.StatusInternalServerError)
 				}
-				http.ServeFile(w, r, fileName)
 			}))
 			defer ts.Close()
 
-			baseURL, err := url.Parse(ts.URL)
+			tmpDir, err := os.MkdirTemp("", "echo-test")
 			require.NoError(t, err)
+			defer os.RemoveAll(tmpDir)
 
-			u := wolfi.NewUpdater(
-				wolfi.WithVulnListDir("/tmp"),
-				wolfi.WithBaseURL(baseURL),
-				wolfi.WithAppFs(tt.fields.appFs))
-			err = u.Update()
-			if tt.wantErr != "" {
-				require.NotNil(t, err)
-				assert.Contains(t, err.Error(), tt.wantErr)
+			serverURL, _ := url.Parse(ts.URL)
+			updater := NewUpdater(
+				WithBaseURL(serverURL),
+				WithVulnListDir(tmpDir),
+				WithFilePath(""),
+			)
+
+			err = updater.Update()
+			if tt.wantErr {
+				assert.Error(t, err)
 				return
-			} else {
-				assert.NoError(t, err)
 			}
-
-			fileCount := 0
-			err = afero.Walk(tt.fields.appFs, "/", func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					return err
-				}
-				if info.IsDir() {
-					return nil
-				}
-				fileCount++
-
-				actual, err := afero.ReadFile(tt.fields.appFs, path)
-				assert.NoError(t, err, path)
-
-				goldenPath, ok := tt.goldenFiles[path]
-				require.True(t, ok, path)
-				if *update {
-					err = os.WriteFile(goldenPath, actual, 0666)
-					require.NoError(t, err, goldenPath)
-				}
-				expected, err := os.ReadFile(goldenPath)
-				assert.NoError(t, err, goldenPath)
-
-				assert.JSONEq(t, string(expected), string(actual), path)
-
-				return nil
-			})
-			assert.Equal(t, len(tt.goldenFiles), fileCount)
 			assert.NoError(t, err)
+
+			// Validate each expected vulnerability
+			for _, expected := range tt.expected {
+				filePath := filepath.Join(tmpDir, echoDir, expected.Package+".json")
+				fileContent, err := os.ReadFile(filePath)
+				require.NoError(t, err)
+
+				var vulnData map[string]struct {
+					Severity     string `json:"severity,omitempty"`
+					FixedVersion string `json:"fixed_version,omitempty"`
+				}
+				err = json.Unmarshal(fileContent, &vulnData)
+				require.NoError(t, err)
+
+				vuln, exists := vulnData[expected.CVE]
+				require.True(t, exists, "CVE %s not found in %s", expected.CVE, expected.Package)
+				
+				assert.Equal(t, expected.FixedVersion, vuln.FixedVersion, "Package: %s, CVE: %s", expected.Package, expected.CVE)
+			}
 		})
 	}
 }
