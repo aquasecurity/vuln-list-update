@@ -21,10 +21,10 @@ type expectedVuln struct {
 
 func TestUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name        string
-		testFile    string
-		wantErr     bool
-		expected    []expectedVuln
+		name     string
+		testFile string
+		wantErr  bool
+		expected []expectedVuln
 	}{
 		{
 			name:     "valid response",
@@ -46,7 +46,7 @@ func TestUpdater_Update(t *testing.T) {
 					FixedVersion: "",
 				},
 				{
-					Package:      "python", 
+					Package:      "python",
 					CVE:          "CVE-2020-29396",
 					FixedVersion: "",
 				},
@@ -108,7 +108,7 @@ func TestUpdater_Update(t *testing.T) {
 
 				vuln, exists := vulnData[expected.CVE]
 				require.True(t, exists, "CVE %s not found in %s", expected.CVE, expected.Package)
-				
+
 				assert.Equal(t, expected.FixedVersion, vuln.FixedVersion, "Package: %s, CVE: %s", expected.Package, expected.CVE)
 			}
 		})
