@@ -187,7 +187,7 @@ func run() error {
 	case "echo":
 		ec := echo.NewUpdater()
 		if err := ec.Update(); err != nil {
-			return xerrors.Errorf("openEuler CVE update error: %w", err)
+			return xerrors.Errorf("Echo CVE update error: %w", err)
 		}
 	default:
 		return xerrors.New("unknown target")
