@@ -1,7 +1,6 @@
 package echo
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -13,48 +12,20 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type expectedVuln struct {
-	Package      string
-	CVE          string
-	FixedVersion string
-}
-
 func TestUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name     string
-		testFile string
-		wantErr  bool
-		expected []expectedVuln
+		name          string
+		testFile      string
+		wantErr       bool
+		expectedFiles map[string]string
 	}{
 		{
 			name:     "valid response",
 			testFile: "testdata/valid.json",
-			expected: []expectedVuln{
-				{
-					Package:      "nginx",
-					CVE:          "CVE-2023-44487",
-					FixedVersion: "1.25.2",
-				},
-				{
-					Package:      "python",
-					CVE:          "CVE-2024-9287",
-					FixedVersion: "3.9.21",
-				},
-				{
-					Package:      "python",
-					CVE:          "CVE-2009-2940",
-					FixedVersion: "",
-				},
-				{
-					Package:      "python",
-					CVE:          "CVE-2020-29396",
-					FixedVersion: "",
-				},
-				{
-					Package:      "python",
-					CVE:          "CVE-2021-32052",
-					FixedVersion: "",
-				},
+			expectedFiles: map[string]string{
+				"nginx.json":  "testdata/golden/nginx.json",
+				"python.json": "testdata/golden/python.json",
+				"redis.json":  "testdata/golden/redis.json",
 			},
 		},
 		{
@@ -92,23 +63,15 @@ func TestUpdater_Update(t *testing.T) {
 			}
 			assert.NoError(t, err)
 
-			// Validate each expected vulnerability
-			for _, expected := range tt.expected {
-				filePath := filepath.Join(tmpDir, echoDir, expected.Package+".json")
-				fileContent, err := os.ReadFile(filePath)
+			for fileName, expectedPath := range tt.expectedFiles {
+				filePath := filepath.Join(tmpDir, echoDir, fileName)
+				actual, err := os.ReadFile(filePath)
 				require.NoError(t, err)
 
-				var vulnData map[string]struct {
-					Severity     string `json:"severity,omitempty"`
-					FixedVersion string `json:"fixed_version,omitempty"`
-				}
-				err = json.Unmarshal(fileContent, &vulnData)
+				expected, err := os.ReadFile(expectedPath)
 				require.NoError(t, err)
 
-				vuln, exists := vulnData[expected.CVE]
-				require.True(t, exists, "CVE %s not found in %s", expected.CVE, expected.Package)
-
-				assert.Equal(t, expected.FixedVersion, vuln.FixedVersion, "Package: %s, CVE: %s", expected.Package, expected.CVE)
+				assert.JSONEq(t, string(expected), string(actual))
 			}
 		})
 	}
