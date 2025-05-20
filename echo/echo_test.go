@@ -83,7 +83,6 @@ func TestUpdater_Update(t *testing.T) {
 			updater := NewUpdater(
 				WithBaseURL(serverURL),
 				WithVulnListDir(tmpDir),
-				WithFilePath(""),
 			)
 
 			err = updater.Update()

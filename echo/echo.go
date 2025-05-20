@@ -29,10 +29,6 @@ func WithBaseURL(v *url.URL) option {
 	return func(c *Updater) { c.baseURL = v }
 }
 
-func WithFilePath(v string) option {
-	return func(c *Updater) { c.filePath = v }
-}
-
 type Updater struct {
 	vulnListDir string
 	baseURL     *url.URL
