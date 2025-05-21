@@ -18,7 +18,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/chainguard"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
-	"github.com/aquasecurity/vuln-list-update/echo"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/kevc"
@@ -41,7 +40,7 @@ import (
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo)")
+		"chainguard, azure, openeuler)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -183,11 +182,6 @@ func run() error {
 		ec := openeuler.NewConfig()
 		if err := ec.Update(); err != nil {
 			return xerrors.Errorf("openEuler CVE update error: %w", err)
-		}
-	case "echo":
-		ec := echo.NewUpdater()
-		if err := ec.Update(); err != nil {
-			return xerrors.Errorf("Echo CVE update error: %w", err)
 		}
 	default:
 		return xerrors.New("unknown target")
