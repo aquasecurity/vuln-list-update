@@ -14,23 +14,27 @@ import (
 
 func TestUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name          string
-		testFile      string
-		wantErr       bool
-		expectedFiles map[string]string
+		name     string
+		testFile string
+		wantErr  bool
 	}{
 		{
 			name:     "valid response",
 			testFile: "testdata/valid.json",
-			expectedFiles: map[string]string{
-				"nginx.json":  "testdata/golden/nginx.json",
-				"python.json": "testdata/golden/python.json",
-				"redis.json":  "testdata/golden/redis.json",
-			},
 		},
 		{
 			name:     "invalid JSON response",
 			testFile: "testdata/invalid.json",
+			wantErr:  true,
+		},
+		{
+			name:     "requesting non-existent file",
+			testFile: "testdata/non-existent.json",
+			wantErr:  true,
+		},
+		{
+			name:     "empty test file",
+			testFile: "",
 			wantErr:  true,
 		},
 	}
@@ -46,9 +50,7 @@ func TestUpdater_Update(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			tmpDir, err := os.MkdirTemp("", "echo-test")
-			require.NoError(t, err)
-			defer os.RemoveAll(tmpDir)
+			tmpDir := t.TempDir()
 
 			serverURL, _ := url.Parse(ts.URL)
 			updater := NewUpdater(
@@ -56,23 +58,33 @@ func TestUpdater_Update(t *testing.T) {
 				WithVulnListDir(tmpDir),
 			)
 
-			err = updater.Update()
+			err := updater.Update()
 			if tt.wantErr {
 				assert.Error(t, err)
 				return
 			}
 			assert.NoError(t, err)
 
-			for fileName, expectedPath := range tt.expectedFiles {
-				filePath := filepath.Join(tmpDir, echoDir, fileName)
-				actual, err := os.ReadFile(filePath)
+			err = filepath.Walk(tmpDir, func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+				if info.IsDir() {
+					return nil
+				}
+
+				fileName := filepath.Base(path)
+				expectedPath := filepath.Join("testdata/golden", fileName)
+				actual, err := os.ReadFile(path)
 				require.NoError(t, err)
 
 				expected, err := os.ReadFile(expectedPath)
 				require.NoError(t, err)
 
 				assert.JSONEq(t, string(expected), string(actual))
-			}
+				return nil
+			})
+			require.NoError(t, err)
 		})
 	}
 }

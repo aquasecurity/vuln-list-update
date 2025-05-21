@@ -32,7 +32,6 @@ func WithBaseURL(v *url.URL) option {
 type Updater struct {
 	vulnListDir string
 	baseURL     *url.URL
-	filePath    string
 }
 
 func NewUpdater(options ...option) *Updater {
@@ -40,7 +39,6 @@ func NewUpdater(options ...option) *Updater {
 	updater := &Updater{
 		vulnListDir: utils.VulnListDir(),
 		baseURL:     u,
-		filePath:    advisoriesFilePath,
 	}
 	for _, option := range options {
 		option(updater)
@@ -61,7 +59,7 @@ func (u *Updater) Update() error {
 
 	log.Println("Fetching Echo data...")
 
-	url := u.baseURL.JoinPath(u.filePath)
+	url := u.baseURL.JoinPath(advisoriesFilePath)
 	data, err := utils.FetchURL(url.String(), "", 2)
 	if err != nil {
 		return xerrors.Errorf("Failed to fetch Echo advisory file from %s - %s", url.String(), err.Error())
