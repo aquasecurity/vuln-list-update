@@ -139,7 +139,7 @@ func (u Updater) traverse(url url.URL) ([]string, error) {
 }
 
 func (u Updater) Save(release, fileName string) error {
-	log.Printf("  release: %s, file: %s", release, fileName)
+	log.Printf("Save advisories for release: %s, file: %s", release, fileName)
 	advisoryURL := *u.baseURL
 	advisoryURL.Path = path.Join(advisoryURL.Path, release, fileName)
 	b, err := utils.FetchURL(advisoryURL.String(), "", u.retry)
