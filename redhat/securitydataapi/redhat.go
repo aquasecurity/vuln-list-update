@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	listURL = "https://access.redhat.com/labs/securitydataapi/cve.json?page=%d&after=%s&per_page=500"
-	cveURL  = "https://access.redhat.com/labs/securitydataapi/cve/%s.json"
+	listURL = "https://access.redhat.com/hydra/rest/securitydata/cve.json?page=%d&after=%s&per_page=500"
+	cveURL  = "https://access.redhat.com/hydra/rest/securitydata/cve/%s.json"
 	apiDir  = "api"
 
 	concurrency = 10
