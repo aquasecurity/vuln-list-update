@@ -1,4 +1,4 @@
-name: Update vuln-list repo
+name: Update echo repo
 on:
   schedule:
     - cron: "*/15 * * * *"
