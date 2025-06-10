@@ -19,6 +19,7 @@ jobs:
         with:
           app-id: ${{ secrets.VULN_GITHUB_APP_ID }}
           private-key: ${{ secrets.VULN_GITHUB_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Set up Go
         uses: actions/setup-go@v5

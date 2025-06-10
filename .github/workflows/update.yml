@@ -16,6 +16,7 @@ jobs:
         with:
           app-id: ${{ secrets.VULN_GITHUB_APP_ID }}
           private-key: ${{ secrets.VULN_GITHUB_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Check out code
         uses: actions/checkout@v4
