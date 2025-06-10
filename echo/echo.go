@@ -53,21 +53,16 @@ func (u *Updater) Update() error {
 	if err := os.RemoveAll(dir); err != nil {
 		return xerrors.Errorf("failed to remove Echo directory: %w", err)
 	}
-	// if err := os.MkdirAll(dir, 0755); err != nil {
-	// 	return xerrors.Errorf("Echo mkdir error: %w", err)
-	// }
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return xerrors.Errorf("Echo mkdir error: %w", err)
+	}
 
-	// log.Println("Fetching Echo data...")
+	log.Println("Fetching Echo data...")
 
-	// url := u.baseURL.JoinPath(advisoriesFilePath)
-	// data, err := utils.FetchURL(url.String(), "", 2)
-	// if err != nil {
-	// 	return xerrors.Errorf("Failed to fetch Echo advisory file from %s - %s", url.String(), err.Error())
-	// }
-
-	data, err := os.ReadFile("/Users/orizerah/Desktop/advisory.json")
+	url := u.baseURL.JoinPath(advisoriesFilePath)
+	data, err := utils.FetchURL(url.String(), "", 2)
 	if err != nil {
-		return xerrors.Errorf("failed to read Echo advisory file from %s - %s", "/Users/orizerah/Desktop/vulnData.json", err.Error())
+		return xerrors.Errorf("Failed to fetch Echo advisory file from %s - %s", url.String(), err.Error())
 	}
 
 	var advisory Advisory
