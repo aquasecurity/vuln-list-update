@@ -1,0 +1,26 @@
+{
+  "result": [
+    {
+      "name": "alpine-linux",
+      "releases": [
+        {
+          "name": "3.22",
+          "isEol": false,
+          "eolFrom": "2027-05-01"
+        }
+      ]
+    },
+    {
+      "name": "ubuntu",
+      "releases": [
+        {
+          "name": "25.04",
+          "isEoas": false,
+          "eoasFrom": "2026-01-17",
+          "isEol": false,
+          "eolFrom": "2026-01-17"
+        }
+      ]
+    }
+  ]
+}

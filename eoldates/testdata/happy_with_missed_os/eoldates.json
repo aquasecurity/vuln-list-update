@@ -1,0 +1,20 @@
+{
+  "alpine-linux": [
+    {
+      "name": "3.22",
+      "eolFrom": "2027-05-01"
+    }
+  ],
+  "mariner-linux": [
+    {
+      "name": "1.0",
+      "eolFrom": "2023-07-31"
+    }
+  ],
+  "ubuntu": [
+    {
+      "name": "25.04",
+      "eolFrom": "2026-01-17"
+    }
+  ]
+}
