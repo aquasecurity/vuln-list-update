@@ -147,7 +147,7 @@ func (c Config) osReleases(eolData EOLData) map[string][]Release {
 }
 
 func (c Config) saveEOLDates(osReleases map[string][]Release) error {
-	filePath := filepath.Join(c.vulnListDir, "eoldates", "os_releases.json")
+	filePath := filepath.Join(c.vulnListDir, "eoldates", "eoldates.json")
 	err := utils.Write(filePath, osReleases)
 	if err != nil {
 		return xerrors.Errorf("failed to write EOL dates file: %w", err)
