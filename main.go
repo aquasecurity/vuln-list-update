@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/aquasecurity/vuln-list-update/eoldates"
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
@@ -42,7 +43,7 @@ import (
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo, minimos)")
+		"chainguard, azure, openeuler, echo, minimos, eoldates)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -194,6 +195,11 @@ func run() error {
 		mu := minimos.NewUpdater()
 		if err := mu.Update(); err != nil {
 			return xerrors.Errorf("MinimOS update error: %w", err)
+		}
+	case "eoldates":
+		ec := eoldates.NewConfig()
+		if err := ec.Update(); err != nil {
+			return xerrors.Errorf("eolDates update error: %w", err)
 		}
 	default:
 		return xerrors.New("unknown target")
