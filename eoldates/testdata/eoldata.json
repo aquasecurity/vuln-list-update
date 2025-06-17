@@ -52,6 +52,58 @@
       ]
     },
     {
+      "name": "photon",
+      "aliases": [
+        "vmware-photon",
+        "vmwarephoton"
+      ],
+      "label": "VMware Photon",
+      "category": "os",
+      "tags": [
+        "os",
+        "vmware"
+      ],
+      "versionCommand": "cat /etc/os-release",
+      "identifiers": [
+        {
+          "type": "cpe",
+          "id": "cpe:2.3:o:vmware:photon_os"
+        },
+        {
+          "type": "cpe",
+          "id": "cpe:/o:vmware:photon_os"
+        }
+      ],
+      "labels": {
+        "eoas": null,
+        "discontinued": null,
+        "eol": "Security Support",
+        "eoes": null
+      },
+      "links": {
+        "icon": "https://cdn.jsdelivr.net/npm/simple-icons/icons/vmware.svg",
+        "html": "https://endoflife.date/photon",
+        "releasePolicy": "https://blogs.vmware.com/vsphere/2023/05/announcing-photon-os-5-0-general-availability.html"
+      },
+      "releases": [
+        {
+          "name": "5.0",
+          "codename": null,
+          "label": "5.0",
+          "releaseDate": "2023-05-02",
+          "isLts": false,
+          "ltsFrom": null,
+          "isEol": false,
+          "eolFrom": null,
+          "isMaintained": true,
+          "latest": null,
+          "custom": {
+            "kernelVersion": "6.1"
+          }
+        }
+      ]
+    },
+    {
       "name": "ubuntu",
       "releases": [
         {
