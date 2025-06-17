@@ -21,27 +21,17 @@ func Test_Update(t *testing.T) {
 		name        string
 		eolDataFile string
 		missedOSes  map[string][]eoldates.Release
-		supportedOS []string
 		wantFile    string
 		wantErr     string
 	}{
 		{
 			name:        "happy path",
 			eolDataFile: "testdata/eoldata.json",
-			supportedOS: []string{
-				"alpine-linux",
-				"ubuntu",
-			},
-			wantFile: "testdata/happy/eoldates.json",
+			wantFile:    "testdata/happy/eoldates.json",
 		},
 		{
 			name:        "happy path with missed OSes",
 			eolDataFile: "testdata/eoldata.json",
-			supportedOS: []string{
-				"alpine-linux",
-				"mariner-linux",
-				"ubuntu",
-			},
 			missedOSes: map[string][]eoldates.Release{
 				"mariner-linux": {
 					{
@@ -55,10 +45,6 @@ func Test_Update(t *testing.T) {
 		{
 			name:        "happy path when missed OS overwrites date from EOLData",
 			eolDataFile: "testdata/eoldata.json",
-			supportedOS: []string{
-				"alpine-linux",
-				"ubuntu",
-			},
 			missedOSes: map[string][]eoldates.Release{
 				"alpine-linux": {
 					{
@@ -70,13 +56,11 @@ func Test_Update(t *testing.T) {
 			wantFile: "testdata/happy/eoldates.json",
 		},
 		{
-			name:        "sad path - unable to fetch EOLData",
-			supportedOS: []string{"ubuntu"},
-			wantErr:     "unexpected status code: 404, body: 404 page not found",
+			name:    "sad path - unable to fetch EOLData",
+			wantErr: "unexpected status code: 404, body: 404 page not found",
 		},
 		{
 			name:        "sad path - unable to unmarshal JSON",
-			supportedOS: []string{"ubuntu"},
 			eolDataFile: "testdata/sad_eoldata.json",
 			wantErr:     "unable to parse JSON",
 		},
@@ -97,7 +81,6 @@ func Test_Update(t *testing.T) {
 
 			c := eoldates.NewConfig(eoldates.WithURL(server.URL),
 				eoldates.WithVulnListDir(tmpDir),
-				eoldates.WithSupportedOSes(tt.supportedOS),
 				eoldates.WithMissedOses(tt.missedOSes),
 			)
 

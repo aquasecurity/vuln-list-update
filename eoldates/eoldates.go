@@ -69,11 +69,6 @@ func WithVulnListDir(dir string) option {
 	}
 }
 
-func WithSupportedOSes(oses []string) option {
-	return func(c *Config) {
-		c.supportedOSes = oses
-	}
-}
 func WithMissedOses(oses map[string][]Release) option {
 	return func(c *Config) {
 		c.missedOSes = oses
