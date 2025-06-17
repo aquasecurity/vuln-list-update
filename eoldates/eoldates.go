@@ -39,11 +39,23 @@ var (
 	}
 
 	missedOSes = map[string][]Release{
+		// cf. https://techcommunity.microsoft.com/blog/azuretoolsblog/announcement-of-migrating-to-azure-linux-3-0-for-azure-cli/4419582
 		"azure-linux": {
-			{Name: "azure-linux", EOLFrom: "2024-01-10"},
+			{
+				Name:    "3.0",
+				EOLFrom: "2027-07-31", // No EOL date available, set to a far future date
+			},
 		},
+		// cf. https://devblogs.microsoft.com/java/important-updates-to-container-images-of-microsoft-build-of-openjdk/
 		"mariner-linux": {
-			{Name: "mariner-linux", EOLFrom: "2024-01-10"},
+			{
+				Name:    "1.0",
+				EOLFrom: "2023-11-31",
+			},
+			{
+				Name:    "2.0",
+				EOLFrom: "2025-07-31",
+			},
 		},
 	}
 )
