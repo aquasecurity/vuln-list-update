@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
+
+	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const fullEOLDatesURL = "https://endoflife.date/api/v1/products/full"

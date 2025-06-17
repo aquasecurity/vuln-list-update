@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/aquasecurity/vuln-list-update/eoldates"
 	githubql "github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
@@ -20,6 +19,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/echo"
+	"github.com/aquasecurity/vuln-list-update/eoldates"
 	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
 	"github.com/aquasecurity/vuln-list-update/kevc"
