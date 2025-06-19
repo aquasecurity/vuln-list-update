@@ -134,7 +134,7 @@ func (c Config) fetchEOLData() (EOLData, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return EOLData{}, xerrors.Errorf("unexpected status code: %d, body: %s", resp.StatusCode, body)
+		return EOLData{}, xerrors.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
 	var eolData EOLData

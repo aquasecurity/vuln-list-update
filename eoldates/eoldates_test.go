@@ -57,7 +57,7 @@ func Test_Update(t *testing.T) {
 		},
 		{
 			name:    "sad path - unable to fetch EOLData",
-			wantErr: "unexpected status code: 404, body: 404 page not found",
+			wantErr: "unexpected status code: 404",
 		},
 		{
 			name:        "sad path - unable to unmarshal JSON",
