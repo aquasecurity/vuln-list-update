@@ -1,0 +1,13 @@
+{
+  "name": "curl",
+  "cves": {
+    "CVE-2023-28321": {
+      "vulnerable_ranges": [
+        "< 8.1.0"
+      ],
+      "fixed_versions": [
+        "8.1.0-r1"
+      ]
+    }
+  }
+}

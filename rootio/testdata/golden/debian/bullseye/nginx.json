@@ -1,0 +1,13 @@
+{
+  "name": "nginx",
+  "cves": {
+    "CVE-2022-41741": {
+      "vulnerable_ranges": [
+        "< 1.18.0-6.1+deb11u3"
+      ],
+      "fixed_versions": [
+        "1.18.0-6.1+deb11u3"
+      ]
+    }
+  }
+}
