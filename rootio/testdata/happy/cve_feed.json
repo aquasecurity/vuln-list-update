@@ -5,14 +5,14 @@
       "packages": [
         {
           "pkg": {
-            "name": "curl",
+            "name": "memcached",
             "cves": {
-              "CVE-2023-28321": {
+              "CVE-2023-46853": {
                 "vulnerable_ranges": [
-                  "\u003c 8.1.0"
+                  "\u003c1.6.17-r00071"
                 ],
                 "fixed_versions": [
-                  "8.1.0-r1"
+                  "1.6.17-r00071"
                 ]
               }
             }
@@ -23,18 +23,18 @@
   ],
   "debian": [
     {
-      "distroversion": "bullseye",
+      "distroversion": "12",
       "packages": [
         {
           "pkg": {
-            "name": "nginx",
+            "name": "sqlite3",
             "cves": {
-              "CVE-2022-41741": {
+              "CVE-2025-29088": {
                 "vulnerable_ranges": [
-                  "\u003c 1.18.0-6.1+deb11u3"
+                  "\u003c3.40.1-2+deb12u1.root.io.2"
                 ],
                 "fixed_versions": [
-                  "1.18.0-6.1+deb11u3"
+                  "3.40.1-2+deb12u1.root.io.2"
                 ]
               }
             }
@@ -49,14 +49,14 @@
       "packages": [
         {
           "pkg": {
-            "name": "openssl",
+            "name": "shadow",
             "cves": {
-              "CVE-2023-0464": {
+              "CVE-2023-29383": {
                 "vulnerable_ranges": [
-                  "\u003c 3.0.2-0ubuntu1.10"
+                  "\u003c1:4.8.1-2ubuntu2.2.root.io.2"
                 ],
                 "fixed_versions": [
-                  "3.0.2-0ubuntu1.10"
+                  "1:4.8.1-2ubuntu2.2.root.io.2"
                 ]
               }
             }
