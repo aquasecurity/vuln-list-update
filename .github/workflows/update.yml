@@ -123,3 +123,7 @@ jobs:
           needs: ${{ toJson(needs) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
+
+      - if: always()
+        name: Root CVE Tracker
+        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"

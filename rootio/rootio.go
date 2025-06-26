@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	rootioDir          = "rootio"
-	cveFeedURLBase     = "https://api.root.io"
-	cveFeedPath        = "external/cve_feed"
+	rootioDir      = "rootio"
+	cveFeedURLBase = "https://api.root.io"
+	cveFeedPath    = "external/cve_feed"
 )
 
 type option func(c *Updater)
@@ -58,15 +58,15 @@ func (u *Updater) Update() error {
 
 	log.Println("Fetching Root.io CVE data...")
 
-	url := u.baseURL.JoinPath(cveFeedPath)
-	data, err := utils.FetchURL(url.String(), "", 2)
+	feedUrl := u.baseURL.JoinPath(cveFeedPath)
+	data, err := utils.FetchURL(feedUrl.String(), "", 2)
 	if err != nil {
-		return xerrors.Errorf("Failed to fetch Root.io CVE feed from %s - %s", url.String(), err.Error())
+		return xerrors.Errorf("Failed to fetch Root.io CVE feed from %s: %w", feedUrl.String(), err)
 	}
 
 	var cveFeed CVEFeed
 	if err := json.Unmarshal(data, &cveFeed); err != nil {
-		return xerrors.Errorf("failed to parse Root.io CVE feed JSON - %s", err.Error())
+		return xerrors.Errorf("failed to parse Root.io CVE feed JSON: %w", err)
 	}
 
 	// Save the entire feed as a single JSON file
