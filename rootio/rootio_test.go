@@ -1,6 +1,7 @@
 package rootio
 
 import (
+	"flag"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -12,11 +13,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var update = flag.Bool("update", false, "update golden files")
+
 func TestUpdater_Update(t *testing.T) {
 	tests := []struct {
 		name     string
 		testFile string
-		wantErr  bool
+		wantErr  string
 	}{
 		{
 			name:     "valid response",
@@ -25,17 +28,16 @@ func TestUpdater_Update(t *testing.T) {
 		{
 			name:     "invalid JSON response",
 			testFile: "testdata/invalid.json",
-			wantErr:  true,
+			wantErr:  "failed to parse Root.io CVE feed JSON",
 		},
 		{
 			name:     "requesting non-existent file",
 			testFile: "testdata/non-existent.json",
-			wantErr:  true,
+			wantErr:  "status code: 404",
 		},
 		{
-			name:     "empty test file",
-			testFile: "",
-			wantErr:  true,
+			name:    "empty test file",
+			wantErr: "status code: 500",
 		},
 	}
 
@@ -56,34 +58,29 @@ func TestUpdater_Update(t *testing.T) {
 			updater := NewUpdater(
 				WithBaseURL(serverURL),
 				WithVulnListDir(tmpDir),
+				WithRetry(0),
 			)
 
 			err := updater.Update()
-			if tt.wantErr {
-				assert.Error(t, err)
+			if tt.wantErr != "" {
+				require.ErrorContains(t, err, tt.wantErr)
 				return
 			}
 			assert.NoError(t, err)
 
-			// Verify the directory structure and files were created correctly
-			rootioDir := filepath.Join(tmpDir, rootioDir)
-			assert.DirExists(t, rootioDir)
+			actual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "cve_feed.json"))
+			require.NoError(t, err)
 
-			// Check that the main CVE feed file was created
-			feedFilePath := filepath.Join(rootioDir, "cve_feed.json")
-			assert.FileExists(t, feedFilePath)
-
-			// Verify the content matches the golden file
-			expectedPath := "testdata/golden/cve_feed.json"
-			if _, err := os.Stat(expectedPath); err == nil {
-				actual, err := os.ReadFile(feedFilePath)
-				require.NoError(t, err)
-
-				expected, err := os.ReadFile(expectedPath)
-				require.NoError(t, err)
-
-				assert.JSONEq(t, string(expected), string(actual))
+			wantFile := filepath.Join("testdata", "happy", "cve_feed.json")
+			if *update {
+				err = os.WriteFile(wantFile, actual, 0666)
+				require.NoError(t, err, wantFile)
 			}
+
+			expected, err := os.ReadFile(wantFile)
+			require.NoError(t, err)
+
+			assert.JSONEq(t, string(expected), string(actual))
 		})
 	}
 }

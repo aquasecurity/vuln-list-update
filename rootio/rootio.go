@@ -16,6 +16,7 @@ const (
 	rootioDir      = "rootio"
 	cveFeedURLBase = "https://api.root.io"
 	cveFeedPath    = "external/cve_feed"
+	retry          = 3
 )
 
 type option func(c *Updater)
@@ -28,9 +29,14 @@ func WithBaseURL(v *url.URL) option {
 	return func(c *Updater) { c.baseURL = v }
 }
 
+func WithRetry(r int) option {
+	return func(c *Updater) { c.retry = r }
+}
+
 type Updater struct {
 	vulnListDir string
 	baseURL     *url.URL
+	retry       int
 }
 
 func NewUpdater(options ...option) *Updater {
@@ -38,6 +44,7 @@ func NewUpdater(options ...option) *Updater {
 	updater := &Updater{
 		vulnListDir: utils.VulnListDir(),
 		baseURL:     u,
+		retry:       retry,
 	}
 	for _, option := range options {
 		option(updater)
@@ -58,10 +65,10 @@ func (u *Updater) Update() error {
 
 	log.Println("Fetching Root.io CVE data...")
 
-	feedUrl := u.baseURL.JoinPath(cveFeedPath)
-	data, err := utils.FetchURL(feedUrl.String(), "", 2)
+	feedURL := u.baseURL.JoinPath(cveFeedPath)
+	data, err := utils.FetchURL(feedURL.String(), "", u.retry)
 	if err != nil {
-		return xerrors.Errorf("Failed to fetch Root.io CVE feed from %s: %w", feedUrl.String(), err)
+		return xerrors.Errorf("Failed to fetch Root.io CVE feed from %s: %w", feedURL.String(), err)
 	}
 
 	var cveFeed CVEFeed
