@@ -1,0 +1,21 @@
+{
+  "alpine": [
+    {
+      "distroversion": "3.17",
+      "packages": [
+        {
+          "pkg": {
+            "name": "curl"
+            // Missing comma and invalid JSON structure
+            "cves": {
+              "CVE-2023-28321": {
+                "vulnerable_ranges": ["< 8.1.0"]
+                "fixed_versions": ["8.1.0-r1"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
