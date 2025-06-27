@@ -115,6 +115,10 @@ jobs:
         name: EOL dates
         run: ./scripts/update.sh eoldates "EOL dates"
 
+      - if: always()
+        name: Root CVE Tracker
+        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"
+
       - name: Microsoft Teams Notification
         uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88
         if: failure()
@@ -123,7 +127,3 @@ jobs:
           needs: ${{ toJson(needs) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
-
-      - if: always()
-        name: Root CVE Tracker
-        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"
