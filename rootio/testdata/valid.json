@@ -27,14 +27,16 @@
       "packages": [
         {
           "pkg": {
-            "name": "sqlite3",
+            "name": "libxml2",
             "cves": {
-              "CVE-2025-29088": {
+              "CVE-2022-49043": {
                 "vulnerable_ranges": [
-                  "<3.40.1-2+deb12u1.root.io.2"
+                  "<2.9.14+dfsg-1.3~deb12u1.root.io.3",
+                  ">2.9.14+dfsg-1.3~deb12u1.root.io.3 <2.9.14+dfsg-1.3~deb12u2"
                 ],
                 "fixed_versions": [
-                  "3.40.1-2+deb12u1.root.io.2"
+                  "2.9.14+dfsg-1.3~deb12u1.root.io.3",
+                  "2.9.14+dfsg-1.3~deb12u2"
                 ]
               }
             }
