@@ -116,3 +116,11 @@ jobs:
       - if: always()
         name: MinimOS Secdb
         run: ./scripts/update.sh minimos "MinimOS Security Data"
+
+      - if: always()
+        name: EOL dates
+        run: ./scripts/update.sh eoldates "EOL dates"
+
+      - if: always()
+        name: Root CVE Tracker
+        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"

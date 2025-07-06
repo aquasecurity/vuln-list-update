@@ -1,0 +1,37 @@
+{
+  "alpine-linux": [
+    {
+      "name": "3.22",
+      "eolFrom": "2027-05-01"
+    }
+  ],
+  "mariner-linux": [
+    {
+      "name": "1.0",
+      "eolFrom": "2023-07-31"
+    }
+  ],
+  "oracle-linux": [
+    {
+      "name": "9",
+      "eolFrom": "2032-06-30",
+      "eoesFrom": "2035-06-30"
+    }
+  ],
+  "photon": [
+    {
+      "name": "5.0"
+    }
+  ],
+  "ubuntu": [
+    {
+      "name": "25.04",
+      "eolFrom": "2026-01-17"
+    },
+    {
+      "name": "22.04",
+      "eolFrom": "2027-04-01",
+      "eoesFrom": "2032-04-09"
+    }
+  ]
+}
