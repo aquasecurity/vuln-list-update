@@ -168,17 +168,15 @@ func parseNotesField(lines []string, currentIndex *int) []string {
 		}
 
 		// If line starts with single space, it's a main note line
-		if !strings.HasPrefix(lines[i], "  ") {
-			note := []string{line}
-			// Look for continuation lines that start with double space
-			for i+1 < len(lines) && strings.HasPrefix(lines[i+1], "  ") {
-				i++
-				if continuationLine := strings.TrimSpace(lines[i]); continuationLine != "" {
-					note = append(note, continuationLine)
-				}
+		note := []string{line}
+		// Look for continuation lines that start with double space
+		for i+1 < len(lines) && strings.HasPrefix(lines[i+1], "  ") {
+			i++
+			if continuationLine := strings.TrimSpace(lines[i]); continuationLine != "" {
+				note = append(note, continuationLine)
 			}
-			notes = append(notes, strings.Join(note, " "))
 		}
+		notes = append(notes, strings.Join(note, " "))
 	}
 	*currentIndex = i
 	return notes
