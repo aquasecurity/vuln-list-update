@@ -465,14 +465,22 @@ func Test_parse(t *testing.T) {
 				filePath: "./testdata/notes_with_continuation_lines",
 			},
 			want: &Vulnerability{
-				Candidate:   "CVE-2017-0537",
-				References:  []string{"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0537"},
-				Description: "Real example from ubuntu-cve-tracker for testing notes with continuation lines.",
+				Candidate: "CVE-2017-0537",
+				References: []string{
+					"https://source.android.com/security/bulletin/2017-01-01.html",
+					"https://android.googlesource.com/kernel/tegra.git/+/389b185cb2f17fff994dbdf8d4bac003d4b2b6b3%5E%21/#F0",
+					"https://lore.kernel.org/lkml/1484647168-30135-1-git-send-email-jilin@nvidia.com/#t",
+					"https://www.cve.org/CVERecord?id=CVE-2017-0537",
+				},
+				Description: "An information disclosure vulnerability in the kernel USB gadget driver could enable a local malicious application to access data outside of its permission levels. This issue is rated as Moderate because it first requires compromising a privileged process. Product: Android. Versions: Kernel-3.18. Android ID: A-31614969.",
 				Priority:    "medium",
-				PublicDate:  time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
+				PublicDate:  time.Date(2017, 3, 8, 1, 59, 0, 0, time.UTC),
 				Notes: []string{
+					"sbeattie> see android patch above",
+					"sbeattie> drivers/usb/gadget/configfs.c::usb_string_copy()",
 					"tyhicks> Patch submitter never verified that this was an issue on pure Linux and upstream thinks that it could potentially be an issue in Android-specific kernel changes",
-					"rodrigo-zaiden> ruby2.3 (xenial) was fixed back in release version 2.3.1-2~16.04.6. The patch that fixed this CVE came along with other CVEs fixes (CVE-2017-0899, CVE-2017-0900, CVE-2017-0901, CVE-2017-0902) and at that time this CVE was not included in the changelog.",
+					"mdeslaur> The android package is in multiverse and not covered by ESM.",
+					"mdeslaur> Marking as ignored.",
 				},
 				Patches: map[Package]Statuses{
 					Package("test-package"): {
