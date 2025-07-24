@@ -465,14 +465,14 @@ func Test_parse(t *testing.T) {
 				filePath: "./testdata/notes_with_continuation_lines",
 			},
 			want: &Vulnerability{
-				Candidate:   "CVE-2024-TEST",
-				References:  []string{"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-TEST"},
-				Description: "Test vulnerability for notes with continuation lines.",
+				Candidate:   "CVE-2017-0537",
+				References:  []string{"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0537"},
+				Description: "Real example from ubuntu-cve-tracker for testing notes with continuation lines.",
 				Priority:    "medium",
 				PublicDate:  time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
 				Notes: []string{
-					"jdstrand> this is a main note line that continues on the next line with more details about the issue",
-					"another> this is a second note that also continues with additional information on this line and even more info on this third continuation line",
+					"tyhicks> Patch submitter never verified that this was an issue on pure Linux and upstream thinks that it could potentially be an issue in Android-specific kernel changes",
+					"rodrigo-zaiden> ruby2.3 (xenial) was fixed back in release version 2.3.1-2~16.04.6. The patch that fixed this CVE came along with other CVEs fixes (CVE-2017-0899, CVE-2017-0900, CVE-2017-0901, CVE-2017-0902) and at that time this CVE was not included in the changelog.",
 				},
 				Patches: map[Package]Statuses{
 					Package("test-package"): {
