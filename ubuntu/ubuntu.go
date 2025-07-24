@@ -169,7 +169,7 @@ func parseNotesField(lines []string, currentIndex *int) []string {
 		if line == "" {
 			continue
 		}
-		
+
 		// If line starts with single space, it's a main note line
 		if strings.HasPrefix(lines[i], " ") && !strings.HasPrefix(lines[i], "  ") {
 			note := []string{line}
