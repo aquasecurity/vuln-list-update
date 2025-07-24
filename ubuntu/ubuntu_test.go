@@ -459,6 +459,31 @@ func Test_parse(t *testing.T) {
 				UpstreamLinks: map[Package][]string{},
 			},
 		},
+		{
+			name: "notes with continuation lines",
+			args: args{
+				filePath: "./testdata/notes_with_continuation_lines",
+			},
+			want: &Vulnerability{
+				Candidate:  "CVE-2024-TEST",
+				References: []string{"https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-TEST"},
+				Description: "Test vulnerability for notes with continuation lines.",
+				Priority:   "medium",
+				PublicDate: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
+				Notes: []string{
+					"jdstrand> this is a main note line that continues on the next line with more details about the issue",
+					"another> this is a second note that also continues with additional information on this line and even more info on this third continuation line",
+				},
+				Patches: map[Package]Statuses{
+					Package("test-package"): {
+						"upstream": Status{
+							Status: "needs-triage",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {

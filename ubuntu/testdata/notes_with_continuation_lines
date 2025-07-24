@@ -1,0 +1,15 @@
+Candidate: CVE-2024-TEST
+PublicDate: 2024-01-01 00:00:00 UTC
+References:
+ https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-TEST
+Description:
+ Test vulnerability for notes with continuation lines.
+Notes:
+ jdstrand> this is a main note line that continues
+  on the next line with more details about the issue
+ another> this is a second note that also continues
+  with additional information on this line
+  and even more info on this third continuation line
+Priority: medium
+Patches_test-package: needs-triage
+upstream_test-package: needs-triage
