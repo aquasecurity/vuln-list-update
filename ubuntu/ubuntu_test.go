@@ -427,6 +427,38 @@ func Test_parse(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "blank lines in description",
+			args: args{
+				filePath: "./testdata/blank_lines_in_description",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2017-5192",
+				References: []string{
+					"https://docs.saltstack.com/en/2016.3/topics/releases/2015.8.13.html",
+					"https://www.cve.org/CVERecord?id=CVE-2017-5192",
+				},
+				Description: "When using the local_batch client from salt-api in SaltStack Salt before 2015.8.13, 2016.3.x before 2016.3.5, and 2016.11.x before 2016.11.2, external authentication is not respected, enabling all authentication to be bypassed. The LocalClient.cmd_batch() method client does not accept external_auth credentials and so access to it from salt-api has been removed for now. This vulnerability allows code execution for already-authenticated users and is only in effect when running salt-api as the root user.",
+				Priority:    "medium",
+				PublicDate:  time.Date(2017, 9, 26, 14, 29, 0, 0, time.UTC),
+				Patches: map[Package]Statuses{
+					Package("salt"): {
+						"upstream": Status{
+							Status: "released",
+							Note:   "2016.11.2+ds-1",
+						},
+						"precise": Status{
+							Status: "DNE",
+						},
+						"trusty": Status{
+							Status: "ignored",
+							Note:   "end of standard support",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {

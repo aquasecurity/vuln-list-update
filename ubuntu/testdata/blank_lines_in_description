@@ -1,0 +1,25 @@
+Candidate: CVE-2017-5192
+PublicDate: 2017-09-26 14:29:00 UTC
+References:
+ https://docs.saltstack.com/en/2016.3/topics/releases/2015.8.13.html
+ https://www.cve.org/CVERecord?id=CVE-2017-5192
+Description:
+ When using the local_batch client from salt-api in SaltStack Salt before
+ 2015.8.13, 2016.3.x before 2016.3.5, and 2016.11.x before 2016.11.2,
+ external authentication is not respected, enabling all authentication to be
+ bypassed.
+
+ The LocalClient.cmd_batch() method client does not accept external_auth
+ credentials and so access to it from salt-api has been removed for
+ now. This vulnerability allows code execution for already-authenticated
+ users and is only in effect when running salt-api as the root user.
+Ubuntu-Description:
+Notes:
+Bugs:
+Priority: medium
+Discovered-by:
+Assigned-to:
+
+upstream_salt: released (2016.11.2+ds-1)
+precise_salt: DNE
+trusty_salt: ignored (end of standard support)

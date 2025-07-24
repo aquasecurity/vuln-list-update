@@ -144,6 +144,82 @@ func walkDir(root string) error {
 	return nil
 }
 
+// parseMultiLineField parses a multi-line field that can contain blank lines
+func parseMultiLineField(lines []string, currentIndex *int) []string {
+	var result []string
+	i := *currentIndex
+
+	for i+1 < len(lines) {
+		nextLine := lines[i+1]
+		// Continue if the line starts with space or is blank
+		if strings.HasPrefix(nextLine, " ") || nextLine == "" {
+			i++
+			line := strings.TrimSpace(lines[i])
+			// Only add non-empty lines to the result
+			if line != "" {
+				result = append(result, line)
+			}
+		} else {
+			// Stop when we encounter a line that doesn't start with space and isn't blank
+			break
+		}
+	}
+
+	*currentIndex = i
+	return result
+}
+
+// parseNotesField parses the Notes field which has nested structure and can contain blank lines
+func parseNotesField(lines []string, currentIndex *int) []string {
+	var notes []string
+	i := *currentIndex
+
+	for i+1 < len(lines) {
+		nextLine := lines[i+1]
+		// Stop if we encounter a line that doesn't start with space and isn't blank
+		if !strings.HasPrefix(nextLine, " ") && nextLine != "" {
+			break
+		}
+
+		// Skip blank lines
+		if nextLine == "" {
+			i++
+			continue
+		}
+
+		// If it starts with single space, it's a new note
+		if strings.HasPrefix(nextLine, " ") && !strings.HasPrefix(nextLine, "  ") {
+			i++
+			line := strings.TrimSpace(lines[i])
+			if line == "" {
+				continue
+			}
+
+			note := []string{line}
+			// Check for continuation lines (double space)
+			for i+1 < len(lines) {
+				continuationLine := lines[i+1]
+				if strings.HasPrefix(continuationLine, "  ") {
+					i++
+					l := strings.TrimSpace(lines[i])
+					if l != "" {
+						note = append(note, l)
+					}
+				} else {
+					break
+				}
+			}
+			notes = append(notes, strings.Join(note, " "))
+		} else {
+			// Skip other lines
+			i++
+		}
+	}
+
+	*currentIndex = i
+	return notes
+}
+
 func parse(r io.Reader) (vuln *Vulnerability, err error) {
 	vuln = &Vulnerability{}
 	vuln.Patches = map[Package]Statuses{}
@@ -196,61 +272,33 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 
 		// Parse References
 		if strings.HasPrefix(line, "References:") {
-			for strings.HasPrefix(lines[i+1], " ") {
-				i++
-				line = strings.TrimSpace(lines[i])
-				vuln.References = append(vuln.References, line)
-			}
+			vuln.References = parseMultiLineField(lines, &i)
 			continue
 		}
 
 		// Parse Description
 		if strings.HasPrefix(line, "Description:") {
-			var description []string
-			for strings.HasPrefix(lines[i+1], " ") {
-				i++
-				line = strings.TrimSpace(lines[i])
-				description = append(description, line)
-			}
+			description := parseMultiLineField(lines, &i)
 			vuln.Description = strings.Join(description, " ")
 			continue
 		}
 
 		// Parse Ubuntu Description
 		if strings.HasPrefix(line, "Ubuntu-Description:") {
-			var description []string
-			for strings.HasPrefix(lines[i+1], " ") {
-				i++
-				line = strings.TrimSpace(lines[i])
-				description = append(description, line)
-			}
+			description := parseMultiLineField(lines, &i)
 			vuln.UbuntuDescription = strings.Join(description, " ")
 			continue
 		}
 
 		// Parse Notes
 		if strings.HasPrefix(line, "Notes:") {
-			for strings.HasPrefix(lines[i+1], " ") {
-				i++
-				line = strings.TrimSpace(lines[i])
-				note := []string{line}
-				for strings.HasPrefix(lines[i+1], "  ") {
-					i++
-					l := strings.TrimSpace(lines[i])
-					note = append(note, l)
-				}
-				vuln.Notes = append(vuln.Notes, strings.Join(note, " "))
-			}
+			vuln.Notes = parseNotesField(lines, &i)
 			continue
 		}
 
 		// Parse Bugs
 		if strings.HasPrefix(line, "Bugs:") {
-			for strings.HasPrefix(lines[i+1], " ") {
-				i++
-				line = strings.TrimSpace(lines[i])
-				vuln.Bugs = append(vuln.Bugs, line)
-			}
+			vuln.Bugs = parseMultiLineField(lines, &i)
 			continue
 		}
 
