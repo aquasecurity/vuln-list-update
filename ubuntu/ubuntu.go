@@ -144,78 +144,28 @@ func walkDir(root string) error {
 	return nil
 }
 
-// parseMultiLineField parses a multi-line field that can contain blank lines
 func parseMultiLineField(lines []string, currentIndex *int) []string {
 	var result []string
 	i := *currentIndex
-
-	for i+1 < len(lines) {
-		nextLine := lines[i+1]
-		// Continue if the line starts with space or is blank
-		if strings.HasPrefix(nextLine, " ") || nextLine == "" {
-			i++
-			line := strings.TrimSpace(lines[i])
-			// Only add non-empty lines to the result
-			if line != "" {
-				result = append(result, line)
-			}
-		} else {
-			// Stop when we encounter a line that doesn't start with space and isn't blank
-			break
+	for i+1 < len(lines) && (strings.HasPrefix(lines[i+1], " ") || lines[i+1] == "") {
+		i++
+		if line := strings.TrimSpace(lines[i]); line != "" {
+			result = append(result, line)
 		}
 	}
-
 	*currentIndex = i
 	return result
 }
 
-// parseNotesField parses the Notes field which has nested structure and can contain blank lines
 func parseNotesField(lines []string, currentIndex *int) []string {
 	var notes []string
 	i := *currentIndex
-
-	for i+1 < len(lines) {
-		nextLine := lines[i+1]
-		// Stop if we encounter a line that doesn't start with space and isn't blank
-		if !strings.HasPrefix(nextLine, " ") && nextLine != "" {
-			break
-		}
-
-		// Skip blank lines
-		if nextLine == "" {
-			i++
-			continue
-		}
-
-		// If it starts with single space, it's a new note
-		if strings.HasPrefix(nextLine, " ") && !strings.HasPrefix(nextLine, "  ") {
-			i++
-			line := strings.TrimSpace(lines[i])
-			if line == "" {
-				continue
-			}
-
-			note := []string{line}
-			// Check for continuation lines (double space)
-			for i+1 < len(lines) {
-				continuationLine := lines[i+1]
-				if strings.HasPrefix(continuationLine, "  ") {
-					i++
-					l := strings.TrimSpace(lines[i])
-					if l != "" {
-						note = append(note, l)
-					}
-				} else {
-					break
-				}
-			}
-			notes = append(notes, strings.Join(note, " "))
-		} else {
-			// Skip other lines
-			i++
+	for i+1 < len(lines) && (strings.HasPrefix(lines[i+1], " ") || lines[i+1] == "") {
+		i++
+		if line := strings.TrimSpace(lines[i]); line != "" {
+			notes = append(notes, line)
 		}
 	}
-
 	*currentIndex = i
 	return notes
 }
