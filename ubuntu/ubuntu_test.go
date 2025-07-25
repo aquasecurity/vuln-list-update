@@ -427,6 +427,39 @@ func Test_parse(t *testing.T) {
 			},
 		},
 		{
+			name: "tags field parsing",
+			args: args{
+				filePath: "./testdata/tags_field_parsing",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2022-22965",
+				References: []string{
+					"https://example.com/reference1",
+					"https://example.com/reference2",
+				},
+				Description:     "A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution via data binding.",
+				Priority:        "high",
+				Tags:            []string{"cisa-kev", "epss-prioritized"},
+				PublicDateAtUSN: time.Date(2022, 4, 1, 23, 15, 0, 0, time.UTC),
+				PublicDate:      time.Date(2022, 4, 1, 23, 15, 0, 0, time.UTC),
+				Patches: map[Package]Statuses{
+					Package("libspring-java"): {
+						"upstream": Status{
+							Status: "released",
+							Note:   "5.3.18, 5.2.20",
+						},
+						"jammy": Status{
+							Status: "needed",
+						},
+						"noble": Status{
+							Status: "needed",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
+		{
 			name: "blank lines in description",
 			args: args{
 				filePath: "./testdata/blank_lines_in_description",

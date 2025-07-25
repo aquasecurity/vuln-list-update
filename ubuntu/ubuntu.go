@@ -54,6 +54,7 @@ type Vulnerability struct {
 	Priority          string
 	DiscoveredBy      string
 	AssignedTo        string
+	Tags              []string
 	Patches           map[Package]Statuses
 	UpstreamLinks     map[Package][]string
 }
@@ -279,6 +280,15 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 		if strings.HasPrefix(line, "Assigned-to:") {
 			line = strings.TrimPrefix(line, "Assigned-to:")
 			vuln.AssignedTo = strings.TrimSpace(line)
+			continue
+		}
+
+		// Parse Tags
+		if strings.HasPrefix(line, "Tags:") {
+			line = strings.TrimPrefix(line, "Tags:")
+			if tagsLine := strings.TrimSpace(line); tagsLine != "" {
+				vuln.Tags = strings.Fields(tagsLine)
+			}
 			continue
 		}
 
