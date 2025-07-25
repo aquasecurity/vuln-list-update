@@ -20,7 +20,6 @@ const (
 	retry             = 50
 	url20             = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
 	apiDir            = "api"
-	nvdTimeFormat     = "2006-01-02T15:04:05"
 	maxResultsPerPage = 2000
 	retryAfter        = 30 * time.Second
 	apiKeyEnvName     = "NVD_API_KEY"
@@ -201,27 +200,19 @@ func TimeIntervals(endTime time.Time) ([]TimeInterval, error) {
 	for endTime.Sub(lastUpdatedDate).Hours()/24 > 120 {
 		newLastUpdatedDate := lastUpdatedDate.Add(120 * 24 * time.Hour)
 		intervals = append(intervals, TimeInterval{
-			LastModStartDate: formatTime(lastUpdatedDate),
-			LastModEndDate:   formatTime(newLastUpdatedDate),
+			LastModStartDate: lastUpdatedDate.Format(time.RFC3339),
+			LastModEndDate:   newLastUpdatedDate.Format(time.RFC3339),
 		})
 		lastUpdatedDate = newLastUpdatedDate
 	}
 
 	// fill latest interval
 	intervals = append(intervals, TimeInterval{
-		LastModStartDate: formatTime(lastUpdatedDate),
-		LastModEndDate:   formatTime(endTime),
+		LastModStartDate: lastUpdatedDate.Format(time.RFC3339),
+		LastModEndDate:   endTime.Format(time.RFC3339),
 	})
 
 	return intervals, nil
-}
-
-// formatTime formats time in the format required by NVD API - `[YYYY][“-”][MM][“-”][DD][“T”][HH][“:”][MM][“:”][SS][Z]`.
-// e.g. `2021-10-22T13:36:00.000%2B01:00`
-func formatTime(t time.Time) string {
-	// NVD API requires offset-from-UTC suffix
-	// cf. https://github.com/aquasecurity/vuln-list-update/issues/361
-	return t.Format(nvdTimeFormat) + "%2B00:00"
 }
 
 func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval TimeInterval) (string, error) {

@@ -223,8 +223,8 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []nvd.TimeInterval{
 				{
-					LastModStartDate: "2023-11-26T00:00:00",
-					LastModEndDate:   "2023-11-28T00:00:00",
+					LastModStartDate: "2023-11-26T00:00:00Z",
+					LastModEndDate:   "2023-11-28T00:00:00Z",
 				},
 			},
 		},
@@ -234,12 +234,12 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []nvd.TimeInterval{
 				{
-					LastModStartDate: "2023-05-28T00:00:00",
-					LastModEndDate:   "2023-09-25T00:00:00",
+					LastModStartDate: "2023-05-28T00:00:00Z",
+					LastModEndDate:   "2023-09-25T00:00:00Z",
 				},
 				{
-					LastModStartDate: "2023-09-25T00:00:00",
-					LastModEndDate:   "2023-11-28T00:00:00",
+					LastModStartDate: "2023-09-25T00:00:00Z",
+					LastModEndDate:   "2023-11-28T00:00:00Z",
 				},
 			},
 		},
@@ -249,8 +249,8 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(1970, 03, 01, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []nvd.TimeInterval{
 				{
-					LastModStartDate: "1970-01-01T00:00:00",
-					LastModEndDate:   "1970-03-01T00:00:00",
+					LastModStartDate: "1970-01-01T00:00:00Z",
+					LastModEndDate:   "1970-03-01T00:00:00Z",
 				},
 			},
 		},
