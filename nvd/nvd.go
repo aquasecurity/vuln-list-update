@@ -201,19 +201,27 @@ func TimeIntervals(endTime time.Time) ([]TimeInterval, error) {
 	for endTime.Sub(lastUpdatedDate).Hours()/24 > 120 {
 		newLastUpdatedDate := lastUpdatedDate.Add(120 * 24 * time.Hour)
 		intervals = append(intervals, TimeInterval{
-			LastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
-			LastModEndDate:   newLastUpdatedDate.Format(nvdTimeFormat),
+			LastModStartDate: formatTime(lastUpdatedDate),
+			LastModEndDate:   formatTime(newLastUpdatedDate),
 		})
 		lastUpdatedDate = newLastUpdatedDate
 	}
 
 	// fill latest interval
 	intervals = append(intervals, TimeInterval{
-		LastModStartDate: lastUpdatedDate.Format(nvdTimeFormat),
-		LastModEndDate:   endTime.Format(nvdTimeFormat),
+		LastModStartDate: formatTime(lastUpdatedDate),
+		LastModEndDate:   formatTime(endTime),
 	})
 
 	return intervals, nil
+}
+
+// formatTime formats time in the format required by NVD API - `[YYYY][“-”][MM][“-”][DD][“T”][HH][“:”][MM][“:”][SS][Z]`.
+// e.g. `2021-10-22T13:36:00.000%2B01:00`
+func formatTime(t time.Time) string {
+	// NVD API requires offset-from-UTC suffix
+	// cf. https://github.com/aquasecurity/vuln-list-update/issues/361
+	return t.Format(nvdTimeFormat) + "%2B00:00"
 }
 
 func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval TimeInterval) (string, error) {
