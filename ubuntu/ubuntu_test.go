@@ -437,9 +437,9 @@ func Test_parse(t *testing.T) {
 					"https://example.com/reference1",
 					"https://example.com/reference2",
 				},
-				Description: "A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution via data binding.",
-				Priority:    "high",
-				Tags:        []string{"cisa-kev", "epss-prioritized"},
+				Description:     "A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution via data binding.",
+				Priority:        "high",
+				Tags:            []string{"cisa-kev", "epss-prioritized"},
 				PublicDateAtUSN: time.Date(2022, 4, 1, 23, 15, 0, 0, time.UTC),
 				PublicDate:      time.Date(2022, 4, 1, 23, 15, 0, 0, time.UTC),
 				Patches: map[Package]Statuses{
