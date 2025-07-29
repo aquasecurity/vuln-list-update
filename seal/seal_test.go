@@ -30,8 +30,8 @@ func Test_Update(t *testing.T) {
 			},
 		},
 		{
-			name: "sad path, unable to download archive",
-			path: "/unknown.zip",
+			name:    "sad path, unable to download archive",
+			path:    "/unknown.zip",
 			wantErr: "bad response code: 404",
 		},
 	}
@@ -45,7 +45,7 @@ func Test_Update(t *testing.T) {
 				_, err = w.Write(b)
 				require.NoError(t, err)
 			})
-			
+
 			ts := httptest.NewServer(mux)
 
 			defer ts.Close()

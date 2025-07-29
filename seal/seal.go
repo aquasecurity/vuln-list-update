@@ -18,12 +18,16 @@ import (
 
 const (
 	securityTrackerURL = "http://vulnfeed.sealsecurity.io/v1/osv/renamed/vulnerabilities.zip"
-	sealDir             = "seal"
+	sealDir            = "seal"
 )
 
+type sealDatabase struct {
+	Type string `json:"type"`
+}
+
 type options struct {
-	url           string
-	dir           string
+	url string
+	dir string
 }
 
 type option func(*options)
@@ -46,8 +50,8 @@ func WithDir(dir string) option {
 
 func NewSeal(opts ...option) Database {
 	o := &options{
-		url:           securityTrackerURL,
-		dir:           filepath.Join(utils.VulnListDir(), sealDir),
+		url: securityTrackerURL,
+		dir: filepath.Join(utils.VulnListDir(), sealDir),
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -59,7 +63,7 @@ func NewSeal(opts ...option) Database {
 
 func getEcosystem(affected osv.Affected) string {
 	if affected.Database == nil {
-		ecosystem := strings.SplitN(affected.Package.Ecosystem, ":",2)[0]
+		ecosystem := strings.SplitN(affected.Package.Ecosystem, ":", 2)[0]
 		return strings.ToLower(ecosystem)
 	}
 
@@ -73,7 +77,7 @@ func (seal *Database) handleSingleFile(path string, d fs.DirEntry, err error) er
 	if d.IsDir() || err != nil {
 		return err
 	}
-	
+
 	f, err := os.Open(path)
 	if err != nil {
 		return xerrors.Errorf("file open error (%s): %w", path, err)
@@ -95,7 +99,7 @@ func (seal *Database) handleSingleFile(path string, d fs.DirEntry, err error) er
 
 func (seal *Database) Update() error {
 	ctx := context.Background()
-	
+
 	log.Printf("Updating Seal Security advisory")
 	tempDir, err := utils.DownloadToTempDir(ctx, seal.url)
 	if err != nil {
@@ -106,6 +110,6 @@ func (seal *Database) Update() error {
 	if err != nil {
 		return xerrors.Errorf("walk error: %w", err)
 	}
-	
+
 	return nil
 }
