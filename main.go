@@ -35,11 +35,11 @@ import (
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
 	"github.com/aquasecurity/vuln-list-update/rocky"
 	"github.com/aquasecurity/vuln-list-update/rootio"
+	"github.com/aquasecurity/vuln-list-update/seal"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/aquasecurity/vuln-list-update/wolfi"
-	"github.com/aquasecurity/vuln-list-update/seal"
 )
 
 var (
