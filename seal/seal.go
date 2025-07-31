@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"time"
 	"path/filepath"
 	"strings"
 
@@ -88,6 +89,8 @@ func (seal *Database) handleSingleFile(path string, d fs.DirEntry, err error) er
 		return xerrors.Errorf("unable to parse json %s: %w", path, err)
 	}
 
+	published, _ := time.Parse(time.DateOnly, parsed.Published)
+	parsed.Published = published.Format(time.RFC3339)
 	affected := parsed.Affected[0]
 	ecosystem := getEcosystem(affected)
 	filePath := filepath.Join(seal.dir, ecosystem, affected.Package.Name, fmt.Sprintf("%s.json", parsed.ID))
