@@ -1,0 +1,82 @@
+package seal_test
+
+import (
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"path/filepath"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/vuln-list-update/seal"
+)
+
+func Test_Update(t *testing.T) {
+	tests := []struct {
+		name      string
+		path      string
+		wantFiles []string
+		wantErr   string
+	}{
+		{
+			name: "happy path python",
+			wantFiles: []string{
+				filepath.Join("rpm", "seal-screen", "CVE-2025-46803.json"),
+				filepath.Join("debian", "seal-glibc", "CVE-2023-6780.json"),
+				filepath.Join("alpine", "seal-rsync", "CVE-2020-14387.json"),
+			},
+		},
+		{
+			name:    "sad path, unable to download archive",
+			path:    "/unknown.zip",
+			wantErr: "bad response code: 404",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			mux := http.NewServeMux()
+			b, err := os.ReadFile(filepath.Join("testdata", "vulnerabilities.zip"))
+			require.NoError(t, err)
+			mux.HandleFunc("/v1/osv/renamed/vulnerabilities.zip", func(w http.ResponseWriter, r *http.Request) {
+				_, err = w.Write(b)
+				require.NoError(t, err)
+			})
+
+			ts := httptest.NewServer(mux)
+
+			defer ts.Close()
+
+			// build test settings
+			testDir := t.TempDir()
+			testURL := ts.URL + "/v1/osv/renamed/vulnerabilities.zip"
+			if tt.path != "" {
+				testURL = ts.URL + tt.path
+				fmt.Println(testURL)
+			}
+
+			c := seal.NewSeal(seal.WithURL(testURL), seal.WithDir(testDir))
+
+			err = c.Update()
+			if tt.wantErr != "" {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), tt.wantErr)
+				return
+			}
+			assert.NoError(t, err)
+
+			for _, wantFile := range tt.wantFiles {
+				got, err := os.ReadFile(filepath.Join(testDir, wantFile))
+				require.NoError(t, err)
+
+				want, err := os.ReadFile(filepath.Join("testdata", "golden", wantFile))
+				require.NoError(t, err)
+
+				assert.JSONEq(t, string(want), string(got))
+			}
+		})
+	}
+}

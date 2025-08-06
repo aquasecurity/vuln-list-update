@@ -35,6 +35,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
 	"github.com/aquasecurity/vuln-list-update/rocky"
 	"github.com/aquasecurity/vuln-list-update/rootio"
+	"github.com/aquasecurity/vuln-list-update/seal"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -206,6 +207,11 @@ func run() error {
 		ru := rootio.NewUpdater()
 		if err := ru.Update(); err != nil {
 			return xerrors.Errorf("Root.io update error: %w", err)
+		}
+	case "seal":
+		su := seal.NewSeal()
+		if err := su.Update(); err != nil {
+			return xerrors.Errorf("Seal Security update error: %w", err)
 		}
 	default:
 		return xerrors.New("unknown target")
