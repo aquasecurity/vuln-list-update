@@ -22,6 +22,16 @@ const (
 	sealDir            = "seal"
 )
 
+var ecosystemToManager = map[string]string{
+	"alpine":       "alpine",
+	"debian":       "debian",
+	"ubuntu":       "debian",
+	"redhat":       "rpm",
+	"centos":       "rpm",
+	"Oracle Linux": "rpm",
+	"cbl-mariner":  "rpm",
+}
+
 type sealDatabase struct {
 	Type string `json:"type"`
 }
@@ -65,7 +75,8 @@ func NewSeal(opts ...option) Database {
 func getEcosystem(affected osv.Affected) string {
 	if affected.Database == nil {
 		ecosystem := strings.SplitN(affected.Package.Ecosystem, ":", 2)[0]
-		return strings.ToLower(ecosystem)
+		ecosystem = strings.ToLower(ecosystem)
+		return ecosystemToManager[ecosystem]
 	}
 
 	bytes, _ := json.Marshal(affected.Database)
