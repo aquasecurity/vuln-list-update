@@ -15,10 +15,6 @@ const (
 // Seal uses single archive for all ecosystems, so we use a single ecosystem and single dir.
 var ecosystems = map[string]string{"seal": ""}
 
-type sealDatabase struct {
-	Type string `json:"type"`
-}
-
 type options struct {
 	url string
 	dir string
