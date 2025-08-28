@@ -1,0 +1,48 @@
+name: Update echo repo
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update repo vuln-list
+    runs-on: ubuntu-latest
+    env:
+      VULN_LIST_DIR: "vuln-list"
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          ref: trixie-temp
+
+      - uses: actions/create-github-app-token@v1.12.0
+        id: generate-token
+        with:
+          app-id: ${{ secrets.VULN_GITHUB_APP_ID }}
+          private-key: ${{ secrets.VULN_GITHUB_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Check out vuln-list repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/vuln-list
+          token: ${{ steps.generate-token.outputs.token }}
+          path: ${{ env.VULN_LIST_DIR }}
+
+      - name: Setup github user email and name
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+      - name: Compile vuln-list-update
+        run: go build -o vuln-list-update .
+
+      - if: always()
+        name: Echo CVEs
+        run: ./scripts/update.sh echo "Echo CVE Data"
