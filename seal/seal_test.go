@@ -24,9 +24,9 @@ func Test_Update(t *testing.T) {
 		{
 			name: "happy path python",
 			wantFiles: []string{
-				filepath.Join("rpm", "seal-screen", "CVE-2025-46803.json"),
-				filepath.Join("debian", "seal-glibc", "CVE-2023-6780.json"),
-				filepath.Join("alpine", "seal-rsync", "CVE-2020-14387.json"),
+				filepath.Join("seal-screen", "CVE-2025-46803.json"),
+				filepath.Join("seal-glibc", "CVE-2023-6780.json"),
+				filepath.Join("seal-rsync", "CVE-2020-14387.json"),
 			},
 		},
 		{

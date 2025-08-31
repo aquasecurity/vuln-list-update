@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"golang.org/x/xerrors"
 
@@ -73,7 +74,13 @@ func (osv *Database) Update() error {
 	ctx := context.Background()
 	for ecoSystem, ecoSystemDir := range osv.ecosystemDirs {
 		log.Printf("Updating OSV %s advisories", ecoSystem)
-		tempDir, err := utils.DownloadToTempDir(ctx, fmt.Sprintf(osv.url, ecoSystem))
+		// Not all sources use ecosystem in the URL, so we check if it contains "%s" to format it.
+		url := osv.url
+		if strings.Contains(url, "%s") {
+			url = fmt.Sprintf(osv.url, ecoSystem)
+		}
+
+		tempDir, err := utils.DownloadToTempDir(ctx, url)
 		if err != nil {
 			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.url, ecoSystem), err)
 		}
