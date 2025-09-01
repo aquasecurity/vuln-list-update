@@ -22,7 +22,7 @@ func Test_Update(t *testing.T) {
 		wantErr   string
 	}{
 		{
-			name: "happy path python",
+			name: "happy path",
 			wantFiles: []string{
 				filepath.Join("seal-screen", "CVE-2025-46803.json"),
 				filepath.Join("seal-glibc", "CVE-2023-6780.json"),
@@ -38,16 +38,13 @@ func Test_Update(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mux := http.NewServeMux()
-			b, err := os.ReadFile(filepath.Join("testdata", "vulnerabilities.zip"))
-			require.NoError(t, err)
-			mux.HandleFunc("/v1/osv/renamed/vulnerabilities.zip", func(w http.ResponseWriter, r *http.Request) {
-				_, err = w.Write(b)
-				require.NoError(t, err)
-			})
-
-			ts := httptest.NewServer(mux)
-
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/v1/osv/renamed/vulnerabilities.zip" {
+					http.NotFound(w, r)
+					return
+				}
+				http.ServeFile(w, r, filepath.Join("testdata", "vulnerabilities.zip"))
+			}))
 			defer ts.Close()
 
 			// build test settings
@@ -60,7 +57,7 @@ func Test_Update(t *testing.T) {
 
 			c := seal.NewSeal(seal.WithURL(testURL), seal.WithDir(testDir))
 
-			err = c.Update()
+			err := c.Update()
 			if tt.wantErr != "" {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
