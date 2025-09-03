@@ -93,7 +93,6 @@ func Test_Update(t *testing.T) {
 			testURL := ts.URL + "/%s/all.zip"
 			if tt.path != "" {
 				testURL = ts.URL + tt.path
-				fmt.Println(testURL)
 			}
 
 			c := osv.NewOsv(osv.WithURL(testURL), osv.WithDir(testDir), osv.WithEcosystem(tt.ecosystem))
