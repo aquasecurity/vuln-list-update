@@ -23,7 +23,7 @@ const (
 	trackerDir         = "tracker"
 	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
 	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
-	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
+	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s-security/updates/%s/source/Sources.xz"
 )
 
 var (
