@@ -52,7 +52,6 @@ func Test_Update(t *testing.T) {
 			testURL := ts.URL + "/v1/osv/renamed/vulnerabilities.zip"
 			if tt.path != "" {
 				testURL = ts.URL + tt.path
-				fmt.Println(testURL)
 			}
 
 			c := seal.NewSeal(seal.WithURL(testURL), seal.WithDir(testDir))
