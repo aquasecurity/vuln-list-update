@@ -1,7 +1,6 @@
 package seal_test
 
 import (
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
