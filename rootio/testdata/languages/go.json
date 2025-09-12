@@ -1,0 +1,18 @@
+{
+  "ecosystem": "go",
+  "packages": [
+    {
+      "name": "golang.org/x/crypto",
+      "cves": {
+        "CVE-2022-27191": {
+          "vulnerable_ranges": [
+            "<0.0.0-20220314234659-1baeb1ce4c0b"
+          ],
+          "fixed_versions": [
+            "0.0.0-20220314234659-1baeb1ce4c0b"
+          ]
+        }
+      }
+    }
+  ]
+}
