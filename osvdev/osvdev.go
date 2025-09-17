@@ -1,7 +1,7 @@
 // Package osvdev provides OSV vulnerability data collection from osv.dev
 // (osv-vulnerabilities.storage.googleapis.com).
 //
-// This package implements a specific data source for osv.dev's vulnerability database,
+// This package implements a specific data source for OSV.dev's vulnerability database,
 // which aggregates vulnerability data from multiple ecosystems including:
 // - PyPI (Python packages)
 // - Go (Go modules)
@@ -9,6 +9,8 @@
 //
 // It uses the generic osv package to handle OSV format processing and provides
 // OSV.dev-specific configuration such as default URLs and directory structure.
+//
+// This is the recommended replacement for the legacy "osv" target in main.go.
 package osvdev
 
 import (
@@ -46,10 +48,6 @@ type options struct {
 
 type option func(*options)
 
-type Database struct {
-	osv.Database
-}
-
 func WithURL(url string) option {
 	return func(opts *options) {
 		opts.url = url
@@ -81,7 +79,7 @@ func WithEcosystems(ecosystems map[string]osv.Ecosystem) option {
 	}
 }
 
-func NewDatabase(opts ...option) Database {
+func NewDatabase(opts ...option) osv.Database {
 	o := &options{
 		url:        securityTrackerURL,
 		dir:        filepath.Join(utils.VulnListDir(), osvdevDir),
@@ -91,13 +89,5 @@ func NewDatabase(opts ...option) Database {
 		opt(o)
 	}
 
-	db := osv.NewDatabase(o.dir, o.ecosystems)
-
-	return Database{
-		Database: db,
-	}
-}
-
-func (db *Database) Update() error {
-	return db.Database.Update()
+	return osv.NewDatabase(o.dir, o.ecosystems)
 }
