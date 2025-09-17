@@ -1,4 +1,4 @@
-package osv_test
+package osvdev_test
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/aquasecurity/vuln-list-update/osv"
+	"github.com/aquasecurity/vuln-list-update/osvdev"
 )
 
 func Test_Update(t *testing.T) {
@@ -65,9 +66,9 @@ func Test_Update(t *testing.T) {
 		},
 		{
 			name: "sad path, unable to download archive",
-			path: "/%s/unknown.zip",
+			path: "/unknown.zip",
 			ecosystem: map[string]string{
-				"PyPI": "python",
+				"unknown": "unknown",
 			},
 			wantErr: "bad response code: 404",
 		},
@@ -77,11 +78,13 @@ func Test_Update(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mux := http.NewServeMux()
 			for name, dir := range tt.ecosystem {
-				b, err := os.ReadFile(filepath.Join("testdata", dir, "all.zip"))
-				require.NoError(t, err)
 				mux.HandleFunc(fmt.Sprintf("/%s/all.zip", name), func(w http.ResponseWriter, r *http.Request) {
-					_, err = w.Write(b)
-					require.NoError(t, err)
+					if name == "unknown" {
+						http.NotFound(w, r)
+						return
+					}
+					filePath := filepath.Join("testdata", dir, "all.zip")
+					http.ServeFile(w, r, filePath)
 				})
 			}
 			ts := httptest.NewServer(mux)
@@ -90,13 +93,17 @@ func Test_Update(t *testing.T) {
 
 			// build test settings
 			testDir := t.TempDir()
-			testURL := ts.URL + "/%s/all.zip"
-			if tt.path != "" {
-				testURL = ts.URL + tt.path
-				fmt.Println(testURL)
+
+			// Convert old-style ecosystem map to new Ecosystem struct with test URLs
+			ecosystems := make(map[string]osv.Ecosystem)
+			for name, dir := range tt.ecosystem {
+				ecosystems[name] = osv.Ecosystem{
+					Dir: dir,
+					URL: ts.URL + fmt.Sprintf("/%s/all.zip", name),
+				}
 			}
 
-			c := osv.NewOsv(osv.WithURL(testURL), osv.WithDir(testDir), osv.WithEcosystem(tt.ecosystem))
+			c := osvdev.NewDatabase(osvdev.WithDir(testDir), osvdev.WithEcosystems(ecosystems))
 
 			err := c.Update()
 			if tt.wantErr != "" {

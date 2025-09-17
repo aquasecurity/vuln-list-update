@@ -28,7 +28,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/nvd"
 	"github.com/aquasecurity/vuln-list-update/openeuler"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
-	"github.com/aquasecurity/vuln-list-update/osv"
+	"github.com/aquasecurity/vuln-list-update/osvdev"
 	"github.com/aquasecurity/vuln-list-update/photon"
 	redhatcsafvex "github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
@@ -44,7 +44,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, "+
+		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osvdev, mariner, kevc, wolfi, "+
 		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -158,8 +158,8 @@ func run() error {
 		if err := rc.Update(); err != nil {
 			return xerrors.Errorf("Rocky Linux update error: %w", err)
 		}
-	case "osv":
-		p := osv.NewOsv()
+	case "osvdev":
+		p := osvdev.NewDatabase()
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}

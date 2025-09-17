@@ -88,8 +88,8 @@ jobs:
         run: ./scripts/update.sh azure "Azure Linux and CBL-Mariner Vulnerability Data"
 
       - if: always()
-        name: OSV Database
-        run: ./scripts/update.sh osv "OSV Database"
+        name: OSV Database (osv.dev)
+        run: ./scripts/update.sh osvdev "OSV Database"
 
       - if: always()
         name: Wolfi Secdb
