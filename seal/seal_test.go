@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/aquasecurity/vuln-list-update/osv"
 	"github.com/aquasecurity/vuln-list-update/seal"
 )
 
@@ -53,7 +54,15 @@ func Test_Update(t *testing.T) {
 				testURL = ts.URL + tt.path
 			}
 
-			c := seal.NewSeal(seal.WithURL(testURL), seal.WithDir(testDir))
+			// Create ecosystems map with test URL
+			ecosystems := map[string]osv.Ecosystem{
+				"seal": {
+					Dir: "",
+					URL: testURL,
+				},
+			}
+
+			c := seal.NewSeal(seal.WithDir(testDir), seal.WithEcosystems(ecosystems))
 
 			err := c.Update()
 			if tt.wantErr != "" {

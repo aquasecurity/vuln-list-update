@@ -1,12 +1,17 @@
 package osv
 
+type Ecosystem struct {
+	Dir string
+	URL string
+}
+
 type Affected struct {
-	Package    Package     `json:"package,omitempty"`
-	Severities []Severity  `json:"severity,omitempty"`
-	Ranges     []Range     `json:"ranges,omitempty"`
-	Versions   []string    `json:"versions,omitempty"`
-	Ecosystem  interface{} `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem
-	Database   interface{} `json:"database_specific,omitempty"`  //The meaning of the values within the object is entirely defined by the database
+	Package    Package    `json:"package,omitempty"`
+	Severities []Severity `json:"severity,omitempty"`
+	Ranges     []Range    `json:"ranges,omitempty"`
+	Versions   []string   `json:"versions,omitempty"`
+	Ecosystem  any        `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem
+	Database   any        `json:"database_specific,omitempty"`  //The meaning of the values within the object is entirely defined by the database
 
 }
 

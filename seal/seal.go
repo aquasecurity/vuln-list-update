@@ -1,8 +1,6 @@
 package seal
 
 import (
-	"path/filepath"
-
 	"github.com/aquasecurity/vuln-list-update/osv"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
@@ -13,52 +11,41 @@ const (
 )
 
 // Seal uses single archive for all ecosystems, so we use a single ecosystem and single dir.
-var ecosystems = map[string]string{"seal": ""}
+var ecosystems = map[string]osv.Ecosystem{
+	"seal": {
+		Dir: sealDir,
+		URL: securityTrackerURL,
+	},
+}
 
 type options struct {
-	url string
-	dir string
+	dir        string
+	ecosystems map[string]osv.Ecosystem
 }
 
-type option func(*options)
+type Option func(*options)
 
-type Database struct {
-	osv.Database
-}
-
-func WithURL(url string) option {
-	return func(opts *options) {
-		opts.url = url
-	}
-}
-
-func WithDir(dir string) option {
+func WithDir(dir string) Option {
 	return func(opts *options) {
 		opts.dir = dir
 	}
 }
 
-func NewSeal(opts ...option) Database {
+func WithEcosystems(ecosystems map[string]osv.Ecosystem) Option {
+	return func(opts *options) {
+		opts.ecosystems = ecosystems
+	}
+}
+
+func NewSeal(opts ...Option) osv.Database {
 	o := &options{
-		url: securityTrackerURL,
-		dir: filepath.Join(utils.VulnListDir(), sealDir),
+		dir:        utils.VulnListDir(),
+		ecosystems: ecosystems,
 	}
 
 	for _, opt := range opts {
 		opt(o)
 	}
 
-	db := osv.NewOsv(
-		osv.WithURL(o.url),
-		osv.WithDir(o.dir),
-		osv.WithEcosystem(ecosystems),
-	)
-
-	return Database{
-		Database: db,
-	}
-}
-
-func (seal *Database) Update() error {
-	return seal.Database.Update()
+	return osv.NewDatabase(o.dir, o.ecosystems)
 }
