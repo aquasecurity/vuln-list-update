@@ -15,7 +15,8 @@ import (
 const (
 	rootioDir      = "rootio"
 	cveFeedURLBase = "https://api.root.io"
-	cveFeedPath    = "external/cve_feed"
+	osFeedPath     = "external/os_feed"  // OS packages feed
+	appFeedPath    = "external/app_feed" // Language/app packages feed
 	retry          = 3
 )
 
@@ -63,25 +64,39 @@ func (u *Updater) Update() error {
 		return xerrors.Errorf("Root.io mkdir error: %w", err)
 	}
 
-	log.Println("Fetching Root.io CVE data...")
+	// Fetch and save OS feed
+	if err := u.fetchAndSaveFeed(osFeedPath, "os_feed.json", "OS package"); err != nil {
+		return err
+	}
 
-	feedURL := u.baseURL.JoinPath(cveFeedPath)
+	// Fetch and save app feed
+	if err := u.fetchAndSaveFeed(appFeedPath, "app_feed.json", "application package"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// fetchAndSaveFeed fetches a feed from the given path and saves it to the specified file
+func (u *Updater) fetchAndSaveFeed(feedPath, fileName, feedType string) error {
+	log.Printf("Fetching Root.io %s data...", feedType)
+	feedURL := u.baseURL.JoinPath(feedPath)
 	data, err := utils.FetchURL(feedURL.String(), "", u.retry)
 	if err != nil {
-		return xerrors.Errorf("Failed to fetch Root.io CVE feed from %s: %w", feedURL.String(), err)
+		return xerrors.Errorf("Failed to fetch Root.io %s feed from %s: %w", feedType, feedURL.String(), err)
 	}
 
-	var cveFeed CVEFeed
-	if err := json.Unmarshal(data, &cveFeed); err != nil {
-		return xerrors.Errorf("failed to parse Root.io CVE feed JSON: %w", err)
+	var feed CVEFeed
+	if err := json.Unmarshal(data, &feed); err != nil {
+		return xerrors.Errorf("failed to parse Root.io %s feed JSON: %w", feedType, err)
 	}
 
-	// Save the entire feed as a single JSON file
-	feedFilePath := filepath.Join(dir, "cve_feed.json")
-	if err := utils.Write(feedFilePath, cveFeed); err != nil {
-		return xerrors.Errorf("failed to write Root.io CVE feed to %s: %w", feedFilePath, err)
+	// Save feed
+	feedFilePath := filepath.Join(u.vulnListDir, rootioDir, fileName)
+	if err := utils.Write(feedFilePath, feed); err != nil {
+		return xerrors.Errorf("failed to write Root.io %s feed to %s: %w", feedType, feedFilePath, err)
 	}
+	log.Printf("Root.io %s data updated successfully in %s", feedType, feedFilePath)
 
-	log.Printf("Root.io CVE data updated successfully in %s", feedFilePath)
 	return nil
 }
