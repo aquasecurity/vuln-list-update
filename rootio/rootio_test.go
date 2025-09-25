@@ -29,13 +29,13 @@ func TestUpdater_Update(t *testing.T) {
 			name:        "invalid OS JSON response",
 			osTestFile:  "testdata/invalid.json",
 			appTestFile: "testdata/app_feed.json",
-			wantErr:     "failed to parse Root.io OS package feed JSON",
+			wantErr:     "failed to parse Root.io feed JSON",
 		},
 		{
 			name:        "invalid app JSON response",
 			osTestFile:  "testdata/os_feed.json",
 			appTestFile: "testdata/invalid.json",
-			wantErr:     "failed to parse Root.io application package feed JSON",
+			wantErr:     "failed to parse Root.io feed JSON",
 		},
 		{
 			name:        "OS feed not found",
@@ -60,7 +60,7 @@ func TestUpdater_Update(t *testing.T) {
 				}
 
 				switch path {
-				case "external/os_feed":
+				case "external/cve_feed":
 					if tt.osTestFile != "" {
 						http.ServeFile(w, r, tt.osTestFile)
 					} else {
@@ -95,7 +95,7 @@ func TestUpdater_Update(t *testing.T) {
 			assert.NoError(t, err)
 
 			// Verify OS feed exists and is valid
-			osActual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "os_feed.json"))
+			osActual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "cve_feed.json"))
 			require.NoError(t, err)
 
 			osExpected, err := os.ReadFile(tt.osTestFile)
@@ -103,83 +103,7 @@ func TestUpdater_Update(t *testing.T) {
 			assert.JSONEq(t, string(osExpected), string(osActual))
 
 			// Verify app feed exists and is valid
-			appActual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "app_feed.json"))
-			require.NoError(t, err)
-
-			appExpected, err := os.ReadFile(tt.appTestFile)
-			require.NoError(t, err)
-			assert.JSONEq(t, string(appExpected), string(appActual))
-		})
-	}
-}
-
-func TestUpdater_UpdateWithSeparateFeeds(t *testing.T) {
-	tests := []struct {
-		name        string
-		osTestFile  string
-		appTestFile string
-		wantErr     string
-	}{
-		{
-			name:        "separate OS and app feeds",
-			osTestFile:  "testdata/os_feed.json",
-			appTestFile: "testdata/app_feed.json",
-		},
-		{
-			name:        "OS feed with empty app feed",
-			osTestFile:  "testdata/os_feed.json",
-			appTestFile: "testdata/valid.json", // Empty/OS-only feed used as app feed
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				path := strings.TrimPrefix(r.URL.Path, "/")
-
-				switch path {
-				case "external/os_feed":
-					http.ServeFile(w, r, tt.osTestFile)
-				case "external/app_feed":
-					http.ServeFile(w, r, tt.appTestFile)
-				default:
-					http.NotFound(w, r)
-				}
-			}))
-			defer ts.Close()
-
-			tmpDir := t.TempDir()
-
-			serverURL, _ := url.Parse(ts.URL)
-			updater := NewUpdater(
-				WithBaseURL(serverURL),
-				WithVulnListDir(tmpDir),
-				WithRetry(0),
-			)
-
-			err := updater.Update()
-			if tt.wantErr != "" {
-				require.ErrorContains(t, err, tt.wantErr)
-				return
-			}
-			assert.NoError(t, err)
-
-			// Verify OS feed exists and contains expected data
-			osFeedPath := filepath.Join(tmpDir, rootioDir, "os_feed.json")
-			assert.FileExists(t, osFeedPath)
-
-			osActual, err := os.ReadFile(osFeedPath)
-			require.NoError(t, err)
-
-			osExpected, err := os.ReadFile(tt.osTestFile)
-			require.NoError(t, err)
-			assert.JSONEq(t, string(osExpected), string(osActual))
-
-			// Verify app feed exists and contains expected data
-			appFeedPath := filepath.Join(tmpDir, rootioDir, "app_feed.json")
-			assert.FileExists(t, appFeedPath)
-
-			appActual, err := os.ReadFile(appFeedPath)
+			appActual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "app", "cve_feed.json"))
 			require.NoError(t, err)
 
 			appExpected, err := os.ReadFile(tt.appTestFile)

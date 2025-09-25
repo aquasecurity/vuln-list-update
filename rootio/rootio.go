@@ -15,10 +15,21 @@ import (
 const (
 	rootioDir      = "rootio"
 	cveFeedURLBase = "https://api.root.io"
-	osFeedPath     = "external/os_feed"  // OS packages feed
-	appFeedPath    = "external/app_feed" // Language/app packages feed
 	retry          = 3
 )
+
+// feedInfo contains the information for each feed type
+type feedInfo struct {
+	path     string // API path
+	subDir   string // subdirectory under rootio
+	fileName string // output filename
+}
+
+// feeds defines the feeds to fetch
+var feeds = []feedInfo{
+	{path: "external/cve_feed", subDir: "", fileName: "cve_feed.json"},    // OS packages feed (legacy endpoint)
+	{path: "external/app_feed", subDir: "app", fileName: "cve_feed.json"}, // Application packages feed
+}
 
 type option func(c *Updater)
 
@@ -64,39 +75,48 @@ func (u *Updater) Update() error {
 		return xerrors.Errorf("Root.io mkdir error: %w", err)
 	}
 
-	// Fetch and save OS feed
-	if err := u.fetchAndSaveFeed(osFeedPath, "os_feed.json", "OS package"); err != nil {
-		return err
-	}
-
-	// Fetch and save app feed
-	if err := u.fetchAndSaveFeed(appFeedPath, "app_feed.json", "application package"); err != nil {
-		return err
+	// Fetch and save feeds
+	for _, feed := range feeds {
+		if err := u.fetchAndSaveFeed(feed); err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
 // fetchAndSaveFeed fetches a feed from the given path and saves it to the specified file
-func (u *Updater) fetchAndSaveFeed(feedPath, fileName, feedType string) error {
-	log.Printf("Fetching Root.io %s data...", feedType)
-	feedURL := u.baseURL.JoinPath(feedPath)
+func (u *Updater) fetchAndSaveFeed(feed feedInfo) error {
+	feedURL := u.baseURL.JoinPath(feed.path)
+	log.Printf("Fetching Root.io data from %s...", feedURL.String())
+
 	data, err := utils.FetchURL(feedURL.String(), "", u.retry)
 	if err != nil {
-		return xerrors.Errorf("Failed to fetch Root.io %s feed from %s: %w", feedType, feedURL.String(), err)
+		return xerrors.Errorf("Failed to fetch Root.io feed from %s: %w", feedURL.String(), err)
 	}
 
-	var feed CVEFeed
-	if err := json.Unmarshal(data, &feed); err != nil {
-		return xerrors.Errorf("failed to parse Root.io %s feed JSON: %w", feedType, err)
+	var feedData CVEFeed
+	if err := json.Unmarshal(data, &feedData); err != nil {
+		return xerrors.Errorf("failed to parse Root.io feed JSON: %w", err)
+	}
+
+	// Determine the target directory
+	var targetDir string
+	if feed.subDir != "" {
+		targetDir = filepath.Join(u.vulnListDir, rootioDir, feed.subDir)
+		if err := os.MkdirAll(targetDir, 0755); err != nil {
+			return xerrors.Errorf("failed to create directory %s: %w", targetDir, err)
+		}
+	} else {
+		targetDir = filepath.Join(u.vulnListDir, rootioDir)
 	}
 
 	// Save feed
-	feedFilePath := filepath.Join(u.vulnListDir, rootioDir, fileName)
-	if err := utils.Write(feedFilePath, feed); err != nil {
-		return xerrors.Errorf("failed to write Root.io %s feed to %s: %w", feedType, feedFilePath, err)
+	feedFilePath := filepath.Join(targetDir, feed.fileName)
+	if err := utils.Write(feedFilePath, feedData); err != nil {
+		return xerrors.Errorf("failed to write Root.io feed to %s: %w", feedFilePath, err)
 	}
-	log.Printf("Root.io %s data updated successfully in %s", feedType, feedFilePath)
+	log.Printf("Root.io data updated successfully in %s", feedFilePath)
 
 	return nil
 }
