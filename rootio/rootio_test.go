@@ -1,6 +1,7 @@
 package rootio
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -15,36 +16,43 @@ import (
 
 func TestUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name        string
-		osTestFile  string
-		appTestFile string
-		wantErr     string
+		name    string
+		files   map[string]string // Map of URL path to test file
+		wantErr string
 	}{
 		{
-			name:        "valid response",
-			osTestFile:  "testdata/os_feed.json",
-			appTestFile: "testdata/app_feed.json",
+			name: "happy path",
+			files: map[string]string{
+				"external/cve_feed": "testdata/happy/rootio/cve_feed.json",
+				"external/app_feed": "testdata/happy/rootio/app/cve_feed.json",
+			},
 		},
 		{
-			name:        "invalid OS JSON response",
-			osTestFile:  "testdata/invalid.json",
-			appTestFile: "testdata/app_feed.json",
-			wantErr:     "failed to parse Root.io feed JSON",
+			name: "sad path. Invalid OS JSON response",
+			files: map[string]string{
+				"external/cve_feed": "testdata/sad/invalid.json",
+				"external/app_feed": "testdata/happy/rootio/app/cve_feed.json",
+			},
+			wantErr: "failed to parse Root.io feed JSON",
 		},
 		{
-			name:        "invalid app JSON response",
-			osTestFile:  "testdata/os_feed.json",
-			appTestFile: "testdata/invalid.json",
-			wantErr:     "failed to parse Root.io feed JSON",
+			name: "sad path. Invalid app JSON response",
+			files: map[string]string{
+				"external/cve_feed": "testdata/happy/rootio/cve_feed.json",
+				"external/app_feed": "testdata/sad/invalid.json",
+			},
+			wantErr: "failed to parse Root.io feed JSON",
 		},
 		{
-			name:        "OS feed not found",
-			osTestFile:  "testdata/non-existent.json",
-			appTestFile: "testdata/app_feed.json",
-			wantErr:     "status code: 404",
+			name: "sad path. Feed not found",
+			files: map[string]string{
+				"external/cve_feed": "testdata/non-existent.json",
+				"external/app_feed": "testdata/non-existent.json",
+			},
+			wantErr: "status code: 404",
 		},
 		{
-			name:    "server error",
+			name:    "sad path. erver error",
 			wantErr: "status code: 500",
 		},
 	}
@@ -54,27 +62,20 @@ func TestUpdater_Update(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				path := strings.TrimPrefix(r.URL.Path, "/")
 
-				if tt.osTestFile == "" && tt.appTestFile == "" {
+				if len(tt.files) == 0 {
 					w.WriteHeader(http.StatusInternalServerError)
 					return
 				}
 
-				switch path {
-				case "external/cve_feed":
-					if tt.osTestFile != "" {
-						http.ServeFile(w, r, tt.osTestFile)
-					} else {
+				if tf, ok := tt.files[path]; ok {
+					if tf == "" {
 						w.WriteHeader(http.StatusInternalServerError)
+						return
 					}
-				case "external/app_feed":
-					if tt.appTestFile != "" {
-						http.ServeFile(w, r, tt.appTestFile)
-					} else {
-						w.WriteHeader(http.StatusInternalServerError)
-					}
-				default:
-					http.NotFound(w, r)
+					http.ServeFile(w, r, tf)
+					return
 				}
+				http.NotFound(w, r)
 			}))
 			defer ts.Close()
 
@@ -94,21 +95,28 @@ func TestUpdater_Update(t *testing.T) {
 			}
 			assert.NoError(t, err)
 
-			// Verify OS feed exists and is valid
-			osActual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "cve_feed.json"))
-			require.NoError(t, err)
+			err = filepath.Walk(tmpDir, func(path string, info os.FileInfo, errfp error) error {
+				if info.IsDir() {
+					return nil
+				}
+				filename, err := filepath.Rel(tmpDir, path)
+				if err != nil {
+					return err
+				}
+				golden := filepath.Join("testdata", "happy", filename)
 
-			osExpected, err := os.ReadFile(tt.osTestFile)
-			require.NoError(t, err)
-			assert.JSONEq(t, string(osExpected), string(osActual))
+				want, err := os.ReadFile(golden)
+				require.NoError(t, err, "failed to open the golden file")
 
-			// Verify app feed exists and is valid
-			appActual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "app", "cve_feed.json"))
-			require.NoError(t, err)
+				got, err := os.ReadFile(path)
+				require.NoError(t, err, "failed to open the result file")
+				assert.JSONEq(t, string(want), string(got))
 
-			appExpected, err := os.ReadFile(tt.appTestFile)
-			require.NoError(t, err)
-			assert.JSONEq(t, string(appExpected), string(appActual))
+				fmt.Println(string(got))
+
+				return nil
+			})
+			assert.NoError(t, err)
 		})
 	}
 }
