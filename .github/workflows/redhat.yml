@@ -12,6 +12,17 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list-redhat"
     steps:
+    - name: Maximize build space
+      uses: AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793 # v5
+      with:
+        remove-android: 'true'
+        remove-dotnet: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+        remove-large-packages: 'true'
+        remove-cached-tools: 'true'
+        remove-swapfile: 'true'
     - name: Check out code
       uses: actions/checkout@v5
 
