@@ -94,7 +94,7 @@ func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, cve PhotonCVE) err
 	}
 
 	// Skip unknown CVE entries without version information
-	if (strings.HasPrefix(cveID, "UNK-") || strings.HasPrefix(cveID, "Re")) &&
+	if (strings.HasPrefix(cveID, "UNK-") || cveID == "Re") &&
 		(cve.ResVer == "" || cve.ResVer == "NA") &&
 		(cve.AffVer == "" || cve.AffVer == "NA") {
 		log.Printf("Skip unknown CVE entry: %s", cveID)
