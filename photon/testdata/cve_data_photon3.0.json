@@ -34,5 +34,13 @@
     "aff_ver": "NA",
     "res_ver": "NA",
     "status": "Not Affected"
+  },
+  {
+    "cve_id": "CVE-2025-0725",
+    "pkg": "curl",
+    "cve_score": 7.3,
+    "aff_ver": "NA",
+    "res_ver": "NA",
+    "status": "Not Affected"
   }
 ]
