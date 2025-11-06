@@ -36,6 +36,7 @@ var (
 		"sles",
 		"ubuntu",
 		"wolfi-linux", // wolfi doesn't have OS versions (there is no EOL dates)
+		"suse-linux-micro",
 	}
 
 	missedOSes = map[string][]Release{
