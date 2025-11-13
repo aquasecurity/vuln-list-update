@@ -6,6 +6,7 @@
 // - PyPI (Python packages)
 // - Go (Go modules)
 // - crates.io (Rust crates)
+// - Julia (Julia packages)
 //
 // It uses the generic osv package to handle OSV format processing and provides
 // OSV.dev-specific configuration such as default URLs and directory structure.
@@ -36,6 +37,10 @@ var defaultEcosystems = map[string]osv.Ecosystem{
 	"crates.io": {
 		Dir: "rust",
 		URL: "https://osv-vulnerabilities.storage.googleapis.com/crates.io/all.zip",
+	},
+	"Julia": {
+		Dir: "julia",
+		URL: "https://osv-vulnerabilities.storage.googleapis.com/Julia/all.zip",
 	},
 }
 

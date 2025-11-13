@@ -47,10 +47,11 @@ func Test_Update(t *testing.T) {
 			},
 		},
 		{
-			name: "happy path python+rust",
+			name: "happy path python+rust+julia",
 			ecosystem: map[string]string{
 				"PyPI":      "python",
 				"crates.io": "rust",
+				"Julia":     "julia",
 			},
 			wantFiles: []string{
 				// Python
@@ -62,6 +63,11 @@ func Test_Update(t *testing.T) {
 				filepath.Join("rust", "openssl", "RUSTSEC-2016-0001.json"),
 				filepath.Join("rust", "smallvec", "RUSTSEC-2019-0009.json"),
 				filepath.Join("rust", "tar", "RUSTSEC-2018-0002.json"),
+
+				// Julia
+				filepath.Join("julia", "HTTP", "JLSEC-2025-1.json"),
+				filepath.Join("julia", "Registrator", "JLSEC-2025-2.json"),
+				filepath.Join("julia", "GitForge", "JLSEC-2025-3.json"),
 			},
 		},
 		{
