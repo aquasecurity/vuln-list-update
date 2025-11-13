@@ -1,1 +1,36 @@
-{"id":"JLSEC-2025-2","published":"2025-10-08T17:41:37.190Z","modified":"2025-11-06T22:57:30.939831Z","aliases":["CVE-2025-52483","GHSA-589r-g8hf-xx59"],"summary":"Command injection in `withpasswd()` function in Registrator.jl","details":"### Impact\n\nIf the clone URL returned by GitHub is malicious (or can be injected using upstream vulnerabilities), a shell script injection can occur within the `withpasswd()` function.  This can then lead to a potential RCE.\n\n### Patches\n\nUsers should upgrade immediately to v1.9.5. All prior versions are vulnerable.\n\n### Workarounds\n\nNone\n\n### References\n\nFixed by: https://github.com/JuliaRegistries/Registrator.jl/pull/448 (which is available in v1.9.5).\n\n### Credits\n\nThanks to *splitline* from the DEVCORE Research Team for reporting this issue.","affected":[{"package":{"name":"Registrator","ecosystem":"Julia","purl":"pkg:julia/Registrator?uuid=4418983a-e44d-11e8-3aec-9789530b3b3e"},"ranges":[{"type":"SEMVER","events":[{"introduced":"0"},{"fixed":"1.9.5"}]}],"database_specific":{"source":"https://github.com/JuliaLang/SecurityAdvisories.jl/tree/generated/osv/2025/JLSEC-2025-2.json"}}]}
+{
+    "id": "JLSEC-2025-2",
+    "published": "2025-10-08T17:41:37.190Z",
+    "modified": "2025-11-06T22:57:30.939831Z",
+    "aliases": [
+        "CVE-2025-52483",
+        "GHSA-589r-g8hf-xx59"
+    ],
+    "summary": "Command injection in `withpasswd()` function in Registrator.jl",
+    "details": "### Impact\n\nIf the clone URL returned by GitHub is malicious (or can be injected using upstream vulnerabilities), a shell script injection can occur within the `withpasswd()` function.  This can then lead to a potential RCE.\n\n### Patches\n\nUsers should upgrade immediately to v1.9.5. All prior versions are vulnerable.\n\n### Workarounds\n\nNone\n\n### References\n\nFixed by: https://github.com/JuliaRegistries/Registrator.jl/pull/448 (which is available in v1.9.5).\n\n### Credits\n\nThanks to *splitline* from the DEVCORE Research Team for reporting this issue.",
+    "affected": [
+        {
+            "package": {
+                "name": "Registrator",
+                "ecosystem": "Julia",
+                "purl": "pkg:julia/Registrator?uuid=4418983a-e44d-11e8-3aec-9789530b3b3e"
+            },
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.9.5"
+                        }
+                    ]
+                }
+            ],
+            "database_specific": {
+                "source": "https://github.com/JuliaLang/SecurityAdvisories.jl/tree/generated/osv/2025/JLSEC-2025-2.json"
+            }
+        }
+    ]
+}
