@@ -14,17 +14,24 @@ import (
 	"github.com/aquasecurity/vuln-list-update/chainguard"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
+	"github.com/aquasecurity/vuln-list-update/echo"
+	"github.com/aquasecurity/vuln-list-update/eoldates"
+	"github.com/aquasecurity/vuln-list-update/ghsa"
 	"github.com/aquasecurity/vuln-list-update/glad"
-	"github.com/aquasecurity/vuln-list-update/k8s"
 	"github.com/aquasecurity/vuln-list-update/kevc"
 	"github.com/aquasecurity/vuln-list-update/mariner"
+	"github.com/aquasecurity/vuln-list-update/minimos"
 	"github.com/aquasecurity/vuln-list-update/nvd"
+	"github.com/aquasecurity/vuln-list-update/openeuler"
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
-	"github.com/aquasecurity/vuln-list-update/osv"
+	"github.com/aquasecurity/vuln-list-update/osvdev"
 	"github.com/aquasecurity/vuln-list-update/photon"
+	redhatcsafvex "github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
 	"github.com/aquasecurity/vuln-list-update/rocky"
+	"github.com/aquasecurity/vuln-list-update/rootio"
+	"github.com/aquasecurity/vuln-list-update/seal"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -33,7 +40,8 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osv, mariner, kevc, wolfi, chainguard, k8s)")
+		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -66,6 +74,11 @@ func run() error {
 		rc := redhatoval.NewConfig()
 		if err := rc.Update(); err != nil {
 			return xerrors.Errorf("Red Hat OVALv2 update error: %w", err)
+		}
+	case "redhat-csaf-vex":
+		rc := redhatcsafvex.NewConfig()
+		if err := rc.Update(); err != nil {
+			return xerrors.Errorf("Red Hat CSAF VEX update error: %w", err)
 		}
 	case "debian":
 		dc := tracker.NewClient()
@@ -131,12 +144,12 @@ func run() error {
 		if err := rc.Update(); err != nil {
 			return xerrors.Errorf("Rocky Linux update error: %w", err)
 		}
-	case "osv":
-		p := osv.NewOsv()
+	case "osvdev":
+		p := osvdev.NewDatabase()
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}
-	case "mariner":
+	case "azure", "mariner":
 		src := mariner.NewConfig()
 		if err := src.Update(); err != nil {
 			return xerrors.Errorf("CBL-Mariner Vulnerability Data update error: %w", err)
@@ -156,10 +169,35 @@ func run() error {
 		if err := cu.Update(); err != nil {
 			return xerrors.Errorf("Chainguard update error: %w", err)
 		}
-	case "k8s":
-		ku := k8s.NewUpdater()
-		if err := ku.Update(); err != nil {
-			return xerrors.Errorf("k8s update error: %w", err)
+	case "openeuler":
+		ec := openeuler.NewConfig()
+		if err := ec.Update(); err != nil {
+			return xerrors.Errorf("openEuler CVE update error: %w", err)
+		}
+	case "echo":
+		ec := echo.NewUpdater()
+		if err := ec.Update(); err != nil {
+			return xerrors.Errorf("Echo CVE update error: %w", err)
+		}
+	case "minimos":
+		mu := minimos.NewUpdater()
+		if err := mu.Update(); err != nil {
+			return xerrors.Errorf("MinimOS update error: %w", err)
+		}
+	case "eoldates":
+		ec := eoldates.NewConfig()
+		if err := ec.Update(); err != nil {
+			return xerrors.Errorf("eolDates update error: %w", err)
+		}
+	case "rootio":
+		ru := rootio.NewUpdater()
+		if err := ru.Update(); err != nil {
+			return xerrors.Errorf("Root.io update error: %w", err)
+		}
+	case "seal":
+		su := seal.NewSeal()
+		if err := su.Update(); err != nil {
+			return xerrors.Errorf("Seal Security update error: %w", err)
 		}
 	default:
 		return xerrors.New("unknown target")

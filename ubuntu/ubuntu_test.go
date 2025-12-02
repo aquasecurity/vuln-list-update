@@ -426,6 +426,104 @@ func Test_parse(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "tags field parsing",
+			args: args{
+				filePath: "./testdata/tags_field_parsing",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2022-22965",
+				References: []string{
+					"https://example.com/reference1",
+					"https://example.com/reference2",
+				},
+				Description:     "A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution via data binding.",
+				Priority:        "high",
+				Tags:            []string{"cisa-kev", "epss-prioritized"},
+				PublicDateAtUSN: time.Date(2022, 4, 1, 23, 15, 0, 0, time.UTC),
+				PublicDate:      time.Date(2022, 4, 1, 23, 15, 0, 0, time.UTC),
+				Patches: map[Package]Statuses{
+					Package("libspring-java"): {
+						"upstream": Status{
+							Status: "released",
+							Note:   "5.3.18, 5.2.20",
+						},
+						"jammy": Status{
+							Status: "needed",
+						},
+						"noble": Status{
+							Status: "needed",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
+		{
+			name: "blank lines in description",
+			args: args{
+				filePath: "./testdata/blank_lines_in_description",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2017-5192",
+				References: []string{
+					"https://docs.saltstack.com/en/2016.3/topics/releases/2015.8.13.html",
+					"https://www.cve.org/CVERecord?id=CVE-2017-5192",
+				},
+				Description: "When using the local_batch client from salt-api in SaltStack Salt before 2015.8.13, 2016.3.x before 2016.3.5, and 2016.11.x before 2016.11.2, external authentication is not respected, enabling all authentication to be bypassed. The LocalClient.cmd_batch() method client does not accept external_auth credentials and so access to it from salt-api has been removed for now. This vulnerability allows code execution for already-authenticated users and is only in effect when running salt-api as the root user.",
+				Priority:    "medium",
+				PublicDate:  time.Date(2017, 9, 26, 14, 29, 0, 0, time.UTC),
+				Patches: map[Package]Statuses{
+					Package("salt"): {
+						"upstream": Status{
+							Status: "released",
+							Note:   "2016.11.2+ds-1",
+						},
+						"precise": Status{
+							Status: "DNE",
+						},
+						"trusty": Status{
+							Status: "ignored",
+							Note:   "end of standard support",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
+		{
+			name: "notes with continuation lines",
+			args: args{
+				filePath: "./testdata/notes_with_continuation_lines",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2017-0537",
+				References: []string{
+					"https://source.android.com/security/bulletin/2017-01-01.html",
+					"https://android.googlesource.com/kernel/tegra.git/+/389b185cb2f17fff994dbdf8d4bac003d4b2b6b3%5E%21/#F0",
+					"https://lore.kernel.org/lkml/1484647168-30135-1-git-send-email-jilin@nvidia.com/#t",
+					"https://www.cve.org/CVERecord?id=CVE-2017-0537",
+				},
+				Description: "An information disclosure vulnerability in the kernel USB gadget driver could enable a local malicious application to access data outside of its permission levels. This issue is rated as Moderate because it first requires compromising a privileged process. Product: Android. Versions: Kernel-3.18. Android ID: A-31614969.",
+				Priority:    "medium",
+				PublicDate:  time.Date(2017, 3, 8, 1, 59, 0, 0, time.UTC),
+				Notes: []string{
+					"sbeattie> see android patch above",
+					"sbeattie> drivers/usb/gadget/configfs.c::usb_string_copy()",
+					"tyhicks> Patch submitter never verified that this was an issue on pure Linux and upstream thinks that it could potentially be an issue in Android-specific kernel changes",
+					"mdeslaur> The android package is in multiverse and not covered by ESM.",
+					"mdeslaur> Marking as ignored.",
+				},
+				Patches: map[Package]Statuses{
+					Package("test-package"): {
+						"upstream": Status{
+							Status: "needs-triage",
+						},
+					},
+				},
+				UpstreamLinks: map[Package][]string{},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {

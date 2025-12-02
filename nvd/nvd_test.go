@@ -80,7 +80,21 @@ func TestUpdate(t *testing.T) {
 			wantFiles: []string{
 				filepath.Join("api", "2020", "CVE-2020-8167.json"),
 				filepath.Join("api", "2021", "CVE-2021-22903.json"),
-				filepath.Join("api", "2021", "CVE-2021-3881.json"),
+				filepath.Join("api", "2024", "CVE-2024-5732.json"),
+				"last_updated.json",
+			},
+		},
+		{
+			name:              "sad path 0 page",
+			maxResultsPerPage: 1,
+			wantApiKey:        "test_api_key",
+			lastUpdatedTime:   time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
+			fakeTimeNow:       time.Date(2023, 11, 30, 0, 0, 0, 0, time.UTC),
+			respFiles: map[string]string{
+				"resultsPerPage=1&startIndex=0": "testdata/fixtures/emptyResp.json",
+			},
+			respStatus: 200,
+			wantFiles: []string{
 				"last_updated.json",
 			},
 		},
@@ -209,8 +223,8 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []nvd.TimeInterval{
 				{
-					LastModStartDate: "2023-11-26T00:00:00",
-					LastModEndDate:   "2023-11-28T00:00:00",
+					LastModStartDate: "2023-11-26T00:00:00Z",
+					LastModEndDate:   "2023-11-28T00:00:00Z",
 				},
 			},
 		},
@@ -220,12 +234,12 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []nvd.TimeInterval{
 				{
-					LastModStartDate: "2023-05-28T00:00:00",
-					LastModEndDate:   "2023-09-25T00:00:00",
+					LastModStartDate: "2023-05-28T00:00:00Z",
+					LastModEndDate:   "2023-09-25T00:00:00Z",
 				},
 				{
-					LastModStartDate: "2023-09-25T00:00:00",
-					LastModEndDate:   "2023-11-28T00:00:00",
+					LastModStartDate: "2023-09-25T00:00:00Z",
+					LastModEndDate:   "2023-11-28T00:00:00Z",
 				},
 			},
 		},
@@ -235,8 +249,8 @@ func TestTimeIntervals(t *testing.T) {
 			fakeTimeNow:     time.Date(1970, 03, 01, 0, 0, 0, 0, time.UTC),
 			wantIntervals: []nvd.TimeInterval{
 				{
-					LastModStartDate: "1970-01-01T00:00:00",
-					LastModEndDate:   "1970-03-01T00:00:00",
+					LastModStartDate: "1970-01-01T00:00:00Z",
+					LastModEndDate:   "1970-03-01T00:00:00Z",
 				},
 			},
 		},

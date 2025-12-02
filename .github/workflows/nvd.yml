@@ -13,15 +13,15 @@ jobs:
       VULN_LIST_DIR: "vuln-list-nvd"
     steps:
     - name: Check out code
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
     - name: Set up Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
       with:
         go-version-file: go.mod
 
     - name: Check out vuln-list-nvd repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
         token: ${{ secrets.ORG_REPO_TOKEN }}
@@ -38,3 +38,12 @@ jobs:
     - if: always()
       name: NVD
       run: ./scripts/update.sh nvd "NVD"
+
+    - name: Microsoft Teams Notification
+      uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88
+      if: failure()
+      with:
+        webhook_url: ${{ secrets.TRIVY_MSTEAMS_WEBHOOK }}
+        needs: ${{ toJson(needs) }}
+        job: ${{ toJson(job) }}
+        steps: ${{ toJson(steps) }}

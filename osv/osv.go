@@ -1,3 +1,13 @@
+// Package osv provides generic OSV (Open Source Vulnerability) format specification
+// and reusable vulnerability data processing functionality.
+//
+// This package contains:
+// - OSV format type definitions based on https://ossf.github.io/osv-schema
+// - Generic data processing logic that can work with any OSV-compliant data source
+// - Ecosystem configuration for flexible data source management
+//
+// This is intended as a reusable library that other packages can use to implement
+// specific OSV data sources (e.g., osv.dev, seal).
 package osv
 
 import (
@@ -14,86 +24,52 @@ import (
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
-const (
-	securityTrackerURL = "https://osv-vulnerabilities.storage.googleapis.com/%s/all.zip"
-	osvDir             = "osv"
-)
-
-var defaultEcosystemDirs = map[string]string{
-	"PyPI":      "python",
-	"Go":        "go",
-	"crates.io": "rust",
-}
-
-type options struct {
-	url           string
-	dir           string
-	ecosystemDirs map[string]string
-}
-
-type option func(*options)
-
+// Database represents a generic OSV vulnerability database that can process
+// vulnerability data from any OSV-compliant source.
 type Database struct {
-	*options
+	baseDir    string               // Base directory for storing vulnerability data
+	ecosystems map[string]Ecosystem // Map of ecosystem name to configuration
 }
 
-func WithURL(url string) option {
-	return func(opts *options) {
-		opts.url = url
-	}
-}
-
-func WithDir(dir string) option {
-	return func(opts *options) {
-		opts.dir = dir
-	}
-}
-
-func WithEcosystem(ecosystemDir map[string]string) option {
-	return func(opts *options) {
-		opts.ecosystemDirs = ecosystemDir
-	}
-}
-
-func NewOsv(opts ...option) Database {
-	o := &options{
-		url:           securityTrackerURL,
-		dir:           filepath.Join(utils.VulnListDir(), osvDir),
-		ecosystemDirs: defaultEcosystemDirs,
-	}
-	for _, opt := range opts {
-		opt(o)
-	}
+// NewDatabase creates a new generic OSV database instance.
+// baseDir is the root directory where vulnerability data will be stored.
+// ecosystems maps ecosystem names to their configuration (storage directory and source URL).
+func NewDatabase(baseDir string, ecosystems map[string]Ecosystem) Database {
 	return Database{
-		options: o,
+		baseDir:    baseDir,
+		ecosystems: ecosystems,
 	}
 }
 
-func (osv *Database) Update() error {
+func (db *Database) Update() error {
 	ctx := context.Background()
-	for ecoSystem, ecoSystemDir := range osv.ecosystemDirs {
-		log.Printf("Updating OSV %s advisories", ecoSystem)
-		tempDir, err := utils.DownloadToTempDir(ctx, fmt.Sprintf(osv.url, ecoSystem))
+	for name, ecosystem := range db.ecosystems {
+		log.Printf("Updating OSV %s advisories", name)
+
+		tempDir, err := utils.DownloadToTempDir(ctx, ecosystem.URL)
 		if err != nil {
-			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.url, ecoSystem), err)
+			return xerrors.Errorf("failed to download %s: %w", ecosystem.URL, err)
 		}
 
-		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, err error) error {
-			if !d.IsDir() {
-				f, err := os.Open(path)
-				if err != nil {
-					return xerrors.Errorf("file open error (%s): %w", path, err)
-				}
+		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, walkErr error) error {
+			if walkErr != nil {
+				return walkErr
+			} else if d.IsDir() {
+				return nil
+			}
+			f, err := os.Open(path)
+			if err != nil {
+				return xerrors.Errorf("file open error (%s): %w", path, err)
+			}
 
-				var parsed OSV
-				if err = json.NewDecoder(f).Decode(&parsed); err != nil {
-					return xerrors.Errorf("unable to parse json %s: %w", path, err)
-				}
+			var parsed OSV
+			if err = json.NewDecoder(f).Decode(&parsed); err != nil {
+				return xerrors.Errorf("unable to parse json %s: %w", path, err)
+			}
 
-				filePath := filepath.Join(osv.dir, ecoSystemDir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
-				if err = utils.Write(filePath, parsed); err != nil {
-					return xerrors.Errorf("failed to write file: %w", err)
-				}
+			filePath := filepath.Join(db.baseDir, ecosystem.Dir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
+			if err = utils.Write(filePath, parsed); err != nil {
+				return xerrors.Errorf("failed to write file: %w", err)
 			}
 			return nil
 		})

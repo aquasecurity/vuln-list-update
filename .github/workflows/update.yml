@@ -1,7 +1,7 @@
 name: Update vuln-list repo
 on:
   schedule:
-  - cron: "0 */6 * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -12,85 +12,118 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list"
     steps:
-    - name: Check out code
-      uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version-file: go.mod
+      - name: Set up Go
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version-file: go.mod
 
-    - name: Check out vuln-list repo
-      uses: actions/checkout@v4
-      with:
-        repository: ${{ github.repository_owner }}/vuln-list
-        token: ${{ secrets.ORG_REPO_TOKEN }}
-        path: ${{ env.VULN_LIST_DIR }}
+      - name: Check out vuln-list repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          repository: ${{ github.repository_owner }}/vuln-list
+          token: ${{ secrets.ORG_REPO_TOKEN }}
+          path: ${{ env.VULN_LIST_DIR }}
 
-    - name: Setup github user email and name
-      run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
+      - name: Setup github user email and name
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
 
-    - name: Compile vuln-list-update
-      run: go build -o vuln-list-update .
+      - name: Compile vuln-list-update
+        run: go build -o vuln-list-update .
 
-    - if: always()
-      name: Alpine Issue Tracker
-      run: ./scripts/update.sh alpine "Alpine Issue Tracker"
+      - if: always()
+        name: Alpine Issue Tracker
+        run: ./scripts/update.sh alpine "Alpine Issue Tracker"
 
-    - if: always()
-      name: Alpine Unfixed Vulnerability Tracker
-      run: ./scripts/update.sh alpine-unfixed "Alpine Secshfixes Tracker"
+      - if: always()
+        name: Alpine Unfixed Vulnerability Tracker
+        run: ./scripts/update.sh alpine-unfixed "Alpine Secshfixes Tracker"
 
-    - if: always()
-      name: Ubuntu CVE Tracker
-      run: ./scripts/update.sh ubuntu "Ubuntu CVE Tracker"
+      - if: always()
+        name: Ubuntu CVE Tracker
+        run: ./scripts/update.sh ubuntu "Ubuntu CVE Tracker"
 
-    - if: always()
-      name: Amazon Linux AMI Security Advisory
-      run: ./scripts/update.sh amazon "Amazon Linux Security Center"
+      - if: always()
+        name: Amazon Linux AMI Security Advisory
+        run: ./scripts/update.sh amazon "Amazon Linux Security Center"
 
-    - if: always()
-      name: Oracle Linux OVAL
-      run: ./scripts/update.sh oracle-oval "Oracle Linux OVAL"
+      - if: always()
+        name: Oracle Linux OVAL
+        run: ./scripts/update.sh oracle-oval "Oracle Linux OVAL"
 
-    - if: always()
-      name: Photon CVE Advisory
-      run: ./scripts/update.sh photon "Photon Security Advisories"
+      - if: always()
+        name: Photon CVE Advisory
+        run: ./scripts/update.sh photon "Photon Security Advisories"
 
-    - if: always()
-      name: CWE
-      run: ./scripts/update.sh cwe "CWE"
+      - if: always()
+        name: CWE
+        run: ./scripts/update.sh cwe "CWE"
 
-    - if: always()
-      name: SUSE CVRF
-      run: ./scripts/update.sh suse-cvrf "SUSE CVRF"
+      - if: always()
+        name: SUSE CVRF
+        run: ./scripts/update.sh suse-cvrf "SUSE CVRF"
 
-    - if: always()
-      name: GitLab Advisory Database
-      run: ./scripts/update.sh glad "GitLab Advisory Database"
+      - if: always()
+        name: GitLab Advisory Database
+        run: ./scripts/update.sh glad "GitLab Advisory Database"
 
-    - if: always()
-      name: AlmaLinux Security Advisory
-      run: ./scripts/update.sh alma "AlmaLinux Security Advisory"
+      - if: always()
+        name: AlmaLinux Security Advisory
+        run: ./scripts/update.sh alma "AlmaLinux Security Advisory"
 
-    - if: always()
-      name: Rocky Linux Security Advisory
-      run: ./scripts/update.sh rocky "Rocky Linux Security Advisory"
+      - if: always()
+        name: Rocky Linux Security Advisory
+        run: ./scripts/update.sh rocky "Rocky Linux Security Advisory"
 
-    - if: always()
-      name: CBL-Mariner Vulnerability Data
-      run: ./scripts/update.sh mariner "CBL-Mariner Vulnerability Data"
+      - if: always()
+        name: Azure Linux and CBL-Mariner Vulnerability Data
+        run: ./scripts/update.sh azure "Azure Linux and CBL-Mariner Vulnerability Data"
 
-    - if: always()
-      name: OSV Database
-      run: ./scripts/update.sh osv "OSV Database"
+      - if: always()
+        name: OSV Database (osv.dev)
+        run: ./scripts/update.sh osvdev "OSV Database"
 
-    - if: always()
-      name: Wolfi Secdb
-      run: ./scripts/update.sh wolfi "Wolfi Security Data"
+      - if: always()
+        name: Wolfi Secdb
+        run: ./scripts/update.sh wolfi "Wolfi Security Data"
 
-    - if: always()
-      name: Chainguard Secdb
-      run: ./scripts/update.sh chainguard "Chainguard Security Data"
+      - if: always()
+        name: Chainguard Secdb
+        run: ./scripts/update.sh chainguard "Chainguard Security Data"
+
+      - if: always()
+        name: openEuler CVE
+        run: ./scripts/update.sh openeuler "openEuler CVE Data"
+
+      - if: always()
+        name: Echo CVEs
+        run: ./scripts/update.sh echo "Echo CVE Data"
+
+      - if: always()
+        name: MinimOS Secdb
+        run: ./scripts/update.sh minimos "MinimOS Security Data"
+
+      - if: always()
+        name: Seal Security
+        run: ./scripts/update.sh seal "Seal Security Data"
+
+      - if: always()
+        name: EOL dates
+        run: ./scripts/update.sh eoldates "EOL dates"
+
+      - if: always()
+        name: Root CVE Tracker
+        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"
+
+      - name: Microsoft Teams Notification
+        uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88
+        if: failure()
+        with:
+          webhook_url: ${{ secrets.TRIVY_MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}

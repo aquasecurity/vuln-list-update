@@ -1,0 +1,135 @@
+{
+  "result": [
+    {
+      "name": "alpine-linux",
+      "releases": [
+        {
+          "name": "3.22",
+          "isEol": false,
+          "eolFrom": "2027-05-01"
+        }
+      ]
+    },
+    {
+      "name": "oracle-linux",
+      "aliases": [
+        "oraclelinux"
+      ],
+      "label": "Oracle Linux",
+      "category": "os",
+      "releases": [
+        {
+          "name": "9",
+          "codename": null,
+          "label": "9",
+          "releaseDate": "2022-07-06",
+          "isLts": false,
+          "ltsFrom": null,
+          "isEol": false,
+          "eolFrom": "2032-06-30",
+          "isEoes": false,
+          "eoesFrom": "2035-06-30",
+          "isMaintained": true,
+          "latest": {
+            "name": "9.6",
+            "date": "2025-06-03",
+            "link": "https://docs.oracle.com/en/operating-systems/oracle-linux/9/relnotes9.6/"
+          },
+          "custom": null
+        }
+      ]
+    },
+    {
+      "name": "oracle-solaris",
+      "label": "Oracle Solaris",
+      "category": "os",
+      "releases": [
+        {
+          "name": "11.4",
+          "eolFrom": "2031-11-01",
+          "eoesFrom": "2037-11-01"
+        }
+      ]
+    },
+    {
+      "name": "photon",
+      "aliases": [
+        "vmware-photon",
+        "vmwarephoton"
+      ],
+      "label": "VMware Photon",
+      "category": "os",
+      "tags": [
+        "os",
+        "vmware"
+      ],
+      "versionCommand": "cat /etc/os-release",
+      "identifiers": [
+        {
+          "type": "cpe",
+          "id": "cpe:2.3:o:vmware:photon_os"
+        },
+        {
+          "type": "cpe",
+          "id": "cpe:/o:vmware:photon_os"
+        }
+      ],
+      "labels": {
+        "eoas": null,
+        "discontinued": null,
+        "eol": "Security Support",
+        "eoes": null
+      },
+      "links": {
+        "icon": "https://cdn.jsdelivr.net/npm/simple-icons/icons/vmware.svg",
+        "html": "https://endoflife.date/photon",
+        "releasePolicy": "https://blogs.vmware.com/vsphere/2023/05/announcing-photon-os-5-0-general-availability.html"
+      },
+      "releases": [
+        {
+          "name": "5.0",
+          "codename": null,
+          "label": "5.0",
+          "releaseDate": "2023-05-02",
+          "isLts": false,
+          "ltsFrom": null,
+          "isEol": false,
+          "eolFrom": null,
+          "isMaintained": true,
+          "latest": null,
+          "custom": {
+            "kernelVersion": "6.1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ubuntu",
+      "releases": [
+        {
+          "name": "25.04",
+          "isEoas": false,
+          "eoasFrom": "2026-01-17",
+          "isEol": false,
+          "eolFrom": "2026-01-17",
+          "eoesFrom": null
+        },
+        {
+          "name": "22.04",
+          "codename": "Jammy Jellyfish",
+          "label": "22.04 'Jammy Jellyfish' (LTS)",
+          "releaseDate": "2022-04-21",
+          "isLts": true,
+          "ltsFrom": null,
+          "isEoas": true,
+          "eoasFrom": "2024-09-30",
+          "isEol": false,
+          "eolFrom": "2027-04-01",
+          "isEoes": false,
+          "eoesFrom": "2032-04-09",
+          "isMaintained": true
+        }
+      ]
+    }
+  ]
+}

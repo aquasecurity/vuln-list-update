@@ -1,0 +1,25 @@
+Candidate: CVE-2017-0537
+PublicDate: 2017-03-08 01:59:00 UTC
+References:
+ https://source.android.com/security/bulletin/2017-01-01.html
+ https://android.googlesource.com/kernel/tegra.git/+/389b185cb2f17fff994dbdf8d4bac003d4b2b6b3%5E%21/#F0
+ https://lore.kernel.org/lkml/1484647168-30135-1-git-send-email-jilin@nvidia.com/#t
+ https://www.cve.org/CVERecord?id=CVE-2017-0537
+Description:
+ An information disclosure vulnerability in the kernel USB gadget driver
+ could enable a local malicious application to access data outside of its
+ permission levels. This issue is rated as Moderate because it first
+ requires compromising a privileged process. Product: Android. Versions:
+ Kernel-3.18. Android ID: A-31614969.
+Ubuntu-Description:
+Notes:
+ sbeattie> see android patch above
+ sbeattie> drivers/usb/gadget/configfs.c::usb_string_copy()
+ tyhicks> Patch submitter never verified that this was an issue on pure Linux
+  and upstream thinks that it could potentially be an issue in Android-specific
+  kernel changes
+ mdeslaur> The android package is in multiverse and not covered by ESM.
+ mdeslaur> Marking as ignored.
+Priority: medium
+Patches_test-package: needs-triage
+upstream_test-package: needs-triage

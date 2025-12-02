@@ -1,0 +1,23 @@
+PublicDateAtUSN: 2022-04-01 23:15:00 UTC
+Candidate: CVE-2022-22965
+PublicDate: 2022-04-01 23:15:00 UTC
+References:
+ https://example.com/reference1
+ https://example.com/reference2
+Description:
+ A Spring MVC or Spring WebFlux application running on JDK 9+ may be
+ vulnerable to remote code execution via data binding.
+Ubuntu-Description:
+Notes:
+Mitigation:
+Bugs:
+Priority: high
+Discovered-by:
+Assigned-to:
+Tags: cisa-kev epss-prioritized
+CVSS:
+
+Patches_libspring-java:
+upstream_libspring-java: released (5.3.18, 5.2.20)
+jammy_libspring-java: needed
+noble_libspring-java: needed

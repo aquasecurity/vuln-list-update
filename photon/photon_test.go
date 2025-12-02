@@ -49,6 +49,7 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
 				"/tmp/photon/3.0/binutils/CVE-2017-16826.json":      "testdata/golden/CVE-2017-16826.json",
+				"/tmp/photon/3.0/curl/CVE-2025-0725.json":           "testdata/golden/CVE-2025-0725.json",
 			},
 		},
 		{
@@ -127,6 +128,7 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
 				"/tmp/photon/3.0/binutils/CVE-2017-16826.json":      "testdata/golden/CVE-2017-16826.json",
+				"/tmp/photon/3.0/curl/CVE-2025-0725.json":           "testdata/golden/CVE-2025-0725.json",
 			},
 		},
 	}
