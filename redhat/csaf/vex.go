@@ -77,9 +77,58 @@ func (c *Config) Update() error {
 		if err := c.updateFromArchive(); err != nil {
 			return xerrors.Errorf("archive update failed: %w", err)
 		}
+	} else {
+		// If baseDir exists but last_updated is not set (epoch), set it to archive date
+		// This handles the case where vuln-list-redhat is cloned but last_updated.json doesn't exist
+		if err := c.ensureLastUpdatedDate(); err != nil {
+			return xerrors.Errorf("failed to ensure last updated date: %w", err)
+		}
 	}
 
 	return c.updateFromDelta()
+}
+
+func (c *Config) ensureLastUpdatedDate() error {
+	lastUpdated, err := utils.GetLastUpdatedDate(vexDir)
+	if err != nil {
+		return xerrors.Errorf("failed to get last updated date: %w", err)
+	}
+
+	// If last_updated is already set (not epoch), nothing to do
+	if lastUpdated.Unix() != 0 {
+		return nil
+	}
+
+	// Fetch archive_latest.txt to get the archive date
+	log.Println("Last updated date not found, fetching archive date...")
+	archiveDate, err := c.fetchArchiveDate()
+	if err != nil {
+		return xerrors.Errorf("failed to fetch archive date: %w", err)
+	}
+
+	if err := utils.SetLastUpdatedDate(vexDir, archiveDate); err != nil {
+		return xerrors.Errorf("failed to set last updated date: %w", err)
+	}
+	log.Printf("Set last updated date to archive date: %s", archiveDate.Format(time.RFC3339))
+
+	return nil
+}
+
+func (c *Config) fetchArchiveDate() (time.Time, error) {
+	u := c.baseURL.ResolveReference(&url.URL{Path: "archive_latest.txt"})
+	log.Printf("  Fetching the latest archive name from %s", u.String())
+	b, err := utils.FetchURL(u.String(), "", c.retry)
+	if err != nil {
+		return time.Time{}, xerrors.Errorf("failed to fetch URL (%s): %w", u.String(), err)
+	}
+	archiveName := strings.TrimSpace(string(b))
+
+	archiveDate, err := parseArchiveDate(archiveName)
+	if err != nil {
+		return time.Time{}, xerrors.Errorf("failed to parse archive date: %w", err)
+	}
+
+	return archiveDate, nil
 }
 
 func (c *Config) updateFromArchive() error {
