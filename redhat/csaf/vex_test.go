@@ -29,21 +29,18 @@ const archiveName = "csaf_vex_2025-12-06.tar.zst"
 func TestConfig_Update(t *testing.T) {
 	tests := []struct {
 		name         string
-		txtarFile    string
-		changesCSV   string
-		deletionsCSV string
+		archiveFile  string // txtar for archive content
+		metadataFile string // txtar for metadata (archive_latest.txt, CSVs) and delta files
 		existingData bool
 		wantFiles    []string
 		wantErr      string
 	}{
 		{
-			name:      "first run - archive only",
-			txtarFile: "testdata/happy.txtar",
-			// No changes after archive date
-			changesCSV:   "",
-			deletionsCSV: "",
+			name:         "first run - archive only",
+			archiveFile:  "testdata/archive.txtar",
+			metadataFile: "testdata/happy.txtar",
 			wantFiles: []string{
-				"2024/cve-2024-0208.json",
+				"2024/cve-2024-0001.json",
 			},
 		},
 		{
@@ -51,46 +48,49 @@ func TestConfig_Update(t *testing.T) {
 			wantErr: "failed to fetch VEX archive: failed to fetch URL",
 		},
 		{
-			name:      "invalid csaf",
-			txtarFile: "testdata/invalid.txtar",
-			wantErr:   "'category' is missing",
+			name:         "invalid csaf",
+			archiveFile:  "testdata/invalid.txtar",
+			metadataFile: "testdata/invalid.txtar",
+			wantErr:      "'category' is missing",
 		},
 		{
 			name:         "delta update - changes only",
-			txtarFile:    "testdata/happy.txtar",
+			archiveFile:  "testdata/archive.txtar",
+			metadataFile: "testdata/delta_changes.txtar",
 			existingData: true,
-			// Entry after archive date (2025-12-06)
-			changesCSV:   `"2024/cve-2024-0208.json","2025-12-10T10:00:00+00:00"`,
-			deletionsCSV: "",
 			wantFiles: []string{
-				"2024/cve-2024-0208.json",
+				"2024/cve-2024-0001.json", // from existing data
+				"2024/cve-2024-0002.json", // from changes.csv
 			},
 		},
 		{
 			name:         "delta update - deletions only",
-			txtarFile:    "testdata/happy.txtar",
+			archiveFile:  "testdata/archive.txtar",
+			metadataFile: "testdata/delta_deletions.txtar",
 			existingData: true,
-			changesCSV:   "",
-			// Delete the file that exists
-			deletionsCSV: `"2024/cve-2024-0208.json","2025-12-10T10:00:00+00:00"`,
-			wantFiles:    []string{},
+			wantFiles:    []string{}, // cve-2024-0001.json deleted
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Parse txtar file and create FS
-			var ar *txtar.Archive
-			var fsys fs.FS
-			if tt.txtarFile != "" {
-				ar = parseTxtar(t, tt.txtarFile)
+			// Parse archive txtar for creating .tar.zst
+			var archiveAr *txtar.Archive
+			if tt.archiveFile != "" {
+				archiveAr = parseTxtar(t, tt.archiveFile)
+			}
+
+			// Parse metadata txtar for serving files
+			var metadataFsys fs.FS
+			if tt.metadataFile != "" {
+				metadataAr := parseTxtar(t, tt.metadataFile)
 				var err error
-				fsys, err = txtar.FS(ar)
+				metadataFsys, err = txtar.FS(metadataAr)
 				require.NoError(t, err)
 			}
 
 			tmpDir := t.TempDir()
-			createTestArchive(t, ar, tmpDir)
+			createTestArchive(t, archiveAr, tmpDir)
 
 			// Setup test server
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -100,21 +100,9 @@ func TestConfig_Update(t *testing.T) {
 					return
 				}
 
-				// Override CSVs if test specifies custom content
-				fileName := filepath.Base(r.URL.Path)
-				if fileName == "changes.csv" && tt.changesCSV != "" {
-					w.Write([]byte(tt.changesCSV))
-					return
-				}
-				if fileName == "deletions.csv" && tt.deletionsCSV != "" {
-					w.Write([]byte(tt.deletionsCSV))
-					return
-				}
-
-				// Serve everything else from txtar FS
-				// Use path without leading slash
-				if fsys != nil {
-					http.ServeFileFS(w, r, fsys, strings.TrimPrefix(r.URL.Path, "/"))
+				// Serve everything else from metadata txtar FS
+				if metadataFsys != nil {
+					http.ServeFileFS(w, r, metadataFsys, strings.TrimPrefix(r.URL.Path, "/"))
 					return
 				}
 				w.WriteHeader(http.StatusNotFound)
@@ -126,9 +114,9 @@ func TestConfig_Update(t *testing.T) {
 			utils.SetVulnListDir(vulnListDir)
 			baseDir := filepath.Join(vulnListDir, "csaf-vex")
 
-			// If existingData is true, populate baseDir from txtar and set last_updated
+			// If existingData is true, populate baseDir from archive txtar and set last_updated
 			if tt.existingData {
-				populateTestData(t, ar, baseDir)
+				populateTestData(t, archiveAr, baseDir)
 				// Set last_updated to a time before the CSV entries (2025-12-10)
 				// so that delta update will process them
 				err := utils.SetLastUpdatedDate("csaf-vex", time.Date(2025, 12, 5, 0, 0, 0, 0, time.UTC))
