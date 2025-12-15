@@ -3,6 +3,7 @@ package csaf_test
 import (
 	"archive/tar"
 	"bytes"
+	"io/fs"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -19,7 +20,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/tools/txtar"
 
-	csaf "github.com/aquasecurity/vuln-list-update/redhat/csaf"
+	"github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
@@ -78,10 +79,14 @@ func TestConfig_Update(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Parse txtar file
+			// Parse txtar file and create FS
 			var ar *txtar.Archive
+			var fsys fs.FS
 			if tt.txtarFile != "" {
 				ar = parseTxtar(t, tt.txtarFile)
+				var err error
+				fsys, err = txtar.FS(ar)
+				require.NoError(t, err)
 			}
 
 			tmpDir := t.TempDir()
@@ -89,29 +94,30 @@ func TestConfig_Update(t *testing.T) {
 
 			// Setup test server
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				switch {
-				case strings.HasSuffix(r.URL.Path, "archive_latest.txt"):
-					w.Write([]byte(archiveName))
-				case strings.HasSuffix(r.URL.Path, ".tar.zst"):
+				// Handle archive separately (can't be in txtar)
+				if strings.HasSuffix(r.URL.Path, ".tar.zst") {
 					http.ServeFile(w, r, filepath.Join(tmpDir, archiveName))
-				case strings.HasSuffix(r.URL.Path, "changes.csv"):
-					w.Write([]byte(tt.changesCSV))
-				case strings.HasSuffix(r.URL.Path, "deletions.csv"):
-					w.Write([]byte(tt.deletionsCSV))
-				case strings.HasSuffix(r.URL.Path, ".json"):
-					// Serve individual CVE files from txtar
-					if ar != nil {
-						for _, f := range ar.Files {
-							if strings.HasSuffix(r.URL.Path, filepath.Base(f.Name)) {
-								w.Write(f.Data)
-								return
-							}
-						}
-					}
-					w.WriteHeader(http.StatusNotFound)
-				default:
-					w.WriteHeader(http.StatusNotFound)
+					return
 				}
+
+				// Override CSVs if test specifies custom content
+				fileName := filepath.Base(r.URL.Path)
+				if fileName == "changes.csv" && tt.changesCSV != "" {
+					w.Write([]byte(tt.changesCSV))
+					return
+				}
+				if fileName == "deletions.csv" && tt.deletionsCSV != "" {
+					w.Write([]byte(tt.deletionsCSV))
+					return
+				}
+
+				// Serve everything else from txtar FS
+				// Use path without leading slash
+				if fsys != nil {
+					http.ServeFileFS(w, r, fsys, strings.TrimPrefix(r.URL.Path, "/"))
+					return
+				}
+				w.WriteHeader(http.StatusNotFound)
 			}))
 			defer ts.Close()
 
@@ -271,11 +277,20 @@ func createTestArchive(t *testing.T, ar *txtar.Archive, tmpDir string) {
 	var buf bytes.Buffer
 	tw := tar.NewWriter(&buf)
 
-	// Add files from txtar archive to tar
-	fsys, err := txtar.FS(ar)
-	require.NoError(t, err)
-	err = tw.AddFS(fsys)
-	require.NoError(t, err)
+	// Add only JSON files from txtar archive to tar
+	for _, f := range ar.Files {
+		if !strings.HasSuffix(f.Name, ".json") {
+			continue
+		}
+		hdr := &tar.Header{
+			Name: f.Name,
+			Mode: 0644,
+			Size: int64(len(f.Data)),
+		}
+		require.NoError(t, tw.WriteHeader(hdr))
+		_, err := tw.Write(f.Data)
+		require.NoError(t, err)
+	}
 	require.NoError(t, tw.Close())
 
 	var compressedBuf bytes.Buffer
@@ -290,14 +305,18 @@ func createTestArchive(t *testing.T, ar *txtar.Archive, tmpDir string) {
 	require.NoError(t, err)
 }
 
-// populateTestData copies txtar files to baseDir using os.CopyFS.
+// populateTestData copies only JSON files from txtar to baseDir.
 func populateTestData(t *testing.T, ar *txtar.Archive, baseDir string) {
 	t.Helper()
 	if ar == nil {
 		return
 	}
-	fsys, err := txtar.FS(ar)
-	require.NoError(t, err)
-	err = os.CopyFS(baseDir, fsys)
-	require.NoError(t, err)
+	for _, f := range ar.Files {
+		if !strings.HasSuffix(f.Name, ".json") {
+			continue
+		}
+		filePath := filepath.Join(baseDir, f.Name)
+		require.NoError(t, os.MkdirAll(filepath.Dir(filePath), 0755))
+		require.NoError(t, os.WriteFile(filePath, f.Data, 0644))
+	}
 }
