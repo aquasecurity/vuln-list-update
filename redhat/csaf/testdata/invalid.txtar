@@ -1,3 +1,7 @@
+-- archive_latest.txt --
+csaf_vex_2025-12-06.tar.zst
+-- changes.csv --
+-- deletions.csv --
 -- 2024/cve-2024-0208.json --
 {
   "document": {
