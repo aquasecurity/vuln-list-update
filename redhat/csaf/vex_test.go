@@ -36,11 +36,12 @@ func TestConfig_Update(t *testing.T) {
 		wantErr      string
 	}{
 		{
-			name:         "first run - archive only",
+			name:         "first run - archive and changes",
 			archiveFile:  "testdata/archive.txtar",
-			metadataFile: "testdata/happy.txtar",
+			metadataFile: "testdata/delta_changes.txtar",
 			wantFiles: []string{
-				"2024/cve-2024-0001.json",
+				"2024/cve-2024-0001.json", // from archive
+				"2024/cve-2024-0002.json", // from changes.csv
 			},
 		},
 		{
