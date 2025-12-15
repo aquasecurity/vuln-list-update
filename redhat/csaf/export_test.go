@@ -1,13 +1,12 @@
 package csaf
 
 import (
-	"io"
 	"time"
 )
 
-// ParseCSVStreamForTest exports parseCSVStream for testing.
-func ParseCSVStreamForTest(r io.Reader, since time.Time) ([]csvEntry, error) {
-	return parseCSVStream(r, since)
+// ParseCSVForTest exports parseCSV for testing.
+func ParseCSVForTest(b []byte, since time.Time) ([]csvEntry, error) {
+	return parseCSV(b, since)
 }
 
 // ParseArchiveDateForTest exports parseArchiveDate for testing.

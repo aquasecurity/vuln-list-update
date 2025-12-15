@@ -172,7 +172,7 @@ func TestConfig_Update(t *testing.T) {
 	}
 }
 
-func TestParseCSVStream(t *testing.T) {
+func TestParseCSV(t *testing.T) {
 	tests := []struct {
 		name    string
 		input   string
@@ -218,7 +218,7 @@ func TestParseCSVStream(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			entries, err := csaf.ParseCSVStreamForTest(strings.NewReader(tt.input), tt.since)
+			entries, err := csaf.ParseCSVForTest([]byte(tt.input), tt.since)
 			if tt.wantErr != "" {
 				assert.ErrorContains(t, err, tt.wantErr)
 				return
