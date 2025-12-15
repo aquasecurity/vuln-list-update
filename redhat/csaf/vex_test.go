@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -137,27 +138,23 @@ func TestConfig_Update(t *testing.T) {
 			}
 			require.NoError(t, err, tt.name)
 
-			gotFiles := collectFiles(t, baseDir)
-			require.ElementsMatch(t, tt.wantFiles, gotFiles)
+			var fileCount int
+			err = filepath.Walk(baseDir, func(path string, info os.FileInfo, err error) error {
+				require.NoError(t, err)
+				if info.IsDir() {
+					return nil
+				}
+				fileCount++
+
+				relPath, err := filepath.Rel(baseDir, path)
+				require.NoError(t, err)
+				require.True(t, slices.Contains(tt.wantFiles, relPath), relPath)
+				return nil
+			})
+			assert.NoError(t, err, tt.name)
+			assert.Equal(t, len(tt.wantFiles), fileCount, tt.name)
 		})
 	}
-}
-
-func collectFiles(t *testing.T, dir string) []string {
-	t.Helper()
-	var files []string
-	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
-		require.NoError(t, err)
-		if d.IsDir() {
-			return nil
-		}
-		relPath, err := filepath.Rel(dir, path)
-		require.NoError(t, err)
-		files = append(files, relPath)
-		return nil
-	})
-	require.NoError(t, err)
-	return files
 }
 
 func parseTxtar(t *testing.T, path string) *txtar.Archive {
