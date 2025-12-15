@@ -290,7 +290,7 @@ func (c *Config) fetchCSVEntries(filename string, since time.Time) ([]csvEntry, 
 		return nil, xerrors.Errorf("failed to fetch %s: %w", filename, err)
 	}
 
-	return parseCSVStream(bytes.NewReader(b), since)
+	return parseCSV(b, since)
 }
 
 func (c *Config) fetchAndSaveCVE(path string) error {
@@ -335,10 +335,10 @@ func parseArchiveDate(archiveName string) (time.Time, error) {
 	return t.UTC(), nil
 }
 
-// parseCSVStream reads CSV entries until it finds an entry older than `since`.
+// parseCSV reads CSV entries until it finds an entry older than `since`.
 // CSV is sorted newest-first, so we can stop early.
-func parseCSVStream(r io.Reader, since time.Time) ([]csvEntry, error) {
-	csvReader := csv.NewReader(r)
+func parseCSV(b []byte, since time.Time) ([]csvEntry, error) {
+	csvReader := csv.NewReader(bytes.NewReader(b))
 	var entries []csvEntry
 
 	for {
