@@ -68,50 +68,37 @@ func NewConfig(opts ...Option) *Config {
 }
 
 func (c *Config) Update() error {
-	exists, err := utils.Exists(c.baseDir)
-	if err != nil {
-		return xerrors.Errorf("failed to check base dir: %w", err)
-	}
-
-	if !exists {
-		if err := c.updateFromArchive(); err != nil {
-			return xerrors.Errorf("archive update failed: %w", err)
-		}
-	} else {
-		// If baseDir exists but last_updated is not set (epoch), set it to archive date
-		// This handles the case where vuln-list-redhat is cloned but last_updated.json doesn't exist
-		if err := c.ensureLastUpdatedDate(); err != nil {
-			return xerrors.Errorf("failed to ensure last updated date: %w", err)
-		}
-	}
-
-	return c.updateFromDelta()
-}
-
-func (c *Config) ensureLastUpdatedDate() error {
 	lastUpdated, err := utils.GetLastUpdatedDate(vexDir)
 	if err != nil {
 		return xerrors.Errorf("failed to get last updated date: %w", err)
 	}
 
-	// If last_updated is already set (not epoch), nothing to do
-	if lastUpdated.Unix() != 0 {
-		return nil
+	if lastUpdated.Unix() == 0 {
+		// Not updated yet
+		exists, err := utils.Exists(c.baseDir)
+		if err != nil {
+			return xerrors.Errorf("failed to check base dir: %w", err)
+		}
+
+		if exists {
+			// vuln-list-redhat is cloned externally, just set archive date
+			archiveDate, err := c.fetchArchiveDate()
+			if err != nil {
+				return xerrors.Errorf("failed to fetch archive date: %w", err)
+			}
+			if err := utils.SetLastUpdatedDate(vexDir, archiveDate); err != nil {
+				return xerrors.Errorf("failed to set last updated date: %w", err)
+			}
+			log.Printf("Set last updated date to archive date: %s", archiveDate.Format(time.RFC3339))
+		} else {
+			// First run - download and extract archive
+			if err := c.updateFromArchive(); err != nil {
+				return xerrors.Errorf("archive update failed: %w", err)
+			}
+		}
 	}
 
-	// Fetch archive_latest.txt to get the archive date
-	log.Println("Last updated date not found, fetching archive date...")
-	archiveDate, err := c.fetchArchiveDate()
-	if err != nil {
-		return xerrors.Errorf("failed to fetch archive date: %w", err)
-	}
-
-	if err := utils.SetLastUpdatedDate(vexDir, archiveDate); err != nil {
-		return xerrors.Errorf("failed to set last updated date: %w", err)
-	}
-	log.Printf("Set last updated date to archive date: %s", archiveDate.Format(time.RFC3339))
-
-	return nil
+	return c.updateFromDelta()
 }
 
 func (c *Config) fetchArchiveDate() (time.Time, error) {
