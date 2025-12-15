@@ -2,7 +2,6 @@ package csaf_test
 
 import (
 	"archive/tar"
-	"bytes"
 	"io/fs"
 	"net/http"
 	"net/http/httptest"
@@ -12,6 +11,7 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"testing/fstest"
 	"time"
 
 	"github.com/klauspost/compress/zstd"
@@ -30,24 +30,25 @@ func TestConfig_Update(t *testing.T) {
 	tests := []struct {
 		name         string
 		archiveFile  string // txtar for archive content
-		metadataFile string // txtar for metadata (archive_latest.txt, CSVs) and delta files
-		existingFile string // txtar for existing local data (to verify archive skip)
+		serverFile   string // txtar for files served by the test server
+		existingFile string // txtar for existing local data, includes cve-2024-9999.json to verify archive skip
 		wantFiles    []string
 		wantErr      string
 	}{
 		{
-			name:         "first run - archive and changes",
-			archiveFile:  "testdata/archive.txtar",
-			metadataFile: "testdata/delta_changes.txtar",
+			name:        "first run",
+			archiveFile: "testdata/archive.txtar",
+			serverFile:  "testdata/first_run.txtar",
 			wantFiles: []string{
 				"2024/cve-2024-0001.json", // from archive
 				"2024/cve-2024-0002.json", // from changes.csv
+				// cve-2024-0003.json deleted by deletions.csv
 			},
 		},
 		{
 			name:         "delta update - changes only",
 			archiveFile:  "testdata/archive.txtar",
-			metadataFile: "testdata/delta_changes.txtar",
+			serverFile:   "testdata/delta_changes.txtar",
 			existingFile: "testdata/existing.txtar",
 			wantFiles: []string{
 				"2024/cve-2024-0001.json", // from existing data
@@ -58,7 +59,7 @@ func TestConfig_Update(t *testing.T) {
 		{
 			name:         "delta update - deletions only",
 			archiveFile:  "testdata/archive.txtar",
-			metadataFile: "testdata/delta_deletions.txtar",
+			serverFile:   "testdata/delta_deletions.txtar",
 			existingFile: "testdata/existing.txtar",
 			wantFiles: []string{
 				"2024/cve-2024-9999.json", // proves archive download was skipped
@@ -69,47 +70,27 @@ func TestConfig_Update(t *testing.T) {
 			wantErr: "failed to fetch VEX archive: failed to fetch URL",
 		},
 		{
-			name:         "invalid csaf",
-			archiveFile:  "testdata/invalid.txtar",
-			metadataFile: "testdata/invalid.txtar",
-			wantErr:      "'category' is missing",
+			name:        "invalid csaf",
+			archiveFile: "testdata/invalid.txtar",
+			serverFile:  "testdata/invalid.txtar",
+			wantErr:     "'category' is missing",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Parse archive txtar for creating .tar.zst
-			var archiveAr *txtar.Archive
-			if tt.archiveFile != "" {
-				archiveAr = parseTxtar(t, tt.archiveFile)
-			}
-
-			// Parse metadata txtar for serving files
-			var metadataFsys fs.FS
-			if tt.metadataFile != "" {
-				metadataAr := parseTxtar(t, tt.metadataFile)
-				var err error
-				metadataFsys, err = txtar.FS(metadataAr)
-				require.NoError(t, err)
-			}
-
-			tmpDir := t.TempDir()
-			createTestArchive(t, archiveAr, tmpDir)
+			archiveFsys := parseTxtar(t, tt.archiveFile)
+			archivePath := createTestArchive(t, archiveFsys, t.TempDir())
+			serverFsys := parseTxtar(t, tt.serverFile)
 
 			// Setup test server
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				// Handle archive separately (can't be in txtar)
 				if strings.HasSuffix(r.URL.Path, ".tar.zst") {
-					http.ServeFile(w, r, filepath.Join(tmpDir, archiveName))
+					http.ServeFile(w, r, archivePath)
 					return
 				}
-
-				// Serve everything else from metadata txtar FS
-				if metadataFsys != nil {
-					http.ServeFileFS(w, r, metadataFsys, strings.TrimPrefix(r.URL.Path, "/"))
-					return
-				}
-				w.WriteHeader(http.StatusNotFound)
+				http.ServeFileFS(w, r, serverFsys, strings.TrimPrefix(r.URL.Path, "/"))
 			}))
 			defer ts.Close()
 
@@ -121,8 +102,8 @@ func TestConfig_Update(t *testing.T) {
 			// If existingFile is set, populate baseDir and set last_updated
 			// This simulates existing local data that is NOT in the archive
 			if tt.existingFile != "" {
-				existingAr := parseTxtar(t, tt.existingFile)
-				populateTestData(t, existingAr, baseDir)
+				existingFsys := parseTxtar(t, tt.existingFile)
+				populateTestData(t, existingFsys, baseDir)
 				// Set last_updated to a time before the CSV entries (2025-12-10)
 				// so that delta update will process them
 				err := utils.SetLastUpdatedDate("csaf-vex", time.Date(2025, 12, 5, 0, 0, 0, 0, time.UTC))
@@ -139,73 +120,56 @@ func TestConfig_Update(t *testing.T) {
 			}
 			require.NoError(t, err, tt.name)
 
-			var fileCount int
+			var gotFiles []string
 			err = filepath.Walk(baseDir, func(path string, info os.FileInfo, err error) error {
 				require.NoError(t, err)
 				if info.IsDir() {
 					return nil
 				}
-				fileCount++
-
 				relPath, err := filepath.Rel(baseDir, path)
 				require.NoError(t, err)
 				require.True(t, slices.Contains(tt.wantFiles, relPath), relPath)
+				gotFiles = append(gotFiles, relPath)
 				return nil
 			})
-			assert.NoError(t, err, tt.name)
-			assert.Equal(t, len(tt.wantFiles), fileCount, tt.name)
+			require.NoError(t, err)
+			assert.Len(t, gotFiles, len(tt.wantFiles))
 		})
 	}
 }
 
-func parseTxtar(t *testing.T, path string) *txtar.Archive {
+func parseTxtar(t *testing.T, path string) fs.FS {
 	t.Helper()
+	if path == "" {
+		return fstest.MapFS{}
+	}
 	ar, err := txtar.ParseFile(path)
 	require.NoError(t, err)
-	return ar
-}
-
-func createTestArchive(t *testing.T, ar *txtar.Archive, tmpDir string) {
-	t.Helper()
-	if ar == nil {
-		return
-	}
-
-	var buf bytes.Buffer
-	tw := tar.NewWriter(&buf)
-
-	// Add only JSON files from txtar archive to tar
-	for _, f := range ar.Files {
-		if !strings.HasSuffix(f.Name, ".json") {
-			continue
-		}
-		hdr := &tar.Header{
-			Name: f.Name,
-			Mode: 0644,
-			Size: int64(len(f.Data)),
-		}
-		require.NoError(t, tw.WriteHeader(hdr))
-		_, err := tw.Write(f.Data)
-		require.NoError(t, err)
-	}
-	require.NoError(t, tw.Close())
-
-	var compressedBuf bytes.Buffer
-	enc, err := zstd.NewWriter(&compressedBuf)
-	require.NoError(t, err)
-
-	_, err = enc.Write(buf.Bytes())
-	require.NoError(t, err)
-	require.NoError(t, enc.Close())
-
-	err = os.WriteFile(filepath.Join(tmpDir, archiveName), compressedBuf.Bytes(), 0644)
-	require.NoError(t, err)
-}
-
-// populateTestData copies files from txtar to baseDir.
-func populateTestData(t *testing.T, ar *txtar.Archive, baseDir string) {
-	t.Helper()
 	fsys, err := txtar.FS(ar)
 	require.NoError(t, err)
+	return fsys
+}
+
+func createTestArchive(t *testing.T, fsys fs.FS, tmpDir string) string {
+	t.Helper()
+	archivePath := filepath.Join(tmpDir, archiveName)
+	f, err := os.Create(archivePath)
+	require.NoError(t, err)
+	defer f.Close()
+
+	zw, err := zstd.NewWriter(f)
+	require.NoError(t, err)
+	defer zw.Close()
+
+	tw := tar.NewWriter(zw)
+	defer tw.Close()
+
+	require.NoError(t, tw.AddFS(fsys))
+
+	return archivePath
+}
+
+func populateTestData(t *testing.T, fsys fs.FS, baseDir string) {
+	t.Helper()
 	require.NoError(t, os.CopyFS(baseDir, fsys))
 }
