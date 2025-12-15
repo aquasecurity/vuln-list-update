@@ -25,14 +25,14 @@ import (
 
 // csvEntry represents a single entry from changes.csv or deletions.csv
 type csvEntry struct {
-	Path      string    // e.g., "2025/cve-2025-7195.json"
-	UpdatedAt time.Time // e.g., 2025-12-12T10:07:18+00:00
+	Path string // e.g., "2025/cve-2025-7195.json"
 }
 
 const (
-	vexDir  = "csaf-vex"
-	retry   = 5
-	baseURL = "https://security.access.redhat.com/data/csaf/v2/vex/"
+	vexDir     = "csaf-vex"
+	retry      = 5
+	baseURL    = "https://security.access.redhat.com/data/csaf/v2/vex/"
+	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
 )
 
 type Option func(*Config)
@@ -94,15 +94,16 @@ func (c *Config) updateFromArchive() error {
 	}
 	defer os.Remove(archivePath)
 
-	// Set last updated to archive date before extraction
+	if err := c.extractArchive(archivePath); err != nil {
+		return xerrors.Errorf("failed to extract archive: %w", err)
+	}
+
+	// Set last updated to archive date (not current time)
+	// This ensures delta update will fetch changes since archive creation
 	if err := utils.SetLastUpdatedDate(vexDir, archiveDate); err != nil {
 		return xerrors.Errorf("failed to set last updated date: %w", err)
 	}
 	log.Printf("Set last updated date to archive date: %s", archiveDate.Format(time.RFC3339))
-
-	if err := c.extractArchive(archivePath); err != nil {
-		return xerrors.Errorf("failed to extract archive: %w", err)
-	}
 
 	return nil
 }
@@ -203,82 +204,65 @@ func (c *Config) updateFromDelta() error {
 		return xerrors.Errorf("failed to get last updated date: %w", err)
 	}
 
-	log.Printf("Performing delta update since %s", lastUpdated.Format(time.RFC3339))
-
-	var maxTime time.Time
+	// Use buffer to handle delayed CSV updates
+	since := lastUpdated.Add(-timeBuffer)
+	log.Printf("Performing delta update since %s (with %s buffer)", since.Format(time.RFC3339), timeBuffer)
 
 	// Process changes
-	changesMaxTime, err := c.applyChanges(lastUpdated)
-	if err != nil {
+	if err := c.applyChanges(since); err != nil {
 		return xerrors.Errorf("failed to apply changes: %w", err)
-	}
-	if changesMaxTime.After(maxTime) {
-		maxTime = changesMaxTime
 	}
 
 	// Process deletions
-	deletionsMaxTime, err := c.applyDeletions(lastUpdated)
-	if err != nil {
+	if err := c.applyDeletions(since); err != nil {
 		return xerrors.Errorf("failed to apply deletions: %w", err)
 	}
-	if deletionsMaxTime.After(maxTime) {
-		maxTime = deletionsMaxTime
+
+	// Update last updated to current time
+	now := time.Now().UTC()
+	if err := utils.SetLastUpdatedDate(vexDir, now); err != nil {
+		return xerrors.Errorf("failed to set last updated date: %w", err)
+	}
+	log.Printf("Updated last updated date to %s", now.Format(time.RFC3339))
+
+	return nil
+}
+
+func (c *Config) applyChanges(since time.Time) error {
+	entries, err := c.fetchCSVEntries("changes.csv", since)
+	if err != nil {
+		return xerrors.Errorf("failed to fetch changes.csv: %w", err)
 	}
 
-	// Update last updated to max processed time (not now)
-	if !maxTime.IsZero() {
-		if err := utils.SetLastUpdatedDate(vexDir, maxTime); err != nil {
-			return xerrors.Errorf("failed to set last updated date: %w", err)
+	log.Printf("Found %d changed CVEs since %s", len(entries), since.Format(time.RFC3339))
+
+	for _, entry := range entries {
+		if err := c.fetchAndSaveCVE(entry.Path); err != nil {
+			return xerrors.Errorf("failed to fetch CVE %s: %w", entry.Path, err)
 		}
-		log.Printf("Updated last updated date to %s", maxTime.Format(time.RFC3339))
 	}
 
 	return nil
 }
 
-func (c *Config) applyChanges(since time.Time) (time.Time, error) {
-	entries, err := c.fetchCSVEntries("changes.csv", since)
-	if err != nil {
-		return time.Time{}, xerrors.Errorf("failed to fetch changes.csv: %w", err)
-	}
-
-	log.Printf("Found %d changed CVEs since %s", len(entries), since.Format(time.RFC3339))
-
-	var maxTime time.Time
-	for _, entry := range entries {
-		if err := c.fetchAndSaveCVE(entry.Path); err != nil {
-			return time.Time{}, xerrors.Errorf("failed to fetch CVE %s: %w", entry.Path, err)
-		}
-		if entry.UpdatedAt.After(maxTime) {
-			maxTime = entry.UpdatedAt
-		}
-	}
-
-	return maxTime, nil
-}
-
-func (c *Config) applyDeletions(since time.Time) (time.Time, error) {
+func (c *Config) applyDeletions(since time.Time) error {
 	entries, err := c.fetchCSVEntries("deletions.csv", since)
 	if err != nil {
-		return time.Time{}, xerrors.Errorf("failed to fetch deletions.csv: %w", err)
+		return xerrors.Errorf("failed to fetch deletions.csv: %w", err)
 	}
 
 	log.Printf("Found %d deleted CVEs since %s", len(entries), since.Format(time.RFC3339))
 
-	var maxTime time.Time
 	for _, entry := range entries {
 		// path is like "2025/cve-2025-22868.json"
 		filePath := filepath.Join(c.baseDir, entry.Path)
 
 		if err := os.Remove(filePath); err != nil && !os.IsNotExist(err) {
-			return time.Time{}, xerrors.Errorf("failed to remove %s: %w", filePath, err)
-		}
-		if entry.UpdatedAt.After(maxTime) {
-			maxTime = entry.UpdatedAt
+			return xerrors.Errorf("failed to remove %s: %w", filePath, err)
 		}
 	}
 
-	return maxTime, nil
+	return nil
 }
 
 func (c *Config) fetchCSVEntries(filename string, since time.Time) ([]csvEntry, error) {
@@ -365,8 +349,7 @@ func parseCSV(b []byte, since time.Time) ([]csvEntry, error) {
 		}
 
 		entries = append(entries, csvEntry{
-			Path:      record[0],
-			UpdatedAt: updatedAt,
+			Path: record[0],
 		})
 	}
 	return entries, nil

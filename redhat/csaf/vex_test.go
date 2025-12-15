@@ -17,6 +17,7 @@ import (
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/tools/txtar"
 
 	csaf "github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	"github.com/aquasecurity/vuln-list-update/utils"
@@ -27,7 +28,7 @@ const archiveName = "csaf_vex_2025-12-06.tar.zst"
 func TestConfig_Update(t *testing.T) {
 	tests := []struct {
 		name         string
-		dir          string
+		txtarFile    string
 		changesCSV   string
 		deletionsCSV string
 		existingData bool
@@ -35,8 +36,8 @@ func TestConfig_Update(t *testing.T) {
 		wantErr      string
 	}{
 		{
-			name: "first run - archive only",
-			dir:  "testdata/happy",
+			name:      "first run - archive only",
+			txtarFile: "testdata/happy.txtar",
 			// No changes after archive date
 			changesCSV:   "",
 			deletionsCSV: "",
@@ -49,13 +50,13 @@ func TestConfig_Update(t *testing.T) {
 			wantErr: "failed to fetch VEX archive: failed to fetch URL",
 		},
 		{
-			name:    "invalid csaf",
-			dir:     "testdata/invalid",
-			wantErr: "'category' is missing",
+			name:      "invalid csaf",
+			txtarFile: "testdata/invalid.txtar",
+			wantErr:   "'category' is missing",
 		},
 		{
 			name:         "delta update - changes only",
-			dir:          "testdata/happy",
+			txtarFile:    "testdata/happy.txtar",
 			existingData: true,
 			// Entry after archive date (2025-12-06)
 			changesCSV:   `"2024/cve-2024-0208.json","2025-12-10T10:00:00+00:00"`,
@@ -66,7 +67,7 @@ func TestConfig_Update(t *testing.T) {
 		},
 		{
 			name:         "delta update - deletions only",
-			dir:          "testdata/happy",
+			txtarFile:    "testdata/happy.txtar",
 			existingData: true,
 			changesCSV:   "",
 			// Delete the file that exists
@@ -77,8 +78,14 @@ func TestConfig_Update(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Parse txtar file
+			var ar *txtar.Archive
+			if tt.txtarFile != "" {
+				ar = parseTxtar(t, tt.txtarFile)
+			}
+
 			tmpDir := t.TempDir()
-			createTestArchive(t, tt.dir, tmpDir)
+			createTestArchive(t, ar, tmpDir)
 
 			// Setup test server
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -92,8 +99,16 @@ func TestConfig_Update(t *testing.T) {
 				case strings.HasSuffix(r.URL.Path, "deletions.csv"):
 					w.Write([]byte(tt.deletionsCSV))
 				case strings.HasSuffix(r.URL.Path, ".json"):
-					// Serve individual CVE files from testdata
-					http.ServeFile(w, r, filepath.Join("testdata/happy", filepath.Base(r.URL.Path)))
+					// Serve individual CVE files from txtar
+					if ar != nil {
+						for _, f := range ar.Files {
+							if strings.HasSuffix(r.URL.Path, filepath.Base(f.Name)) {
+								w.Write(f.Data)
+								return
+							}
+						}
+					}
+					w.WriteHeader(http.StatusNotFound)
 				default:
 					w.WriteHeader(http.StatusNotFound)
 				}
@@ -105,38 +120,12 @@ func TestConfig_Update(t *testing.T) {
 			utils.SetVulnListDir(vulnListDir)
 			baseDir := filepath.Join(vulnListDir, "csaf-vex")
 
-			// If existingData is true, create the baseDir and set last_updated
+			// If existingData is true, populate baseDir from txtar and set last_updated
 			if tt.existingData {
-				// Create the baseDir with initial data from archive
-				createTestArchive(t, tt.dir, tmpDir)
-				c := csaf.NewConfig(
-					csaf.WithBaseDir(baseDir),
-					csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
-					csaf.WithRetry(0),
-				)
-				// First run to populate data
-				emptyChangesServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-					switch {
-					case strings.HasSuffix(r.URL.Path, "archive_latest.txt"):
-						w.Write([]byte(archiveName))
-					case strings.HasSuffix(r.URL.Path, ".tar.zst"):
-						http.ServeFile(w, r, filepath.Join(tmpDir, archiveName))
-					case strings.HasSuffix(r.URL.Path, "changes.csv"):
-						w.Write([]byte(""))
-					case strings.HasSuffix(r.URL.Path, "deletions.csv"):
-						w.Write([]byte(""))
-					default:
-						w.WriteHeader(http.StatusNotFound)
-					}
-				}))
-				defer emptyChangesServer.Close()
-
-				c = csaf.NewConfig(
-					csaf.WithBaseDir(baseDir),
-					csaf.WithBaseURL(lo.Must(url.Parse(emptyChangesServer.URL))),
-					csaf.WithRetry(0),
-				)
-				err := c.Update()
+				populateTestData(t, ar, baseDir)
+				// Set last_updated to a time before the CSV entries (2025-12-10)
+				// so that delta update will process them
+				err := utils.SetLastUpdatedDate("csaf-vex", time.Date(2025, 12, 5, 0, 0, 0, 0, time.UTC))
 				require.NoError(t, err)
 			}
 
@@ -266,20 +255,26 @@ func TestParseArchiveDate(t *testing.T) {
 	}
 }
 
-func createTestArchive(t *testing.T, dir, tmpDir string) {
+func parseTxtar(t *testing.T, path string) *txtar.Archive {
 	t.Helper()
-	if dir == "" {
+	ar, err := txtar.ParseFile(path)
+	require.NoError(t, err)
+	return ar
+}
+
+func createTestArchive(t *testing.T, ar *txtar.Archive, tmpDir string) {
+	t.Helper()
+	if ar == nil {
 		return
 	}
-
-	// Create a file system from the directory
-	fsys := os.DirFS(dir)
 
 	var buf bytes.Buffer
 	tw := tar.NewWriter(&buf)
 
-	// Add files from the directory file system to the tar archive
-	err := tw.AddFS(fsys)
+	// Add files from txtar archive to tar
+	fsys, err := txtar.FS(ar)
+	require.NoError(t, err)
+	err = tw.AddFS(fsys)
 	require.NoError(t, err)
 	require.NoError(t, tw.Close())
 
@@ -292,5 +287,17 @@ func createTestArchive(t *testing.T, dir, tmpDir string) {
 	require.NoError(t, enc.Close())
 
 	err = os.WriteFile(filepath.Join(tmpDir, archiveName), compressedBuf.Bytes(), 0644)
+	require.NoError(t, err)
+}
+
+// populateTestData copies txtar files to baseDir using os.CopyFS.
+func populateTestData(t *testing.T, ar *txtar.Archive, baseDir string) {
+	t.Helper()
+	if ar == nil {
+		return
+	}
+	fsys, err := txtar.FS(ar)
+	require.NoError(t, err)
+	err = os.CopyFS(baseDir, fsys)
 	require.NoError(t, err)
 }
