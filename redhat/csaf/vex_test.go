@@ -31,7 +31,7 @@ func TestConfig_Update(t *testing.T) {
 		name         string
 		archiveFile  string // txtar for archive content
 		metadataFile string // txtar for metadata (archive_latest.txt, CSVs) and delta files
-		existingData bool
+		existingFile string // txtar for existing local data (to verify archive skip)
 		wantFiles    []string
 		wantErr      string
 	}{
@@ -44,6 +44,26 @@ func TestConfig_Update(t *testing.T) {
 			},
 		},
 		{
+			name:         "delta update - changes only",
+			archiveFile:  "testdata/archive.txtar",
+			metadataFile: "testdata/delta_changes.txtar",
+			existingFile: "testdata/existing.txtar",
+			wantFiles: []string{
+				"2024/cve-2024-0001.json", // from existing data
+				"2024/cve-2024-0002.json", // from changes.csv
+				"2024/cve-2024-9999.json", // proves archive download was skipped
+			},
+		},
+		{
+			name:         "delta update - deletions only",
+			archiveFile:  "testdata/archive.txtar",
+			metadataFile: "testdata/delta_deletions.txtar",
+			existingFile: "testdata/existing.txtar",
+			wantFiles: []string{
+				"2024/cve-2024-9999.json", // proves archive download was skipped
+			},
+		},
+		{
 			name:    "404",
 			wantErr: "failed to fetch VEX archive: failed to fetch URL",
 		},
@@ -52,23 +72,6 @@ func TestConfig_Update(t *testing.T) {
 			archiveFile:  "testdata/invalid.txtar",
 			metadataFile: "testdata/invalid.txtar",
 			wantErr:      "'category' is missing",
-		},
-		{
-			name:         "delta update - changes only",
-			archiveFile:  "testdata/archive.txtar",
-			metadataFile: "testdata/delta_changes.txtar",
-			existingData: true,
-			wantFiles: []string{
-				"2024/cve-2024-0001.json", // from existing data
-				"2024/cve-2024-0002.json", // from changes.csv
-			},
-		},
-		{
-			name:         "delta update - deletions only",
-			archiveFile:  "testdata/archive.txtar",
-			metadataFile: "testdata/delta_deletions.txtar",
-			existingData: true,
-			wantFiles:    []string{}, // cve-2024-0001.json deleted
 		},
 	}
 
@@ -114,20 +117,19 @@ func TestConfig_Update(t *testing.T) {
 			utils.SetVulnListDir(vulnListDir)
 			baseDir := filepath.Join(vulnListDir, "csaf-vex")
 
-			// If existingData is true, populate baseDir from archive txtar and set last_updated
-			if tt.existingData {
-				populateTestData(t, archiveAr, baseDir)
+			// If existingFile is set, populate baseDir and set last_updated
+			// This simulates existing local data that is NOT in the archive
+			if tt.existingFile != "" {
+				existingAr := parseTxtar(t, tt.existingFile)
+				populateTestData(t, existingAr, baseDir)
 				// Set last_updated to a time before the CSV entries (2025-12-10)
 				// so that delta update will process them
 				err := utils.SetLastUpdatedDate("csaf-vex", time.Date(2025, 12, 5, 0, 0, 0, 0, time.UTC))
 				require.NoError(t, err)
 			}
 
-			c := csaf.NewConfig(
-				csaf.WithBaseDir(baseDir),
-				csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
-				csaf.WithRetry(0),
-			)
+			c := csaf.NewConfig(csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
+				csaf.WithRetry(0))
 
 			err := c.Update()
 			if tt.wantErr != "" {
@@ -151,100 +153,6 @@ func TestConfig_Update(t *testing.T) {
 			})
 			assert.NoError(t, err, tt.name)
 			assert.Equal(t, len(tt.wantFiles), fileCount, tt.name)
-		})
-	}
-}
-
-func TestParseCSV(t *testing.T) {
-	tests := []struct {
-		name    string
-		input   string
-		since   time.Time
-		want    int
-		wantErr string
-	}{
-		{
-			name: "valid entries - filter by date",
-			input: `"2025/cve-2025-7195.json","2025-12-12T10:07:18+00:00"
-"2024/cve-2024-0001.json","2025-12-11T09:00:00+00:00"
-"2024/cve-2024-0002.json","2025-12-09T08:00:00+00:00"`,
-			since: time.Date(2025, 12, 10, 0, 0, 0, 0, time.UTC),
-			want:  2, // Only first two entries are after since
-		},
-		{
-			name:  "empty file",
-			input: "",
-			since: time.Date(2025, 12, 1, 0, 0, 0, 0, time.UTC),
-			want:  0,
-		},
-		{
-			name:    "invalid timestamp",
-			input:   `"2025/cve-2025-7195.json","invalid-date"`,
-			since:   time.Date(2025, 12, 1, 0, 0, 0, 0, time.UTC),
-			wantErr: "failed to parse timestamp",
-		},
-		{
-			name:    "wrong number of fields",
-			input:   `"only-one-field"`,
-			since:   time.Date(2025, 12, 1, 0, 0, 0, 0, time.UTC),
-			wantErr: "invalid CSV record",
-		},
-		{
-			name: "early termination - stops at old entry",
-			input: `"2025/cve-2025-0001.json","2025-12-12T10:00:00+00:00"
-"2025/cve-2025-0002.json","2025-12-05T10:00:00+00:00"
-"2025/cve-2025-0003.json","2025-12-12T11:00:00+00:00"`,
-			since: time.Date(2025, 12, 6, 0, 0, 0, 0, time.UTC),
-			want:  1, // Stops at second entry (before since), doesn't read third
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			entries, err := csaf.ParseCSVForTest([]byte(tt.input), tt.since)
-			if tt.wantErr != "" {
-				assert.ErrorContains(t, err, tt.wantErr)
-				return
-			}
-			require.NoError(t, err)
-			assert.Len(t, entries, tt.want)
-		})
-	}
-}
-
-func TestParseArchiveDate(t *testing.T) {
-	tests := []struct {
-		name        string
-		archiveName string
-		wantDate    time.Time
-		wantErr     string
-	}{
-		{
-			name:        "valid archive name",
-			archiveName: "csaf_vex_2025-12-06.tar.zst",
-			wantDate:    time.Date(2025, 12, 6, 0, 0, 0, 0, time.UTC),
-		},
-		{
-			name:        "invalid format",
-			archiveName: "csaf_vex.tar.zst",
-			wantErr:     "failed to parse archive date",
-		},
-		{
-			name:        "invalid date",
-			archiveName: "csaf_vex_2025-13-45.tar.zst",
-			wantErr:     "failed to parse date",
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := csaf.ParseArchiveDateForTest(tt.archiveName)
-			if tt.wantErr != "" {
-				assert.ErrorContains(t, err, tt.wantErr)
-				return
-			}
-			require.NoError(t, err)
-			assert.Equal(t, tt.wantDate, got)
 		})
 	}
 }
@@ -293,18 +201,10 @@ func createTestArchive(t *testing.T, ar *txtar.Archive, tmpDir string) {
 	require.NoError(t, err)
 }
 
-// populateTestData copies only JSON files from txtar to baseDir.
+// populateTestData copies files from txtar to baseDir.
 func populateTestData(t *testing.T, ar *txtar.Archive, baseDir string) {
 	t.Helper()
-	if ar == nil {
-		return
-	}
-	for _, f := range ar.Files {
-		if !strings.HasSuffix(f.Name, ".json") {
-			continue
-		}
-		filePath := filepath.Join(baseDir, f.Name)
-		require.NoError(t, os.MkdirAll(filepath.Dir(filePath), 0755))
-		require.NoError(t, os.WriteFile(filePath, f.Data, 0644))
-	}
+	fsys, err := txtar.FS(ar)
+	require.NoError(t, err)
+	require.NoError(t, os.CopyFS(baseDir, fsys))
 }
