@@ -1,0 +1,36 @@
+This file contains CVEs that exist locally but are NOT in the archive.
+If archive download is skipped, these files should remain after delta update.
+-- 2024/cve-2024-9999.json --
+{
+  "document": {
+    "category": "csaf_vex",
+    "csaf_version": "2.0",
+    "publisher": {"category": "vendor", "name": "Red Hat", "namespace": "https://www.redhat.com"},
+    "title": "CVE-2024-9999",
+    "tracking": {
+      "current_release_date": "2024-01-01T00:00:00+00:00",
+      "id": "CVE-2024-9999",
+      "initial_release_date": "2024-01-01T00:00:00+00:00",
+      "revision_history": [{"date": "2024-01-01T00:00:00+00:00", "number": "1", "summary": "Initial"}],
+      "status": "final",
+      "version": "1"
+    }
+  }
+}
+-- 2024/cve-2024-0001.json --
+{
+  "document": {
+    "category": "csaf_vex",
+    "csaf_version": "2.0",
+    "publisher": {"category": "vendor", "name": "Red Hat", "namespace": "https://www.redhat.com"},
+    "title": "CVE-2024-0001",
+    "tracking": {
+      "current_release_date": "2024-01-03T00:00:00+00:00",
+      "id": "CVE-2024-0001",
+      "initial_release_date": "2024-01-03T00:00:00+00:00",
+      "revision_history": [{"date": "2024-01-03T00:00:00+00:00", "number": "1", "summary": "Initial"}],
+      "status": "final",
+      "version": "1"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+-- archive_latest.txt --
+csaf_vex_2025-12-06.tar.zst
+-- changes.csv --
+-- deletions.csv --
+"2024/cve-2024-0001.json","2025-12-10T10:00:00+00:00"
