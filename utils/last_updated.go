@@ -44,6 +44,7 @@ func getLastUpdatedDate() (map[string]time.Time, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
 	if err = json.NewDecoder(f).Decode(&lastUpdated); err != nil {
 		return nil, err
