@@ -47,7 +47,6 @@ func TestConfig_Update(t *testing.T) {
 		},
 		{
 			name:         "delta update - changes only",
-			archiveFile:  "testdata/archive.txtar",
 			serverFile:   "testdata/delta_changes.txtar",
 			existingFile: "testdata/existing.txtar",
 			wantFiles: []string{
@@ -58,7 +57,6 @@ func TestConfig_Update(t *testing.T) {
 		},
 		{
 			name:         "delta update - deletions only",
-			archiveFile:  "testdata/archive.txtar",
 			serverFile:   "testdata/delta_deletions.txtar",
 			existingFile: "testdata/existing.txtar",
 			wantFiles: []string{
@@ -80,7 +78,7 @@ func TestConfig_Update(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			archiveFsys := parseTxtar(t, tt.archiveFile)
-			archivePath := createTestArchive(t, archiveFsys, t.TempDir())
+			archivePath := createTestArchive(t, archiveFsys)
 			serverFsys := parseTxtar(t, tt.serverFile)
 
 			// Setup test server
@@ -150,9 +148,9 @@ func parseTxtar(t *testing.T, path string) fs.FS {
 	return fsys
 }
 
-func createTestArchive(t *testing.T, fsys fs.FS, tmpDir string) string {
+func createTestArchive(t *testing.T, fsys fs.FS) string {
 	t.Helper()
-	archivePath := filepath.Join(tmpDir, archiveName)
+	archivePath := filepath.Join(t.TempDir(), archiveName)
 	f, err := os.Create(archivePath)
 	require.NoError(t, err)
 	defer f.Close()
