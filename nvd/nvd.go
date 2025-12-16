@@ -166,7 +166,7 @@ func (u Updater) fetchURL(url string) (io.ReadCloser, error) {
 			continue
 		}
 		switch resp.StatusCode {
-		case http.StatusForbidden:
+		case http.StatusForbidden, http.StatusTooManyRequests:
 			slog.Error("NVD rate limit. Wait to gain access.")
 			// NVD limits:
 			// Without API key: 5 requests / 30 seconds window
