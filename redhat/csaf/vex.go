@@ -78,34 +78,29 @@ func (c *Config) Update() error {
 		if err := os.RemoveAll(c.baseDir); err != nil {
 			return xerrors.Errorf("failed to remove base dir: %w", err)
 		}
-		if err := c.updateFromArchive(); err != nil {
+		lastUpdated, err = c.updateFromArchive()
+		if err != nil {
 			return xerrors.Errorf("archive update failed: %w", err)
 		}
 	}
 
-	return c.updateFromDelta()
+	return c.updateFromDelta(lastUpdated)
 }
 
-func (c *Config) updateFromArchive() error {
+func (c *Config) updateFromArchive() (time.Time, error) {
 	log.Println("Fetching Red Hat CSAF VEX archive...")
 	archivePath, archiveDate, err := c.fetchVEXArchive()
 	if err != nil {
-		return xerrors.Errorf("failed to fetch VEX archive: %w", err)
+		return time.Time{}, xerrors.Errorf("failed to fetch VEX archive: %w", err)
 	}
 	defer os.Remove(archivePath)
 
 	if err := c.extractArchive(archivePath); err != nil {
-		return xerrors.Errorf("failed to extract archive: %w", err)
+		return time.Time{}, xerrors.Errorf("failed to extract archive: %w", err)
 	}
 
-	// Set last updated to archive date (not current time)
-	// This ensures delta update will fetch changes since archive creation
-	if err := utils.SetLastUpdatedDate(vexDir, archiveDate); err != nil {
-		return xerrors.Errorf("failed to set last updated date: %w", err)
-	}
-	log.Printf("Set last updated date to archive date: %s", archiveDate.Format(time.RFC3339))
-
-	return nil
+	log.Printf("Archive date: %s", archiveDate.Format(time.RFC3339))
+	return archiveDate, nil
 }
 
 func (c *Config) extractArchive(archivePath string) error {
@@ -198,12 +193,7 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	return &advisory, nil
 }
 
-func (c *Config) updateFromDelta() error {
-	lastUpdated, err := utils.GetLastUpdatedDate(vexDir)
-	if err != nil {
-		return xerrors.Errorf("failed to get last updated date: %w", err)
-	}
-
+func (c *Config) updateFromDelta(lastUpdated time.Time) error {
 	// Use buffer to handle delayed CSV updates
 	since := lastUpdated.Add(-timeBuffer)
 	log.Printf("Performing delta update since %s (with %s buffer)", since.Format(time.RFC3339), timeBuffer)
