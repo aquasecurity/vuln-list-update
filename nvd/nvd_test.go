@@ -48,7 +48,7 @@ func TestUpdate(t *testing.T) {
 			},
 		},
 		{
-			name:              "happy path 1 page after reconnect",
+			name:              "happy path 1 page after reconnect (403)",
 			maxResultsPerPage: 10,
 			wantApiKey:        "test_api_key",
 			retry:             1,
@@ -59,6 +59,25 @@ func TestUpdate(t *testing.T) {
 				"resultsPerPage=10&startIndex=0": "testdata/fixtures/respPageFull.json",
 			},
 			respStatus: 403,
+			wantFiles: []string{
+				filepath.Join("api", "2020", "CVE-2020-8167.json"),
+				filepath.Join("api", "2021", "CVE-2021-22903.json"),
+				filepath.Join("api", "2021", "CVE-2021-3881.json"),
+				"last_updated.json",
+			},
+		},
+		{
+			name:              "happy path 1 page after reconnect (429)",
+			maxResultsPerPage: 10,
+			wantApiKey:        "test_api_key",
+			retry:             1,
+			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
+			fakeTimeNow:       time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
+			respFiles: map[string]string{
+				"resultsPerPage=1&startIndex=0":  "testdata/fixtures/rootResp.json",
+				"resultsPerPage=10&startIndex=0": "testdata/fixtures/respPageFull.json",
+			},
+			respStatus: 429,
 			wantFiles: []string{
 				filepath.Join("api", "2020", "CVE-2020-8167.json"),
 				filepath.Join("api", "2021", "CVE-2021-22903.json"),
