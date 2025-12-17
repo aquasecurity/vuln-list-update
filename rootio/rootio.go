@@ -15,9 +15,17 @@ import (
 const (
 	rootioDir      = "rootio"
 	cveFeedURLBase = "https://api.root.io"
-	cveFeedPath    = "external/cve_feed"
 	retry          = 3
+
+	feedFileName = "cve_feed.json"
 )
+
+// feeds defines the feeds to fetch
+// API path -> subdirectory
+var feeds = map[string]string{
+	"external/cve_feed": "",    // OS packages feed (legacy endpoint)
+	"external/app_feed": "app", // Application packages feed
+}
 
 type option func(c *Updater)
 
@@ -46,8 +54,8 @@ func NewUpdater(options ...option) *Updater {
 		baseURL:     u,
 		retry:       retry,
 	}
-	for _, option := range options {
-		option(updater)
+	for _, o := range options {
+		o(updater)
 	}
 
 	return updater
@@ -63,25 +71,43 @@ func (u *Updater) Update() error {
 		return xerrors.Errorf("Root.io mkdir error: %w", err)
 	}
 
-	log.Println("Fetching Root.io CVE data...")
+	// Fetch and save feeds
+	for apiPath, subDir := range feeds {
+		if err := u.fetchAndSaveFeed(apiPath, subDir); err != nil {
+			return err
+		}
+	}
 
-	feedURL := u.baseURL.JoinPath(cveFeedPath)
+	return nil
+}
+
+// fetchAndSaveFeed fetches a feed from the given path and saves it to the specified file
+func (u *Updater) fetchAndSaveFeed(apiPath, subdir string) error {
+	feedURL := u.baseURL.JoinPath(apiPath)
+	log.Printf("Fetching Root.io data from %s...", feedURL.String())
+
 	data, err := utils.FetchURL(feedURL.String(), "", u.retry)
 	if err != nil {
-		return xerrors.Errorf("Failed to fetch Root.io CVE feed from %s: %w", feedURL.String(), err)
+		return xerrors.Errorf("Failed to fetch Root.io feed from %s: %w", feedURL.String(), err)
 	}
 
-	var cveFeed CVEFeed
-	if err := json.Unmarshal(data, &cveFeed); err != nil {
-		return xerrors.Errorf("failed to parse Root.io CVE feed JSON: %w", err)
+	var feedData CVEFeed
+	if err = json.Unmarshal(data, &feedData); err != nil {
+		return xerrors.Errorf("failed to parse Root.io feed JSON: %w", err)
 	}
 
-	// Save the entire feed as a single JSON file
-	feedFilePath := filepath.Join(dir, "cve_feed.json")
-	if err := utils.Write(feedFilePath, cveFeed); err != nil {
-		return xerrors.Errorf("failed to write Root.io CVE feed to %s: %w", feedFilePath, err)
+	// Determine the target directory
+	targetDir := filepath.Join(u.vulnListDir, rootioDir, subdir)
+	if err = os.MkdirAll(targetDir, 0755); err != nil {
+		return xerrors.Errorf("failed to create directory %s: %w", targetDir, err)
 	}
 
-	log.Printf("Root.io CVE data updated successfully in %s", feedFilePath)
+	// Save feed
+	feedFilePath := filepath.Join(targetDir, feedFileName)
+	if err = utils.Write(feedFilePath, feedData); err != nil {
+		return xerrors.Errorf("failed to write Root.io feed to %s: %w", feedFilePath, err)
+	}
+	log.Printf("Root.io data updated successfully in %s", feedFilePath)
+
 	return nil
 }
