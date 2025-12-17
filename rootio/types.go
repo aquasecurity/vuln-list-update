@@ -24,4 +24,5 @@ type PackageInfo struct {
 type CVEInfo struct {
 	VulnerableRanges []string `json:"vulnerable_ranges"`
 	FixedVersions    []string `json:"fixed_versions"`
+	Severity         string   `json:"severity,omitempty"`
 }
