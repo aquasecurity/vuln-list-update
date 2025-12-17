@@ -166,12 +166,21 @@ func (u Updater) fetchURL(url string) (io.ReadCloser, error) {
 			continue
 		}
 		switch resp.StatusCode {
-		case http.StatusForbidden:
+		case http.StatusForbidden, http.StatusTooManyRequests:
 			slog.Error("NVD rate limit. Wait to gain access.")
+			ra := u.retryAfter
+			// NVD returns the `Retry-After` header as 0.
+			// But if they start setting a non-zero value, we can use that duration.
+			if headerRetry := resp.Header.Get("Retry-After"); headerRetry != "0" {
+				hRetry, err := time.ParseDuration(headerRetry)
+				if err == nil {
+					ra = hRetry
+				}
+			}
 			// NVD limits:
 			// Without API key: 5 requests / 30 seconds window
 			// With API key: 50 requests / 30 seconds window
-			time.Sleep(u.retryAfter)
+			time.Sleep(ra)
 			continue
 		case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout:
 			slog.Error("NVD API is unstable. Try to fetch URL again.", slog.String("status_code", resp.Status))
