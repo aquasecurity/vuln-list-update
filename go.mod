@@ -74,7 +74,7 @@ require (
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/simplereach/timeutils v1.2.0 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
-	github.com/ulikunitz/xz v0.5.10 // indirect
+	github.com/ulikunitz/xz v0.5.14 // indirect
 	go.etcd.io/bbolt v1.3.8 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/detectors/gcp v1.29.0 // indirect
