@@ -23,15 +23,30 @@ type UpdateInfo struct {
 
 // RLSA has detailed data of RLSA
 type RLSA struct {
-	ID          string      `xml:"id" json:"id,omitempty"`
-	Title       string      `xml:"title" json:"title,omitempty"`
-	Issued      Date        `xml:"issued" json:"issued,omitempty"`
-	Updated     Date        `xml:"updated" json:"updated,omitempty"`
-	Severity    string      `xml:"severity" json:"severity,omitempty"`
-	Description string      `xml:"description" json:"description,omitempty"`
-	Packages    []Package   `xml:"pkglist>collection>package" json:"packages,omitempty"`
-	References  []Reference `xml:"references>reference" json:"references,omitempty"`
-	CveIDs      []string    `json:"cveids,omitempty"`
+	ID          string       `xml:"id" json:"id,omitempty"`
+	Title       string       `xml:"title" json:"title,omitempty"`
+	Issued      Date         `xml:"issued" json:"issued,omitempty"`
+	Updated     Date         `xml:"updated" json:"updated,omitempty"`
+	Severity    string       `xml:"severity" json:"severity,omitempty"`
+	Description string       `xml:"description" json:"description,omitempty"`
+	Collections []Collection `xml:"pkglist>collection" json:"collections,omitempty"`
+	References  []Reference  `xml:"references>reference" json:"references,omitempty"`
+	CveIDs      []string     `json:"cveids,omitempty"`
+}
+
+// Collection represents a package collection, optionally with module info
+type Collection struct {
+	Module   *Module   `xml:"module" json:"module,omitempty"`
+	Packages []Package `xml:"package" json:"packages,omitempty"`
+}
+
+// Module has module information for modular packages
+type Module struct {
+	Name    string `xml:"name,attr" json:"name,omitempty"`
+	Stream  string `xml:"stream,attr" json:"stream,omitempty"`
+	Version string `xml:"version,attr" json:"version,omitempty"`
+	Context string `xml:"context,attr" json:"context,omitempty"`
+	Arch    string `xml:"arch,attr" json:"arch,omitempty"`
 }
 
 // Date has time information
