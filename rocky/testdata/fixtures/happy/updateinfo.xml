@@ -1,0 +1,92 @@
+<updates>
+  <update from="releng@rockylinux.org" status="final" type="security" version="2">
+    <id>RLSA-2021:2575</id>
+    <title>Moderate: lz4 security update</title>
+    <issued date="2021-07-22 03:13:55"></issued>
+    <updated date="2021-06-29 00:00:00"></updated>
+    <rights>Copyright (C) 2021 Rocky Enterprise Software Foundation</rights>
+    <release>Rocky Linux 8</release>
+    <pushcount>1</pushcount>
+    <severity>Moderate</severity>
+    <summary>An update for lz4 is now available for Rocky Linux 8.</summary>
+    <description>For more information visit https://errata.rockylinux.org/RLSA-2021:2575</description>
+    <references>
+      <reference href="https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-3520.json" id="CVE-2021-3520" type="cve" title="Update information for CVE-2021-3520 is retrieved from Red Hat"></reference>
+    </references>
+    <pkglist>
+      <collection short="RL8">
+        <name>Rocky Linux 8</name>
+        <package name="lz4" version="1.8.3" release="3.el8_4" epoch="0" arch="x86_64" src="lz4-1.8.3-3.el8_4.src.rpm">
+          <filename>lz4-1.8.3-3.el8_4.x86_64.rpm</filename>
+          <sum type="sha256">e74ca5fb78b28ff0c60bfdee2afdc2f3a23aac1da30dbf52c28f92e576542278</sum>
+        </package>
+      </collection>
+    </pkglist>
+  </update>
+  <update from="releng@rockylinux.org" status="final" type="security" version="2">
+    <id>RLSA-2021:3057</id>
+    <title>Important: kernel security, bug fix, and enhancement update</title>
+    <issued date="2021-08-12 21:14:23"></issued>
+    <updated date="2021-08-10 00:00:00"></updated>
+    <rights>Copyright (C) 2021 Rocky Enterprise Software Foundation</rights>
+    <release>Rocky Linux 8</release>
+    <pushcount>1</pushcount>
+    <severity>Important</severity>
+    <summary>An update for kernel is now available for Rocky Linux 8.</summary>
+    <description>For more information visit https://errata.rockylinux.org/RLSA-2021:3057</description>
+    <references>
+      <reference href="https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-22543.json" id="CVE-2021-22543" type="cve" title="Update information for CVE-2021-22543 is retrieved from Red Hat"></reference>
+      <reference href="https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-22555.json" id="CVE-2021-22555" type="cve" title="Update information for CVE-2021-22555 is retrieved from Red Hat"></reference>
+      <reference href="https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-3609.json" id="CVE-2021-3609" type="cve" title="Update information for CVE-2021-3609 is retrieved from Red Hat"></reference>
+    </references>
+    <pkglist>
+      <collection short="RL8">
+        <name>Rocky Linux 8</name>
+        <package name="kernel" version="4.18.0" release="305.12.1.el8_4" epoch="0" arch="x86_64" src="kernel-4.18.0-305.12.1.el8_4.src.rpm">
+          <filename>kernel-4.18.0-305.12.1.el8_4.x86_64.rpm</filename>
+          <sum type="sha256">6469e68392625e029cb663f746a6cdc340db8e3d8590f073584bbc777d005189</sum>
+        </package>
+      </collection>
+    </pkglist>
+  </update>
+  <update from="releng@rockylinux.org" status="final" type="security" version="2">
+    <id>RLSA-2019:1972</id>
+    <title>Important: ruby:2.5 security update</title>
+    <issued date="2019-07-30 11:16:25"></issued>
+    <updated date="2023-02-02 12:55:31"></updated>
+    <rights>Copyright 2025 Rocky Enterprise Software Foundation</rights>
+    <release>Rocky Linux 8</release>
+    <pushcount>1</pushcount>
+    <severity>Important</severity>
+    <summary>An update is available for rubygem-bson, rubygem-mysql2, rubygem-bundler, rubygem-mongo, rubygem-pg, rubygem-abrt.
+This update affects Rocky Linux 8.
+A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE list</summary>
+    <description>Ruby is an extensible, interpreted, object-oriented, scripting language. It has features to process text files and to perform system management tasks.
+
+Security Fix(es):
+
+* rubygems: Installing a malicious gem may lead to arbitrary code execution (CVE-2019-8324)
+
+For more details about the security issue(s), including the impact, a CVSS score, acknowledgments, and other related information, refer to the CVE page(s) listed in the References section.</description>
+    <solution />
+    <references>
+      <reference href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-8324" id="CVE-2019-8324" type="cve" title="CVE-2019-8324"></reference>
+      <reference href="https://bugzilla.redhat.com/show_bug.cgi?id=1692520" id="1692520" type="bugzilla" title=""></reference>
+      <reference href="https://errata.rockylinux.org/RLSA-2019:1972" id="RLSA-2019:1972" type="self" title="RLSA-2019:1972"></reference>
+    </references>
+    <pkglist>
+      <collection short="none-appstream-rpms__ruby">
+        <name>none-appstream-rpms__ruby</name>
+        <module name="ruby" stream="2.6" version="8060020220628150300" context="d63f516d" arch="x86_64" />
+        <package name="rubygem-abrt" arch="noarch" epoch="0" version="0.3.0" release="4.module+el8.5.0+738+032c9c02" src="rubygem-abrt-0.3.0-4.module+el8.5.0+738+032c9c02.src.rpm">
+          <filename>rubygem-abrt-0.3.0-4.module+el8.5.0+738+032c9c02.noarch.rpm</filename>
+          <sum type="sha256">8f3ae24bd13476e23dda98793443bc37e5b6248daf59f00c501d022a18a6b587</sum>
+        </package>
+        <package name="rubygem-bson" arch="x86_64" epoch="0" version="4.3.0" release="2.module+el8.4.0+592+03ff458a" src="rubygem-bson-4.3.0-2.module+el8.4.0+592+03ff458a.src.rpm">
+          <filename>rubygem-bson-4.3.0-2.module+el8.4.0+592+03ff458a.x86_64.rpm</filename>
+          <sum type="sha256">716796875e0868a929b33f6dbf31b15a517a61be8fc6dc5feabbe2b9658db9f3</sum>
+        </package>
+      </collection>
+    </pkglist>
+  </update>
+</updates>
