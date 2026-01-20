@@ -1,4 +1,36 @@
 <updates>
+  <update from="releng@rockylinux.org" status="final" type="bugfix" version="2">
+    <id>RLBA-2021:2580</id>
+    <title>firewalld bug fix and enhancement update</title>
+    <issued date="2021-07-22 18:25:24"></issued>
+    <updated date="2021-06-29 00:00:00"></updated>
+    <rights>Copyright (C) 2021 Rocky Enterprise Software Foundation</rights>
+    <release>Rocky Linux 8</release>
+    <pushcount>1</pushcount>
+    <severity>None</severity>
+    <summary>An update for firewalld is now available for Rocky Linux 8.</summary>
+    <description>For more information visit https://errata.rockylinux.org/RLBA-2021:2580</description>
+    <references>
+      <reference href="https://access.redhat.com/errata/RHBA-2021:2580" id="RHBA-2021:2580" type="erratum" title="Update information for RHBA-2021:2580 is retrieved from Red Hat"></reference>
+    </references>
+    <pkglist>
+      <collection short="RL8">
+        <name>Rocky Linux 8</name>
+        <package name="firewalld-filesystem" version="0.8.2" release="7.el8_4" epoch="0" arch="noarch" src="firewalld-0.8.2-7.el8_4.src.rpm">
+          <filename>firewalld-filesystem-0.8.2-7.el8_4.noarch.rpm</filename>
+          <sum type="sha256">a35c21fbb221611e6c309d319210f00b5f4978a7eb64fd3a8f563ad79b23abfb</sum>
+        </package>
+        <package name="firewalld" version="0.8.2" release="7.el8_4" epoch="0" arch="noarch" src="firewalld-0.8.2-7.el8_4.src.rpm">
+          <filename>firewalld-0.8.2-7.el8_4.noarch.rpm</filename>
+          <sum type="sha256">df084b00f05c91c50e048ee20ce31705f8bc9b87b80fa2e352d53784acb672ff</sum>
+        </package>
+        <package name="python3-firewall" version="0.8.2" release="7.el8_4" epoch="0" arch="noarch" src="firewalld-0.8.2-7.el8_4.src.rpm">
+          <filename>python3-firewall-0.8.2-7.el8_4.noarch.rpm</filename>
+          <sum type="sha256">313f800ac556b3a2d52ef5ef94a0b63c42f463805bfb8547d084d563a5e39bd6</sum>
+        </package>
+      </collection>
+    </pkglist>
+  </update>
   <update from="releng@rockylinux.org" status="final" type="security" version="2">
     <id>RLSA-2021:2575</id>
     <title>Moderate: lz4 security update</title>
