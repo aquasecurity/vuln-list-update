@@ -30,6 +30,7 @@ type RLSA struct {
 	Severity    string       `xml:"severity" json:"severity,omitempty"`
 	Description string       `xml:"description" json:"description,omitempty"`
 	Collections []Collection `xml:"pkglist>collection" json:"collections,omitempty"`
+	Packages    []Package    `json:"packages,omitempty"` // For backward compatibility
 	References  []Reference  `xml:"references>reference" json:"references,omitempty"`
 	CveIDs      []string     `json:"cveids,omitempty"`
 }

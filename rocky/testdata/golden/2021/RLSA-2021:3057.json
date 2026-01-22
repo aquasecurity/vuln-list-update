@@ -24,6 +24,17 @@
       ]
     }
   ],
+  "packages": [
+    {
+      "name": "kernel",
+      "epoch": "0",
+      "version": "4.18.0",
+      "release": "305.12.1.el8_4",
+      "arch": "x86_64",
+      "src": "kernel-4.18.0-305.12.1.el8_4.src.rpm",
+      "filename": "kernel-4.18.0-305.12.1.el8_4.x86_64.rpm"
+    }
+  ],
   "references": [
     {
       "href": "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2021-22543.json",
