@@ -50,13 +50,13 @@ func SaveCVEPerYear(dirPath string, cveID string, data interface{}) error {
 	}
 
 	filePath := filepath.Join(yearDir, fmt.Sprintf("%s.json", cveID))
-	if err := Write(filePath, data, true); err != nil {
+	if err := Write(filePath, data); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil
 }
 
-func Write(filePath string, data interface{}, format bool) error {
+func Write(filePath string, data interface{}) error {
 	dir := filepath.Dir(filePath)
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create %s: %w", dir, err)
@@ -68,12 +68,7 @@ func Write(filePath string, data interface{}, format bool) error {
 	}
 	defer f.Close()
 
-	var b []byte
-	if format {
-		b, err = json.MarshalIndent(data, "", "  ")
-	} else {
-		b, err = json.Marshal(data)
-	}
+	b, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		return xerrors.Errorf("JSON marshal error: %w", err)
 	}

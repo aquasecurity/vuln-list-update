@@ -91,7 +91,7 @@ func (u Updater) Update() error {
 		}
 
 		filePath := filepath.Join(dir, vuln.ID) + ".json"
-		if err = utils.Write(filePath, vuln, true); err != nil {
+		if err = utils.Write(filePath, vuln); err != nil {
 			return xerrors.Errorf("write error: %w", err)
 		}
 

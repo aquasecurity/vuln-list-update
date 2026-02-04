@@ -72,7 +72,7 @@ func (u *Updater) Update() error {
 
 	for pkgName, cveMap := range advisory {
 		pkgFilePath := filepath.Join(dir, fmt.Sprintf("%s.json", pkgName))
-		if err := utils.Write(pkgFilePath, cveMap, true); err != nil {
+		if err := utils.Write(pkgFilePath, cveMap); err != nil {
 			return xerrors.Errorf("failed to write pkg %s file to path %s", pkgName, pkgFilePath)
 		}
 	}

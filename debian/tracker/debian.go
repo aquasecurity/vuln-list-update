@@ -140,7 +140,7 @@ func (c Client) Update() error {
 	}
 
 	distributionJSON := filepath.Join(c.vulnListDir, trackerDir, "distributions.json")
-	if err = utils.Write(distributionJSON, dists, true); err != nil {
+	if err = utils.Write(distributionJSON, dists); err != nil {
 		return xerrors.Errorf("unable to write %s: %w", distributionJSON, err)
 	}
 
@@ -172,7 +172,7 @@ func (c Client) update(dirname string, bugs []Bug) error {
 
 				fileName := fmt.Sprintf("%s.json", bug.Header.ID)
 				filePath := filepath.Join(dir, "TEMP", fileName)
-				if err := utils.Write(filePath, bug, true); err != nil {
+				if err := utils.Write(filePath, bug); err != nil {
 					return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
 				}
 			} else {
@@ -183,7 +183,7 @@ func (c Client) update(dirname string, bugs []Bug) error {
 		} else {
 			fileName := fmt.Sprintf("%s.json", bug.Header.ID)
 			filePath := filepath.Join(dir, fileName)
-			if err := utils.Write(filePath, bug, true); err != nil {
+			if err := utils.Write(filePath, bug); err != nil {
 				return xerrors.Errorf("debian: write error (%s): %w", filePath, err)
 			}
 		}
@@ -311,7 +311,7 @@ func (c Client) updateSources(ctx context.Context, dists map[string]Distribution
 					}
 
 					filePath := filepath.Join(c.vulnListDir, trackerDir, target, code, r, name[:1], name+".json")
-					if err = utils.Write(filePath, header, true); err != nil {
+					if err = utils.Write(filePath, header); err != nil {
 						return xerrors.Errorf("source write error: %w", err)
 					}
 				}

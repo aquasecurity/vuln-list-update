@@ -68,7 +68,7 @@ func (db *Database) Update() error {
 			}
 
 			filePath := filepath.Join(db.baseDir, ecosystem.Dir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
-			if err = utils.Write(filePath, parsed, true); err != nil {
+			if err = utils.Write(filePath, parsed); err != nil {
 				return xerrors.Errorf("failed to write file: %w", err)
 			}
 			return nil
