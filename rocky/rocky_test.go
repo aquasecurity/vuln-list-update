@@ -1,6 +1,7 @@
 package rocky_test
 
 import (
+	"compress/gzip"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -12,6 +13,23 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/rocky"
 )
+
+// gzipHandler reads a file and serves it with gzip compression
+func gzipHandler(filePath string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		data, err := os.ReadFile(filePath)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/gzip")
+
+		gw := gzip.NewWriter(w)
+		defer gw.Close()
+		_, _ = gw.Write(data)
+	}
+}
 
 func Test_Update(t *testing.T) {
 	tests := []struct {
@@ -71,11 +89,25 @@ func Test_Update(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			mux := http.NewServeMux()
-			mux.Handle("/pub/rocky/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			mux.HandleFunc("/pub/rocky/", func(w http.ResponseWriter, r *http.Request) {
 				http.ServeFile(w, r, tt.releasesFilePath)
-			}))
-			mux.Handle("/pub/rocky/8.5/extras/x86_64/os/repodata/", http.StripPrefix("/pub/rocky/8.5/extras/x86_64/os/repodata/", http.FileServer(http.Dir(tt.rootDir))))
-			mux.Handle("/pub/rocky/8.5/BaseOS/x86_64/os/repodata/", http.StripPrefix("/pub/rocky/8.5/BaseOS/x86_64/os/repodata/", http.FileServer(http.Dir(tt.rootDir))))
+			})
+
+			// Handler for repomd.xml and updateinfo.xml.gz
+			repodataHandler := func(w http.ResponseWriter, r *http.Request) {
+				filename := filepath.Base(r.URL.Path)
+				switch filename {
+				case "repomd.xml":
+					http.ServeFile(w, r, filepath.Join(tt.rootDir, "repomd.xml"))
+				case "updateinfo.xml.gz":
+					gzipHandler(filepath.Join(tt.rootDir, "updateinfo.xml"))(w, r)
+				default:
+					http.NotFound(w, r)
+				}
+			}
+
+			mux.HandleFunc("/pub/rocky/8.5/extras/x86_64/os/repodata/", repodataHandler)
+			mux.HandleFunc("/pub/rocky/8.5/BaseOS/x86_64/os/repodata/", repodataHandler)
 			tsUpdateInfoURL := httptest.NewServer(mux)
 			defer tsUpdateInfoURL.Close()
 

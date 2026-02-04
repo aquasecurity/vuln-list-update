@@ -218,6 +218,12 @@ func (c Config) fetchUpdateInfo(url string) (*UpdateInfo, error) {
 			}
 		}
 		updateInfo.RLSAList[i].CveIDs = cveIDs
+
+		// Populate Packages from all Collections for backward compatibility.
+		// TODO: Remove this once Trivy Premium is updated to use Collections.
+		for _, collection := range alas.Collections {
+			updateInfo.RLSAList[i].Packages = append(updateInfo.RLSAList[i].Packages, collection.Packages...)
+		}
 	}
 	return &updateInfo, nil
 }
