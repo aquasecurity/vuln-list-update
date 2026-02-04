@@ -78,7 +78,7 @@ func (u *Updater) Update() error {
 
 	// Save the entire feed as a single JSON file
 	feedFilePath := filepath.Join(dir, "cve_feed.json")
-	if err := utils.Write(feedFilePath, cveFeed); err != nil {
+	if err := utils.Write(feedFilePath, cveFeed, false); err != nil {
 		return xerrors.Errorf("failed to write Root.io CVE feed to %s: %w", feedFilePath, err)
 	}
 

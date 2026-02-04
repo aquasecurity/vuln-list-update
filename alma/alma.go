@@ -186,7 +186,7 @@ func (c Config) update(version, url string) error {
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
 			filepath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.UpdateinfoID))
-			if err := utils.Write(filepath, erratum); err != nil {
+			if err := utils.Write(filepath, erratum, true); err != nil {
 				return xerrors.Errorf("failed to write AlmaLinux CVE details: %w", err)
 			}
 			bar.Increment()

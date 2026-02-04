@@ -89,7 +89,7 @@ func (ac Config) update(version, url string) error {
 	bar := pb.StartNew(len(vulns.ALASList))
 	for _, alas := range vulns.ALASList {
 		filePath := filepath.Join(dir, fmt.Sprintf("%s.json", alas.ID))
-		if err = utils.Write(filePath, alas); err != nil {
+		if err = utils.Write(filePath, alas, true); err != nil {
 			return xerrors.Errorf("failed to write Amazon CVE details: %w", err)
 		}
 		bar.Increment()

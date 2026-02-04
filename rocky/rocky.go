@@ -165,7 +165,7 @@ func (c Config) update(release, repo, arch, baseUrl string) error {
 		bar := pb.StartNew(len(errata))
 		for _, erratum := range errata {
 			jsonPath := filepath.Join(dirPath, year, fmt.Sprintf("%s.json", erratum.ID))
-			if err = utils.Write(jsonPath, erratum); err != nil {
+			if err = utils.Write(jsonPath, erratum, true); err != nil {
 				return xerrors.Errorf("failed to write Rocky Linux CVE details: %w", err)
 			}
 			bar.Increment()

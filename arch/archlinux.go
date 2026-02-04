@@ -91,7 +91,7 @@ func (al ArchLinux) Update() error {
 	}
 	for _, asg := range asgs {
 		filePath := filepath.Join(al.dir, fmt.Sprintf("%s.json", asg.Name))
-		if err = utils.Write(filePath, asg); err != nil {
+		if err = utils.Write(filePath, asg, true); err != nil {
 			return xerrors.Errorf("failed to write Arch Linux CVE details: %w", err)
 		}
 		bar.Increment()
