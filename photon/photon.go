@@ -72,6 +72,11 @@ func (c Config) Update() error {
 			return xerrors.Errorf("failed to unmarshal Photon advisory: %w", err)
 		}
 		dir := filepath.Join(photonDir, version)
+		dirPath := filepath.Join(c.VulnListDir, dir)
+		log.Printf("Remove Photon %s directory %s", version, dirPath)
+		if err := c.AppFs.RemoveAll(dirPath); err != nil {
+			return xerrors.Errorf("failed to remove Photon %s directory: %w", version, err)
+		}
 
 		bar := pb.StartNew(len(cves))
 		for _, def := range cves {
