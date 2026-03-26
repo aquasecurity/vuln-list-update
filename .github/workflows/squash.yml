@@ -8,6 +8,8 @@ on:
 jobs:
   squash:
     runs-on: ubuntu-latest
+    env:
+      VULN_LIST_TOKEN: ${{ secrets.VULN_LIST_TOKEN }}
     steps:
     - name: Install dependencies
       run: |
@@ -23,7 +25,7 @@ jobs:
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: ${{ github.repository_owner }}/vuln-list
-        token: ${{ secrets.VULN_LIST_TOKEN }}
+        token: ${{ env.VULN_LIST_TOKEN }}
         path: vuln-list
         fetch-depth: 2000
 
@@ -32,4 +34,4 @@ jobs:
         cd vuln-list
         git replace -f --graft $(git rev-list --max-parents=0 HEAD)
         git filter-repo --force
-        git push --force --set-upstream https://${{ secrets.VULN_LIST_TOKEN }}@github.com/${{ github.repository_owner }}/vuln-list.git main
+        git push --force --set-upstream https://$VULN_LIST_TOKEN@github.com/${{ github.repository_owner }}/vuln-list.git main
