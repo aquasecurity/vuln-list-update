@@ -20,6 +20,7 @@ import (
 
 var (
 	cvrfURL     = "http://ftp.suse.com/pub/projects/security/cvrf/"
+	cvrfCVEURL  = "http://ftp.suse.com/pub/projects/security/cvrf-cve/"
 	fileRegexp  = regexp.MustCompile(`<a href="(cvrf-(.*?)-.*)">.*`)
 	retry       = 5
 	concurrency = 20
@@ -31,14 +32,17 @@ var (
 type Config struct {
 	VulnListDir string
 	URL         string
-	AppFs       afero.Fs
-	Retry       int
+	// CvrfCVEURL is the SUSE per-CVE CVRF feed (CSAF CVRF 1.2), used to fill CVE CVSS details.
+	CvrfCVEURL string
+	AppFs      afero.Fs
+	Retry      int
 }
 
 func NewConfig() Config {
 	return Config{
 		VulnListDir: utils.VulnListDir(),
 		URL:         cvrfURL,
+		CvrfCVEURL:  cvrfCVEURL,
 		AppFs:       afero.NewOsFs(),
 		Retry:       retry,
 	}
@@ -98,9 +102,11 @@ func (c Config) update(os string, urls []string) error {
 
 	dir := filepath.Join(cvrfDir, suseDir, os)
 	log.Printf("Fetching %s CVRF data...", os)
+	cveScoreCache := make(map[string][]ScoreSet)
 	bar := pb.StartNew(len(cvrfs))
-	for _, cvrf := range cvrfs {
-		if err = c.saveCvrfPerYear(dir, cvrf.Tracking.ID, cvrf); err != nil {
+	for i := range cvrfs {
+		c.mergeCVEDetailsFromCVEFeed(&cvrfs[i], cveScoreCache)
+		if err = c.saveCvrfPerYear(dir, cvrfs[i].Tracking.ID, cvrfs[i]); err != nil {
 			return xerrors.Errorf("failed to save CVRF: %w", err)
 		}
 		bar.Increment()

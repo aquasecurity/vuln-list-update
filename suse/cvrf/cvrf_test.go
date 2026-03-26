@@ -116,8 +116,9 @@ func TestConfig_Update(t *testing.T) {
 			c := cvrf.Config{
 				VulnListDir: "/tmp",
 				URL:         url,
-				AppFs:       tc.appFs,
-				Retry:       0,
+				// CvrfCVEURL left empty: per-CVE CVRF merge is disabled; golden files match advisory XML only.
+				AppFs: tc.appFs,
+				Retry: 0,
 			}
 			err := c.Update()
 			switch {
