@@ -27,6 +27,11 @@ func Test_Update(t *testing.T) {
 				filepath.Join("seal-screen", "CVE-2025-46803.json"),
 				filepath.Join("seal-glibc", "CVE-2023-6780.json"),
 				filepath.Join("seal-rsync", "CVE-2020-14387.json"),
+				filepath.Join("seal-requests", "CVE-2023-32681.json"),
+				filepath.Join("sealsecurity.io", "golang.org", "x", "crypto", "CVE-2025-22869.json"),
+				filepath.Join("seal-rack", "CVE-2025-61780.json"),
+				filepath.Join("seal.sp1.org.apache.logging.log4j", "log4j-core", "CVE-2025-68161.json"),
+				filepath.Join("@seal-security", "ajv", "CVE-2025-69873.json"),
 			},
 		},
 		{

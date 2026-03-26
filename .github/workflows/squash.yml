@@ -8,6 +8,8 @@ on:
 jobs:
   squash:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       VULN_LIST_TOKEN: ${{ secrets.VULN_LIST_TOKEN }}
     steps:
@@ -28,6 +30,7 @@ jobs:
         token: ${{ env.VULN_LIST_TOKEN }}
         path: vuln-list
         fetch-depth: 2000
+        persist-credentials: false
 
     - name: Squash and push
       run: |

@@ -18,6 +18,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"golang.org/x/xerrors"
 
@@ -51,6 +52,13 @@ func (db *Database) Update() error {
 			return xerrors.Errorf("failed to download %s: %w", ecosystem.URL, err)
 		}
 
+		// Remove the existing directory to delete files that have been removed from the source
+		ecosystemDir := filepath.Join(db.baseDir, ecosystem.Dir)
+		log.Printf("[OSV] Removing %s directory", ecosystemDir)
+		if err = os.RemoveAll(ecosystemDir); err != nil {
+			return xerrors.Errorf("failed to remove %s directory: %w", name, err)
+		}
+
 		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, walkErr error) error {
 			if walkErr != nil {
 				return walkErr
@@ -67,7 +75,15 @@ func (db *Database) Update() error {
 				return xerrors.Errorf("unable to parse json %s: %w", path, err)
 			}
 
-			filePath := filepath.Join(db.baseDir, ecosystem.Dir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
+			if len(parsed.Affected) == 0 {
+				log.Printf("[OSV] skipping %s: no affected packages", parsed.ID)
+				return nil
+			}
+
+			// Replace colons with slashes to avoid invalid directory names.
+			// e.g. Maven "groupId:artifactId" -> "groupId/artifactId"
+			pkgName := strings.ReplaceAll(parsed.Affected[0].Package.Name, ":", "/")
+			filePath := filepath.Join(db.baseDir, ecosystem.Dir, pkgName, fmt.Sprintf("%s.json", parsed.ID))
 			if err = utils.Write(filePath, parsed); err != nil {
 				return xerrors.Errorf("failed to write file: %w", err)
 			}
