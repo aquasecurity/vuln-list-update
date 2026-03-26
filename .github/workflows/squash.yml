@@ -8,6 +8,8 @@ on:
 jobs:
   squash:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: Install dependencies
       run: |
@@ -26,6 +28,7 @@ jobs:
         token: ${{ secrets.ORG_REPO_TOKEN }}
         path: vuln-list
         fetch-depth: 2000
+        persist-credentials: false
 
     - name: Squash and push
       run: |
