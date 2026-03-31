@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: ${{ github.repository_owner }}/vuln-list
-        token: ${{ secrets.ORG_REPO_TOKEN }}
+        token: ${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}
         path: vuln-list
         fetch-depth: 2000
         persist-credentials: false
@@ -35,4 +35,4 @@ jobs:
         cd vuln-list
         git replace -f --graft $(git rev-list --max-parents=0 HEAD)
         git filter-repo --force
-        git push --force --set-upstream https://${{ secrets.ORG_REPO_TOKEN }}@github.com/${{ github.repository_owner }}/vuln-list.git main
+        git push --force --set-upstream https://${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}@github.com/${{ github.repository_owner }}/vuln-list.git main

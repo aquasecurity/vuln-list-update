@@ -7,11 +7,10 @@ on:
 jobs:
   update:
     name: Update vuln-list-debian
-    runs-on: ubuntu-latest
+    runs-on: trivy-large-1
     permissions:
       contents: read
     env:
-      GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list-debian"
     steps:
     - name: Check out code
@@ -28,7 +27,7 @@ jobs:
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
-        token: ${{ secrets.ORG_REPO_TOKEN }}
+        token: ${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
         persist-credentials: true # update.sh runs git push
 
