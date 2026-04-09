@@ -7,15 +7,14 @@ on:
 jobs:
   update:
     name: Update vuln-list-redhat
-    runs-on: trivy-large-1
+    runs-on: ubuntu-2404-2core
     permissions:
       contents: read
     env:
       VULN_LIST_DIR: "vuln-list-redhat"
     steps:
     # vuln-list-redhat dir uses more than 20GB of storage
-    # Disabled: trivy-large-1 runner has enough disk space.
-    # TODO: re-enable when switching back to ubuntu-latest runner.
+    # Disabled: ubuntu-2404-2core runner has enough disk space.
     # - name: Maximize build space
     #   uses: AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793 # v5
     #   with:

@@ -7,7 +7,7 @@ on:
 jobs:
   update:
     name: Update vuln-list-nvd
-    runs-on: trivy-large-1
+    runs-on: ubuntu-2404-2core
     permissions:
       contents: read
     env:
