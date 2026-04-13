@@ -1,0 +1,31 @@
+{
+  "id": "ECHO-0001-aaaa-bbbb",
+  "modified": "2024-06-15T12:00:00Z",
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Echo",
+        "name": "echo-nginx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.21.0-r0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://advisory.echohq.com/cve/CVE-2021-3618"
+    }
+  ]
+}

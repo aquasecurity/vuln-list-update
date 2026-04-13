@@ -108,6 +108,10 @@ jobs:
         run: ./scripts/update.sh echo "Echo CVE Data"
 
       - if: always()
+        name: Echo OSV
+        run: ./scripts/update.sh echo-osv "Echo OSV Data"
+
+      - if: always()
         name: MinimOS Secdb
         run: ./scripts/update.sh minimos "MinimOS Security Data"
 
