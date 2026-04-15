@@ -24,8 +24,8 @@ func TestOSVUpdater_Update(t *testing.T) {
 		{
 			name: "happy path",
 			wantFiles: []string{
-				filepath.Join("echo-nginx", "ECHO-0001-aaaa-bbbb.json"),
-				filepath.Join("echo-redis", "ECHO-0002-cccc-dddd.json"),
+				filepath.Join("echo-osv", "openssh", "ECHO-003f-2632-599c.json"),
+				filepath.Join("echo-osv", "pip", "ECHO-7db2-03aa-5591.json"),
 			},
 		},
 		{
@@ -54,7 +54,7 @@ func TestOSVUpdater_Update(t *testing.T) {
 
 			ecosystems := map[string]osv.Ecosystem{
 				"echo": {
-					Dir: "",
+					Dir: "echo-osv",
 					URL: testURL,
 				},
 			}
