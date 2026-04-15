@@ -145,8 +145,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2597",
@@ -184,8 +183,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2601",
@@ -227,8 +225,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2613",
@@ -274,8 +271,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2619",
@@ -317,8 +313,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2621",
@@ -360,8 +355,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2625",
@@ -403,8 +397,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2627",
@@ -442,8 +435,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2628",
@@ -481,8 +473,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2632",
@@ -524,8 +515,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2637",
@@ -567,8 +557,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2638",
@@ -610,8 +599,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2659",
@@ -649,8 +637,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2664",
@@ -692,8 +679,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-2808",
@@ -744,10 +730,12 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "2.5",
-        "Vector": "AV:N/AC:H/Au:N/C:P/I:N/A:N"
-      }
+      "CVSSScoreSets": [
+        {
+          "BaseScore": "2.5",
+          "Vector": "AV:N/AC:H/Au:N/C:P/I:N/A:N"
+        }
+      ]
     },
     {
       "CVE": "CVE-2015-4000",
@@ -890,10 +878,12 @@
           ]
         }
       ],
-      "CVSSScoreSets": {
-        "BaseScore": "4.0",
-        "Vector": "AV:N/AC:H/Au:N/C:P/I:P/A:N"
-      }
+      "CVSSScoreSets": [
+        {
+          "BaseScore": "4.0",
+          "Vector": "AV:N/AC:H/Au:N/C:P/I:P/A:N"
+        }
+      ]
     },
     {
       "CVE": "CVE-2015-4729",
@@ -935,8 +925,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4731",
@@ -978,8 +967,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4732",
@@ -1021,8 +1009,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4733",
@@ -1064,8 +1051,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4736",
@@ -1103,8 +1089,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4748",
@@ -1146,8 +1131,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4749",
@@ -1189,8 +1173,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2015-4760",
@@ -1232,8 +1215,7 @@
             "openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     }
   ]
 }

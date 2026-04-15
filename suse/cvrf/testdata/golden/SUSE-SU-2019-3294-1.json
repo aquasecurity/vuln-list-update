@@ -167,8 +167,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-0154",
@@ -207,8 +206,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-0155",
@@ -251,8 +249,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-10220",
@@ -295,8 +292,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-11135",
@@ -347,8 +343,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-15916",
@@ -387,8 +382,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-16231",
@@ -427,8 +421,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-16232",
@@ -467,8 +460,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-16233",
@@ -507,8 +499,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-16234",
@@ -547,8 +538,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-16995",
@@ -587,8 +577,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-17055",
@@ -627,8 +616,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-17056",
@@ -667,8 +655,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-17133",
@@ -707,8 +694,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-17666",
@@ -747,8 +733,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-18805",
@@ -787,8 +772,7 @@
             "SUSE Linux Enterprise Real Time Extension 12 SP4:ocfs2-kmp-rt-4.12.14-8.9.3"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     }
   ]
 }

@@ -275,9 +275,15 @@
       </Threat>
     </Threats>
     <CVSSScoreSets>
+      <!-- NVD Score-->
       <ScoreSet>
         <BaseScore>4</BaseScore>
         <Vector>AV:L/AC:L/Au:M/C:P/I:P/A:P</Vector>
+      </ScoreSet>
+      <!-- SUSE Score-->
+      <ScoreSet>
+        <BaseScore>3.5</BaseScore>
+        <Vector>AV:N/AC:M/Au:S/C:P/I:N/A:N</Vector>
       </ScoreSet>
     </CVSSScoreSets>
     <Remediations>

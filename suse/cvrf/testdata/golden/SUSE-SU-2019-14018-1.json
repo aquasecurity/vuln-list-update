@@ -317,8 +317,7 @@
             "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-xml-2.6.9-40.24.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     },
     {
       "CVE": "CVE-2019-9948",
@@ -388,8 +387,7 @@
             "SUSE Linux Enterprise Server for SAP Applications 11 SP4-LTSS:python-xml-2.6.9-40.24.1"
           ]
         }
-      ],
-      "CVSSScoreSets": {}
+      ]
     }
   ]
 }
