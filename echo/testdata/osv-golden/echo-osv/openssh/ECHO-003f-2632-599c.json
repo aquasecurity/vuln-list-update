@@ -1,11 +1,14 @@
 {
-  "id": "ECHO-0001-aaaa-bbbb",
-  "modified": "2024-06-15T12:00:00Z",
+  "id": "ECHO-003f-2632-599c",
+  "modified": "2025-08-03T16:59:07.240Z",
+  "aliases": [
+    "CVE-2008-3234"
+  ],
   "affected": [
     {
       "package": {
         "ecosystem": "Echo",
-        "name": "echo-nginx"
+        "name": "openssh"
       },
       "ranges": [
         {
@@ -15,7 +18,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "1.21.0-r0"
+              "fixed": "1:9.2p1-2+deb12u6"
             }
           ]
         }
@@ -25,7 +28,7 @@
   "references": [
     {
       "type": "WEB",
-      "url": "https://advisory.echohq.com/cve/CVE-2021-3618"
+      "url": "https://advisory.echohq.com/cve/CVE-2008-3234"
     }
   ]
 }

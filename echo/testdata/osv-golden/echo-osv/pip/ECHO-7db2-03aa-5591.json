@@ -1,0 +1,54 @@
+{
+  "id": "ECHO-7db2-03aa-5591",
+  "modified": "2026-03-26T11:54:03.165Z",
+  "aliases": [
+    "CVE-2026-1703"
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pip",
+        "purl": "pkg:pypi/pip"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "25.2+echo.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Echo",
+        "name": "python-pip"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "25.3+dfsg-1+e2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://advisory.echohq.com/cve/CVE-2026-1703"
+    }
+  ]
+}
