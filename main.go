@@ -25,6 +25,7 @@ import (
 	oracleoval "github.com/aquasecurity/vuln-list-update/oracle/oval"
 	"github.com/aquasecurity/vuln-list-update/osvdev"
 	"github.com/aquasecurity/vuln-list-update/photon"
+	photonoval "github.com/aquasecurity/vuln-list-update/photon/oval"
 	redhatcsafvex "github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	redhatoval "github.com/aquasecurity/vuln-list-update/redhat/oval"
 	"github.com/aquasecurity/vuln-list-update/redhat/securitydataapi"
@@ -39,7 +40,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, photon-oval, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
 		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -117,6 +118,11 @@ func run() error {
 		pc := photon.NewConfig()
 		if err := pc.Update(); err != nil {
 			return xerrors.Errorf("Photon update error: %w", err)
+		}
+	case "photon-oval":
+		poc := photonoval.NewConfig()
+		if err := poc.Update(); err != nil {
+			return xerrors.Errorf("Photon OVAL update error: %w", err)
 		}
 	case "glad":
 		gu := glad.NewUpdater(*targetUri, *targetBranch)

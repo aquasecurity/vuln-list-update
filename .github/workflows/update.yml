@@ -64,6 +64,10 @@ jobs:
         run: ./scripts/update.sh photon "Photon Security Advisories"
 
       - if: always()
+        name: Photon OVAL definitions
+        run: ./scripts/update.sh photon-oval "Photon OVAL definitions"
+
+      - if: always()
         name: CWE
         run: ./scripts/update.sh cwe "CWE"
 
