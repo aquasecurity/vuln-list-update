@@ -60,6 +60,7 @@ jobs:
     - name: Compile vuln-list-update
       run: go build -o vuln-list-update .
 
+    # OVALv2 (~4 min) and CSAF VEX (~1 min) push using the initial job-level token; both must complete within its 1h TTL.
     - if: always()
       name: Red Hat OVALv2
       run: ./scripts/update.sh redhat-oval "Red Hat OVAL v2"
@@ -70,7 +71,9 @@ jobs:
 
     # Red Hat Security Data API takes ~1.5h, longer than the 1h GitHub App installation token TTL.
     # Split into fetch + refresh-token + push so the push uses a fresh token.
-    # Must run last in this job: subsequent steps would inherit the stale initial token.
+    # Must run last in this job: by the time the fetch completes the initial token is dead,
+    # and the push step rewrites git auth state in the workdir (drops extraheader, sets origin
+    # URL with the refreshed token), so any source running after this would fail to push.
     - if: always()
       id: redhat-security-data-fetch
       name: Red Hat Security Data API (fetch)

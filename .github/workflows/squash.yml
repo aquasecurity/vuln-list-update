@@ -37,7 +37,9 @@ jobs:
         token: ${{ steps.vuln-list-token.outputs.token }}
         path: vuln-list
         fetch-depth: 2000
-        # extraheader from checkout authenticates the push below; git filter-repo removes the origin remote but leaves the http.extraheader config intact
+        # extraheader from checkout authenticates the push below
+        # (git filter-repo drops the origin remote but leaves http.extraheader intact)
+        persist-credentials: true
 
     - name: Squash and push
       run: |
