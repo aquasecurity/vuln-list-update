@@ -81,6 +81,8 @@ jobs:
         ./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target redhat
         if [[ -n $(git -C "$VULN_LIST_DIR" status --porcelain) ]]; then
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "No changes — refresh and push will be skipped"
         fi
 
     - if: steps.redhat-security-data-fetch.outputs.has_changes == 'true'
