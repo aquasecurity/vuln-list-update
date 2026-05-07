@@ -10,7 +10,7 @@
   "affected": [
     {
       "package": {
-        "ecosystem": "PyPI",
+        "ecosystem": "Echo:PyPI",
         "name": "pip",
         "purl": "pkg:pypi/pip"
       },
