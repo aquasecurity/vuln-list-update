@@ -78,7 +78,11 @@ jobs:
       id: redhat-security-data-fetch
       name: Red Hat Security Data API (fetch)
       run: |
-        ./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target redhat
+        ./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target redhat || {
+          echo "[Err] Revert changes" >&2
+          cd "$VULN_LIST_DIR" && git reset --hard HEAD
+          exit 1
+        }
         if [[ -n $(git -C "$VULN_LIST_DIR" status --porcelain) ]]; then
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
         else
