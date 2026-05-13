@@ -23,11 +23,20 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Generate token for vuln-list
+        id: vuln-list-token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: vuln-list
+
       - name: Check out vuln-list repo
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           repository: ${{ github.repository_owner }}/vuln-list
-          token: ${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}
+          token: ${{ steps.vuln-list-token.outputs.token }}
           path: ${{ env.VULN_LIST_DIR }}
           persist-credentials: true # update.sh runs git push
 
