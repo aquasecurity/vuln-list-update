@@ -1,0 +1,37 @@
+{
+  "id": "ECHO-003f-2632-599c",
+  "modified": "2025-08-03T16:59:07.240Z",
+  "upstream": [
+    "CVE-2008-3234"
+  ],
+  "aliases": [
+    "CVE-2008-3234"
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Echo",
+        "name": "openssh"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:9.2p1-2+deb12u6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://advisory.echohq.com/cve/CVE-2008-3234"
+    }
+  ]
+}

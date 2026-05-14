@@ -49,6 +49,7 @@ type OSV struct {
 	Modified   string      `json:"modified,omitempty"`
 	Published  string      `json:"published,omitempty"`
 	Withdrawn  string      `json:"withdrawn,omitempty"`
+	Upstream   []string    `json:"upstream,omitempty"`
 	Aliases    []string    `json:"aliases,omitempty"`
 	Related    []string    `json:"related,omitempty"`
 	Summary    string      `json:"summary,omitempty"`
