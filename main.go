@@ -189,7 +189,7 @@ func run() error {
 			return xerrors.Errorf("eolDates update error: %w", err)
 		}
 	case "rootio":
-		ru := rootio.NewUpdater()
+		ru := rootio.NewDatabase()
 		if err := ru.Update(); err != nil {
 			return xerrors.Errorf("Root.io update error: %w", err)
 		}
