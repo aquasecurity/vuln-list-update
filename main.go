@@ -32,6 +32,7 @@ import (
 	"github.com/aquasecurity/vuln-list-update/rootio"
 	"github.com/aquasecurity/vuln-list-update/seal"
 	susecvrf "github.com/aquasecurity/vuln-list-update/suse/cvrf"
+	susecvrfcve "github.com/aquasecurity/vuln-list-update/suse/cvrfcve"
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/aquasecurity/vuln-list-update/wolfi"
@@ -39,7 +40,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, suse-cvrf-cve, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
 		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -112,6 +113,11 @@ func run() error {
 		sc := susecvrf.NewConfig()
 		if err := sc.Update(); err != nil {
 			return xerrors.Errorf("SUSE CVRF update error: %w", err)
+		}
+	case "suse-cvrf-cve":
+		sc := susecvrfcve.NewConfig()
+		if err := sc.Update(); err != nil {
+			return xerrors.Errorf("SUSE CVE CVRF update error: %w", err)
 		}
 	case "photon":
 		pc := photon.NewConfig()

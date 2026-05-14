@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://docs.oasis-open.org/csaf/ns/csaf-cvrf/v1.2/cvrf">
+  <DocumentTitle xml:lang="en">CVE-2014-6271</DocumentTitle>
+  <Vulnerability xmlns="http://docs.oasis-open.org/csaf/ns/csaf-cvrf/v1.2/vuln" Ordinal="1">
+    <CVE>CVE-2014-6271</CVE>
