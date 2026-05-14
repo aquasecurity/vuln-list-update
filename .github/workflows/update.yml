@@ -72,6 +72,10 @@ jobs:
         run: ./scripts/update.sh suse-cvrf "SUSE CVRF"
 
       - if: always()
+        name: SUSE CVE CVRF
+        run: ./scripts/update.sh suse-cvrf-cve "SUSE CVE CVRF"
+
+      - if: always()
         name: GitLab Advisory Database
         run: ./scripts/update.sh glad "GitLab Advisory Database"
 
