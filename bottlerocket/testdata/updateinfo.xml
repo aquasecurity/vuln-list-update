@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<updates>
+  <update author="test" from="test" status="final" type="security" version="1.4">
+    <id>GHSA-868r-x68r-5c5p</id>
+    <title>kernel CVE-2023-5345</title>
+    <issued date="2023-11-13T22:21:51Z"/>
+    <updated date="2023-11-13T22:21:51Z"/>
+    <severity>medium</severity>
+    <description>A flaw was found in the SMB client component in the Linux kernel.</description>
+    <references>
+      <reference href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-5345" id="CVE-2023-5345" type="cve"/>
+      <reference href="https://github.com/bottlerocket-os/bottlerocket/security/advisories/GHSA-868r-x68r-5c5p" id="GHSA-868r-x68r-5c5p" type="ghsa"/>
+    </references>
+    <pkglist>
+      <collection short="bottlerocket">
+        <name>Bottlerocket</name>
+        <package arch="x86_64" name="kernel-6.1" version="6.1.61" release="1.1700513487.br1" epoch="0"/>
+        <package arch="aarch64" name="kernel-6.1" version="6.1.61" release="1.1700513487.br1" epoch="0"/>
+      </collection>
+    </pkglist>
+  </update>
+  <update author="test" from="test" status="final" type="security" version="1.4">
+    <id>BRSA-hc1ikaaaqfgw</id>
+    <title>amazon-ssm-agent CVE-2025-22870</title>
+    <issued date="2025-08-12T00:57:00Z"/>
+    <updated date="2025-08-12T00:57:00Z"/>
+    <severity>important</severity>
+    <description>A flaw was found in amazon-ssm-agent dependency golang.org/x/net.</description>
+    <references>
+      <reference href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-22870" id="CVE-2025-22870" type="cve"/>
+      <reference href="https://github.com/bottlerocket-os/bottlerocket-core-kit/blob/develop/advisories/10.1.0/BRSA-hc1ikaaaqfgw.toml" id="BRSA-hc1ikaaaqfgw" type="brsa"/>
+    </references>
+    <pkglist>
+      <collection short="bottlerocket">
+        <name>Bottlerocket</name>
+        <package arch="x86_64" name="amazon-ssm-agent" version="3.3.2746.0" release="1.1754950980.06e00082.br1" epoch="0"/>
+        <package arch="aarch64" name="amazon-ssm-agent" version="3.3.2746.0" release="1.1754950980.06e00082.br1" epoch="0"/>
+      </collection>
+    </pkglist>
+  </update>
+</updates>
