@@ -32,7 +32,12 @@ runs:
       env:
         VULN_LIST_DIR: ${{ inputs.repository }}
         TARGET: ${{ inputs.target }}
-      run: ./scripts/fetch.sh "$TARGET"
+      run: |
+        ./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target "$TARGET" || {
+          echo "[Err] Revert changes" >&2
+          cd "$VULN_LIST_DIR" && git reset --hard HEAD
+          exit 1
+        }
 
     - id: detect
       name: Detect changes
