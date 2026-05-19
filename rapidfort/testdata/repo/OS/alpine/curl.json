@@ -1,0 +1,35 @@
+{
+  "package_name": "curl",
+  "advisory": {
+    "3.18": {
+      "CVE-2023-38545": {
+        "cve_id": "CVE-2023-38545",
+        "title": "curl SOCKS5 heap buffer overflow",
+        "description": "This flaw makes curl overflow a heap based buffer in the SOCKS5 proxy handshake.",
+        "severity": "HIGH",
+        "status": "fixed",
+        "events": [
+          {
+            "introduced": "7.69.0",
+            "fixed": "8.4.0-r0"
+          }
+        ]
+      }
+    },
+    "3.19": {
+      "CVE-2024-2398": {
+        "cve_id": "CVE-2024-2398",
+        "title": "curl HTTP/2 push headers memory-leak",
+        "description": "When an application tells libcurl it wants to allow HTTP/2 server push, and the server sends push headers, libcurl may experience a memory leak.",
+        "severity": "MEDIUM",
+        "status": "fixed",
+        "events": [
+          {
+            "introduced": "8.0.0",
+            "fixed": "8.7.1-r0"
+          }
+        ]
+      }
+    }
+  }
+}
