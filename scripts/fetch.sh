@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-TARGET=$1
+TARGET=${1:-}
 
 if [ -z "$TARGET" ]; then
   echo "target required"

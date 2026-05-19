@@ -2,8 +2,7 @@ name: Update vuln-list source
 description: |
   Fetches a single vuln-list source, then commits and pushes the result using a
   freshly minted GitHub App installation token. Skips the push if there is
-  nothing to commit. Designed for jobs longer than the 1h installation token
-  TTL where the job-level token may expire before push time.
+  nothing to commit.
 
 inputs:
   target:
@@ -41,6 +40,10 @@ runs:
       env:
         WORKDIR: ${{ inputs.repository }}
       run: |
+        if ! git -C "$WORKDIR" rev-parse --git-dir > /dev/null 2>&1; then
+          echo "::error::$WORKDIR is not a git repository"
+          exit 1
+        fi
         if [[ -n $(git -C "$WORKDIR" status --porcelain) ]]; then
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
         else
