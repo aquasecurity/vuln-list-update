@@ -16,16 +16,22 @@ import (
 
 func TestOSVUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name      string
-		path      string
-		wantFiles []string
-		wantErr   string
+		name         string
+		path         string
+		wantFiles    []string
+		notWantFiles []string
+		wantErr      string
 	}{
 		{
 			name: "happy path",
 			wantFiles: []string{
-				filepath.Join("echo-osv", "openssh", "ECHO-003f-2632-599c.json"),
 				filepath.Join("echo-osv", "pip", "ECHO-7db2-03aa-5591.json"),
+			},
+			// OS-level Echo packages must be filtered out of OSV output;
+			// the openssh advisory only carries an "Echo" ecosystem entry
+			// and should be skipped entirely.
+			notWantFiles: []string{
+				filepath.Join("echo-osv", "openssh", "ECHO-003f-2632-599c.json"),
 			},
 		},
 		{
@@ -54,8 +60,9 @@ func TestOSVUpdater_Update(t *testing.T) {
 
 			ecosystems := map[string]osv.Ecosystem{
 				"echo": {
-					Dir: "echo-osv",
-					URL: testURL,
+					Dir:    "echo-osv",
+					URL:    testURL,
+					Filter: echo.IsOSPackage,
 				},
 			}
 
@@ -76,6 +83,11 @@ func TestOSVUpdater_Update(t *testing.T) {
 				require.NoError(t, err)
 
 				assert.JSONEq(t, string(want), string(got))
+			}
+
+			for _, notWant := range tt.notWantFiles {
+				_, err := os.Stat(filepath.Join(testDir, notWant))
+				assert.True(t, os.IsNotExist(err), "expected %s to be filtered out, but it exists", notWant)
 			}
 		})
 	}

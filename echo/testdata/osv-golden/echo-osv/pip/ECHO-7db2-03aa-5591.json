@@ -27,25 +27,6 @@
           ]
         }
       ]
-    },
-    {
-      "package": {
-        "ecosystem": "Echo",
-        "name": "python-pip"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "25.3+dfsg-1+e2"
-            }
-          ]
-        }
-      ]
     }
   ],
   "references": [

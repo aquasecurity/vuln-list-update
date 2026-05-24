@@ -8,13 +8,27 @@ import (
 const (
 	osvURL = "https://advisory.echohq.com/osv/all.zip"
 	osvDir = "echo-osv"
+
+	// osEcosystem identifies Echo OS-level packages (e.g. distro packages).
+	// These are already published via the legacy Echo updater, so they are
+	// filtered out of the OSV output to avoid duplication. Application
+	// ecosystems use the "Echo:<ecosystem>" form (e.g. "Echo:PyPI") and are
+	// retained.
+	osEcosystem = "Echo"
 )
 
 var osvEcosystems = map[string]osv.Ecosystem{
 	"echo": {
-		Dir: osvDir,
-		URL: osvURL,
+		Dir:    osvDir,
+		URL:    osvURL,
+		Filter: IsOSPackage,
 	},
+}
+
+// IsOSPackage reports whether an Affected entry refers to an Echo OS-level
+// package (ecosystem exactly "Echo") and should be excluded from OSV output.
+func IsOSPackage(a osv.Affected) bool {
+	return a.Package.Ecosystem == osEcosystem
 }
 
 type osvOptions struct {

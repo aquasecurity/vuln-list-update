@@ -75,6 +75,17 @@ func (db *Database) Update() error {
 				return xerrors.Errorf("unable to parse json %s: %w", path, err)
 			}
 
+			if ecosystem.Filter != nil {
+				filtered := parsed.Affected[:0]
+				for _, a := range parsed.Affected {
+					if ecosystem.Filter(a) {
+						continue
+					}
+					filtered = append(filtered, a)
+				}
+				parsed.Affected = filtered
+			}
+
 			if len(parsed.Affected) == 0 {
 				log.Printf("[OSV] skipping %s: no affected packages", parsed.ID)
 				return nil
