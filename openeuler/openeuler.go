@@ -10,6 +10,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/cheggaaa/pb"
@@ -81,7 +82,7 @@ func (c Config) Update() error {
 }
 
 func (c Config) update(year string, urls []string) error {
-	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, c.Retry)
+	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, c.Retry, 10*time.Minute)
 	if err != nil {
 		log.Printf("failed to fetch CVRF data from repo.openEuler.org, err: %s", err)
 	}
