@@ -152,6 +152,10 @@ func fetchURL(url string, headers map[string]string) ([]byte, error) {
 
 // FetchConcurrently fetches concurrently
 func FetchConcurrently(urls []string, concurrency, wait, retry int, timeout time.Duration) (responses [][]byte, err error) {
+	// Each URL pushes at most one value into each channel, so buffering to
+	// len(urls) means writers never block. They are intentionally not closed:
+	// receivers read a bounded number of values (no range), and closing while
+	// workers are still sending would panic. GC reclaims them once unreferenced.
 	reqChan := make(chan string, len(urls))
 	resChan := make(chan []byte, len(urls))
 	errChan := make(chan error, len(urls))
@@ -180,6 +184,9 @@ func FetchConcurrently(urls []string, concurrency, wait, retry int, timeout time
 		select {
 		case tasks <- fn:
 		case <-timer.C:
+			// Stop dispatching and return without waiting: workers already
+			// running keep fetching in the background until they finish their
+			// current request, then exit on the closed tasks channel.
 			close(tasks)
 			return nil, xerrors.New("Timeout Fetching URL")
 		}
