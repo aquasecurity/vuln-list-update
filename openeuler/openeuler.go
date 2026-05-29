@@ -84,7 +84,7 @@ func (c Config) Update() error {
 func (c Config) update(year string, urls []string) error {
 	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, c.Retry, 10*time.Minute)
 	if err != nil {
-		return xerrors.Errorf("failed to fetch CVRF data from repo.openEuler.org: %w", err)
+		return xerrors.Errorf("failed to fetch CVRF data from repo.openeuler.org: %w", err)
 	}
 
 	var cvrfs []Cvrf
