@@ -102,7 +102,7 @@ func retrieveRedhatCveDetails(urls []string) (map[string]*RedhatCVEJSON, error) 
 
 	cveJSONs, err := utils.FetchConcurrently(urls, concurrency, wait, retry, 30*time.Minute)
 	if err != nil {
-		log.Printf("failed to fetch cve data from RedHat. err: %s", err)
+		return nil, xerrors.Errorf("failed to fetch cve data from RedHat: %w", err)
 	}
 
 	for _, cveJSON := range cveJSONs {
