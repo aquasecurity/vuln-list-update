@@ -100,9 +100,9 @@ func listAllRedhatCves(after, before string, wait int) (entries []RedhatEntry, e
 func retrieveRedhatCveDetails(urls []string) (map[string]*RedhatCVEJSON, error) {
 	cves := map[string]*RedhatCVEJSON{}
 
-	cveJSONs, err := utils.FetchConcurrently(urls, concurrency, wait, retry, 10*time.Minute)
+	cveJSONs, err := utils.FetchConcurrently(urls, concurrency, wait, retry, 30*time.Minute)
 	if err != nil {
-		log.Printf("failed to fetch cve data from RedHat. err: %s", err)
+		return nil, xerrors.Errorf("failed to fetch cve data from RedHat: %w", err)
 	}
 
 	for _, cveJSON := range cveJSONs {
