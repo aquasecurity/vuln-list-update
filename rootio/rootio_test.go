@@ -1,86 +1,91 @@
-package rootio
+package rootio_test
 
 import (
-	"flag"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/vuln-list-update/osv"
+	"github.com/aquasecurity/vuln-list-update/rootio"
 )
 
-var update = flag.Bool("update", false, "update golden files")
+func Test_Update(t *testing.T) {
+	const archivePath = "/external/osv/all.zip"
 
-func TestUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name     string
-		testFile string
-		wantErr  string
+		name      string
+		path      string
+		wantFiles []string
+		wantErr   string
 	}{
 		{
-			name:     "valid response",
-			testFile: "testdata/valid.json",
+			name: "happy path",
+			wantFiles: []string{
+				filepath.Join("curl", "CVE-2023-0001.json"),
+				filepath.Join("openssl", "CVE-2023-0002.json"),
+			},
 		},
 		{
-			name:     "invalid JSON response",
-			testFile: "testdata/invalid.json",
-			wantErr:  "failed to parse Root.io CVE feed JSON",
-		},
-		{
-			name:     "requesting non-existent file",
-			testFile: "testdata/non-existent.json",
-			wantErr:  "status code: 404",
-		},
-		{
-			name:    "empty test file",
-			wantErr: "status code: 500",
+			name:    "sad path, unable to download archive",
+			path:    "/unknown.zip",
+			wantErr: "bad response code: 404",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				if tt.testFile != "" {
-					http.ServeFile(w, r, tt.testFile)
-				} else {
-					w.WriteHeader(http.StatusInternalServerError)
+				if r.URL.Path != archivePath {
+					http.NotFound(w, r)
+					return
 				}
+				http.ServeFile(w, r, filepath.Join("testdata", "all.zip"))
 			}))
 			defer ts.Close()
 
-			tmpDir := t.TempDir()
+			testDir := t.TempDir()
+			testURL := ts.URL + archivePath
+			if tt.path != "" {
+				testURL = ts.URL + tt.path
+			}
 
-			serverURL, _ := url.Parse(ts.URL)
-			updater := NewUpdater(
-				WithBaseURL(serverURL),
-				WithVulnListDir(tmpDir),
-				WithRetry(0),
+			ecosystems := map[string]osv.Ecosystem{
+				"Root": {
+					Dir: "",
+					URL: testURL,
+				},
+			}
+
+			db := rootio.NewDatabase(
+				rootio.WithDir(testDir),
+				rootio.WithEcosystems(ecosystems),
 			)
 
-			err := updater.Update()
+			err := db.Update()
 			if tt.wantErr != "" {
 				require.ErrorContains(t, err, tt.wantErr)
 				return
 			}
-			assert.NoError(t, err)
-
-			actual, err := os.ReadFile(filepath.Join(tmpDir, rootioDir, "cve_feed.json"))
 			require.NoError(t, err)
 
-			wantFile := filepath.Join("testdata", "happy", "cve_feed.json")
-			if *update {
-				err = os.WriteFile(wantFile, actual, 0666)
-				require.NoError(t, err, wantFile)
+			for _, wantFile := range tt.wantFiles {
+				got, err := os.ReadFile(filepath.Join(testDir, wantFile))
+				require.NoError(t, err)
+
+				want, err := os.ReadFile(filepath.Join("testdata", "golden", wantFile))
+				require.NoError(t, err)
+
+				assert.JSONEq(t, string(want), string(got))
 			}
 
-			expected, err := os.ReadFile(wantFile)
-			require.NoError(t, err)
-
-			assert.JSONEq(t, string(expected), string(actual))
+			// Records with no affected packages must be skipped.
+			_, err = os.Stat(filepath.Join(testDir, "CVE-2023-0003.json"))
+			assert.True(t, os.IsNotExist(err), "record without affected packages should not be written")
 		})
 	}
 }
