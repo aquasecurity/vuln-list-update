@@ -8,6 +8,7 @@ import (
 
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
+	"github.com/aquasecurity/vuln-list-update/bottlerocket"
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
@@ -39,7 +40,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
 		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -102,6 +103,11 @@ func run() error {
 		ac := amazon.NewConfig()
 		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("Amazon Linux update error: %w", err)
+		}
+	case "bottlerocket":
+		bc := bottlerocket.NewConfig()
+		if err := bc.Update(); err != nil {
+			return xerrors.Errorf("Bottlerocket update error: %w", err)
 		}
 	case "oracle-oval":
 		oc := oracleoval.NewConfig()
