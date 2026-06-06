@@ -105,6 +105,10 @@ jobs:
           commit-message: "Photon Security Advisories"
 
       - if: always()
+        name: Photon OVAL definitions
+        run: ./scripts/update.sh photon-oval "Photon OVAL definitions"
+
+      - if: always()
         name: CWE
         uses: ./.github/actions/update-source
         with:
