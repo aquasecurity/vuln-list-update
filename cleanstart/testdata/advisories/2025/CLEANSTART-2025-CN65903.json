@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.7.3",
+  "id": "CLEANSTART-2025-CN65903",
+  "summary": "Security fixes for GHSA-6v2p-p543-phr9, GHSA-qxp5-gwg8-xv66, GHSA-vvgc-356p-c3xw applied in versions: 1.5.0-r0, 1.7.0-r0",
+  "details": "Multiple security vulnerabilities affect the vault-k8s-fips package. These issues are resolved in later releases. See references for individual GHSA details.",
+  "affected": [
+    {
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.0-r0"
+            }
+          ]
+        }
+      ],
+      "package": {
+        "name": "vault-k8s-fips",
+        "ecosystem": "CleanStart"
+      }
+    }
+  ],
+  "upstream": [
+    "GHSA-6v2p-p543-phr9",
+    "GHSA-qxp5-gwg8-xv66",
+    "GHSA-vvgc-356p-c3xw"
+  ],
+  "references": [
+    {
+      "url": "https://github.com/cleanstart-dev/cleanstart-security-advisories/tree/main/advisories/2025/CLEANSTART-2025-CN65903.json",
+      "type": "ADVISORY"
+    },
+    {
+      "url": "https://osv.dev/vulnerability/GHSA-6v2p-p543-phr9",
+      "type": "WEB"
+    },
+    {
+      "url": "https://osv.dev/vulnerability/GHSA-qxp5-gwg8-xv66",
+      "type": "WEB"
+    },
+    {
+      "url": "https://osv.dev/vulnerability/GHSA-vvgc-356p-c3xw",
+      "type": "WEB"
+    }
+  ],
+  "published": "2026-01-16T12:00:42.667592Z",
+  "modified": "2025-09-29T13:20:40Z"
+}
