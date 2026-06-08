@@ -258,17 +258,6 @@ jobs:
           repository: ${{ env.VULN_LIST_DIR }}
           commit-message: "EOL dates"
 
-      - if: always()
-        name: Root CVE Tracker
-        uses: ./.github/actions/update-source
-        with:
-          target: rootio
-          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
-          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repository: ${{ env.VULN_LIST_DIR }}
-          commit-message: "Root CVE Feed Tracker"
-
       - name: Microsoft Teams Notification
         uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88
         if: failure()
