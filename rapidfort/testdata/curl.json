@@ -1,0 +1,45 @@
+{
+  "package_name": "curl",
+  "advisory": {
+    "focal": {
+      "CVE-2020-8169": {
+        "cve_id": "CVE-2020-8169",
+        "title": "curl 7.62.0 through 7.70.0 is vulnerable to an information disclosure",
+        "description": "curl 7.62.0 through 7.70.0 is vulnerable to an information disclosure vulnerability that can lead to a partial password being leaked over the network.",
+        "severity": "HIGH",
+        "status": "fixed",
+        "events": [
+          {
+            "introduced": "7.68.0",
+            "fixed": "7.68.0-1ubuntu2.1"
+          }
+        ]
+      },
+      "CVE-2022-32207": {
+        "cve_id": "CVE-2022-32207",
+        "title": "When curl saves cookies to local files it might widen permissions",
+        "description": "When curl saves cookies, alt-svc and hsts data to local files it might widen permissions for the target file.",
+        "severity": "CRITICAL",
+        "status": "fixed",
+        "events": [
+          {
+            "introduced": "7.81.0",
+            "fixed": "7.81.0-1ubuntu1.3"
+          }
+        ]
+      },
+      "CVE-2025-10148": {
+        "cve_id": "CVE-2025-10148",
+        "title": "curl websocket mask pattern is not rotated per frame",
+        "description": "curl websocket code did not update the 32 bit mask pattern for each new outgoing frame.",
+        "severity": "MEDIUM",
+        "status": "open",
+        "events": [
+          {
+            "introduced": "8.5.0"
+          }
+        ]
+      }
+    }
+  }
+}

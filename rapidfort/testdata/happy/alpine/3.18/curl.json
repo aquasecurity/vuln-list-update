@@ -1,0 +1,19 @@
+{
+  "package_name": "curl",
+  "distro_version": "3.18",
+  "advisories": {
+    "CVE-2023-38545": {
+      "cve_id": "CVE-2023-38545",
+      "title": "curl SOCKS5 heap buffer overflow",
+      "description": "This flaw makes curl overflow a heap based buffer in the SOCKS5 proxy handshake.",
+      "severity": "HIGH",
+      "status": "fixed",
+      "events": [
+        {
+          "introduced": "7.69.0",
+          "fixed": "8.4.0-r0"
+        }
+      ]
+    }
+  }
+}
