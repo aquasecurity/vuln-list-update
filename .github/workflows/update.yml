@@ -127,6 +127,10 @@ jobs:
           commit-message: "SUSE CVRF"
 
       - if: always()
+        name: SUSE CVE CVRF
+        run: ./scripts/update.sh suse-cvrf-cve "SUSE CVE CVRF"
+
+      - if: always()
         name: GitLab Advisory Database
         uses: ./.github/actions/update-source
         with:
