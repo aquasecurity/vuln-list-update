@@ -6,6 +6,7 @@ import (
 
 	"golang.org/x/xerrors"
 
+	"github.com/aquasecurity/vuln-list-update/alinux"
 	"github.com/aquasecurity/vuln-list-update/alma"
 	"github.com/aquasecurity/vuln-list-update/alpine"
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
@@ -39,7 +40,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"redhat-csaf-vex, debian, ubuntu, amazon, alinux, alinux-csaf, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
 		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -102,6 +103,16 @@ func run() error {
 		ac := amazon.NewConfig()
 		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("Amazon Linux update error: %w", err)
+		}
+	case "alinux":
+		alc := alinux.NewConfig()
+		if err := alc.Update(); err != nil {
+			return xerrors.Errorf("Alibaba Cloud Linux update error: %w", err)
+		}
+	case "alinux-csaf":
+		alc := alinux.NewCSAFConfig()
+		if err := alc.Update(); err != nil {
+			return xerrors.Errorf("Alibaba Cloud Linux CSAF update error: %w", err)
 		}
 	case "oracle-oval":
 		oc := oracleoval.NewConfig()
