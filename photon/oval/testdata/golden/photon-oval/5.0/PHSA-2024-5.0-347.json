@@ -1,0 +1,59 @@
+{
+  "Title": "PHSA-2026:00007 keepalived Security Update. (Critical)",
+  "Description": "This update upgrade keepalived to 2.2.7-3.ph5 #Fixes {'CVE-2024-41184'}",
+  "Platform": [
+    "Photon 5"
+  ],
+  "References": [
+    {
+      "Source": "PHSA",
+      "URI": "https://github.com/vmware/photon/wiki/Security-Update-5.0-347",
+      "ID": "PHSA:00007:5.0:347"
+    },
+    {
+      "Source": "CVE",
+      "URI": "https://nvd.nist.gov/vuln/detail?vulnId=CVE-2024-41184",
+      "ID": "CVE:00007:CVE-2024-41184"
+    }
+  ],
+  "Criteria": {
+    "Operator": "AND",
+    "Criterias": [
+      {
+        "Operator": "OR",
+        "Criterias": [
+          {
+            "Operator": "AND",
+            "Criterias": null,
+            "Criterions": [
+              {
+                "Comment": "keepalived is earlier than 0:2.2.7-3.ph5"
+              },
+              {
+                "Comment": "keepalived is signed with VMware key"
+              }
+            ]
+          }
+        ],
+        "Criterions": null
+      }
+    ],
+    "Criterions": [
+      {
+        "Comment": "Photon OS 5 is installed"
+      }
+    ]
+  },
+  "Severity": "Critical",
+  "Cves": [
+    {
+      "ID": "CVE-2024-41184"
+    }
+  ],
+  "Issued": {
+    "Date": "2024-08-15"
+  },
+  "Updated": {
+    "Date": "2024-08-15"
+  }
+}

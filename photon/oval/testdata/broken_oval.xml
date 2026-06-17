@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+  <definitions>
+    <definition class="patch" id="oval:com.vmware.phsa:def:2026300001" version="1">
+      <metadata>
+        <title>PHSA-2026:00001 telegraf Security Update. (Moderate)</title>
+        <criteria operator="AND">
+          <criterion comment="Photon OS 3 is installed"/>
+        </criteria>
+      </metadata>
+      <criteria operator="AND">
+        <criterion comment="broken XML here
