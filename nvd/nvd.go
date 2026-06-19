@@ -2,6 +2,7 @@ package nvd
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"log/slog"
 	"net/http"
@@ -153,29 +154,40 @@ func (u Updater) fetchEntry(url string) (Entry, error) {
 	return entry, nil
 }
 
+// errRetry signals fetchURL to retry. retryAfter is the server-mandated
+// minimum wait (rate limit); zero means apply the caller's backoff.
+type errRetry struct{ retryAfter time.Duration }
+
+func (errRetry) Error() string { return "retryable" }
+
 func (u Updater) fetchURL(url string) ([]byte, error) {
 	var c http.Client
 	for i := 0; i <= u.retry; i++ {
-		body, wait, err := u.doRequest(&c, url, i)
-		if err != nil {
+		body, err := u.doRequest(&c, url)
+		var re errRetry
+		switch {
+		case err == nil:
+			return body, nil
+		case errors.As(err, &re):
+			wait := re.retryAfter
+			if wait == 0 {
+				wait = time.Duration(i) * time.Second
+			}
+			time.Sleep(wait)
+		default:
 			return nil, err
 		}
-		// A nil body with a nil error means the request should be retried after `wait`.
-		if body != nil {
-			return body, nil
-		}
-		time.Sleep(wait)
 	}
 	return nil, xerrors.Errorf("unable to fetch url. Retry limit exceeded.")
 }
 
 // doRequest performs a single NVD request attempt and closes the response body
-// before returning. It returns the response body on success. A nil body with a
-// nil error means the request should be retried after waiting for `wait`.
-func (u Updater) doRequest(c *http.Client, url string, attempt int) (body []byte, wait time.Duration, err error) {
+// before returning. It returns the response body on success, or errRetry to
+// signal that fetchURL should retry the request.
+func (u Updater) doRequest(c *http.Client, url string) ([]byte, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, 0, xerrors.Errorf("unable to build request for %q: %w", url, err)
+		return nil, xerrors.Errorf("unable to build request for %q: %w", url, err)
 	}
 	if u.apiKey != "" {
 		req.Header.Set("apiKey", u.apiKey)
@@ -184,7 +196,7 @@ func (u Updater) doRequest(c *http.Client, url string, attempt int) (body []byte
 	resp, err := c.Do(req)
 	if err != nil {
 		slog.Error("Response error. Try to get the entry again.", slog.String("error", err.Error()))
-		return nil, 0, nil
+		return nil, errRetry{}
 	}
 	defer resp.Body.Close()
 
@@ -202,23 +214,23 @@ func (u Updater) doRequest(c *http.Client, url string, attempt int) (body []byte
 		// NVD limits:
 		// Without API key: 5 requests / 30 seconds window
 		// With API key: 50 requests / 30 seconds window
-		return nil, ra, nil
+		return nil, errRetry{retryAfter: ra}
 	case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout, statusOriginTimeout:
 		slog.Error("NVD API is unstable. Try to fetch URL again.", slog.String("status_code", resp.Status))
 		// NVD API works unstable
-		return nil, time.Duration(attempt) * time.Second, nil
+		return nil, errRetry{}
 	case http.StatusOK:
 		// Read the body here so that a transient error while reading the response
 		// (e.g. HTTP/2 `INTERNAL_ERROR` when NVD aborts the stream mid-body) is
 		// retried instead of failing the whole run.
-		body, err = io.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			slog.Error("Failed to read NVD response body. Try to fetch URL again.", slog.String("error", err.Error()))
-			return nil, time.Duration(attempt) * time.Second, nil
+			return nil, errRetry{}
 		}
-		return body, 0, nil
+		return body, nil
 	default:
-		return nil, 0, xerrors.Errorf("unexpected status code: %s", resp.Status)
+		return nil, xerrors.Errorf("unexpected status code: %s", resp.Status)
 	}
 }
 
