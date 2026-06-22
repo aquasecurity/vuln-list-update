@@ -30,6 +30,9 @@ func TestOSVUpdater_Update(t *testing.T) {
 				// ("Echo:PyPI"/torch). It must be dropped, and the file written
 				// under the remaining app package's directory.
 				filepath.Join("echo-osv", "torch", "ECHO-9320-f34e-79db.json"),
+				// Maven coordinates (groupId:artifactId) route to a nested
+				// groupId/artifactId path (colon -> slash).
+				filepath.Join("echo-osv", "org.apache.commons", "commons-lang3", "ECHO-mvn1-0000-0001.json"),
 			},
 			notWantFiles: []string{
 				// The openssh advisory only carries an "Echo" entry and should
