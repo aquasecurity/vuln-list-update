@@ -26,6 +26,9 @@ func TestOSVUpdater_Update(t *testing.T) {
 			name: "happy path",
 			wantFiles: []string{
 				filepath.Join("echo-osv", "pip", "ECHO-7db2-03aa-5591.json"),
+				// Maven coordinates (groupId:artifactId) route to a nested
+				// groupId/artifactId path (colon -> slash).
+				filepath.Join("echo-osv", "org.apache.commons", "commons-lang3", "ECHO-mvn1-0000-0001.json"),
 			},
 			// OS-level Echo packages must be filtered out of OSV output;
 			// the openssh advisory only carries an "Echo" ecosystem entry
