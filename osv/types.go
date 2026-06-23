@@ -3,6 +3,11 @@ package osv
 type Ecosystem struct {
 	Dir string
 	URL string
+	// Filter is an optional predicate to drop individual Affected entries.
+	// If it returns true for a given Affected, that entry is excluded from
+	// the written output. Files that end up with no remaining Affected
+	// entries after filtering are skipped entirely.
+	Filter func(Affected) bool
 }
 
 type Affected struct {
@@ -49,6 +54,7 @@ type OSV struct {
 	Modified   string      `json:"modified,omitempty"`
 	Published  string      `json:"published,omitempty"`
 	Withdrawn  string      `json:"withdrawn,omitempty"`
+	Upstream   []string    `json:"upstream,omitempty"`
 	Aliases    []string    `json:"aliases,omitempty"`
 	Related    []string    `json:"related,omitempty"`
 	Summary    string      `json:"summary,omitempty"`
