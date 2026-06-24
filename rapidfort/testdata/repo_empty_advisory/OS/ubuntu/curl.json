@@ -1,0 +1,6 @@
+{
+  "package_name": "curl",
+  "advisory": {
+    "20.04": {}
+  }
+}
