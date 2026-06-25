@@ -2,7 +2,9 @@ package osv
 
 type Ecosystem struct {
 	Dir string
-	URL string
+	// URLs lists every OSV feed whose advisories share the same Dir.
+	// e.g. Seal original and renamed packages.
+	URLs []string
 }
 
 type Affected struct {

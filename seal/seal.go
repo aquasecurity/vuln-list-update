@@ -13,8 +13,8 @@ const (
 // Seal uses single archive for all ecosystems, so we use a single ecosystem and single dir.
 var ecosystems = map[string]osv.Ecosystem{
 	"seal": {
-		Dir: sealDir,
-		URL: securityTrackerURL,
+		Dir:  sealDir,
+		URLs: []string{securityTrackerURL},
 	},
 }
 

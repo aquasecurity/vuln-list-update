@@ -26,16 +26,16 @@ const (
 
 var defaultEcosystems = map[string]osv.Ecosystem{
 	"PyPI": {
-		Dir: "python",
-		URL: "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip",
+		Dir:  "python",
+		URLs: []string{"https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"},
 	},
 	"Go": {
-		Dir: "go",
-		URL: "https://osv-vulnerabilities.storage.googleapis.com/Go/all.zip",
+		Dir:  "go",
+		URLs: []string{"https://osv-vulnerabilities.storage.googleapis.com/Go/all.zip"},
 	},
 	"crates.io": {
-		Dir: "rust",
-		URL: "https://osv-vulnerabilities.storage.googleapis.com/crates.io/all.zip",
+		Dir:  "rust",
+		URLs: []string{"https://osv-vulnerabilities.storage.googleapis.com/crates.io/all.zip"},
 	},
 }
 

@@ -98,8 +98,8 @@ func Test_Update(t *testing.T) {
 			ecosystems := make(map[string]osv.Ecosystem)
 			for name, dir := range tt.ecosystem {
 				ecosystems[name] = osv.Ecosystem{
-					Dir: dir,
-					URL: ts.URL + fmt.Sprintf("/%s/all.zip", name),
+					Dir:  dir,
+					URLs: []string{ts.URL + fmt.Sprintf("/%s/all.zip", name)},
 				}
 			}
 

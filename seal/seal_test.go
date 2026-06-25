@@ -62,8 +62,8 @@ func Test_Update(t *testing.T) {
 			// Create ecosystems map with test URL
 			ecosystems := map[string]osv.Ecosystem{
 				"seal": {
-					Dir: "",
-					URL: testURL,
+					Dir:  "",
+					URLs: []string{testURL},
 				},
 			}
 

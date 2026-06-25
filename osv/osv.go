@@ -34,7 +34,7 @@ type Database struct {
 
 // NewDatabase creates a new generic OSV database instance.
 // baseDir is the root directory where vulnerability data will be stored.
-// ecosystems maps ecosystem names to their configuration (storage directory and source URL).
+// ecosystems maps ecosystem names to their configuration (storage directory and source URLs).
 func NewDatabase(baseDir string, ecosystems map[string]Ecosystem) Database {
 	return Database{
 		baseDir:    baseDir,
@@ -45,53 +45,66 @@ func NewDatabase(baseDir string, ecosystems map[string]Ecosystem) Database {
 func (db *Database) Update() error {
 	ctx := context.Background()
 	for name, ecosystem := range db.ecosystems {
-		log.Printf("Updating OSV %s advisories", name)
-
-		tempDir, err := utils.DownloadToTempDir(ctx, ecosystem.URL)
-		if err != nil {
-			return xerrors.Errorf("failed to download %s: %w", ecosystem.URL, err)
+		if len(ecosystem.URLs) == 0 {
+			return xerrors.Errorf("ecosystem %s has no feed URLs", name)
 		}
 
-		// Remove the existing directory to delete files that have been removed from the source
+		// Remove the existing directory to delete files that have been removed from the source.
 		ecosystemDir := filepath.Join(db.baseDir, ecosystem.Dir)
 		log.Printf("[OSV] Removing %s directory", ecosystemDir)
-		if err = os.RemoveAll(ecosystemDir); err != nil {
+		if err := os.RemoveAll(ecosystemDir); err != nil {
 			return xerrors.Errorf("failed to remove %s directory: %w", name, err)
 		}
 
-		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, walkErr error) error {
-			if walkErr != nil {
-				return walkErr
-			} else if d.IsDir() {
-				return nil
+		for _, url := range ecosystem.URLs {
+			log.Printf("Updating OSV %s advisories from %s", name, url)
+			if err := db.updateFromURL(ctx, ecosystemDir, url); err != nil {
+				return err
 			}
-			f, err := os.Open(path)
-			if err != nil {
-				return xerrors.Errorf("file open error (%s): %w", path, err)
-			}
-
-			var parsed OSV
-			if err = json.NewDecoder(f).Decode(&parsed); err != nil {
-				return xerrors.Errorf("unable to parse json %s: %w", path, err)
-			}
-
-			if len(parsed.Affected) == 0 {
-				log.Printf("[OSV] skipping %s: no affected packages", parsed.ID)
-				return nil
-			}
-
-			// Replace colons with slashes to avoid invalid directory names.
-			// e.g. Maven "groupId:artifactId" -> "groupId/artifactId"
-			pkgName := strings.ReplaceAll(parsed.Affected[0].Package.Name, ":", "/")
-			filePath := filepath.Join(db.baseDir, ecosystem.Dir, pkgName, fmt.Sprintf("%s.json", parsed.ID))
-			if err = utils.Write(filePath, parsed); err != nil {
-				return xerrors.Errorf("failed to write file: %w", err)
-			}
-			return nil
-		})
-		if err != nil {
-			return xerrors.Errorf("walk error: %w", err)
 		}
+	}
+	return nil
+}
+
+// updateFromURL downloads a single OSV feed and writes its advisories into ecosystemDir.
+func (db *Database) updateFromURL(ctx context.Context, ecosystemDir, url string) error {
+	tempDir, err := utils.DownloadToTempDir(ctx, url)
+	if err != nil {
+		return xerrors.Errorf("failed to download %s: %w", url, err)
+	}
+
+	err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		} else if d.IsDir() {
+			return nil
+		}
+		f, err := os.Open(path)
+		if err != nil {
+			return xerrors.Errorf("file open error (%s): %w", path, err)
+		}
+
+		var parsed OSV
+		if err = json.NewDecoder(f).Decode(&parsed); err != nil {
+			return xerrors.Errorf("unable to parse json %s: %w", path, err)
+		}
+
+		if len(parsed.Affected) == 0 {
+			log.Printf("[OSV] skipping %s: no affected packages", parsed.ID)
+			return nil
+		}
+
+		// Replace colons with slashes to avoid invalid directory names.
+		// e.g. Maven "groupId:artifactId" -> "groupId/artifactId"
+		pkgName := strings.ReplaceAll(parsed.Affected[0].Package.Name, ":", "/")
+		filePath := filepath.Join(ecosystemDir, pkgName, fmt.Sprintf("%s.json", parsed.ID))
+		if err = utils.Write(filePath, parsed); err != nil {
+			return xerrors.Errorf("failed to write file: %w", err)
+		}
+		return nil
+	})
+	if err != nil {
+		return xerrors.Errorf("walk error: %w", err)
 	}
 	return nil
 }
