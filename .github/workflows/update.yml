@@ -83,6 +83,17 @@ jobs:
           commit-message: "Amazon Linux Security Center"
 
       - if: always()
+        name: Bottlerocket Security Advisories
+        uses: ./.github/actions/update-source
+        with:
+          target: bottlerocket
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Bottlerocket Security Advisories"
+
+      - if: always()
         name: Oracle Linux OVAL
         uses: ./.github/actions/update-source
         with:
