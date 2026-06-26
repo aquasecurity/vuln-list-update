@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/aquasecurity/vuln-list-update/osv"
 	"github.com/aquasecurity/vuln-list-update/seal"
 )
 
@@ -23,18 +24,18 @@ func Test_Update(t *testing.T) {
 		{
 			name: "happy path",
 			wantFiles: []string{
-				// renamed-name feed
-				filepath.Join("seal-screen", "CVE-2025-46803.json"),
-				filepath.Join("seal-glibc", "CVE-2023-6780.json"),
-				filepath.Join("seal-rsync", "CVE-2020-14387.json"),
-				filepath.Join("seal-requests", "CVE-2023-32681.json"),
-				filepath.Join("sealsecurity.io", "golang.org", "x", "crypto", "CVE-2025-22869.json"),
-				filepath.Join("seal-rack", "CVE-2025-61780.json"),
-				filepath.Join("seal.sp1.org.apache.logging.log4j", "log4j-core", "CVE-2025-68161.json"),
-				filepath.Join("@seal-security", "ajv", "CVE-2025-69873.json"),
-				// original-name feed (merged into the same dir, must not be wiped by the renamed feed)
-				filepath.Join("requests", "CVE-2023-32681.json"),
-				filepath.Join("org.apache.logging.log4j", "log4j-core", "CVE-2025-68161.json"),
+				// renamed-name feed -> seal/renamed
+				filepath.Join("renamed", "seal-screen", "CVE-2025-46803.json"),
+				filepath.Join("renamed", "seal-glibc", "CVE-2023-6780.json"),
+				filepath.Join("renamed", "seal-rsync", "CVE-2020-14387.json"),
+				filepath.Join("renamed", "seal-requests", "CVE-2023-32681.json"),
+				filepath.Join("renamed", "sealsecurity.io", "golang.org", "x", "crypto", "CVE-2025-22869.json"),
+				filepath.Join("renamed", "seal-rack", "CVE-2025-61780.json"),
+				filepath.Join("renamed", "seal.sp1.org.apache.logging.log4j", "log4j-core", "CVE-2025-68161.json"),
+				filepath.Join("renamed", "@seal-security", "ajv", "CVE-2025-69873.json"),
+				// no-prefix feed -> seal/noprefix
+				filepath.Join("noprefix", "requests", "CVE-2023-32681.json"),
+				filepath.Join("noprefix", "org.apache.logging.log4j", "log4j-core", "CVE-2025-68161.json"),
 			},
 		},
 		{
@@ -60,15 +61,26 @@ func Test_Update(t *testing.T) {
 
 			// build test settings
 			testDir := t.TempDir()
-			testURLs := []string{
-				ts.URL + "/v1/osv/vulnerabilities.zip",
-				ts.URL + "/v1/osv/renamed/vulnerabilities.zip",
+			ecosystems := map[string]osv.Ecosystem{
+				"seal-renamed": {
+					Dir: filepath.Join("seal", "renamed"),
+					URL: ts.URL + "/v1/osv/renamed/vulnerabilities.zip",
+				},
+				"seal-noprefix": {
+					Dir: filepath.Join("seal", "noprefix"),
+					URL: ts.URL + "/v1/osv/vulnerabilities.zip",
+				},
 			}
 			if tt.path != "" {
-				testURLs = []string{ts.URL + tt.path}
+				ecosystems = map[string]osv.Ecosystem{
+					"seal-renamed": {
+						Dir: filepath.Join("seal", "renamed"),
+						URL: ts.URL + tt.path,
+					},
+				}
 			}
 
-			c := seal.NewSeal(seal.WithDir(testDir), seal.WithFeedURLs(testURLs))
+			c := seal.NewSeal(seal.WithDir(testDir), seal.WithEcosystems(ecosystems))
 
 			err := c.Update()
 			if tt.wantErr != "" {
