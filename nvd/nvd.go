@@ -2,6 +2,7 @@ package nvd
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"log/slog"
 	"net/http"
@@ -23,6 +24,11 @@ const (
 	maxResultsPerPage = 2000
 	retryAfter        = 30 * time.Second
 	apiKeyEnvName     = "NVD_API_KEY"
+
+	// statusOriginTimeout is a non-standard Cloudflare status code (524) returned
+	// when the origin server (NVD backend behind the proxy) does not respond in time.
+	// There is no constant for it in net/http.
+	statusOriginTimeout = 524
 )
 
 type Option func(*Updater)
@@ -135,66 +141,97 @@ func (u Updater) saveEntry(interval TimeInterval, startIndex int) (int, error) {
 
 func (u Updater) fetchEntry(url string) (Entry, error) {
 	var entry Entry
-	r, err := u.fetchURL(url)
+	body, err := u.fetchURL(url)
 	if err != nil {
 		return Entry{}, xerrors.Errorf("unable to fetch: %w", err)
-	} else if r == nil {
+	} else if body == nil {
 		return Entry{}, xerrors.Errorf("unable to get entry from %q", url)
 	}
-	defer r.Close()
 
-	if err = json.NewDecoder(r).Decode(&entry); err != nil {
+	if err = json.Unmarshal(body, &entry); err != nil {
 		return Entry{}, xerrors.Errorf("unable to decode response for %q: %w", url, err)
 	}
 	return entry, nil
 }
 
-func (u Updater) fetchURL(url string) (io.ReadCloser, error) {
+// errRetry signals fetchURL to retry. retryAfter is the server-mandated
+// minimum wait (rate limit); zero means apply the caller's backoff.
+type errRetry struct{ retryAfter time.Duration }
+
+func (errRetry) Error() string { return "retryable" }
+
+func (u Updater) fetchURL(url string) ([]byte, error) {
 	var c http.Client
 	for i := 0; i <= u.retry; i++ {
-		req, err := http.NewRequest(http.MethodGet, url, nil)
-		if err != nil {
-			return nil, xerrors.Errorf("unable to build request for %q: %w", url, err)
-		}
-		if u.apiKey != "" {
-			req.Header.Set("apiKey", u.apiKey)
-		}
-
-		resp, err := c.Do(req)
-		if err != nil {
-			slog.Error("Response error. Try to get the entry again.", slog.String("error", err.Error()))
-			continue
-		}
-		switch resp.StatusCode {
-		case http.StatusForbidden, http.StatusTooManyRequests:
-			slog.Error("NVD rate limit. Wait to gain access.")
-			ra := u.retryAfter
-			// NVD returns the `Retry-After` header as 0.
-			// But if they start setting a non-zero value, we can use that duration.
-			if headerRetry := resp.Header.Get("Retry-After"); headerRetry != "0" {
-				hRetry, err := time.ParseDuration(headerRetry)
-				if err == nil {
-					ra = hRetry
-				}
+		body, err := u.doRequest(&c, url)
+		var re errRetry
+		switch {
+		case err == nil:
+			return body, nil
+		case errors.As(err, &re):
+			wait := re.retryAfter
+			if wait == 0 {
+				wait = time.Duration(i) * time.Second
 			}
-			// NVD limits:
-			// Without API key: 5 requests / 30 seconds window
-			// With API key: 50 requests / 30 seconds window
-			time.Sleep(ra)
-			continue
-		case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout:
-			slog.Error("NVD API is unstable. Try to fetch URL again.", slog.String("status_code", resp.Status))
-			// NVD API works unstable
-			time.Sleep(time.Duration(i) * time.Second)
-			continue
-		case http.StatusOK:
-			return resp.Body, nil
+			time.Sleep(wait)
 		default:
-			return nil, xerrors.Errorf("unexpected status code: %s", resp.Status)
+			return nil, err
 		}
-
 	}
 	return nil, xerrors.Errorf("unable to fetch url. Retry limit exceeded.")
+}
+
+// doRequest performs a single NVD request attempt and closes the response body
+// before returning. It returns the response body on success, or errRetry to
+// signal that fetchURL should retry the request.
+func (u Updater) doRequest(c *http.Client, url string) ([]byte, error) {
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return nil, xerrors.Errorf("unable to build request for %q: %w", url, err)
+	}
+	if u.apiKey != "" {
+		req.Header.Set("apiKey", u.apiKey)
+	}
+
+	resp, err := c.Do(req)
+	if err != nil {
+		slog.Error("Response error. Try to get the entry again.", slog.String("error", err.Error()))
+		return nil, errRetry{}
+	}
+	defer resp.Body.Close()
+
+	switch resp.StatusCode {
+	case http.StatusForbidden, http.StatusTooManyRequests:
+		slog.Error("NVD rate limit. Wait to gain access.")
+		ra := u.retryAfter
+		// NVD returns the `Retry-After` header as 0.
+		// But if they start setting a non-zero value, we can use that duration.
+		if headerRetry := resp.Header.Get("Retry-After"); headerRetry != "0" {
+			if hRetry, err := time.ParseDuration(headerRetry); err == nil {
+				ra = hRetry
+			}
+		}
+		// NVD limits:
+		// Without API key: 5 requests / 30 seconds window
+		// With API key: 50 requests / 30 seconds window
+		return nil, errRetry{retryAfter: ra}
+	case http.StatusServiceUnavailable, http.StatusRequestTimeout, http.StatusBadGateway, http.StatusGatewayTimeout, statusOriginTimeout:
+		slog.Error("NVD API is unstable. Try to fetch URL again.", slog.String("status_code", resp.Status))
+		// NVD API works unstable
+		return nil, errRetry{}
+	case http.StatusOK:
+		// Read the body here so that a transient error while reading the response
+		// (e.g. HTTP/2 `INTERNAL_ERROR` when NVD aborts the stream mid-body) is
+		// retried instead of failing the whole run.
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			slog.Error("Failed to read NVD response body. Try to fetch URL again.", slog.String("error", err.Error()))
+			return nil, errRetry{}
+		}
+		return body, nil
+	default:
+		return nil, xerrors.Errorf("unexpected status code: %s", resp.Status)
+	}
 }
 
 // TimeIntervals returns time intervals for NVD API

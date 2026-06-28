@@ -26,10 +26,9 @@ jobs:
       - name: Check out vuln-list repo
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          repository: ${{ github.repository_owner }}/vuln-list
-          token: ${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}
+          repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
           path: ${{ env.VULN_LIST_DIR }}
-          persist-credentials: true # update.sh runs git push
+          persist-credentials: false # update-source action mints a fresh token per push
 
       - name: Setup github user email and name
         run: |
@@ -41,71 +40,201 @@ jobs:
 
       - if: always()
         name: Alpine Issue Tracker
-        run: ./scripts/update.sh alpine "Alpine Issue Tracker"
+        uses: ./.github/actions/update-source
+        with:
+          target: alpine
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Alpine Issue Tracker"
 
       - if: always()
         name: Alpine Unfixed Vulnerability Tracker
-        run: ./scripts/update.sh alpine-unfixed "Alpine Secshfixes Tracker"
+        uses: ./.github/actions/update-source
+        with:
+          target: alpine-unfixed
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Alpine Secshfixes Tracker"
 
       - if: always()
         name: Ubuntu CVE Tracker
-        run: ./scripts/update.sh ubuntu "Ubuntu CVE Tracker"
+        uses: ./.github/actions/update-source
+        with:
+          target: ubuntu
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Ubuntu CVE Tracker"
 
       - if: always()
         name: Amazon Linux AMI Security Advisory
-        run: ./scripts/update.sh amazon "Amazon Linux Security Center"
+        uses: ./.github/actions/update-source
+        with:
+          target: amazon
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Amazon Linux Security Center"
+
+      - if: always()
+        name: Bottlerocket Security Advisories
+        uses: ./.github/actions/update-source
+        with:
+          target: bottlerocket
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Bottlerocket Security Advisories"
 
       - if: always()
         name: Oracle Linux OVAL
-        run: ./scripts/update.sh oracle-oval "Oracle Linux OVAL"
+        uses: ./.github/actions/update-source
+        with:
+          target: oracle-oval
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Oracle Linux OVAL"
 
       - if: always()
         name: Photon CVE Advisory
-        run: ./scripts/update.sh photon "Photon Security Advisories"
+        uses: ./.github/actions/update-source
+        with:
+          target: photon
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Photon Security Advisories"
 
       - if: always()
         name: CWE
-        run: ./scripts/update.sh cwe "CWE"
+        uses: ./.github/actions/update-source
+        with:
+          target: cwe
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "CWE"
 
       - if: always()
         name: SUSE CVRF
-        run: ./scripts/update.sh suse-cvrf "SUSE CVRF"
+        uses: ./.github/actions/update-source
+        with:
+          target: suse-cvrf
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "SUSE CVRF"
 
       - if: always()
         name: GitLab Advisory Database
-        run: ./scripts/update.sh glad "GitLab Advisory Database"
+        uses: ./.github/actions/update-source
+        with:
+          target: glad
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "GitLab Advisory Database"
 
       - if: always()
         name: AlmaLinux Security Advisory
-        run: ./scripts/update.sh alma "AlmaLinux Security Advisory"
+        uses: ./.github/actions/update-source
+        with:
+          target: alma
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "AlmaLinux Security Advisory"
 
       - if: always()
         name: Rocky Linux Security Advisory
-        run: ./scripts/update.sh rocky "Rocky Linux Security Advisory"
+        uses: ./.github/actions/update-source
+        with:
+          target: rocky
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Rocky Linux Security Advisory"
 
       - if: always()
         name: Azure Linux and CBL-Mariner Vulnerability Data
-        run: ./scripts/update.sh azure "Azure Linux and CBL-Mariner Vulnerability Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: azure
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Azure Linux and CBL-Mariner Vulnerability Data"
 
       - if: always()
         name: OSV Database (osv.dev)
-        run: ./scripts/update.sh osvdev "OSV Database"
+        uses: ./.github/actions/update-source
+        with:
+          target: osvdev
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "OSV Database"
 
       - if: always()
         name: Wolfi Secdb
-        run: ./scripts/update.sh wolfi "Wolfi Security Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: wolfi
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Wolfi Security Data"
 
       - if: always()
         name: Chainguard Secdb
-        run: ./scripts/update.sh chainguard "Chainguard Security Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: chainguard
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Chainguard Security Data"
 
       - if: always()
         name: openEuler CVE
-        run: ./scripts/update.sh openeuler "openEuler CVE Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: openeuler
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "openEuler CVE Data"
 
       - if: always()
         name: Echo CVEs
-        run: ./scripts/update.sh echo "Echo CVE Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: echo
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Echo CVE Data"
 
       - if: always()
         name: Echo OSV
@@ -113,19 +242,36 @@ jobs:
 
       - if: always()
         name: MinimOS Secdb
-        run: ./scripts/update.sh minimos "MinimOS Security Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: minimos
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "MinimOS Security Data"
 
       - if: always()
         name: Seal Security
-        run: ./scripts/update.sh seal "Seal Security Data"
+        uses: ./.github/actions/update-source
+        with:
+          target: seal
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Seal Security Data"
 
       - if: always()
         name: EOL dates
-        run: ./scripts/update.sh eoldates "EOL dates"
-
-      - if: always()
-        name: Root CVE Tracker
-        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"
+        uses: ./.github/actions/update-source
+        with:
+          target: eoldates
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "EOL dates"
 
       - name: Microsoft Teams Notification
         uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88

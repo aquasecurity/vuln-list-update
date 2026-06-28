@@ -21,18 +21,29 @@ jobs:
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
 
+    - name: Generate token for vuln-list
+      id: vuln-list-token
+      uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+      with:
+        client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+        private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repositories: vuln-list
+
     - name: Clone a shallow repo
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: ${{ github.repository_owner }}/vuln-list
-        token: ${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}
+        token: ${{ steps.vuln-list-token.outputs.token }}
         path: vuln-list
         fetch-depth: 2000
-        persist-credentials: false
+        # extraheader from checkout authenticates the push below
+        # (git filter-repo drops the origin remote but leaves http.extraheader intact)
+        persist-credentials: true
 
     - name: Squash and push
       run: |
         cd vuln-list
         git replace -f --graft $(git rev-list --max-parents=0 HEAD)
         git filter-repo --force
-        git push --force --set-upstream https://${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}@github.com/${{ github.repository_owner }}/vuln-list.git main
+        git push --force --set-upstream "https://github.com/${{ github.repository_owner }}/vuln-list.git" main

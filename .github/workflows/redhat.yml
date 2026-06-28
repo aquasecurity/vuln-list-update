@@ -14,18 +14,16 @@ jobs:
       VULN_LIST_DIR: "vuln-list-redhat"
     steps:
     # vuln-list-redhat dir uses more than 20GB of storage
-    # Disabled: ubuntu-2404-2core runner has enough disk space.
-    # - name: Maximize build space
-    #   uses: AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793 # v5
-    #   with:
-    #     remove-android: 'true'
-    #     remove-dotnet: 'true'
-    #     remove-haskell: 'true'
-    #     remove-codeql: 'true'
-    #     remove-docker-images: 'true'
-    #     remove-large-packages: 'true'
-    #     remove-cached-tools: 'true'
-    #     remove-swapfile: 'true'
+    - name: Free disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /usr/local/.ghcup
+        sudo rm -rf /usr/local/share/boost
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+        sudo docker image prune --all --force > /dev/null
+        df -h
 
     - name: Check out code
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -41,9 +39,8 @@ jobs:
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
-        token: ${{ secrets.SA_GH_VULN_LIST_UPDATE_TOKEN }}
         path: ${{ env.VULN_LIST_DIR }}
-        persist-credentials: true # update.sh runs git push
+        persist-credentials: false # update-source action mints a fresh token per push
 
     - name: Setup github user email and name
       run: |
@@ -55,15 +52,36 @@ jobs:
 
     - if: always()
       name: Red Hat OVALv2
-      run: ./scripts/update.sh redhat-oval "Red Hat OVAL v2"
-
-    - if: always()
-      name: Red Hat Security Data API
-      run: ./scripts/update.sh redhat "Red Hat Security Data API"
+      uses: ./.github/actions/update-source
+      with:
+        target: redhat-oval
+        client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+        private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repository: ${{ env.VULN_LIST_DIR }}
+        commit-message: "Red Hat OVAL v2"
 
     - if: always()
       name: Red Hat CSAF VEX
-      run: ./scripts/update.sh redhat-csaf-vex "Red Hat CSAF VEX"
+      uses: ./.github/actions/update-source
+      with:
+        target: redhat-csaf-vex
+        client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+        private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repository: ${{ env.VULN_LIST_DIR }}
+        commit-message: "Red Hat CSAF VEX"
+
+    - if: always()
+      name: Red Hat Security Data API
+      uses: ./.github/actions/update-source
+      with:
+        target: redhat
+        client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+        private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repository: ${{ env.VULN_LIST_DIR }}
+        commit-message: "Red Hat Security Data API"
 
     - name: Microsoft Teams Notification
       uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88
