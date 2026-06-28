@@ -237,6 +237,10 @@ jobs:
           commit-message: "Echo CVE Data"
 
       - if: always()
+        name: Echo OSV
+        run: ./scripts/update.sh echo-osv "Echo OSV Data"
+
+      - if: always()
         name: MinimOS Secdb
         uses: ./.github/actions/update-source
         with:
