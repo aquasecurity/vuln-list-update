@@ -13,6 +13,19 @@ jobs:
     env:
       VULN_LIST_DIR: "vuln-list"
     steps:
+      # Needs ~9GB for the vuln-list working tree plus at least ~9GB more for the sources,
+      # so free up disk space first to leave enough room.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force > /dev/null
+          df -h
+
       - name: Check out code
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
