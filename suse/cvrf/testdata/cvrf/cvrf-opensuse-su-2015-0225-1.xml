@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+  <DocumentTitle xml:lang="en">Security update for libvirt</DocumentTitle>
+  <DocumentType>SUSE Patch</DocumentType>
+  <DocumentPublisher Type="Vendor">
+    <ContactDetails>security@suse.de</ContactDetails>
+    <IssuingAuthority>SUSE Security Team</IssuingAuthority>
+  </DocumentPublisher>
+  <DocumentTracking>
+    <Identification>
+      <ID>openSUSE-SU-2015:0225-1</ID>
+    </Identification>
+    <Status>Final</Status>
+    <Version>1</Version>
+    <RevisionHistory>
+      <Revision>
+        <Number>1</Number>
+        <Date>2015-01-29T16:46:25Z</Date>
+        <Description>current</Description>
+      </Revision>
+    </RevisionHistory>
+    <InitialReleaseDate>2015-01-29T16:46:25Z</InitialReleaseDate>
+    <CurrentReleaseDate>2015-01-29T16:46:25Z</CurrentReleaseDate>
+    <Generator>
+      <Engine>cve-database/bin/generate-cvrf.pl</Engine>
+      <Date>2017-02-24T01:00:00Z</Date>
+    </Generator>
+  </DocumentTracking>
+  <DocumentNotes>
+    <Note Title="Topic" Type="Summary" Ordinal="1" xml:lang="en">Security update for libvirt</Note>
+    <Note Title="Details" Type="General" Ordinal="2" xml:lang="en">
+      This update fixes the following security issues:
+
+- CVE-2015-0236: libvirt: access control bypass bsc#914693
+
+- bnc#905086: libvirt cannot properly determine cpu flags with qemu-kvm
+
+- Fixed allowing devices for containers.
+</Note>
+    <Note Title="Terms of Use" Type="Legal Disclaimer" Ordinal="3" xml:lang="en">The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).</Note>
+  </DocumentNotes>
+  <DocumentDistribution xml:lang="en">Copyright SUSE LLC under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0)</DocumentDistribution>
+  <DocumentReferences>
+    <Reference Type="Self">
+      <URL>http://lists.opensuse.org/opensuse-updates/2015-02/msg00028.html</URL>
+      <Description>E-Mail link for openSUSE-SU-2015:0225-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/security/rating/</URL>
+      <Description>SUSE Security Ratings</Description>
+    </Reference>
+  </DocumentReferences>
+  <ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+    <Branch Type="Product Family" Name="openSUSE 13.1">
+      <Branch Type="Product Name" Name="openSUSE 13.1">
+        <FullProductName ProductID="openSUSE 13.1">openSUSE 13.1</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-1.1.2-2.48.1">libvirt-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-client-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-client-1.1.2-2.48.1">libvirt-client-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-client-32bit-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-client-32bit-1.1.2-2.48.1">libvirt-client-32bit-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-1.1.2-2.48.1">libvirt-daemon-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-config-network-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-config-network-1.1.2-2.48.1">libvirt-daemon-config-network-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-config-nwfilter-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-config-nwfilter-1.1.2-2.48.1">libvirt-daemon-config-nwfilter-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-interface-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-interface-1.1.2-2.48.1">libvirt-daemon-driver-interface-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-libxl-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-libxl-1.1.2-2.48.1">libvirt-daemon-driver-libxl-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-lxc-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-lxc-1.1.2-2.48.1">libvirt-daemon-driver-lxc-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-network-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-network-1.1.2-2.48.1">libvirt-daemon-driver-network-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-nodedev-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-nodedev-1.1.2-2.48.1">libvirt-daemon-driver-nodedev-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-nwfilter-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-nwfilter-1.1.2-2.48.1">libvirt-daemon-driver-nwfilter-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-qemu-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-qemu-1.1.2-2.48.1">libvirt-daemon-driver-qemu-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-secret-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-secret-1.1.2-2.48.1">libvirt-daemon-driver-secret-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-storage-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-storage-1.1.2-2.48.1">libvirt-daemon-driver-storage-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-uml-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-uml-1.1.2-2.48.1">libvirt-daemon-driver-uml-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-vbox-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-vbox-1.1.2-2.48.1">libvirt-daemon-driver-vbox-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-driver-xen-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-driver-xen-1.1.2-2.48.1">libvirt-daemon-driver-xen-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-lxc-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-lxc-1.1.2-2.48.1">libvirt-daemon-lxc-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-qemu-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-qemu-1.1.2-2.48.1">libvirt-daemon-qemu-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-uml-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-uml-1.1.2-2.48.1">libvirt-daemon-uml-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-vbox-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-vbox-1.1.2-2.48.1">libvirt-daemon-vbox-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-daemon-xen-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-daemon-xen-1.1.2-2.48.1">libvirt-daemon-xen-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-devel-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-devel-1.1.2-2.48.1">libvirt-devel-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-devel-32bit-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-devel-32bit-1.1.2-2.48.1">libvirt-devel-32bit-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-doc-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-doc-1.1.2-2.48.1">libvirt-doc-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-lock-sanlock-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-lock-sanlock-1.1.2-2.48.1">libvirt-lock-sanlock-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-login-shell-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-login-shell-1.1.2-2.48.1">libvirt-login-shell-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="libvirt-python-1.1.2-2.48.1">
+      <FullProductName ProductID="libvirt-python-1.1.2-2.48.1">libvirt-python-1.1.2-2.48.1</FullProductName>
+    </Branch>
+    <Relationship ProductReference="libvirt-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-1.1.2-2.48.1">libvirt-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-client-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-client-1.1.2-2.48.1">libvirt-client-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-client-32bit-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-client-32bit-1.1.2-2.48.1">libvirt-client-32bit-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-1.1.2-2.48.1">libvirt-daemon-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-config-network-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-config-network-1.1.2-2.48.1">libvirt-daemon-config-network-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-config-nwfilter-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-config-nwfilter-1.1.2-2.48.1">libvirt-daemon-config-nwfilter-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-interface-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-interface-1.1.2-2.48.1">libvirt-daemon-driver-interface-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-libxl-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-libxl-1.1.2-2.48.1">libvirt-daemon-driver-libxl-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-lxc-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-lxc-1.1.2-2.48.1">libvirt-daemon-driver-lxc-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-network-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-network-1.1.2-2.48.1">libvirt-daemon-driver-network-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-nodedev-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-nodedev-1.1.2-2.48.1">libvirt-daemon-driver-nodedev-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-nwfilter-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-nwfilter-1.1.2-2.48.1">libvirt-daemon-driver-nwfilter-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-qemu-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-qemu-1.1.2-2.48.1">libvirt-daemon-driver-qemu-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-secret-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-secret-1.1.2-2.48.1">libvirt-daemon-driver-secret-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-storage-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-storage-1.1.2-2.48.1">libvirt-daemon-driver-storage-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-uml-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-uml-1.1.2-2.48.1">libvirt-daemon-driver-uml-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-vbox-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-vbox-1.1.2-2.48.1">libvirt-daemon-driver-vbox-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-driver-xen-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-driver-xen-1.1.2-2.48.1">libvirt-daemon-driver-xen-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-lxc-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-lxc-1.1.2-2.48.1">libvirt-daemon-lxc-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-qemu-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-qemu-1.1.2-2.48.1">libvirt-daemon-qemu-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-uml-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-uml-1.1.2-2.48.1">libvirt-daemon-uml-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-vbox-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-vbox-1.1.2-2.48.1">libvirt-daemon-vbox-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-daemon-xen-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-daemon-xen-1.1.2-2.48.1">libvirt-daemon-xen-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-devel-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-devel-1.1.2-2.48.1">libvirt-devel-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-devel-32bit-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-devel-32bit-1.1.2-2.48.1">libvirt-devel-32bit-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-doc-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-doc-1.1.2-2.48.1">libvirt-doc-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-lock-sanlock-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-lock-sanlock-1.1.2-2.48.1">libvirt-lock-sanlock-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-login-shell-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-login-shell-1.1.2-2.48.1">libvirt-login-shell-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="libvirt-python-1.1.2-2.48.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.1">
+      <FullProductName ProductID="openSUSE 13.1:libvirt-python-1.1.2-2.48.1">libvirt-python-1.1.2-2.48.1 as a component of openSUSE 13.1</FullProductName>
+    </Relationship>
+  </ProductTree>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="1">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">libvirt before 1.2.12 allow remote authenticated users to obtain the VNC password by using the VIR_DOMAIN_XML_SECURE flag with a crafted (1) snapshot to the virDomainSnapshotGetXMLDesc interface or (2) image to the virDomainSaveImageGetXMLDesc interface.</Note>
+    </Notes>
+    <CVE>CVE-2015-0236</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.1:libvirt-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-client-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-client-32bit-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-config-network-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-config-nwfilter-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-interface-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-libxl-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-lxc-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-network-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-nodedev-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-nwfilter-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-qemu-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-secret-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-storage-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-uml-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-vbox-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-driver-xen-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-lxc-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-qemu-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-uml-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-vbox-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-daemon-xen-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-devel-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-devel-32bit-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-doc-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-lock-sanlock-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-login-shell-1.1.2-2.48.1</ProductID>
+        <ProductID>openSUSE 13.1:libvirt-python-1.1.2-2.48.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>moderate</Description>
+      </Threat>
+    </Threats>
+    <CVSSScoreSets>
+      <ScoreSet>
+        <BaseScore>4</BaseScore>
+        <Vector>AV:L/AC:L/Au:M/C:P/I:P/A:P</Vector>
+      </ScoreSet>
+    </CVSSScoreSets>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-updates/2015-02/msg00028.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-0236.html</URL>
+        <Description>CVE-2015-0236</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/914693</URL>
+        <Description>SUSE Bug 914693</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+</cvrfdoc>
