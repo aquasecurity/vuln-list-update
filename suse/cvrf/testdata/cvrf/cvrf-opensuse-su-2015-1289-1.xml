@@ -1,0 +1,1358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cvrfdoc xmlns="http://www.icasi.org/CVRF/schema/cvrf/1.1" xmlns:cvrf="http://www.icasi.org/CVRF/schema/cvrf/1.1">
+  <DocumentTitle xml:lang="en">Security update for java-1_8_0-openjdk</DocumentTitle>
+  <DocumentType>SUSE Patch</DocumentType>
+  <DocumentPublisher Type="Vendor">
+    <ContactDetails>security@suse.de</ContactDetails>
+    <IssuingAuthority>SUSE Security Team</IssuingAuthority>
+  </DocumentPublisher>
+  <DocumentTracking>
+    <Identification>
+      <ID>openSUSE-SU-2015:1289-1</ID>
+    </Identification>
+    <Status>Final</Status>
+    <Version>1</Version>
+    <RevisionHistory>
+      <Revision>
+        <Number>1</Number>
+        <Date>2015-07-22T19:24:35Z</Date>
+        <Description>current</Description>
+      </Revision>
+    </RevisionHistory>
+    <InitialReleaseDate>2015-07-22T19:24:35Z</InitialReleaseDate>
+    <CurrentReleaseDate>2015-07-22T19:24:35Z</CurrentReleaseDate>
+    <Generator>
+      <Engine>cve-database/bin/generate-cvrf.pl</Engine>
+      <Date>2017-02-24T01:00:00Z</Date>
+    </Generator>
+  </DocumentTracking>
+  <DocumentNotes>
+    <Note Title="Topic" Type="Summary" Ordinal="1" xml:lang="en">Security update for java-1_8_0-openjdk</Note>
+    <Note Title="Details" Type="General" Ordinal="2" xml:lang="en">OpenJDK was updated to 2.6.1 - OpenJDK 8u51 to fix security issues and bugs.
+
+The following vulnerabilities were fixed:
+
+* CVE-2015-2590: Easily exploitable vulnerability in the Libraries component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-2597: Easily exploitable vulnerability in the Install component requiring logon to Operating System. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-2601: Easily exploitable vulnerability in the JCE component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2613: Easily exploitable vulnerability in the JCE component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java SE, Java SE Embedded accessible data.
+* CVE-2015-2619: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2621: Easily exploitable vulnerability in the JMX component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2625: Very difficult to exploit vulnerability in the JSSE component allowed successful unauthenticated network attacks via SSL/TLS. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2627: Very difficult to exploit vulnerability in the Install component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2628: Easily exploitable vulnerability in the CORBA component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-2632: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2637: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized read access to a subset of Java accessible data.
+* CVE-2015-2638: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-2659: Easily exploitable vulnerability in the Security component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized ability to cause a partial denial of service (partial DOS).
+* CVE-2015-2664: Difficult to exploit vulnerability in the Deployment component requiring logon to Operating System. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-2808: Very difficult to exploit vulnerability in the JSSE component allowed successful unauthenticated network attacks via SSL/TLS. Successful attack of this vulnerability could have resulted in unauthorized update, insert or delete access to some Java accessible data as well as read access to a subset of Java accessible data.
+* CVE-2015-4000: Very difficult to exploit vulnerability in the JSSE component allowed successful unauthenticated network attacks via SSL/TLS. Successful attack of this vulnerability could have resulted in unauthorized update, insert or delete access to some Java accessible data as well as read access to a subset of Java Embedded accessible data. 
+* CVE-2015-4729: Very difficult to exploit vulnerability in the Deployment component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized update, insert or delete access to some Java SE accessible data as well as read access to a subset of Java SE accessible data.
+* CVE-2015-4731: Easily exploitable vulnerability in the JMX component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-4732: Easily exploitable vulnerability in the Libraries component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-4733: Easily exploitable vulnerability in the RMI component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-4736: Difficult to exploit vulnerability in the Deployment component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-4748: Very difficult to exploit vulnerability in the Security component allowed successful unauthenticated network attacks via OCSP. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+* CVE-2015-4749: Difficult to exploit vulnerability in the JNDI component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized ability to cause a partial denial of service (partial DOS).
+* CVE-2015-4760: Easily exploitable vulnerability in the 2D component allowed successful unauthenticated network attacks via multiple protocols. Successful attack of this vulnerability could have resulted in unauthorized Operating System takeover including arbitrary code execution.
+</Note>
+    <Note Title="Terms of Use" Type="Legal Disclaimer" Ordinal="3" xml:lang="en">The CVRF data is provided by SUSE under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0).</Note>
+  </DocumentNotes>
+  <DocumentDistribution xml:lang="en">Copyright SUSE LLC under the Creative Commons License 4.0 with Attribution for Non-Commercial usage (CC-BY-NC-4.0)</DocumentDistribution>
+  <DocumentReferences>
+    <Reference Type="Self">
+      <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      <Description>E-Mail link for openSUSE-SU-2015:1289-1</Description>
+    </Reference>
+    <Reference Type="Self">
+      <URL>https://www.suse.com/support/security/rating/</URL>
+      <Description>SUSE Security Ratings</Description>
+    </Reference>
+  </DocumentReferences>
+  <ProductTree xmlns="http://www.icasi.org/CVRF/schema/prod/1.1">
+    <Branch Type="Product Family" Name="openSUSE 13.2">
+      <Branch Type="Product Name" Name="openSUSE 13.2">
+        <FullProductName ProductID="openSUSE 13.2">openSUSE 13.2</FullProductName>
+      </Branch>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-1.8.0.51-12.1">java-1_8_0-openjdk-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-accessibility-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-accessibility-1.8.0.51-12.1">java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1">java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-debugsource-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-debugsource-1.8.0.51-12.1">java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-demo-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-demo-1.8.0.51-12.1">java-1_8_0-openjdk-demo-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1">java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-devel-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-devel-1.8.0.51-12.1">java-1_8_0-openjdk-devel-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-headless-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-headless-1.8.0.51-12.1">java-1_8_0-openjdk-headless-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1">java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-javadoc-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-javadoc-1.8.0.51-12.1">java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Branch Type="Product Version" Name="java-1_8_0-openjdk-src-1.8.0.51-12.1">
+      <FullProductName ProductID="java-1_8_0-openjdk-src-1.8.0.51-12.1">java-1_8_0-openjdk-src-1.8.0.51-12.1</FullProductName>
+    </Branch>
+    <Relationship ProductReference="java-1_8_0-openjdk-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1">java-1_8_0-openjdk-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-accessibility-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1">java-1_8_0-openjdk-accessibility-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1">java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-debugsource-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1">java-1_8_0-openjdk-debugsource-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-demo-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1">java-1_8_0-openjdk-demo-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1">java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-devel-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1">java-1_8_0-openjdk-devel-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-headless-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1">java-1_8_0-openjdk-headless-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1">java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-javadoc-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1">java-1_8_0-openjdk-javadoc-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+    <Relationship ProductReference="java-1_8_0-openjdk-src-1.8.0.51-12.1" RelationType="Default Component Of" RelatesToProductReference="openSUSE 13.2">
+      <FullProductName ProductID="openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1">java-1_8_0-openjdk-src-1.8.0.51-12.1 as a component of openSUSE 13.2</FullProductName>
+    </Relationship>
+  </ProductTree>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="1">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2015-4732.</Note>
+    </Notes>
+    <CVE>CVE-2015-2590</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2590.html</URL>
+        <Description>CVE-2015-2590</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/937828</URL>
+        <Description>SUSE Bug 937828</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="2">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 7u80 and 8u45 allows local users to affect confidentiality, integrity, and availability via unknown vectors related to Install.</Note>
+    </Notes>
+    <CVE>CVE-2015-2597</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2597.html</URL>
+        <Description>CVE-2015-2597</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="3">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, JRockit R28.3.6, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via vectors related to JCE.</Note>
+    </Notes>
+    <CVE>CVE-2015-2601</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2601.html</URL>
+        <Description>CVE-2015-2601</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="4">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 7u80 and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via vectors related to JCE.</Note>
+    </Notes>
+    <CVE>CVE-2015-2613</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2613.html</URL>
+        <Description>CVE-2015-2613</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/951727</URL>
+        <Description>SUSE Bug 951727</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="5">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 7u80 and 8u45, JavaFX 2.2.80, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via unknown vectors related to 2D.</Note>
+    </Notes>
+    <CVE>CVE-2015-2619</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2619.html</URL>
+        <Description>CVE-2015-2619</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="6">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33, allows remote attackers to affect confidentiality via vectors related to JMX.</Note>
+    </Notes>
+    <CVE>CVE-2015-2621</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2621.html</URL>
+        <Description>CVE-2015-2621</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="7">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JRockit R28.3.6; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via vectors related to JSSE.</Note>
+    </Notes>
+    <CVE>CVE-2015-2625</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2625.html</URL>
+        <Description>CVE-2015-2625</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="8">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows remote attackers to affect confidentiality via unknown vectors related to installation.</Note>
+    </Notes>
+    <CVE>CVE-2015-2627</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2627.html</URL>
+        <Description>CVE-2015-2627</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="9">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to CORBA.</Note>
+    </Notes>
+    <CVE>CVE-2015-2628</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2628.html</URL>
+        <Description>CVE-2015-2628</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="10">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows remote attackers to affect confidentiality via unknown vectors related to 2D.</Note>
+    </Notes>
+    <CVE>CVE-2015-2632</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2632.html</URL>
+        <Description>CVE-2015-2632</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="11">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JavaFX 2.2.80; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality via unknown vectors related to 2D.</Note>
+    </Notes>
+    <CVE>CVE-2015-2637</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2637.html</URL>
+        <Description>CVE-2015-2637</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="12">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JavaFX 2.2.80; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to 2D.</Note>
+    </Notes>
+    <CVE>CVE-2015-2638</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2638.html</URL>
+        <Description>CVE-2015-2638</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="13">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 8u45 and Java SE Embedded 8u33 allows remote attackers to affect availability via unknown vectors related to Security.</Note>
+    </Notes>
+    <CVE>CVE-2015-2659</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2659.html</URL>
+        <Description>CVE-2015-2659</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="14">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows local users to affect confidentiality, integrity, and availability via unknown vectors related to Deployment.</Note>
+    </Notes>
+    <CVE>CVE-2015-2664</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2664.html</URL>
+        <Description>CVE-2015-2664</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="15">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">The RC4 algorithm, as used in the TLS protocol and SSL protocol, does not properly combine state data with key data during the initialization phase, which makes it easier for remote attackers to conduct plaintext-recovery attacks against the initial bytes of a stream by sniffing network traffic that occasionally relies on keys affected by the Invariance Weakness, and then using a brute-force approach involving LSB values, aka the "Bar Mitzvah" issue.</Note>
+    </Notes>
+    <CVE>CVE-2015-2808</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <CVSSScoreSets>
+      <ScoreSet>
+        <BaseScore>2.5</BaseScore>
+        <Vector>AV:N/AC:H/Au:N/C:P/I:N/A:N</Vector>
+      </ScoreSet>
+    </CVSSScoreSets>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-2808.html</URL>
+        <Description>CVE-2015-2808</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/925378</URL>
+        <Description>SUSE Bug 925378</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/952088</URL>
+        <Description>SUSE Bug 952088</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="16">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">The TLS protocol 1.2 and earlier, when a DHE_EXPORT ciphersuite is enabled on a server but not on a client, does not properly convey a DHE_EXPORT choice, which allows man-in-the-middle attackers to conduct cipher-downgrade attacks by rewriting a ClientHello with DHE replaced by DHE_EXPORT and then rewriting a ServerHello with DHE_EXPORT replaced by DHE, aka the "Logjam" issue.</Note>
+    </Notes>
+    <CVE>CVE-2015-4000</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <CVSSScoreSets>
+      <ScoreSet>
+        <BaseScore>4.0</BaseScore>
+        <Vector>AV:N/AC:H/Au:N/C:P/I:P/A:N</Vector>
+      </ScoreSet>
+    </CVSSScoreSets>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4000.html</URL>
+        <Description>CVE-2015-4000</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/931600</URL>
+        <Description>SUSE Bug 931600</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/931698</URL>
+        <Description>SUSE Bug 931698</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/931723</URL>
+        <Description>SUSE Bug 931723</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/931845</URL>
+        <Description>SUSE Bug 931845</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/932026</URL>
+        <Description>SUSE Bug 932026</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/932483</URL>
+        <Description>SUSE Bug 932483</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/934789</URL>
+        <Description>SUSE Bug 934789</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/935033</URL>
+        <Description>SUSE Bug 935033</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/935540</URL>
+        <Description>SUSE Bug 935540</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/935979</URL>
+        <Description>SUSE Bug 935979</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/936168</URL>
+        <Description>SUSE Bug 936168</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/937202</URL>
+        <Description>SUSE Bug 937202</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/937724</URL>
+        <Description>SUSE Bug 937724</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/937766</URL>
+        <Description>SUSE Bug 937766</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938432</URL>
+        <Description>SUSE Bug 938432</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938905</URL>
+        <Description>SUSE Bug 938905</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938906</URL>
+        <Description>SUSE Bug 938906</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938913</URL>
+        <Description>SUSE Bug 938913</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938945</URL>
+        <Description>SUSE Bug 938945</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/941696</URL>
+        <Description>SUSE Bug 941696</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/943664</URL>
+        <Description>SUSE Bug 943664</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/944729</URL>
+        <Description>SUSE Bug 944729</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/945582</URL>
+        <Description>SUSE Bug 945582</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/955589</URL>
+        <Description>SUSE Bug 955589</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/980406</URL>
+        <Description>SUSE Bug 980406</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="17">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 7u80 and 8u45 allows remote attackers to affect confidentiality and integrity via unknown vectors related to Deployment.</Note>
+    </Notes>
+    <CVE>CVE-2015-4729</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4729.html</URL>
+        <Description>CVE-2015-4729</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="18">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; Java SE Embedded 7u75; and Java SE Embedded 8u33 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to JMX.</Note>
+    </Notes>
+    <CVE>CVE-2015-4731</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4731.html</URL>
+        <Description>CVE-2015-4731</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="19">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2015-2590.</Note>
+    </Notes>
+    <CVE>CVE-2015-4732</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4732.html</URL>
+        <Description>CVE-2015-4732</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="20">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45, and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to RMI.</Note>
+    </Notes>
+    <CVE>CVE-2015-4733</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4733.html</URL>
+        <Description>CVE-2015-4733</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="21">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 7u80 and 8u45 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment.</Note>
+    </Notes>
+    <CVE>CVE-2015-4736</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4736.html</URL>
+        <Description>CVE-2015-4736</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="22">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JRockit R28.3.6; and Java SE Embedded 7u75 and Embedded 8u33 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Security.</Note>
+    </Notes>
+    <CVE>CVE-2015-4748</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4748.html</URL>
+        <Description>CVE-2015-4748</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="23">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45; JRockit R28.3.6; and Java SE Embedded 7u75 and 8u33 allows remote attackers to affect availability via vectors related to JNDI.</Note>
+    </Notes>
+    <CVE>CVE-2015-4749</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4749.html</URL>
+        <Description>CVE-2015-4749</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+  <Vulnerability xmlns="http://www.icasi.org/CVRF/schema/vuln/1.1" Ordinal="24">
+    <Notes>
+      <Note Title="Vulnerability Description" Type="General" Ordinal="1" xml:lang="en">Unspecified vulnerability in Oracle Java SE 6u95, 7u80, and 8u45 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to 2D.</Note>
+    </Notes>
+    <CVE>CVE-2015-4760</CVE>
+    <ProductStatuses>
+      <Status Type="Fixed">
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-accessibility-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-debugsource-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-demo-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-devel-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-headless-debuginfo-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-javadoc-1.8.0.51-12.1</ProductID>
+        <ProductID>openSUSE 13.2:java-1_8_0-openjdk-src-1.8.0.51-12.1</ProductID>
+      </Status>
+    </ProductStatuses>
+    <Threats>
+      <Threat Type="Impact">
+        <Description>important</Description>
+      </Threat>
+    </Threats>
+    <Remediations>
+      <Remediation Type="Vendor Fix">
+        <Description xml:lang="en">Please Install the update.</Description>
+        <URL>http://lists.opensuse.org/opensuse-security-announce/2015-07/msg00040.html</URL>
+      </Remediation>
+    </Remediations>
+    <References>
+      <Reference>
+        <URL>https://www.suse.com/security/cve/CVE-2015-4760.html</URL>
+        <Description>CVE-2015-4760</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938248</URL>
+        <Description>SUSE Bug 938248</Description>
+      </Reference>
+      <Reference>
+        <URL>https://bugzilla.suse.com/938895</URL>
+        <Description>SUSE Bug 938895</Description>
+      </Reference>
+    </References>
+  </Vulnerability>
+</cvrfdoc>

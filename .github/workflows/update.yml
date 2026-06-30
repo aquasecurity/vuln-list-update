@@ -116,15 +116,15 @@ jobs:
           commit-message: "CWE"
 
       - if: always()
-        name: SUSE CSAF
+        name: SUSE CVRF
         uses: ./.github/actions/update-source
         with:
-          target: suse-csaf
+          target: suse-cvrf
           client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
           private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
-          commit-message: "SUSE CSAF"
+          commit-message: "SUSE CVRF"
 
       - if: always()
         name: GitLab Advisory Database
