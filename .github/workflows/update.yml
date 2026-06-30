@@ -13,6 +13,19 @@ jobs:
     env:
       VULN_LIST_DIR: "vuln-list"
     steps:
+      # Needs ~9GB for the vuln-list working tree plus at least ~9GB more for the sources,
+      # so free up disk space first to leave enough room.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force > /dev/null
+          df -h
+
       - name: Check out code
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -81,6 +94,17 @@ jobs:
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
           commit-message: "Amazon Linux Security Center"
+
+      - if: always()
+        name: Bottlerocket Security Advisories
+        uses: ./.github/actions/update-source
+        with:
+          target: bottlerocket
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Bottlerocket Security Advisories"
 
       - if: always()
         name: Oracle Linux OVAL
@@ -257,17 +281,6 @@ jobs:
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
           commit-message: "EOL dates"
-
-      - if: always()
-        name: Root CVE Tracker
-        uses: ./.github/actions/update-source
-        with:
-          target: rootio
-          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
-          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repository: ${{ env.VULN_LIST_DIR }}
-          commit-message: "Root CVE Feed Tracker"
 
       - name: Microsoft Teams Notification
         uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88

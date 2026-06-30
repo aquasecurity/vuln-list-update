@@ -11,6 +11,7 @@ import (
 	alpineunfixed "github.com/aquasecurity/vuln-list-update/alpine-unfixed"
 	"github.com/aquasecurity/vuln-list-update/amazon"
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
+	"github.com/aquasecurity/vuln-list-update/bottlerocket"
 	"github.com/aquasecurity/vuln-list-update/chainguard"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
@@ -103,6 +104,11 @@ func run() error {
 		ac := amazon.NewConfig()
 		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("Amazon Linux update error: %w", err)
+		}
+	case "bottlerocket":
+		bc := bottlerocket.NewConfig()
+		if err := bc.Update(); err != nil {
+			return xerrors.Errorf("Bottlerocket update error: %w", err)
 		}
 	case "oracle-oval":
 		oc := oracleoval.NewConfig()
