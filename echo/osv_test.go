@@ -29,6 +29,9 @@ func TestOSVUpdater_Update(t *testing.T) {
 				// Maven coordinates (groupId:artifactId) route to a nested
 				// groupId/artifactId path (colon -> slash).
 				filepath.Join("echo-osv", "org.apache.commons", "commons-lang3", "ECHO-mvn1-0000-0001.json"),
+				// Scoped npm names (@scope/name) nest under the scope
+				// directory via their literal slash.
+				filepath.Join("echo-osv", "@babel", "traverse", "ECHO-npm1-0000-0001.json"),
 			},
 			// OS-level Echo packages must be filtered out of OSV output;
 			// the openssh advisory only carries an "Echo" ecosystem entry

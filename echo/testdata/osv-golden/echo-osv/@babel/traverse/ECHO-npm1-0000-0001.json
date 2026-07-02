@@ -1,0 +1,38 @@
+{
+  "id": "ECHO-npm1-0000-0001",
+  "modified": "2026-06-30T09:12:45.731Z",
+  "upstream": [
+    "CVE-2024-66666"
+  ],
+  "aliases": [
+    "CVE-2024-66666"
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Echo:npm",
+        "name": "@babel/traverse",
+        "purl": "pkg:npm/%40babel%2Ftraverse"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.23.2+echo.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://advisory.echohq.com/cve/CVE-2024-66666"
+    }
+  ]
+}
