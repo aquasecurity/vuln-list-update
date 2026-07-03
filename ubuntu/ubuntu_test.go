@@ -524,6 +524,21 @@ func Test_parse(t *testing.T) {
 				UpstreamLinks: map[Package][]string{},
 			},
 		},
+		{
+			name: "upstream patch on last line without trailing newline",
+			args: args{
+				filePath: "./testdata/upstream_no_trailing_newline",
+			},
+			want: &Vulnerability{
+				Candidate: "CVE-2019-14866",
+				Patches:   map[Package]Statuses{},
+				UpstreamLinks: map[Package][]string{
+					Package("cpio"): {
+						"https://git.savannah.gnu.org/cgit/cpio.git/commit/?id=dd96882877721703e19272fe25034560b794061b",
+					},
+				},
+			},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
