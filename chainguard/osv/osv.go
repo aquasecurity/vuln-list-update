@@ -36,10 +36,12 @@ const (
 	// tarballURL holds every advisory record in the v3 feed.
 	tarballURL = "https://packages.cgr.dev/chainguard/v3/osv/chainguard-osv.tar.gz"
 
-	// advisoryDir is the vuln-list directory the grouped advisories are written to.
-	// The feed version is part of the path so that a future feed version can be
-	// added alongside this one.
-	advisoryDir = "chainguard/v3"
+	// advisoryDir is the vuln-list directory the grouped advisories are written
+	// to. It deliberately sits beside vuln-list/chainguard rather than inside
+	// it: the secdb "chainguard" target removes that whole directory on every
+	// run, which would delete this tree. The feed version is part of the path so
+	// that a future feed version can be added alongside this one.
+	advisoryDir = "chainguard-osv/v3"
 
 	// ecosystemChainguard covers packages built and distributed by Chainguard.
 	ecosystemChainguard = "Chainguard"
@@ -79,6 +81,11 @@ var statusPrecedence = []string{
 // alphanumerics and "._+-".
 var validPkgName = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._+-]*$`)
 
+// maxPkgNameLen keeps a name from the feed within the file name limit of every
+// filesystem vuln-list is checked out on. The longest name in the feed is well
+// under a hundred characters.
+const maxPkgNameLen = 200
+
 type option func(*Updater)
 
 // WithVulnListDir overrides the directory the advisories are written to.
@@ -101,12 +108,18 @@ func WithRetry(v int) option {
 	return func(u *Updater) { u.retry = v }
 }
 
+// WithBackoff overrides how long to wait before retrying a failed download.
+func WithBackoff(v func(attempt int) time.Duration) option {
+	return func(u *Updater) { u.backoff = v }
+}
+
 // Updater fetches the Chainguard OSV v3 feed and writes it to vuln-list.
 type Updater struct {
 	vulnListDir string
 	appFs       afero.Fs
 	tarballURL  string
 	retry       int
+	backoff     func(attempt int) time.Duration
 	client      *http.Client
 }
 
@@ -117,6 +130,7 @@ func NewUpdater(options ...option) *Updater {
 		appFs:       afero.NewOsFs(),
 		tarballURL:  tarballURL,
 		retry:       defaultRetry,
+		backoff:     func(attempt int) time.Duration { return time.Duration(attempt*attempt) * time.Second },
 		client:      &http.Client{Timeout: defaultTimeout},
 	}
 	for _, option := range options {
@@ -156,7 +170,7 @@ func (u *Updater) fetch() (map[packageKey]*Package, error) {
 	var lastErr error
 	for attempt := 0; attempt <= u.retry; attempt++ {
 		if attempt > 0 {
-			wait := time.Duration(attempt*attempt) * time.Second
+			wait := u.backoff(attempt)
 			log.Printf("Retrying Chainguard OSV v3 download in %s: %s", wait, lastErr)
 			time.Sleep(wait)
 		}
@@ -225,7 +239,7 @@ func (u *Updater) fetchOnce() (map[packageKey]*Package, error) {
 	log.Printf("Parsed %d Chainguard OSV v3 records into %d package files", records, len(packages))
 
 	for _, p := range packages {
-		slices.SortFunc(p.Advisories, func(a, b Advisory) int {
+		slices.SortStableFunc(p.Advisories, func(a, b Advisory) int {
 			if c := cmp.Compare(a.ID, b.ID); c != 0 {
 				return c
 			}
@@ -243,7 +257,7 @@ func addRecord(packages map[packageKey]*Package, rec record) int {
 		if _, ok := supportedEcosystems[aff.Package.Ecosystem]; !ok {
 			continue
 		}
-		if !validPkgName.MatchString(aff.Package.Name) {
+		if !validPkgName.MatchString(aff.Package.Name) || len(aff.Package.Name) > maxPkgNameLen {
 			skipped++
 			continue
 		}
@@ -268,7 +282,7 @@ func addRecord(packages map[packageKey]*Package, rec record) int {
 		p.Advisories = append(p.Advisories, Advisory{
 			ID:       rec.ID,
 			Upstream: rec.Upstream,
-			Arch:     archFromPURL(aff.Package.PURL),
+			Arch:     archFromPURL(aff.Package.Purl),
 			Events:   events,
 			Status:   status(aff.EcosystemSpecific.Components),
 		})

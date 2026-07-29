@@ -1,29 +1,27 @@
 package osv
 
+import genericosv "github.com/aquasecurity/vuln-list-update/osv"
+
 // record is a single advisory record from the Chainguard OSV v3 feed.
-// Only the fields consumed downstream are declared; see
-// https://github.com/chainguard-dev/vulnerability-scanner-support/blob/main/docs/osv_v3_feed.md
+//
+// The OSV schema parts reuse the shared types in the generic osv package; only
+// the two fields Chainguard adds on top of the schema are declared here. The
+// generic package's Affected type holds ecosystem_specific as an untyped value,
+// so the affected entries are declared locally to get at the components.
+// See https://github.com/chainguard-dev/vulnerability-scanner-support/blob/main/docs/osv_v3_feed.md
 type record struct {
-	ID       string     `json:"id"`
-	Upstream []string   `json:"upstream"`
+	ID string `json:"id"`
+
+	// Upstream is Chainguard's name for what OSV calls aliases.
+	Upstream []string `json:"upstream"`
+
 	Affected []affected `json:"affected"`
 }
 
 type affected struct {
-	Package           pkg               `json:"package"`
-	Ranges            []versionRange    `json:"ranges"`
-	EcosystemSpecific ecosystemSpecific `json:"ecosystem_specific"`
-}
-
-type pkg struct {
-	Ecosystem string `json:"ecosystem"`
-	Name      string `json:"name"`
-	PURL      string `json:"purl"`
-}
-
-type versionRange struct {
-	Type   string  `json:"type"`
-	Events []Event `json:"events"`
+	Package           genericosv.Package `json:"package"`
+	Ranges            []genericosv.Range `json:"ranges"`
+	EcosystemSpecific ecosystemSpecific  `json:"ecosystem_specific"`
 }
 
 type ecosystemSpecific struct {
@@ -35,17 +33,13 @@ type component struct {
 	LatestEventStatus string `json:"latest_event_status"`
 }
 
-// Event is an OSV range event. Exactly one of the fields is set.
-type Event struct {
-	Introduced string `json:"introduced,omitempty"`
-	Fixed      string `json:"fixed,omitempty"`
-}
+// Event is an OSV range event.
+type Event = genericosv.Event
 
 // Advisory is one Chainguard advisory as it applies to a single package and
-// architecture. The Chainguard v3 feed publishes one advisory per record, so a
-// package usually has many advisories per vulnerability - one for each
-// vulnerable component found inside the package. Consumers are expected to
-// aggregate them; this file keeps them separate so no information is lost.
+// architecture. The v3 feed publishes one advisory per vulnerable component, so
+// a package commonly has several advisories for the same vulnerability, which
+// are aggregated by the consumer rather than here.
 type Advisory struct {
 	// ID is the Chainguard advisory ID, e.g. CGA-2637-w437-j654.
 	ID string `json:"id"`
@@ -70,6 +64,11 @@ type Advisory struct {
 }
 
 // Package holds every advisory published for one package within one ecosystem.
+//
+// The advisory's `modified` timestamp is deliberately not carried through. No
+// consumer reads it, the feed is mirrored by full replacement so there are
+// never two records with the same ID to choose between, and including it would
+// rewrite most of these files on every run.
 type Package struct {
 	// Ecosystem is the OSV ecosystem, either Chainguard or Wolfi.
 	Ecosystem string `json:"ecosystem"`

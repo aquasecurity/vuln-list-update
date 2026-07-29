@@ -8,7 +8,9 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"sync/atomic"
 	"testing"
+	"time"
 
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
@@ -73,9 +75,9 @@ func TestUpdater_Update(t *testing.T) {
 			name:    "happy path",
 			feedDir: "testdata/feed",
 			goldenFiles: map[string]string{
-				"/tmp/chainguard/v3/chainguard/haproxy-2.2.json": "testdata/golden/chainguard/haproxy-2.2.json",
-				"/tmp/chainguard/v3/chainguard/curl.json":        "testdata/golden/chainguard/curl.json",
-				"/tmp/chainguard/v3/wolfi/haproxy-2.2.json":      "testdata/golden/wolfi/haproxy-2.2.json",
+				"/tmp/chainguard-osv/v3/chainguard/haproxy-2.2.json": "testdata/golden/chainguard/haproxy-2.2.json",
+				"/tmp/chainguard-osv/v3/chainguard/curl.json":        "testdata/golden/chainguard/curl.json",
+				"/tmp/chainguard-osv/v3/wolfi/haproxy-2.2.json":      "testdata/golden/wolfi/haproxy-2.2.json",
 			},
 		},
 		{
@@ -166,7 +168,7 @@ func TestUpdater_Update(t *testing.T) {
 // feed do not linger in vuln-list.
 func TestUpdater_Update_replacesPreviousRun(t *testing.T) {
 	appFs := afero.NewMemMapFs()
-	stale := "/tmp/chainguard/v3/chainguard/withdrawn-package.json"
+	stale := "/tmp/chainguard-osv/v3/chainguard/withdrawn-package.json"
 	require.NoError(t, afero.WriteFile(appFs, stale, []byte(`{"name":"withdrawn-package"}`), 0644))
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
@@ -188,10 +190,9 @@ func TestUpdater_Update_replacesPreviousRun(t *testing.T) {
 }
 
 func TestUpdater_Update_retries(t *testing.T) {
-	var calls int
+	var calls atomic.Int32
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		calls++
-		if calls < 3 {
+		if calls.Add(1) < 3 {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -203,8 +204,9 @@ func TestUpdater_Update_retries(t *testing.T) {
 		chainguardosv.WithVulnListDir("/tmp"),
 		chainguardosv.WithTarballURL(ts.URL),
 		chainguardosv.WithRetry(2),
+		chainguardosv.WithBackoff(func(int) time.Duration { return 0 }),
 		chainguardosv.WithAppFs(afero.NewMemMapFs()),
 	)
 	require.NoError(t, u.Update())
-	assert.Equal(t, 3, calls)
+	assert.Equal(t, int32(3), calls.Load())
 }
