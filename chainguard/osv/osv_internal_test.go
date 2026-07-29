@@ -155,7 +155,7 @@ func TestStatus_precedence(t *testing.T) {
 			want: "fixed",
 		},
 		{
-			name: "an unrecognised status is carried through",
+			name: "an unrecognized status is carried through",
 			components: []component{
 				{LatestEventStatus: "something_new_from_chainguard"},
 			},
