@@ -13,6 +13,7 @@ import (
 	arch_linux "github.com/aquasecurity/vuln-list-update/arch"
 	"github.com/aquasecurity/vuln-list-update/bottlerocket"
 	"github.com/aquasecurity/vuln-list-update/chainguard"
+	chainguardosv "github.com/aquasecurity/vuln-list-update/chainguard/osv"
 	"github.com/aquasecurity/vuln-list-update/cwe"
 	"github.com/aquasecurity/vuln-list-update/debian/tracker"
 	"github.com/aquasecurity/vuln-list-update/echo"
@@ -41,7 +42,7 @@ import (
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
+		"chainguard, chainguard-osv, azure, openeuler, echo, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -173,6 +174,11 @@ func run() error {
 		cu := chainguard.NewUpdater()
 		if err := cu.Update(); err != nil {
 			return xerrors.Errorf("Chainguard update error: %w", err)
+		}
+	case "chainguard-osv":
+		cu := chainguardosv.NewUpdater()
+		if err := cu.Update(); err != nil {
+			return xerrors.Errorf("Chainguard OSV v3 update error: %w", err)
 		}
 	case "openeuler":
 		ec := openeuler.NewConfig()

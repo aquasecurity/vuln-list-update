@@ -1,0 +1,47 @@
+{
+  "published": "2026-04-10T20:56:07Z",
+  "modified": "2026-04-10T20:56:39Z",
+  "schema_version": "1.7.5",
+  "id": "CGA-4444-4444-4444",
+  "upstream": [
+    "CVE-2026-32288",
+    "GHSA-x4jj-h2v8-hqqv",
+    "GO-2026-4869"
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Chainguard",
+        "name": "haproxy-2.2",
+        "purl": "pkg:apk/chainguard/haproxy-2.2?arch=x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": [
+          {
+            "architecture": "x86_64",
+            "component_name": "stdlib",
+            "component_version": "go1.26.1",
+            "component_type": "go-module",
+            "component_location": "/usr/bin/haproxy",
+            "component_purl": "pkg:golang/stdlib@go1.26.1",
+            "latest_event_status": "false_positive_determination",
+            "latest_event_timestamp": "2026-04-10T20:56:38Z"
+          }
+        ]
+      }
+    }
+  ]
+}

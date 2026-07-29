@@ -1,0 +1,92 @@
+{
+  "published": "2025-10-30T19:42:30Z",
+  "modified": "2026-01-07T00:00:00Z",
+  "schema_version": "1.7.5",
+  "id": "CGA-2222-2222-2222",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:N/A:H"
+    }
+  ],
+  "upstream": [
+    "CVE-2025-32464",
+    "GHSA-frg5-h47x-75j9"
+  ],
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/haproxy/haproxy/commit/3e3b9eebf871510aee36c3a3336faac2f38c9559"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Chainguard",
+        "name": "haproxy-2.2",
+        "purl": "pkg:apk/chainguard/haproxy-2.2?arch=x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.34-r0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": [
+          {
+            "architecture": "x86_64",
+            "component_name": "haproxy-2.2",
+            "component_version": "2.2.33-r40",
+            "component_type": "apk",
+            "component_location": "/.PKGINFO",
+            "component_purl": "pkg:apk/haproxy-2.2@2.2.33-r40",
+            "latest_event_status": "fixed",
+            "latest_event_timestamp": "2025-04-25T13:01:15Z"
+          }
+        ]
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Wolfi",
+        "name": "haproxy-2.2",
+        "purl": "pkg:apk/wolfi/haproxy-2.2?arch=x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.34-r0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": [
+          {
+            "architecture": "x86_64",
+            "component_name": "haproxy-2.2",
+            "component_version": "2.2.33-r40",
+            "component_type": "apk",
+            "component_location": "/.PKGINFO",
+            "component_purl": "pkg:apk/haproxy-2.2@2.2.33-r40",
+            "latest_event_status": "fixed",
+            "latest_event_timestamp": "2025-04-25T13:01:15Z"
+          }
+        ]
+      }
+    }
+  ]
+}

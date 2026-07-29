@@ -1,0 +1,23 @@
+{
+  "ecosystem": "Wolfi",
+  "name": "haproxy-2.2",
+  "advisories": [
+    {
+      "id": "CGA-2222-2222-2222",
+      "upstream": [
+        "CVE-2025-32464",
+        "GHSA-frg5-h47x-75j9"
+      ],
+      "arch": "x86_64",
+      "events": [
+        {
+          "introduced": "0"
+        },
+        {
+          "fixed": "2.2.34-r0"
+        }
+      ],
+      "status": "fixed"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "published": "2026-05-01T00:00:00Z",
+  "modified": "2026-05-02T00:00:00Z",
+  "schema_version": "1.7.5",
+  "id": "CGA-5555-5555-5555",
+  "upstream": [
+    "CVE-2026-11111"
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Chainguard",
+        "name": "../escape",
+        "purl": "pkg:apk/chainguard/..%2Fescape?arch=x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.0-r0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": [
+          {
+            "architecture": "x86_64",
+            "latest_event_status": "fixed"
+          }
+        ]
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Debian",
+        "name": "curl",
+        "purl": "pkg:deb/debian/curl?arch=amd64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.0.0-1"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": []
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Chainguard",
+        "name": "curl",
+        "purl": "pkg:apk/chainguard/curl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": [
+          {
+            "architecture": "x86_64",
+            "component_name": "libcurl",
+            "latest_event_status": "fixed"
+          },
+          {
+            "architecture": "x86_64",
+            "component_name": "libnghttp2",
+            "latest_event_status": "detection"
+          }
+        ]
+      }
+    }
+  ]
+}

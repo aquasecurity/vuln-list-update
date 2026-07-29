@@ -1,0 +1,18 @@
+{
+  "ecosystem": "Chainguard",
+  "name": "curl",
+  "advisories": [
+    {
+      "id": "CGA-5555-5555-5555",
+      "upstream": [
+        "CVE-2026-11111"
+      ],
+      "events": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "status": "detection"
+    }
+  ]
+}

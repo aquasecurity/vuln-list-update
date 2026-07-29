@@ -1,0 +1,44 @@
+{
+  "published": "2025-10-30T21:20:25Z",
+  "modified": "2026-02-11T09:15:00Z",
+  "schema_version": "1.7.5",
+  "id": "CGA-3333-3333-3333",
+  "severity": null,
+  "upstream": [
+    "CVE-2025-32464"
+  ],
+  "references": null,
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Chainguard",
+        "name": "haproxy-2.2",
+        "purl": "pkg:apk/chainguard/haproxy-2.2?arch=aarch64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "components": [
+          {
+            "architecture": "aarch64",
+            "component_name": "haproxy-2.2",
+            "component_version": "2.2.33-r40",
+            "component_type": "apk",
+            "component_location": "/.PKGINFO",
+            "component_purl": "pkg:apk/haproxy-2.2@2.2.33-r40",
+            "latest_event_status": "pending_upstream_fix",
+            "latest_event_timestamp": "2025-04-14T20:11:36Z"
+          }
+        ]
+      }
+    }
+  ]
+}
