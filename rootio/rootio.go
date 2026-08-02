@@ -18,6 +18,8 @@ const (
 	feedURL   = "https://api.root.io/external/osv/all.zip"
 )
 
+// Root.io uses a single archive for all ecosystems, so we use a single ecosystem
+// and an empty dir (the `rootio` dir is added via options.dir).
 var defaultEcosystems = map[string]osv.Ecosystem{
 	"Root": {
 		Dir: "",
