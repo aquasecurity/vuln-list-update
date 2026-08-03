@@ -283,11 +283,7 @@ jobs:
           commit-message: "EOL dates"
 
       - if: always()
-        name: Root CVE Tracker
-        run: ./scripts/update.sh rootio "Root CVE Feed Tracker"
-
-      - if: always()
-        name: EOL dates
+        name: Root.io OSV Tracker
         uses: ./.github/actions/update-source
         with:
           target: rootio
