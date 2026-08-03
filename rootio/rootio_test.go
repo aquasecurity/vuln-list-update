@@ -26,8 +26,8 @@ func Test_Update(t *testing.T) {
 		{
 			name: "happy path",
 			wantFiles: []string{
-				filepath.Join("curl", "CVE-2023-0001.json"),
-				filepath.Join("openssl", "CVE-2023-0002.json"),
+				filepath.Join("curl", "ROOT-OS-DEBIAN-13-CVE-2026-8458.json"),
+				filepath.Join("openssl", "ROOT-OS-ALPINE-324-CVE-2026-7383.json"),
 			},
 		},
 		{
