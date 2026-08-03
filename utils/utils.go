@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/rand"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"math"
@@ -12,6 +13,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 
 	pb "github.com/cheggaaa/pb/v3"
@@ -80,11 +82,13 @@ func Write(filePath string, data interface{}) error {
 	return nil
 }
 
-// GenWorkers generate workders
-func GenWorkers(num, wait int) chan<- func() {
+// GenWorkers generate workers
+func GenWorkers(num, wait int, wg *sync.WaitGroup) chan<- func() {
 	tasks := make(chan func())
-	for i := 0; i < num; i++ {
+	for range num {
+		wg.Add(1)
 		go func() {
+			defer wg.Done()
 			for f := range tasks {
 				f()
 				time.Sleep(time.Duration(wait) * time.Second)
@@ -147,13 +151,14 @@ func fetchURL(url string, headers map[string]string) ([]byte, error) {
 }
 
 // FetchConcurrently fetches concurrently
-func FetchConcurrently(urls []string, concurrency, wait, retry int) (responses [][]byte, err error) {
+func FetchConcurrently(urls []string, concurrency, wait, retry int, timeout time.Duration) (responses [][]byte, err error) {
+	// Each URL pushes at most one value into each channel, so buffering to
+	// len(urls) means writers never block. They are intentionally not closed:
+	// receivers read a bounded number of values (no range), and closing while
+	// workers are still sending would panic. GC reclaims them once unreferenced.
 	reqChan := make(chan string, len(urls))
 	resChan := make(chan []byte, len(urls))
 	errChan := make(chan error, len(urls))
-	defer close(reqChan)
-	defer close(resChan)
-	defer close(errChan)
 
 	go func() {
 		for _, url := range urls {
@@ -161,10 +166,13 @@ func FetchConcurrently(urls []string, concurrency, wait, retry int) (responses [
 		}
 	}()
 
+	timer := time.NewTimer(timeout)
+	defer timer.Stop()
 	bar := pb.StartNew(len(urls))
-	tasks := GenWorkers(concurrency, wait)
+	var wg sync.WaitGroup
+	tasks := GenWorkers(concurrency, wait, &wg)
 	for range urls {
-		tasks <- func() {
+		fn := func() {
 			url := <-reqChan
 			res, err := FetchURL(url, "", retry)
 			if err != nil {
@@ -173,25 +181,43 @@ func FetchConcurrently(urls []string, concurrency, wait, retry int) (responses [
 			}
 			resChan <- res
 		}
+		select {
+		case tasks <- fn:
+		case <-timer.C:
+			// Stop dispatching and return without waiting: workers already
+			// running keep fetching in the background until they finish their
+			// current request, then exit on the closed tasks channel.
+			close(tasks)
+			return nil, xerrors.New("Timeout Fetching URL")
+		}
 		bar.Increment()
 	}
 	bar.Finish()
+	close(tasks)
+
+	done := make(chan struct{})
+	go func() {
+		wg.Wait()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+	case <-timer.C:
+		return nil, xerrors.New("Timeout Fetching URL")
+	}
 
 	var errs []error
-	timeout := time.After(10 * 60 * time.Second)
 	for range urls {
 		select {
 		case res := <-resChan:
 			responses = append(responses, res)
 		case err := <-errChan:
 			errs = append(errs, err)
-		case <-timeout:
-			return nil, xerrors.New("Timeout Fetching URL")
 		}
 	}
-	if 0 < len(errs) {
-		return responses, fmt.Errorf("%s", errs)
-
+	if len(errs) > 0 {
+		return responses, errors.Join(errs...)
 	}
 	return responses, nil
 }

@@ -10,6 +10,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/cheggaaa/pb"
@@ -81,9 +82,12 @@ func (c Config) Update() error {
 }
 
 func (c Config) update(year string, urls []string) error {
-	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, c.Retry)
+	// The largest year holds ~1900 advisories; when repo.openeuler.org is slow
+	// (throughput drops to ~1.6 advisories/sec) fetching it takes ~20 min, so a
+	// 30 min timeout leaves headroom. A shorter limit reverts the whole run.
+	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, c.Retry, 30*time.Minute)
 	if err != nil {
-		log.Printf("failed to fetch CVRF data from repo.openEuler.org, err: %s", err)
+		return xerrors.Errorf("failed to fetch CVRF data from repo.openeuler.org: %w", err)
 	}
 
 	var cvrfs []Cvrf

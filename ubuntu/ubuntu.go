@@ -332,7 +332,7 @@ func parse(r io.Reader) (vuln *Vulnerability, err error) {
 			suffix := strings.TrimPrefix(line, "Patches")
 			var upstreamLinks []string
 			j := i
-			for j < len(lines) && lines[j+1] != "" {
+			for j+1 < len(lines) && lines[j+1] != "" {
 				j++
 				line = strings.TrimSpace(lines[j])
 				if !strings.HasPrefix(line, "upstream:") {

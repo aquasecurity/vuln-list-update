@@ -1,0 +1,3 @@
+Candidate: CVE-2019-14866
+Patches_cpio:
+ upstream: https://git.savannah.gnu.org/cgit/cpio.git/commit/?id=dd96882877721703e19272fe25034560b794061b

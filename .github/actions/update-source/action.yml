@@ -1,0 +1,84 @@
+name: Update vuln-list source
+description: |
+  Fetches a single vuln-list source, then commits and pushes the result using a
+  freshly minted GitHub App installation token. Skips the push if there is
+  nothing to commit.
+
+inputs:
+  target:
+    description: vuln-list-update target name (e.g. "alpine", "redhat").
+    required: true
+  client-id:
+    description: GitHub App client ID used to mint the installation token.
+    required: true
+  private-key:
+    description: GitHub App private key used to mint the installation token.
+    required: true
+  owner:
+    description: Repository owner (org or user). Used both for the token scope and the push URL.
+    required: true
+  repository:
+    description: Repository name (without owner). Scopes the token, names the workdir, and forms the push URL.
+    required: true
+  commit-message:
+    description: Commit message for the new commit.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch
+      shell: bash
+      env:
+        VULN_LIST_DIR: ${{ inputs.repository }}
+        TARGET: ${{ inputs.target }}
+      run: |
+        ./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target "$TARGET" || {
+          echo "[Err] Revert changes" >&2
+          cd "$VULN_LIST_DIR" && git reset --hard HEAD
+          exit 1
+        }
+
+    - id: detect
+      name: Detect changes
+      shell: bash
+      env:
+        WORKDIR: ${{ inputs.repository }}
+      run: |
+        if ! git -C "$WORKDIR" rev-parse --git-dir > /dev/null 2>&1; then
+          echo "::error::$WORKDIR is not a git repository"
+          exit 1
+        fi
+        if [[ -n $(git -C "$WORKDIR" status --porcelain) ]]; then
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          echo "No changes — token refresh and push skipped"
+        fi
+
+    - if: steps.detect.outputs.has_changes == 'true'
+      id: token
+      name: Refresh GitHub App installation token
+      uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+      with:
+        client-id: ${{ inputs.client-id }}
+        private-key: ${{ inputs.private-key }}
+        owner: ${{ inputs.owner }}
+        repositories: ${{ inputs.repository }}
+
+    - if: steps.detect.outputs.has_changes == 'true'
+      name: Commit and push
+      shell: bash
+      env:
+        GH_APP_TOKEN: ${{ steps.token.outputs.token }}
+        OWNER: ${{ inputs.owner }}
+        REPO: ${{ inputs.repository }}
+        COMMIT_MSG: ${{ inputs.commit-message }}
+      run: |
+        cd "$REPO"
+        # actions/checkout may write an extraheader that overrides URL credentials; drop it so the refreshed token is used
+        git config --local --unset-all http.https://github.com/.extraheader || true
+        git remote set-url origin "https://x-access-token:${GH_APP_TOKEN}@github.com/${OWNER}/${REPO}.git"
+        git add .
+        git commit -m "${COMMIT_MSG}"
+        git push

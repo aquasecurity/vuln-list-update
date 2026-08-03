@@ -86,6 +86,25 @@ func TestUpdate(t *testing.T) {
 			},
 		},
 		{
+			name:              "happy path 1 page after reconnect (524)",
+			maxResultsPerPage: 10,
+			wantApiKey:        "test_api_key",
+			retry:             1,
+			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
+			fakeTimeNow:       time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
+			respFiles: map[string]string{
+				"resultsPerPage=1&startIndex=0":  "testdata/fixtures/rootResp.json",
+				"resultsPerPage=10&startIndex=0": "testdata/fixtures/respPageFull.json",
+			},
+			respStatus: 524,
+			wantFiles: []string{
+				filepath.Join("api", "2020", "CVE-2020-8167.json"),
+				filepath.Join("api", "2021", "CVE-2021-22903.json"),
+				filepath.Join("api", "2021", "CVE-2021-3881.json"),
+				"last_updated.json",
+			},
+		},
+		{
 			name:              "happy path 2 pages",
 			maxResultsPerPage: 2,
 			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
@@ -151,6 +170,15 @@ func TestUpdate(t *testing.T) {
 			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
 			fakeTimeNow:       time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
 			respStatus:        504,
+			wantError:         "unable to fetch url",
+		},
+		{
+			name:              "524 response",
+			maxResultsPerPage: 10,
+			wantApiKey:        "test_api_key",
+			lastUpdatedTime:   time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC),
+			fakeTimeNow:       time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC),
+			respStatus:        524,
 			wantError:         "unable to fetch url",
 		},
 	}
@@ -226,6 +254,84 @@ func TestUpdate(t *testing.T) {
 			}
 
 		})
+	}
+}
+
+// TestUpdate_RetryOnBodyReadError verifies that a transient error while reading
+// the response body (e.g. HTTP/2 `INTERNAL_ERROR` when NVD aborts the stream
+// mid-body) is retried instead of failing the whole run.
+func TestUpdate_RetryOnBodyReadError(t *testing.T) {
+	t.Setenv("NVD_API_KEY", "test_api_key")
+
+	tmpDir := t.TempDir()
+	savedVulnListDir := utils.VulnListDir()
+	utils.SetVulnListDir(tmpDir)
+	defer utils.SetVulnListDir(savedVulnListDir)
+
+	err := utils.SetLastUpdatedDate("api", time.Date(2023, 11, 26, 0, 0, 0, 0, time.UTC))
+	require.NoError(t, err)
+
+	respFiles := map[string]string{
+		"resultsPerPage=1&startIndex=0":  "testdata/fixtures/rootResp.json",
+		"resultsPerPage=10&startIndex=0": "testdata/fixtures/respPageFull.json",
+	}
+
+	var bodyBrokenOnce bool
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
+		if !bodyBrokenOnce {
+			bodyBrokenOnce = true
+			// Declare a larger body than we actually send, then abort the
+			// connection so the client fails with an unexpected EOF on read.
+			hj, ok := resp.(http.Hijacker)
+			require.True(t, ok)
+			conn, _, err := hj.Hijack()
+			require.NoError(t, err)
+			_, _ = conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Length: 1024\r\n\r\npartial"))
+			conn.Close()
+			return
+		}
+
+		var filePath string
+		for params, path := range respFiles {
+			if strings.Contains(req.URL.String(), params) {
+				filePath = path
+				break
+			}
+		}
+		if filePath == "" {
+			t.Errorf("response files doesn't exist for %q", req.URL.String())
+		}
+
+		b, err := os.ReadFile(filePath)
+		require.NoError(t, err)
+
+		_, err = resp.Write(b)
+		require.NoError(t, err)
+	})
+	ts := httptest.NewServer(mux)
+	defer ts.Close()
+
+	u := nvd.NewUpdater(nvd.WithBaseURL(ts.URL), nvd.WithMaxResultsPerPage(10),
+		nvd.WithRetry(1), nvd.WithLastModEndDate(time.Date(2023, 11, 28, 0, 0, 0, 0, time.UTC)),
+		nvd.WithRetryAfter(1*time.Second))
+	err = u.Update()
+	require.NoError(t, err)
+
+	wantFiles := []string{
+		filepath.Join("api", "2020", "CVE-2020-8167.json"),
+		filepath.Join("api", "2021", "CVE-2021-22903.json"),
+		filepath.Join("api", "2021", "CVE-2021-3881.json"),
+		"last_updated.json",
+	}
+	for _, wantFile := range wantFiles {
+		got, err := os.ReadFile(filepath.Join(tmpDir, wantFile))
+		require.NoError(t, err)
+
+		want, err := os.ReadFile(filepath.Join("testdata", "golden", wantFile))
+		require.NoError(t, err)
+
+		require.JSONEq(t, string(want), string(got))
 	}
 }
 

@@ -1,116 +1,130 @@
 package cvrf
 
 import (
-	"bufio"
+	"archive/tar"
 	"bytes"
+	"compress/bzip2"
+	"compress/gzip"
 	"encoding/xml"
+	"errors"
 	"fmt"
+	"io"
 	"log"
 	"path/filepath"
 	"regexp"
 	"strings"
 	"unicode/utf8"
 
-	"github.com/cheggaaa/pb"
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
-var (
-	cvrfURL     = "http://ftp.suse.com/pub/projects/security/cvrf/"
-	fileRegexp  = regexp.MustCompile(`<a href="(cvrf-(.*?)-.*)">.*`)
-	retry       = 5
-	concurrency = 20
-	wait        = 1
-	cvrfDir     = "cvrf"
-	suseDir     = "suse"
+const (
+	cvrfArchiveURL = "http://ftp.suse.com/pub/projects/security/cvrf.tar.bz2"
+	cvrfDir        = "cvrf"
+	suseDir        = "suse"
+	retries        = 5
 )
+
+var fileRegexp = regexp.MustCompile(`^cvrf-(.*?)-`)
 
 type Config struct {
 	VulnListDir string
 	URL         string
 	AppFs       afero.Fs
-	Retry       int
 }
 
 func NewConfig() Config {
 	return Config{
 		VulnListDir: utils.VulnListDir(),
-		URL:         cvrfURL,
+		URL:         cvrfArchiveURL,
 		AppFs:       afero.NewOsFs(),
-		Retry:       retry,
 	}
 }
 
 func (c Config) Update() error {
-	log.Print("Fetching SUSE data...")
+	log.Print("Fetching SUSE CVRF archive...")
 
-	res, err := utils.FetchURL(c.URL, "", retry)
+	// The SUSE server is sometimes unstable, so download the whole archive into
+	// memory before processing. Streaming directly from the HTTP response would
+	// make it hard to distinguish a mid-transfer disconnection (which surfaces
+	// as a truncated tar) from a legitimate parse error. The archive is only a
+	// few hundred MB, which fits comfortably in memory on CI runners.
+	body, err := utils.FetchURL(c.URL, "", retries)
 	if err != nil {
-		return xerrors.Errorf("Cannot download SUSE CVRF list: %v", err)
+		return xerrors.Errorf("failed to download CVRF archive: %w", err)
 	}
 
-	cvrfUrlsMap := make(map[string][]string)
-	scanner := bufio.NewScanner(bytes.NewReader(res))
-	for scanner.Scan() {
-		line := scanner.Text()
-		if match := fileRegexp.FindStringSubmatch(line); len(match) != 0 {
-			cvrfUrlsMap[match[2]] = append(cvrfUrlsMap[match[2]], c.URL+match[1])
-		}
-	}
-
-	for os, urls := range cvrfUrlsMap {
-		err = c.update(os, urls)
+	var decompressed io.Reader
+	switch {
+	case strings.HasSuffix(c.URL, ".tar.bz2"):
+		// The upstream archive is .tar.bz2, which is the only format used in production.
+		decompressed = bzip2.NewReader(bytes.NewReader(body))
+	case strings.HasSuffix(c.URL, ".tar.gz"):
+		// Go's compress/bzip2 lacks a Writer, so tests use .tar.gz instead.
+		gr, err := gzip.NewReader(bytes.NewReader(body))
 		if err != nil {
-			return xerrors.Errorf("failed Update CVRF: %w", err)
+			return xerrors.Errorf("failed to decompress gzip: %w", err)
 		}
+		defer gr.Close()
+		decompressed = gr
+	default:
+		return xerrors.Errorf("unsupported archive format: %s", c.URL)
 	}
-	return nil
-}
+	tr := tar.NewReader(decompressed)
 
-func (c Config) update(os string, urls []string) error {
-	cvrfXmls, err := utils.FetchConcurrently(urls, concurrency, wait, retry)
-	if err != nil {
-		log.Printf("failed to fetch CVRF data from SUSE. err: %s", err)
-	}
-
-	var cvrfs []Cvrf
-	for _, cvrfXml := range cvrfXmls {
-		var cv Cvrf
-		if len(cvrfXml) == 0 {
-			log.Println("empty CVRF xml")
+	for {
+		hdr, err := tr.Next()
+		switch {
+		case errors.Is(err, io.EOF):
+			return nil
+		case err != nil:
+			return xerrors.Errorf("failed to read tar entry: %w", err)
+		case hdr.Typeflag != tar.TypeReg:
 			continue
 		}
 
-		if !utf8.Valid(cvrfXml) {
-			log.Println("invalid UTF-8")
-			cvrfXml = []byte(strings.ToValidUTF8(string(cvrfXml), ""))
+		filename := filepath.Base(hdr.Name)
+		// archive contains non-XML files (e.g. LICENSE), so skip them
+		if !strings.HasSuffix(filename, ".xml") {
+			continue
 		}
+		match := fileRegexp.FindStringSubmatch(filename)
+		if match == nil {
+			continue
+		}
+		osName := match[1]
 
-		err = xml.Unmarshal(cvrfXml, &cv)
+		data, err := io.ReadAll(tr)
 		if err != nil {
-			return xerrors.Errorf("failed to decode SUSE XML: %w", err)
+			return xerrors.Errorf("failed to read tar entry data: %w", err)
 		}
-		cvrfs = append(cvrfs, cv)
-	}
 
-	dir := filepath.Join(cvrfDir, suseDir, os)
-	log.Printf("Fetching %s CVRF data...", os)
-	bar := pb.StartNew(len(cvrfs))
-	for _, cvrf := range cvrfs {
-		if err = c.saveCvrfPerYear(dir, cvrf.Tracking.ID, cvrf); err != nil {
+		if len(data) == 0 {
+			log.Printf("empty CVRF xml: %s", filename)
+			continue
+		}
+
+		if !utf8.Valid(data) {
+			log.Printf("invalid UTF-8: %s", filename)
+			data = []byte(strings.ToValidUTF8(string(data), ""))
+		}
+
+		var cv Cvrf
+		if err = xml.Unmarshal(data, &cv); err != nil {
+			return xerrors.Errorf("failed to decode SUSE XML (%s): %w", filename, err)
+		}
+
+		dir := filepath.Join(cvrfDir, suseDir, osName)
+		if err = c.saveCvrfPerYear(dir, cv.Tracking.ID, cv); err != nil {
 			return xerrors.Errorf("failed to save CVRF: %w", err)
 		}
-		bar.Increment()
 	}
-	bar.Finish()
-
-	return nil
 }
 
-func (c Config) saveCvrfPerYear(dirName string, cvrfID string, data interface{}) error {
+func (c Config) saveCvrfPerYear(dirName string, cvrfID string, data Cvrf) error {
 	s := strings.Split(cvrfID, "-")
 	if len(s) < 4 {
 		log.Printf("invalid CVRF-ID format: %s", cvrfID)

@@ -1,6 +1,9 @@
 package cvrf_test
 
 import (
+	"archive/tar"
+	"bytes"
+	"compress/gzip"
 	"flag"
 	"net/http"
 	"net/http/httptest"
@@ -16,33 +19,35 @@ import (
 
 var update = flag.Bool("update", false, "update golden files")
 
+// createArchive creates a tar.gz archive from the given directory.
+// gzip is used instead of bzip2 because Go's compress/bzip2 package
+// only provides a Reader. The production code detects the format by
+// URL suffix and handles both .tar.bz2 and .tar.gz.
+func createArchive(t *testing.T, dir string) []byte {
+	t.Helper()
+
+	var buf bytes.Buffer
+	gw := gzip.NewWriter(&buf)
+	tw := tar.NewWriter(gw)
+	require.NoError(t, tw.AddFS(os.DirFS(dir)))
+	require.NoError(t, tw.Close())
+	require.NoError(t, gw.Close())
+
+	return buf.Bytes()
+}
+
 func TestConfig_Update(t *testing.T) {
 	testCases := []struct {
-		name             string
-		appFs            afero.Fs
-		xmlFileNames     map[string]string
-		goldenFiles      map[string]string
-		expectedErrorMsg string
+		name        string
+		appFs       afero.Fs
+		archiveDir  string
+		goldenFiles map[string]string
+		wantErr     string
 	}{
 		{
-			name:  "positive test sles",
-			appFs: afero.NewMemMapFs(),
-			xmlFileNames: map[string]string{
-				"/pub/projects/security/cvrf/":                                 "testdata/cvrf-list.html",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2018-1784-1.xml":     "testdata/cvrf-suse-su-2018-1784-1.xml",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2019-14018-1.xml":    "testdata/cvrf-suse-su-2019-14018-1.xml",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2019-1608-1.xml":     "testdata/cvrf-suse-su-2019-1608-1.xml",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2019-3294-1.xml":     "testdata/cvrf-suse-su-2019-3294-1.xml",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2019-3295-1.xml":     "testdata/cvrf-suse-su-2019-3295-1.xml",
-				"/pub/projects/security/cvrf/cvrf-opensuse-su-2015-0225-1.xml": "testdata/cvrf-opensuse-su-2015-0225-1.xml",
-				"/pub/projects/security/cvrf/cvrf-opensuse-su-2015-0798-1.xml": "testdata/cvrf-opensuse-su-2015-0798-1.xml",
-				"/pub/projects/security/cvrf/cvrf-opensuse-su-2015-1289-1.xml": "testdata/cvrf-opensuse-su-2015-1289-1.xml",
-				"/pub/projects/security/cvrf/cvrf-opensuse-su-2016-3233-1.xml": "testdata/cvrf-opensuse-su-2016-3233-1.xml",
-				"/pub/projects/security/cvrf/cvrf-opensuse-su-2018-1633-1.xml": "testdata/cvrf-opensuse-su-2018-1633-1.xml",
-
-				// include invalid UTF-8 characters
-				"/pub/projects/security/cvrf/cvrf-opensuse-su-2016-0874-1.xml": "testdata/cvrf-opensuse-su-2016-0874-1.xml",
-			},
+			name:       "positive test sles",
+			appFs:      afero.NewMemMapFs(),
+			archiveDir: "testdata/cvrf",
 			goldenFiles: map[string]string{
 				"/tmp/cvrf/suse/suse/2018/SUSE-SU-2018-1784-1.json":         "testdata/golden/SUSE-SU-2018-1784-1.json",
 				"/tmp/cvrf/suse/suse/2019/SUSE-SU-2019-14018-1.json":        "testdata/golden/SUSE-SU-2019-14018-1.json",
@@ -58,76 +63,34 @@ func TestConfig_Update(t *testing.T) {
 			},
 		},
 		{
-			name:  "invalid filesystem write read only path",
-			appFs: afero.NewReadOnlyFs(afero.NewOsFs()),
-			xmlFileNames: map[string]string{
-				"/pub/projects/security/cvrf/":                             "testdata/invalid-cvrf-list.html",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2018-1784-1.xml": "testdata/golden/SUSE-SU-2018-1784-1.json",
-			},
-			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed Update CVRF: failed to decode SUSE XML: EOF",
-		},
-		{
-			name:  "empty file format",
-			appFs: afero.NewMemMapFs(),
-			xmlFileNames: map[string]string{
-				"/pub/projects/security/cvrf/":                             "testdata/invalid-cvrf-list.html",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2018-1784-1.xml": "testdata/EOF.txt",
-			},
-			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "",
-		},
-		{
-			name:  "invalid file format",
-			appFs: afero.NewMemMapFs(),
-			xmlFileNames: map[string]string{
-				"/pub/projects/security/cvrf/":                             "testdata/invalid-cvrf-list.html",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2018-1784-1.xml": "testdata/invalid.txt",
-			},
-			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed Update CVRF: failed to decode SUSE XML: EOF",
-		},
-		{
-			name:  "broken XML",
-			appFs: afero.NewMemMapFs(),
-			xmlFileNames: map[string]string{
-				"/pub/projects/security/cvrf/":                             "testdata/invalid-cvrf-list.html",
-				"/pub/projects/security/cvrf/cvrf-suse-su-2018-1784-1.xml": "testdata/broken-cvrf-data.xml",
-			},
-			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "failed Update CVRF: failed to decode SUSE XML: XML syntax error on line 186: unexpected EOF",
+			name:        "broken XML",
+			appFs:       afero.NewMemMapFs(),
+			archiveDir:  "testdata/broken-cvrf",
+			goldenFiles: map[string]string{},
+			wantErr:     "failed to decode SUSE XML",
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			archiveData := createArchive(t, tc.archiveDir)
+
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				filePath, ok := tc.xmlFileNames[r.URL.Path]
-				if !ok {
-					http.NotFound(w, r)
-					return
-				}
-				b, err := os.ReadFile(filePath)
-				assert.NoError(t, err, tc.name)
-				_, err = w.Write(b)
+				_, err := w.Write(archiveData)
 				assert.NoError(t, err, tc.name)
 			}))
 			defer ts.Close()
-			url := ts.URL + "/pub/projects/security/cvrf/"
+
 			c := cvrf.Config{
 				VulnListDir: "/tmp",
-				URL:         url,
+				URL:         ts.URL + "/cvrf.tar.gz",
 				AppFs:       tc.appFs,
-				Retry:       0,
 			}
 			err := c.Update()
-			switch {
-			case tc.expectedErrorMsg != "":
-				require.NotNil(t, err, tc.name)
-				assert.Contains(t, err.Error(), tc.expectedErrorMsg, tc.name)
+			if tc.wantErr != "" {
+				require.ErrorContains(t, err, tc.wantErr, tc.name)
 				return
-			default:
-				assert.NoError(t, err, tc.name)
 			}
+			require.NoError(t, err, tc.name)
 
 			fileCount := 0
 			err = afero.Walk(c.AppFs, "/", func(path string, info os.FileInfo, err error) error {
@@ -137,7 +100,7 @@ func TestConfig_Update(t *testing.T) {
 				if info.IsDir() {
 					return nil
 				}
-				fileCount += 1
+				fileCount++
 
 				actual, err := afero.ReadFile(c.AppFs, path)
 				require.NoError(t, err, tc.name)
@@ -159,5 +122,4 @@ func TestConfig_Update(t *testing.T) {
 			assert.Equal(t, len(tc.goldenFiles), fileCount, tc.name)
 		})
 	}
-
 }
