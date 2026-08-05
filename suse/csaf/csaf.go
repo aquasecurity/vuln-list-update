@@ -1,24 +1,15 @@
 package csaf
 
 import (
-	"archive/tar"
-	"bytes"
-	"compress/bzip2"
-	"compress/gzip"
 	"encoding/json"
-	"errors"
-	"fmt"
-	"io"
 	"log"
 	"path/filepath"
-	"regexp"
 	"strings"
-	"unicode/utf8"
 
 	csaflib "github.com/csaf-poc/csaf_distribution/v3/csaf"
 	"github.com/spf13/afero"
-	"golang.org/x/xerrors"
 
+	susearchive "github.com/aquasecurity/vuln-list-update/suse"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
@@ -29,18 +20,20 @@ const (
 	retries        = 5
 )
 
-var fileRegexp = regexp.MustCompile(`^(suse-su|opensuse-su)-`)
-
 type Config struct {
 	VulnListDir string
 	URL         string
 	AppFs       afero.Fs
 }
 
-// archiveEntry is a single JSON document from the SUSE CSAF tar archive.
-type archiveEntry struct {
-	Filename string
-	Data     []byte
+type updateStats struct {
+	matched        int
+	saved          int
+	skipFilename   int
+	skipUnmarshal  int
+	skipValidate   int
+	skipNoTracking int
+	skipBadID      int
 }
 
 func NewConfig() Config {
@@ -54,130 +47,69 @@ func NewConfig() Config {
 func (c Config) Update() error {
 	log.Print("Fetching SUSE CSAF archive...")
 
-	return walkArchive(c.URL, retries, fileRegexp, func(e archiveEntry) error {
-		osName, err := osNameFromFilename(e.Filename)
-		if err != nil {
-			log.Printf("skip %s: %v", e.Filename, err)
+	var stats updateStats
+	err := susearchive.WalkTarArchive(c.URL, retries, func(e susearchive.TarEntry) error {
+		if !strings.HasSuffix(e.Filename, ".json") {
+			return nil
+		}
+		stats.matched++
+
+		osName, ok := osNameFromFilename(e.Filename)
+		if !ok {
+			stats.skipFilename++
+			log.Printf("skip %s: unexpected filename", e.Filename)
 			return nil
 		}
 
 		var adv csaflib.Advisory
 		if err := json.Unmarshal(e.Data, &adv); err != nil {
+			stats.skipUnmarshal++
 			log.Printf("skip invalid CSAF json (%s): %v", e.Filename, err)
 			return nil
 		}
 
 		if err := adv.Validate(); err != nil {
+			stats.skipValidate++
 			log.Printf("skip invalid CSAF advisory (%s): %v", e.Filename, err)
 			return nil
 		}
 
 		if adv.Document == nil || adv.Document.Tracking == nil || adv.Document.Tracking.ID == nil {
+			stats.skipNoTracking++
 			log.Printf("skip advisory without tracking id (%s)", e.Filename)
 			return nil
 		}
 
+		advisoryID := string(*adv.Document.Tracking.ID)
 		dir := filepath.Join(csafDir, suseDir, osName)
-		if err := c.savePerYear(dir, string(*adv.Document.Tracking.ID), adv); err != nil {
-			return xerrors.Errorf("failed to save CSAF: %w", err)
+		if err := susearchive.SavePerYear(c.VulnListDir, c.AppFs, dir, advisoryID, adv); err != nil {
+			stats.skipBadID++
+			log.Printf("skip advisory (%s): %v", e.Filename, err)
+			return nil
 		}
+		stats.saved++
 		return nil
 	})
-}
-
-func osNameFromFilename(filename string) (string, error) {
-	match := fileRegexp.FindStringSubmatch(filename)
-	if len(match) < 2 {
-		return "", fmt.Errorf("unexpected filename")
-	}
-	switch match[1] {
-	case "suse-su":
-		return "suse", nil
-	case "opensuse-su":
-		return "opensuse", nil
-	default:
-		return "", fmt.Errorf("unknown prefix %q", match[1])
-	}
-}
-
-func (c Config) savePerYear(dirName, advisoryID string, data any) error {
-	s := strings.Split(advisoryID, "-")
-	if len(s) < 4 {
-		log.Printf("invalid advisory ID format: %s", advisoryID)
-		return nil
-	}
-
-	year := strings.Split(s[2], ":")[0]
-	if len(year) < 4 {
-		log.Printf("invalid advisory ID format: %s", advisoryID)
-		return nil
-	}
-
-	yearDir := filepath.Join(c.VulnListDir, dirName, year)
-	fileName := fmt.Sprintf("%s.json", strings.Replace(advisoryID, ":", "-", 1))
-	if err := utils.WriteJSON(c.AppFs, yearDir, fileName, data); err != nil {
-		return xerrors.Errorf("failed to write file: %w", err)
-	}
-	return nil
-}
-
-func walkArchive(url string, retries int, nameRegexp *regexp.Regexp, handler func(archiveEntry) error) error {
-	body, err := utils.FetchURL(url, "", retries)
-	if err != nil {
-		return xerrors.Errorf("failed to download archive: %w", err)
-	}
-
-	decompressed, err := decompressArchive(url, body)
 	if err != nil {
 		return err
 	}
 
-	tr := tar.NewReader(decompressed)
-	for {
-		hdr, err := tr.Next()
-		switch {
-		case errors.Is(err, io.EOF):
-			return nil
-		case err != nil:
-			return xerrors.Errorf("failed to read tar entry: %w", err)
-		case hdr.Typeflag != tar.TypeReg:
-			continue
-		}
-
-		filename := filepath.Base(hdr.Name)
-		if !strings.HasSuffix(filename, ".json") {
-			continue
-		}
-		if nameRegexp != nil && !nameRegexp.MatchString(filename) {
-			continue
-		}
-
-		data, err := io.ReadAll(tr)
-		if err != nil {
-			return xerrors.Errorf("failed to read tar entry data: %w", err)
-		}
-		if len(data) == 0 {
-			log.Printf("empty json: %s", filename)
-			continue
-		}
-		if !utf8.Valid(data) {
-			log.Printf("invalid UTF-8: %s", filename)
-			data = []byte(strings.ToValidUTF8(string(data), ""))
-		}
-
-		if err := handler(archiveEntry{Filename: filename, Data: data}); err != nil {
-			return err
-		}
-	}
+	log.Printf(
+		"CSAF update summary: matched=%d saved=%d skipped=%d (filename=%d unmarshal=%d validate=%d no_tracking=%d bad_id=%d)",
+		stats.matched, stats.saved,
+		stats.skipFilename+stats.skipUnmarshal+stats.skipValidate+stats.skipNoTracking+stats.skipBadID,
+		stats.skipFilename, stats.skipUnmarshal, stats.skipValidate, stats.skipNoTracking, stats.skipBadID,
+	)
+	return nil
 }
 
-func decompressArchive(url string, body []byte) (io.Reader, error) {
+func osNameFromFilename(filename string) (string, bool) {
 	switch {
-	case strings.HasSuffix(url, ".tar.bz2"):
-		return bzip2.NewReader(bytes.NewReader(body)), nil
-	case strings.HasSuffix(url, ".tar.gz"):
-		return gzip.NewReader(bytes.NewReader(body))
+	case strings.HasPrefix(filename, "suse-su-"):
+		return "suse", true
+	case strings.HasPrefix(filename, "opensuse-su-"):
+		return "opensuse", true
 	default:
-		return nil, xerrors.Errorf("unsupported archive format: %s", url)
+		return "", false
 	}
 }

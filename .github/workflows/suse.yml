@@ -39,6 +39,17 @@ jobs:
       run: go build -o vuln-list-update .
 
     - if: always()
+      name: SUSE CVRF
+      uses: ./.github/actions/update-source
+      with:
+        target: suse-cvrf
+        client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+        private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repository: ${{ env.VULN_LIST_DIR }}
+        commit-message: "SUSE CVRF"
+
+    - if: always()
       name: SUSE CSAF
       uses: ./.github/actions/update-source
       with:
@@ -49,11 +60,11 @@ jobs:
         repository: ${{ env.VULN_LIST_DIR }}
         commit-message: "SUSE CSAF"
 
-    - name: Microsoft Teams Notification
-      uses: Skitionek/notify-microsoft-teams@e7a2493ac87dad8aa7a62f079f295e54ff511d88
+    - name: Slack Notification
+      uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
       if: failure()
       with:
-        webhook_url: ${{ secrets.TRIVY_MSTEAMS_WEBHOOK }}
-        needs: ${{ toJson(needs) }}
-        job: ${{ toJson(job) }}
-        steps: ${{ toJson(steps) }}
+        webhook: ${{ secrets.TRIVY_SLACK_WEBHOOK }}
+        webhook-type: incoming-webhook
+        payload: |
+          text: ":x: *${{ github.workflow }}* workflow failed — <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|view run>"
