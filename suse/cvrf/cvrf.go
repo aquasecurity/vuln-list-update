@@ -40,26 +40,35 @@ func NewConfig() Config {
 func (c Config) Update() error {
 	log.Print("Fetching SUSE CVRF archive...")
 
-	return susearchive.WalkTarArchive(c.URL, retries, func(e susearchive.TarEntry) error {
-		if !strings.HasSuffix(e.Filename, ".xml") {
-			return nil
-		}
-		match := fileRegexp.FindStringSubmatch(e.Filename)
-		if match == nil {
-			return nil
-		}
-		osName := match[1]
+	updater := susearchive.Updater{
+		URL:         c.URL,
+		VulnListDir: c.VulnListDir,
+		AppFs:       c.AppFs,
+		Dir:         filepath.Join(cvrfDir, suseDir),
+		Retries:     retries,
+		OSName:      osNameFromFilename,
+	}
 
+	return updater.Update(func(filename string, data []byte) (string, any, error) {
 		var cv Cvrf
-		if err := xml.Unmarshal(e.Data, &cv); err != nil {
-			return xerrors.Errorf("failed to decode SUSE XML (%s): %w", e.Filename, err)
+		if err := xml.Unmarshal(data, &cv); err != nil {
+			return "", nil, xerrors.Errorf("failed to decode SUSE XML (%s): %w", filename, err)
 		}
-
-		dir := filepath.Join(cvrfDir, suseDir, osName)
-		if err := susearchive.SavePerYear(c.VulnListDir, c.AppFs, dir, cv.Tracking.ID, cv); err != nil {
-			log.Printf("skip CVRF advisory (%s): %v", e.Filename, err)
-			return nil
-		}
-		return nil
+		return cv.Tracking.ID, cv, nil
 	})
+}
+
+// osNameFromFilename takes the OS out of a CVRF filename:
+// "cvrf-opensuse-su-2015-0225-1.xml" -> "opensuse".
+func osNameFromFilename(filename string) (string, bool) {
+	// The archive contains non-XML files (e.g. LICENSE), so skip them.
+	if !strings.HasSuffix(filename, ".xml") {
+		return "", false
+	}
+
+	match := fileRegexp.FindStringSubmatch(filename)
+	if match == nil {
+		return "", false
+	}
+	return match[1], true
 }
