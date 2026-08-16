@@ -37,39 +37,52 @@ func NewConfig() Config {
 func (c Config) Update() error {
 	log.Print("Fetching SUSE CSAF archive...")
 
+	var skipUnmarshal, skipValidate, skipNoTracking int
 	updater := susearchive.Updater{
 		URL:         c.URL,
 		VulnListDir: c.VulnListDir,
 		AppFs:       c.AppFs,
 		Dir:         filepath.Join(csafDir, suseDir),
 		Retries:     retries,
-		OSName:      osNameFromFilename,
+		OSName:      OsNameFromFilename,
 	}
 
-	return updater.Update(func(filename string, data []byte) (string, any, error) {
+	err := updater.Update(func(filename string, data []byte) (string, any, error) {
 		var adv csaflib.Advisory
 		if err := json.Unmarshal(data, &adv); err != nil {
+			skipUnmarshal++
 			log.Printf("skip invalid CSAF json (%s): %v", filename, err)
 			return "", nil, nil
 		}
 
 		if err := adv.Validate(); err != nil {
+			skipValidate++
 			log.Printf("skip invalid CSAF advisory (%s): %v", filename, err)
 			return "", nil, nil
 		}
 
 		if adv.Document == nil || adv.Document.Tracking == nil || adv.Document.Tracking.ID == nil {
+			skipNoTracking++
 			log.Printf("skip advisory without tracking id (%s)", filename)
 			return "", nil, nil
 		}
 
 		return string(*adv.Document.Tracking.ID), adv, nil
 	})
+	if err != nil {
+		return err
+	}
+
+	log.Printf(
+		"CSAF update finished: skipped unmarshal=%d validate=%d no_tracking=%d",
+		skipUnmarshal, skipValidate, skipNoTracking,
+	)
+	return nil
 }
 
-// osNameFromFilename takes the OS out of a CSAF filename:
+// OsNameFromFilename takes the OS out of a CSAF filename:
 // "opensuse-su-2019_0003-1.json" -> "opensuse".
-func osNameFromFilename(filename string) (string, bool) {
+func OsNameFromFilename(filename string) (string, bool) {
 	// Every advisory ships with .sha256 and .asc sidecars, so skip everything that isn't JSON.
 	if !strings.HasSuffix(filename, ".json") {
 		return "", false

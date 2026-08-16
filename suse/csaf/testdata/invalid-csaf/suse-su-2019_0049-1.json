@@ -1,0 +1,35 @@
+{
+  "document": {
+    "category": "csaf_security_advisory",
+    "csaf_version": "2.0",
+    "lang": "en",
+    "title": "OES cpe unmarshal failure",
+    "tracking": {
+      "current_release_date": "2024-01-01T00:00:00Z",
+      "id": "SUSE-SU-2019:0049-1",
+      "initial_release_date": "2024-01-01T00:00:00Z",
+      "status": "final",
+      "version": "1"
+    }
+  },
+  "product_tree": {
+    "branches": [{
+      "category": "vendor",
+      "name": "SUSE",
+      "branches": [{
+        "category": "product_family",
+        "name": "SUSE Linux Enterprise",
+        "branches": [{
+          "category": "product_name",
+          "name": "OES",
+          "product": {
+            "name": "OES",
+            "product_id": "OES",
+            "product_identification_helper": {"cpe": "cpe:/o:novell,inc:OES:23.4"}
+          }
+        }]
+      }]
+    }],
+    "relationships": []
+  }
+}

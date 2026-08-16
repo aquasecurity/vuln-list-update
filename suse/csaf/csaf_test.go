@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/spf13/afero"
@@ -29,49 +30,60 @@ func createArchive(t *testing.T, dir string) []byte {
 	return buf.Bytes()
 }
 
+func newTestServer(t *testing.T, archiveData []byte) *httptest.Server {
+	t.Helper()
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, err := w.Write(archiveData)
+		require.NoError(t, err)
+	}))
+}
+
 func TestConfig_Update(t *testing.T) {
 	testCases := []struct {
 		name        string
-		appFs       afero.Fs
 		archiveDir  string
-		goldenFiles map[string]string
+		wantFiles   map[string]string
 	}{
 		{
 			name:       "positive test",
-			appFs:      afero.NewMemMapFs(),
 			archiveDir: "testdata/csaf",
-			goldenFiles: map[string]string{
+			wantFiles: map[string]string{
 				"/tmp/csaf/suse/suse/2019/SUSE-SU-2019-0048-2.json":         "testdata/golden/SUSE-SU-2019-0048-2.json",
 				"/tmp/csaf/suse/opensuse/2019/openSUSE-SU-2019-0003-1.json": "testdata/golden/openSUSE-SU-2019-0003-1.json",
 			},
 		},
 		{
 			name:        "broken JSON is skipped",
-			appFs:       afero.NewMemMapFs(),
 			archiveDir:  "testdata/broken-csaf",
-			goldenFiles: map[string]string{},
+			wantFiles:   map[string]string{},
+		},
+		{
+			name:        "invalid advisories are skipped",
+			archiveDir:  "testdata/invalid-csaf",
+			wantFiles:   map[string]string{},
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			archiveData := createArchive(t, tc.archiveDir)
-
-			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				_, err := w.Write(archiveData)
-				assert.NoError(t, err, tc.name)
-			}))
+			ts := newTestServer(t, createArchive(t, tc.archiveDir))
 			defer ts.Close()
 
+			fs := afero.NewMemMapFs()
 			c := csaf.Config{
 				VulnListDir: "/tmp",
 				URL:         ts.URL + "/csaf.tar.gz",
-				AppFs:       tc.appFs,
+				AppFs:       fs,
 			}
-			err := c.Update()
-			require.NoError(t, err, tc.name)
+			require.NoError(t, c.Update())
+
+			if len(tc.wantFiles) == 0 {
+				_, err := fs.Stat(filepath.Join(c.VulnListDir, "csaf"))
+				assert.Error(t, err)
+				return
+			}
 
 			fileCount := 0
-			err = afero.Walk(c.AppFs, "/", func(path string, info os.FileInfo, err error) error {
+			err := afero.Walk(fs, c.VulnListDir, func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					return err
 				}
@@ -80,20 +92,44 @@ func TestConfig_Update(t *testing.T) {
 				}
 				fileCount++
 
-				actual, err := afero.ReadFile(c.AppFs, path)
-				require.NoError(t, err, tc.name)
-
-				goldenPath, ok := tc.goldenFiles[path]
+				goldenPath, ok := tc.wantFiles[path]
 				require.True(t, ok, "unexpected output file: %s", path)
-				expected, err := os.ReadFile(goldenPath)
-				require.NoError(t, err, tc.name)
 
-				assert.JSONEq(t, string(expected), string(actual), tc.name)
+				actual, err := afero.ReadFile(fs, path)
+				require.NoError(t, err)
+
+				expected, err := os.ReadFile(goldenPath)
+				require.NoError(t, err)
+				if os.Getenv("UPDATE_GOLDEN") != "" {
+					require.NoError(t, os.WriteFile(goldenPath, actual, 0o644))
+					return nil
+				}
+				assert.JSONEq(t, string(expected), string(actual))
 
 				return nil
 			})
-			require.NoError(t, err, tc.name)
-			assert.Equal(t, len(tc.goldenFiles), fileCount, tc.name)
+			require.NoError(t, err)
+			assert.Equal(t, len(tc.wantFiles), fileCount)
+		})
+	}
+}
+
+func TestOsNameFromFilename(t *testing.T) {
+	tests := map[string]struct {
+		filename string
+		wantOS   string
+		wantOK   bool
+	}{
+		"suse":      {filename: "suse-su-2019_0048-2.json", wantOS: "suse", wantOK: true},
+		"opensuse":  {filename: "opensuse-su-2019_0003-1.json", wantOS: "opensuse", wantOK: true},
+		"sha256":    {filename: "suse-su-2019_0048-2.json.sha256", wantOS: "", wantOK: false},
+		"unexpected": {filename: "LICENSE", wantOS: "", wantOK: false},
+	}
+	for name, tt := range tests {
+		t.Run(name, func(t *testing.T) {
+			gotOS, gotOK := csaf.OsNameFromFilename(tt.filename)
+			assert.Equal(t, tt.wantOK, gotOK)
+			assert.Equal(t, tt.wantOS, gotOS)
 		})
 	}
 }
