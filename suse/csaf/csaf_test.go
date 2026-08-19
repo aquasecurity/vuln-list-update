@@ -40,9 +40,9 @@ func newTestServer(t *testing.T, archiveData []byte) *httptest.Server {
 
 func TestConfig_Update(t *testing.T) {
 	testCases := []struct {
-		name        string
-		archiveDir  string
-		wantFiles   map[string]string
+		name       string
+		archiveDir string
+		wantFiles  map[string]string
 	}{
 		{
 			name:       "positive test",
@@ -53,14 +53,14 @@ func TestConfig_Update(t *testing.T) {
 			},
 		},
 		{
-			name:        "broken JSON is skipped",
-			archiveDir:  "testdata/broken-csaf",
-			wantFiles:   map[string]string{},
+			name:       "broken JSON is skipped",
+			archiveDir: "testdata/broken-csaf",
+			wantFiles:  map[string]string{},
 		},
 		{
-			name:        "invalid advisories are skipped",
-			archiveDir:  "testdata/invalid-csaf",
-			wantFiles:   map[string]string{},
+			name:       "invalid advisories are skipped",
+			archiveDir: "testdata/invalid-csaf",
+			wantFiles:  map[string]string{},
 		},
 	}
 	for _, tc := range testCases {
@@ -120,9 +120,9 @@ func TestOsNameFromFilename(t *testing.T) {
 		wantOS   string
 		wantOK   bool
 	}{
-		"suse":      {filename: "suse-su-2019_0048-2.json", wantOS: "suse", wantOK: true},
-		"opensuse":  {filename: "opensuse-su-2019_0003-1.json", wantOS: "opensuse", wantOK: true},
-		"sha256":    {filename: "suse-su-2019_0048-2.json.sha256", wantOS: "", wantOK: false},
+		"suse":       {filename: "suse-su-2019_0048-2.json", wantOS: "suse", wantOK: true},
+		"opensuse":   {filename: "opensuse-su-2019_0003-1.json", wantOS: "opensuse", wantOK: true},
+		"sha256":     {filename: "suse-su-2019_0048-2.json.sha256", wantOS: "", wantOK: false},
 		"unexpected": {filename: "LICENSE", wantOS: "", wantOK: false},
 	}
 	for name, tt := range tests {
