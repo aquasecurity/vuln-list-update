@@ -79,6 +79,12 @@ runs:
         # actions/checkout may write an extraheader that overrides URL credentials; drop it so the refreshed token is used
         git config --local --unset-all http.https://github.com/.extraheader || true
         git remote set-url origin "https://x-access-token:${GH_APP_TOKEN}@github.com/${OWNER}/${REPO}.git"
+        pushed=$(git rev-parse HEAD)
         git add .
         git commit -m "${COMMIT_MSG}"
-        git push
+        # The next step reuses this working copy, so a failed push must leave nothing behind.
+        git push || {
+          echo "[Err] Push failed, drop the commit so the next source is not affected" >&2
+          git reset --hard "$pushed"
+          exit 1
+        }
