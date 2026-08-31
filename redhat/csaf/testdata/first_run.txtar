@@ -100,6 +100,14 @@ csaf_vex_2025-12-06.tar.zst
         "name": "Cross-site Scripting"
       },
       "discovery_date": "2024-01-03T00:00:00+00:00",
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "red_hat_enterprise_linux_9"
+          ]
+        }
+      ],
       "notes": [
         {
           "category": "description",
@@ -112,6 +120,13 @@ csaf_vex_2025-12-06.tar.zst
           "red_hat_enterprise_linux_9"
         ]
       },
+      "scores": [
+        {
+          "products": [
+            "red_hat_enterprise_linux_9"
+          ]
+        }
+      ],
       "references": [
         {
           "category": "self",

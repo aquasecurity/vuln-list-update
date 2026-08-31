@@ -128,6 +128,13 @@ func TestConfig_Update(t *testing.T) {
 				require.NoError(t, err)
 				require.True(t, slices.Contains(tt.wantFiles, relPath), relPath)
 				gotFiles = append(gotFiles, relPath)
+
+				// Fields nothing reads downstream are dropped to keep files under GitHub's size limit.
+				b, err := os.ReadFile(path)
+				require.NoError(t, err)
+				for _, dropped := range []string{`"scores"`, `"flags"`, `"product_status"`} {
+					assert.NotContains(t, string(b), dropped, relPath)
+				}
 				return nil
 			})
 			require.NoError(t, err)

@@ -181,7 +181,7 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 	return out.Name(), archiveDate, nil
 }
 
-// loadAdvisory loads an advisory from a file.
+// loadAdvisory loads an advisory from a file and trims it down before it is saved.
 func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	var advisory csaf.Advisory
 	if err := json.NewDecoder(r).Decode(&advisory); err != nil {
@@ -190,7 +190,22 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	if err := advisory.Validate(); err != nil {
 		return nil, xerrors.Errorf("invalid advisory: %w", err)
 	}
+	trimAdvisory(&advisory)
 	return &advisory, nil
+}
+
+// trimAdvisory drops fields that nothing downstream reads, to keep the largest
+// documents under GitHub's 100 MiB file limit.
+// TODO: Remove this once the data can be stored losslessly.
+func trimAdvisory(advisory *csaf.Advisory) {
+	for _, vuln := range advisory.Vulnerabilities {
+		if vuln == nil {
+			continue
+		}
+		vuln.Scores = nil
+		vuln.Flags = nil
+		vuln.ProductStatus = nil
+	}
 }
 
 func (c *Config) updateFromDelta(lastUpdated time.Time) error {
