@@ -3,20 +3,20 @@ package csaf
 import (
 	"archive/tar"
 	"bytes"
+	"compress/gzip"
 	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"io"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"time"
 
 	"github.com/csaf-poc/csaf_distribution/v3/csaf"
-	"github.com/klauspost/compress/zstd"
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
@@ -29,10 +29,12 @@ type csvEntry struct {
 }
 
 const (
-	vexDir     = "csaf-vex"
-	retry      = 5
-	baseURL    = "https://security.access.redhat.com/data/csaf/v2/vex/"
-	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
+	vexDir       = "csaf-vex"
+	cpeDir       = "csaf-vex-cpe"
+	retry        = 5
+	baseURL      = "https://security.access.redhat.com/data/csaf/v2/vex-feed/"
+	repoToCPEURL = "https://security.access.redhat.com/data/metrics/repository-to-cpe.json"
+	timeBuffer   = 6 * time.Hour // Buffer to handle delayed CSV updates
 )
 
 type Option func(*Config)
@@ -49,10 +51,15 @@ func WithRetry(retry int) Option {
 	return func(c *Config) { c.retry = retry }
 }
 
+func WithNow(now func() time.Time) Option {
+	return func(c *Config) { c.now = now }
+}
+
 type Config struct {
 	baseDir string
 	baseURL *url.URL
 	retry   int
+	now     func() time.Time
 }
 
 func NewConfig(opts ...Option) *Config {
@@ -60,6 +67,7 @@ func NewConfig(opts ...Option) *Config {
 		baseDir: filepath.Join(utils.VulnListDir(), vexDir),
 		baseURL: lo.Must(url.Parse(baseURL)),
 		retry:   retry,
+		now:     time.Now,
 	}
 	for _, o := range opts {
 		o(&c)
@@ -68,6 +76,10 @@ func NewConfig(opts ...Option) *Config {
 }
 
 func (c *Config) Update() error {
+	if err := c.fetchCPEMapping(); err != nil {
+		return xerrors.Errorf("failed to fetch CPE mapping: %w", err)
+	}
+
 	lastUpdated, err := utils.GetLastUpdatedDate(vexDir)
 	if err != nil {
 		return xerrors.Errorf("failed to get last updated date: %w", err)
@@ -85,6 +97,47 @@ func (c *Config) Update() error {
 	}
 
 	return c.updateFromDelta(lastUpdated)
+}
+
+// fetchCPEMapping downloads the public repository-to-cpe.json and saves it
+// in the format the trivy-db parser expects.
+func (c *Config) fetchCPEMapping() error {
+	log.Println("Fetching repository-to-CPE mapping...")
+	b, err := utils.FetchURL(repoToCPEURL, "", c.retry)
+	if err != nil {
+		return xerrors.Errorf("failed to fetch repository-to-cpe.json: %w", err)
+	}
+
+	var raw struct {
+		Data map[string]struct {
+			CPEs []string `json:"cpes"`
+		} `json:"data"`
+	}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return xerrors.Errorf("failed to parse repository-to-cpe.json: %w", err)
+	}
+
+	repoToCPE := make(map[string][]string)
+	for repo, entry := range raw.Data {
+		repoToCPE[repo] = entry.CPEs
+	}
+
+	cpeDirPath := filepath.Join(utils.VulnListDir(), cpeDir)
+	if err := os.MkdirAll(cpeDirPath, 0755); err != nil {
+		return xerrors.Errorf("failed to create CPE directory: %w", err)
+	}
+
+	if err := utils.Write(filepath.Join(cpeDirPath, "repository-to-cpe.json"), repoToCPE); err != nil {
+		return xerrors.Errorf("failed to write repository-to-cpe.json: %w", err)
+	}
+
+	// Write an empty nvr-to-cpe.json since the parser expects it
+	if err := utils.Write(filepath.Join(cpeDirPath, "nvr-to-cpe.json"), map[string][]string{}); err != nil {
+		return xerrors.Errorf("failed to write nvr-to-cpe.json: %w", err)
+	}
+
+	log.Printf("Saved %d repo-to-CPE mappings", len(repoToCPE))
+	return nil
 }
 
 func (c *Config) updateFromArchive() (time.Time, error) {
@@ -110,13 +163,13 @@ func (c *Config) extractArchive(archivePath string) error {
 	}
 	defer f.Close()
 
-	d, err := zstd.NewReader(f)
+	gz, err := gzip.NewReader(f)
 	if err != nil {
-		return xerrors.Errorf("failed to create zstd reader: %w", err)
+		return xerrors.Errorf("failed to create gzip reader: %w", err)
 	}
-	defer d.Close()
+	defer gz.Close()
 
-	tr := tar.NewReader(d)
+	tr := tar.NewReader(gz)
 	for {
 		hdr, err := tr.Next()
 		if errors.Is(err, io.EOF) {
@@ -154,20 +207,23 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 	}
 	archiveName := strings.TrimSpace(string(b))
 
-	// Parse archive date from filename (e.g., "csaf_vex_2025-12-06.tar.zst")
-	archiveDate, err := parseArchiveDate(archiveName)
+	// Get the archive's Last-Modified date via HEAD request so the delta
+	// window covers everything since the archive was actually created,
+	// not since we downloaded it.
+	archiveURL := c.baseURL.ResolveReference(&url.URL{Path: archiveName})
+	archiveDate, err := c.fetchLastModified(archiveURL.String())
 	if err != nil {
-		return "", time.Time{}, xerrors.Errorf("failed to parse archive date: %w", err)
+		log.Printf("  Warning: could not get Last-Modified, using current time: %v", err)
+		archiveDate = c.now().UTC()
 	}
 
 	// Fetch the latest archive
-	u = c.baseURL.ResolveReference(&url.URL{Path: archiveName})
-	log.Printf("  Fetching the latest archive from %s", u.String())
-	b, err = utils.FetchURL(u.String(), "", c.retry)
+	log.Printf("  Fetching the latest archive from %s", archiveURL.String())
+	b, err = utils.FetchURL(archiveURL.String(), "", c.retry)
 	if err != nil {
-		return "", time.Time{}, xerrors.Errorf("failed to fetch URL (%s): %w", u.String(), err)
+		return "", time.Time{}, xerrors.Errorf("failed to fetch URL (%s): %w", archiveURL.String(), err)
 	}
-	out, err := os.CreateTemp("", "csaf_vex_*.tar.zst")
+	out, err := os.CreateTemp("", "csaf_vex_*.tar.gz")
 	if err != nil {
 		return "", time.Time{}, xerrors.Errorf("failed to create temp file: %w", err)
 	}
@@ -179,6 +235,26 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 	}
 
 	return out.Name(), archiveDate, nil
+}
+
+// fetchLastModified returns the Last-Modified date of a URL via a HEAD request.
+func (c *Config) fetchLastModified(url string) (time.Time, error) {
+	resp, err := http.Head(url)
+	if err != nil {
+		return time.Time{}, xerrors.Errorf("HEAD request failed: %w", err)
+	}
+	defer resp.Body.Close()
+
+	lm := resp.Header.Get("Last-Modified")
+	if lm == "" {
+		return time.Time{}, xerrors.New("no Last-Modified header")
+	}
+
+	t, err := http.ParseTime(lm)
+	if err != nil {
+		return time.Time{}, xerrors.Errorf("failed to parse Last-Modified %q: %w", lm, err)
+	}
+	return t.UTC(), nil
 }
 
 // loadAdvisory loads an advisory from a file.
@@ -209,11 +285,11 @@ func (c *Config) updateFromDelta(lastUpdated time.Time) error {
 	}
 
 	// Update last updated to current time
-	now := time.Now().UTC()
-	if err := utils.SetLastUpdatedDate(vexDir, now); err != nil {
+	ts := c.now().UTC()
+	if err := utils.SetLastUpdatedDate(vexDir, ts); err != nil {
 		return xerrors.Errorf("failed to set last updated date: %w", err)
 	}
-	log.Printf("Updated last updated date to %s", now.Format(time.RFC3339))
+	log.Printf("Updated last updated date to %s", ts.Format(time.RFC3339))
 
 	return nil
 }
@@ -292,21 +368,18 @@ func (c *Config) fetchAndSaveCVE(path string) error {
 	return nil
 }
 
-// archiveDateRegex matches archive filenames like "csaf_vex_2025-12-06.tar.zst"
-var archiveDateRegex = regexp.MustCompile(`csaf_vex_(\d{4}-\d{2}-\d{2})\.tar\.zst`)
-
-// parseArchiveDate extracts the date from an archive filename.
-// e.g., "csaf_vex_2025-12-06.tar.zst" -> 2025-12-06T00:00:00Z
-func parseArchiveDate(archiveName string) (time.Time, error) {
-	matches := archiveDateRegex.FindStringSubmatch(archiveName)
-	if len(matches) != 2 {
-		return time.Time{}, xerrors.Errorf("failed to parse archive date from %q", archiveName)
+// parseTimestamp parses a timestamp string, trying RFC3339 first
+// then falling back to the "+0000" variant without the colon in the offset.
+func parseTimestamp(s string) (time.Time, error) {
+	t, err := time.Parse(time.RFC3339, s)
+	if err == nil {
+		return t, nil
 	}
-	t, err := time.Parse("2006-01-02", matches[1])
-	if err != nil {
-		return time.Time{}, xerrors.Errorf("failed to parse date %q: %w", matches[1], err)
+	t, err2 := time.Parse("2006-01-02T15:04:05-0700", s)
+	if err2 == nil {
+		return t, nil
 	}
-	return t.UTC(), nil
+	return time.Time{}, err
 }
 
 // parseCSV reads CSV entries until it finds an entry older than `since`.
@@ -328,7 +401,7 @@ func parseCSV(b []byte, since time.Time) ([]csvEntry, error) {
 			return nil, xerrors.Errorf("invalid CSV record: expected 2 fields, got %d", len(record))
 		}
 
-		updatedAt, err := time.Parse(time.RFC3339, record[1])
+		updatedAt, err := parseTimestamp(record[1])
 		if err != nil {
 			return nil, xerrors.Errorf("failed to parse timestamp %q: %w", record[1], err)
 		}

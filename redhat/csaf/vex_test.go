@@ -2,6 +2,7 @@ package csaf_test
 
 import (
 	"archive/tar"
+	"compress/gzip"
 	"io/fs"
 	"net/http"
 	"net/http/httptest"
@@ -14,7 +15,6 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/klauspost/compress/zstd"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -23,8 +23,6 @@ import (
 	"github.com/aquasecurity/vuln-list-update/redhat/csaf"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
-
-const archiveName = "csaf_vex_2025-12-06.tar.zst"
 
 func TestConfig_Update(t *testing.T) {
 	tests := []struct {
@@ -78,13 +76,18 @@ func TestConfig_Update(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			archiveFsys := parseTxtar(t, tt.archiveFile)
-			archivePath := createTestArchive(t, archiveFsys)
+			archivePath := createTestGzipArchive(t, archiveFsys)
 			serverFsys := parseTxtar(t, tt.serverFile)
 
 			// Setup test server
+			// Set the archive file's modification time to before the CSV entries
+			// so the Last-Modified header triggers proper delta processing.
+			archiveModTime := time.Date(2025, 12, 6, 0, 0, 0, 0, time.UTC)
+			os.Chtimes(archivePath, archiveModTime, archiveModTime)
+
 			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				// Handle archive separately (can't be in txtar)
-				if strings.HasSuffix(r.URL.Path, ".tar.zst") {
+				if strings.HasSuffix(r.URL.Path, ".tar.gz") {
 					http.ServeFile(w, r, archivePath)
 					return
 				}
@@ -108,8 +111,18 @@ func TestConfig_Update(t *testing.T) {
 				require.NoError(t, err)
 			}
 
-			c := csaf.NewConfig(csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
-				csaf.WithRetry(0))
+			// Use a fixed time just before the test CSV entries (2025-12-10)
+			// so the delta update will process them.
+			fixedNow := func() time.Time {
+				return time.Date(2025, 12, 10, 12, 0, 0, 0, time.UTC)
+			}
+
+			c := csaf.NewConfig(
+				csaf.WithBaseDir(baseDir),
+				csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
+				csaf.WithRetry(0),
+				csaf.WithNow(fixedNow),
+			)
 
 			err := c.Update()
 			if tt.wantErr != "" {
@@ -148,19 +161,24 @@ func parseTxtar(t *testing.T, path string) fs.FS {
 	return fsys
 }
 
-func createTestArchive(t *testing.T, fsys fs.FS) string {
+func createTestGzipArchive(t *testing.T, fsys fs.FS) string {
 	t.Helper()
-	archivePath := filepath.Join(t.TempDir(), archiveName)
+	archivePath := filepath.Join(t.TempDir(), "vex-archive.tar.gz")
 	f, err := os.Create(archivePath)
 	require.NoError(t, err)
 	defer f.Close()
 
-	zw, err := zstd.NewWriter(f)
-	require.NoError(t, err)
-	defer zw.Close()
+	gw := gzip.NewWriter(f)
+	defer gw.Close()
 
-	tw := tar.NewWriter(zw)
+	tw := tar.NewWriter(gw)
 	defer tw.Close()
+
+	if _, ok := fsys.(fstest.MapFS); ok {
+		if len(fsys.(fstest.MapFS)) == 0 {
+			return archivePath
+		}
+	}
 
 	require.NoError(t, tw.AddFS(fsys))
 
