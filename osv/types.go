@@ -53,6 +53,7 @@ type OSV struct {
 	Related    []string    `json:"related,omitempty"`
 	Summary    string      `json:"summary,omitempty"`
 	Details    string      `json:"details,omitempty"`
+	Severities []Severity  `json:"severity,omitempty"`
 	Affected   []Affected  `json:"affected,omitempty"` //collection based on https://ossf.github.io/osv-schema/
 	References []Reference `json:"references,omitempty"`
 }
