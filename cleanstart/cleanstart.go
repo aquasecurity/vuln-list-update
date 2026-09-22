@@ -29,8 +29,14 @@ func WithRepoURL(v string) option {
 	return func(c *Updater) { c.repoURL = v }
 }
 
+// WithCacheDir overrides the directory the advisory repository is cloned into.
+func WithCacheDir(v string) option {
+	return func(c *Updater) { c.cacheDir = v }
+}
+
 type Updater struct {
 	vulnListDir string
+	cacheDir    string
 	repoURL     string
 	git         git.Config
 }
@@ -38,6 +44,7 @@ type Updater struct {
 func NewUpdater(options ...option) *Updater {
 	updater := &Updater{
 		vulnListDir: utils.VulnListDir(),
+		cacheDir:    utils.CacheDir(),
 		repoURL:     repoURL,
 		git:         git.Config{},
 	}
@@ -48,7 +55,7 @@ func NewUpdater(options ...option) *Updater {
 }
 
 func (u *Updater) Update() error {
-	repoPath := filepath.Join(utils.CacheDir(), cleanstartDir)
+	repoPath := filepath.Join(u.cacheDir, cleanstartDir)
 	log.Printf("Cloning/pulling CleanStart advisories from %s into %s", u.repoURL, repoPath)
 	_, err := u.git.CloneOrPull(u.repoURL, repoPath, repoBranch, false)
 	if err != nil {

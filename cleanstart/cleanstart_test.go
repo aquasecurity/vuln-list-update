@@ -2,6 +2,7 @@ package cleanstart_test
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -11,27 +12,89 @@ import (
 	"github.com/aquasecurity/vuln-list-update/cleanstart"
 )
 
-func TestUpdater_Update_WalkLogic(t *testing.T) {
-	// Simulate a pre-cloned repo in cache by writing testdata there
-	cacheDir := t.TempDir()
-	vulnListDir := t.TempDir()
+// initRepo creates a git repository holding the given files, keyed by their path
+// relative to the repository root, and returns its path. The updater clones the
+// advisory repository, so a local repository exercises that path without network
+// access.
+func initRepo(t *testing.T, files map[string]string) string {
+	t.Helper()
 
-	// Write a fake advisory into the simulated repo
-	advDir := filepath.Join(cacheDir, "advisories", "2025")
-	require.NoError(t, os.MkdirAll(advDir, 0755))
-	advisory := `{"id":"CLEANSTART-2025-AA00001","affected":[{"package":{"name":"redis","ecosystem":"CleanStart"},"ranges":[{"type":"ECOSYSTEM","events":[{"introduced":"0"},{"fixed":"7.4.6-r0"}]}]}],"upstream":["CVE-2025-12345"]}`
-	require.NoError(t, os.WriteFile(filepath.Join(advDir, "CLEANSTART-2025-AA00001.json"), []byte(advisory), 0644))
+	if _, err := exec.LookPath("git"); err != nil {
+		t.Skip("git is not installed")
+	}
 
-	// Manually invoke the walk logic by setting up cache dir
-	// Since we can't inject the git step, verify the output dir structure
-	outDir := filepath.Join(vulnListDir, "cleanstart", "advisories", "2025")
-	require.NoError(t, os.MkdirAll(outDir, 0755))
-	require.NoError(t, os.WriteFile(filepath.Join(outDir, "CLEANSTART-2025-AA00001.json"), []byte(advisory), 0644))
+	dir := t.TempDir()
+	for name, content := range files {
+		path := filepath.Join(dir, filepath.FromSlash(name))
+		require.NoError(t, os.MkdirAll(filepath.Dir(path), 0o755))
+		require.NoError(t, os.WriteFile(path, []byte(content), 0o644))
+	}
 
-	// Verify file exists and is valid JSON
-	data, err := os.ReadFile(filepath.Join(outDir, "CLEANSTART-2025-AA00001.json"))
+	for _, args := range [][]string{
+		{"init", "-b", "main"},
+		{"config", "user.email", "test@example.com"},
+		{"config", "user.name", "test"},
+		{"add", "."},
+		{"commit", "-m", "advisories"},
+	} {
+		cmd := exec.Command("git", args...)
+		cmd.Dir = dir
+		out, err := cmd.CombinedOutput()
+		require.NoErrorf(t, err, "git %v: %s", args, out)
+	}
+	return dir
+}
+
+func TestUpdater_Update(t *testing.T) {
+	advisory, err := os.ReadFile(filepath.Join("testdata", "advisories", "2025", "CLEANSTART-2025-CN65903.json"))
 	require.NoError(t, err)
-	assert.Contains(t, string(data), "CLEANSTART-2025-AA00001")
 
-	_ = cleanstart.NewUpdater(cleanstart.WithVulnListDir(vulnListDir))
+	t.Run("happy path", func(t *testing.T) {
+		repoDir := initRepo(t, map[string]string{
+			"advisories/2025/CLEANSTART-2025-CN65903.json": string(advisory),
+			"advisories/README.md":                         "not an advisory",
+		})
+		vulnListDir := t.TempDir()
+
+		// An advisory left over from an earlier run that is no longer published.
+		stale := filepath.Join(vulnListDir, "cleanstart", "advisories", "2024", "CLEANSTART-2024-STALE.json")
+		require.NoError(t, os.MkdirAll(filepath.Dir(stale), 0o755))
+		require.NoError(t, os.WriteFile(stale, []byte("{}"), 0o644))
+
+		u := cleanstart.NewUpdater(
+			cleanstart.WithRepoURL(repoDir),
+			cleanstart.WithCacheDir(t.TempDir()),
+			cleanstart.WithVulnListDir(vulnListDir),
+		)
+		require.NoError(t, u.Update())
+
+		// Advisories are copied into vuln-list, keeping the year directory layout
+		// that trivy-db walks.
+		got, err := os.ReadFile(filepath.Join(vulnListDir, "cleanstart", "advisories", "2025", "CLEANSTART-2025-CN65903.json"))
+		require.NoError(t, err)
+
+		// The advisory is re-indented on the way out, so compare the decoded content
+		// rather than the bytes.
+		assert.JSONEq(t, string(advisory), string(got))
+
+		// Only JSON is copied; anything else in the repository is left behind.
+		assert.NoFileExists(t, filepath.Join(vulnListDir, "cleanstart", "advisories", "README.md"))
+
+		// The output directory is rebuilt from scratch, so withdrawn advisories do not
+		// linger in vuln-list after they disappear upstream.
+		assert.NoFileExists(t, stale)
+	})
+
+	t.Run("invalid advisory", func(t *testing.T) {
+		repoDir := initRepo(t, map[string]string{
+			"advisories/2025/CLEANSTART-2025-BROKEN.json": "{not json",
+		})
+
+		u := cleanstart.NewUpdater(
+			cleanstart.WithRepoURL(repoDir),
+			cleanstart.WithCacheDir(t.TempDir()),
+			cleanstart.WithVulnListDir(t.TempDir()),
+		)
+		require.ErrorContains(t, u.Update(), "invalid JSON in advisory")
+	})
 }
