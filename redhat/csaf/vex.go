@@ -33,6 +33,9 @@ const (
 	retry      = 5
 	baseURL    = "https://security.access.redhat.com/data/csaf/v2/vex/"
 	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
+
+	// maxFileSize keeps a saved document under GitHub's 100 MiB per-file limit, with headroom.
+	maxFileSize = 95 << 20
 )
 
 type Option func(*Config)
@@ -49,17 +52,23 @@ func WithRetry(retry int) Option {
 	return func(c *Config) { c.retry = retry }
 }
 
+func WithMaxFileSize(size int) Option {
+	return func(c *Config) { c.maxFileSize = size }
+}
+
 type Config struct {
-	baseDir string
-	baseURL *url.URL
-	retry   int
+	baseDir     string
+	baseURL     *url.URL
+	retry       int
+	maxFileSize int
 }
 
 func NewConfig(opts ...Option) *Config {
 	c := Config{
-		baseDir: filepath.Join(utils.VulnListDir(), vexDir),
-		baseURL: lo.Must(url.Parse(baseURL)),
-		retry:   retry,
+		baseDir:     filepath.Join(utils.VulnListDir(), vexDir),
+		baseURL:     lo.Must(url.Parse(baseURL)),
+		retry:       retry,
+		maxFileSize: maxFileSize,
 	}
 	for _, o := range opts {
 		o(&c)
@@ -129,7 +138,7 @@ func (c *Config) extractArchive(archivePath string) error {
 			continue
 		}
 
-		advisory, err := c.loadAdvisory(tr)
+		advisory, err := c.loadAdvisory(tr, int(hdr.Size))
 		if err != nil {
 			return xerrors.Errorf("failed to load advisory: %w", err)
 		}
@@ -181,8 +190,8 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 	return out.Name(), archiveDate, nil
 }
 
-// loadAdvisory loads an advisory from a file and trims it down before it is saved.
-func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
+// loadAdvisory loads an advisory of the given size in bytes and trims it down before it is saved.
+func (c *Config) loadAdvisory(r io.Reader, size int) (*csaf.Advisory, error) {
 	var advisory csaf.Advisory
 	if err := json.NewDecoder(r).Decode(&advisory); err != nil {
 		return nil, xerrors.Errorf("json decode error: %w", err)
@@ -190,21 +199,37 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	if err := advisory.Validate(); err != nil {
 		return nil, xerrors.Errorf("invalid advisory: %w", err)
 	}
-	trimAdvisory(&advisory)
+	c.trimAdvisory(&advisory, size)
 	return &advisory, nil
 }
 
-// trimAdvisory drops fields that nothing downstream reads, to keep the largest
-// documents under GitHub's 100 MiB file limit.
+// trimAdvisory always drops scores and flags, which nothing downstream reads. It drops
+// product_status only when the document would still be larger than maxFileSize.
 // TODO: Remove this once the data can be stored losslessly.
-func trimAdvisory(advisory *csaf.Advisory) {
+func (c *Config) trimAdvisory(advisory *csaf.Advisory, size int) {
 	for _, vuln := range advisory.Vulnerabilities {
 		if vuln == nil {
 			continue
 		}
 		vuln.Scores = nil
 		vuln.Flags = nil
-		vuln.ProductStatus = nil
+	}
+
+	// A saved document is about as large as its source, so only large ones need measuring.
+	if size <= c.maxFileSize/2 {
+		return
+	}
+	// Same encoding as utils.Write. A marshal error is left for utils.Write to report.
+	b, err := json.MarshalIndent(advisory, "", "  ")
+	if err != nil || len(b) <= c.maxFileSize {
+		return
+	}
+	log.Printf("  %s is %d bytes, over the %d byte limit: dropping product_status",
+		lo.FromPtr(lo.FromPtr(advisory.Document.Tracking).ID), len(b), c.maxFileSize)
+	for _, vuln := range advisory.Vulnerabilities {
+		if vuln != nil {
+			vuln.ProductStatus = nil
+		}
 	}
 }
 
@@ -291,7 +316,7 @@ func (c *Config) fetchAndSaveCVE(path string) error {
 		return xerrors.Errorf("failed to fetch CVE: %w", err)
 	}
 
-	advisory, err := c.loadAdvisory(bytes.NewReader(b))
+	advisory, err := c.loadAdvisory(bytes.NewReader(b), len(b))
 	if err != nil {
 		return xerrors.Errorf("failed to load advisory: %w", err)
 	}
