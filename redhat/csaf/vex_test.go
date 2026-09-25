@@ -36,7 +36,9 @@ func TestConfig_Update(t *testing.T) {
 		wantFiles    []string
 		// wantProductStatus lists the files that must keep product_status.
 		wantProductStatus []string
-		wantErr           string
+		// wantMinified lists the files written as a single line.
+		wantMinified []string
+		wantErr      string
 	}{
 		{
 			name:        "first run",
@@ -50,7 +52,20 @@ func TestConfig_Update(t *testing.T) {
 			wantProductStatus: []string{"2024/cve-2024-0002.json"},
 		},
 		{
-			name:        "oversized document drops product_status",
+			// cve-2024-0002 is 3230 bytes indented and 2151 bytes minified.
+			name:        "oversized document is minified",
+			archiveFile: "testdata/archive.txtar",
+			serverFile:  "testdata/first_run.txtar",
+			maxFileSize: 3000,
+			wantFiles: []string{
+				"2024/cve-2024-0001.json",
+				"2024/cve-2024-0002.json",
+			},
+			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+			wantMinified:      []string{"2024/cve-2024-0002.json"},
+		},
+		{
+			name:        "document too large even minified drops product_status",
 			archiveFile: "testdata/archive.txtar",
 			serverFile:  "testdata/first_run.txtar",
 			maxFileSize: 1,
@@ -58,6 +73,7 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0001.json",
 				"2024/cve-2024-0002.json",
 			},
+			wantMinified: []string{"2024/cve-2024-0001.json", "2024/cve-2024-0002.json"},
 		},
 		{
 			name:         "delta update - changes only",
@@ -159,6 +175,7 @@ func TestConfig_Update(t *testing.T) {
 				} else {
 					assert.NotContains(t, string(b), `"product_status"`, relPath)
 				}
+				assert.Equal(t, slices.Contains(tt.wantMinified, relPath), !strings.Contains(string(b), "\n"), relPath)
 				return nil
 			})
 			require.NoError(t, err)
