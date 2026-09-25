@@ -29,7 +29,9 @@ type csvEntry struct {
 }
 
 const (
-	vexDir     = "csaf-vex"
+	vexDir = "csaf-vex"
+	// archiveKey tracks the archive the local data was last reconciled with.
+	archiveKey = "csaf-vex-archive"
 	retry      = 5
 	baseURL    = "https://security.access.redhat.com/data/csaf/v2/vex/"
 	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
@@ -73,56 +75,105 @@ func (c *Config) Update() error {
 		return xerrors.Errorf("failed to get last updated date: %w", err)
 	}
 
-	if lastUpdated.Unix() == 0 {
-		// Not updated yet - delete any stale data and download fresh archive
-		if err := os.RemoveAll(c.baseDir); err != nil {
-			return xerrors.Errorf("failed to remove base dir: %w", err)
+	reconciled, err := utils.GetLastUpdatedDate(archiveKey)
+	if err != nil {
+		return xerrors.Errorf("failed to get reconciled archive date: %w", err)
+	}
+
+	archiveName, archiveDate, err := c.latestArchive()
+	if err != nil {
+		return xerrors.Errorf("failed to get the latest archive: %w", err)
+	}
+
+	if archiveDate.After(reconciled) {
+		if err = c.reconcileWithArchive(archiveName); err != nil {
+			return xerrors.Errorf("failed to reconcile with archive %s: %w", archiveName, err)
 		}
-		lastUpdated, err = c.updateFromArchive()
-		if err != nil {
-			return xerrors.Errorf("archive update failed: %w", err)
+		if err = utils.SetLastUpdatedDate(archiveKey, archiveDate); err != nil {
+			return xerrors.Errorf("failed to set reconciled archive date: %w", err)
 		}
+		// The archive is a snapshot taken on archiveDate, so anything published after it
+		// has just been rolled back and the delta has to apply it again.
+		lastUpdated = archiveDate
 	}
 
 	return c.updateFromDelta(lastUpdated)
 }
 
-func (c *Config) updateFromArchive() (time.Time, error) {
-	log.Println("Fetching Red Hat CSAF VEX archive...")
-	archivePath, archiveDate, err := c.fetchVEXArchive()
+// reconcileWithArchive brings the local data back in line with the archive, which is the
+// only view Red Hat publishes of the current state. changes.csv and deletions.csv are event
+// logs, and an entry can show up in them long after its own timestamp, so on its own the
+// delta update drifts away from upstream and never comes back.
+func (c *Config) reconcileWithArchive(archiveName string) error {
+	log.Printf("Reconciling with %s...", archiveName)
+	archivePath, err := c.fetchVEXArchive(archiveName)
 	if err != nil {
-		return time.Time{}, xerrors.Errorf("failed to fetch VEX archive: %w", err)
+		return xerrors.Errorf("failed to fetch VEX archive: %w", err)
 	}
 	defer os.Remove(archivePath)
 
-	if err := c.extractArchive(archivePath); err != nil {
-		return time.Time{}, xerrors.Errorf("failed to extract archive: %w", err)
+	published, err := c.extractArchive(archivePath)
+	if err != nil {
+		return xerrors.Errorf("failed to extract archive: %w", err)
 	}
 
-	log.Printf("Archive date: %s", archiveDate.Format(time.RFC3339))
-	return archiveDate, nil
+	return c.removeUnpublished(published)
 }
 
-func (c *Config) extractArchive(archivePath string) error {
+// removeUnpublished deletes local advisories that the archive no longer carries.
+func (c *Config) removeUnpublished(published map[string]struct{}) error {
+	var removed int
+	err := filepath.Walk(c.baseDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+		relPath, err := filepath.Rel(c.baseDir, path)
+		if err != nil {
+			return err
+		}
+		if _, ok := published[relPath]; ok {
+			return nil
+		}
+		if err = os.Remove(path); err != nil {
+			return err
+		}
+		removed++
+		return nil
+	})
+	if err != nil {
+		return xerrors.Errorf("failed to walk %s: %w", c.baseDir, err)
+	}
+
+	log.Printf("Removed %d advisories that are no longer published", removed)
+	return nil
+}
+
+// extractArchive writes every advisory from the archive and returns their paths
+// relative to the base directory.
+func (c *Config) extractArchive(archivePath string) (map[string]struct{}, error) {
 	f, err := os.Open(archivePath)
 	if err != nil {
-		return xerrors.Errorf("failed to open file: %w", err)
+		return nil, xerrors.Errorf("failed to open file: %w", err)
 	}
 	defer f.Close()
 
 	d, err := zstd.NewReader(f)
 	if err != nil {
-		return xerrors.Errorf("failed to create zstd reader: %w", err)
+		return nil, xerrors.Errorf("failed to create zstd reader: %w", err)
 	}
 	defer d.Close()
 
+	published := make(map[string]struct{})
 	tr := tar.NewReader(d)
 	for {
 		hdr, err := tr.Next()
 		if errors.Is(err, io.EOF) {
 			break
 		} else if err != nil {
-			return xerrors.Errorf("failed to read tar header: %w", err)
+			return nil, xerrors.Errorf("failed to read tar header: %w", err)
 		}
 
 		if hdr.Typeflag != tar.TypeReg {
@@ -131,23 +182,27 @@ func (c *Config) extractArchive(archivePath string) error {
 
 		advisory, err := c.loadAdvisory(tr)
 		if err != nil {
-			return xerrors.Errorf("failed to load advisory: %w", err)
+			return nil, xerrors.Errorf("failed to load advisory: %w", err)
 		}
 
 		fileName := filepath.Base(hdr.Name)
 		cveID := strings.TrimSuffix(fileName, filepath.Ext(fileName))
 		if err = utils.SaveCVEPerYear(c.baseDir, cveID, advisory); err != nil {
-			return xerrors.Errorf("failed to save advisory: %w", err)
+			return nil, xerrors.Errorf("failed to save advisory: %w", err)
 		}
+
+		// SaveCVEPerYear stores the advisory under the year taken from the CVE ID.
+		published[filepath.Join(strings.Split(cveID, "-")[1], fileName)] = struct{}{}
 	}
 
-	return nil
+	return published, nil
 }
 
-func (c *Config) fetchVEXArchive() (string, time.Time, error) {
-	// Fetch the latest archive name
+// latestArchive returns the name of the archive Red Hat publishes as the latest one,
+// together with the date it was built on.
+func (c *Config) latestArchive() (string, time.Time, error) {
 	u := c.baseURL.ResolveReference(&url.URL{Path: "archive_latest.txt"})
-	log.Printf("  Fetching the latest archive name from %s", u.String())
+	log.Printf("Fetching the latest archive name from %s", u.String())
 	b, err := utils.FetchURL(u.String(), "", c.retry)
 	if err != nil {
 		return "", time.Time{}, xerrors.Errorf("failed to fetch URL (%s): %w", u.String(), err)
@@ -160,25 +215,28 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 		return "", time.Time{}, xerrors.Errorf("failed to parse archive date: %w", err)
 	}
 
-	// Fetch the latest archive
-	u = c.baseURL.ResolveReference(&url.URL{Path: archiveName})
-	log.Printf("  Fetching the latest archive from %s", u.String())
-	b, err = utils.FetchURL(u.String(), "", c.retry)
+	return archiveName, archiveDate, nil
+}
+
+func (c *Config) fetchVEXArchive(archiveName string) (string, error) {
+	u := c.baseURL.ResolveReference(&url.URL{Path: archiveName})
+	log.Printf("  Fetching the archive from %s", u.String())
+	b, err := utils.FetchURL(u.String(), "", c.retry)
 	if err != nil {
-		return "", time.Time{}, xerrors.Errorf("failed to fetch URL (%s): %w", u.String(), err)
+		return "", xerrors.Errorf("failed to fetch URL (%s): %w", u.String(), err)
 	}
 	out, err := os.CreateTemp("", "csaf_vex_*.tar.zst")
 	if err != nil {
-		return "", time.Time{}, xerrors.Errorf("failed to create temp file: %w", err)
+		return "", xerrors.Errorf("failed to create temp file: %w", err)
 	}
 	defer out.Close()
 
 	// Write the archive to a temp file
 	if _, err = out.Write(b); err != nil {
-		return "", time.Time{}, xerrors.Errorf("failed to write to temp file: %w", err)
+		return "", xerrors.Errorf("failed to write to temp file: %w", err)
 	}
 
-	return out.Name(), archiveDate, nil
+	return out.Name(), nil
 }
 
 // loadAdvisory loads an advisory from a file and trims it down before it is saved.

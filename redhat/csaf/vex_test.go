@@ -28,12 +28,13 @@ const archiveName = "csaf_vex_2025-12-06.tar.zst"
 
 func TestConfig_Update(t *testing.T) {
 	tests := []struct {
-		name         string
-		archiveFile  string // txtar for archive content
-		serverFile   string // txtar for files served by the test server
-		existingFile string // txtar for existing local data, includes cve-2024-9999.json to verify archive skip
-		wantFiles    []string
-		wantErr      string
+		name          string
+		archiveFile   string // txtar for archive content
+		serverFile    string // txtar for files served by the test server
+		existingFile  string // txtar for existing local data, includes cve-2024-9999.json to verify archive skip
+		archiveSynced bool   // local data already matches the latest archive, so only the delta runs
+		wantFiles     []string
+		wantErr       string
 	}{
 		{
 			name:        "first run",
@@ -46,9 +47,10 @@ func TestConfig_Update(t *testing.T) {
 			},
 		},
 		{
-			name:         "delta update - changes only",
-			serverFile:   "testdata/delta_changes.txtar",
-			existingFile: "testdata/existing.txtar",
+			name:          "delta update - changes only",
+			serverFile:    "testdata/delta_changes.txtar",
+			existingFile:  "testdata/existing.txtar",
+			archiveSynced: true,
 			wantFiles: []string{
 				"2024/cve-2024-0001.json", // from existing data
 				"2024/cve-2024-0002.json", // from changes.csv
@@ -56,16 +58,29 @@ func TestConfig_Update(t *testing.T) {
 			},
 		},
 		{
-			name:         "delta update - deletions only",
-			serverFile:   "testdata/delta_deletions.txtar",
-			existingFile: "testdata/existing.txtar",
+			name:          "delta update - deletions only",
+			serverFile:    "testdata/delta_deletions.txtar",
+			existingFile:  "testdata/existing.txtar",
+			archiveSynced: true,
 			wantFiles: []string{
 				"2024/cve-2024-9999.json", // proves archive download was skipped
 			},
 		},
 		{
+			name:         "newer archive drops advisories that are no longer published",
+			archiveFile:  "testdata/archive.txtar",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			wantFiles: []string{
+				"2024/cve-2024-0001.json", // from archive
+				"2024/cve-2024-0002.json", // from changes.csv
+				// cve-2024-9999.json is missing from the archive, so it is removed
+				// cve-2024-0003.json deleted by deletions.csv
+			},
+		},
+		{
 			name:    "404",
-			wantErr: "failed to fetch VEX archive: failed to fetch URL",
+			wantErr: "failed to get the latest archive: failed to fetch URL",
 		},
 		{
 			name:        "invalid csaf",
@@ -105,6 +120,11 @@ func TestConfig_Update(t *testing.T) {
 				// Set last_updated to a time before the CSV entries (2025-12-10)
 				// so that delta update will process them
 				err := utils.SetLastUpdatedDate("csaf-vex", time.Date(2025, 12, 5, 0, 0, 0, 0, time.UTC))
+				require.NoError(t, err)
+			}
+			if tt.archiveSynced {
+				// The archive served by the test server was built on 2025-12-06
+				err := utils.SetLastUpdatedDate("csaf-vex-archive", time.Date(2025, 12, 6, 0, 0, 0, 0, time.UTC))
 				require.NoError(t, err)
 			}
 
