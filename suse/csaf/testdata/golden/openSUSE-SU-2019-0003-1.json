@@ -1,0 +1,81 @@
+{
+  "document": {
+    "category": "csaf_security_advisory",
+    "csaf_version": "2.0",
+    "distribution": {
+      "text": "Copyright SUSE LLC.",
+      "tlp": {
+        "label": "WHITE",
+        "url": "https://www.first.org/tlp/"
+      }
+    },
+    "lang": "en",
+    "notes": [
+      {
+        "category": "summary",
+        "text": "Security update for bind"
+      },
+      {
+        "category": "description",
+        "text": "details"
+      }
+    ],
+    "publisher": {
+      "category": "vendor",
+      "name": "SUSE Product Security Team",
+      "namespace": "https://www.suse.com/"
+    },
+    "references": [
+      {
+        "category": "self",
+        "summary": "advisory",
+        "url": "https://example.com/advisory"
+      }
+    ],
+    "title": "Security update for bind",
+    "tracking": {
+      "current_release_date": "2019-01-09T12:00:00Z",
+      "generator": null,
+      "id": "openSUSE-SU-2019:0003-1",
+      "initial_release_date": "2019-01-09T12:00:00Z",
+      "revision_history": [
+        {
+          "date": "2019-01-09T12:00:00Z",
+          "number": "1",
+          "summary": "Current version"
+        }
+      ],
+      "status": "final",
+      "version": "1"
+    }
+  },
+  "product_tree": {
+    "relationships": [
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "bind-1.3.29-bp150.2.12.1.x86_64 as component of openSUSE Leap 15.0",
+          "product_id": "openSUSE Leap 15.0:bind-1.3.29-bp150.2.12.1.x86_64"
+        },
+        "product_reference": "bind-1.3.29-bp150.2.12.1.x86_64",
+        "relates_to_product_reference": "openSUSE Leap 15.0"
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cve": "CVE-2018-5740",
+      "product_status": {
+        "recommended": [
+          "openSUSE Leap 15.0:bind-1.3.29-bp150.2.12.1.x86_64"
+        ]
+      },
+      "threats": [
+        {
+          "category": "impact",
+          "details": "moderate"
+        }
+      ]
+    }
+  ]
+}
