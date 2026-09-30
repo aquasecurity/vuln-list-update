@@ -33,6 +33,9 @@ const (
 	retry      = 5
 	baseURL    = "https://security.access.redhat.com/data/csaf/v2/vex/"
 	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
+
+	// maxFileSize keeps a saved document under GitHub's 100 MiB per-file limit, with headroom.
+	maxFileSize = 95 << 20
 )
 
 type Option func(*Config)
@@ -49,17 +52,23 @@ func WithRetry(retry int) Option {
 	return func(c *Config) { c.retry = retry }
 }
 
+func WithMaxFileSize(size int) Option {
+	return func(c *Config) { c.maxFileSize = size }
+}
+
 type Config struct {
-	baseDir string
-	baseURL *url.URL
-	retry   int
+	baseDir     string
+	baseURL     *url.URL
+	retry       int
+	maxFileSize int
 }
 
 func NewConfig(opts ...Option) *Config {
 	c := Config{
-		baseDir: filepath.Join(utils.VulnListDir(), vexDir),
-		baseURL: lo.Must(url.Parse(baseURL)),
-		retry:   retry,
+		baseDir:     filepath.Join(utils.VulnListDir(), vexDir),
+		baseURL:     lo.Must(url.Parse(baseURL)),
+		retry:       retry,
+		maxFileSize: maxFileSize,
 	}
 	for _, o := range opts {
 		o(&c)
@@ -136,7 +145,7 @@ func (c *Config) extractArchive(archivePath string) error {
 
 		fileName := filepath.Base(hdr.Name)
 		cveID := strings.TrimSuffix(fileName, filepath.Ext(fileName))
-		if err = utils.SaveCVEPerYear(c.baseDir, cveID, advisory); err != nil {
+		if err = c.saveAdvisory(cveID, advisory, int(hdr.Size)); err != nil {
 			return xerrors.Errorf("failed to save advisory: %w", err)
 		}
 	}
@@ -194,7 +203,7 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	return &advisory, nil
 }
 
-// trimAdvisory drops fields that nothing downstream reads, to keep the largest
+// trimAdvisory drops scores and flags, which nothing downstream reads, to keep the largest
 // documents under GitHub's 100 MiB file limit.
 // TODO: Remove this once the data can be stored losslessly.
 func trimAdvisory(advisory *csaf.Advisory) {
@@ -204,8 +213,51 @@ func trimAdvisory(advisory *csaf.Advisory) {
 		}
 		vuln.Scores = nil
 		vuln.Flags = nil
-		vuln.ProductStatus = nil
 	}
+}
+
+// saveAdvisory writes an advisory whose source is size bytes. A document over maxFileSize is
+// written minified, and only if that is still too large is product_status dropped.
+func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory, size int) error {
+	// A saved document is about as large as its source, so only large ones need measuring.
+	if size <= c.maxFileSize/2 {
+		return utils.SaveCVEPerYear(c.baseDir, cveID, advisory)
+	}
+
+	s := strings.Split(cveID, "-")
+	if len(s) != 3 {
+		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
+	}
+	b, err := json.MarshalIndent(advisory, "", "  ")
+	if err != nil {
+		return xerrors.Errorf("json marshal error: %w", err)
+	}
+	if len(b) > c.maxFileSize {
+		log.Printf("  %s is %d bytes indented, over the %d byte limit: writing it minified", cveID, len(b), c.maxFileSize)
+		if b, err = json.Marshal(advisory); err != nil {
+			return xerrors.Errorf("json marshal error: %w", err)
+		}
+	}
+	if len(b) > c.maxFileSize {
+		log.Printf("  %s is %d bytes minified, over the %d byte limit: dropping product_status", cveID, len(b), c.maxFileSize)
+		for _, vuln := range advisory.Vulnerabilities {
+			if vuln != nil {
+				vuln.ProductStatus = nil
+			}
+		}
+		if b, err = json.Marshal(advisory); err != nil {
+			return xerrors.Errorf("json marshal error: %w", err)
+		}
+	}
+
+	yearDir := filepath.Join(c.baseDir, s[1])
+	if err = os.MkdirAll(yearDir, os.ModePerm); err != nil {
+		return xerrors.Errorf("failed to create %s: %w", yearDir, err)
+	}
+	if err = os.WriteFile(filepath.Join(yearDir, cveID+".json"), b, 0o644); err != nil {
+		return xerrors.Errorf("file write error: %w", err)
+	}
+	return nil
 }
 
 func (c *Config) updateFromDelta(lastUpdated time.Time) error {
@@ -300,7 +352,7 @@ func (c *Config) fetchAndSaveCVE(path string) error {
 	fileName := filepath.Base(path)
 	cveID := strings.TrimSuffix(fileName, filepath.Ext(fileName))
 
-	if err = utils.SaveCVEPerYear(c.baseDir, cveID, advisory); err != nil {
+	if err = c.saveAdvisory(cveID, advisory, len(b)); err != nil {
 		return xerrors.Errorf("failed to save advisory: %w", err)
 	}
 

@@ -32,7 +32,12 @@ func TestConfig_Update(t *testing.T) {
 		archiveFile  string // txtar for archive content
 		serverFile   string // txtar for files served by the test server
 		existingFile string // txtar for existing local data, includes cve-2024-9999.json to verify archive skip
+		maxFileSize  int    // 0 keeps the default
 		wantFiles    []string
+		// wantProductStatus lists the files that must keep product_status.
+		wantProductStatus []string
+		// wantMinified lists the files written as a single line.
+		wantMinified []string
 		wantErr      string
 	}{
 		{
@@ -44,6 +49,31 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json", // from changes.csv
 				// cve-2024-0003.json deleted by deletions.csv
 			},
+			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+		},
+		{
+			// cve-2024-0002 is 3230 bytes indented and 2151 bytes minified.
+			name:        "oversized document is minified",
+			archiveFile: "testdata/archive.txtar",
+			serverFile:  "testdata/first_run.txtar",
+			maxFileSize: 3000,
+			wantFiles: []string{
+				"2024/cve-2024-0001.json",
+				"2024/cve-2024-0002.json",
+			},
+			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+			wantMinified:      []string{"2024/cve-2024-0002.json"},
+		},
+		{
+			name:        "document too large even minified drops product_status",
+			archiveFile: "testdata/archive.txtar",
+			serverFile:  "testdata/first_run.txtar",
+			maxFileSize: 1,
+			wantFiles: []string{
+				"2024/cve-2024-0001.json",
+				"2024/cve-2024-0002.json",
+			},
+			wantMinified: []string{"2024/cve-2024-0001.json", "2024/cve-2024-0002.json"},
 		},
 		{
 			name:         "delta update - changes only",
@@ -108,8 +138,12 @@ func TestConfig_Update(t *testing.T) {
 				require.NoError(t, err)
 			}
 
-			c := csaf.NewConfig(csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
-				csaf.WithRetry(0))
+			opts := []csaf.Option{csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
+				csaf.WithRetry(0)}
+			if tt.maxFileSize > 0 {
+				opts = append(opts, csaf.WithMaxFileSize(tt.maxFileSize))
+			}
+			c := csaf.NewConfig(opts...)
 
 			err := c.Update()
 			if tt.wantErr != "" {
@@ -132,9 +166,16 @@ func TestConfig_Update(t *testing.T) {
 				// Fields nothing reads downstream are dropped to keep files under GitHub's size limit.
 				b, err := os.ReadFile(path)
 				require.NoError(t, err)
-				for _, dropped := range []string{`"scores"`, `"flags"`, `"product_status"`} {
+				for _, dropped := range []string{`"scores"`, `"flags"`} {
 					assert.NotContains(t, string(b), dropped, relPath)
 				}
+				// product_status is kept unless the document is too large.
+				if slices.Contains(tt.wantProductStatus, relPath) {
+					assert.Contains(t, string(b), `"product_status"`, relPath)
+				} else {
+					assert.NotContains(t, string(b), `"product_status"`, relPath)
+				}
+				assert.Equal(t, slices.Contains(tt.wantMinified, relPath), !strings.Contains(string(b), "\n"), relPath)
 				return nil
 			})
 			require.NoError(t, err)
