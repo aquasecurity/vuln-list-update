@@ -1,6 +1,7 @@
 package oval
 
 import (
+	"encoding/xml"
 	"errors"
 	"flag"
 	"net/http"
@@ -133,5 +134,72 @@ func TestConfig_saveRHSAPerYear(t *testing.T) {
 		default:
 			assert.NoError(t, err, tc.name)
 		}
+	}
+}
+
+func TestAdvAffected_UnmarshalXML(t *testing.T) {
+	testCases := []struct {
+		name string
+		xml  string
+		want AdvAffected
+	}{
+		{
+			// Trimmed from RHEL 9 CVE-2026-86145 (oval:com.redhat.cve:def:202686145).
+			name: "several resolution blocks",
+			xml: `<affected>
+    <resolution state="Affected">
+     <component>mariadb:10.11/mariadb</component>
+     <component>pcre2</component>
+     <component>pcre2-syntax</component>
+    </resolution>
+    <resolution state="Will not fix">
+     <component>mingw64-pcre2</component>
+     <component>mingw64-pcre2-static</component>
+    </resolution>
+   </affected>`,
+			want: AdvAffected{
+				Resolution: Resolution{State: "Will not fix"},
+				Resolutions: []Resolution{
+					{
+						State:      "Affected",
+						Components: []string{"mariadb:10.11/mariadb", "pcre2", "pcre2-syntax"},
+					},
+					{
+						State:      "Will not fix",
+						Components: []string{"mingw64-pcre2", "mingw64-pcre2-static"},
+					},
+				},
+			},
+		},
+		{
+			name: "one resolution block",
+			xml: `<affected>
+    <resolution state="Will not fix">
+     <component>rh-dotnet31</component>
+    </resolution>
+   </affected>`,
+			want: AdvAffected{
+				Resolution: Resolution{State: "Will not fix"},
+				Resolutions: []Resolution{
+					{
+						State:      "Will not fix",
+						Components: []string{"rh-dotnet31"},
+					},
+				},
+			},
+		},
+		{
+			name: "no resolution block",
+			xml:  `<affected></affected>`,
+			want: AdvAffected{},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			var got AdvAffected
+			require.NoError(t, xml.Unmarshal([]byte(tc.xml), &got))
+			assert.Equal(t, tc.want, got)
+		})
 	}
 }

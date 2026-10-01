@@ -55,7 +55,26 @@ type Advisory struct {
 }
 
 type AdvAffected struct {
-	Resolution Resolution `xml:"resolution" json:",omitempty"`
+	// Resolution is the state of the last <resolution> block, kept for existing consumers.
+	// It is wrong for packages listed in any other block; use Resolutions instead.
+	Resolution Resolution `xml:"-" json:",omitempty"`
+	// Resolutions has every <resolution> block with its components. A definition can have
+	// several, e.g. "Affected" for pcre2 and "Will not fix" for mingw64-pcre2.
+	Resolutions []Resolution `xml:"-" json:",omitempty"`
+}
+
+func (a *AdvAffected) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var raw struct {
+		Resolutions []Resolution `xml:"resolution"`
+	}
+	if err := d.DecodeElement(&raw, &start); err != nil {
+		return err
+	}
+	a.Resolutions = raw.Resolutions
+	if n := len(raw.Resolutions); n > 0 {
+		a.Resolution = Resolution{State: raw.Resolutions[n-1].State}
+	}
+	return nil
 }
 
 type Criteria struct {
@@ -75,7 +94,8 @@ type Affected struct {
 }
 
 type Resolution struct {
-	State string `xml:"state,attr" json:",omitempty"`
+	State      string   `xml:"state,attr" json:",omitempty"`
+	Components []string `xml:"component" json:",omitempty"`
 }
 
 type Reference struct {
