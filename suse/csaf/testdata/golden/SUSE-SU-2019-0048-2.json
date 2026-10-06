@@ -2,6 +2,12 @@
   "document": {
     "category": "csaf_security_advisory",
     "csaf_version": "2.0",
+    "lang": "en",
+    "publisher": {
+      "category": "vendor",
+      "name": "SUSE Product Security Team",
+      "namespace": "https://www.suse.com/"
+    },
     "distribution": {
       "text": "Copyright SUSE LLC.",
       "tlp": {
@@ -9,7 +15,6 @@
         "url": "https://www.first.org/tlp/"
       }
     },
-    "lang": "en",
     "notes": [
       {
         "category": "summary",
@@ -20,11 +25,6 @@
         "text": "details"
       }
     ],
-    "publisher": {
-      "category": "vendor",
-      "name": "SUSE Product Security Team",
-      "namespace": "https://www.suse.com/"
-    },
     "references": [
       {
         "category": "self",
@@ -35,7 +35,6 @@
     "title": "Security update for helm-mirror",
     "tracking": {
       "current_release_date": "2019-07-04T12:26:14Z",
-      "generator": null,
       "id": "SUSE-SU-2019:0048-2",
       "initial_release_date": "2019-07-04T12:26:14Z",
       "revision_history": [

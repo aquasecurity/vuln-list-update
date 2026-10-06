@@ -58,9 +58,19 @@ func TestConfig_Update(t *testing.T) {
 			wantFiles:  map[string]string{},
 		},
 		{
-			name:       "invalid advisories are skipped",
-			archiveDir: "testdata/invalid-csaf",
+			name:       "advisory without tracking id is skipped",
+			archiveDir: "testdata/no-tracking-id",
 			wantFiles:  map[string]string{},
+		},
+		{
+			// csaflib rejects these (unescaped "," in a CPE 2.2 URI and "+" in a CPE 2.3 name),
+			// but they are still stored as-is.
+			name:       "non-conformant advisories are saved as-is",
+			archiveDir: "testdata/non-conformant-csaf",
+			wantFiles: map[string]string{
+				"/tmp/csaf/suse/suse/2019/SUSE-SU-2019-0049-1.json":         "testdata/golden/SUSE-SU-2019-0049-1.json",
+				"/tmp/csaf/suse/opensuse/2019/openSUSE-SU-2019-0050-1.json": "testdata/golden/openSUSE-SU-2019-0050-1.json",
+			},
 		},
 	}
 	for _, tc := range testCases {
