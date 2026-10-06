@@ -12,7 +12,8 @@
 Collect vulnerability information and save it in parsable format automatically
 
 ## Data
-https://github.com/aquasecurity/vuln-list/
+- https://github.com/aquasecurity/vuln-list/
+- https://github.com/aquasecurity/vuln-list-suse/ (SUSE CVRF and CSAF)
 
 ## Usage
 
