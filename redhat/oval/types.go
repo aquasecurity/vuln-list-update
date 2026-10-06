@@ -56,7 +56,10 @@ type Advisory struct {
 
 type AdvAffected struct {
 	// Resolution is the state of the last <resolution> block, kept for existing consumers.
-	// It is wrong for packages listed in any other block; use Resolutions instead.
+	// It is wrong for packages listed in any other block.
+	//
+	// Deprecated: Use Resolutions instead.
+	// TODO: Remove Resolution once all consumers have migrated to Resolutions.
 	Resolution Resolution `xml:"-" json:",omitempty"`
 	// Resolutions has every <resolution> block with its components. A definition can have
 	// several, e.g. "Affected" for pcre2 and "Will not fix" for mingw64-pcre2.
