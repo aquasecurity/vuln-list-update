@@ -293,6 +293,17 @@ jobs:
           repository: ${{ env.VULN_LIST_DIR }}
           commit-message: "EOL dates"
 
+      - if: always()
+        name: Root.io OSV Tracker
+        uses: ./.github/actions/update-source
+        with:
+          target: rootio
+          client-id: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SA_GH_VULN_LIST_UPDATE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ env.VULN_LIST_DIR }}
+          commit-message: "Root.io OSV Tracker"
+
       - name: Slack Notification
         uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
         if: failure()
