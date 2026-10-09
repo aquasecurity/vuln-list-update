@@ -1,6 +1,7 @@
 package echo_test
 
 import (
+	"io/fs"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -16,11 +17,10 @@ import (
 
 func TestOSVUpdater_Update(t *testing.T) {
 	tests := []struct {
-		name         string
-		path         string
-		wantFiles    []string
-		notWantFiles []string
-		wantErr      string
+		name      string
+		path      string
+		wantFiles []string
+		wantErr   string
 	}{
 		{
 			name: "happy path",
@@ -30,13 +30,15 @@ func TestOSVUpdater_Update(t *testing.T) {
 				// ("Echo:PyPI"/torch). It must be dropped, and the file written
 				// under the remaining app package's directory.
 				filepath.Join("echo-osv", "torch", "ECHO-9320-f34e-79db.json"),
-			},
-			notWantFiles: []string{
-				// The openssh advisory only carries an "Echo" entry and should
-				// be skipped entirely.
-				filepath.Join("echo-osv", "openssh", "ECHO-003f-2632-599c.json"),
-				// Must not be placed under the dropped OS package's directory.
-				filepath.Join("echo-osv", "pytorch", "ECHO-9320-f34e-79db.json"),
+				// Maven coordinates (groupId:artifactId) route to a nested
+				// groupId/artifactId path (colon -> slash).
+				filepath.Join("echo-osv", "org.springframework", "spring-core", "ECHO-57ea-7cc7-5775.json"),
+				// npm package names without a scope route directly under the
+				// ecosystem directory.
+				filepath.Join("echo-osv", "nanoid", "ECHO-bc75-657e-24f9.json"),
+				// Scoped npm names (@scope/name) nest under the scope
+				// directory via their literal slash.
+				filepath.Join("echo-osv", "@opentelemetry", "core", "ECHO-0b54-337c-5581.json"),
 			},
 		},
 		{
@@ -90,10 +92,27 @@ func TestOSVUpdater_Update(t *testing.T) {
 				assert.JSONEq(t, string(want), string(got))
 			}
 
-			for _, notWant := range tt.notWantFiles {
-				_, err := os.Stat(filepath.Join(testDir, notWant))
-				assert.True(t, os.IsNotExist(err), "expected %s to be filtered out, but it exists", notWant)
-			}
+			err = filepath.WalkDir(testDir, func(path string, d fs.DirEntry, err error) error {
+				require.NoError(t, err)
+				if !d.Type().IsRegular() {
+					return nil
+				}
+
+				got, err := os.ReadFile(path)
+				require.NoError(t, err, path)
+
+				rel, err := filepath.Rel(testDir, path)
+				require.NoError(t, err, path)
+
+				// Every written file must have a golden file at the same path.
+				goldenPath := filepath.Join("testdata", "osv-golden", rel)
+				want, err := os.ReadFile(goldenPath)
+				require.NoError(t, err, goldenPath)
+
+				assert.JSONEq(t, string(want), string(got), path)
+				return nil
+			})
+			require.NoError(t, err)
 		})
 	}
 }
