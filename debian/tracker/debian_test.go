@@ -304,6 +304,12 @@ func TestClient_Update(t *testing.T) {
 			},
 		},
 		{
+			name:     "tracker download fails after all retries",
+			repoPath: "testdata/happy",
+			failures: 4,
+			wantErr:  "bad response code: 500",
+		},
+		{
 			name:     "sad path",
 			repoPath: "testdata/sad",
 			wantErr:  "no such file or directory",
@@ -353,6 +359,8 @@ func TestClient_Update(t *testing.T) {
 
 // serveArchive serves dir as a tar.gz archive, answering the first failures GET requests with 500.
 func serveArchive(t *testing.T, dir string, failures int) string {
+	t.Helper()
+
 	var buf bytes.Buffer
 	gw := gzip.NewWriter(&buf)
 	tw := tar.NewWriter(gw)

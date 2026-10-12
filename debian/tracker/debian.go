@@ -27,9 +27,10 @@ const (
 	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s-security/updates/%s/source/Sources.xz"
 )
 
+// trackerRetry is the number of retries after the first failed attempt.
 const trackerRetry = 3
 
-// trackerRetryWait is a var so tests can shorten it.
+// trackerRetryWait is the pause between attempts; a var so tests can shorten it.
 var trackerRetryWait = 30 * time.Second
 
 var (
