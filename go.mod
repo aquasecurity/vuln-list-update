@@ -12,7 +12,7 @@ require (
 	github.com/klauspost/compress v1.17.11
 	github.com/kylelemons/godebug v1.1.0
 	github.com/parnurzeal/gorequest v0.2.16
-	github.com/samber/lo v1.49.0
+	github.com/samber/lo v1.53.0
 	github.com/spf13/afero v1.12.0
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa
