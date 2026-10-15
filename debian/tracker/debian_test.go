@@ -1,10 +1,17 @@
 package tracker_test
 
 import (
+	"archive/tar"
+	"bytes"
+	"compress/gzip"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"sync/atomic"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -20,7 +27,8 @@ type pkgDetail struct {
 func TestClient_Update(t *testing.T) {
 	tests := []struct {
 		name                string
-		repoPath            string
+		repoPath            string // directory served over HTTP as a tar.gz archive
+		failures            int    // number of first archive GET requests answered with 500
 		sourcesPath         string
 		securitySourcesPath string
 		wantBugs            map[string]tracker.Bug
@@ -30,7 +38,7 @@ func TestClient_Update(t *testing.T) {
 	}{
 		{
 			name:                "happy path",
-			repoPath:            "file::testdata/happy",
+			repoPath:            "testdata/happy",
 			sourcesPath:         "file::testdata/happy/source/%s/%s/Sources",
 			securitySourcesPath: "file::testdata/happy/updates-source/%s/%s/Sources",
 			wantBugs: map[string]tracker.Bug{
@@ -277,15 +285,44 @@ func TestClient_Update(t *testing.T) {
 			},
 		},
 		{
+			name:                "retry after failed tracker download",
+			repoPath:            "testdata/happy",
+			failures:            2,
+			sourcesPath:         "file::testdata/happy/source/%s/%s/Sources",
+			securitySourcesPath: "file::testdata/happy/updates-source/%s/%s/Sources",
+			wantDists: map[string]tracker.Distribution{
+				"stretch": {
+					MajorVersion: "9",
+					Support:      "lts",
+					Contact:      "debian-lts@lists.debian.org",
+				},
+				"buster": {
+					MajorVersion: "10",
+					Support:      "security",
+					Contact:      "team@security.debian.org",
+				},
+			},
+		},
+		{
+			name:     "tracker download fails after all retries",
+			repoPath: "testdata/happy",
+			failures: 4,
+			wantErr:  "bad response code: 500",
+		},
+		{
 			name:     "sad path",
-			repoPath: "file::testdata/sad",
+			repoPath: "testdata/sad",
 			wantErr:  "no such file or directory",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			tracker.SetTrackerRetryWait(t, time.Millisecond)
+
+			trackerURL := serveArchive(t, tt.repoPath, tt.failures)
+
 			tmpDir := t.TempDir()
-			c := tracker.NewClient(tracker.WithTrackerURL(tt.repoPath), tracker.WithSourcesURL(tt.sourcesPath),
+			c := tracker.NewClient(tracker.WithTrackerURL(trackerURL), tracker.WithSourcesURL(tt.sourcesPath),
 				tracker.WithSecuritySourcesURL(tt.securitySourcesPath), tracker.WithVulnListDir(tmpDir))
 
 			err := c.Update()
@@ -318,6 +355,29 @@ func TestClient_Update(t *testing.T) {
 			}
 		})
 	}
+}
+
+// serveArchive serves dir as a tar.gz archive, answering the first failures GET requests with 500.
+func serveArchive(t *testing.T, dir string, failures int) string {
+	t.Helper()
+
+	var buf bytes.Buffer
+	gw := gzip.NewWriter(&buf)
+	tw := tar.NewWriter(gw)
+	require.NoError(t, tw.AddFS(os.DirFS(dir)))
+	require.NoError(t, tw.Close())
+	require.NoError(t, gw.Close())
+
+	var gets atomic.Int32
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet && int(gets.Add(1)) <= failures {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		_, _ = w.Write(buf.Bytes())
+	}))
+	t.Cleanup(ts.Close)
+	return ts.URL + "/tracker.tar.gz"
 }
 
 func compare(t *testing.T, gotPath string, got, want interface{}) {
