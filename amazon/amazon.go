@@ -25,11 +25,12 @@ const (
 )
 
 var (
+	// AL2022 (tech preview, superseded by AL2023) is not fetched anymore: its repository mirror returns 403.
+	// The previously fetched advisories are kept in vuln-list as is.
 	mirrorListURI = map[string]string{
 		"1": "http://repo.us-west-2.amazonaws.com/2018.03/updates/x86_64/mirror.list",
 		"2": "https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list",
 		// run `dnf repolist all --verbose` inside container to get `Repo-mirrors`
-		"2022": "https://cdn.amazonlinux.com/al2022/core/mirrors/latest/x86_64/mirror.list",
 		"2023": "https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list",
 	}
 )
