@@ -39,6 +39,9 @@ func TestOSVUpdater_Update(t *testing.T) {
 				// Scoped npm names (@scope/name) nest under the scope
 				// directory via their literal slash.
 				filepath.Join("echo-osv", "@opentelemetry", "core", "ECHO-0b54-337c-5581.json"),
+				// NuGet ids are published lowercase and route directly under the
+				// ecosystem directory, dots included.
+				filepath.Join("echo-osv", "system.security.cryptography.xml", "ECHO-08ee-db76-1049.json"),
 			},
 		},
 		{
