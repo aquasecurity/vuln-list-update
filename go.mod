@@ -8,7 +8,6 @@ require (
 	github.com/cheggaaa/pb v2.0.7+incompatible
 	github.com/cheggaaa/pb/v3 v3.1.7
 	github.com/csaf-poc/csaf_distribution/v3 v3.0.0
-	github.com/gocsaf/csaf/v3 v3.1.1
 	github.com/hashicorp/go-getter v1.7.9
 	github.com/klauspost/compress v1.17.11
 	github.com/kylelemons/godebug v1.1.0
