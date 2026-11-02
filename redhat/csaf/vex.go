@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/csaf-poc/csaf_distribution/v3/csaf"
+	"github.com/gocsaf/csaf/v3/csaf"
 	"github.com/klauspost/compress/zstd"
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
