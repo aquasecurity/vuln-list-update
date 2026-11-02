@@ -8,6 +8,7 @@ require (
 	github.com/cheggaaa/pb v2.0.7+incompatible
 	github.com/cheggaaa/pb/v3 v3.1.7
 	github.com/csaf-poc/csaf_distribution/v3 v3.0.0
+	github.com/gocsaf/csaf/v3 v3.1.1
 	github.com/hashicorp/go-getter v1.7.9
 	github.com/klauspost/compress v1.17.11
 	github.com/kylelemons/godebug v1.1.0
@@ -68,11 +69,11 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
-	github.com/shopspring/decimal v1.3.1 // indirect
+	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/simplereach/timeutils v1.2.0 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
-	go.etcd.io/bbolt v1.3.8 // indirect
+	go.etcd.io/bbolt v1.3.11 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/detectors/gcp v1.29.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.54.0 // indirect

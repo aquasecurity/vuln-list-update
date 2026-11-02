@@ -63,7 +63,7 @@ func TestConfig_Update(t *testing.T) {
 			wantFiles:  map[string]string{},
 		},
 		{
-			// csaflib rejects these (unescaped "," in a CPE 2.2 URI and "+" in a CPE 2.3 name),
+			// gocsaf/csaf rejects these (unescaped "," in a CPE 2.2 URI and "+" in a CPE 2.3 name),
 			// but they are still stored as-is.
 			name:       "non-conformant advisories are saved as-is",
 			archiveDir: "testdata/non-conformant-csaf",
