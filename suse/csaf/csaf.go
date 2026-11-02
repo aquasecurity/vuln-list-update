@@ -60,6 +60,7 @@ func (c Config) Update() error {
 			return "", nil, nil
 		}
 
+		// The tracking ID is required to determine the release year and target filename on disk.
 		if header.Document.Tracking.ID == "" {
 			return "", nil, nil
 		}
