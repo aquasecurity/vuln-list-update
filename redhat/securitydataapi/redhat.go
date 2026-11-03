@@ -22,8 +22,10 @@ const (
 	wait        = 1
 	retry       = 20 // Red Hat Security Data API is unstable
 
-	// fetchTimeout limits fetching of a single year.
-	fetchTimeout = 40 * time.Minute
+	// minFetchTimeout leaves room for retries on transient API errors:
+	// a single URL can spend ~50m in FetchURL backoff if all retries are used.
+	minFetchTimeout = 30 * time.Minute
+	perCVETimeout   = 250 * time.Millisecond
 )
 
 func Update() error {
@@ -103,7 +105,10 @@ func listAllRedhatCves(after, before string, wait int) (entries []RedhatEntry, e
 func retrieveRedhatCveDetails(urls []string) (map[string]*RedhatCVEJSON, error) {
 	cves := map[string]*RedhatCVEJSON{}
 
-	cveJSONs, err := utils.FetchConcurrently(urls, concurrency, wait, retry, fetchTimeout)
+	// Scale the fetch timeout dynamically based on the number of CVEs
+	// to ensure large years have enough budget to finish.
+	timeout := calculateFetchTimeout(len(urls))
+	cveJSONs, err := utils.FetchConcurrently(urls, concurrency, wait, retry, timeout)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to fetch cve data from RedHat: %w", err)
 	}
@@ -118,4 +123,8 @@ func retrieveRedhatCveDetails(urls []string) (map[string]*RedhatCVEJSON, error) 
 	}
 
 	return cves, nil
+}
+
+func calculateFetchTimeout(cveCount int) time.Duration {
+	return max(minFetchTimeout, time.Duration(cveCount)*perCVETimeout)
 }
