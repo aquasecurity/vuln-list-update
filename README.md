@@ -12,7 +12,11 @@
 Collect vulnerability information and save it in parsable format automatically
 
 ## Data
-https://github.com/aquasecurity/vuln-list/
+- https://github.com/aquasecurity/vuln-list/
+- https://github.com/aquasecurity/vuln-list-debian/ (Debian)
+- https://github.com/aquasecurity/vuln-list-nvd/ (NVD)
+- https://github.com/aquasecurity/vuln-list-redhat/ (Red Hat)
+- https://github.com/aquasecurity/vuln-list-suse/ (SUSE CVRF and CSAF)
 
 ## Usage
 
@@ -20,7 +24,7 @@ https://github.com/aquasecurity/vuln-list/
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, rootio, seal)
+        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, suse-csaf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, rootio, seal)
   -target-branch string
     	alternative repository branch (only glad)
   -target-uri string
