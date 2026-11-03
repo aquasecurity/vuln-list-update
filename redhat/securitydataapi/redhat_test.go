@@ -16,17 +16,17 @@ func TestCalculateFetchTimeout(t *testing.T) {
 		{
 			name:     "zero CVEs falls back to minFetchTimeout",
 			cveCount: 0,
-			expected: 5 * time.Minute,
+			expected: 30 * time.Minute,
 		},
 		{
 			name:     "small year falls back to minFetchTimeout",
-			cveCount: 100, // 100 * 250ms = 25s < 5m
-			expected: 5 * time.Minute,
+			cveCount: 6000, // 6000 * 250ms = 1500s = 25m < 30m
+			expected: 30 * time.Minute,
 		},
 		{
 			name:     "medium year scales above minimum",
-			cveCount: 6000, // 6000 * 250ms = 1500s = 25m
-			expected: 25 * time.Minute,
+			cveCount: 8000, // 8000 * 250ms = 2000s = 33m20s
+			expected: 2000 * time.Second,
 		},
 		{
 			name:     "large year scales proportionally",

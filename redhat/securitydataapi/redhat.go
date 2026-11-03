@@ -22,7 +22,9 @@ const (
 	wait        = 1
 	retry       = 20 // Red Hat Security Data API is unstable
 
-	minFetchTimeout = 5 * time.Minute
+	// minFetchTimeout leaves room for retries on transient API errors:
+	// a single URL can spend ~50m in FetchURL backoff if all retries are used.
+	minFetchTimeout = 30 * time.Minute
 	perCVETimeout   = 250 * time.Millisecond
 )
 
