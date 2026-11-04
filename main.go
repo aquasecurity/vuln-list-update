@@ -36,12 +36,13 @@ import (
 	"github.com/aquasecurity/vuln-list-update/ubuntu"
 	"github.com/aquasecurity/vuln-list-update/utils"
 	"github.com/aquasecurity/vuln-list-update/wolfi"
+	"github.com/aquasecurity/vuln-list-update/cleanstart"
 )
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio)")
+		"chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio, cleanstart)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -193,6 +194,11 @@ func run() error {
 		mu := minimos.NewUpdater()
 		if err := mu.Update(); err != nil {
 			return xerrors.Errorf("MinimOS update error: %w", err)
+		}
+	case "cleanstart":
+		cu := cleanstart.NewUpdater()
+		if err := cu.Update(); err != nil {
+			return xerrors.Errorf("CleanStart update error: %w", err)
 		}
 	case "eoldates":
 		ec := eoldates.NewConfig()
