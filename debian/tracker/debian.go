@@ -17,14 +17,18 @@ import (
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
 
+	"github.com/aquasecurity/vuln-list-update/git"
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (
-	trackerDir         = "tracker"
-	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
-	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
-	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s-security/updates/%s/source/Sources.xz"
+	trackerDir = "tracker"
+	// securityTrackerURL is a git URL, not the HTTP archive: salsa.debian.org gates the archive behind an
+	// anti-bot challenge that a plain HTTP download can't pass, but doesn't challenge git's smart HTTP.
+	securityTrackerURL      = "https://salsa.debian.org/security-tracker-team/security-tracker.git"
+	securityTrackerCacheDir = "debian-security-tracker"
+	sourcesURL              = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
+	securitySourcesURL      = "https://security.debian.org/debian-security/dists/%s-security/updates/%s/source/Sources.xz"
 )
 
 // trackerRetry is the number of retries after the first failed attempt.
@@ -53,6 +57,7 @@ type listParser interface {
 
 type options struct {
 	trackerURL         string
+	trackerCacheDir    string
 	sourcesURL         string
 	securitySourcesURL string
 	vulnListDir        string
@@ -60,9 +65,9 @@ type options struct {
 
 type option func(*options)
 
-func WithTrackerURL(url string) option {
+func WithTrackerCacheDir(dir string) option {
 	return func(opts *options) {
-		opts.trackerURL = url
+		opts.trackerCacheDir = dir
 	}
 }
 
@@ -93,6 +98,7 @@ type Client struct {
 func NewClient(opts ...option) Client {
 	o := &options{
 		trackerURL:         securityTrackerURL,
+		trackerCacheDir:    filepath.Join(utils.CacheDir(), securityTrackerCacheDir),
 		sourcesURL:         sourcesURL,
 		securitySourcesURL: securitySourcesURL,
 		vulnListDir:        utils.VulnListDir(),
@@ -122,14 +128,13 @@ func (c Client) Update() error {
 	}
 
 	log.Println("Fetching Debian data...")
-	tmpDir, err := c.downloadTracker(ctx)
+	repoDir, err := c.downloadTracker()
 	if err != nil {
 		return xerrors.Errorf("failed to retrieve Debian Security Tracker: %w", err)
 	}
-	defer os.RemoveAll(tmpDir)
 
 	for _, p := range c.parsers {
-		list := filepath.Join(tmpDir, "data", p.Dir(), "list")
+		list := filepath.Join(repoDir, "data", p.Dir(), "list")
 		bugs, err := c.parseList(p, list)
 		if err != nil {
 			return xerrors.Errorf("debian parse error: %w", err)
@@ -141,7 +146,7 @@ func (c Client) Update() error {
 	}
 
 	log.Println("Parsing distributions.json...")
-	dists, err := c.parseDistributions(tmpDir)
+	dists, err := c.parseDistributions(repoDir)
 	if err != nil {
 		return xerrors.Errorf("failed to update distributions: %w", err)
 	}
@@ -159,21 +164,30 @@ func (c Client) Update() error {
 	return nil
 }
 
-// downloadTracker downloads the Security Tracker archive, retrying on failure:
-// salsa.debian.org sometimes drops the connection mid-transfer for a minute or two.
-func (c Client) downloadTracker(ctx context.Context) (string, error) {
+// downloadTracker clones (or pulls, if cached) the Security Tracker, retrying on failure: salsa.debian.org
+// sometimes drops the connection mid-transfer for a minute or two.
+func (c Client) downloadTracker() (string, error) {
 	var err error
 	for i := 0; i <= trackerRetry; i++ {
 		if i > 0 {
 			log.Printf("Failed to download Debian Security Tracker: %s. Retrying in %s...", err, trackerRetryWait)
 			time.Sleep(trackerRetryWait)
 		}
-		var tmpDir string
-		if tmpDir, err = utils.DownloadToTempDir(ctx, c.trackerURL); err == nil {
-			return tmpDir, nil
+		if err = cloneOrPull(c.trackerURL, c.trackerCacheDir); err == nil {
+			return c.trackerCacheDir, nil
+		}
+		// Drop a possibly-partial checkout so the next attempt starts with a fresh clone.
+		if rmErr := os.RemoveAll(c.trackerCacheDir); rmErr != nil {
+			return "", xerrors.Errorf("failed to remove %s: %w", c.trackerCacheDir, rmErr)
 		}
 	}
 	return "", err
+}
+
+// cloneOrPull is a var, not a direct call, so tests can swap in a fake instead of shelling out to git.
+var cloneOrPull = func(url, dir string) error {
+	_, err := (git.Config{}).CloneOrPull(url, dir, "master", false)
+	return err
 }
 
 func (c Client) update(dirname string, bugs []Bug) error {

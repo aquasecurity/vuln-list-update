@@ -12,3 +12,11 @@ func SetTrackerRetryWait(t *testing.T, d time.Duration) {
 	trackerRetryWait = d
 	t.Cleanup(func() { trackerRetryWait = old })
 }
+
+// SetCloneOrPull overrides the Security Tracker git fetch implementation for the duration of the test.
+func SetCloneOrPull(t *testing.T, f func(url, dir string) error) {
+	t.Helper()
+	old := cloneOrPull
+	cloneOrPull = f
+	t.Cleanup(func() { cloneOrPull = old })
+}
