@@ -51,9 +51,6 @@ func (gc Config) CloneOrPull(url, repoPath, branch string, debug bool) (map[stri
 			return nil, err
 		}
 
-		if err := fetchAll(repoPath); err != nil {
-			return nil, err
-		}
 		err = filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
 			if info.IsDir() {
 				return nil
@@ -154,27 +151,6 @@ func pull(url, repoPath, branch string) ([]string, error) {
 	}
 	updatedFiles := strings.Split(strings.TrimSpace(output), "\n")
 	return updatedFiles, nil
-}
-
-func fetchAll(repoPath string) error {
-	commandArgs := generateGitArgs(repoPath)
-	configCmd := []string{
-		"config",
-		"remote.origin.fetch",
-		"+refs/heads/*:refs/remotes/origin/*",
-	}
-	if _, err := utils.Exec("git", append(commandArgs, configCmd...)); err != nil {
-		return xerrors.Errorf("error in git config: %w", err)
-	}
-
-	fetchCmd := []string{
-		"fetch",
-		"--all",
-	}
-	if _, err := utils.Exec("git", append(commandArgs, fetchCmd...)); err != nil {
-		return xerrors.Errorf("error in git fetch: %w", err)
-	}
-	return nil
 }
 
 func generateGitArgs(repoPath string) []string {
