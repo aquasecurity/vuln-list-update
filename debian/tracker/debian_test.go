@@ -1,12 +1,8 @@
 package tracker_test
 
 import (
-	"archive/tar"
-	"bytes"
-	"compress/gzip"
 	"encoding/json"
-	"net/http"
-	"net/http/httptest"
+	"errors"
 	"os"
 	"path/filepath"
 	"sync/atomic"
@@ -27,8 +23,8 @@ type pkgDetail struct {
 func TestClient_Update(t *testing.T) {
 	tests := []struct {
 		name                string
-		repoPath            string // directory served over HTTP as a tar.gz archive
-		failures            int    // number of first archive GET requests answered with 500
+		repoPath            string // testdata copied into the cache dir by the fake clone
+		failures            int    // number of first clone attempts that fail
 		sourcesPath         string
 		securitySourcesPath string
 		wantBugs            map[string]tracker.Bug
@@ -307,7 +303,7 @@ func TestClient_Update(t *testing.T) {
 			name:     "tracker download fails after all retries",
 			repoPath: "testdata/happy",
 			failures: 4,
-			wantErr:  "bad response code: 500",
+			wantErr:  "fake clone failure",
 		},
 		{
 			name:     "sad path",
@@ -318,12 +314,12 @@ func TestClient_Update(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tracker.SetTrackerRetryWait(t, time.Millisecond)
-
-			trackerURL := serveArchive(t, tt.repoPath, tt.failures)
+			tracker.SetCloneOrPull(t, fakeClone(tt.repoPath, tt.failures))
 
 			tmpDir := t.TempDir()
-			c := tracker.NewClient(tracker.WithTrackerURL(trackerURL), tracker.WithSourcesURL(tt.sourcesPath),
-				tracker.WithSecuritySourcesURL(tt.securitySourcesPath), tracker.WithVulnListDir(tmpDir))
+			c := tracker.NewClient(tracker.WithTrackerCacheDir(filepath.Join(tmpDir, "cache")),
+				tracker.WithSourcesURL(tt.sourcesPath), tracker.WithSecuritySourcesURL(tt.securitySourcesPath),
+				tracker.WithVulnListDir(tmpDir))
 
 			err := c.Update()
 			if tt.wantErr != "" {
@@ -357,27 +353,19 @@ func TestClient_Update(t *testing.T) {
 	}
 }
 
-// serveArchive serves dir as a tar.gz archive, answering the first failures GET requests with 500.
-func serveArchive(t *testing.T, dir string, failures int) string {
-	t.Helper()
-
-	var buf bytes.Buffer
-	gw := gzip.NewWriter(&buf)
-	tw := tar.NewWriter(gw)
-	require.NoError(t, tw.AddFS(os.DirFS(dir)))
-	require.NoError(t, tw.Close())
-	require.NoError(t, gw.Close())
-
-	var gets atomic.Int32
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet && int(gets.Add(1)) <= failures {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
+// fakeClone answers the first failures attempts with an error, then copies repoPath into dir,
+// as a successful clone would.
+func fakeClone(repoPath string, failures int) func(url, dir string) error {
+	var calls atomic.Int32
+	return func(url, dir string) error {
+		if int(calls.Add(1)) <= failures {
+			return errors.New("fake clone failure")
 		}
-		_, _ = w.Write(buf.Bytes())
-	}))
-	t.Cleanup(ts.Close)
-	return ts.URL + "/tracker.tar.gz"
+		if err := os.MkdirAll(dir, 0o755); err != nil {
+			return err
+		}
+		return os.CopyFS(dir, os.DirFS(repoPath))
+	}
 }
 
 func compare(t *testing.T, gotPath string, got, want interface{}) {
