@@ -13,14 +13,15 @@ import (
 	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
-// TestConfig_CloneOrPull clones once, guarding against a regression where cloning a single branch
-// pulled the full history of every other branch too, then pulls into that same checkout: nothing
-// exercised the pull path before, for any consumer of this package.
+// TestConfig_CloneOrPull clones once, then pulls into that same checkout, covering both code paths.
 func TestConfig_CloneOrPull(t *testing.T) {
-	remote := newTestRepo(t)
+	remoteDir := newTestRepo(t)
+	// A plain local path makes git ignore --depth and do a full clone instead of the shallow one
+	// CloneOrPull actually performs in production; file:// keeps it honest.
+	remoteURL := "file://" + remoteDir
 
 	dir := filepath.Join(t.TempDir(), "clone")
-	_, err := (vlgit.Config{}).CloneOrPull(remote, dir, "master", false)
+	_, err := (vlgit.Config{}).CloneOrPull(remoteURL, dir, "master", false)
 	require.NoError(t, err)
 
 	t.Run("fetches only the requested branch", func(t *testing.T) {
@@ -32,14 +33,13 @@ func TestConfig_CloneOrPull(t *testing.T) {
 	})
 
 	t.Run("pull picks up new commits", func(t *testing.T) {
-		require.NoError(t, os.WriteFile(filepath.Join(remote, "new-file.txt"), []byte("new content"), 0o644))
-		runGit(t, remote, "add", "new-file.txt")
-		commit(t, remote, "add new-file.txt")
+		require.NoError(t, os.WriteFile(filepath.Join(remoteDir, "new-file.txt"), []byte("new content"), 0o644))
+		runGit(t, remoteDir, "add", "new-file.txt")
+		commit(t, remoteDir, "add new-file.txt")
 
-		updatedFiles, err := (vlgit.Config{}).CloneOrPull(remote, dir, "master", false)
+		updatedFiles, err := (vlgit.Config{}).CloneOrPull(remoteURL, dir, "master", false)
 		require.NoError(t, err)
 
-		require.FileExists(t, filepath.Join(dir, "new-file.txt"))
 		content, err := os.ReadFile(filepath.Join(dir, "new-file.txt"))
 		require.NoError(t, err)
 		assert.Equal(t, "new content", string(content))
