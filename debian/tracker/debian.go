@@ -178,7 +178,7 @@ func (c Client) downloadTracker() (string, error) {
 		}
 		// Drop a possibly-partial checkout so the next attempt starts with a fresh clone.
 		if rmErr := os.RemoveAll(c.trackerCacheDir); rmErr != nil {
-			return "", xerrors.Errorf("failed to remove %s: %w", c.trackerCacheDir, rmErr)
+			return "", xerrors.Errorf("failed to remove %s after clone error (%v): %w", c.trackerCacheDir, err, rmErr)
 		}
 	}
 	return "", err
