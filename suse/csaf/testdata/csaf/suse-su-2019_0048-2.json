@@ -1,0 +1,48 @@
+{
+  "document": {
+    "category": "csaf_security_advisory",
+    "csaf_version": "2.0",
+    "lang": "en",
+    "publisher": {
+      "category": "vendor",
+      "name": "SUSE Product Security Team",
+      "namespace": "https://www.suse.com/"
+    },
+    "distribution": {
+      "text": "Copyright SUSE LLC.",
+      "tlp": {"label": "WHITE", "url": "https://www.first.org/tlp/"}
+    },
+    "notes": [
+      {"category": "summary", "text": "Security update for helm-mirror"},
+      {"category": "description", "text": "details"}
+    ],
+    "references": [{"category": "self", "summary": "advisory", "url": "https://example.com/advisory"}],
+    "title": "Security update for helm-mirror",
+    "tracking": {
+      "current_release_date": "2019-07-04T12:26:14Z",
+      "id": "SUSE-SU-2019:0048-2",
+      "initial_release_date": "2019-07-04T12:26:14Z",
+      "revision_history": [{"date": "2019-07-04T12:26:14Z", "number": "1", "summary": "Current version"}],
+      "status": "final",
+      "version": "1"
+    }
+  },
+  "product_tree": {
+    "relationships": [{
+      "category": "default_component_of",
+      "full_product_name": {
+        "name": "helm-mirror-0.2.1-1.7.1.x86_64 as component of SUSE Linux Enterprise Module for Containers 15 SP1",
+        "product_id": "SUSE Linux Enterprise Module for Containers 15 SP1:helm-mirror-0.2.1-1.7.1.x86_64"
+      },
+      "product_reference": "helm-mirror-0.2.1-1.7.1.x86_64",
+      "relates_to_product_reference": "SUSE Linux Enterprise Module for Containers 15 SP1"
+    }]
+  },
+  "vulnerabilities": [{
+    "cve": "CVE-2018-16873",
+    "product_status": {
+      "recommended": ["SUSE Linux Enterprise Module for Containers 15 SP1:helm-mirror-0.2.1-1.7.1.x86_64"]
+    },
+    "threats": [{"category": "impact", "details": "important"}]
+  }]
+}
