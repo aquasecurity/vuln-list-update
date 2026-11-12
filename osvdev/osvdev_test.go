@@ -47,6 +47,17 @@ func Test_Update(t *testing.T) {
 			},
 		},
 		{
+			name: "happy path Hex",
+			ecosystem: map[string]string{
+				"Hex": "hex",
+			},
+			wantFiles: []string{
+				filepath.Join("hex", "ash_authentication_phoenix", "EEF-CVE-2025-4754.json"),
+				filepath.Join("hex", "plug", "EEF-CVE-2026-56813.json"),
+				filepath.Join("hex", "ecto", "GHSA-2xxx-fhc8-9qvq.json"),
+			},
+		},
+		{
 			name: "happy path python+rust",
 			ecosystem: map[string]string{
 				"PyPI":      "python",
