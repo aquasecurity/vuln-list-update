@@ -41,7 +41,7 @@ import (
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, suse-csaf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, suse-csaf, photon, arch-linux, glad, cwe, osvdev, ubuntu-osv, mariner, kevc, wolfi, "+
 		"chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
@@ -159,6 +159,11 @@ func run() error {
 		p := osvdev.NewDatabase()
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
+		}
+	case "ubuntu-osv":
+		u := ubuntu.NewOSVUpdater()
+		if err := u.Update(); err != nil {
+			return xerrors.Errorf("Ubuntu OSV update error: %w", err)
 		}
 	case "azure", "mariner":
 		src := mariner.NewConfig()

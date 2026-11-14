@@ -1,0 +1,7 @@
+{
+  "Source": "dotnet6",
+  "Binaries": [
+    "dotnet-runtime-6.0",
+    "dotnet6"
+  ]
+}

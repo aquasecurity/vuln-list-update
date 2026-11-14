@@ -1,0 +1,7 @@
+{
+  "Source": "glibc",
+  "Binaries": [
+    "libc-bin",
+    "libc6"
+  ]
+}

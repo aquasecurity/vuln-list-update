@@ -1,0 +1,21 @@
+{
+  "Source": "dotnet8",
+  "Binaries": [
+    "aspnetcore-runtime-8.0",
+    "dotnet-host-8.0",
+    "dotnet-runtime-8.0",
+    "dotnet-sdk-8.0",
+    "dotnet8"
+  ],
+  "BinaryFixedVersions": {
+    "CVE-2026-21218": {
+      "aspnetcore-runtime-8.0": "8.0.24-0ubuntu1~24.04.1",
+      "dotnet-host-8.0": "8.0.24-0ubuntu1~24.04.1",
+      "dotnet-runtime-8.0": "8.0.24-0ubuntu1~24.04.1",
+      "dotnet-sdk-8.0": "8.0.124-0ubuntu1~24.04.1"
+    }
+  },
+  "SourceFixedVersions": {
+    "CVE-2026-21218": "8.0.124-8.0.24-0ubuntu1~24.04.1"
+  }
+}

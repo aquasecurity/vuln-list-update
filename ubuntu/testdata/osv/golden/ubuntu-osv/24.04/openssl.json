@@ -1,0 +1,7 @@
+{
+  "Source": "openssl",
+  "Binaries": [
+    "libssl3t64",
+    "openssl"
+  ]
+}

@@ -24,7 +24,7 @@ Collect vulnerability information and save it in parsable format automatically
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, suse-csaf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, rootio, seal)
+        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, ubuntu-osv, amazon, bottlerocket, oracle-oval, suse-cvrf, suse-csaf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, rootio, seal)
   -target-branch string
     	alternative repository branch (only glad)
   -target-uri string
