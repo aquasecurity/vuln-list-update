@@ -1,0 +1,10 @@
+{
+  "Source": "libxml2",
+  "Binaries": [
+    "libxml2",
+    "libxml2-dev",
+    "libxml2-doc",
+    "libxml2-utils",
+    "python3-libxml2"
+  ]
+}

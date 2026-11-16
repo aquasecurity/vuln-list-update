@@ -1,6 +1,10 @@
 {
   "Source": "openssl",
   "Binaries": [
+    "libcrypto3-udeb",
+    "libssl-dev",
+    "libssl-doc",
+    "libssl3-udeb",
     "libssl3t64",
     "openssl"
   ]

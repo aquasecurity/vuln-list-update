@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -52,6 +53,7 @@ type ubuntuOSV struct {
 		Package struct {
 			Ecosystem string `json:"ecosystem"`
 			Name      string `json:"name"`
+			Purl      string `json:"purl"`
 		} `json:"package"`
 		Ranges []struct {
 			Events []struct {
@@ -72,8 +74,17 @@ type releaseSource struct {
 	source  string
 }
 
-// sourceBinaries collects SourceBinaries across records. Binaries are kept in a set,
-// because every record of the source package repeats them.
+// osvData holds source packages and release codenames read from the OSV archive.
+type osvData struct {
+	// sources holds every source package with an OSV record in the release, even if the record has no binaries,
+	// because addArchiveBinaries adds them from the Ubuntu archive.
+	sources map[releaseSource]*sourceBinaries
+	// codenames maps a release to its codename, e.g. "24.04" to "noble".
+	codenames map[string]string
+}
+
+// sourceBinaries accumulates one SourceBinaries from OSV records and the Ubuntu archive.
+// Binaries are a set because OSV records and archive pockets list the same packages.
 type sourceBinaries struct {
 	binaries            map[string]struct{}
 	binaryFixedVersions map[string]map[string]string
@@ -95,8 +106,10 @@ func (s *sourceBinaries) build(source string) SourceBinaries {
 }
 
 type OSVUpdater struct {
-	url string
-	dir string
+	url            string
+	archiveURL     string
+	oldReleasesURL string
+	dir            string
 }
 
 type OSVOption func(*OSVUpdater)
@@ -104,6 +117,14 @@ type OSVOption func(*OSVUpdater)
 func WithOSVURL(url string) OSVOption {
 	return func(u *OSVUpdater) {
 		u.url = url
+	}
+}
+
+// WithArchiveURLs sets the Ubuntu archive and the archive of releases that have been moved out of it.
+func WithArchiveURLs(archiveURL, oldReleasesURL string) OSVOption {
+	return func(u *OSVUpdater) {
+		u.archiveURL = archiveURL
+		u.oldReleasesURL = oldReleasesURL
 	}
 }
 
@@ -116,8 +137,10 @@ func WithOSVDir(dir string) OSVOption {
 
 func NewOSVUpdater(opts ...OSVOption) OSVUpdater {
 	u := OSVUpdater{
-		url: osvURL,
-		dir: utils.VulnListDir(),
+		url:            osvURL,
+		archiveURL:     archiveURL,
+		oldReleasesURL: oldReleasesURL,
+		dir:            utils.VulnListDir(),
 	}
 	for _, opt := range opts {
 		opt(&u)
@@ -135,13 +158,18 @@ func (u OSVUpdater) Update() error {
 	}
 
 	log.Print("[Ubuntu OSV] Parsing the archive")
-	sources, err := parseOSVArchive(archive)
-	// The archive takes about 800 MB, so it is removed before writing the files
+	data, err := parseOSVArchive(archive)
+	// The archive takes about 800 MB, so it is removed before going further
 	if rerr := os.Remove(archive); rerr != nil {
 		log.Printf("[Ubuntu OSV] Failed to remove %s: %s", archive, rerr)
 	}
 	if err != nil {
 		return xerrors.Errorf("failed to parse %s: %w", u.url, err)
+	}
+
+	// OSV lists only the binaries that a fix touched, without -dev, -dbg and -doc packages
+	if err = u.addArchiveBinaries(ctx, data); err != nil {
+		return xerrors.Errorf("failed to add binaries from the Ubuntu archive: %w", err)
 	}
 
 	// Remove the existing directory to delete data that has been removed from the source
@@ -151,13 +179,19 @@ func (u OSVUpdater) Update() error {
 		return xerrors.Errorf("failed to remove %s directory: %w", dir, err)
 	}
 
-	log.Printf("[Ubuntu OSV] Writing %d files", len(sources))
-	for key, sb := range sources {
+	var written int
+	for key, sb := range data.sources {
+		// The source package has neither binaries in OSV nor an entry in the archive
+		if len(sb.binaries) == 0 {
+			continue
+		}
+		written++
 		filePath := filepath.Join(dir, key.release, fmt.Sprintf("%s.json", key.source))
 		if err = utils.Write(filePath, sb.build(key.source)); err != nil {
 			return xerrors.Errorf("failed to write %s: %w", filePath, err)
 		}
 	}
+	log.Printf("[Ubuntu OSV] Wrote %d files", written)
 	return nil
 }
 
@@ -193,28 +227,31 @@ func (u OSVUpdater) download(ctx context.Context) (string, error) {
 }
 
 // parseOSVArchive reads the OSV records of the archive one at a time.
-func parseOSVArchive(archive string) (map[releaseSource]*sourceBinaries, error) {
+func parseOSVArchive(archive string) (osvData, error) {
 	r, err := zip.OpenReader(archive)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to open the archive: %w", err)
+		return osvData{}, xerrors.Errorf("failed to open the archive: %w", err)
 	}
 	defer r.Close()
 
-	sources := make(map[releaseSource]*sourceBinaries)
+	data := osvData{
+		sources:   make(map[releaseSource]*sourceBinaries),
+		codenames: make(map[string]string),
+	}
 	for _, f := range r.File {
 		if f.FileInfo().IsDir() {
 			continue
 		}
 		rec, err := decodeOSVEntry(f)
 		if err != nil {
-			return nil, xerrors.Errorf("failed to decode %s: %w", f.Name, err)
+			return osvData{}, xerrors.Errorf("failed to decode %s: %w", f.Name, err)
 		}
 		if !strings.HasPrefix(rec.ID, cveIDPrefix) || rec.Withdrawn != "" {
 			continue
 		}
-		addOSVRecord(sources, rec)
+		data.addRecord(rec)
 	}
-	return sources, nil
+	return data, nil
 }
 
 func decodeOSVEntry(f *zip.File) (ubuntuOSV, error) {
@@ -237,7 +274,21 @@ func isKernelSource(name string) bool {
 	return name == "linux" || strings.HasPrefix(name, "linux-")
 }
 
-func addOSVRecord(sources map[releaseSource]*sourceBinaries, rec ubuntuOSV) {
+// purlDistro returns the distro qualifier of a purl,
+// e.g. "noble" for "pkg:deb/ubuntu/glibc@2.39-0ubuntu8.7?arch=source&distro=noble".
+func purlDistro(purl string) string {
+	_, qualifiers, ok := strings.Cut(purl, "?")
+	if !ok {
+		return ""
+	}
+	values, err := url.ParseQuery(qualifiers)
+	if err != nil {
+		return ""
+	}
+	return values.Get("distro")
+}
+
+func (d osvData) addRecord(rec ubuntuOSV) {
 	vulnID := strings.TrimPrefix(rec.ID, "UBUNTU-")
 
 	// A record may list the same source package in several affected entries,
@@ -255,6 +306,13 @@ func addOSVRecord(sources map[releaseSource]*sourceBinaries, rec ubuntuOSV) {
 		key := releaseSource{
 			release: m[1],
 			source:  a.Package.Name,
+		}
+		if codename := purlDistro(a.Package.Purl); codename != "" {
+			if prev, ok := d.codenames[key.release]; !ok {
+				d.codenames[key.release] = codename
+			} else if prev != codename {
+				log.Printf("[Ubuntu OSV] %s has codename %q for %s, %q is used", rec.ID, codename, key.release, prev)
+			}
 		}
 		g, ok := groups[key]
 		if !ok {
@@ -277,14 +335,10 @@ func addOSVRecord(sources map[releaseSource]*sourceBinaries, rec ubuntuOSV) {
 	}
 
 	for key, g := range groups {
-		// Skip affected entries without binaries, since there is nothing to map
-		if len(g.binaries) == 0 {
-			continue
-		}
-		sb, ok := sources[key]
+		sb, ok := d.sources[key]
 		if !ok {
 			sb = &sourceBinaries{binaries: make(map[string]struct{})}
-			sources[key] = sb
+			d.sources[key] = sb
 		}
 		for name := range g.binaries {
 			sb.binaries[name] = struct{}{}

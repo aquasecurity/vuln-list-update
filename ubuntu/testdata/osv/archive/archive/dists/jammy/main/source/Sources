@@ -1,0 +1,6 @@
+Package: zlib
+Format: 3.0 (quilt)
+Binary: zlib1g, zlib1g-dev
+Architecture: any
+Version: 1:1.2.11.dfsg-2ubuntu9
+Directory: pool/main/z/zlib

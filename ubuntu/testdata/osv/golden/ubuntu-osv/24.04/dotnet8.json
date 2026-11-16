@@ -2,10 +2,20 @@
   "Source": "dotnet8",
   "Binaries": [
     "aspnetcore-runtime-8.0",
+    "aspnetcore-runtime-dbg-8.0",
+    "aspnetcore-targeting-pack-8.0",
+    "dotnet-apphost-pack-8.0",
     "dotnet-host-8.0",
+    "dotnet-hostfxr-8.0",
     "dotnet-runtime-8.0",
+    "dotnet-runtime-dbg-8.0",
     "dotnet-sdk-8.0",
-    "dotnet8"
+    "dotnet-sdk-8.0-source-built-artifacts",
+    "dotnet-sdk-dbg-8.0",
+    "dotnet-targeting-pack-8.0",
+    "dotnet-templates-8.0",
+    "dotnet8",
+    "netstandard-targeting-pack-2.1-8.0"
   ],
   "BinaryFixedVersions": {
     "CVE-2026-21218": {
