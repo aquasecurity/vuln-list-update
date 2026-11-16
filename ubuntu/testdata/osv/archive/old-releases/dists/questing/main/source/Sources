@@ -1,0 +1,6 @@
+Package: glibc
+Format: 3.0 (quilt)
+Binary: libc-bin, libc6, libc6-dev
+Architecture: any all
+Version: 2.42-0ubuntu3
+Directory: pool/main/g/glibc

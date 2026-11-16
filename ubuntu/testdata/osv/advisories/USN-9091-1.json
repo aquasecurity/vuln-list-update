@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.9.2",
+  "id": "USN-9091-1",
+  "published": "2026-11-13T10:18:40Z",
+  "modified": "2026-11-13T21:13:43.994641330Z",
+  "summary": "linux-nvidia-tegra vulnerabilities",
+  "upstream": [
+    "CVE-2023-20585",
+    "CVE-2024-53056",
+    "CVE-2024-58095"
+  ],
+  "affected": [
+    {
+      "package": {
+        "name": "linux-nvidia-tegra",
+        "ecosystem": "Ubuntu:24.04:LTS",
+        "purl": "pkg:deb/ubuntu/linux-nvidia-tegra?arch=source&distro=noble"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.8.0-1039.40"
+            }
+          ]
+        }
+      ],
+      "ecosystem_specific": {
+        "availability": "No subscription required",
+        "binaries": [
+          {
+            "binary_name": "linux-headers-6.8.0-1039-nvidia-tegra",
+            "binary_version": "6.8.0-1039.40"
+          },
+          {
+            "binary_name": "linux-modules-6.8.0-1039-nvidia-tegra",
+            "binary_version": "6.8.0-1039.40"
+          }
+        ]
+      },
+      "database_specific": {
+        "source": "https://github.com/canonical/ubuntu-security-notices/blob/main/osv/usn/USN-9091-1.json"
+      }
+    }
+  ]
+}

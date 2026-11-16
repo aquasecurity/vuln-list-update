@@ -1,0 +1,14 @@
+Package: dotnet8
+Format: 3.0 (quilt)
+Binary: dotnet8, dotnet-host-8.0, dotnet-hostfxr-8.0, dotnet-runtime-8.0, aspnetcore-runtime-8.0, dotnet-templates-8.0, dotnet-sdk-8.0, dotnet-sdk-8.0-source-built-artifacts, dotnet-targeting-pack-8.0, netstandard-targeting-pack-2.1-8.0, aspnetcore-targeting-pack-8.0, dotnet-apphost-pack-8.0, aspnetcore-runtime-dbg-8.0, dotnet-runtime-dbg-8.0, dotnet-sdk-dbg-8.0
+Architecture: amd64 arm64 s390x ppc64el all
+Version: 8.0.134-8.0.34-0ubuntu1~24.04.1
+Directory: pool/main/d/dotnet8
+
+Package: glibc
+Format: 3.0 (quilt)
+Binary: libc-bin, libc-dev-bin, libc-devtools,
+ locales, libc6, libc6-dev
+Architecture: any all
+Version: 2.39-0ubuntu8.12
+Directory: pool/main/g/glibc

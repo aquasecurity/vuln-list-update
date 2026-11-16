@@ -1,0 +1,12 @@
+{
+  "Source": "glibc",
+  "Binaries": [
+    "libc-bin",
+    "libc-dev-bin",
+    "libc-devtools",
+    "libc6",
+    "libc6-dbg",
+    "libc6-dev",
+    "locales"
+  ]
+}

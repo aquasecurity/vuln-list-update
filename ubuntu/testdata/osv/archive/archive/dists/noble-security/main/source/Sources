@@ -1,0 +1,23 @@
+Package: openssl
+Binary: openssl, libssl3t64, libcrypto3-udeb, libssl3-udeb, libssl-dev, libssl-doc
+Version: 3.0.13-0ubuntu3.16
+Priority: required
+Section: utils
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Build-Depends: dpkg-dev (>= 1.22.5), debhelper-compat (= 13)
+Architecture: any all
+Standards-Version: 4.6.2
+Format: 3.0 (quilt)
+Directory: pool/main/o/openssl
+Files:
+ c15e53a62711002901d3515ac8b30b86 15294843 openssl_3.0.13.orig.tar.gz
+ 6dc3d59f4fc450f3d864c5df0973420e 223332 openssl_3.0.13-0ubuntu3.16.debian.tar.xz
+ 907d94da18695719c3b80ba5f59f3d46 2516 openssl_3.0.13-0ubuntu3.16.dsc
+Homepage: https://www.openssl.org/
+Package-List: libcrypto3-udeb udeb debian-installer optional arch=any profile=!noudeb
+ libssl-dev deb libdevel optional arch=any
+ libssl-doc deb doc optional arch=all
+ libssl3-udeb udeb debian-installer optional arch=any profile=!noudeb
+ libssl3t64 deb libs optional arch=any
+ openssl deb utils optional arch=any
+Original-Maintainer: Debian OpenSSL Team <pkg-openssl-devel@alioth-lists.debian.net>

@@ -1,0 +1,34 @@
+Package: glibc
+Format: 3.0 (quilt)
+Binary: libc-bin, libc-dev-bin, locales, libc6, libc6-dev, libc6-dbg
+Architecture: any all
+Version: 2.39-0ubuntu8
+Directory: pool/main/g/glibc
+Package-List:
+ libc-bin deb libs required arch=any essential=yes
+ libc-dev-bin deb libdevel optional arch=any
+ libc6 deb libs required arch=any
+ libc6-dbg deb debug optional arch=any
+ libc6-dev deb libdevel optional arch=any
+ locales deb localization standard arch=all
+
+Package: libxml2
+Format: 3.0 (quilt)
+Binary: libxml2, libxml2-utils, libxml2-dev, libxml2-doc, python3-libxml2
+Architecture: any all
+Version: 2.9.14+dfsg-1.3ubuntu3
+Directory: pool/main/libx/libxml2
+
+Package: linux
+Format: 1.0
+Binary: linux-source-6.8.0, linux-headers-6.8.0-31, linux-tools-common
+Architecture: all amd64 arm64 armhf ppc64el s390x
+Version: 6.8.0-31.31
+Directory: pool/main/l/linux
+
+Package: zlib
+Format: 3.0 (quilt)
+Binary: zlib1g, zlib1g-dev
+Architecture: any
+Version: 1:1.3.dfsg-3.1ubuntu2
+Directory: pool/main/z/zlib
