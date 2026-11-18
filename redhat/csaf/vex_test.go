@@ -41,8 +41,8 @@ func TestConfig_Update(t *testing.T) {
 		staleFiles  []string
 		maxFileSize int // 0 keeps the default
 		wantFiles   []string
-		// wantProductStatus lists the files that must keep product_status.
-		wantProductStatus []string
+		// wantFullVuln lists the files whose vulnerability keeps product_status, scores and flags.
+		wantFullVuln []string
 		// wantContent maps a file to a golden file with its expected content, decompressed for .json.gz.
 		wantContent map[string]string
 		wantErr     string
@@ -56,11 +56,11 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json", // from changes.csv
 				// cve-2024-0003.json deleted by deletions.csv
 			},
-			wantProductStatus: []string{"2024/cve-2024-0002.json"},
-			wantContent:       map[string]string{"2024/cve-2024-0002.json": "testdata/golden/cve-2024-0002.json"},
+			wantFullVuln: []string{"2024/cve-2024-0002.json"},
+			wantContent:  map[string]string{"2024/cve-2024-0002.json": "testdata/golden/cve-2024-0002.json"},
 		},
 		{
-			// cve-2024-0002 is 3230 bytes indented.
+			// cve-2024-0002 is 3530 bytes indented.
 			name:        "oversized document is gzip-compressed",
 			archiveFile: "testdata/archive.txtar",
 			serverFile:  "testdata/first_run.txtar",
@@ -69,7 +69,7 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0001.json",
 				"2024/cve-2024-0002.json.gz",
 			},
-			wantProductStatus: []string{"2024/cve-2024-0002.json.gz"},
+			wantFullVuln: []string{"2024/cve-2024-0002.json.gz"},
 			// The compressed document is identical to the one written uncompressed.
 			wantContent: map[string]string{"2024/cve-2024-0002.json.gz": "testdata/golden/cve-2024-0002.json"},
 		},
@@ -84,7 +84,7 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json.gz",
 				"2024/cve-2024-9999.json",
 			},
-			wantProductStatus: []string{"2024/cve-2024-0002.json.gz"},
+			wantFullVuln: []string{"2024/cve-2024-0002.json.gz"},
 		},
 		{
 			name:         "small document replaces stale .json.gz",
@@ -96,7 +96,7 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json",
 				"2024/cve-2024-9999.json",
 			},
-			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+			wantFullVuln: []string{"2024/cve-2024-0002.json"},
 		},
 		{
 			// A document exactly at the limit still fits and is written uncompressed.
@@ -104,13 +104,13 @@ func TestConfig_Update(t *testing.T) {
 			serverFile:   "testdata/first_run.txtar",
 			existingFile: "testdata/existing.txtar",
 			staleFiles:   []string{"2024/cve-2024-0002.json.gz"},
-			maxFileSize:  3230,
+			maxFileSize:  3530,
 			wantFiles: []string{
 				"2024/cve-2024-0001.json",
 				"2024/cve-2024-0002.json",
 				"2024/cve-2024-9999.json",
 			},
-			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+			wantFullVuln: []string{"2024/cve-2024-0002.json"},
 		},
 		{
 			name:         "document too large even gzip-compressed",
@@ -245,15 +245,13 @@ func TestConfig_Update(t *testing.T) {
 					assert.Equal(t, string(want), string(b), relPath)
 				}
 
-				// Fields nothing reads downstream are dropped to keep files under GitHub's size limit.
-				for _, dropped := range []string{`"scores"`, `"flags"`} {
-					assert.NotContains(t, string(b), dropped, relPath)
-				}
-				// product_status is kept, also in gzip-compressed documents.
-				if slices.Contains(tt.wantProductStatus, relPath) {
-					assert.Contains(t, string(b), `"product_status"`, relPath)
-				} else {
-					assert.NotContains(t, string(b), `"product_status"`, relPath)
+				// Documents are stored whole, also when gzip-compressed.
+				for _, field := range []string{`"product_status"`, `"scores"`, `"flags"`} {
+					if slices.Contains(tt.wantFullVuln, relPath) {
+						assert.Contains(t, string(b), field, relPath)
+					} else {
+						assert.NotContains(t, string(b), field, relPath)
+					}
 				}
 				// Documents are always written indented, also when gzip-compressed.
 				assert.Contains(t, string(b), "\n  ", relPath)

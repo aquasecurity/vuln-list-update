@@ -193,7 +193,7 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 	return out.Name(), archiveDate, nil
 }
 
-// loadAdvisory loads an advisory from a file and trims it down before it is saved.
+// loadAdvisory loads and validates an advisory.
 func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	var advisory csaf.Advisory
 	if err := json.NewDecoder(r).Decode(&advisory); err != nil {
@@ -202,25 +202,11 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	if err := advisory.Validate(); err != nil {
 		return nil, xerrors.Errorf("invalid advisory: %w", err)
 	}
-	trimAdvisory(&advisory)
 	return &advisory, nil
 }
 
-// trimAdvisory drops scores and flags, which nothing downstream reads, to keep the largest
-// documents under GitHub's 100 MiB file limit.
-// TODO: Remove this once the data can be stored losslessly.
-func trimAdvisory(advisory *csaf.Advisory) {
-	for _, vuln := range advisory.Vulnerabilities {
-		if vuln == nil {
-			continue
-		}
-		vuln.Scores = nil
-		vuln.Flags = nil
-	}
-}
-
 // saveAdvisory writes an advisory to <year>/<cve-id>.json, indented.
-// A document whose indented JSON exceeds maxFileSize is written gzip-compressed to <year>/<cve-id>.json.gz instead, so it fits under GitHub's per-file limit without dropping product_status.
+// A document whose indented JSON exceeds maxFileSize is written gzip-compressed to <year>/<cve-id>.json.gz instead, so it is stored losslessly under GitHub's per-file limit.
 // Only one of the two files exists per CVE: writing one removes the other.
 // If even the compressed document exceeds maxFileSize, an error is returned and the files on disk are left untouched.
 func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory) error {
