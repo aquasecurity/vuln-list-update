@@ -3,10 +3,12 @@ package csaf
 import (
 	"archive/tar"
 	"bytes"
+	"compress/gzip"
 	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"io"
+	"io/fs"
 	"log"
 	"net/url"
 	"os"
@@ -35,6 +37,7 @@ const (
 	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
 
 	// maxFileSize keeps a saved document under GitHub's 100 MiB per-file limit, with headroom.
+	// A document whose indented JSON exceeds it is written gzip-compressed instead.
 	maxFileSize = 95 << 20
 )
 
@@ -145,7 +148,7 @@ func (c *Config) extractArchive(archivePath string) error {
 
 		fileName := filepath.Base(hdr.Name)
 		cveID := strings.TrimSuffix(fileName, filepath.Ext(fileName))
-		if err = c.saveAdvisory(cveID, advisory, int(hdr.Size)); err != nil {
+		if err = c.saveAdvisory(cveID, advisory); err != nil {
 			return xerrors.Errorf("failed to save advisory: %w", err)
 		}
 	}
@@ -190,7 +193,7 @@ func (c *Config) fetchVEXArchive() (string, time.Time, error) {
 	return out.Name(), archiveDate, nil
 }
 
-// loadAdvisory loads an advisory from a file and trims it down before it is saved.
+// loadAdvisory loads and validates an advisory.
 func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	var advisory csaf.Advisory
 	if err := json.NewDecoder(r).Decode(&advisory); err != nil {
@@ -199,63 +202,71 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 	if err := advisory.Validate(); err != nil {
 		return nil, xerrors.Errorf("invalid advisory: %w", err)
 	}
-	trimAdvisory(&advisory)
 	return &advisory, nil
 }
 
-// trimAdvisory drops scores and flags, which nothing downstream reads, to keep the largest
-// documents under GitHub's 100 MiB file limit.
-// TODO: Remove this once the data can be stored losslessly.
-func trimAdvisory(advisory *csaf.Advisory) {
-	for _, vuln := range advisory.Vulnerabilities {
-		if vuln == nil {
-			continue
-		}
-		vuln.Scores = nil
-		vuln.Flags = nil
-	}
-}
-
-// saveAdvisory writes an advisory whose source is size bytes. A document over maxFileSize is
-// written minified, and only if that is still too large is product_status dropped.
-func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory, size int) error {
-	// A saved document is about as large as its source, so only large ones need measuring.
-	if size <= c.maxFileSize/2 {
-		return utils.SaveCVEPerYear(c.baseDir, cveID, advisory)
-	}
-
+// saveAdvisory writes an advisory to <year>/<cve-id>.json, indented.
+// A document whose indented JSON exceeds maxFileSize is written gzip-compressed to <year>/<cve-id>.json.gz instead, so it is stored losslessly under GitHub's per-file limit.
+// Only one of the two files exists per CVE: writing one removes the other.
+// If even the compressed document exceeds maxFileSize, an error is returned and the files on disk are left untouched.
+func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
 		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
 	}
+	yearDir := filepath.Join(c.baseDir, s[1])
+	filePath := filepath.Join(yearDir, cveID+".json")
+	stalePath := filePath + ".gz"
+
 	b, err := json.MarshalIndent(advisory, "", "  ")
 	if err != nil {
 		return xerrors.Errorf("json marshal error: %w", err)
 	}
+
 	if len(b) > c.maxFileSize {
-		log.Printf("  %s is %d bytes indented, over the %d byte limit: writing it minified", cveID, len(b), c.maxFileSize)
-		if b, err = json.Marshal(advisory); err != nil {
-			return xerrors.Errorf("json marshal error: %w", err)
+		gz, err := gzipBytes(b)
+		if err != nil {
+			return xerrors.Errorf("failed to compress %s: %w", cveID, err)
 		}
-	}
-	if len(b) > c.maxFileSize {
-		log.Printf("  %s is %d bytes minified, over the %d byte limit: dropping product_status", cveID, len(b), c.maxFileSize)
-		for _, vuln := range advisory.Vulnerabilities {
-			if vuln != nil {
-				vuln.ProductStatus = nil
-			}
+		if len(gz) > c.maxFileSize {
+			return xerrors.Errorf("%s is too large even gzip-compressed: %d bytes (%d bytes uncompressed), over the %d byte limit",
+				cveID, len(gz), len(b), c.maxFileSize)
 		}
-		if b, err = json.Marshal(advisory); err != nil {
-			return xerrors.Errorf("json marshal error: %w", err)
-		}
+		log.Printf("  %s is %d bytes, over the %d byte limit: writing it gzip-compressed (%d bytes)",
+			cveID, len(b), c.maxFileSize, len(gz))
+		b = gz
+		filePath, stalePath = stalePath, filePath
 	}
 
-	yearDir := filepath.Join(c.baseDir, s[1])
 	if err = os.MkdirAll(yearDir, os.ModePerm); err != nil {
 		return xerrors.Errorf("failed to create %s: %w", yearDir, err)
 	}
-	if err = os.WriteFile(filepath.Join(yearDir, cveID+".json"), b, 0o644); err != nil {
+	if err = os.WriteFile(filePath, b, 0o644); err != nil {
 		return xerrors.Errorf("file write error: %w", err)
+	}
+	// Remove the other representation in both directions, since a document can also shrink back under the limit.
+	// It is removed only after the write succeeds, so at least one file always exists for the CVE.
+	return removeIfExists(stalePath)
+}
+
+// gzipBytes compresses b with gzip.
+// The header carries no name or modification time, so the same input yields the same output for a given Go version.
+func gzipBytes(b []byte) ([]byte, error) {
+	var buf bytes.Buffer
+	zw := gzip.NewWriter(&buf)
+	if _, err := zw.Write(b); err != nil {
+		return nil, xerrors.Errorf("gzip write error: %w", err)
+	}
+	if err := zw.Close(); err != nil {
+		return nil, xerrors.Errorf("gzip close error: %w", err)
+	}
+	return buf.Bytes(), nil
+}
+
+// removeIfExists removes path, ignoring a missing file.
+func removeIfExists(path string) error {
+	if err := os.Remove(path); err != nil && !errors.Is(err, fs.ErrNotExist) {
+		return xerrors.Errorf("failed to remove %s: %w", path, err)
 	}
 	return nil
 }
@@ -311,11 +322,13 @@ func (c *Config) applyDeletions(since time.Time) error {
 	log.Printf("Found %d deleted CVEs since %s", len(entries), since.Format(time.RFC3339))
 
 	for _, entry := range entries {
-		// path is like "2025/cve-2025-22868.json"
+		// path is like "2025/cve-2025-22868.json".
+		// The document may be stored as either <cve-id>.json or <cve-id>.json.gz (see saveAdvisory), so remove both.
 		filePath := filepath.Join(c.baseDir, entry.Path)
-
-		if err := os.Remove(filePath); err != nil && !os.IsNotExist(err) {
-			return xerrors.Errorf("failed to remove %s: %w", filePath, err)
+		for _, p := range []string{filePath, filePath + ".gz"} {
+			if err := removeIfExists(p); err != nil {
+				return err
+			}
 		}
 	}
 
@@ -352,7 +365,7 @@ func (c *Config) fetchAndSaveCVE(path string) error {
 	fileName := filepath.Base(path)
 	cveID := strings.TrimSuffix(fileName, filepath.Ext(fileName))
 
-	if err = c.saveAdvisory(cveID, advisory, len(b)); err != nil {
+	if err = c.saveAdvisory(cveID, advisory); err != nil {
 		return xerrors.Errorf("failed to save advisory: %w", err)
 	}
 
