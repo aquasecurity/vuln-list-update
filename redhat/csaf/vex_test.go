@@ -2,6 +2,10 @@ package csaf_test
 
 import (
 	"archive/tar"
+	"bytes"
+	"compress/gzip"
+	"encoding/json"
+	"io"
 	"io/fs"
 	"net/http"
 	"net/http/httptest"
@@ -32,13 +36,16 @@ func TestConfig_Update(t *testing.T) {
 		archiveFile  string // txtar for archive content
 		serverFile   string // txtar for files served by the test server
 		existingFile string // txtar for existing local data, includes cve-2024-9999.json to verify archive skip
-		maxFileSize  int    // 0 keeps the default
-		wantFiles    []string
+		// staleFiles are created in the base dir with the content "stale" before the update, simulating a representation of a CVE left behind by an earlier run.
+		// A path nested under a file name, such as "x.json.gz/stale", turns that name into a non-empty directory that cannot be removed.
+		staleFiles  []string
+		maxFileSize int // 0 keeps the default
+		wantFiles   []string
 		// wantProductStatus lists the files that must keep product_status.
 		wantProductStatus []string
-		// wantMinified lists the files written as a single line.
-		wantMinified []string
-		wantErr      string
+		// wantContent maps a file to a golden file with its expected content, decompressed for .json.gz.
+		wantContent map[string]string
+		wantErr     string
 	}{
 		{
 			name:        "first run",
@@ -50,30 +57,67 @@ func TestConfig_Update(t *testing.T) {
 				// cve-2024-0003.json deleted by deletions.csv
 			},
 			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+			wantContent:       map[string]string{"2024/cve-2024-0002.json": "testdata/golden/cve-2024-0002.json"},
 		},
 		{
-			// cve-2024-0002 is 3230 bytes indented and 2151 bytes minified.
-			name:        "oversized document is minified",
+			// cve-2024-0002 is 3230 bytes indented.
+			name:        "oversized document is gzip-compressed",
 			archiveFile: "testdata/archive.txtar",
 			serverFile:  "testdata/first_run.txtar",
 			maxFileSize: 3000,
 			wantFiles: []string{
 				"2024/cve-2024-0001.json",
-				"2024/cve-2024-0002.json",
+				"2024/cve-2024-0002.json.gz",
 			},
-			wantProductStatus: []string{"2024/cve-2024-0002.json"},
-			wantMinified:      []string{"2024/cve-2024-0002.json"},
+			wantProductStatus: []string{"2024/cve-2024-0002.json.gz"},
+			// The compressed document is identical to the one written uncompressed.
+			wantContent: map[string]string{"2024/cve-2024-0002.json.gz": "testdata/golden/cve-2024-0002.json"},
 		},
 		{
-			name:        "document too large even minified drops product_status",
-			archiveFile: "testdata/archive.txtar",
-			serverFile:  "testdata/first_run.txtar",
-			maxFileSize: 1,
+			name:         "oversized document replaces stale .json",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0002.json"},
+			maxFileSize:  3000,
+			wantFiles: []string{
+				"2024/cve-2024-0001.json",
+				"2024/cve-2024-0002.json.gz",
+				"2024/cve-2024-9999.json",
+			},
+			wantProductStatus: []string{"2024/cve-2024-0002.json.gz"},
+		},
+		{
+			name:         "small document replaces stale .json.gz",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0002.json.gz"},
 			wantFiles: []string{
 				"2024/cve-2024-0001.json",
 				"2024/cve-2024-0002.json",
+				"2024/cve-2024-9999.json",
 			},
-			wantMinified: []string{"2024/cve-2024-0001.json", "2024/cve-2024-0002.json"},
+			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+		},
+		{
+			// A document exactly at the limit still fits and is written uncompressed.
+			name:         "document at the limit replaces stale .json.gz",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0002.json.gz"},
+			maxFileSize:  3230,
+			wantFiles: []string{
+				"2024/cve-2024-0001.json",
+				"2024/cve-2024-0002.json",
+				"2024/cve-2024-9999.json",
+			},
+			wantProductStatus: []string{"2024/cve-2024-0002.json"},
+		},
+		{
+			name:         "document too large even gzip-compressed",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			maxFileSize:  1,
+			wantErr:      "too large even gzip-compressed",
 		},
 		{
 			name:         "delta update - changes only",
@@ -89,9 +133,24 @@ func TestConfig_Update(t *testing.T) {
 			name:         "delta update - deletions only",
 			serverFile:   "testdata/delta_deletions.txtar",
 			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0001.json.gz"}, // removed along with cve-2024-0001.json
 			wantFiles: []string{
 				"2024/cve-2024-9999.json", // proves archive download was skipped
 			},
+		},
+		{
+			name:         "stale representation cannot be removed",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0002.json.gz/stale"},
+			wantErr:      "failed to remove",
+		},
+		{
+			name:         "deleted document cannot be removed",
+			serverFile:   "testdata/delta_deletions.txtar",
+			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0001.json.gz/stale"},
+			wantErr:      "failed to apply deletions: failed to remove",
 		},
 		{
 			name:    "404",
@@ -137,6 +196,11 @@ func TestConfig_Update(t *testing.T) {
 				err := utils.SetLastUpdatedDate("csaf-vex", time.Date(2025, 12, 5, 0, 0, 0, 0, time.UTC))
 				require.NoError(t, err)
 			}
+			for _, f := range tt.staleFiles {
+				p := filepath.Join(baseDir, f)
+				require.NoError(t, os.MkdirAll(filepath.Dir(p), 0o755))
+				require.NoError(t, os.WriteFile(p, []byte("stale"), 0o644))
+			}
 
 			opts := []csaf.Option{csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
 				csaf.WithRetry(0)}
@@ -163,19 +227,36 @@ func TestConfig_Update(t *testing.T) {
 				require.True(t, slices.Contains(tt.wantFiles, relPath), relPath)
 				gotFiles = append(gotFiles, relPath)
 
-				// Fields nothing reads downstream are dropped to keep files under GitHub's size limit.
 				b, err := os.ReadFile(path)
 				require.NoError(t, err)
+				if strings.HasSuffix(relPath, ".gz") {
+					zr, err := gzip.NewReader(bytes.NewReader(b))
+					require.NoError(t, err, relPath)
+					// The header carries no name or modification time, so unchanged documents produce no diff.
+					assert.Empty(t, zr.Name, relPath)
+					assert.True(t, zr.ModTime.IsZero(), relPath)
+					b, err = io.ReadAll(zr)
+					require.NoError(t, err, relPath)
+				}
+				assert.True(t, json.Valid(b), relPath)
+				if golden, ok := tt.wantContent[relPath]; ok {
+					want, err := os.ReadFile(golden)
+					require.NoError(t, err)
+					assert.Equal(t, string(want), string(b), relPath)
+				}
+
+				// Fields nothing reads downstream are dropped to keep files under GitHub's size limit.
 				for _, dropped := range []string{`"scores"`, `"flags"`} {
 					assert.NotContains(t, string(b), dropped, relPath)
 				}
-				// product_status is kept unless the document is too large.
+				// product_status is kept, also in gzip-compressed documents.
 				if slices.Contains(tt.wantProductStatus, relPath) {
 					assert.Contains(t, string(b), `"product_status"`, relPath)
 				} else {
 					assert.NotContains(t, string(b), `"product_status"`, relPath)
 				}
-				assert.Equal(t, slices.Contains(tt.wantMinified, relPath), !strings.Contains(string(b), "\n"), relPath)
+				// Documents are always written indented, also when gzip-compressed.
+				assert.Contains(t, string(b), "\n  ", relPath)
 				return nil
 			})
 			require.NoError(t, err)
