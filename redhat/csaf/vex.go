@@ -3,10 +3,10 @@ package csaf
 import (
 	"archive/tar"
 	"bytes"
-	"compress/gzip"
 	"encoding/csv"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/fs"
 	"log"
@@ -36,8 +36,8 @@ const (
 	baseURL    = "https://security.access.redhat.com/data/csaf/v2/vex/"
 	timeBuffer = 6 * time.Hour // Buffer to handle delayed CSV updates
 
-	// maxFileSize keeps a saved document under GitHub's 100 MiB per-file limit, with headroom.
-	// A document whose indented JSON exceeds it is written gzip-compressed instead.
+	// maxFileSize keeps a saved file under GitHub's 100 MiB per-file limit, with headroom.
+	// A document whose indented JSON exceeds it is split into several files instead.
 	maxFileSize = 95 << 20
 )
 
@@ -206,9 +206,9 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 }
 
 // saveAdvisory writes an advisory to <year>/<cve-id>.json, indented.
-// A document whose indented JSON exceeds maxFileSize is written gzip-compressed to <year>/<cve-id>.json.gz instead, so it is stored losslessly under GitHub's per-file limit.
-// Only one of the two files exists per CVE: writing one removes the other.
-// If even the compressed document exceeds maxFileSize, an error is returned and the files on disk are left untouched.
+// A document whose indented JSON exceeds maxFileSize is split into the <year>/<cve-id>/ directory instead (see splitAdvisory), so it is stored losslessly under GitHub's per-file limit.
+// Only one of the two representations exists per CVE: writing one removes the other.
+// If the document cannot be split into files that fit in maxFileSize, an error is returned and the files on disk are left untouched.
 func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory) error {
 	s := strings.Split(cveID, "-")
 	if len(s) != 3 {
@@ -216,51 +216,177 @@ func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory) error {
 	}
 	yearDir := filepath.Join(c.baseDir, s[1])
 	filePath := filepath.Join(yearDir, cveID+".json")
-	stalePath := filePath + ".gz"
+	splitDir := filepath.Join(yearDir, cveID)
 
 	b, err := json.MarshalIndent(advisory, "", "  ")
 	if err != nil {
 		return xerrors.Errorf("json marshal error: %w", err)
 	}
 
+	// All files are built before anything on disk is changed, so a document that cannot be split leaves the files on disk untouched.
+	files := []splitFile{{path: filePath, data: b}}
 	if len(b) > c.maxFileSize {
-		gz, err := gzipBytes(b)
+		parts, err := c.splitAdvisory(advisory)
 		if err != nil {
-			return xerrors.Errorf("failed to compress %s: %w", cveID, err)
+			return xerrors.Errorf("failed to split %s (%d bytes, over the %d byte limit): %w", cveID, len(b), c.maxFileSize, err)
 		}
-		if len(gz) > c.maxFileSize {
-			return xerrors.Errorf("%s is too large even gzip-compressed: %d bytes (%d bytes uncompressed), over the %d byte limit",
-				cveID, len(gz), len(b), c.maxFileSize)
-		}
-		log.Printf("  %s is %d bytes, over the %d byte limit: writing it gzip-compressed (%d bytes)",
-			cveID, len(b), c.maxFileSize, len(gz))
-		b = gz
-		filePath, stalePath = stalePath, filePath
+		log.Printf("  %s is %d bytes, over the %d byte limit: splitting it into %d files", cveID, len(b), c.maxFileSize, len(parts))
+		files = lo.Map(parts, func(f splitFile, _ int) splitFile {
+			return splitFile{path: filepath.Join(splitDir, f.path), data: f.data}
+		})
 	}
 
-	if err = os.MkdirAll(yearDir, os.ModePerm); err != nil {
-		return xerrors.Errorf("failed to create %s: %w", yearDir, err)
+	// Both representations are removed first: a document can move between them in either direction, and the split directory may hold parts of an earlier, larger split.
+	if err = removeIfExists(filePath); err != nil {
+		return err
 	}
-	if err = os.WriteFile(filePath, b, 0o644); err != nil {
-		return xerrors.Errorf("file write error: %w", err)
+	if err = os.RemoveAll(splitDir); err != nil {
+		return xerrors.Errorf("failed to remove %s: %w", splitDir, err)
 	}
-	// Remove the other representation in both directions, since a document can also shrink back under the limit.
-	// It is removed only after the write succeeds, so at least one file always exists for the CVE.
-	return removeIfExists(stalePath)
+
+	for _, f := range files {
+		dir := filepath.Dir(f.path)
+		if err = os.MkdirAll(dir, os.ModePerm); err != nil {
+			return xerrors.Errorf("failed to create %s: %w", dir, err)
+		}
+		if err = os.WriteFile(f.path, f.data, 0o644); err != nil {
+			return xerrors.Errorf("file write error: %w", err)
+		}
+	}
+	return nil
 }
 
-// gzipBytes compresses b with gzip.
-// The header carries no name or modification time, so the same input yields the same output for a given Go version.
-func gzipBytes(b []byte) ([]byte, error) {
-	var buf bytes.Buffer
-	zw := gzip.NewWriter(&buf)
-	if _, err := zw.Write(b); err != nil {
-		return nil, xerrors.Errorf("gzip write error: %w", err)
+// splitFile is a file to write.
+// splitAdvisory returns paths relative to the split directory.
+type splitFile struct {
+	path string
+	data []byte
+}
+
+// splitAdvisory splits an advisory into files that each fit in maxFileSize:
+//   - document.json holds the advisory without product_tree.branches and product_tree.relationships;
+//   - branches-NNNN.json hold product_tree.branches, split by splitArray and splitBranch;
+//   - relationships-NNNN.json hold product_tree.relationships, split by splitArray.
+//
+// Reading the files back means concatenating the arrays from the numbered files in order, and merging adjacent branches with the same category and name.
+func (c *Config) splitAdvisory(advisory *csaf.Advisory) ([]splitFile, error) {
+	doc := *advisory
+	var branches csaf.Branches
+	var relationships csaf.Relationships
+	if pt := advisory.ProductTree; pt != nil {
+		branches = pt.Branches
+		relationships = lo.FromPtr(pt.RelationShips)
+		rest := *pt
+		rest.Branches = nil
+		rest.RelationShips = nil
+		doc.ProductTree = &rest
 	}
-	if err := zw.Close(); err != nil {
-		return nil, xerrors.Errorf("gzip close error: %w", err)
+
+	// Relationships are a flat list, so only the list itself can be halved.
+	// splitArray calls splitItem only for a single relationship that exceeds the limit on its own, which has no smaller parts, so it always fails, naming the relationship.
+	relationshipParts, err := splitArray(relationships, c.maxFileSize, func(r *csaf.Relationship) (csaf.Relationships, error) {
+		var id csaf.ProductID
+		if r != nil && r.FullProductName != nil {
+			id = lo.FromPtr(r.FullProductName.ProductID)
+		}
+		return nil, xerrors.Errorf("relationship %q cannot be split", id)
+	})
+	if err != nil {
+		return nil, xerrors.Errorf("failed to split relationships: %w", err)
 	}
-	return buf.Bytes(), nil
+
+	branchParts, err := splitArray(branches, c.maxFileSize, splitBranch)
+	if err != nil {
+		return nil, xerrors.Errorf("failed to split branches: %w", err)
+	}
+
+	b, err := json.MarshalIndent(doc, "", "  ")
+	if err != nil {
+		return nil, xerrors.Errorf("json marshal error: %w", err)
+	}
+	if len(b) > c.maxFileSize {
+		return nil, xerrors.Errorf("document.json is %d bytes, over the %d byte limit", len(b), c.maxFileSize)
+	}
+
+	files := []splitFile{{path: "document.json", data: b}}
+	files = append(files, numberedFiles("branches", branchParts)...)
+	files = append(files, numberedFiles("relationships", relationshipParts)...)
+	return files, nil
+}
+
+// splitArray marshals items as an indented JSON array and, while it exceeds maxSize, halves it recursively.
+// A single item that exceeds maxSize on its own is replaced with the pieces returned by splitItem, which returns an error if the item cannot be split.
+// The returned arrays hold the items in their original order.
+func splitArray[S ~[]E, E any](items S, maxSize int, splitItem func(E) (S, error)) ([][]byte, error) {
+	if len(items) == 0 {
+		return nil, nil
+	}
+	b, err := json.MarshalIndent(items, "", "  ")
+	if err != nil {
+		return nil, xerrors.Errorf("json marshal error: %w", err)
+	}
+	if len(b) <= maxSize {
+		return [][]byte{b}, nil
+	}
+
+	if len(items) == 1 {
+		pieces, err := splitItem(items[0])
+		if err != nil {
+			return nil, xerrors.Errorf("a single item is %d bytes, over the %d byte limit: %w", len(b), maxSize, err)
+		}
+		return splitArray(pieces, maxSize, splitItem)
+	}
+
+	mid := len(items) / 2
+	left, err := splitArray(items[:mid], maxSize, splitItem)
+	if err != nil {
+		return nil, err
+	}
+	right, err := splitArray(items[mid:], maxSize, splitItem)
+	if err != nil {
+		return nil, err
+	}
+	return append(left, right...), nil
+}
+
+// splitBranch splits a branch into smaller branches with the same category, name and product, each holding a part of its child branches.
+// A branch with a single child branch is split into copies holding the pieces of that child.
+// A branch without child branches cannot be split, and an error is returned for it.
+func splitBranch(b *csaf.Branch) (csaf.Branches, error) {
+	if b == nil {
+		return nil, xerrors.New("null branch cannot be split")
+	}
+	wrap := func(children csaf.Branches) *csaf.Branch {
+		return &csaf.Branch{
+			Category: b.Category,
+			Name:     b.Name,
+			Product:  b.Product,
+			Branches: children,
+		}
+	}
+
+	switch len(b.Branches) {
+	case 0:
+		return nil, xerrors.Errorf("%s branch %q has no child branches to split", lo.FromPtr(b.Category), lo.FromPtr(b.Name))
+	case 1:
+		pieces, err := splitBranch(b.Branches[0])
+		if err != nil {
+			return nil, err
+		}
+		return lo.Map(pieces, func(p *csaf.Branch, _ int) *csaf.Branch {
+			return wrap(csaf.Branches{p})
+		}), nil
+	default:
+		mid := len(b.Branches) / 2
+		return csaf.Branches{wrap(b.Branches[:mid]), wrap(b.Branches[mid:])}, nil
+	}
+}
+
+// numberedFiles names parts as <prefix>-0001.json, <prefix>-0002.json, and so on.
+func numberedFiles(prefix string, parts [][]byte) []splitFile {
+	return lo.Map(parts, func(data []byte, i int) splitFile {
+		return splitFile{path: fmt.Sprintf("%s-%04d.json", prefix, i+1), data: data}
+	})
 }
 
 // removeIfExists removes path, ignoring a missing file.
@@ -323,12 +449,14 @@ func (c *Config) applyDeletions(since time.Time) error {
 
 	for _, entry := range entries {
 		// path is like "2025/cve-2025-22868.json".
-		// The document may be stored as either <cve-id>.json or <cve-id>.json.gz (see saveAdvisory), so remove both.
+		// The document may be stored as either <cve-id>.json or the <cve-id>/ directory (see saveAdvisory), so remove both.
 		filePath := filepath.Join(c.baseDir, entry.Path)
-		for _, p := range []string{filePath, filePath + ".gz"} {
-			if err := removeIfExists(p); err != nil {
-				return err
-			}
+		if err := removeIfExists(filePath); err != nil {
+			return err
+		}
+		splitDir := strings.TrimSuffix(filePath, filepath.Ext(filePath))
+		if err := os.RemoveAll(splitDir); err != nil {
+			return xerrors.Errorf("failed to remove %s: %w", splitDir, err)
 		}
 	}
 
