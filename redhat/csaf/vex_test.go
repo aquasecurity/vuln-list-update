@@ -109,6 +109,7 @@ func TestConfig_Update(t *testing.T) {
 			name:         "document cannot be split",
 			serverFile:   "testdata/first_run.txtar",
 			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0002.json"}, // left untouched
 			maxFileSize:  1,
 			wantErr:      "failed to split cve-2024-0002",
 		},
@@ -144,6 +145,12 @@ func TestConfig_Update(t *testing.T) {
 			existingFile: "testdata/existing.txtar",
 			staleFiles:   []string{"2024/cve-2024-0001.json/stale"},
 			wantErr:      "failed to apply deletions: failed to remove",
+		},
+		{
+			name:         "invalid path in deletions.csv",
+			serverFile:   "testdata/delta_deletions_invalid.txtar",
+			existingFile: "testdata/existing.txtar",
+			wantErr:      `failed to apply deletions: invalid path in deletions.csv: "2024/../cve-2024-0001.json"`,
 		},
 		{
 			name:    "404",
@@ -209,6 +216,12 @@ func TestConfig_Update(t *testing.T) {
 			err := c.Update()
 			if tt.wantErr != "" {
 				assert.ErrorContains(t, err, tt.wantErr)
+				// Stale files are left untouched on error.
+				for _, f := range tt.staleFiles {
+					b, err := os.ReadFile(filepath.Join(baseDir, f))
+					require.NoError(t, err, f)
+					assert.Equal(t, "stale", string(b), f)
+				}
 				return
 			}
 			require.NoError(t, err, tt.name)
@@ -284,6 +297,20 @@ func TestConfig_SplitAdvisory(t *testing.T) {
 			prepare:     func(a *gocsaf.Advisory) { a.ProductTree.RelationShips = nil },
 			maxFileSize: 5000,
 			wantDir:     "testdata/split/no-relationships",
+		},
+		{
+			// The vendor branch has a single child branch, so the split goes down to its children and wraps each half in copies of both branches.
+			name: "branch with a single child branch",
+			prepare: func(a *gocsaf.Advisory) {
+				vendor := a.ProductTree.Branches[0]
+				vendor.Branches = gocsaf.Branches{{
+					Category: lo.ToPtr(gocsaf.CSAFBranchCategoryProductFamily),
+					Name:     lo.ToPtr("Red Hat Enterprise Linux"),
+					Branches: vendor.Branches,
+				}}
+			},
+			maxFileSize: 5000,
+			wantDir:     "testdata/split/single-child",
 		},
 		{
 			name:        "relationship too large to split",

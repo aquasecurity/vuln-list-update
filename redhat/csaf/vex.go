@@ -268,7 +268,7 @@ type splitFile struct {
 //   - branches-NNNN.json hold product_tree.branches, split by splitArray and splitBranch;
 //   - relationships-NNNN.json hold product_tree.relationships, split by splitArray.
 //
-// Reading the files back means concatenating the arrays from the numbered files in order, and merging adjacent branches with the same category and name.
+// Reading the files back means concatenating the arrays from the numbered files in order and recursively merging adjacent branches with the same category and name.
 func (c *Config) splitAdvisory(advisory *csaf.Advisory) ([]splitFile, error) {
 	doc := *advisory
 	var branches csaf.Branches
@@ -449,6 +449,10 @@ func (c *Config) applyDeletions(since time.Time) error {
 
 	for _, entry := range entries {
 		// path is like "2025/cve-2025-22868.json".
+		// It is validated before anything is removed, since the <cve-id>/ directory is removed recursively.
+		if !deletionPathRegex.MatchString(entry.Path) {
+			return xerrors.Errorf("invalid path in deletions.csv: %q", entry.Path)
+		}
 		// The document may be stored as either <cve-id>.json or the <cve-id>/ directory (see saveAdvisory), so remove both.
 		filePath := filepath.Join(c.baseDir, entry.Path)
 		if err := removeIfExists(filePath); err != nil {
@@ -499,6 +503,9 @@ func (c *Config) fetchAndSaveCVE(path string) error {
 
 	return nil
 }
+
+// deletionPathRegex matches paths in deletions.csv like "2025/cve-2025-22868.json".
+var deletionPathRegex = regexp.MustCompile(`^\d{4}/cve-\d{4}-\d{4,}\.json$`)
 
 // archiveDateRegex matches archive filenames like "csaf_vex_2025-12-06.tar.zst"
 var archiveDateRegex = regexp.MustCompile(`csaf_vex_(\d{4}-\d{2}-\d{2})\.tar\.zst`)
