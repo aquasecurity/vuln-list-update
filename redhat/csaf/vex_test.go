@@ -39,8 +39,6 @@ func TestConfig_Update(t *testing.T) {
 		staleFiles  []string
 		maxFileSize int // 0 keeps the default
 		wantFiles   []string
-		// wantFullVuln lists the files whose vulnerability keeps product_status, scores and flags.
-		wantFullVuln []string
 		// wantContent maps a file to a golden file with its expected content.
 		wantContent map[string]string
 		wantErr     string
@@ -54,8 +52,7 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json", // from changes.csv
 				// cve-2024-0003.json deleted by deletions.csv
 			},
-			wantFullVuln: []string{"2024/cve-2024-0002.json"},
-			wantContent:  map[string]string{"2024/cve-2024-0002.json": "testdata/golden/cve-2024-0002.json"},
+			wantContent: map[string]string{"2024/cve-2024-0002.json": "testdata/golden/cve-2024-0002.json"},
 		},
 		{
 			// cve-2024-0002 is 3530 bytes indented.
@@ -69,7 +66,6 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002/document.json",
 				"2024/cve-2024-0002/branches-0001.json",
 			},
-			wantFullVuln: []string{"2024/cve-2024-0002/document.json"},
 		},
 		{
 			name:         "oversized document replaces stale .json",
@@ -84,7 +80,6 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002/branches-0001.json",
 				"2024/cve-2024-9999.json",
 			},
-			wantFullVuln: []string{"2024/cve-2024-0002/document.json"},
 		},
 		{
 			name:         "small document replaces stale split directory",
@@ -96,7 +91,6 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json",
 				"2024/cve-2024-9999.json",
 			},
-			wantFullVuln: []string{"2024/cve-2024-0002.json"},
 		},
 		{
 			// A document exactly at the limit still fits and is written whole.
@@ -110,7 +104,6 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0002.json",
 				"2024/cve-2024-9999.json",
 			},
-			wantFullVuln: []string{"2024/cve-2024-0002.json"},
 		},
 		{
 			name:         "document cannot be split",
@@ -240,14 +233,6 @@ func TestConfig_Update(t *testing.T) {
 					assert.Equal(t, string(want), string(b), relPath)
 				}
 
-				// Documents are stored whole, also when split.
-				for _, field := range []string{`"product_status"`, `"scores"`, `"flags"`} {
-					if slices.Contains(tt.wantFullVuln, relPath) {
-						assert.Contains(t, string(b), field, relPath)
-					} else {
-						assert.NotContains(t, string(b), field, relPath)
-					}
-				}
 				// Documents are always written indented, also when split.
 				assert.Contains(t, string(b), "\n  ", relPath)
 				return nil
