@@ -31,6 +31,7 @@ func TestConfig_Update(t *testing.T) {
 				"2":    "testdata/fixtures/updateinfo_2_items.xml.gz",
 				"2022": "testdata/fixtures/updateinfo_AL2022.xml.gz",
 				"2023": "testdata/fixtures/updateinfo_AL2023.xml.gz",
+				"2027": "testdata/fixtures/updateinfo_AL2027.xml.gz",
 			},
 			wantErr: nil,
 		},

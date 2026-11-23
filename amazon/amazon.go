@@ -32,6 +32,8 @@ var (
 		"2": "https://cdn.amazonlinux.com/2/core/latest/x86_64/mirror.list",
 		// run `dnf repolist all --verbose` inside container to get `Repo-mirrors`
 		"2023": "https://cdn.amazonlinux.com/al2023/core/mirrors/latest/x86_64/mirror.list",
+		// from /etc/yum.repos.d/amazonlinux.repo of the public.ecr.aws/amazonlinux/amazonlinux:2027 image
+		"2027": "https://cdn-al2027.amazonlinux.com/core/mirrors/latest/x86_64/mirror.list",
 	}
 )
 
