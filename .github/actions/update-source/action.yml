@@ -35,7 +35,8 @@ runs:
       run: |
         ./vuln-list-update -vuln-list-dir "$VULN_LIST_DIR" -target "$TARGET" || {
           echo "[Err] Revert changes" >&2
-          cd "$VULN_LIST_DIR" && git reset --hard HEAD
+          # reset does not remove files the failed run created, and the next source would commit them with `git add .`
+          cd "$VULN_LIST_DIR" && git reset --hard HEAD && git clean -fd
           exit 1
         }
 
