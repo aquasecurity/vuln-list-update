@@ -3,6 +3,7 @@ package csaf_test
 import (
 	"archive/tar"
 	"encoding/json"
+	"flag"
 	"io/fs"
 	"net/http"
 	"net/http/httptest"
@@ -27,6 +28,8 @@ import (
 )
 
 const archiveName = "csaf_vex_2025-12-06.tar.zst"
+
+var update = flag.Bool("update", false, "update golden files")
 
 func TestConfig_Update(t *testing.T) {
 	tests := []struct {
@@ -65,6 +68,9 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0001.json",
 				"2024/cve-2024-0002/document.json",
 				"2024/cve-2024-0002/branches-0001.json",
+				"2024/cve-2024-0002/vulnerabilities-0001-product_status-0001.json",
+				"2024/cve-2024-0002/vulnerabilities-0001-scores-0001.json",
+				"2024/cve-2024-0002/vulnerabilities-0001-flags-0001.json",
 			},
 		},
 		{
@@ -78,6 +84,9 @@ func TestConfig_Update(t *testing.T) {
 				"2024/cve-2024-0001.json",
 				"2024/cve-2024-0002/document.json",
 				"2024/cve-2024-0002/branches-0001.json",
+				"2024/cve-2024-0002/vulnerabilities-0001-product_status-0001.json",
+				"2024/cve-2024-0002/vulnerabilities-0001-scores-0001.json",
+				"2024/cve-2024-0002/vulnerabilities-0001-flags-0001.json",
 				"2024/cve-2024-9999.json",
 			},
 		},
@@ -110,6 +119,14 @@ func TestConfig_Update(t *testing.T) {
 			serverFile:   "testdata/first_run.txtar",
 			existingFile: "testdata/existing.txtar",
 			staleFiles:   []string{"2024/cve-2024-0002.json"}, // left untouched
+			maxFileSize:  1,
+			wantErr:      "failed to split cve-2024-0002",
+		},
+		{
+			name:         "document cannot be split, stale split directory left untouched",
+			serverFile:   "testdata/first_run.txtar",
+			existingFile: "testdata/existing.txtar",
+			staleFiles:   []string{"2024/cve-2024-0002/document.json", "2024/cve-2024-0002/branches-0001.json"},
 			maxFileSize:  1,
 			wantErr:      "failed to split cve-2024-0002",
 		},
@@ -206,8 +223,10 @@ func TestConfig_Update(t *testing.T) {
 				require.NoError(t, os.WriteFile(p, []byte("stale"), 0o644))
 			}
 
-			opts := []csaf.Option{csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
-				csaf.WithRetry(0)}
+			opts := []csaf.Option{
+				csaf.WithBaseDir(baseDir), csaf.WithBaseURL(lo.Must(url.Parse(ts.URL))),
+				csaf.WithRetry(0),
+			}
 			if tt.maxFileSize > 0 {
 				opts = append(opts, csaf.WithMaxFileSize(tt.maxFileSize))
 			}
@@ -257,7 +276,7 @@ func TestConfig_Update(t *testing.T) {
 }
 
 func TestConfig_SplitAdvisory(t *testing.T) {
-	// testdata/split/advisory.json is 14861 bytes indented: document.json is 2812 bytes, branches are 6195 bytes, relationships are 4655 bytes.
+	// testdata/split/advisory.json is 19267 bytes indented: document.json is 2396 bytes, branches are 6195 bytes, relationships are 4655 bytes, and the product arrays of the vulnerability are 1045 bytes or less each (see TestConfig_SplitVulnerability).
 	// The vendor branch is the only top-level branch, so its child branches are halved.
 	tests := []struct {
 		name        string
@@ -303,14 +322,29 @@ func TestConfig_SplitAdvisory(t *testing.T) {
 			name: "branch with a single child branch",
 			prepare: func(a *gocsaf.Advisory) {
 				vendor := a.ProductTree.Branches[0]
-				vendor.Branches = gocsaf.Branches{{
-					Category: lo.ToPtr(gocsaf.CSAFBranchCategoryProductFamily),
-					Name:     lo.ToPtr("Red Hat Enterprise Linux"),
-					Branches: vendor.Branches,
-				}}
+				vendor.Branches = gocsaf.Branches{
+					{
+						Category: lo.ToPtr(gocsaf.CSAFBranchCategoryProductFamily),
+						Name:     lo.ToPtr("Red Hat Enterprise Linux"),
+						Branches: vendor.Branches,
+					},
+				}
 			},
 			maxFileSize: 5000,
 			wantDir:     "testdata/split/single-child",
+		},
+		{
+			// The vulnerabilities are numbered by their position in the document, so the files of the third one are vulnerabilities-0003-*, and the null one stays null in document.json.
+			name: "several vulnerabilities",
+			prepare: func(a *gocsaf.Advisory) {
+				second := *a.Vulnerabilities[0]
+				second.CVE = lo.ToPtr(gocsaf.CVE("CVE-2024-0003"))
+				second.Flags = nil
+				second.Remediations = nil
+				a.Vulnerabilities = append(a.Vulnerabilities, nil, &second)
+			},
+			maxFileSize: 6200,
+			wantDir:     "testdata/split/several-vulnerabilities",
 		},
 		{
 			name:        "relationship too large to split",
@@ -325,7 +359,7 @@ func TestConfig_SplitAdvisory(t *testing.T) {
 		{
 			name:        "document.json too large",
 			maxFileSize: 1000,
-			wantErr:     "document.json is 2812 bytes, over the 1000 byte limit",
+			wantErr:     "document.json is 2396 bytes, over the 1000 byte limit",
 		},
 	}
 
@@ -346,18 +380,162 @@ func TestConfig_SplitAdvisory(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
-			want := map[string]string{}
-			entries, err := os.ReadDir(tt.wantDir)
-			require.NoError(t, err)
-			for _, e := range entries {
-				b, err := os.ReadFile(filepath.Join(tt.wantDir, e.Name()))
-				require.NoError(t, err)
-				want[e.Name()] = string(b)
-			}
-			assert.Equal(t, want, got)
+			assertGoldenDir(t, tt.wantDir, got)
+			assertSameProductIDs(t, productIDs(&advisory), &advisory, got)
 		})
 	}
+}
+
+func TestConfig_SplitVulnerability(t *testing.T) {
+	// A separate test from TestConfig_SplitAdvisory: there, document.json alone is larger than any of these arrays, so a limit small enough to split them fails on document.json first.
+	// The vulnerability of testdata/split/advisory.json has these arrays, indented: product_status 860 bytes with fixed and known_not_affected (6 product IDs each, 426 and 436 bytes as separate product_status objects), scores 1045 bytes (a single score with 12 products), threats 927 bytes (a single threat with 12 products), flags 498 bytes, remediations 840 bytes (2 remediations with 3 products each).
+	tests := []struct {
+		name        string
+		prepare     func(*gocsaf.Vulnerability) // modifies the vulnerability before it is split
+		maxFileSize int
+		wantDir     string // directory with the expected files
+		wantErr     string
+	}{
+		{
+			name:        "arrays not split",
+			maxFileSize: 1045,
+			wantDir:     "testdata/split/vulnerability/not-split",
+		},
+		{
+			// Every array is split: product_status into one list per file, the remediations into halves, the single flag into 2 copies with 3 products each, and the single score and threat into 4 copies with 3 products each, since a copy with 6 products is still too large.
+			name:        "entries split by products",
+			maxFileSize: 450,
+			wantDir:     "testdata/split/vulnerability/by-products",
+		},
+		{
+			name:        "product_status list too large",
+			maxFileSize: 430,
+			wantErr:     "failed to split product_status: known_not_affected is 436 bytes, over the 430 byte limit",
+		},
+		{
+			name:        "entry with a single product too large",
+			prepare:     func(v *gocsaf.Vulnerability) { v.ProductStatus = nil },
+			maxFileSize: 250,
+			wantErr:     "failed to split scores: a single item is 274 bytes, over the 250 byte limit: an entry with 1 product(s) cannot be split",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b, err := os.ReadFile("testdata/split/advisory.json")
+			require.NoError(t, err)
+			var advisory gocsaf.Advisory
+			require.NoError(t, json.Unmarshal(b, &advisory))
+			v := advisory.Vulnerabilities[0]
+			if tt.prepare != nil {
+				tt.prepare(v)
+			}
+
+			c := csaf.NewConfig(csaf.WithMaxFileSize(tt.maxFileSize))
+			got, rest, err := c.SplitVulnerability("vulnerabilities-0001", v)
+			if tt.wantErr != "" {
+				assert.ErrorContains(t, err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			assertGoldenDir(t, tt.wantDir, got)
+			assertSameProductIDs(t, productIDs(&advisory), v, got)
+
+			// The arrays are moved out, and the rest of the vulnerability is kept.
+			want := *v
+			want.ProductStatus, want.Scores, want.Threats, want.Flags, want.Remediations = nil, nil, nil, nil, nil
+			assert.Equal(t, &want, rest)
+		})
+	}
+}
+
+// productIDs returns the product IDs defined in the product tree of an advisory.
+func productIDs(advisory *gocsaf.Advisory) map[string]bool {
+	ids := map[string]bool{}
+	var walk func(gocsaf.Branches)
+	walk = func(branches gocsaf.Branches) {
+		for _, b := range branches {
+			if b == nil {
+				continue
+			}
+			if b.Product != nil {
+				ids[string(lo.FromPtr(b.Product.ProductID))] = true
+			}
+			walk(b.Branches)
+		}
+	}
+	if pt := advisory.ProductTree; pt != nil {
+		walk(pt.Branches)
+		for _, r := range lo.FromPtr(pt.RelationShips) {
+			if r != nil && r.FullProductName != nil {
+				ids[string(lo.FromPtr(r.FullProductName.ProductID))] = true
+			}
+		}
+	}
+	return ids
+}
+
+// assertSameProductIDs checks that every product ID occurs as many times in the split files as in the original, so the split neither lost nor duplicated any product.
+// Copies of split branches and entries repeat only their other fields, such as names and scores, so the counts match exactly.
+func assertSameProductIDs(t *testing.T, ids map[string]bool, original any, files map[string]string) {
+	t.Helper()
+	count := func(data []byte, counts map[string]int) {
+		var v any
+		require.NoError(t, json.Unmarshal(data, &v))
+		var walk func(any)
+		walk = func(v any) {
+			switch v := v.(type) {
+			case string:
+				if ids[v] {
+					counts[v]++
+				}
+			case []any:
+				for _, e := range v {
+					walk(e)
+				}
+			case map[string]any:
+				for _, e := range v {
+					walk(e)
+				}
+			}
+		}
+		walk(v)
+	}
+
+	b, err := json.Marshal(original)
+	require.NoError(t, err)
+	want := map[string]int{}
+	count(b, want)
+	require.NotEmpty(t, want)
+
+	got := map[string]int{}
+	for _, data := range files {
+		count([]byte(data), got)
+	}
+	assert.Equal(t, want, got)
+}
+
+// assertGoldenDir compares files with the files in dir, keyed by their names.
+// With -update, dir is rewritten with files instead.
+func assertGoldenDir(t *testing.T, dir string, files map[string]string) {
+	t.Helper()
+	if *update {
+		require.NoError(t, os.RemoveAll(dir))
+		require.NoError(t, os.MkdirAll(dir, 0o755))
+		for name, data := range files {
+			require.NoError(t, os.WriteFile(filepath.Join(dir, name), []byte(data), 0o644))
+		}
+	}
+
+	want := map[string]string{}
+	entries, err := os.ReadDir(dir)
+	require.NoError(t, err)
+	for _, e := range entries {
+		b, err := os.ReadFile(filepath.Join(dir, e.Name()))
+		require.NoError(t, err)
+		want[e.Name()] = string(b)
+	}
+	assert.Equal(t, want, files)
 }
 
 func parseTxtar(t *testing.T, path string) fs.FS {

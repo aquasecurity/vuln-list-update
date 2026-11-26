@@ -67,14 +67,6 @@
         "name": "Cross-site Scripting"
       },
       "discovery_date": "2024-01-03T00:00:00+00:00",
-      "flags": [
-        {
-          "label": "vulnerable_code_not_present",
-          "product_ids": [
-            "red_hat_enterprise_linux_9"
-          ]
-        }
-      ],
       "notes": [
         {
           "category": "description",
@@ -82,11 +74,6 @@
           "title": "Vulnerability description"
         }
       ],
-      "product_status": {
-        "known_not_affected": [
-          "red_hat_enterprise_linux_9"
-        ]
-      },
       "references": [
         {
           "category": "self",
@@ -95,13 +82,6 @@
         }
       ],
       "release_date": "2024-01-03T00:00:00+00:00",
-      "scores": [
-        {
-          "products": [
-            "red_hat_enterprise_linux_9"
-          ]
-        }
-      ],
       "title": "CVE-2024-0002"
     }
   ]

@@ -264,11 +264,13 @@ type splitFile struct {
 }
 
 // splitAdvisory splits an advisory into files that each fit in maxFileSize:
-//   - document.json holds the advisory without product_tree.branches and product_tree.relationships;
+//   - document.json holds the advisory without product_tree.branches, product_tree.relationships and the product arrays of the vulnerabilities;
 //   - branches-NNNN.json hold product_tree.branches, split by splitArray and splitBranch;
-//   - relationships-NNNN.json hold product_tree.relationships, split by splitArray.
+//   - relationships-NNNN.json hold product_tree.relationships, split by splitArray;
+//   - vulnerabilities-NNNN-<field>-NNNN.json hold the product arrays of each vulnerability, numbered from 1 (see splitVulnerability).
 //
-// Reading the files back means concatenating the arrays from the numbered files in order and recursively merging adjacent branches with the same category and name.
+// These arrays list products, so they grow with the number of products, while the rest of the document stays small.
+// Reading the files back means concatenating the arrays from the numbered files of each array in order, recursively merging adjacent branches with the same category and name, merging adjacent scores, threats, flags and remediations that differ only in their product lists, and appending the lists of the product_status objects by key.
 func (c *Config) splitAdvisory(advisory *csaf.Advisory) ([]splitFile, error) {
 	doc := *advisory
 	var branches csaf.Branches
@@ -300,6 +302,23 @@ func (c *Config) splitAdvisory(advisory *csaf.Advisory) ([]splitFile, error) {
 		return nil, xerrors.Errorf("failed to split branches: %w", err)
 	}
 
+	var vulnFiles []splitFile
+	if advisory.Vulnerabilities != nil {
+		// The vulnerabilities are replaced with copies without the product arrays, so the advisory itself is not changed; a null vulnerability stays null.
+		doc.Vulnerabilities = make(csaf.Vulnerabilities, len(advisory.Vulnerabilities))
+	}
+	for i, v := range advisory.Vulnerabilities {
+		if v == nil {
+			continue
+		}
+		rest, files, err := c.splitVulnerability(fmt.Sprintf("vulnerabilities-%04d", i+1), v)
+		if err != nil {
+			return nil, xerrors.Errorf("failed to split vulnerability %q: %w", lo.FromPtr(v.CVE), err)
+		}
+		doc.Vulnerabilities[i] = rest
+		vulnFiles = append(vulnFiles, files...)
+	}
+
 	b, err := json.MarshalIndent(doc, "", "  ")
 	if err != nil {
 		return nil, xerrors.Errorf("json marshal error: %w", err)
@@ -311,7 +330,107 @@ func (c *Config) splitAdvisory(advisory *csaf.Advisory) ([]splitFile, error) {
 	files := []splitFile{{path: "document.json", data: b}}
 	files = append(files, numberedFiles("branches", branchParts)...)
 	files = append(files, numberedFiles("relationships", relationshipParts)...)
+	files = append(files, vulnFiles...)
 	return files, nil
+}
+
+// splitVulnerability moves the arrays that list products out of a vulnerability, prefixing their file names with prefix:
+//   - <prefix>-product_status-NNNN.json hold product_status, or one list per file if it exceeds the limit (see splitProductStatus);
+//   - <prefix>-scores-NNNN.json, <prefix>-threats-NNNN.json, <prefix>-flags-NNNN.json and <prefix>-remediations-NNNN.json hold these arrays, split by splitArray and splitByProducts.
+//
+// It returns the vulnerability without these arrays, and the files holding them.
+func (c *Config) splitVulnerability(prefix string, v *csaf.Vulnerability) (*csaf.Vulnerability, []splitFile, error) {
+	type array struct {
+		name  string
+		split func() ([][]byte, error)
+	}
+	arrays := []array{
+		{name: "product_status", split: func() ([][]byte, error) {
+			return splitProductStatus(v.ProductStatus, c.maxFileSize)
+		}},
+		{name: "scores", split: func() ([][]byte, error) {
+			return splitArray(v.Scores, c.maxFileSize, splitByProducts[csaf.Scores](func(s *csaf.Score) **csaf.Products { return &s.Products }))
+		}},
+		{name: "threats", split: func() ([][]byte, error) {
+			return splitArray(v.Threats, c.maxFileSize, splitByProducts[csaf.Threats](func(t *csaf.Threat) **csaf.Products { return &t.ProductIds }))
+		}},
+		{name: "flags", split: func() ([][]byte, error) {
+			return splitArray(v.Flags, c.maxFileSize, splitByProducts[csaf.Flags](func(f *csaf.Flag) **csaf.Products { return &f.ProductIds }))
+		}},
+		{name: "remediations", split: func() ([][]byte, error) {
+			return splitArray(v.Remediations, c.maxFileSize, splitByProducts[csaf.Remediations](func(r *csaf.Remediation) **csaf.Products { return &r.ProductIds }))
+		}},
+	}
+
+	var files []splitFile
+	for _, a := range arrays {
+		parts, err := a.split()
+		if err != nil {
+			return nil, nil, xerrors.Errorf("failed to split %s: %w", a.name, err)
+		}
+		files = append(files, numberedFiles(prefix+"-"+a.name, parts)...)
+	}
+
+	rest := *v
+	rest.ProductStatus = nil
+	rest.Scores = nil
+	rest.Threats = nil
+	rest.Flags = nil
+	rest.Remediations = nil
+	return &rest, files, nil
+}
+
+// productStatusList is a list of product_status, named as in JSON.
+type productStatusList struct {
+	name string
+	list func(*csaf.ProductStatus) **csaf.Products
+}
+
+// productStatusLists are all lists of product_status, in the order of their JSON fields.
+var productStatusLists = []productStatusList{
+	{name: "first_affected", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.FirstAffected }},
+	{name: "first_fixed", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.FirstFixed }},
+	{name: "fixed", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.Fixed }},
+	{name: "known_affected", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.KnownAffected }},
+	{name: "known_not_affected", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.KnownNotAffected }},
+	{name: "last_affected", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.LastAffected }},
+	{name: "recommended", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.Recommended }},
+	{name: "under_investigation", list: func(s *csaf.ProductStatus) **csaf.Products { return &s.UnderInvestigation }},
+}
+
+// splitProductStatus marshals a product_status as an indented JSON object and, if it exceeds maxSize, splits it into product_status objects holding one list each, in the order of their JSON fields, so appending the lists of the objects in order restores the product_status.
+// A list is not split further: a list that exceeds maxSize on its own is an error.
+// Reading the objects back by appending their lists also works if a list is split into several objects in the future.
+func splitProductStatus(s *csaf.ProductStatus, maxSize int) ([][]byte, error) {
+	if s == nil {
+		return nil, nil
+	}
+	b, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return nil, xerrors.Errorf("json marshal error: %w", err)
+	}
+	if len(b) <= maxSize {
+		return [][]byte{b}, nil
+	}
+
+	var parts [][]byte
+	for _, l := range productStatusLists {
+		ids := *l.list(s)
+		if len(lo.FromPtr(ids)) == 0 {
+			continue
+		}
+		var part csaf.ProductStatus
+		*l.list(&part) = ids
+		b, err := json.MarshalIndent(&part, "", "  ")
+		if err != nil {
+			return nil, xerrors.Errorf("json marshal error: %w", err)
+		}
+		if len(b) > maxSize {
+			return nil, xerrors.Errorf("%s is %d bytes, over the %d byte limit", l.name, len(b), maxSize)
+		}
+		parts = append(parts, b)
+	}
+	return parts, nil
 }
 
 // splitArray marshals items as an indented JSON array and, while it exceeds maxSize, halves it recursively.
@@ -379,6 +498,28 @@ func splitBranch(b *csaf.Branch) (csaf.Branches, error) {
 	default:
 		mid := len(b.Branches) / 2
 		return csaf.Branches{wrap(b.Branches[:mid]), wrap(b.Branches[mid:])}, nil
+	}
+}
+
+// splitByProducts returns a splitItem function for splitArray that splits an entry of scores, threats, flags or remediations into two copies, each holding a half of its product list.
+// products returns the entry's product list field.
+// Everything else, group IDs included, is kept in both copies, so the copies differ only in their product lists.
+// An entry with fewer than two products cannot be split, and an error is returned for it.
+func splitByProducts[S ~[]*E, E any](products func(*E) **csaf.Products) func(*E) (S, error) {
+	return func(e *E) (S, error) {
+		if e == nil {
+			return nil, xerrors.New("null entry cannot be split")
+		}
+		ids := lo.FromPtr(*products(e))
+		if len(ids) < 2 {
+			return nil, xerrors.Errorf("an entry with %d product(s) cannot be split", len(ids))
+		}
+		mid := len(ids) / 2
+		leftIDs, rightIDs := ids[:mid], ids[mid:]
+		left, right := *e, *e
+		*products(&left) = &leftIDs
+		*products(&right) = &rightIDs
+		return S{&left, &right}, nil
 	}
 }
 
