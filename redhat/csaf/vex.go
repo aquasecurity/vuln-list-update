@@ -510,15 +510,15 @@ func splitByProducts[S ~[]*E, E any](products func(*E) **csaf.Products) func(*E)
 		if e == nil {
 			return nil, xerrors.New("null entry cannot be split")
 		}
-		ids := lo.FromPtr(*products(e))
-		if len(ids) < 2 {
-			return nil, xerrors.Errorf("an entry with %d product(s) cannot be split", len(ids))
+		list := lo.FromPtr(*products(e))
+		if len(list) < 2 {
+			return nil, xerrors.Errorf("an entry with %d product(s) cannot be split", len(list))
 		}
-		mid := len(ids) / 2
-		leftIDs, rightIDs := ids[:mid], ids[mid:]
+		mid := len(list) / 2
+		leftList, rightList := list[:mid], list[mid:]
 		left, right := *e, *e
-		*products(&left) = &leftIDs
-		*products(&right) = &rightIDs
+		*products(&left) = &leftList
+		*products(&right) = &rightList
 		return S{&left, &right}, nil
 	}
 }
