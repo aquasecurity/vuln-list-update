@@ -174,6 +174,13 @@ func TestConfig_Update(t *testing.T) {
 			wantErr: "failed to fetch VEX archive: failed to fetch URL",
 		},
 		{
+			// The CVE ID is checked before it is used in paths, so a non-numeric year is rejected.
+			name:        "invalid CVE ID",
+			archiveFile: "testdata/archive_invalid_cve_id.txtar",
+			serverFile:  "testdata/first_run.txtar",
+			wantErr:     "invalid CVE-ID format: cve-abcd-0001",
+		},
+		{
 			name:        "invalid csaf",
 			archiveFile: "testdata/invalid.txtar",
 			serverFile:  "testdata/invalid.txtar",

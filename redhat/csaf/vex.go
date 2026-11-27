@@ -210,11 +210,11 @@ func (c *Config) loadAdvisory(r io.Reader) (*csaf.Advisory, error) {
 // Only one of the two representations exists per CVE: writing one removes the other.
 // If the document cannot be split into files that fit in maxFileSize, an error is returned and the files on disk are left untouched.
 func (c *Config) saveAdvisory(cveID string, advisory *csaf.Advisory) error {
-	s := strings.Split(cveID, "-")
-	if len(s) != 3 {
+	matches := cveIDRegex.FindStringSubmatch(cveID)
+	if matches == nil {
 		return xerrors.Errorf("invalid CVE-ID format: %s", cveID)
 	}
-	yearDir := filepath.Join(c.baseDir, s[1])
+	yearDir := filepath.Join(c.baseDir, matches[1])
 	filePath := filepath.Join(yearDir, cveID+".json")
 	splitDir := filepath.Join(yearDir, cveID)
 
@@ -645,8 +645,15 @@ func (c *Config) fetchAndSaveCVE(path string) error {
 	return nil
 }
 
+// cveIDPattern matches CVE IDs in file names like "cve-2025-22868", capturing the year.
+const cveIDPattern = `cve-(\d{4})-\d{4,}`
+
+// cveIDRegex matches a whole CVE ID.
+// It is checked before the CVE ID is used in paths, since an existing split directory under it is removed recursively.
+var cveIDRegex = regexp.MustCompile(`^` + cveIDPattern + `$`)
+
 // deletionPathRegex matches paths in deletions.csv like "2025/cve-2025-22868.json".
-var deletionPathRegex = regexp.MustCompile(`^\d{4}/cve-\d{4}-\d{4,}\.json$`)
+var deletionPathRegex = regexp.MustCompile(`^\d{4}/` + cveIDPattern + `\.json$`)
 
 // archiveDateRegex matches archive filenames like "csaf_vex_2025-12-06.tar.zst"
 var archiveDateRegex = regexp.MustCompile(`csaf_vex_(\d{4}-\d{2}-\d{2})\.tar\.zst`)
